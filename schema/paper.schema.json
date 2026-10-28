@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "paper.schema.json",
+  "title": "Paper record",
+  "description": "One file per paper: data/papers/<id>.yaml. Label values are checked against data/vocab.yaml by scripts/validate.py. See schema/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "record_type", "survey", "in_repo_cards", "in_table1", "external", "labels", "note"],
+  "properties": {
+    "id": {
+      "description": "Stable internal primary key; equals the file name without .yaml. Never changes after creation.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {"description": "Method name as written in Table 1 (or Table 2 for records outside Table 1).", "type": "string", "minLength": 1},
+    "aliases": {"description": "Other names of the same paper, e.g. names before a rename.", "type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+    "record_type": {"enum": ["method", "paradigm-system-benchmark"]},
+    "psb_kind": {
+      "description": "Only for paradigm-system-benchmark records: baseline (TIGER), paradigm (replaces all five stages at once), framework (open-source framework, benchmark or analysis paper).",
+      "enum": ["baseline", "paradigm", "framework"]
+    },
+    "citation": {"description": "Short citation exactly as shown in Table 1, e.g. 'Wang et al., 2024a'.", "type": "string", "minLength": 1},
+    "survey": {
+      "description": "Presence in the original survey (ARR 2739): table1 = in its Table 1; text = cited in its text only (★‡); none = not in the survey (★).",
+      "enum": ["table1", "text", "none"]
+    },
+    "in_repo_cards": {"description": "Has a card in this repository's papers/ (commit 705a11e).", "type": "boolean"},
+    "in_table1": {"description": "Appears as a row of the current Table 1.", "type": "boolean"},
+    "external": {
+      "description": "External identifiers. None of them is a key.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "venue"],
+      "properties": {
+        "arxiv": {"type": "string", "pattern": "^[0-9]{4}\\.[0-9]{4,5}$"},
+        "doi": {"type": "string", "pattern": "^10\\.[0-9]{4,}/\\S+$"},
+        "title": {"type": "string", "minLength": 1},
+        "year": {"description": "Year of the venue.", "type": "integer", "minimum": 1990},
+        "venue": {"description": "Venue as written in Table 1, track suffix included, e.g. 'KDD’26 ADS'.", "type": "string", "minLength": 1}
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem", "stage", "representation", "tokenization", "backbone", "tokenizer", "objective", "inference"],
+      "properties": {
+        "problem": {"$ref": "#/$defs/label"},
+        "stage": {"$ref": "#/$defs/label"},
+        "representation": {"$ref": "#/$defs/label"},
+        "tokenization": {"$ref": "#/$defs/label"},
+        "backbone": {"$ref": "#/$defs/label"},
+        "tokenizer": {"$ref": "#/$defs/label"},
+        "objective": {"$ref": "#/$defs/label"},
+        "inference": {"$ref": "#/$defs/label"}
+      }
+    },
+    "training_change": {
+      "description": "Required when labels.stage.value is Training: which split column the change is in (the bold cell in Table 1).",
+      "enum": ["tokenizer", "objective"]
+    },
+    "settings": {
+      "description": "Names of the A / B settings when the paper runs two setups; list-valued labels follow this order.",
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 2
+    },
+    "legacy_training": {
+      "description": "Pre-10-26 single Training value from Table 2, kept verbatim while tokenizer/objective are pending.",
+      "type": "string",
+      "minLength": 1
+    },
+    "note": {"type": "string"}
+  },
+  "allOf": [
+    {
+      "if": {"required": ["record_type"], "properties": {"record_type": {"const": "paradigm-system-benchmark"}}},
+      "then": {"required": ["psb_kind"]},
+      "else": {"not": {"required": ["psb_kind"]}}
+    },
+    {
+      "if": {"required": ["in_table1"], "properties": {"in_table1": {"const": true}}},
+      "then": {"required": ["citation"]}
+    },
+    {
+      "if": {
+        "required": ["labels"],
+        "properties": {"labels": {"required": ["stage"], "properties": {"stage": {"required": ["value"], "properties": {"value": {"const": "Training"}}}}}}
+      },
+      "then": {"required": ["training_change"]},
+      "else": {"not": {"required": ["training_change"]}}
+    }
+  ],
+  "$defs": {
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "source", "status", "note"],
+      "properties": {
+        "value": {
+          "description": "A vocabulary value, or a list of them (one per setting) for A / B rows.",
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 2}
+          ]
+        },
+        "inferred": {
+          "description": "Shown as † in Table 1: the paper does not state the value directly. A list marks each setting separately.",
+          "oneOf": [
+            {"type": "boolean"},
+            {"type": "array", "items": {"type": "boolean"}, "minItems": 2}
+          ]
+        },
+        "source": {"description": "Location in the paper (section, figure, equation, page) or code; 'missing' when none is recorded.", "type": "string", "minLength": 1},
+        "status": {"enum": ["unverified", "verified"]},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}

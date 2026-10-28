@@ -1,0 +1,232 @@
+# Allowed label values, one list per label field. scripts/validate.py reads this file.
+# Add a value here before using it in data/papers/*.yaml. "description" is optional.
+# Values are written exactly as in Table 1 (e.g. "NTP → DPO", "–"); the inferred mark (†)
+# is stored in the label's "inferred" flag, not in the value.
+
+problem:
+- value: I
+  name: Informativeness
+  description: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs?
+- value: II
+  name: Uniqueness and Validity
+  description: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
+- value: III
+  name: SID–Model Alignment
+  description: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
+- value: IV
+  name: Utility
+  description: Are training and search aimed at what users and the platform value, rather than at token likelihood?
+- value: V
+  name: Efficiency
+  description: Can it be trained and served within latency and cost budgets?
+- value: VI
+  name: Generalization
+  description: Does it still work for new items, new domains, and shifting interests?
+- value: n/a
+  description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
+- value: pending
+  description: Not labeled yet.
+stage:
+- value: Representation
+  description: The new design sits in the Representation stage.
+- value: Tokenization
+  description: The new design sits in the Tokenization stage.
+- value: Backbone
+  description: The new design sits in the Backbone stage.
+- value: Training
+  description: The new design sits in the Training stage.
+- value: Inference
+  description: The new design sits in the Inference stage.
+- value: n/a
+  description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
+- value: pending
+  description: Not labeled yet.
+representation:
+- value: Attr+Geo+CF
+  description: Category and other attributes, plus geography, plus CF (POI).
+- value: CF
+  description: Collaborative filtering signal.
+- value: Cross-Dom
+- value: Multi-Dom
+- value: Text
+- value: Text+CF
+- value: Text+Geo
+- value: Text+Geo+CF
+- value: Text+Img
+- value: Text+Img+CF
+- value: Text+Img+Geo+CF
+- value: Text+SID
+  description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- value: –
+  description: Not reported in the paper, or not applicable.
+tokenization:
+- value: Align. RQ
+  description: Residual quantization with alignment losses and no autoencoder (SemConv).
+- value: Bal. VQ+KM
+  description: 'Balanced SID: single-layer VQ plus per-prefix k-means (MBGen).'
+- value: C-RQ
+- value: Casc. RQ
+- value: CoBa RQ-VAE
+  description: 'Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR).'
+- value: Contr. RQ
+  description: Fully contrastive residual-quantization tokenizer (Gwhere).
+- value: Cross RQ
+- value: Curr. RQ
+- value: DSRQ
+  description: Dual-stream residual quantization (LGRID).
+- value: Dual H-KM
+- value: Dual RQ
+- value: Geo-Idx+RQ
+  description: Geographic attribute index plus residual quantization (LGSID).
+- value: Geo-Prefix+RQ-VAE
+  description: Geographic prefix (S2 cell tokens), RQ-VAE semantic anchor and a distinguishing suffix (ROS).
+- value: Graph RQ-VAE
+  description: Graph-based RQ-VAE (MMGRec).
+- value: H-KM
+  description: Hierarchical k-means.
+- value: Hier. RQ
+- value: Learn. RQ
+- value: LLM-Vocab
+- value: Masked VQ
+- value: MM-RQ
+- value: MoE-VQ
+- value: Multi-Facet ID
+  description: 'Multi-facet identifiers: ID, title substrings and attributes (TransRec).'
+- value: NU-RQ
+  description: Non-uniform RQ variant.
+- value: OPQ
+  description: Optimized product quantization.
+- value: Par. OPQ
+- value: Par. VQ
+- value: Post-hoc RQ
+- value: Prog. RQ
+  description: Progressive RQ variant.
+- value: QA-RQ
+  description: Qualification-Aware RQ-VAE (QuaSID).
+- value: R-KM
+  description: Residual k-means.
+- value: R-KM+EM
+  description: RQ-Kmeans refined by an EM-style algorithm (GeoGR).
+- value: R-KM+Geo-CB
+  description: RQ-Kmeans codebook layers plus a geographic codebook layer (ProGEO).
+- value: Ref.-RQ
+  description: Reference-vector RQ variant.
+- value: RQ
+  description: Residual quantization.
+- value: RQ+LoRA
+- value: RQ-KM
+- value: RQ-VAE
+- value: RQ-VAE+DINO
+- value: Self-Imp.
+- value: Self-Sup. ID
+  description: Self-supervised semantic indexer, not an RQ-VAE (LMIndexer).
+- value: Shared/Spec. RQ
+  description: Shared codebook plus task-specific codebooks (GenSAR).
+- value: Soft-RQ
+  description: Soft-routed RQ variant.
+- value: Spectral Clus.
+  description: Recursive spectral clustering on the co-occurrence graph (CID).
+- value: Term-ID
+- value: TokenMoE
+- value: Tree
+- value: Tree-Clus.
+- value: Unified RQ
+- value: –
+  description: No item SID is built, or not reported.
+backbone:
+- value: Dec-Only
+  description: Decoder-only.
+- value: Disc. (DIN etc.)
+  description: SIDs only serve as features for discriminative models such as DIN (LGRID).
+- value: Dual Enc-Dec
+- value: Enc-Dec
+  description: Encoder-decoder.
+- value: Encoder
+- value: Encoder (Non-AR)
+- value: HeterRec
+  description: Name of the generation framework used by the paper; its structure is not described (MMQ).
+- value: Lazy Dec-Only
+  description: The paper's Lazy Decoder-Only architecture (OneRec-V2).
+- value: Non-AR
+  description: Non-autoregressive.
+- value: –
+  description: Not reported in the paper, or not applicable.
+tokenizer:
+- value: Altern.
+  description: Tokenizer and generator are updated in turns.
+- value: Fixed
+  description: SIDs are built first and not changed while the generator trains.
+- value: Joint
+  description: The generator loss updates the tokenizer directly.
+- value: pending
+  description: 'Not split yet: only the pre-10-26 Training value exists (see legacy_training).'
+- value: –
+  description: No SID is built.
+objective:
+- value: Discrim.
+  description: Scores items; does not generate SIDs.
+- value: Masked
+  description: Masks part of the codes and reconstructs them (includes masked diffusion).
+- value: MTP
+  description: Predicts several codes in parallel at once.
+- value: MTP + Ctr.
+  description: MTP plus a contrastive loss.
+- value: Multi-task NTP
+  description: The same NTP loss over several tasks.
+- value: NTP
+  description: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- value: NTP + Aux.
+  description: NTP plus another auxiliary loss.
+- value: NTP + Ctr.
+  description: NTP plus a contrastive loss.
+- value: NTP + Dense
+  description: NTP plus dense-vector prediction.
+- value: NTP + Rank
+  description: NTP plus a ranking loss.
+- value: NTP → DPO
+  description: NTP, then preference optimization.
+- value: NTP → RL
+  description: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- value: pending
+  description: 'Not split yet: only the pre-10-26 Training value exists (see legacy_training).'
+inference:
+- value: Beam
+- value: Beam+Geo-Filter
+  description: Beam search with candidates limited to the nearest POIs (ProGEO).
+- value: BeamFusion
+- value: Bid-Aware Beam
+  description: Beam search after adjusting logits by real-time bids (GEM-Rec).
+- value: C-Beam
+  description: Constrained beam search.
+- value: CoT
+  description: Chain-of-thought before the SID.
+- value: CoT+Beam
+  description: Think, self-correct, answer, then beam search (Think2Go).
+- value: CoT+C-Beam
+  description: Reasoning chain, then constrained beam search (ROS).
+- value: Diff.
+  description: Diffusion decoding.
+- value: Dual Beam
+  description: Two-branch beam search, then merge (DualGR).
+- value: Dyn. Beam
+  description: Dynamic beam search.
+- value: Ensemble
+- value: FM-Index+Agg.
+  description: FM-index constrained generation plus aggregation scoring (TransRec).
+- value: Fusion
+- value: Graph
+- value: Hybrid
+- value: Non-AR
+- value: PRM-Beam
+  description: Process-reward-model guided beam search.
+- value: Scoring
+- value: Self-Draft+Hash
+  description: Self-drafting head generation with hash-set validity filtering (NEZHA).
+- value: Sess. Beam
+- value: Spec. Dec.
+  description: Speculative decoding.
+- value: Trie/C-Beam
+- value: Vec. C-Beam
+  description: Vectorized constrained beam search (STATIC).
+- value: –
+  description: Not reported in the paper.
