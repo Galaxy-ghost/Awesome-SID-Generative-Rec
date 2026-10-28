@@ -24,13 +24,13 @@ labels:
     value: Text+Img+CF
     inferred: true
     source: §3, p2; OneRec technical report §2.1.1
-    status: verified
+    status: unverified
     note: Paper says itemic tokens come from 'multi-modal and collaborative content' but does not name the visual inputs.
   tokenization:
     value: R-KM
     inferred: true
     source: §3, p2; OneRec technical report (arXiv 2506.13695v4) §2.1.2, Table 11; §5.4.1, p6
-    status: verified
+    status: unverified
     note: Paper only says 'Following OneRec'; R-KM inferred from the OneRec technical report (RQ-Kmeans).
   backbone:
     value: Dec-Only

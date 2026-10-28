@@ -44,7 +44,7 @@ labels:
     value: Multi-task NTP
     inferred: true
     source: p6
-    status: verified
+    status: unverified
     note: Target model follows LC-Rec; inferred from LC-Rec's multi-task training. Location from the 10-26 'Training split' table in the appendix.
   inference:
     value: Spec. Dec.

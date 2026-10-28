@@ -23,13 +23,13 @@ labels:
     value: Attr+Geo+CF
     inferred: true
     source: p7
-    status: verified
+    status: unverified
     note: Inferred from GNPR-SID, whose data processing the paper follows.
   tokenization:
     value: RQ-VAE
     inferred: true
     source: p7
-    status: verified
+    status: unverified
     note: Inferred from GNPR-SID, whose data processing the paper follows.
   backbone:
     value: Dec-Only

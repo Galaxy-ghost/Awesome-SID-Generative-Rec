@@ -39,7 +39,7 @@ labels:
     value: Fixed
     inferred: true
     source: p4
-    status: verified
+    status: unverified
     note: SID construction not described; Fixed inferred from the usual pipeline. Location from the 10-26 'Training split' table in the appendix.
   objective:
     value: NTP + Aux.

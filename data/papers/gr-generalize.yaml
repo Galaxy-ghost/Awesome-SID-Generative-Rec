@@ -40,13 +40,13 @@ labels:
     value: Fixed
     inferred: true
     source: p5; p7
-    status: verified
+    status: unverified
     note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
   objective:
     value: NTP
     inferred: true
     source: p5; p7
-    status: verified
+    status: unverified
     note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
   inference:
     value: Hybrid

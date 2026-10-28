@@ -57,7 +57,7 @@ labels:
     - false
     - true
     source: 'code: generate() in github.com/DanJiayi/SCRec (read statically)'
-    status: verified
+    status: unverified
     note: Main setting scores all items; the TIGER-based variant is inferred as Beam from TIGER.
 settings:
 - main experiment (parallel prediction heads following RPG)

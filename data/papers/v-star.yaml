@@ -25,7 +25,7 @@ labels:
     value: Text
     inferred: true
     source: §5.1, p6; §4.1, p4
-    status: verified
+    status: unverified
     note: Embedding used to build SIDs is not stated; inferred from MiniOneRec (Text in Table 1).
   tokenization:
     value: RQ-VAE

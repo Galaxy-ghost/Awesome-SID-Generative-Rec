@@ -76,7 +76,7 @@ inference:
   value: Beam            # a vocabulary value; a list for A / B rows
   inferred: true         # optional; Table 1 shows it as †
   source: §3.4, p6       # location in the paper or code, or the word missing
-  status: verified       # verified | unverified
+  status: unverified     # verified | unverified; inferred values stay unverified
   note: ""
 ```
 
@@ -87,8 +87,14 @@ inference:
 - `source` gives the paper location (section, figure, equation, page, or a code
   path) that the appendices of `Table1_扩展版.md` attach to that cell; `missing`
   when the appendices give none. Sources are never filled in by guessing.
-- `status` is `verified` when the appendices give a location, `unverified`
-  otherwise. `verified` with `source: missing` is invalid.
+- `status` is `verified` only when the paper location in `source` directly
+  supports the value and a person or an agent has checked it against the
+  paper. Inferred values never count as `verified`: they keep their `source`
+  and stay `unverified`. Everything else is `unverified`; `verified` with
+  `source: missing` is invalid. In the 2026-10-28 migration, a label became
+  `verified` when the appendices of `Table1_扩展版.md` record its paper location
+  (those appendices log checks against the papers) and the value is not
+  inferred.
 
 Special values:
 
@@ -109,7 +115,7 @@ with a category:
 | `vocab` | every label value is in `data/vocab.yaml` |
 | `id` | ID well-formed and equal to the file name; IDs, names/aliases and arXiv IDs unique |
 | `source` | every label has a non-empty `source` (`missing` counts) |
-| `status` | `status` is `verified` or `unverified`; `verified` needs a source |
+| `status` | `status` is `verified` or `unverified`; `verified` needs a source and a value that is not inferred |
 | `rule` | `psb_kind`, `citation`, `training_change`, `settings` and `legacy_training` appear exactly when required; list lengths match `settings`; `paradigm-system-benchmark` records use `n/a`; no `pending` in Table 1 rows |
 
 ## Table 1 view

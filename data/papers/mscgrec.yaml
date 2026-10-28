@@ -39,7 +39,7 @@ labels:
     value: Fixed
     inferred: true
     source: p8
-    status: verified
+    status: unverified
     note: Not stated whether RQ-DINO is trained before the generator; Fixed is inferred. Location from the 10-26 'Training split' table in the appendix.
   objective:
     value: NTP

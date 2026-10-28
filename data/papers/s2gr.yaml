@@ -27,7 +27,7 @@ labels:
     note: Public-data (Beauty) setting; industrial data uses video frames.
   tokenization:
     value: CoBa RQ-VAE
-    source: §4.2, p4–5; Eq. 10–14
+    source: §4.2, p4–5; Eq. 10–12; Eq. 13–14
     status: verified
     note: ""
   backbone:

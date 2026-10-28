@@ -51,6 +51,6 @@ labels:
     value: Beam
     inferred: true
     source: §3, p3; p6
-    status: verified
+    status: unverified
     note: Decoding not stated; implementation 'followed the settings in [29]' (ETEGRec); inferred from ETEGRec (Beam in Table 1).
 note: ""

@@ -111,7 +111,7 @@
           ]
         },
         "source": {"description": "Location in the paper (section, figure, equation, page) or code; 'missing' when none is recorded.", "type": "string", "minLength": 1},
-        "status": {"enum": ["unverified", "verified"]},
+        "status": {"description": "verified: the source directly supports the value and was checked against the paper; inferred values are never verified.", "enum": ["unverified", "verified"]},
         "note": {"type": "string"}
       }
     }

@@ -9,7 +9,7 @@ data/vocab.yaml; this script keeps no copy of either. Checks:
   [id]       IDs are well-formed, match the file name and are unique
              (names, aliases and arXiv IDs must be unique too)
   [source]   every label has a source, or the explicit value 'missing'
-  [status]   status is valid; 'verified' needs a source
+  [status]   status is valid; 'verified' needs a source and a non-inferred value
   [rule]     cross-field rules documented in schema/README.md
 
 Usage: python3 scripts/validate.py [--root DIR]
@@ -113,6 +113,8 @@ def record_errors(rec, stem, allowed):
                 errs.append(('vocab', f'{p}.value', f'{v!r} not in data/vocab.yaml [{name}]'))
         if lab.get('status') == 'verified' and lab.get('source') == 'missing':
             errs.append(('status', f'{p}.status', "'verified' needs a source other than 'missing'"))
+        if lab.get('status') == 'verified' and any(as_list(lab.get('inferred', False))):
+            errs.append(('status', f'{p}.status', "an inferred value cannot be 'verified'"))
         if isinstance(lab['value'], list):
             has_list = True
             if n_settings != len(lab['value']):

@@ -42,7 +42,7 @@ labels:
     value: Fixed
     inferred: true
     source: p7; p8
-    status: verified
+    status: unverified
     note: Not stated whether the generator updates the tokenizer; Fixed is inferred. Location from the 10-26 'Training split' table in the appendix.
   objective:
     value: NTP

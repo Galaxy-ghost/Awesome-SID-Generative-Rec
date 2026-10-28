@@ -25,13 +25,13 @@ labels:
     value: Text+Img+CF
     inferred: true
     source: §2.2.2, p8
-    status: verified
+    status: unverified
     note: Paper only says the tokenizer is as in OneRec-V1; inferred from the OneRec technical report, as for OneRec-Think.
   tokenization:
     value: R-KM
     inferred: true
     source: §2.2.2, p8
-    status: verified
+    status: unverified
     note: Paper only says the tokenizer is as in OneRec-V1; inferred from the OneRec technical report, as for OneRec-Think.
   backbone:
     value: Lazy Dec-Only

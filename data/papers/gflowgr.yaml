@@ -39,7 +39,7 @@ labels:
     value: Enc-Dec
     inferred: true
     source: §4, p6
-    status: verified
+    status: unverified
     note: Paper only says 'LLM-based GR backbones'; inferred from TIGER and LETTER, both Enc-Dec in Table 1.
   tokenizer:
     value: Fixed
@@ -57,7 +57,7 @@ labels:
     - C-Beam
     inferred: true
     source: §3.4, p6; Algorithm 1, p5
-    status: verified
+    status: unverified
     note: Inference reuses the backbone ('GFlowGR is not involved'); beam width and prefix constraint not reported; inferred from the TIGER and LETTER rows.
 training_change: objective
 settings:
