@@ -31,7 +31,7 @@ labels:
     status: verified
     note: ""
   backbone:
-    value: Disc. (DIN etc.)
+    value: Disc.
     source: Table 1, p6; p8
     status: verified
     note: SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).

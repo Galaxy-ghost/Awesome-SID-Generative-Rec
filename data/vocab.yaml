@@ -139,9 +139,7 @@ backbone:
 - value: Dec-Only
   description: Decoder-only.
 - value: Disc.
-  description: Discriminative recommendation model; SIDs only serve as features (LGSID).
-- value: Disc. (DIN etc.)
-  description: SIDs only serve as features for discriminative models such as DIN (LGRID).
+  description: Discriminative recommendation model such as DIN; SIDs only serve as features (LGRID, LGSID).
 - value: Dual Enc-Dec
 - value: Enc-Dec
   description: Encoder-decoder.
