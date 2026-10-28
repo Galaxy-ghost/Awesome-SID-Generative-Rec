@@ -1,24 +1,25 @@
 id: geogr
 name: GeoGR
 record_type: method
+citation: Wang et al., 2026
 survey: none
 in_repo_cards: true
-in_table1: false
+in_table1: true
 external:
   arxiv: '2602.10411'
   year: 2026
   venue: arXiv’26
 labels:
   problem:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: I
+    source: abstract, p1
+    status: verified
+    note: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships"; "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
   stage:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: Representation
+    source: Eq. (4), p4
+    status: verified
+    note: The fix for I is contrastive representation learning on geo-constrained co-visit pairs (L_P2P); the EM-style SID refinement and CPT lean to III.
   representation:
     value: Text+Geo+CF
     source: p2–4
@@ -35,19 +36,19 @@ labels:
     status: verified
     note: ""
   tokenizer:
-    value: pending
-    source: missing
+    value: Altern.
+    inferred: true
+    source: §4.1.3, Algorithm 1, p5; §4.2.1, p5
     status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2; p5.'
+    note: 'The EM algorithm updates the LLM and the SIDs in turns for "mutual alignment between the LLM and the SIDs"; the final recommender is retrained from the base LLM on the fixed SIDs, hence inferred.'
   objective:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2; p5.'
+    value: Multi-task NTP
+    source: §4.2.1, Eq. (9), p5
+    status: verified
+    note: '"multi-task CPT datasets with various prompt templates", then SFT. PLUM (also CPT then SFT) is NTP; whether its CPT is multi-task is an open item in Table1_扩展版.md.'
   inference:
     value: Beam
     source: p6
     status: verified
     note: ""
-legacy_training: CPT+SFT
-note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.
+note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.

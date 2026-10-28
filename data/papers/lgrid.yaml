@@ -1,24 +1,25 @@
 id: lgrid
 name: LGRID
 record_type: method
+citation: Zhang et al., 2026
 survey: none
 in_repo_cards: true
-in_table1: false
+in_table1: true
 external:
   arxiv: '2607.27944'
   year: 2026
   venue: arXiv’26
 labels:
   problem:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: I
+    source: abstract, p1
+    status: verified
+    note: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization, degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes (I). The interpretability complaint fits none of the six problems.'
   stage:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: Representation
+    source: §3, Fig. 2, p3
+    status: verified
+    note: SD-Block and Synergistic Alignment act on the LLM hidden states before quantization.
   representation:
     value: Text+Geo
     source: p3–4; p6
@@ -35,19 +36,18 @@ labels:
     status: verified
     note: SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).
   tokenizer:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p3–5.'
+    value: Fixed
+    source: §3.6.2–3.6.3, p5
+    status: verified
+    note: DSRQ is trained after the slot representations converge and are fixed; all SIDs are generated offline.
   objective:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p3–5.'
+    value: Discrim.
+    source: §3.1, p3; Table 1, p6
+    status: verified
+    note: '"learning a scoring function to estimate the interaction probability"; evaluated by AUC.'
   inference:
     value: Scoring
     source: Table 1, p6; p8
     status: verified
     note: ""
-legacy_training: 2-Stage
-note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then. SIDs only serve as features for discriminative models (DIN etc.); no SID-by-SID generation experiment.
+note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. SIDs only serve as features for discriminative models (DIN etc.); no SID-by-SID generation experiment.

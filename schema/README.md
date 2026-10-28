@@ -85,8 +85,10 @@ inference:
 - `inferred` marks a value the paper does not state directly (`†` in Table 1).
   For list values it may be a list of booleans, one per setting.
 - `source` gives the paper location (section, figure, equation, page, or a code
-  path) that the appendices of `Table1_扩展版.md` attach to that cell; `missing`
-  when the appendices give none. Sources are never filled in by guessing.
+  path) that the appendices of `Table1_扩展版.md` attach to that cell (for the
+  Representation, Tokenization, Backbone and Inference cells of the POI rows,
+  the POI appendix of `Table2_按仓库分类.md`); `missing` when the appendices
+  give none. Sources are never filled in by guessing.
 - `status` is `verified` only when the paper location in `source` directly
   supports the value and a person or an agent has checked it against the
   paper. Inferred values never count as `verified`: they keep their `source`
@@ -94,7 +96,9 @@ inference:
   `source: missing` is invalid. In the 2026-10-28 migration, a label became
   `verified` when the appendices of `Table1_扩展版.md` record its paper location
   (those appendices log checks against the papers) and the value is not
-  inferred.
+  inferred. The nine POI rows that joined Table 1 later that day follow the
+  same rule; their problem, stage, tokenizer and objective locations come from
+  two independent labelings against the papers.
 
 Special values:
 

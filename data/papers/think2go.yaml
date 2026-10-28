@@ -1,24 +1,25 @@
 id: think2go
 name: Think2Go
 record_type: method
+citation: Zhuang et al., 2026
 survey: none
 in_repo_cards: true
-in_table1: false
+in_table1: true
 external:
   arxiv: '2607.28997'
   year: 2026
   venue: KDD’26
 labels:
   problem:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: III
+    source: abstract, p1
+    status: verified
+    note: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.'
   stage:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: Training
+    source: §4.1–4.2, p4–6
+    status: verified
+    note: SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
   representation:
     value: Attr+Geo+CF
     inferred: true
@@ -27,29 +28,28 @@ labels:
     note: Inferred from GNPR-SID, whose data processing the paper follows.
   tokenization:
     value: RQ-VAE
-    inferred: true
     source: p7
-    status: unverified
-    note: Inferred from GNPR-SID, whose data processing the paper follows.
+    status: verified
+    note: '"the correlation among semantic IDs learned through RQ-VAE".'
   backbone:
     value: Dec-Only
     source: p11
     status: verified
     note: ""
   tokenizer:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p2–3.'
+    value: Fixed
+    source: p7; §5.8, p9
+    status: verified
+    note: SIDs are pre-learned with RQ-VAE; the generator does not update the tokenizer.
   objective:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p2–3.'
+    value: NTP → RL
+    source: p4
+    status: verified
+    note: L_SFT and L_DAPO are optimized jointly in one stage, not SFT then RL; NTP → RL is the closest of the 12 values.
   inference:
     value: CoT+Beam
     source: p11
     status: verified
     note: ""
-legacy_training: SFT+RL
-note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.
+training_change: objective
+note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.

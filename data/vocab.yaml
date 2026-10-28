@@ -54,6 +54,8 @@ representation:
 - value: Text+Geo+CF
 - value: Text+Img
 - value: Text+Img+CF
+- value: Text+Img+Geo
+  description: Text, image and geography (OneLoc).
 - value: Text+Img+Geo+CF
 - value: Text+SID
   description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
@@ -136,6 +138,8 @@ tokenization:
 backbone:
 - value: Dec-Only
   description: Decoder-only.
+- value: Disc.
+  description: Discriminative recommendation model; SIDs only serve as features (LGSID).
 - value: Disc. (DIN etc.)
   description: SIDs only serve as features for discriminative models such as DIN (LGRID).
 - value: Dual Enc-Dec

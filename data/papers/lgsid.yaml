@@ -1,24 +1,26 @@
 id: lgsid
 name: LGSID
 record_type: method
+citation: Jiang et al., 2026
 survey: none
 in_repo_cards: true
-in_table1: false
+in_table1: true
 external:
   arxiv: '2511.14221'
+  doi: 10.1609/aaai.v40i17.38514
   year: 2026
   venue: AAAI’26
 labels:
   problem:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: I
+    source: abstract, p1
+    status: verified
+    note: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items".'
   stage:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: Representation
+    source: contribution list, p2; p4
+    status: verified
+    note: Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first contribution, aligning the item-encoding LLM (G-DPO), decides.
   representation:
     value: Text+Geo+CF
     source: p2–4
@@ -30,25 +32,35 @@ labels:
     status: verified
     note: ""
   backbone:
-    value: Enc-Dec
-    source: p5–6
+    value:
+    - Disc.
+    - Enc-Dec
+    source: Table 1, Table 2, p5–6
     status: verified
-    note: Generative experiments run on TIGER and OneRec, both Enc-Dec in Table 1.
+    note: Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table 2 of the paper), both Enc-Dec in Table 1.
   tokenizer:
-    value: pending
-    source: missing
-    status: unverified
-    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+    value: Fixed
+    source: Fig. 2, p3
+    status: verified
+    note: The LLM is aligned and the SIDs are built before the recommender is trained.
   objective:
-    value: pending
-    source: missing
-    status: unverified
-    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+    value:
+    - Discrim.
+    - NTP
+    source: Table 1, Table 2, p5–6; contribution 3, p2
+    status: verified
+    note: '"both discriminative and generative recommendation models".'
   inference:
-    value: Beam
-    inferred: true
-    source: missing
+    value:
+    - Scoring
+    - Beam
+    inferred:
+    - false
+    - true
+    source: Table 1, p5–6
     status: unverified
-    note: Decoding not stated; inferred from TIGER.
-legacy_training: 2-Stage
-note: 'POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then. Venue unverified (Table 2 writes "AAAI’26（待核）"): only a Semantic Scholar venue field or a template trace, no DOI, proceedings or author statement yet.'
+    note: The discriminative setting scores items; decoding of the generative setting is not stated and is inferred from TIGER.
+settings:
+- discriminative models (DIN, TWIN, ETA etc.; Table 1 of the paper)
+- generative models (TIGER, OneRec; Table 2 of the paper)
+note: 'POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. Venue: AAAI 2026, vol. 40, no. 17 (checked 10-28).'

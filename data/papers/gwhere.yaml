@@ -1,24 +1,25 @@
 id: gwhere
 name: Gwhere
 record_type: method
+citation: Zhai et al., 2026
 survey: none
 in_repo_cards: true
-in_table1: false
+in_table1: true
 external:
   arxiv: '2607.26073'
   year: 2026
   venue: RecSys’26
 labels:
   problem:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: II
+    source: abstract, p1
+    status: verified
+    note: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals". II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8) serves II. Both labelings were unsure (alternative I).'
   stage:
-    value: pending
-    source: missing
-    status: unverified
-    note: Awaiting labeling by the discussion window.
+    value: Tokenization
+    source: §3.2, p3
+    status: verified
+    note: The designs for both complaints sit in the tokenizer.
   representation:
     value: Text+Img+Geo+CF
     source: p1–3
@@ -35,19 +36,18 @@ labels:
     status: verified
     note: ""
   tokenizer:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2.'
+    value: Fixed
+    source: p1; Fig. 1, p6
+    status: verified
+    note: '"Based on these SIDs, Gwhere adapts LLMs"; SIDs are built offline before LLM training.'
   objective:
-    value: pending
-    source: missing
-    status: unverified
-    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2.'
+    value: NTP → DPO
+    source: §3.3.1, p4; §3.3.2, p4; §3.4, Eq. (1), p4–5
+    status: verified
+    note: CPT, then SFT, then EAKTO. EAKTO is a KTO variant, i.e. preference optimization. CPT also has two auxiliary tasks (masked SID prediction and SID–attribute matching, §3.3.1) that the 12 objective values cannot express.
   inference:
     value: –
     source: missing
     status: unverified
     note: 'Appendix: the beam search configuration is not described.'
-legacy_training: CPT+SFT+EAKTO
-note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.
+note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
