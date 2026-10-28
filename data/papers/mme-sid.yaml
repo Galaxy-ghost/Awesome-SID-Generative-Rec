@@ -1,0 +1,53 @@
+id: mme-sid
+name: MME-SID
+record_type: method
+citation: Wang et al., 2025b
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2509.02017'
+  year: 2025
+  venue: CIKM’25
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: MM-RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Scoring
+    source: missing
+    status: unverified
+    note: ""
+note: ""

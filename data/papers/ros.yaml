@@ -1,0 +1,53 @@
+id: ros
+name: ROS
+record_type: method
+survey: none
+in_repo_cards: true
+in_table1: false
+external:
+  arxiv: '2601.04562'
+  year: 2026
+  venue: ACL’26
+labels:
+  problem:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  stage:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  representation:
+    value: Text+Geo
+    source: p2; p12
+    status: verified
+    note: ""
+  tokenization:
+    value: Geo-Prefix+RQ-VAE
+    source: p2–3
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: §3.1, p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p2–3.'
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p2–3.'
+  inference:
+    value: CoT+C-Beam
+    source: p7
+    status: verified
+    note: ""
+legacy_training: PT+SFT+GRPO
+note: 'POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then. Venue unverified (Table 2 writes "ACL’26（待核）"): only a Semantic Scholar venue field or a template trace, no DOI, proceedings or author statement yet.'

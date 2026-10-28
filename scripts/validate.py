@@ -79,14 +79,14 @@ def schema_errors(value, schema, root_schema, path):
 
 
 def category(kind, path):
-    if kind in ('required', 'unknown'):
-        return 'required'
     if kind == 'rule':
         return 'rule'
     if path.endswith('.status'):
         return 'status'
     if path.endswith('.source'):
         return 'source'
+    if kind in ('required', 'unknown'):
+        return 'required'
     if path == '$.id':
         return 'id'
     return 'required' if kind == 'empty' else 'schema'

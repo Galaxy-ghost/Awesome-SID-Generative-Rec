@@ -1,0 +1,53 @@
+id: deepcontextgr
+name: DeepContextGR
+record_type: method
+survey: table1
+in_repo_cards: false
+in_table1: false
+external:
+  arxiv: '2604.20861'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: n/a
+    source: missing
+    status: unverified
+    note: Merged into TriAlignGR; not labeled.
+  stage:
+    value: n/a
+    source: missing
+    status: unverified
+    note: Merged into TriAlignGR; not labeled.
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: §III-D, p4, Eq. 6–7
+    status: verified
+    note: arXiv v3.
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: §III-E, p4–5; Eq. 8, p4; p6.'
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: §III-E, p4–5; Eq. 8, p4; p6.'
+  inference:
+    value: Beam
+    source: p6; Eq. 12, p5
+    status: verified
+    note: arXiv v3; no prefix constraint reported.
+legacy_training: SFT+GRPO
+note: 'Not in Table 1: same author group as TriAlignGR (arXiv 2605.05249) with overlapping design; merged into TriAlignGR on 10-25 and cited as an earlier version.'

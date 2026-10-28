@@ -1,0 +1,53 @@
+id: progeo
+name: ProGEO
+record_type: method
+survey: none
+in_repo_cards: true
+in_table1: false
+external:
+  arxiv: '2604.23156'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  stage:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  representation:
+    value: Text+Geo
+    source: p11; p2–3
+    status: verified
+    note: ""
+  tokenization:
+    value: R-KM+Geo-CB
+    source: p3
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: p11
+    status: verified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+  inference:
+    value: Beam+Geo-Filter
+    source: p3; p11
+    status: verified
+    note: ""
+legacy_training: 2-Stage
+note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.

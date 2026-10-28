@@ -1,0 +1,54 @@
+id: gream
+name: GREAM
+record_type: method
+citation: Hong et al., 2025
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2510.20815'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-KM
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP → RL
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+training_change: objective
+note: ""

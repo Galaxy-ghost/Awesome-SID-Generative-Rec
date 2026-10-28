@@ -1,0 +1,53 @@
+id: q-bert4rec
+name: Q-BERT4Rec
+record_type: method
+citation: Huang and Gai, 2025
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2512.02474'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "rely on discrete item IDs that lack semantic meaning and ignore rich multimodal information".'
+  stage:
+    value: Representation
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Encoder (Non-AR)
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: Masked
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Non-AR
+    source: missing
+    status: unverified
+    note: ""
+note: ""

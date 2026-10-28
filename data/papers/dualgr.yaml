@@ -1,0 +1,55 @@
+id: dualgr
+name: DualGR
+record_type: method
+citation: Yi et al., 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2511.12518'
+  doi: 10.1145/3774904.3792851
+  title: 'DualGR: Generative Retrieval with Long and Short-Term Interests Modeling'
+  year: 2026
+  venue: WWW’26 Short
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "long-short interest interference, context-induced noise in hierarchical SID generation, and the lack of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: –
+    source: missing
+    status: unverified
+    note: 'Appendix: the paper does not state which embedding builds the SIDs.'
+  tokenization:
+    value: R-KM
+    source: §2.2, p3
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: §1–2.2, p2–3
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §2.5, p3
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP + Rank
+    source: §2.5, p3
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: Dual Beam
+    source: §2.3, Fig. 1, p2–3; §2.4.2, p3
+    status: verified
+    note: ""
+note: ""

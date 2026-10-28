@@ -1,0 +1,54 @@
+id: mbgr
+name: MBGR
+record_type: method
+citation: Li et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2604.02684'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unified SID space causes". Candidates: VI / II (rule: judged by the abstract''s complaint first).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    inferred: true
+    source: p4
+    status: verified
+    note: SID construction not described; Fixed is inferred. Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP + Aux.
+    source: p4
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

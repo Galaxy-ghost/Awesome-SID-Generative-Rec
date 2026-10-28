@@ -1,0 +1,53 @@
+id: grlm
+name: GRLM
+record_type: method
+citation: Zhang et al., 2026c
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2601.06798'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "Text-based methods introduce LLMs'' vast output space, leading to hallucination"; "encounter a semantic gap between SIDs and LLMs'' native vocabulary". Candidates: II / III (rule: tie broken by the majority of new designs).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Term-ID
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: Multi-task NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: p6; §3.3, p5, Eq. 4; §5.4, p8, Table 5
+    status: verified
+    note: ""
+note: ""

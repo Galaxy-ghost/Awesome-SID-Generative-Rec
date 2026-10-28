@@ -1,0 +1,54 @@
+id: etegrec
+name: ETEGRec
+record_type: method
+citation: Liu et al., 2025a
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2409.05546'
+  year: 2025
+  venue: SIGIR’25
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Learn. RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Altern.
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP + Ctr.
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+training_change: tokenizer
+note: ""

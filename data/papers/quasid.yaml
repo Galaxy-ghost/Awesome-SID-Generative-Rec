@@ -1,0 +1,56 @@
+id: quasid
+name: QuaSID
+record_type: method
+citation: Hu et al., 2026
+survey: text
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2603.00632'
+  doi: 10.1145/3770855.3818486
+  title: 'Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale'
+  year: 2026
+  venue: KDD’26 ADS
+labels:
+  problem:
+    value: II
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "Collision problem".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: §5.1.1, p6; §4.1, p4
+    status: verified
+    note: ""
+  tokenization:
+    value: QA-RQ
+    source: §4.2.1, p4; §4.2.2, p5
+    status: verified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §5.1.4, p6; Appendix A.2, p10
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: Fig. 4, p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    inferred: true
+    source: missing
+    status: unverified
+    note: Decoding not stated; inferred from TIGER, the backbone.
+note: Cited in the survey text (§9, p8) but not in the survey Table 1.

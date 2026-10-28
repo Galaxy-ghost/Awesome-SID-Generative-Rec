@@ -1,0 +1,53 @@
+id: actionpiece
+name: ActionPiece
+record_type: method
+citation: Hou et al., 2025c
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2502.13581'
+  year: 2025
+  venue: ICML’25
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "without considering contextual relationships".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: OPQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Ensemble
+    source: missing
+    status: unverified
+    note: ""
+note: ""

@@ -1,0 +1,53 @@
+id: latte
+name: Latte
+record_type: method
+citation: Hou et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2605.06331'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "making it difficult to distinguish among them based on user-specific preferences".'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

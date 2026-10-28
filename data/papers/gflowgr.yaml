@@ -1,0 +1,66 @@
+id: gflowgr
+name: GFlowGR
+record_type: method
+citation: Wang et al., 2026
+survey: none
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2506.16114'
+  doi: 10.1145/3805712.3809663
+  year: 2026
+  venue: SIGIR’26
+labels:
+  problem:
+    value: IV
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "Both methods ignore the exploration of possible positive unobserved samples, which is commonly referred to as the exposure bias problem". Candidates: IV / none (rule: IV threshold: a flawed training objective counts).'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value:
+    - Text
+    - Text+CF
+    source: §4.1, p6
+    status: verified
+    note: Settings A/B take the TIGER and LETTER rows of Table 1.
+  tokenization:
+    value:
+    - RQ-VAE
+    - Learn. RQ
+    source: §4.1, p6
+    status: verified
+    note: Settings A/B take the TIGER and LETTER rows of Table 1.
+  backbone:
+    value: Enc-Dec
+    inferred: true
+    source: §4, p6
+    status: verified
+    note: Paper only says 'LLM-based GR backbones'; inferred from TIGER and LETTER, both Enc-Dec in Table 1.
+  tokenizer:
+    value: Fixed
+    source: Algorithm 1 line 5, p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP + Aux.
+    source: §3.3 Eq. 7, p6; §3.4, p6
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value:
+    - Beam
+    - C-Beam
+    inferred: true
+    source: §3.4, p6; Algorithm 1, p5
+    status: verified
+    note: Inference reuses the backbone ('GFlowGR is not involved'); beam width and prefix constraint not reported; inferred from the TIGER and LETTER rows.
+training_change: objective
+settings:
+- TIGER backbone
+- LETTER backbone
+note: ""

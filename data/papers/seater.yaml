@@ -1,0 +1,54 @@
+id: seater
+name: SEATER
+record_type: method
+citation: Si et al., 2024
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2309.13375'
+  doi: 10.1145/3673791.3698408
+  year: 2024
+  venue: SIGIR-AP’24
+labels:
+  problem:
+    value: V
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract''s complaint first).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Tree-Clus.
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP + Ctr.
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

@@ -1,0 +1,53 @@
+id: cost
+name: CoST
+record_type: method
+citation: Zhu et al., 2024
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2404.14774'
+  year: 2024
+  venue: RecSys’24
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "fails to capture the essential neighborhood relationships".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: C-RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

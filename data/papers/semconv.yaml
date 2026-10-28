@@ -1,0 +1,54 @@
+id: semconv
+name: SemConv
+record_type: method
+citation: Li et al., 2025
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2412.13771'
+  title: 'Semantic Convergence: Harmonizing Recommender Systems via Two-Stage Alignment and Behavioral Semantic Tokenization'
+  year: 2025
+  venue: AAAI’25
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "a notable discrepancy persists between the sparse collaborative semantics typically found in recommendation systems and the dense token representations within LLMs".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: Alignment Tokenization, p2–3
+    status: verified
+    note: AAAI paper without section numbers; subsection titles used.
+  tokenization:
+    value: Align. RQ
+    source: Alignment Tokenization, p3
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: Alignment Task, p4
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: Alignment Task, p4
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: Multi-task NTP
+    source: Alignment Task, p4
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: Beam
+    source: Inference, p4; Fig. 3
+    status: verified
+    note: ""
+note: ""

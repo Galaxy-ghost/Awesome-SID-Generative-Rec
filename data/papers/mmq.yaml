@@ -1,0 +1,55 @@
+id: mmq
+name: MMQ
+record_type: method
+citation: Xu et al., 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2508.15281'
+  doi: 10.1145/3773966.3777923
+  title: 'MMQ: Multimodal Mixture-of-Quantization Tokenization for Semantic ID Generation and User Behavioral Adaptation'
+  year: 2026
+  venue: WSDM’26
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "balancing cross-modal synergy with modality-specific uniqueness"; "bridging the semantic-behavioral gap".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img
+    source: §4.1.4 Implementation Details, p6
+    status: verified
+    note: ""
+  tokenization:
+    value: MoE-VQ
+    source: §3.2, p3–5; p6
+    status: verified
+    note: ""
+  backbone:
+    value: HeterRec
+    source: §4.1.4, p6
+    status: verified
+    note: ""
+  tokenizer:
+    value: Joint
+    source: §3.3, p5; Fig. 2, p4
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: MTP
+    source: §3.3, p5; Fig. 2, p4
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: –
+    source: missing
+    status: unverified
+    note: 'Appendix: decoding is not described in the paper.'
+note: Different paper from MMQ-v2 / ADC-SID (arXiv 2510.25622) by the same team.

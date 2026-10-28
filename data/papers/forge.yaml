@@ -1,0 +1,55 @@
+id: forge
+name: FORGE
+record_type: paradigm-system-benchmark
+psb_kind: framework
+citation: Fu et al., 2025
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2509.20904'
+  doi: 10.1145/3770855.3817477
+  year: 2026
+  venue: KDD’26
+labels:
+  problem:
+    value: n/a
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "their SID assessment typically relies on costly GR training".'
+  stage:
+    value: n/a
+    source: arXiv abstract
+    status: verified
+    note: Appendix tentatively places the new design in Tokenization.
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Dyn. Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

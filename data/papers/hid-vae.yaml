@@ -1,0 +1,53 @@
+id: hid-vae
+name: HiD-VAE
+record_type: method
+citation: Fang et al., 2025
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2508.04618'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: II
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement (i.e., ``ID collisions'''')". Candidates: I / II (rule: tie broken by the majority of new designs).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: p5
+    status: verified
+    note: ""
+  tokenization:
+    value: Hier. RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §4.1, p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §3.8, p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: §3.7, p4
+    status: verified
+    note: ""
+note: ""

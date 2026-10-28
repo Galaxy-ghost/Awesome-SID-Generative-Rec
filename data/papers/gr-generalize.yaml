@@ -1,0 +1,56 @@
+id: gr-generalize
+name: GR-Generalize
+record_type: paradigm-system-benchmark
+psb_kind: framework
+citation: Ding et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2603.19809'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: n/a
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "there is few systematic way to verify this hypothesis".'
+  stage:
+    value: n/a
+    source: arXiv abstract
+    status: verified
+    note: Appendix tentatively places the new design in Inference.
+  representation:
+    value: Text+SID
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    inferred: true
+    source: p5; p7
+    status: verified
+    note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP
+    inferred: true
+    source: p5; p7
+    status: verified
+    note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: Hybrid
+    source: missing
+    status: unverified
+    note: ""
+note: ""

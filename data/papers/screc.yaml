@@ -1,0 +1,65 @@
+id: screc
+name: SCRec
+record_type: method
+citation: Dan, 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2609.13678'
+  doi: 10.1145/3773078.3831736
+  title: Addressing Cross-Stage Decoupling of Semantic and Collaborative Signals in Generative Recommendation
+  year: 2026
+  venue: RecSys’26
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "item tokenization is largely dominated by textual semantics with limited incorporation of collaborative signals"; "the generation stage tends to overlook the original semantic information".'
+  stage:
+    value: Representation
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: §3.1, p3; p6
+    status: verified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: §3.1, p4; p6
+    status: verified
+    note: ""
+  backbone:
+    value:
+    - Non-AR
+    - Enc-Dec
+    source: 'p6; p8; code: genrec/models/CSA/model_csa.py (read statically)'
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §3.2–3.3, p4–5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: MTP + Ctr.
+    source: §3.2–3.3, p4–5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value:
+    - Scoring
+    - Beam
+    inferred:
+    - false
+    - true
+    source: 'code: generate() in github.com/DanJiayi/SCRec (read statically)'
+    status: verified
+    note: Main setting scores all items; the TIGER-based variant is inferred as Beam from TIGER.
+settings:
+- main experiment (parallel prediction heads following RPG)
+- variant built on TIGER
+note: Local PDF file name CrossStage is an alias; the authors name the method SCRec.

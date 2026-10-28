@@ -1,0 +1,58 @@
+id: stamp
+name: STAMP
+record_type: method
+citation: Zhan et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2604.05329'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: V
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "prohibitive training overhead due to sequence expansion".'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: 'Open in the appendix: in arXiv v3 the GRID path uses RK-Means (§5.1.4, p6) and the FORGE path does not state SID construction; RQ-VAE does not match the GRID path.'
+  backbone:
+    value:
+    - Enc-Dec
+    - Dec-Only
+    source: §1, p2; §5.1.4, p6
+    status: verified
+    note: arXiv v3.
+  tokenizer:
+    value: Fixed
+    source: p5
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP + Aux.
+    source: p5
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+settings:
+- T5 on the GRID framework
+- Qwen2.5-0.5B on the FORGE framework
+note: ""

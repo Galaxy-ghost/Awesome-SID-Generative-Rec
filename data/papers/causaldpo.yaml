@@ -1,0 +1,54 @@
+id: causaldpo
+name: CausalDPO
+record_type: method
+citation: Zhao et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2603.22335'
+  year: 2026
+  venue: ICML’26
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "significantly undermining the generalization capability of LLM-based generative recommendation methods in out of distribution (OOD) scenarios".'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: LLM-Vocab
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP → DPO
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Scoring
+    source: missing
+    status: unverified
+    note: ""
+training_change: objective
+note: ""

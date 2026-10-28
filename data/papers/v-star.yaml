@@ -1,0 +1,56 @@
+id: v-star
+name: V-STAR
+record_type: method
+citation: Jiang et al., 2026
+survey: none
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2602.10699'
+  doi: 10.1145/3770855.3817873
+  year: 2026
+  venue: KDD’26
+labels:
+  problem:
+    value: IV
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "fine-tuning these models with Reinforcement Learning (RL) often suffers from a fundamental probability-reward mismatch".'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    inferred: true
+    source: §5.1, p6; §4.1, p4
+    status: verified
+    note: Embedding used to build SIDs is not stated; inferred from MiniOneRec (Text in Table 1).
+  tokenization:
+    value: RQ-VAE
+    source: §5.1, p6
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: §5.1 Implementation Details, p6
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP → RL
+    source: p6; §3.1, p3; §4.3, p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: C-Beam
+    source: §4.4, p6; Implementation Details, p6; §5.1, p6
+    status: verified
+    note: ""
+training_change: objective
+note: ""

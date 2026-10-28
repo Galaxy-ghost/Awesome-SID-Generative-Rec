@@ -1,0 +1,53 @@
+id: deepinterestgr
+name: DeepInterestGR
+record_type: method
+survey: table1
+in_repo_cards: false
+in_table1: false
+external:
+  arxiv: '2602.18907'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: n/a
+    source: missing
+    status: unverified
+    note: Merged into TriAlignGR; not labeled.
+  stage:
+    value: n/a
+    source: missing
+    status: unverified
+    note: Merged into TriAlignGR; not labeled.
+  representation:
+    value: Text+Img+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective.
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+legacy_training: SFT+GRPO
+note: 'Not in Table 1: same author group as TriAlignGR (arXiv 2605.05249) with overlapping design; merged into TriAlignGR on 10-25 and cited as an earlier version.'

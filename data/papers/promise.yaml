@@ -1,0 +1,54 @@
+id: promise
+name: PROMISE
+record_type: method
+citation: Guo et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2601.04674'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".'
+  stage:
+    value: Inference
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §3.1, p3; Fig. 2, p4
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    inferred: true
+    source: p4
+    status: verified
+    note: SID construction not described; Fixed inferred from the usual pipeline. Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP + Aux.
+    source: p4
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: PRM-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

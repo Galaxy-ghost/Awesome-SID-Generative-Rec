@@ -1,0 +1,53 @@
+id: psi
+name: PSI
+record_type: method
+citation: Zhang et al., 2025a
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2509.16446'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: II
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "suffer from semantic ID conflicts".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Post-hoc RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

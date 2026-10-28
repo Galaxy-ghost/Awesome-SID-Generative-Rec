@@ -1,0 +1,53 @@
+id: adasid
+name: AdaSID
+record_type: method
+citation: Pan et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2604.23522'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: II
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "effective SID learning is hindered by collisions".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

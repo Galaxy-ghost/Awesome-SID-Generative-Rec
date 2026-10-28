@@ -1,0 +1,54 @@
+id: lc-rec
+name: LC-Rec
+record_type: method
+citation: Zheng et al., 2024
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2311.09049'
+  year: 2024
+  venue: ICDE’24
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "there exists a large semantic gap between LLMs and recommender systems".'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: Multi-task NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+training_change: objective
+note: ""

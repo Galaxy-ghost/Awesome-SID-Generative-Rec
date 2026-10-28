@@ -1,0 +1,53 @@
+id: unirec
+name: UniRec
+record_type: method
+citation: Wang et al., 2026b
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2604.12234'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "GR decodes over compact SID tokens without item-side signal".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP → DPO
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

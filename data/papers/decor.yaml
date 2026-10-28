@@ -1,0 +1,55 @@
+id: decor
+name: DECOR
+record_type: method
+citation: Liu et al., 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2509.10468'
+  doi: 10.1145/3805712.3809578
+  title: Learning Decomposed Contextual Token Representations from Pretrained and Collaborative Signals for Generative Recommendation
+  year: 2026
+  venue: SIGIR’26
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "suboptimal static tokenization"; "discarded pretrained semantics". Candidates: I / III (rule: tie broken by the first new design).'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: §3.3–3.4, p4–5; Fig. 2, p4
+    status: verified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: §4.1.2, p6
+    status: verified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §4.1.2, p6
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: Fig. 2, p4
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: §4.8, p9; Table 5, p10
+    status: verified
+    note: No prefix constraint reported.
+note: ""

@@ -1,0 +1,54 @@
+id: lmindexer
+name: LMIndexer
+record_type: method
+citation: Jin et al., 2024
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2310.07815'
+  title: Language Models As Semantic Indexers
+  year: 2024
+  venue: ICML’24
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "each step introduces potential information loss".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: §3.1, p3
+    status: verified
+    note: ""
+  tokenization:
+    value: Self-Sup. ID
+    source: §3.1–3.2, p3–5; Fig. 1, p4
+    status: verified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §4.1, p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §3.3, Fig. 2, p5; §5.1, p7
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: §3.3, Fig. 2, p5; §5.1, p7
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: C-Beam
+    source: §3.3, p5; §5.1, p7
+    status: verified
+    note: ""
+note: ""

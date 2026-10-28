@@ -1,0 +1,56 @@
+id: mbgen
+name: MBGen
+record_type: method
+citation: Liu et al., 2024
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2405.16871'
+  doi: 10.1145/3627673.3679730
+  title: Multi-Behavior Generative Recommendation
+  year: 2024
+  venue: CIKM’24
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "neglecting the value of integrating the target behavior type into the learning objective".'
+  stage:
+    value: Training
+    source: arXiv abstract; introduction (contribution list)
+    status: verified
+    note: ""
+  representation:
+    value: CF
+    source: §4.1.4, p6
+    status: verified
+    note: ""
+  tokenization:
+    value: Bal. VQ+KM
+    source: §3.2, p3–4
+    status: verified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: §3.3–3.4, p4–5
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §3.1–3.3, p3–5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: §3.1–3.3, p3–5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: Beam
+    source: §4.1.3, p6
+    status: verified
+    note: No prefix constraint reported.
+training_change: objective
+note: ""

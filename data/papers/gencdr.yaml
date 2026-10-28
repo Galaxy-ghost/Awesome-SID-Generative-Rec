@@ -1,0 +1,53 @@
+id: gencdr
+name: GenCDR
+record_type: method
+citation: Hu et al., 2026a
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2511.08006'
+  year: 2026
+  venue: AAAI’26
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie broken by the majority of new designs).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Cross-Dom
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ+LoRA
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: Implementation Details, p6; Fig. 2, p4
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

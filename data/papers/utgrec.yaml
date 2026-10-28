@@ -1,0 +1,53 @@
+id: utgrec
+name: UTGRec
+record_type: method
+citation: Zheng et al., 2025
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2504.04405'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Multi-Dom
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Tree
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

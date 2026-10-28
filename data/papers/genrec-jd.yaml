@@ -1,0 +1,54 @@
+id: genrec-jd
+name: GenRec-JD
+record_type: method
+citation: Zou et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2604.14878'
+  year: 2026
+  venue: SIGIR’26
+labels:
+  problem:
+    value: IV
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "aligning the generative policy with nuanced user preference signals". Candidates: IV / V (rule: IV threshold: a flawed training objective counts).'
+  stage:
+    value: Training
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP → RL
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: missing
+    status: unverified
+    note: ""
+training_change: objective
+note: ""

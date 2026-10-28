@@ -1,0 +1,55 @@
+id: static
+name: STATIC
+record_type: method
+citation: Su et al., 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2602.22647'
+  doi: 10.1145/3770855.3818506
+  title: 'Vectorizing the Trie: Efficient Constrained Decoding for LLM-based Generative Retrieval on Accelerators'
+  year: 2026
+  venue: KDD’26 ADS
+labels:
+  problem:
+    value: V
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".'
+  stage:
+    value: Inference
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: –
+    source: missing
+    status: unverified
+    note: 'Appendix: the paper does not describe the item representation.'
+  tokenization:
+    value: RQ-VAE
+    source: p8
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: p9
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: p8–9
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: p8–9
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: Vec. C-Beam
+    source: §4, p4–6; p9
+    status: verified
+    note: ""
+note: Columns follow the public Amazon cold-start experiment (§6.1, p8–9); the industrial setting (§5.1, p7) differs (3B dense Gemini-based model, L=8, |V|=2048, beam 70) but is also Dec-Only.

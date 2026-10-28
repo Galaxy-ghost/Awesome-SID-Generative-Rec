@@ -1,0 +1,53 @@
+id: trialigngr
+name: TriAlignGR
+record_type: method
+citation: Zeng et al., 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2605.05249'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "SID Content Degradation (SCD)"; "SID Semantic Opacity (SSO)". Candidates: I / III (rule: tie broken by the majority of new designs).'
+  stage:
+    value: Representation
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: RQ-VAE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: p4
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: Multi-task NTP
+    source: p4
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

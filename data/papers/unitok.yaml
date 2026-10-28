@@ -1,0 +1,54 @@
+id: unitok
+name: UniTok
+record_type: method
+citation: Hou and Shin, 2026
+survey: table1
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2511.12922'
+  year: 2026
+  venue: AAAI’26
+labels:
+  problem:
+    value: VI
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "require training separate models for each item domain, limiting generalization".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Multi-Dom
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: TokenMoE
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: Appendix D.4, p15
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: p5
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  inference:
+    value: Beam
+    inferred: true
+    source: missing
+    status: unverified
+    note: Decoding not stated (no mention of beam); inferred from TIGER, which the paper reuses (Appendix D.4, p15).
+note: ""

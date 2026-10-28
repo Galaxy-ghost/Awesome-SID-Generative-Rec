@@ -1,0 +1,53 @@
+id: mql4grec
+name: MQL4GRec
+record_type: method
+citation: Zhai et al.
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2504.05314'
+  year: 2025
+  venue: ICLR’25
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "rarely consider the complementary knowledge between the multimodal information of items". Candidates: I / VI (rule: judged by the abstract''s complaint first).'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Dual RQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: Multi-task NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Beam
+    source: p6, Eq. 7
+    status: verified
+    note: ""
+note: ""

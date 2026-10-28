@@ -1,0 +1,54 @@
+id: atspeed
+name: AtSpeed
+record_type: method
+citation: Lin et al., 2025
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2410.05165'
+  title: Efficient Inference for Large Language Model-based Generative Recommendation
+  year: 2025
+  venue: ICLR’25
+labels:
+  problem:
+    value: V
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "excessive inference latency caused by autoregressive decoding".'
+  stage:
+    value: Inference
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: §4.1 Implementation Details, p7; Appendix A.3.1, p21
+    status: verified
+    note: Taken from the LC-Rec row of Table 1.
+  tokenization:
+    value: RQ-VAE
+    source: §4.1 Implementation Details, p7; Appendix A.3.1, p21
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: §4.1 Implementation Details, p7; Appendix A.3.1, p21
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: p7
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP
+    source: p7
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: Spec. Dec.
+    source: §3.1, p3–4; §3.3, p6; Appendix A.2.3, p21; p8
+    status: verified
+    note: ""
+note: ""

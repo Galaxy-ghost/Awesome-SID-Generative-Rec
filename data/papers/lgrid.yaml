@@ -1,0 +1,53 @@
+id: lgrid
+name: LGRID
+record_type: method
+survey: none
+in_repo_cards: true
+in_table1: false
+external:
+  arxiv: '2607.27944'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  stage:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  representation:
+    value: Text+Geo
+    source: p3–4; p6
+    status: verified
+    note: ""
+  tokenization:
+    value: DSRQ
+    source: p3; p5
+    status: verified
+    note: ""
+  backbone:
+    value: Disc. (DIN etc.)
+    source: Table 1, p6; p8
+    status: verified
+    note: SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p3–5.'
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p3–5.'
+  inference:
+    value: Scoring
+    source: Table 1, p6; p8
+    status: verified
+    note: ""
+legacy_training: 2-Stage
+note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then. SIDs only serve as features for discriminative models (DIN etc.); no SID-by-SID generation experiment.

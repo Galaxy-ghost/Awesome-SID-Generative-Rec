@@ -1,0 +1,59 @@
+id: discrec
+name: DiscRec
+record_type: method
+citation: Liu et al., 2025
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2506.15576'
+  title: 'DiscRec: Disentangled Semantic-Collaborative Modeling for Generative Recommendation'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "token-item misalignment"; "semantic-collaborative signal entanglement". Candidates: I / III (rule: tie broken by the title).'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: §IV-A, p7; §III, p4–6
+    status: verified
+    note: ""
+  tokenization:
+    value:
+    - RQ-VAE
+    - Learn. RQ
+    source: §I, p2; §IV-A, p7
+    status: verified
+    note: Settings A/B take the TIGER and LETTER rows of Table 1.
+  backbone:
+    value: Enc-Dec
+    source: §II-B, p3
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: §II-A–B, p3
+    status: verified
+    note: Location from the pre-10-26 Training evidence in the appendix.
+  objective:
+    value: NTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: §IV-A, p7
+    status: verified
+    note: ""
+settings:
+- TIGER backbone
+- LETTER backbone
+note: ""

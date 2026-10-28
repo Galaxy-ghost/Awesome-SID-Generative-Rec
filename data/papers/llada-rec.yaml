@@ -1,0 +1,53 @@
+id: llada-rec
+name: LLaDA-Rec
+record_type: method
+citation: Shi et al., 2025
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2511.06254'
+  year: 2025
+  venue: arXiv’25
+labels:
+  problem:
+    value: III
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early tokens to propagate".'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Par. VQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Non-AR
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: Masked
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Diff.
+    source: missing
+    status: unverified
+    note: ""
+note: ""

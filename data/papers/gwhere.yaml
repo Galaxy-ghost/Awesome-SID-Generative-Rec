@@ -1,0 +1,53 @@
+id: gwhere
+name: Gwhere
+record_type: method
+survey: none
+in_repo_cards: true
+in_table1: false
+external:
+  arxiv: '2607.26073'
+  year: 2026
+  venue: RecSys’26
+labels:
+  problem:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  stage:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  representation:
+    value: Text+Img+Geo+CF
+    source: p1–3
+    status: verified
+    note: ""
+  tokenization:
+    value: Contr. RQ
+    source: p2
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2.'
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2.'
+  inference:
+    value: –
+    source: missing
+    status: unverified
+    note: 'Appendix: the beam search configuration is not described.'
+legacy_training: CPT+SFT+EAKTO
+note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.

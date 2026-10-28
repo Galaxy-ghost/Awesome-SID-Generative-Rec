@@ -1,0 +1,53 @@
+id: geogr
+name: GeoGR
+record_type: method
+survey: none
+in_repo_cards: true
+in_table1: false
+external:
+  arxiv: '2602.10411'
+  year: 2026
+  venue: arXiv’26
+labels:
+  problem:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  stage:
+    value: pending
+    source: missing
+    status: unverified
+    note: Awaiting labeling by the discussion window.
+  representation:
+    value: Text+Geo+CF
+    source: p2–4
+    status: verified
+    note: ""
+  tokenization:
+    value: R-KM+EM
+    source: p4–5, Algorithm 1
+    status: verified
+    note: ""
+  backbone:
+    value: Dec-Only
+    source: p5
+    status: verified
+    note: ""
+  tokenizer:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2; p5.'
+  objective:
+    value: pending
+    source: missing
+    status: unverified
+    note: 'Table 2 has only the pre-10-26 Training column (see legacy_training); not split into Tokenizer/Objective. Appendix location of the old Training value: p1–2; p5.'
+  inference:
+    value: Beam
+    source: p6
+    status: verified
+    note: ""
+legacy_training: CPT+SFT
+note: POI / local-life paper from Table 2. Problem and stage await labeling by the discussion window (POI papers go into Table 1 per the 10-27 decision); in_table1 stays false until then.

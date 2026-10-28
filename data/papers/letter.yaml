@@ -1,0 +1,53 @@
+id: letter
+name: LETTER
+record_type: method
+citation: Wang et al., 2024a
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2405.07314'
+  year: 2024
+  venue: CIKM’24
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code assignment bias".'
+  stage:
+    value: Tokenization
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: Appendix cites §3.1, p3; Eq. 3–5, p4; §3.2, p4 jointly for the remaining columns, without a per-column mapping.
+  tokenization:
+    value: Learn. RQ
+    source: missing
+    status: unverified
+    note: Appendix cites §3.1, p3; Eq. 3–5, p4; §3.2, p4 jointly for the remaining columns, without a per-column mapping.
+  backbone:
+    value: Enc-Dec
+    source: §4.1.3, p5; Table 2, p6
+    status: verified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: NTP + Rank
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: C-Beam
+    source: §3.2.2, p5
+    status: verified
+    note: ""
+note: ""

@@ -1,0 +1,53 @@
+id: colarec
+name: ColaRec
+record_type: method
+citation: Wang et al., 2024c
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2403.18480'
+  year: 2024
+  venue: CIKM’24
+labels:
+  problem:
+    value: I
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored for item recommendation is still an open research challenge".'
+  stage:
+    value: Backbone
+    source: arXiv abstract; introduction (contribution list)
+    status: verified
+    note: ""
+  representation:
+    value: Text+CF
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: H-KM
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Enc-Dec
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: p5
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  objective:
+    value: NTP + Ctr.
+    source: p5
+    status: verified
+    note: Location from the 10-26 'Training split' table in the appendix.
+  inference:
+    value: C-Beam
+    source: missing
+    status: unverified
+    note: ""
+note: ""

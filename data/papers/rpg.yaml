@@ -1,0 +1,53 @@
+id: rpg
+name: RPG
+record_type: method
+citation: Hou et al., 2025b
+survey: table1
+in_repo_cards: true
+in_table1: true
+external:
+  arxiv: '2506.05781'
+  year: 2025
+  venue: KDD’25
+labels:
+  problem:
+    value: V
+    source: arXiv abstract
+    status: verified
+    note: 'Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".'
+  stage:
+    value: Backbone
+    source: arXiv abstract
+    status: verified
+    note: ""
+  representation:
+    value: Text+Img
+    source: missing
+    status: unverified
+    note: ""
+  tokenization:
+    value: Par. OPQ
+    source: missing
+    status: unverified
+    note: ""
+  backbone:
+    value: Non-AR
+    source: missing
+    status: unverified
+    note: ""
+  tokenizer:
+    value: Fixed
+    source: missing
+    status: unverified
+    note: ""
+  objective:
+    value: MTP
+    source: missing
+    status: unverified
+    note: ""
+  inference:
+    value: Graph
+    source: missing
+    status: unverified
+    note: ""
+note: ""
