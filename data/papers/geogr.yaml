@@ -45,7 +45,7 @@ labels:
     value: Multi-task NTP
     source: §4.2.1, Eq. (9), p5
     status: verified
-    note: '"multi-task CPT datasets with various prompt templates", then SFT. PLUM (also CPT then SFT) is NTP; whether its CPT is multi-task is an open item in Table1_扩展版.md.'
+    note: '"multi-task CPT datasets with various prompt templates", then SFT. PLUM (also CPT then SFT) is recorded the same way.'
   inference:
     value: Beam
     source: p6

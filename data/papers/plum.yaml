@@ -44,10 +44,10 @@ labels:
     status: verified
     note: Location from the pre-10-26 Training evidence in the appendix.
   objective:
-    value: NTP
-    source: §2.2, p4; §2.3, p4–5
+    value: Multi-task NTP
+    source: §2.2, p4; Table 1, p4; §2.3, p4–5
     status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
+    note: 'CPT trains one NTP loss on a 50/50 mix of user behavior sequences and video metadata with SID-to-title and SID-to-topic templates, then generative retrieval SFT. Changed from NTP on 10-28; recorded like GeoGR.'
   inference:
     value: Beam
     source: §2.3, p5
