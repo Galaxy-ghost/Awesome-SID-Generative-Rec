@@ -6,21 +6,27 @@
 problem:
 - value: I
   name: Informativeness
+  name_zh: 信息不足（协同与多模态信号缺失或冲突）
   description: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs?
 - value: II
   name: Uniqueness and Validity
+  name_zh: 唯一性与合法性（同码碰撞、出词表与码本塌缩）
   description: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
 - value: III
   name: SID–Model Alignment
+  name_zh: SID 与模型对齐（接口、推理与目标失配）
   description: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
 - value: IV
   name: Utility
+  name_zh: 效用对齐（排序、多样性与业务收益）
   description: Are training and search aimed at what users and the platform value, rather than at token likelihood?
 - value: V
   name: Efficiency
+  name_zh: 训练与推理效率（时延、吞吐与计算开销）
   description: Can it be trained and served within latency and cost budgets?
 - value: VI
   name: Generalization
+  name_zh: 泛化能力（冷启动、动态目录与跨域迁移）
   description: Does it still work for new items, new domains, and shifting interests?
 - value: n/a
   description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
@@ -28,14 +34,24 @@ problem:
   description: Not labeled yet.
 stage:
 - value: Representation
+  display_name: Representation
+  name_zh: 表示层
   description: The new design sits in the Representation stage.
 - value: Tokenization
+  display_name: Tokenization
+  name_zh: 分词与构码层
   description: The new design sits in the Tokenization stage.
 - value: Backbone
+  display_name: Generative Backbone
+  name_zh: 生成主干层
   description: The new design sits in the Backbone stage.
 - value: Training
+  display_name: Training
+  name_zh: 训练与优化层
   description: The new design sits in the Training stage.
 - value: Inference
+  display_name: Inference
+  name_zh: 推理与解码层
   description: The new design sits in the Inference stage.
 - value: n/a
   description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
@@ -234,3 +250,41 @@ inference:
   description: Vectorized constrained beam search (STATIC).
 - value: –
   description: Not reported in the paper.
+domain:
+- value: general
+  description: General, sequential, or e-commerce recommendation.
+- value: poi
+  description: Point-of-interest and spatial/geographic recommendation.
+- value: ads
+  description: Online advertising and auction/bidding recommendation.
+- value: cross-domain
+  description: Cross-domain and transferable recommendation.
+- value: multi-domain
+  description: Multi-domain and multi-scenario recommendation.
+evidence_grade:
+- value: Measured
+  description: Directly computed or reproduced under a unified protocol and script.
+- value: Reported
+  description: Empirically reported in a controlled experiment or ablation table in the cited paper.
+- value: Open
+  description: Lacks a controlled 2x2 orthogonal experiment under a shared backbone and protocol.
+claim_kind:
+- value: design-stated
+  description: Architectural assumption, problem motivation, or design choice stated by the authors (grade is null).
+- value: ablation-finding
+  description: Empirical finding from a controlled ablation in the paper (grade in evidence_grade).
+- value: boundary-case
+  description: Empirical boundary condition or counterexample reported in the paper (grade in evidence_grade).
+- value: deduction
+  description: Analytical or interface-level deduction from pipeline definitions (grade is null).
+- value: selection-rule
+  description: Engineering selection rule conditional on pipeline constraints (grade is null).
+- value: adjudicated-label
+  description: Dual-blind adjudicated taxonomy classification (grade is null).
+label_status:
+- value: unverified
+  description: Not yet checked against primary paper locations, or marked as inferred (†).
+- value: migrated
+  description: Migrated from the Table 1 / Table 2 source-location appendices prior to dual-blind repo review.
+- value: verified
+  description: Directly supported by source and verified against the primary paper.

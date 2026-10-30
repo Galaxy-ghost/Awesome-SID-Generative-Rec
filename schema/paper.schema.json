@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "paper.schema.json",
   "title": "Paper record",
-  "description": "One file per paper: data/papers/<id>.yaml. Label values are checked against data/vocab.yaml by scripts/validate.py. See schema/README.md.",
+  "description": "One file per paper: data/papers/<id>.yaml. Label and metadata values are checked against data/vocab.yaml by scripts/validate.py. See schema/README.md.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "name", "record_type", "survey", "in_repo_cards", "in_table1", "external", "labels", "note"],
+  "required": ["id", "name", "record_type", "domain", "summary", "survey", "in_repo_cards", "in_table1", "external", "labels", "note"],
   "properties": {
     "id": {
       "description": "Stable internal primary key; equals the file name without .yaml. Never changes after creation.",
@@ -19,6 +19,36 @@
       "description": "Only for paradigm-system-benchmark records: baseline (TIGER), paradigm (replaces all five stages at once), framework (open-source framework, benchmark or analysis paper).",
       "enum": ["baseline", "paradigm", "framework"]
     },
+    "domain": {
+      "description": "Application domain from data/vocab.yaml [domain] (e.g. general, poi, ads, cross-domain, multi-domain).",
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "description": "Concise 1-sentence English summary of the paper's core mechanism and contribution for Awesome README and paper pages.",
+      "type": "string",
+      "minLength": 1
+    },
+    "rationale_zh": {
+      "description": "Canonical Chinese rationale for Problem × Stage assignment from Table 1 appendix.",
+      "type": "string",
+      "minLength": 1
+    },
+    "problem_claim": {
+      "description": "Structured claim for the problem synthesis row (subproblem, mechanism, claim_kind, grade, evidence_ids, metric_ids).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subproblem", "mechanism", "claim_kind", "evidence_ids"],
+      "properties": {
+        "subproblem": {"type": "string", "minLength": 1},
+        "mechanism": {"type": "string", "minLength": 1},
+        "claim_kind": {"type": "string", "minLength": 1},
+        "grade": {"enum": ["Measured", "Reported", "Open", null]},
+        "grade_note": {"type": "string", "minLength": 1},
+        "evidence_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+        "metric_ids": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
     "citation": {"description": "Short citation exactly as shown in Table 1, e.g. 'Wang et al., 2024a'.", "type": "string", "minLength": 1},
     "survey": {
       "description": "Presence in the original survey (ARR 2739): table1 = in its Table 1; text = cited in its text only (★‡); none = not in the survey (★).",
@@ -27,16 +57,30 @@
     "in_repo_cards": {"description": "Has a card in this repository's papers/ (commit 705a11e).", "type": "boolean"},
     "in_table1": {"description": "Appears as a row of the current Table 1.", "type": "boolean"},
     "external": {
-      "description": "External identifiers. None of them is a key.",
+      "description": "External identifiers and links. None of them is a primary key.",
       "type": "object",
       "additionalProperties": false,
       "required": ["year", "venue"],
       "properties": {
         "arxiv": {"type": "string", "pattern": "^[0-9]{4}\\.[0-9]{4,5}$"},
+        "pdf_version": {"description": "Pinned arXiv or PDF version, e.g. '2508.14646v1'.", "type": "string", "minLength": 1},
         "doi": {"type": "string", "pattern": "^10\\.[0-9]{4,}/\\S+$"},
+        "url": {"type": "string", "minLength": 1},
         "title": {"type": "string", "minLength": 1},
+        "authors": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
         "year": {"description": "Year of the venue.", "type": "integer", "minimum": 1990},
-        "venue": {"description": "Venue as written in Table 1, track suffix included, e.g. 'KDD’26 ADS'.", "type": "string", "minLength": 1}
+        "venue": {"description": "Venue as written in Table 1, track suffix included, e.g. 'KDD’26 ADS'.", "type": "string", "minLength": 1},
+        "code": {
+          "description": "Pinned code repository metadata for code walkthroughs.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repo"],
+          "properties": {
+            "repo": {"type": "string", "minLength": 1},
+            "commit": {"type": "string", "minLength": 1},
+            "paths": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          }
+        }
       }
     },
     "labels": {
@@ -111,7 +155,9 @@
           ]
         },
         "source": {"description": "Location in the paper (section, figure, equation, page) or code; 'missing' when none is recorded.", "type": "string", "minLength": 1},
-        "status": {"description": "verified: the source directly supports the value and was checked against the paper; inferred values are never verified.", "enum": ["unverified", "verified"]},
+        "status": {"description": "verified: the source directly supports the value and was checked against the paper; migrated: imported from Table 1 / Table 2 source appendices; inferred values are never verified.", "enum": ["unverified", "migrated", "verified"]},
+        "evidence": {"description": "List of evidence IDs in data/evidence.json that directly anchor this label value.", "type": "array", "items": {"type": "string", "minLength": 1}},
+        "pdf_version": {"description": "Pinned PDF/HTML version checked for this label.", "type": "string", "minLength": 1},
         "note": {"type": "string"}
       }
     }

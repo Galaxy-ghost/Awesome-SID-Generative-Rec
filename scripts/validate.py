@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Validate data/papers/*.yaml.
 
-Structure comes from schema/paper.schema.json and allowed label values from
+Structure comes from schema/paper.schema.json and allowed label/metadata values from
 data/vocab.yaml; this script keeps no copy of either. Checks:
 
   [required] required fields are present (and no unknown fields)
-  [vocab]    every label value is in data/vocab.yaml
+  [vocab]    every label value and controlled metadata field is in data/vocab.yaml
   [id]       IDs are well-formed, match the file name and are unique
              (names, aliases and arXiv IDs must be unique too)
   [source]   every label has a source, or the explicit value 'missing'
-  [status]   status is valid; 'verified' needs a source and a non-inferred value
+  [status]   status is valid; 'verified' and 'migrated' need a source and a non-inferred value
   [rule]     cross-field rules documented in schema/README.md
 
 Usage: python3 scripts/validate.py [--root DIR]
@@ -25,6 +25,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 TYPES = {'object': dict, 'array': list, 'string': str, 'boolean': bool, 'integer': int}
+METADATA_VOCAB_FIELDS = {'domain', 'evidence_grade', 'claim_kind', 'label_status'}
+NON_GRADED_CLAIM_KINDS = {'design-stated', 'deduction', 'selection-rule', 'adjudicated-label'}
 
 
 def schema_errors(value, schema, root_schema, path):
@@ -101,6 +103,19 @@ def record_errors(rec, stem, allowed):
     errs = []
     if rec.get('id') != stem:
         errs.append(('id', '$.id', f'id {rec.get("id")!r} does not match file name {stem!r}'))
+    dom = rec.get('domain')
+    if isinstance(dom, str) and 'domain' in allowed and dom not in allowed['domain']:
+        errs.append(('vocab', '$.domain', f'{dom!r} not in data/vocab.yaml [domain]'))
+    pclaim = rec.get('problem_claim')
+    if isinstance(pclaim, dict):
+        ck = pclaim.get('claim_kind')
+        gr = pclaim.get('grade')
+        if 'claim_kind' in allowed and ck not in allowed['claim_kind']:
+            errs.append(('vocab', '$.problem_claim.claim_kind', f'{ck!r} not in data/vocab.yaml [claim_kind]'))
+        if ck in NON_GRADED_CLAIM_KINDS and gr is not None:
+            errs.append(('rule', '$.problem_claim.grade', f'claim_kind {ck!r} must have grade null, got {gr!r}'))
+        elif ck not in NON_GRADED_CLAIM_KINDS and 'evidence_grade' in allowed and gr not in allowed['evidence_grade']:
+            errs.append(('vocab', '$.problem_claim.grade', f'{gr!r} not in data/vocab.yaml [evidence_grade]'))
     labels = rec.get('labels') if isinstance(rec.get('labels'), dict) else {}
     n_settings = len(rec['settings']) if isinstance(rec.get('settings'), list) else None
     has_list = False
@@ -111,10 +126,12 @@ def record_errors(rec, stem, allowed):
         for v in as_list(lab['value']):
             if name in allowed and v not in allowed[name]:
                 errs.append(('vocab', f'{p}.value', f'{v!r} not in data/vocab.yaml [{name}]'))
-        if lab.get('status') == 'verified' and lab.get('source') == 'missing':
-            errs.append(('status', f'{p}.status', "'verified' needs a source other than 'missing'"))
-        if lab.get('status') == 'verified' and any(as_list(lab.get('inferred', False))):
-            errs.append(('status', f'{p}.status', "an inferred value cannot be 'verified'"))
+        if 'label_status' in allowed and lab.get('status') not in allowed['label_status']:
+            errs.append(('status', f'{p}.status', f"{lab.get('status')!r} not in data/vocab.yaml [label_status]"))
+        if lab.get('status') in ('verified', 'migrated') and lab.get('source') == 'missing':
+            errs.append(('status', f'{p}.status', f"{lab.get('status')!r} needs a source other than 'missing'"))
+        if lab.get('status') in ('verified', 'migrated') and any(as_list(lab.get('inferred', False))):
+            errs.append(('status', f'{p}.status', f"an inferred value cannot be {lab.get('status')!r}"))
         if isinstance(lab['value'], list):
             has_list = True
             if n_settings != len(lab['value']):
@@ -137,31 +154,47 @@ def record_errors(rec, stem, allowed):
     return errs
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
-    ap.add_argument('--root', type=Path, default=ROOT, help='repository root (default: this repository)')
-    args = ap.parse_args()
-
-    schema = json.loads((args.root / 'schema/paper.schema.json').read_text(encoding='utf-8'))
-    vocab = yaml.safe_load((args.root / 'data/vocab.yaml').read_text(encoding='utf-8'))
+def validate_repository(root=ROOT, papers_dir=None, records_override=None):
+    """Validate all paper records and return (records_by_id, errors, count)."""
+    schema = json.loads((root / 'schema/paper.schema.json').read_text(encoding='utf-8'))
+    vocab = yaml.safe_load((root / 'data/vocab.yaml').read_text(encoding='utf-8'))
     allowed = {field: {e['value'] for e in entries} for field, entries in vocab.items()}
-    unknown_fields = set(allowed) - set(schema['properties']['labels']['properties'])
+    label_fields = set(schema['properties']['labels']['properties'])
+    unknown_fields = set(allowed) - label_fields - METADATA_VOCAB_FIELDS
     errors = [('data/vocab.yaml', 'vocab', '$', f'fields not in the schema: {sorted(unknown_fields)}')] \
         if unknown_fields else []
 
-    paths = sorted((args.root / 'data/papers').glob('*.yaml'))
-    seen = {}  # (kind, key) -> file name
-    for path in paths:
-        try:
-            rec = yaml.safe_load(path.read_text(encoding='utf-8'))
-        except yaml.YAMLError as e:
-            errors.append((path.name, 'schema', '$', f'YAML error: {e}'))
-            continue
+    seen = {}  # (kind, key) -> file/stem name
+    records = {}
+    items = []
+    if records_override is not None:
+        if isinstance(records_override, dict):
+            for stem, rec in sorted(records_override.items()):
+                items.append((f'{stem}.yaml', stem, rec))
+        elif isinstance(records_override, list):
+            for idx, item in enumerate(records_override):
+                if isinstance(item, tuple) and len(item) == 2:
+                    stem, rec = item
+                    items.append((f'{stem}.yaml', stem, rec))
+                elif isinstance(item, dict):
+                    stem = item.get('id') or f'record-{idx}'
+                    items.append((f'{stem}.yaml', stem, item))
+    else:
+        pdir = Path(papers_dir) if papers_dir is not None else (root / 'data/papers')
+        for path in sorted(pdir.glob('*.yaml')):
+            try:
+                rec = yaml.safe_load(path.read_text(encoding='utf-8'))
+            except yaml.YAMLError as e:
+                errors.append((path.name, 'schema', '$', f'YAML error: {e}'))
+                continue
+            items.append((path.name, path.stem, rec))
+
+    for fname, stem, rec in items:
         if not isinstance(rec, dict):
-            errors.append((path.name, 'schema', '$', 'top level must be a mapping'))
+            errors.append((fname, 'schema', '$', 'top level must be a mapping'))
             continue
         found = [(category(k, p), p, m) for k, p, m in schema_errors(rec, schema, schema, '$')]
-        found += record_errors(rec, path.stem, allowed)
+        found += record_errors(rec, stem, allowed)
         keys = [('id', rec.get('id'))] + [('name', n.lower()) for n in [rec.get('name')] + rec.get('aliases', [])
                                           if isinstance(n, str)]
         ext = rec.get('external') if isinstance(rec.get('external'), dict) else {}
@@ -171,12 +204,23 @@ def main():
             if key in seen:
                 found.append(('id', '$', f'duplicate {key[0]} {key[1]!r} (also in {seen[key]})'))
             else:
-                seen[key] = path.name
-        errors += [(path.name, c, p, m) for c, p, m in found]
+                seen[key] = fname
+        errors += [(fname, c, p, m) for c, p, m in found]
+        if rec.get('id') and rec.get('id') not in records:
+            records[rec['id']] = rec
 
+    return records, errors, len(items)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
+    ap.add_argument('--root', type=Path, default=ROOT, help='repository root (default: this repository)')
+    args = ap.parse_args()
+
+    _, errors, count = validate_repository(args.root)
     for fname, cat, p, msg in errors:
         print(f'{fname}: [{cat}] {p}: {msg}')
-    print(f'{len(paths)} records, {len(errors)} errors')
+    print(f'{count} records, {len(errors)} errors')
     return 1 if errors else 0
 
 

@@ -16,12 +16,14 @@ Dependencies: Python 3 standard library and PyYAML.
 
 ```sh
 python3 scripts/validate.py
-python3 scripts/export_table1_md.py --check ~/Project/SID-Survey/材料/Table1_扩展版.md
+python3 scripts/export_table1_md.py --check data/references/Table1_snapshot_94.md
 ```
 
 Until the repository goes live, `材料/Table1_扩展版.md` in the SID-Survey project
-stays the editing source of Table 1. The records were migrated from it and from
-`材料/Table2_按仓库分类.md` on 2026-10-28.
+stays the editing source of Table 1. For deterministic offline verification in
+Stage 1, the 94-row Table 1 snapshot (including POI-9 and DOS) is archived in-repo
+at `data/references/Table1_snapshot_94.md`. The records were migrated from it and
+from `材料/Table2_按仓库分类.md` on 2026-10-28, with DOS added on 2026-10-30.
 
 ## Primary key
 
@@ -47,11 +49,15 @@ arXiv ID, DOI, title, year, venue and links are external identifiers under
 | `aliases` | no | other names of the same paper |
 | `record_type` | yes | `method` or `paradigm-system-benchmark` (the top block of Table 1) |
 | `psb_kind` | for `paradigm-system-benchmark` only | `baseline` (TIGER), `paradigm` (all five stages replaced at once), `framework` (open-source framework, benchmark or analysis paper) |
+| `domain` | yes | application domain from `data/vocab.yaml` (`general`, `poi`, `ads`, `cross-domain`, `multi-domain`) |
+| `summary` | yes | 1-sentence English summary of the paper's core mechanism and contribution |
+| `rationale_zh` | no | canonical Chinese rationale for Problem × Stage assignment from the Table 1 appendix |
+| `problem_claim` | no | structured claim object (`subproblem`, `mechanism`, `claim_kind`, `grade`, `evidence_ids`, `metric_ids`) for synthesis tables |
 | `citation` | when `in_table1` | short citation exactly as in Table 1, e.g. `Wang et al., 2024a` |
 | `survey` | yes | presence in the original survey: `table1`, `text` (cited in the text only, ★‡) or `none` (★) |
 | `in_repo_cards` | yes | the paper has a card under `papers/` (commit 705a11e) |
 | `in_table1` | yes | the paper is a row of the current Table 1 |
-| `external` | yes | `arxiv`, `doi`, `title` (optional); `year`, `venue` (required). `venue` keeps the track suffix, e.g. `KDD’26 ADS` |
+| `external` | yes | `arxiv`, `pdf_version`, `doi`, `url`, `title`, `authors`, `code` (optional); `year`, `venue` (required). `venue` keeps the track suffix, e.g. `KDD’26 ADS` |
 | `labels` | yes | the eight labels below |
 | `training_change` | when `labels.stage.value` is `Training` | `tokenizer` or `objective`: which split column the change is in |
 | `settings` | when a label has per-setting values | names of the A / B settings, in order |
