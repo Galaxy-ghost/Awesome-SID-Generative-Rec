@@ -1,0 +1,652 @@
+{
+  "schema_version": "2.0",
+  "status": "ok",
+  "requested_question": null,
+  "supported_questions": [
+    "problem-II",
+    "constraint-1",
+    "trie-collisions"
+  ],
+  "coverage": {
+    "total_records": 96,
+    "table1_records": 94,
+    "problem_II_records": 10,
+    "poi_records_total": 10,
+    "poi_records_in_problem_II": 1,
+    "problem_II_stage_distribution": {
+      "Tokenization": 10
+    },
+    "problem_II_stage_summary_zh": "Tokenization 10 篇",
+    "added_records_with_reason": [],
+    "removed_records_with_reason": []
+  },
+  "gates": [
+    {
+      "gate": "renderer_lint_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "schema_check",
+      "ok": true,
+      "record_count": 96,
+      "errors": []
+    },
+    {
+      "gate": "adjudication_consistency_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "evidence_check",
+      "ok": true,
+      "passed": 28,
+      "total": 28,
+      "errors": []
+    },
+    {
+      "gate": "subject_and_field_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "metric_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "query_membership_and_row_check",
+      "ok": true,
+      "matched_count": 10,
+      "added_ids": [],
+      "removed_ids": [],
+      "reviewed_removals": [],
+      "reviewed_adds": [],
+      "errors": []
+    },
+    {
+      "gate": "constraint_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "awesome_readme_interface_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "relative_link_check",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "gate": "no_private_paths_check",
+      "ok": true,
+      "errors": []
+    }
+  ],
+  "questions": {
+    "problem-II": {
+      "id": "problem-II",
+      "title": "Problem II：静态码本崩塌与前缀碰撞",
+      "count": 10,
+      "stage_distribution": {
+        "Tokenization": 10
+      },
+      "stage_summary_zh": "Tokenization 10 篇",
+      "rows": [
+        {
+          "record_id": "adasid",
+          "name": "AdaSID",
+          "citation": "Pan et al., 2026",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "RQ",
+          "inference": "C-Beam",
+          "subproblem": "碰撞/混淆",
+          "mechanism": "自适应调节重合排斥",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "adasid-design",
+          "source_version": "2604.23522v1",
+          "element_id": "abstract1.1",
+          "quote": "identical or highly confusable codes"
+        },
+        {
+          "record_id": "card",
+          "name": "CARD",
+          "citation": "Wei et al., 2026",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "NU-RQ",
+          "inference": "C-Beam",
+          "subproblem": "码字不均/生成偏差",
+          "mechanism": "非均匀量化",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "card-design",
+          "source_version": "2604.26427v1",
+          "element_id": "abstract1.1",
+          "quote": "codeword imbalance and generation bias"
+        },
+        {
+          "record_id": "cid",
+          "name": "CID",
+          "citation": "Hua et al., 2023",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Spectral Clus.",
+          "inference": "C-Beam",
+          "subproblem": "完整标识区分性",
+          "mechanism": "协同层次索引",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "cid-design",
+          "source_version": "2305.06569v6",
+          "element_id": "abstract1.1",
+          "quote": "uniquely identify each item"
+        },
+        {
+          "record_id": "diger",
+          "name": "DIGER",
+          "citation": "Fu et al., 2026",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Learn. RQ",
+          "inference": "Beam",
+          "subproblem": "码本塌缩",
+          "mechanism": "可微构码与探索",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "diger-design",
+          "source_version": "2601.19711v3",
+          "element_id": "abstract1.1",
+          "quote": "causes codebook collapse"
+        },
+        {
+          "record_id": "gwhere",
+          "name": "Gwhere",
+          "citation": "Zhai et al., 2026",
+          "domain": "POI",
+          "stage": "Tokenization",
+          "tokenization": "Contr. RQ",
+          "inference": "–",
+          "subproblem": "冗余/同码碰撞，备选 I",
+          "mechanism": "对比残差量化",
+          "grade": "设计已述；撞号解析与直接效果待核",
+          "evidence_id": "gwhere-design",
+          "source_version": "2607.26073v1",
+          "element_id": "abstract1.1",
+          "quote": "redundant or colliding token assignments"
+        },
+        {
+          "record_id": "hid-vae",
+          "name": "HiD-VAE",
+          "citation": "Fang et al., 2025",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Hier. RQ",
+          "inference": "C-Beam",
+          "subproblem": "同码碰撞",
+          "mechanism": "层次监督与唯一性损失",
+          "grade": "Reported：Table 3 消融",
+          "evidence_id": "hid-vae-design",
+          "source_version": "2508.04618v2",
+          "element_id": "abstract1.1",
+          "quote": "novel uniqueness loss"
+        },
+        {
+          "record_id": "psi",
+          "name": "PSI",
+          "citation": "Zhang et al., 2025a",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Post-hoc RQ",
+          "inference": "Beam",
+          "subproblem": "同码碰撞",
+          "mechanism": "ECM/RRS 重分配，避免追加随机尾码",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "psi-design",
+          "source_version": "2509.16446v1",
+          "element_id": "abstract1.1",
+          "quote": "without appending non-semantic tokens"
+        },
+        {
+          "record_id": "quasid",
+          "name": "QuaSID",
+          "citation": "Hu et al., 2026",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "QA-RQ",
+          "inference": "Beam",
+          "subproblem": "有害/无害碰撞",
+          "mechanism": "资格筛选后的排斥",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "quasid-design",
+          "source_version": "2603.00632v1",
+          "element_id": "abstract1.1",
+          "quote": "collisions are not uniformly harmful"
+        },
+        {
+          "record_id": "r3-vae",
+          "name": "R3-VAE",
+          "citation": "Wan et al., 2026",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Ref.-RQ",
+          "inference": "Beam",
+          "subproblem": "训练不稳/码本塌缩",
+          "mechanism": "参考向量与量化稳定化",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "r3-vae-design",
+          "source_version": "2604.11440v3",
+          "element_id": "abstract1",
+          "quote": "prevent codebook collapse"
+        },
+        {
+          "record_id": "transrec",
+          "name": "TransRec",
+          "citation": "Lin et al., 2024",
+          "domain": "General",
+          "stage": "Tokenization",
+          "tokenization": "Multi-Facet ID",
+          "inference": "FM-Index+Agg.",
+          "subproblem": "标识区分性/生成合法性",
+          "mechanism": "多面标识与生成 grounding",
+          "grade": "设计已述；效果等级未核",
+          "evidence_id": "transrec-design",
+          "source_version": "2310.06491v2",
+          "element_id": "abstract1.1",
+          "quote": "might generate invalid identifiers"
+        }
+      ],
+      "scope_boundary_notes": [
+        {
+          "record_id": "lgsid",
+          "reason": "LGSID 虽在实验分析中报告碰撞率下降，但其主方法针对层级语义失配与空间协同对齐，经双盲裁决归入 Problem III × Representation，故不计入 Problem II 主表。",
+          "reviewed_by": "leader",
+          "date": "2026-10-28"
+        },
+        {
+          "record_id": "dos",
+          "reason": "DOS 采用正交残差量化（Orth. RQ）与 Wasserstein 分布对齐解决跨域 POI 空间割裂与分布偏移，经双盲裁决归入 Problem III × Tokenization。",
+          "reviewed_by": "leader",
+          "date": "2026-10-30"
+        }
+      ],
+      "added_records_with_reason": [],
+      "removed_records_with_reason": []
+    },
+    "constraint-1": {
+      "id": "constraint-1",
+      "title": "码位依赖 ↔ 生成因子分解",
+      "status": "Open",
+      "status_source": {
+        "baseline_doc": "SID-Survey/创新点查找.md#基线",
+        "baseline_date": "2026-10-27",
+        "adjudication_doc": "SID-Survey/AGENTS.md#已定的事",
+        "adjudication_date": "2026-10-30",
+        "summary": "固定码消融层（在固定分词器下移除前缀条件或改用并行解码）已有单侧实证（Reported）；但“码怎么分配决定码位条件互信息与并行可分解性”的跨阶段双向机制仍缺同一主干与协议下的 2×2 正交对照，总等级维持 Open。",
+        "update_log": [
+          {
+            "date": "2026-10-27",
+            "status": "Open",
+            "authority": "leader",
+            "note": "将牵制 1 定义为“码位依赖 ↔ 生成因子分解”，总证据等级定为 Open。"
+          },
+          {
+            "date": "2026-10-30",
+            "status": "Open",
+            "authority": "leader",
+            "note": "分层裁定：固定码消融这一层标 Reported（SID-MLP、FLASH、RPG 局部消融），“码怎么分配决定依赖”的跨阶段机制维持 Open。"
+          }
+        ]
+      },
+      "claim": "码位条件依赖（H(c_t | c_<t)）与生成解码因子分解（自回归链式、并行多头、迭代掩码去噪）相互牵制：残差层级码承载条件依赖时适配前缀条件分解，而正交/局部敏感哈希无序码适配并行独立输出头。",
+      "why_open": "现有文献分别验证了固定 RQ 码下移除前缀条件的退化（SID-MLP）与固定并行解码器下切换 LSH/OPQ/RQ 的差异（FLASH、RPG），但尚无工作在同一主干、同一商品目录与切分协议下完成「可控码位互信息分词器 × 自回归/并行/掩码因子分解」的 2×2 正交对照实验。",
+      "upgrade_requirement": "至少 1 组经独立复核的 2×2 正交对照实验（同一主干与评测协议下交叉改变码本依赖结构与生成因子分解），并提供可复核的原文元素与表格单元格锚点。",
+      "upgrade_requirements_spec": {
+        "required_design": "2x2_crossed_tokenization_x_factorization",
+        "required_controls": [
+          "fixed_backbone",
+          "fixed_catalog_and_split",
+          "crossed_tokenizer_dependency",
+          "crossed_decoder_factorization"
+        ]
+      },
+      "registered_crossed_controls": [],
+      "observations": [
+        {
+          "id": "c1-ar-hierarchy",
+          "record_id": "tiger",
+          "direction": "Hierarchical RQ-VAE code -> autoregressive prefix factorization",
+          "grade": "Reported",
+          "evidence": [
+            "tiger-ar"
+          ],
+          "summary": "TIGER 将物品编码为语义层级残差码元组，并用 Transformer sequence-to-sequence 模型按从粗到细前缀自回归逐位预测。"
+        },
+        {
+          "id": "c1-parallel-independence",
+          "record_id": "rpg",
+          "direction": "Unordered OPQ sub-tokens -> parallel MTP factorization",
+          "grade": "Reported",
+          "evidence": [
+            "rpg-independence"
+          ],
+          "summary": "RPG 采用 OPQ 将嵌入划分为多个无序子空间码位，并在单步解码中对全部码位的对数似然独立求和（MTP）。"
+        },
+        {
+          "id": "c1-rq-counterexample",
+          "record_id": "rpg",
+          "direction": "Swapping OPQ -> RQ inside parallel MTP + graph decoding degrades accuracy",
+          "grade": "Reported",
+          "evidence": [
+            "rpg-rq-ablation",
+            "rpg-rq-setting"
+          ],
+          "summary": "RPG 3.4 节（#S3.SS4.p2.1）与 Table 3（#S3.T3）在保持 MTP 并行预测与图解码不变时将 OPQ 替换为 RQ，Beauty NDCG@10 从 0.0464 降至 0.0421。"
+        },
+        {
+          "id": "c1-masked-coupling",
+          "record_id": "llada-rec",
+          "direction": "Inter-token dependency -> bidirectional parallel masked diffusion",
+          "grade": "Reported",
+          "evidence": [
+            "llada-coupling"
+          ],
+          "summary": "LLaDA-Rec 指出固定自左向右自回归会限制多码位双向耦合建模，改用双向注意力掩码扩散迭代去噪生成完整 SID。"
+        },
+        {
+          "id": "c1-sidmlp-prefix-ablation",
+          "record_id": null,
+          "external_paper": "SID-MLP (arXiv:2605.12617v1)",
+          "direction": "Fixed RQ-VAE code + removing prefix conditioning in parallel heads -> severe degradation",
+          "grade": "Reported",
+          "evidence": [
+            "sidmlp-noprefix"
+          ],
+          "summary": "SID-MLP 4.3 节（#S4.SS3.p2.1）在固定 RQ-VAE 码下移除并行预测头间的前缀嵌入条件（G1 w/o prefix conditioning），NDCG@10 下降 64–72%。"
+        },
+        {
+          "id": "c1-flash-lsh-parallel",
+          "record_id": null,
+          "external_paper": "FLASH (arXiv:2610.07402v1)",
+          "direction": "Unordered SimHash/LSH tokens align with parallel decoding (LSH > OPQ > RQ-VAE)",
+          "grade": "Reported",
+          "evidence": [
+            "flash-lsh"
+          ],
+          "summary": "FLASH 3.2 节（#S3.SS2.p3.1）表明 SimHash 生成的无序独立码位天然适配并行解码，在固定并行解码主干下替换码本表现为 LSH > OPQ > RQ-VAE。"
+        }
+      ]
+    },
+    "trie-collisions": {
+      "id": "trie-collisions",
+      "title": "回答页：Trie 能消除出词表 ID，但不能消除同码碰撞",
+      "decision_rules": [
+        {
+          "id": "rule-trie-not-resolver",
+          "condition": "解码器挂前缀树（Trie）或合法前缀掩码约束",
+          "claim": "Trie 只能保证生成的码序列落在目录合法前缀集合内（消除出词表 ID），不能区分落入同一叶节点的多个碰撞物品。",
+          "grade": "Deduction",
+          "evidence": [
+            "hid-prefix"
+          ],
+          "boundary_note": "HiD-VAE 4.1 节明确说明 prefix tree 仅约束生成已知物品的合法 ID。"
+        },
+        {
+          "id": "rule-change-code",
+          "condition": "允许修改或重训分词器与码本分配策略",
+          "claim": "优先在 Tokenization 阶段压低同码碰撞率：可采用分层监督与解耦均匀损失（HiD-VAE）、精确弹性匹配或重分配（PSI）、分布对齐正则（DIGER）或对比残差量化（CARD）。",
+          "grade": "Reported",
+          "evidence": [
+            "hid-vae-design",
+            "psi-design",
+            "diger-design",
+            "card-design"
+          ],
+          "boundary_note": "四篇工作均在各自协议下报告了碰撞率下降或下游检索指标提升，但评测协议不同，不可直接跨文混排数值。"
+        },
+        {
+          "id": "rule-keep-code",
+          "condition": "当碰撞率较低且工程上不重训分词器时",
+          "claim": "保留现有碰撞码位，在解码器到达末层码桶后追加轻量桶内消歧头、候选重排器或 item-level 二次检索。",
+          "grade": "Deduction",
+          "evidence": [],
+          "boundary_note": "该条为基于流水线接口的工程条件推断（Deduction），不绑定原文引文；注意 TIGER 原文 3.1 节追加额外位属于码本构造期的静态去重，而非推理期桶内消歧。"
+        },
+        {
+          "id": "rule-poi-candidate",
+          "condition": "面向地理敏感 POI 推荐且存在空间网格聚集与细粒度区分冲突",
+          "claim": "将地理空间层次或软残差对比分配显式编码进 SID（如 GWhere），缓解高密度商圈内的前缀碰撞。",
+          "grade": "Reported",
+          "trigger": "any_poi_in_problem_II",
+          "evidence": [
+            "gwhere-design",
+            "gwhere-tokenization"
+          ],
+          "boundary_note": "当 Problem II 有效记录集合包含 POI 领域论文时自动激活该条候选建议。"
+        }
+      ],
+      "comparable_metric_groups": [
+        {
+          "protocol_key": {
+            "dataset": "amazon-beauty",
+            "split": "static-catalog",
+            "level": "static-code-item-share",
+            "resolver": "not_applicable",
+            "metric": "id-collision-rate-pct",
+            "unit": "%"
+          },
+          "comparable": true,
+          "rows": [
+            {
+              "metric_id": "metric-hid-vae-beauty-collision-full",
+              "record_id": "hid-vae",
+              "method_variant": "HiD-VAE (Full)",
+              "value": 2.1,
+              "unit": "%",
+              "cell_text": "2.1%",
+              "table_id": "Table 3",
+              "table_element_id": "S4.T3",
+              "row_label": "HiD-VAE (Full)",
+              "column_path": [
+                "Beauty"
+              ],
+              "source_version": "2508.04618v2"
+            },
+            {
+              "metric_id": "metric-hid-vae-beauty-collision-wo-hs",
+              "record_id": "hid-vae",
+              "method_variant": "w/o HS",
+              "value": 5.8,
+              "unit": "%",
+              "cell_text": "5.8%",
+              "table_id": "Table 3",
+              "table_element_id": "S4.T3",
+              "row_label": "w/o HS",
+              "column_path": [
+                "Beauty"
+              ],
+              "source_version": "2508.04618v2"
+            },
+            {
+              "metric_id": "metric-hid-vae-beauty-collision-wo-dul",
+              "record_id": "hid-vae",
+              "method_variant": "w/o DUL",
+              "value": 17.5,
+              "unit": "%",
+              "cell_text": "17.5%",
+              "table_id": "Table 3",
+              "table_element_id": "S4.T3",
+              "row_label": "w/o DUL",
+              "column_path": [
+                "Beauty"
+              ],
+              "source_version": "2508.04618v2"
+            },
+            {
+              "metric_id": "metric-hid-vae-beauty-collision-rqvae",
+              "record_id": "hid-vae",
+              "method_variant": "RQ-VAE (reported in HiD-VAE Table 3)",
+              "value": 18.7,
+              "unit": "%",
+              "cell_text": "18.7%",
+              "table_id": "Table 3",
+              "table_element_id": "S4.T3",
+              "row_label": "RQ-VAE",
+              "column_path": [
+                "Beauty"
+              ],
+              "source_version": "2508.04618v2"
+            }
+          ]
+        }
+      ],
+      "non_comparable_metrics": [
+        {
+          "metric_id": "metric-psi-beauty-recall5-ecm",
+          "record_id": "psi",
+          "method_variant": "RQ-VAE-ECM",
+          "metric": "recall@5",
+          "value": 0.0191,
+          "unit": "ratio",
+          "dataset": "amazon-beauty",
+          "split": "leave-last-out",
+          "level": "item-level-next-item",
+          "resolver": "unknown",
+          "table_binding": {
+            "evidence_id": "psi-table5",
+            "source_version": "2509.16446v1",
+            "table_element_id": "Sx4.T5",
+            "table_id": "Table 5",
+            "row_label": "RQ-VAE-ECM",
+            "column_path": [
+              "Amazon-Beauty",
+              "Recall@5"
+            ],
+            "column_index": 1,
+            "cell_text": "0.0191*",
+            "unit": "ratio",
+            "numeric_value": 0.0191
+          },
+          "reason_not_grouped": "resolver is unknown (post-collision item resolution protocol unspecified)"
+        },
+        {
+          "metric_id": "metric-psi-beauty-recall5-rrs",
+          "record_id": "psi",
+          "method_variant": "RQ-VAE-RRS",
+          "metric": "recall@5",
+          "value": 0.0187,
+          "unit": "ratio",
+          "dataset": "amazon-beauty",
+          "split": "leave-last-out",
+          "level": "item-level-next-item",
+          "resolver": "unknown",
+          "table_binding": {
+            "evidence_id": "psi-table5",
+            "source_version": "2509.16446v1",
+            "table_element_id": "Sx4.T5",
+            "table_id": "Table 5",
+            "row_label": "RQ-VAE-RRS",
+            "column_path": [
+              "Amazon-Beauty",
+              "Recall@5"
+            ],
+            "column_index": 1,
+            "cell_text": "0.0187*",
+            "unit": "ratio",
+            "numeric_value": 0.0187
+          },
+          "reason_not_grouped": "resolver is unknown (post-collision item resolution protocol unspecified)"
+        }
+      ]
+    }
+  },
+  "adjudications_count": 10,
+  "field_bindings": {
+    "oneloc-tokenization": {
+      "record_id": "oneloc",
+      "field": "tokenization",
+      "value": "R-KM",
+      "evidence_id": "oneloc-own",
+      "review_state": "leader-adjudicated"
+    },
+    "adasid-problem": {
+      "record_id": "adasid",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "adasid-design",
+      "review_state": "reviewed"
+    },
+    "card-problem": {
+      "record_id": "card",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "card-design",
+      "review_state": "reviewed"
+    },
+    "cid-problem": {
+      "record_id": "cid",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "cid-design",
+      "review_state": "reviewed"
+    },
+    "diger-problem": {
+      "record_id": "diger",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "diger-design",
+      "review_state": "reviewed"
+    },
+    "hid-vae-problem": {
+      "record_id": "hid-vae",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "hid-vae-design",
+      "review_state": "reviewed"
+    },
+    "psi-problem": {
+      "record_id": "psi",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "psi-design",
+      "review_state": "reviewed"
+    },
+    "quasid-problem": {
+      "record_id": "quasid",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "quasid-design",
+      "review_state": "reviewed"
+    },
+    "r3-vae-problem": {
+      "record_id": "r3-vae",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "r3-vae-design",
+      "review_state": "reviewed"
+    },
+    "transrec-problem": {
+      "record_id": "transrec",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "transrec-design",
+      "review_state": "reviewed"
+    },
+    "gwhere-problem": {
+      "record_id": "gwhere",
+      "field": "problem",
+      "value": "II",
+      "evidence_id": "gwhere-design",
+      "review_state": "reviewed"
+    },
+    "card-tokenization": {
+      "record_id": "card",
+      "field": "tokenization",
+      "value": "NU-RQ",
+      "evidence_id": "card-design",
+      "review_state": "reviewed"
+    }
+  },
+  "build_ok": true,
+  "errors": []
+}
