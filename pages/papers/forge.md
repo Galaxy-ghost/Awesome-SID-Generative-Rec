@@ -1,30 +1,31 @@
-# FORGE: Forge: Forming semantic identifiers for generative retrieval in industrial datasets
+# FORGE
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2509.20904`)](https://arxiv.org/abs/2509.20904) · [Source Record (`data/papers/forge.yaml`)](../../data/papers/forge.yaml)
+*Forming semantic identifiers for generative retrieval in industrial datasets* — Fu et al., KDD’26
 
-> **Summary**: Abstract: "their SID assessment typically relies on costly GR training".
+[arXiv](https://arxiv.org/abs/2509.20904) · [Code](https://huggingface.co/AL-GR) · [Record](../../data/papers/forge.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "their SID assessment typically relies on costly GR training".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Fu et al. (2025) | Published / posted in `KDD’26` |
-| **Problem Band** | `Paradigms, Systems and Benchmarks` | Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| **Primary Stage** | `n/a` | Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage. |
-| **Representation** | `Text+Img` |  |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `Dyn. Beam` | Dynamic beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | [`https://huggingface.co/AL-GR`](https://huggingface.co/AL-GR) | Official or public implementation link |
+| Group | Stage it changes |
+| :-- | :-- |
+| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+Img` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP` | `Dyn. Beam` |
+
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Dyn. Beam`: Dynamic beam search.
 
 ## Architecture
 
 ![FORGE architecture diagram](../../architectures/forge.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "their SID assessment typically relies on costly GR training".
 - **`stage`** (arXiv abstract): Appendix tentatively places the new design in Tokenization.
@@ -105,18 +106,18 @@ FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程
 - 核心贡献：提供工业SID构建与评估流程。
 - 使用场景：工业生成式检索。
 
-## Peer Methods in `Paradigms, Systems and Benchmarks` × `n/a` (11 peers)
+## Same cell: Paradigms, Systems and Benchmarks (11 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [GRID](grid.md) | CIKM’25 | `Text` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP → DPO` | `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed†` | `NTP†` | `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` | `R-KM` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` | `RQ-VAE` | `Dec-Only / Non-AR` | `Fixed` | `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` | `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` | `R-KM+FSQ` | `Enc-Dec` | `Fixed` | `(NTP + Ctr.) → RL` | `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` | `R-KM†` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` | `–` | `–` | `–` | `–` | `–` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [GRID](grid.md) | CIKM’25 | `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
+| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
+| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
+| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
+| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
+| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
+| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |

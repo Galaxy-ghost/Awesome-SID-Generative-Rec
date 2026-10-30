@@ -1,26 +1,28 @@
-# SEATER: Generative retrieval with semantic tree-structured identifiers and contrastive learning
+# SEATER
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2309.13375`)](https://arxiv.org/abs/2309.13375) · [Source Record (`data/papers/seater.yaml`)](../../data/papers/seater.yaml)
+*Generative retrieval with semantic tree-structured identifiers and contrastive learning* — Si et al., SIGIR-AP’24
 
-> **Summary**: Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
+[arXiv](https://arxiv.org/abs/2309.13375) · [Record](../../data/papers/seater.yaml) · [← Catalog](../../README.md#v--tokenization)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Si et al. (2024) | Published / posted in `SIGIR-AP’24` |
-| **Problem Band** | `V. Efficiency` | Can it be trained and served within latency and cost budgets? |
-| **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `CF` | Collaborative filtering signal. |
-| **Tokenization** | `Tree-Clus.` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + Ctr.` | NTP plus a contrastive loss. |
-| **Inference Decoding** | `C-Beam` | Constrained beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Tokenization** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `CF` | **`Tree-Clus.`** | `Enc-Dec` | `Fixed / NTP + Ctr.` | `C-Beam` |
+
+- `CF`: Collaborative filtering signal.
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP + Ctr.`: NTP plus a contrastive loss.
+- `C-Beam`: Constrained beam search.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
 
@@ -30,9 +32,9 @@
 
 构造等长的平衡树状标识，并用对比学习建模标识结构。
 
-## Peer Methods in `V. Efficiency` × `Tokenization` (2 peers)
+## Same cell: V × Tokenization (2 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [Dynamic-Single-Codebook](dynamic-single-codebook.md) | arXiv’26 | `–` | `Dyn. KM+Disamb.` | `Enc-Dec / Lazy Dec-Only` | `Fixed` | `NTP†` | `Beam†` |
-| [JevRec](jevrec.md) | arXiv’26 | `Text` | `Freq. R-KM` | `Enc-Dec` | `Fixed` | `NTP + Aux.` | `Length-Quota Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [Dynamic-Single-Codebook](dynamic-single-codebook.md) | arXiv’26 | `–` → **`Dyn. KM+Disamb.`** → `Enc-Dec / Lazy Dec-Only` → `Fixed / NTP†` → `Beam†` |
+| [JevRec](jevrec.md) | arXiv’26 | `Text` → **`Freq. R-KM`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `Length-Quota Beam` |

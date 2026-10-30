@@ -1,26 +1,27 @@
-# PAD-Rec: Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation
+# PAD-Rec
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2604.27747`)](https://arxiv.org/abs/2604.27747) · [Source Record (`data/papers/pad-rec.yaml`)](../../data/papers/pad-rec.yaml)
+*Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* — Chen et al., arXiv’26
 
-> **Summary**: Abstract: "decoding remains sequential and thus latency-prone".
+[arXiv](https://arxiv.org/abs/2604.27747) · [Record](../../data/papers/pad-rec.yaml) · [← Catalog](../../README.md#v--inference)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "decoding remains sequential and thus latency-prone".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Chen et al. (2026) | Published / posted in `arXiv’26` |
-| **Problem Band** | `V. Efficiency` | Can it be trained and served within latency and cost budgets? |
-| **Primary Stage** | `Inference` | The primary design change sits in the Inference stage. |
-| **Representation** | `Text+SID` | Text representation plus semantic IDs (hybrid dense and generative retrieval). |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `Multi-task NTP†` |  |
-| **Inference Decoding** | `Spec. Dec.` | Speculative decoding. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+SID` | `RQ-VAE` | `Dec-Only` | `Fixed / Multi-task NTP†` | **`Spec. Dec.`** |
+
+- `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `Spec. Dec.`: Speculative decoding.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "decoding remains sequential and thus latency-prone".
 - **`tokenizer`** (p6): Location from the 10-26 'Training split' table in the appendix.
@@ -32,12 +33,12 @@
 
 在投机解码的草稿模型中加入 SID 位置信息，加速列表式生成。
 
-## Peer Methods in `V. Efficiency` × `Inference` (5 peers)
+## Same cell: V × Inference (5 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [AtSpeed](atspeed.md) | ICLR’25 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Spec. Dec.` |
-| [NEZHA](nezha.md) | WWW’26 Industry | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Self-Draft+Hash` |
-| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` | `R-KM†` | `Lazy Dec-Only†` | `Fixed†` | `NTP → RL†` | `FP8+RecoGEM` |
-| [PFA](pfa.md) | arXiv’26 | `–` | `–` | `Enc-Dec` | `–` | `–` | `Beam` |
-| [STATIC](static.md) | KDD’26 ADS | `–` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Vec. C-Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [AtSpeed](atspeed.md) | ICLR’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Spec. Dec.`** |
+| [NEZHA](nezha.md) | WWW’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Self-Draft+Hash`** |
+| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` → `R-KM†` → `Lazy Dec-Only†` → `Fixed† / NTP → RL†` → **`FP8+RecoGEM`** |
+| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |
+| [STATIC](static.md) | KDD’26 ADS | `–` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Vec. C-Beam`** |

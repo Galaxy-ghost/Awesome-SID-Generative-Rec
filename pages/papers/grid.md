@@ -1,30 +1,31 @@
-# GRID: Generative Recommendation with Semantic IDs: A Practitioner's Handbook
+# GRID
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2507.22224`)](https://arxiv.org/abs/2507.22224) · [Source Record (`data/papers/grid.yaml`)](../../data/papers/grid.yaml)
+*Generative Recommendation with Semantic IDs: A Practitioner's Handbook* — Ju et al., CIKM’25
 
-> **Summary**: Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
+[arXiv](https://arxiv.org/abs/2507.22224) · [Record](../../data/papers/grid.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Ju et al. (2025) | Published / posted in `CIKM’25` |
-| **Problem Band** | `Paradigms, Systems and Benchmarks` | Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| **Primary Stage** | `n/a` | Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `R-KM` | Residual k-means. |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Group | Stage it changes |
+| :-- | :-- |
+| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | `R-KM` | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+
+- `R-KM`: Residual k-means.
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
 ## Architecture
 
 ![GRID architecture diagram](../../architectures/grid.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
 - **`stage`** (arXiv abstract): Appendix tentatively places the new design in Backbone.
@@ -99,18 +100,18 @@ GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic
 - 核心贡献：统一SID生成推荐实践流程。
 - 使用场景：研究与工程实践。
 
-## Peer Methods in `Paradigms, Systems and Benchmarks` × `n/a` (11 peers)
+## Same cell: Paradigms, Systems and Benchmarks (11 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Dyn. Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP → DPO` | `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed†` | `NTP†` | `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` | `R-KM` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` | `RQ-VAE` | `Dec-Only / Non-AR` | `Fixed` | `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` | `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` | `R-KM+FSQ` | `Enc-Dec` | `Fixed` | `(NTP + Ctr.) → RL` | `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` | `R-KM†` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` | `–` | `–` | `–` | `–` | `–` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
+| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
+| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
+| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
+| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
+| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
+| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
+| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |

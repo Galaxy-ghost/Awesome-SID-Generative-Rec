@@ -1,24 +1,24 @@
-# TIGER: Recommender Systems with Generative Retrieval
+# TIGER
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2305.05065`)](https://arxiv.org/abs/2305.05065) · [Source Record (`data/papers/tiger.yaml`)](../../data/papers/tiger.yaml)
+*Recommender Systems with Generative Retrieval* — Rajput et al., NeurIPS’23
 
-> **Summary**: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with a T5 encoder-decoder.
+[arXiv](https://arxiv.org/abs/2305.05065) · [Code](https://github.com/baiyimeng/TIGER) · [Record](../../data/papers/tiger.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
 
-## Taxonomy & Table 1 Specification
+> Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with a T5 encoder-decoder.
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Rajput et al. (2023) | Published / posted in `NeurIPS’23` |
-| **Problem Band** | `Paradigms, Systems and Benchmarks` | Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| **Primary Stage** | `n/a` | Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | [`https://github.com/baiyimeng/TIGER`](https://github.com/baiyimeng/TIGER) | Official or public implementation link |
+| Group | Stage it changes |
+| :-- | :-- |
+| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
 ## Architecture
 
@@ -232,18 +232,18 @@ TIGER 展示了直接生成 Semantic ID 作为推荐检索的可行性，并将 
 - 核心贡献：将内容表示转为可生成的层次化SID。
 - 使用场景：序列推荐、冷启动。
 
-## Peer Methods in `Paradigms, Systems and Benchmarks` × `n/a` (11 peers)
+## Same cell: Paradigms, Systems and Benchmarks (11 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Dyn. Beam` |
-| [GRID](grid.md) | CIKM’25 | `Text` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP → DPO` | `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed†` | `NTP†` | `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` | `R-KM` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` | `RQ-VAE` | `Dec-Only / Non-AR` | `Fixed` | `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` | `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` | `R-KM+FSQ` | `Enc-Dec` | `Fixed` | `(NTP + Ctr.) → RL` | `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` | `R-KM†` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` | `–` | `–` | `–` | `–` | `–` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
+| [GRID](grid.md) | CIKM’25 | `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
+| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
+| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
+| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
+| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
+| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
+| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |

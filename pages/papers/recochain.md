@@ -1,26 +1,27 @@
-# RecoChain: Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation
+# RecoChain
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2604.25787`)](https://arxiv.org/abs/2604.25787) · [Source Record (`data/papers/recochain.yaml`)](../../data/papers/recochain.yaml)
+*Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* — Liu and Cao, arXiv’26
 
-> **Summary**: Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).
+[arXiv](https://arxiv.org/abs/2604.25787) · [Record](../../data/papers/recochain.yaml) · [← Catalog](../../README.md#iv--backbone)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Liu and Cao (2026) | Published / posted in `arXiv’26` |
-| **Problem Band** | `IV. Utility` | Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| **Primary Stage** | `Backbone` | The primary design change sits in the Generative Backbone stage. |
-| **Representation** | `Text+Img` |  |
-| **Tokenization** | `RQ` | Residual quantization. |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + Rank` | NTP plus a ranking loss. |
-| **Inference Decoding** | `Hybrid` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Backbone** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+Img` | `RQ` | **`Dec-Only`** | `Fixed / NTP + Rank` | `Hybrid` |
+
+- `RQ`: Residual quantization.
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP + Rank`: NTP plus a ranking loss.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).
 - **`tokenizer`** (p3): Location from the 10-26 'Training split' table in the appendix.
@@ -32,9 +33,9 @@
 
 束搜索生成候选 SID 后，再由排序头对候选打分重排。
 
-## Peer Methods in `IV. Utility` × `Backbone` (2 peers)
+## Same cell: IV × Backbone (2 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [DiGR](digr.md) | arXiv’26 | `–` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Discrim.` | `Scoring` |
-| [Gryphon](gryphon.md) | CIKM’26 Short | `–` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP + Rank` | `Hybrid` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [DiGR](digr.md) | arXiv’26 | `–` → `RQ-VAE` → **`Dec-Only`** → `Fixed / Discrim.` → `Scoring` |
+| [Gryphon](gryphon.md) | CIKM’26 Short | `–` → `R-KM` → **`Enc-Dec`** → `Fixed / NTP + Rank` → `Hybrid` |

@@ -1,30 +1,31 @@
-# GenCDR: From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization
+# GenCDR
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2511.08006`)](https://arxiv.org/abs/2511.08006) · [Source Record (`data/papers/gencdr.yaml`)](../../data/papers/gencdr.yaml)
+*From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization* — Hu et al., AAAI’26
 
-> **Summary**: Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie broken by the majority of new designs).
+[arXiv](https://arxiv.org/abs/2511.08006) · [Record](../../data/papers/gencdr.yaml) · [← Catalog](../../README.md#vi--tokenization)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie broken by the majority of new designs).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Hu et al. (2026) | Published / posted in `AAAI’26` |
-| **Problem Band** | `VI. Generalization` | Does it still work for new items, new domains, and shifting interests? |
-| **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `Cross-Dom` |  |
-| **Tokenization** | `RQ+LoRA` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `C-Beam` | Constrained beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Tokenization** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Cross-Dom` | **`RQ+LoRA`** | `Dec-Only` | `Fixed / NTP` | `C-Beam` |
+
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `C-Beam`: Constrained beam search.
 
 ## Architecture
 
 ![GenCDR architecture diagram](../../architectures/gencdr.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie broken by the majority of new designs).
 
@@ -104,15 +105,15 @@ GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由�
 - 核心贡献：自适应融合通用与域特定语义。
 - 使用场景：跨域推荐。
 
-## Peer Methods in `VI. Generalization` × `Tokenization` (8 peers)
+## Same cell: VI × Tokenization (8 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [VQ-Rec](vq-rec.md) | WWW’23 | `Multi-Dom` | `OPQ` | `Encoder` | `Fixed` | `Discrim.` | `Scoring` |
-| [GMC](gmc.md) | arXiv’25 | `Cross-Dom` | `Unified RQ` | `Enc-Dec` | `Fixed` | `NTP` | `C-Beam` |
-| [UTGRec](utgrec.md) | arXiv’25 | `Multi-Dom` | `Tree` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [DACT](dact.md) | SIGIR’26 | `Text+CF` | `RQ-VAE` | `Enc-Dec / Dec-Only` | `Fixed` | `NTP` | `–` |
-| [DREAM](dream.md) | arXiv’26 | `Text+CF` | `CART` | `Dec-Only` | `Altern.` | `NTP + Aux.` | `C-Beam` |
-| [MBGR](mbgr.md) | arXiv’26 | `Text+CF` | `RQ` | `Dec-Only` | `Fixed†` | `NTP + Aux.` | `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` | `R-KM` | `Lazy Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` | `TokenMoE` | `Enc-Dec` | `Fixed` | `NTP` | `Beam†` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [VQ-Rec](vq-rec.md) | WWW’23 | `Multi-Dom` → **`OPQ`** → `Encoder` → `Fixed / Discrim.` → `Scoring` |
+| [GMC](gmc.md) | arXiv’25 | `Cross-Dom` → **`Unified RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
+| [UTGRec](utgrec.md) | arXiv’25 | `Multi-Dom` → **`Tree`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [DACT](dact.md) | SIGIR’26 | `Text+CF` → **`RQ-VAE`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `–` |
+| [DREAM](dream.md) | arXiv’26 | `Text+CF` → **`CART`** → `Dec-Only` → `Altern. / NTP + Aux.` → `C-Beam` |
+| [MBGR](mbgr.md) | arXiv’26 | `Text+CF` → **`RQ`** → `Dec-Only` → `Fixed† / NTP + Aux.` → `C-Beam` |
+| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` → **`R-KM`** → `Lazy Dec-Only` → `Fixed / NTP → RL` → `Beam` |
+| [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` → **`TokenMoE`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |

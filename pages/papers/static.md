@@ -1,37 +1,39 @@
-# STATIC: Vectorizing the Trie: Efficient Constrained Decoding for LLM-based Generative Retrieval on Accelerators
+# STATIC
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2602.22647`)](https://arxiv.org/abs/2602.22647) · [Source Record (`data/papers/static.yaml`)](../../data/papers/static.yaml)
+*Vectorizing the Trie: Efficient Constrained Decoding for LLM-based Generative Retrieval on Accelerators* — Su et al., KDD’26 ADS
 
-> **Summary**: Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".
+[arXiv](https://arxiv.org/abs/2602.22647) · [Record](../../data/papers/static.yaml) · [← Catalog](../../README.md#v--inference)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Su et al. (2026) | Published / posted in `KDD’26 ADS` |
-| **Problem Band** | `V. Efficiency` | Can it be trained and served within latency and cost budgets? |
-| **Primary Stage** | `Inference` | The primary design change sits in the Inference stage. |
-| **Representation** | `–` | Not reported in the paper, or not applicable. |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `Vec. C-Beam` | Vectorized constrained beam search (STATIC). |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `–` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP` | **`Vec. C-Beam`** |
+
+- `–`: Not reported in the paper, or not applicable.
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Vec. C-Beam`: Vectorized constrained beam search (STATIC).
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".
 - **`tokenizer`** (p8–9): Location from the pre-10-26 Training evidence in the appendix.
 - **`objective`** (p8–9): Location from the pre-10-26 Training evidence in the appendix.
 
-## Peer Methods in `V. Efficiency` × `Inference` (5 peers)
+## Same cell: V × Inference (5 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [AtSpeed](atspeed.md) | ICLR’25 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Spec. Dec.` |
-| [NEZHA](nezha.md) | WWW’26 Industry | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `Self-Draft+Hash` |
-| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` | `R-KM†` | `Lazy Dec-Only†` | `Fixed†` | `NTP → RL†` | `FP8+RecoGEM` |
-| [PAD-Rec](pad-rec.md) | arXiv’26 | `Text+SID` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP†` | `Spec. Dec.` |
-| [PFA](pfa.md) | arXiv’26 | `–` | `–` | `Enc-Dec` | `–` | `–` | `Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [AtSpeed](atspeed.md) | ICLR’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Spec. Dec.`** |
+| [NEZHA](nezha.md) | WWW’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Self-Draft+Hash`** |
+| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` → `R-KM†` → `Lazy Dec-Only†` → `Fixed† / NTP → RL†` → **`FP8+RecoGEM`** |
+| [PAD-Rec](pad-rec.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP†` → **`Spec. Dec.`** |
+| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |

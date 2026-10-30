@@ -1,26 +1,26 @@
-# PROMISE: PROMISE: Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations
+# PROMISE
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2601.04674`)](https://arxiv.org/abs/2601.04674) · [Source Record (`data/papers/promise.yaml`)](../../data/papers/promise.yaml)
+*Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* — Guo et al., arXiv’26
 
-> **Summary**: Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".
+[arXiv](https://arxiv.org/abs/2601.04674) · [Record](../../data/papers/promise.yaml) · [← Catalog](../../README.md#iii--inference)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Guo et al. (2026) | Published / posted in `arXiv’26` |
-| **Problem Band** | `III. SID–Model Alignment` | Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| **Primary Stage** | `Inference` | The primary design change sits in the Inference stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed†` |  |
-| **Training Objective** | `NTP + Aux.` | NTP plus another auxiliary loss. |
-| **Inference Decoding** | `PRM-Beam` | Process-reward-model guided beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Inference** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed† / NTP + Aux.` | **`PRM-Beam`** |
+
+- `Enc-Dec`: Encoder-decoder.
+- `NTP + Aux.`: NTP plus another auxiliary loss.
+- `PRM-Beam`: Process-reward-model guided beam search.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".
 - **`tokenizer`** (p4): SID construction not described; Fixed inferred from the usual pipeline. Location from the 10-26 'Training split' table in the appendix.
@@ -32,8 +32,8 @@
 
 用过程奖励模型给中间解码步打分，并据此剪枝束搜索。
 
-## Peer Methods in `III. SID–Model Alignment` × `Inference` (1 peers)
+## Same cell: III × Inference (1 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [GRC](grc.md) | CIKM’26 | `–` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → RL` | `GRC+Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [GRC](grc.md) | CIKM’26 | `–` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP → RL` → **`GRC+Beam`** |

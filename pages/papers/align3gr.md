@@ -1,30 +1,30 @@
-# Align3GR: Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation
+# Align3GR
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2511.11255`)](https://arxiv.org/abs/2511.11255) · [Source Record (`data/papers/align3gr.yaml`)](../../data/papers/align3gr.yaml)
+*Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* — Ye et al., AAAI’26
 
-> **Summary**: Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract's complaint first).
+[arXiv](https://arxiv.org/abs/2511.11255) · [Record](../../data/papers/align3gr.yaml) · [← Catalog](../../README.md#iii--tokenization)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract's complaint first).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Ye et al. (2026) | Published / posted in `AAAI’26` |
-| **Problem Band** | `III. SID–Model Alignment` | Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `Text+CF` |  |
-| **Tokenization** | `Dual RQ` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP → DPO` | NTP, then preference optimization. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Tokenization** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+CF` | **`Dual RQ`** | `Dec-Only` | `Fixed / NTP → DPO` | `Beam` |
+
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP → DPO`: NTP, then preference optimization.
 
 ## Architecture
 
 ![Align3GR architecture diagram](../../architectures/align3gr.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract's complaint first).
 - **`objective`** (Multi-task SFT, p4; Progressive DPO, p4–5, Eq. 3): Location from the pre-10-26 Training evidence in the appendix.
@@ -106,17 +106,17 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - 核心贡献：在三层面统一对齐。
 - 使用场景：公共与工业推荐。
 
-## Peer Methods in `III. SID–Model Alignment` × `Tokenization` (10 peers)
+## Same cell: III × Tokenization (10 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [IDGenRec](idgenrec.md) | SIGIR’24 | `Text` | `LLM-Vocab` | `Enc-Dec` | `Altern.` | `NTP` | `C-Beam` |
-| [SIIT](siit.md) | arXiv’24 | `Text` | `Self-Imp.` | `Enc-Dec` | `Altern.` | `Multi-task NTP` | `C-Beam` |
-| [SemConv](semconv.md) | AAAI’25 | `Text+CF` | `Align. RQ` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [CogRec](cogrec.md) | arXiv’26 | `Text` | `R-KM+Graph` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `CoT+C-Beam` |
-| [DOS](dos.md) | WWW’26 Short | `Text+CF` | `Orth. RQ` | `Dec-Only†` | `Fixed†` | `NTP` | `–` |
-| [GR4AD-X](gr4ad-x.md) | arXiv’26 | `–` | `Multi-Path R-KM+Hash` | `Enc-Dec` | `Fixed` | `NTP + PV-RSPO + Rank + Aux.` | `PV-Beam+Rerank` |
-| [GRLM](grlm.md) | arXiv’26 | `Text` | `Term-ID` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [HoloRec](holorec.md) | arXiv’26 | `–` | `Nested RQ` | `Enc-Dec` | `Fixed` | `NTP + Aux.` | `–` |
-| [SST](sst.md) | CIKM’26 | `Text` | `RQ+IST` | `Enc-Dec` | `Fixed` | `NTP` | `C-Beam` |
-| [TopoGR](topogr.md) | arXiv’26 | `Text` | `BDQ` | `Non-AR` | `Fixed` | `MTP + Aux.` | `Scoring+Rerank` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [IDGenRec](idgenrec.md) | SIGIR’24 | `Text` → **`LLM-Vocab`** → `Enc-Dec` → `Altern. / NTP` → `C-Beam` |
+| [SIIT](siit.md) | arXiv’24 | `Text` → **`Self-Imp.`** → `Enc-Dec` → `Altern. / Multi-task NTP` → `C-Beam` |
+| [SemConv](semconv.md) | AAAI’25 | `Text+CF` → **`Align. RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+| [CogRec](cogrec.md) | arXiv’26 | `Text` → **`R-KM+Graph`** → `Dec-Only` → `Fixed / Multi-task NTP` → `CoT+C-Beam` |
+| [DOS](dos.md) | WWW’26 Short | `Text+CF` → **`Orth. RQ`** → `Dec-Only†` → `Fixed† / NTP` → `–` |
+| [GR4AD-X](gr4ad-x.md) | arXiv’26 | `–` → **`Multi-Path R-KM+Hash`** → `Enc-Dec` → `Fixed / NTP + PV-RSPO + Rank + Aux.` → `PV-Beam+Rerank` |
+| [GRLM](grlm.md) | arXiv’26 | `Text` → **`Term-ID`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+| [HoloRec](holorec.md) | arXiv’26 | `–` → **`Nested RQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `–` |
+| [SST](sst.md) | CIKM’26 | `Text` → **`RQ+IST`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
+| [TopoGR](topogr.md) | arXiv’26 | `Text` → **`BDQ`** → `Non-AR` → `Fixed / MTP + Aux.` → `Scoring+Rerank` |

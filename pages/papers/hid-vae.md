@@ -1,30 +1,31 @@
-# HiD-VAE: HiD-VAE: Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs
+# HiD-VAE
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2508.04618`)](https://arxiv.org/abs/2508.04618) · [Source Record (`data/papers/hid-vae.yaml`)](../../data/papers/hid-vae.yaml)
+*Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* — Fang et al., arXiv’25
 
-> **Summary**: Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement (i.e., ``ID collisions'')". Candidates: I / II (rule: tie broken by the majority of new designs).
+[arXiv](https://arxiv.org/abs/2508.04618) · [Record](../../data/papers/hid-vae.yaml) · [← Catalog](../../README.md#ii--tokenization)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement (i.e., ``ID collisions'')". Candidates: I / II (rule: tie broken by the majority of new designs).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Fang et al. (2025) | Published / posted in `arXiv’25` |
-| **Problem Band** | `II. Uniqueness and Validity` | Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
-| **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `Hier. RQ` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP` | Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP. |
-| **Inference Decoding** | `C-Beam` | Constrained beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **II. Uniqueness and Validity**: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? | **Tokenization** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | **`Hier. RQ`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `C-Beam`: Constrained beam search.
 
 ## Architecture
 
 ![HiD-VAE architecture diagram](../../architectures/hid-vae.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement (i.e., ``ID collisions'')". Candidates: I / II (rule: tie broken by the majority of new designs).
 - **`tokenizer`** (§3.8, p5): Location from the pre-10-26 Training evidence in the appendix.
@@ -107,18 +108,18 @@ HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，�
 - 核心贡献：学习可解释且低碰撞的SID。
 - 使用场景：可解释推荐。
 
-## Peer Methods in `II. Uniqueness and Validity` × `Tokenization` (11 peers)
+## Same cell: II × Tokenization (11 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [CID](cid.md) | SIGIR-AP’23 | `CF` | `Spectral Clus.` | `Enc-Dec` | `Fixed` | `NTP` | `C-Beam` |
-| [TransRec](transrec.md) | KDD’24 | `Text` | `Multi-Facet ID` | `Enc-Dec / Dec-Only` | `Fixed` | `NTP` | `FM-Index+Agg.` |
-| [PSI](psi.md) | arXiv’25 | `Text` | `Post-hoc RQ` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [AdaSID](adasid.md) | arXiv’26 | `Text+Img` | `RQ` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
-| [API](api.md) | arXiv’26 | `Text` | `PID (P-SAE)` | `Enc-Dec / Dec-Only (AR); Non-AR (PR)` | `Fixed` | `NTP + Rank + Aux. / MTP + Rank + Aux.` | `C-Beam / Scoring` |
-| [CARD](card.md) | arXiv’26 | `Text+Img+CF` | `NU-RQ` | `Enc-Dec` | `Fixed` | `NTP` | `C-Beam` |
-| [DIGER](diger.md) | SIGIR’26 | `Text` | `Learn. RQ` | `Enc-Dec` | `Joint` | `NTP` | `Beam†` |
-| [Gwhere](gwhere.md) | RecSys’26 | `Text+Img+Geo+CF` | `Contr. RQ` | `Dec-Only` | `Fixed` | `NTP → DPO` | `–` |
-| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` | `QA-RQ` | `Enc-Dec` | `Fixed` | `NTP` | `Beam†` |
-| [R3-VAE](r3-vae.md) | arXiv’26 | `Text` | `Ref.-RQ` | `–` | `Fixed` | `NTP` | `Beam` |
-| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` | `RQ-VAE+PPR` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [CID](cid.md) | SIGIR-AP’23 | `CF` → **`Spectral Clus.`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
+| [TransRec](transrec.md) | KDD’24 | `Text` → **`Multi-Facet ID`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `FM-Index+Agg.` |
+| [PSI](psi.md) | arXiv’25 | `Text` → **`Post-hoc RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [AdaSID](adasid.md) | arXiv’26 | `Text+Img` → **`RQ`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
+| [API](api.md) | arXiv’26 | `Text` → **`PID (P-SAE)`** → `Enc-Dec / Dec-Only (AR); Non-AR (PR)` → `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` → `C-Beam / Scoring` |
+| [CARD](card.md) | arXiv’26 | `Text+Img+CF` → **`NU-RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
+| [DIGER](diger.md) | SIGIR’26 | `Text` → **`Learn. RQ`** → `Enc-Dec` → `Joint / NTP` → `Beam†` |
+| [Gwhere](gwhere.md) | RecSys’26 | `Text+Img+Geo+CF` → **`Contr. RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `–` |
+| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` → **`QA-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
+| [R3-VAE](r3-vae.md) | arXiv’26 | `Text` → **`Ref.-RQ`** → `–` → `Fixed / NTP` → `Beam` |
+| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+PPR`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |

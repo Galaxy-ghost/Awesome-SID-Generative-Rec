@@ -1,26 +1,27 @@
-# SynGR: SynGR: Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation
+# SynGR
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2605.18920`)](https://arxiv.org/abs/2605.18920) · [Source Record (`data/papers/syngr.yaml`)](../../data/papers/syngr.yaml)
+*Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* — Chen et al., ICML’26
 
-> **Summary**: Abstract: "underexplore synergistic information across modalities".
+[arXiv](https://arxiv.org/abs/2605.18920) · [Record](../../data/papers/syngr.yaml) · [← Catalog](../../README.md#i--training)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "underexplore synergistic information across modalities".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Chen et al. (2026) | Published / posted in `ICML’26` |
-| **Problem Band** | `I. Informativeness` | Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| **Primary Stage** | `Training` | The primary design change sits in the Training stage (Tokenizer update schedule or training Objective). |
-| **Representation** | `Text+Img` |  |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + Ctr.` | NTP plus a contrastive loss. |
-| **Inference Decoding** | `C-Beam` | Constrained beam search. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Training** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+Img` | `RQ-VAE` | `Enc-Dec` | **`Fixed / NTP + Ctr.`** | `C-Beam` |
+
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP + Ctr.`: NTP plus a contrastive loss.
+- `C-Beam`: Constrained beam search.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "underexplore synergistic information across modalities".
 - **`tokenizer`** (p6): Location from the 10-26 'Training split' table in the appendix.
@@ -32,10 +33,10 @@
 
 在生成阶段显式利用文本和图像之间的协同信息。
 
-## Peer Methods in `I. Informativeness` × `Training` (3 peers)
+## Same cell: I × Training (3 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [MBGen](mbgen.md) | CIKM’24 | `CF` | `Bal. VQ+KM` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [RAGR](ragr.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → DPO` | `Beam† / –` |
-| [REGER](reger.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → (NTP + Aux.)` | `Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [MBGen](mbgen.md) | CIKM’24 | `CF` → `Bal. VQ+KM` → `Enc-Dec` → **`Fixed / NTP`** → `Beam` |
+| [RAGR](ragr.md) | arXiv’26 | `Text` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP → DPO`** → `Beam† / –` |
+| [REGER](reger.md) | arXiv’26 | `Text` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP → (NTP + Aux.)`** → `Beam` |

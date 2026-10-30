@@ -1,30 +1,31 @@
-# OneLoc: OneLoc: Geo-Aware Generative Recommender Systems for Local Life Service
+# OneLoc
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2508.14646`)](https://arxiv.org/abs/2508.14646) · [Source Record (`data/papers/oneloc.yaml`)](../../data/papers/oneloc.yaml)
+*Geo-Aware Generative Recommender Systems for Local Life Service* — Wei et al., arXiv’25 · `POI`
 
-> **Summary**: Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID, geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the paper is not in the top block (unlike OneRec).
+[arXiv](https://arxiv.org/abs/2508.14646) · [Record](../../data/papers/oneloc.yaml) · [← Catalog](../../README.md#i--representation)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID, geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the paper is not in the top block (unlike OneRec).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Wei et al. (2025) | Published / posted in `arXiv’25` |
-| **Problem Band** | `I. Informativeness` | Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| **Primary Stage** | `Representation` | The primary design change sits in the Representation stage. |
-| **Representation** | `Text+Img+Geo†` |  |
-| **Tokenization** | `R-KM` | Residual k-means. |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP → DPO` | NTP, then preference optimization. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `true` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Representation** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| **`Text+Img+Geo†`** | `R-KM` | `Enc-Dec` | `Fixed / NTP → DPO` | `Beam` |
+
+- `R-KM`: Residual k-means.
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP → DPO`: NTP, then preference optimization.
 
 ## Architecture
 
 ![OneLoc architecture diagram](../../architectures/oneloc.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (abstract, p1): Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID, geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the paper is not in the top block (unlike OneRec).
 - **`stage`** (contribution list, p3; §2.2, p3): The three designs for I sit in Representation and Backbone; the first contribution, the geo-aware SID, decides. Its quantizer follows OneRec; only the input embedding adds location context.
@@ -213,18 +214,18 @@ OneLoc 代表将 Semantic ID 生成式推荐推进到本地生活工业场景的
 - 核心贡献：用地理感知生成和偏好优化统一本地生活目标。
 - 使用场景：本地生活推荐。
 
-## Peer Methods in `I. Informativeness` × `Representation` (11 peers)
+## Same cell: I × Representation (11 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [Molar](molar.md) | arXiv’24 | `Text+Img+CF` | `–` | `Dec-Only` | `–` | `Discrim.` | `Scoring` |
-| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | `Text+Img+CF` | `RQ-VAE` | `Encoder (Non-AR)` | `Fixed` | `Masked` | `Non-AR` |
-| [UNGER](unger.md) | TOIS’25 | `Text+CF` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP + Ctr.` | `Beam` |
-| [GeoGR](geogr.md) | arXiv’26 | `Text+Geo+CF` | `R-KM+EM` | `Dec-Only` | `Altern.†` | `Multi-task NTP` | `Beam` |
-| [HF-SID](hf-sid.md) | arXiv’26 | `Text+Attr+Geo` | `R-KM` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
-| [LGRID](lgrid.md) | arXiv’26 | `Text+Geo` | `DSRQ` | `Disc.` | `Fixed` | `Discrim.` | `Scoring` |
-| [LGSID](lgsid.md) | AAAI’26 | `Text+Geo+CF` | `Geo-Idx+RQ` | `Disc. / Enc-Dec` | `Fixed` | `Discrim. / NTP` | `Scoring / Beam†` |
-| [ReSID](resid.md) | arXiv’26 | `Attr+CF` | `GAOQ` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [SCRec](screc.md) | RecSys’26 | `Text+CF` | `RQ-VAE` | `Non-AR / Enc-Dec` | `Fixed` | `MTP + Ctr.` | `Scoring / Beam†` |
-| [SPAR](spar.md) | arXiv’26 | `Text+Geo` | `R-KM` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `–` |
-| [TriAlignGR](trialigngr.md) | arXiv’26 | `Text+Img` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `C-Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring` |
+| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
+| [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |
+| [GeoGR](geogr.md) | arXiv’26 | **`Text+Geo+CF`** → `R-KM+EM` → `Dec-Only` → `Altern.† / Multi-task NTP` → `Beam` |
+| [HF-SID](hf-sid.md) | arXiv’26 | **`Text+Attr+Geo`** → `R-KM` → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
+| [LGRID](lgrid.md) | arXiv’26 | **`Text+Geo`** → `DSRQ` → `Disc.` → `Fixed / Discrim.` → `Scoring` |
+| [LGSID](lgsid.md) | AAAI’26 | **`Text+Geo+CF`** → `Geo-Idx+RQ` → `Disc. / Enc-Dec` → `Fixed / Discrim. / NTP` → `Scoring / Beam†` |
+| [ReSID](resid.md) | arXiv’26 | **`Attr+CF`** → `GAOQ` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
+| [SCRec](screc.md) | RecSys’26 | **`Text+CF`** → `RQ-VAE` → `Non-AR / Enc-Dec` → `Fixed / MTP + Ctr.` → `Scoring / Beam†` |
+| [SPAR](spar.md) | arXiv’26 | **`Text+Geo`** → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
+| [TriAlignGR](trialigngr.md) | arXiv’26 | **`Text+Img`** → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |

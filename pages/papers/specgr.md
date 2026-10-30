@@ -1,33 +1,34 @@
-# SpecGR: Inductive Generative Recommendation via Retrieval-based Speculation
+# SpecGR
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2410.02939`)](https://arxiv.org/abs/2410.02939) · [Source Record (`data/papers/specgr.yaml`)](../../data/papers/specgr.yaml)
+*Inductive Generative Recommendation via Retrieval-based Speculation* — Ding et al., AAAI’26
 
-> **Summary**: Abstract: "struggle to recommend unseen items".
+[arXiv](https://arxiv.org/abs/2410.02939) · [Record](../../data/papers/specgr.yaml) · [← Catalog](../../README.md#vi--inference)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "struggle to recommend unseen items".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Ding et al. (2026) | Published / posted in `AAAI’26` |
-| **Problem Band** | `VI. Generalization` | Does it still work for new items, new domains, and shifting interests? |
-| **Primary Stage** | `Inference` | The primary design change sits in the Inference stage. |
-| **Representation** | `Text+SID` | Text representation plus semantic IDs (hybrid dense and generative retrieval). |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + Rank` | NTP plus a ranking loss. |
-| **Inference Decoding** | `Hybrid` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Inference** |
 
-## Verbatim Evidence & Rationale
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed / NTP + Rank` | **`Hybrid`** |
+
+- `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP + Rank`: NTP plus a ranking loss.
+
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "struggle to recommend unseen items".
 - **`tokenizer`** (p5): Location from the pre-10-26 Training evidence in the appendix.
 - **`objective`** (p5): Location from the pre-10-26 Training evidence in the appendix.
 
-## Peer Methods in `VI. Generalization` × `Inference` (1 peers)
+## Same cell: VI × Inference (1 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [LIGER](liger.md) | arXiv’24 | `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP + Dense` | `Hybrid` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [LIGER](liger.md) | arXiv’24 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP + Dense` → **`Hybrid`** |

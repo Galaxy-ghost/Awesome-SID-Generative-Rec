@@ -32,9 +32,7 @@ def load_papers(root: Path):
 
 
 def slugify_heading(title: str) -> str:
-    s = title.lower()
-    s = re.sub(r"[^a-z0-9\s-]", "", s)
-    return re.sub(r"\s+", "-", s.strip())
+    return re.sub(r"[^a-z0-9 _-]", "", title.strip().lower()).replace(" ", "-")
 
 
 def parse_table1_md(md_path: Path):
@@ -132,194 +130,119 @@ def sync_table1(root: Path, md_path: Path):
     print(f"Synchronized {len(rows)} rows from {md_path} into data/papers/*.yaml.")
 
 
+STAGES = ["Representation", "Tokenization", "Backbone", "Training", "Inference"]
+HEAT = [(1, "c6dbef"), (4, "6baed6"), (9, "2171b5"), (16, "08306b")]
+
+
+def title_of(rec: dict) -> str:
+    t = re.sub(rf"^{re.escape(rec['name'])}(?:\s*:\s*|\s+)", "", rec["title"], flags=re.I).strip()
+    return t[0].upper() + t[1:] if t else rec["name"]
+
+
+def pipeline(rec: dict, sep: str = " → ") -> str:
+    vals = [rec["representation"], rec["tokenization"], rec["backbone"],
+            f"{rec['tokenizer']} / {rec['objective']}", rec["inference"]]
+    return sep.join(f"**`{v}`**" if s == rec["stage"] else f"`{v}`" for s, v in zip(STAGES, vals))
+
+
 def format_item(rec: dict) -> str:
-    summary = rec["summary"].strip().rstrip(".")
-    summary = re.sub(r"\[([^\]]+)\]", r"(\1)", summary)
-    summary = summary[0].upper() + summary[1:] if summary else "Method in Semantic ID generative recommendation"
-    code_part = f", [Code]({rec['links']['code']})" if rec["links"].get("code") else ""
-    poi_part = " `POI`" if rec.get("poi") else ""
-    note_part = " (`Notes`)" if (ROOT / "notes" / f"{rec['id']}.md").exists() else ""
-    spec = (
-        f"`Rep: {rec['representation']}` · `Tok: {rec['tokenization']}` · "
-        f"`Backbone: {rec['backbone']}` · `Train: {rec['tokenizer']} / {rec['objective']}` · "
-        f"`Inf: {rec['inference']}`"
-    )
-    return (
-        f"- [{rec['name']}: {rec['title']}]({rec['links']['arxiv']}) - "
-        f"{rec['authors']} ({rec['venue']}{poi_part}, [Page](pages/papers/{rec['id']}.md){code_part}){note_part}. "
-        f"{spec}. {summary}."
-    )
+    t = title_of(rec)
+    code = f" · [Code]({rec['links']['code']})" if rec["links"].get("code") else ""
+    poi = " · `POI`" if rec.get("poi") else ""
+    return (f"- [{rec['name']}]({rec['links']['arxiv']}) - {t}{'' if t[-1] in '.?!' else '.'} "
+            f"{rec['authors']}, {rec['venue']}{poi} · [Page](pages/papers/{rec['id']}.md){code}. {pipeline(rec)}.")
 
 
-def align_table(rows: list) -> list:
-    widths = [max(len(r[c]) for r in rows) for c in range(len(rows[0]))]
-    out = []
-    for idx, r in enumerate(rows):
-        if idx == 1:
-            cells = ["-" * w for w in widths]
-        else:
-            cells = [r[c].ljust(widths[c]) for c in range(len(r))]
-        out.append("| " + " | ".join(cells) + " |")
-    return out
+def heat(n: int, anchor: str) -> str:
+    color = [c for lo, c in HEAT if n >= lo][-1] if n else ""
+    return f"[![{n}](https://img.shields.io/badge/{n}-{color}?style=for-the-badge)](#{anchor})" if n else "·"
+
+
+def align(rows: list) -> list:
+    cells = [[c.strip() for c in r.strip("|").split(" | ")] for r in rows]
+    w = [max(len(r[i]) for r in cells) for i in range(len(cells[0]))]
+    mid = [c == ":-:" for c in cells[1]]
+    pad = lambda c, i: (c[0] + c[1:-1].ljust(w[i] - 2, "-") + c[-1]) if set(c) <= set(":-") else c.center(w[i]) if mid[i] else c.ljust(w[i])
+    return ["| " + " | ".join(pad(c, i) for i, c in enumerate(r)) + " |" for r in cells]
 
 
 def build_readme(vocab: dict, papers: list) -> str:
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
-    stages = [s["value"] for s in vocab["stage"] if s["value"] != "n/a"]
-    psb_name = next(p["name"] for p in vocab["problem"] if p["value"] == "psb")
-
-    by_cell = {(p["value"], s): [] for p in problems for s in stages}
-    psb_list = []
-    for rec in sorted(papers, key=lambda x: (x["year"], x["id"])):
-        if rec["problem"] == "psb":
-            psb_list.append(rec)
-        else:
-            by_cell[(rec["problem"], rec["stage"])].append(rec)
-
+    psb = next(p for p in vocab["problem"] if p["value"] == "psb")
+    ordered = sorted(papers, key=lambda x: (x["year"], x["id"]))
+    cell = {(p["value"], s): [r for r in ordered if (r["problem"], r["stage"]) == (p["value"], s)] for p in problems for s in STAGES}
+    psb_list = [r for r in ordered if r["problem"] == "psb"]
+    band = lambda p: f"{p['value']}. {p['name']}"
+    table = [f"| Problem | {' | '.join(STAGES)} | Total |", "| :-- |" + " :-: |" * (len(STAGES) + 1)]
+    for p in problems:
+        counts = [len(cell[(p["value"], s)]) for s in STAGES]
+        anchors = [slugify_heading(f"{p['value']} × {s}") for s in STAGES]
+        table.append(f"| **{p['value']}.** {p['name']} | " + " | ".join(map(heat, counts, anchors)) + f" | **{sum(counts)}** |")
+    totals = [sum(len(cell[(p["value"], s)]) for p in problems) for s in STAGES]
+    table.append("| **Total** | " + " | ".join(f"**{t}**" for t in totals) + f" | **{sum(totals)}** |")
     lines = [
         "<!--lint disable awesome-github-->",
         "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)",
         "",
-        f"> A curated, taxonomy-driven living repository of {len(papers)} papers on Semantic ID-based Generative Recommendation, organized by a Problem x Stage matrix.",
+        f"> {len(papers)} papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes (rows) and the pipeline stage it changes (columns).",
         "",
-        "Each paper is stored as a single declarative record in [`data/papers/`](data/papers/) validated against [`schema/paper.schema.json`](schema/paper.schema.json) and [`data/vocab.yaml`](data/vocab.yaml), with per-paper technical pages in [`pages/papers/`](pages/papers/) (including labml-style annotated deep dives for [`TIGER`](pages/papers/tiger.md), [`RPG`](pages/papers/rpg.md), and [`OneLoc`](pages/papers/oneloc.md)) and machine-readable indices in [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt).",
+        *align(table),
+        "",
+        "Click a count to jump to its papers; darker means more papers, `·` means none yet. "
+        f"Another {len(psb_list)} papers on {psb['name'].lower()} are listed first. "
+        "Every entry links to a generated page with its Table 1 specification, architecture diagram where one exists, and notes; "
+        "[TIGER](pages/papers/tiger.md), [RPG](pages/papers/rpg.md) and [OneLoc](pages/papers/oneloc.md) carry annotated walkthroughs. "
+        "One YAML record per paper lives in [`data/papers/`](data/papers/); [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt) are the machine-readable views.",
         "",
         "## Contents",
         "",
-        "- [Problem x Stage Matrix](#problem-x-stage-matrix)",
-        f"- [{psb_name}](#{slugify_heading(psb_name)})",
+        f"- [{psb['name']}](#{slugify_heading(psb['name'])})",
+        *[f"- [{band(p)}](#{slugify_heading(band(p))})" for p in problems],
+        "",
     ]
+    lines += [f"## {psb['name']}", "", f"> {psb['description']}", "", *map(format_item, psb_list), ""]
     for p in problems:
-        sec_title = f"{p['value']}. {p['name']}"
-        lines.append(f"- [{sec_title}](#{slugify_heading(sec_title)})")
-    lines += [
-        "",
-        "## Problem x Stage Matrix",
-        "",
-        "Click any cell in the 6 Problems x 5 Stages matrix to jump to the corresponding subsection below:",
-        "",
-    ]
-    t_rows = [
-        ["Problem / Stage", *stages, "Total"],
-        ["---", *["---" for _ in stages], "---"],
-    ]
-    for p in problems:
-        row_cells = []
-        row_total = 0
-        for s in stages:
-            cnt = len(by_cell[(p["value"], s)])
-            row_total += cnt
-            sub_anchor = slugify_heading(f"{p['value']} {s}")
-            row_cells.append(f"[{cnt}](#{sub_anchor})" if cnt else "0")
-        sec_title = f"{p['value']}. {p['name']}"
-        t_rows.append([f"**{sec_title}**", *row_cells, f"**{row_total}**"])
-    lines += align_table(t_rows)
-    lines += [
-        "",
-        f"## {psb_name}",
-        "",
-        f"_{next(p['description'] for p in vocab['problem'] if p['value'] == 'psb')}_",
-        "",
-    ]
-    for rec in psb_list:
-        lines.append(format_item(rec))
-    lines.append("")
-
-    for p in problems:
-        sec_title = f"{p['value']}. {p['name']}"
-        lines += [
-            f"## {sec_title}",
-            "",
-            f"_{p['description']}_",
-            "",
-        ]
-        for s in stages:
-            cell_papers = by_cell[(p["value"], s)]
-            if not cell_papers:
-                continue
-            lines += [f"### {p['value']} {s}", ""]
-            for rec in cell_papers:
-                lines.append(format_item(rec))
-            lines.append("")
-
-    lines += [
-        "## Contributing",
-        "",
-        "See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the two-step workflow: add one `data/papers/<id>.yaml` record and run `make build && make check`.",
-        "",
-    ]
+        lines += [f"## {band(p)}", "", f"> {p['description']}", ""]
+        for s in STAGES:
+            if cell[(p["value"], s)]:
+                lines += [f"### {p['value']} × {s}", "", *map(format_item, cell[(p["value"], s)]), ""]
+    lines += ["## Contributing", "", "Add one YAML record and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).", ""]
     return "\n".join(lines)
 
 
 def build_paper_page(rec: dict, vocab: dict, all_papers: list, root: Path) -> str:
-    prob_map = {e["value"]: e for e in vocab["problem"]}
-    stage_map = {e["value"]: e for e in vocab["stage"]}
-    col_desc = {
-        c: {e["value"]: e.get("description", "") for e in vocab.get(c, [])}
-        for c in TECH_COLS
-    }
-    p_info = prob_map[rec["problem"]]
-    s_info = stage_map[rec["stage"]]
-    prob_label = p_info["name"] if rec["problem"] == "psb" else f"{rec['problem']}. {p_info['name']}"
-    code_str = f"[`{rec['links']['code']}`]({rec['links']['code']})" if rec["links"].get("code") else "Not reported"
-
+    prob = next(e for e in vocab["problem"] if e["value"] == rec["problem"])
+    psb = rec["problem"] == "psb"
+    band = prob["name"] if psb else f"{rec['problem']}. {prob['name']}"
+    code = f" · [Code]({rec['links']['code']})" if rec["links"].get("code") else ""
+    defs = {c: {e["value"]: e.get("description") for e in vocab.get(c, [])} for c in TECH_COLS}
+    anchor = slugify_heading(band if psb else f"{rec['problem']} × {rec['stage']}")
     lines = [
-        f"# {rec['name']}: {rec['title']}",
-        "",
-        f"[Back to Catalog](../../README.md) · [Paper (`{rec['links']['arxiv']}`)]({rec['links']['arxiv']}) · [Source Record (`data/papers/{rec['id']}.yaml`)](../../data/papers/{rec['id']}.yaml)",
-        "",
-        f"> **Summary**: {rec['summary']}",
-        "",
-        "## Taxonomy & Table 1 Specification",
-        "",
-        "| Field | Value | Vocabulary Definition |",
-        "| :--- | :--- | :--- |",
-        f"| **Authors & Year** | {rec['authors']} ({rec['year']}) | Published / posted in `{rec['venue']}` |",
-        f"| **Problem Band** | `{prob_label}` | {p_info.get('description', '')} |",
-        f"| **Primary Stage** | `{rec['stage']}` | {s_info.get('description', '')} |",
-        f"| **Representation** | `{rec['representation']}` | {col_desc['representation'].get(rec['representation'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **Tokenization** | `{rec['tokenization']}` | {col_desc['tokenization'].get(rec['tokenization'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **Backbone** | `{rec['backbone']}` | {col_desc['backbone'].get(rec['backbone'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **Tokenizer Training** | `{rec['tokenizer']}` | {col_desc['tokenizer'].get(rec['tokenizer'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **Training Objective** | `{rec['objective']}` | {col_desc['objective'].get(rec['objective'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **Inference Decoding** | `{rec['inference']}` | {col_desc['inference'].get(rec['inference'], 'See Table 1 notation in data/vocab.yaml.')} |",
-        f"| **POI / Local-Life** | `{str(rec['poi']).lower()}` | Point-of-interest / geographic recommendation indicator |",
-        f"| **Code Repository** | {code_str} | Official or public implementation link |",
-        "",
+        f"# {rec['name']}", "",
+        f"*{title_of(rec)}* — {rec['authors']}, {rec['venue']}" + (" · `POI`" if rec.get("poi") else ""), "",
+        f"[arXiv]({rec['links']['arxiv']}){code} · [Record](../../data/papers/{rec['id']}.yaml) · [← Catalog](../../README.md#{anchor})", "",
+        f"> {rec['summary'].strip()}", "",
+        f"| {'Group' if psb else 'Problem it fixes'} | Stage it changes |", "| :-- | :-- |",
+        f"| **{band}**: {prob['description']} | " + ("No single stage" if psb else f"**{rec['stage']}**") + " |", "",
+        "## Pipeline", "",
+        f"| {' | '.join(STAGES)} |", "|" + " :-: |" * len(STAGES),
+        f"| {pipeline(rec, ' | ')} |", "",
+        *[f"- `{rec[c]}`: {defs[c][rec[c]]}" for c in TECH_COLS if defs[c].get(rec[c])], "",
     ]
-
     image = root / "architectures" / f"{rec['id']}.png"
     if image.is_file():
         lines += ["## Architecture", "", f"![{rec['name']} architecture diagram](../../architectures/{image.name})", ""]
-
     if rec.get("evidence"):
-        lines += ["## Verbatim Evidence & Rationale", ""]
-        for ev in rec["evidence"]:
-            lines.append(f"- **`{ev['field']}`** ({ev['where']}): {ev['quote']}")
-        lines.append("")
-
+        lines += ["## Evidence", "", *[f"- **`{ev['field']}`** ({ev['where']}): {ev['quote']}" for ev in rec["evidence"]], ""]
     note_file = root / "notes" / f"{rec['id']}.md"
     if note_file.exists():
         lines += [note_file.read_text(encoding="utf-8").strip(), ""]
-
-    peers = [
-        p for p in sorted(all_papers, key=lambda x: (x["year"], x["id"]))
-        if p["problem"] == rec["problem"] and p["stage"] == rec["stage"] and p["id"] != rec["id"]
-    ]
+    peers = [p for p in sorted(all_papers, key=lambda x: (x["year"], x["id"]))
+             if (p["problem"], p["stage"]) == (rec["problem"], rec["stage"]) and p["id"] != rec["id"]]
     if peers:
-        lines += [
-            f"## Peer Methods in `{prob_label}` × `{rec['stage']}` ({len(peers)} peers)",
-            "",
-            "| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |",
-            "| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |",
-        ]
-        for pr in peers:
-            lines.append(
-                f"| [{pr['name']}]({pr['id']}.md) | {pr['venue']} | `{pr['representation']}` | "
-                f"`{pr['tokenization']}` | `{pr['backbone']}` | `{pr['tokenizer']}` | "
-                f"`{pr['objective']}` | `{pr['inference']}` |"
-            )
-        lines.append("")
+        where = band if psb else f"{rec['problem']} × {rec['stage']}"
+        lines += [f"## Same cell: {where} ({len(peers)} more)", "", "| Paper | Venue | Pipeline |", "| :-- | :-- | :-- |",
+                  *[f"| [{p['name']}]({p['id']}.md) | {p['venue']} | {pipeline(p)} |" for p in peers], ""]
     return "\n".join(lines)
 
 

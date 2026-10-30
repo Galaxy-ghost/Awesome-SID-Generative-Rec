@@ -1,30 +1,31 @@
-# S2GR: S2GR: Stepwise Semantic-Guided Reasoning in Latent Space for Generative Recommendation
+# S2GR
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2601.18664`)](https://arxiv.org/abs/2601.18664) · [Source Record (`data/papers/s2gr.yaml`)](../../data/papers/s2gr.yaml)
+*Stepwise Semantic-Guided Reasoning in Latent Space for Generative Recommendation* — Guo et al., KDD’26
 
-> **Summary**: Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
+[arXiv](https://arxiv.org/abs/2601.18664) · [Record](../../data/papers/s2gr.yaml) · [← Catalog](../../README.md#iii--backbone)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Guo et al. (2026) | Published / posted in `KDD’26` |
-| **Problem Band** | `III. SID–Model Alignment` | Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| **Primary Stage** | `Backbone` | The primary design change sits in the Generative Backbone stage. |
-| **Representation** | `Text+CF` |  |
-| **Tokenization** | `CoBa RQ-VAE` | Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR). |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + Ctr.` | NTP plus a contrastive loss. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Backbone** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+CF` | `CoBa RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP + Ctr.` | `Beam` |
+
+- `CoBa RQ-VAE`: Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR).
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP + Ctr.`: NTP plus a contrastive loss.
 
 ## Architecture
 
 ![S2GR architecture diagram](../../architectures/s2gr.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
 - **`representation`** (§5.1.3, p7; §4.2.1, p4, Eq. 3–5): Public-data (Beauty) setting; industrial data uses video frames.
@@ -100,15 +101,15 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - 核心贡献：逐步语义引导潜空间推理。
 - 使用场景：工业推荐。
 
-## Peer Methods in `III. SID–Model Alignment` × `Backbone` (8 peers)
+## Same cell: III × Backbone (8 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [LLaDA-Rec](llada-rec.md) | arXiv’25 | `Text` | `Par. VQ` | `Non-AR` | `Fixed` | `Masked` | `Diff.` |
-| [DECOR](decor.md) | SIGIR’26 | `Text+CF` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
-| [FLASH](flash.md) | NeurIPS’26 | `Text` | `SimHash` | `Non-AR` | `Fixed` | `MTP + Aux.` | `Scoring` |
-| [Latte](latte.md) | arXiv’26 | `Text+CF` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
-| [LESSRec](lessrec.md) | arXiv’26 | `Text / Text+CF` | `RQ-VAE / R-KM / LETTER` | `Enc-Dec` | `Fixed` | `NTP` | `C-Beam` |
-| [MDGR](mdgr.md) | arXiv’26 | `–` | `Par. OPQ` | `Non-AR` | `Fixed` | `Masked` | `Diff.+Beam` |
-| [PrefixMem](prefixmem.md) | arXiv’26 | `MM` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [TrieRec](trierec.md) | NeurIPS’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed†` | `NTP†` | `C-Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [LLaDA-Rec](llada-rec.md) | arXiv’25 | `Text` → `Par. VQ` → **`Non-AR`** → `Fixed / Masked` → `Diff.` |
+| [DECOR](decor.md) | SIGIR’26 | `Text+CF` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP` → `Beam` |
+| [FLASH](flash.md) | NeurIPS’26 | `Text` → `SimHash` → **`Non-AR`** → `Fixed / MTP + Aux.` → `Scoring` |
+| [Latte](latte.md) | arXiv’26 | `Text+CF` → `RQ-VAE` → **`Dec-Only`** → `Fixed / NTP` → `C-Beam` |
+| [LESSRec](lessrec.md) | arXiv’26 | `Text / Text+CF` → `RQ-VAE / R-KM / LETTER` → **`Enc-Dec`** → `Fixed / NTP` → `C-Beam` |
+| [MDGR](mdgr.md) | arXiv’26 | `–` → `Par. OPQ` → **`Non-AR`** → `Fixed / Masked` → `Diff.+Beam` |
+| [PrefixMem](prefixmem.md) | arXiv’26 | `MM` → `RQ-VAE` → **`Dec-Only`** → `Fixed / Multi-task NTP` → `Beam` |
+| [TrieRec](trierec.md) | NeurIPS’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed† / NTP†` → `C-Beam` |

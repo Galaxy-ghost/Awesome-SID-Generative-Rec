@@ -1,27 +1,29 @@
-# TCBSA: From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation
+# TCBSA
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2610.32098`)](https://arxiv.org/abs/2610.32098) · [Source Record (`data/papers/tcbsa.yaml`)](../../data/papers/tcbsa.yaml)
+*From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation* — Shan et al., arXiv’26
 
-> **Summary**: 提出不重训生成器的 SID 推理新算法，属于方法设计。
+[arXiv](https://arxiv.org/abs/2610.32098) · [Record](../../data/papers/tcbsa.yaml) · [← Catalog](../../README.md#iv--inference)
 
-## Taxonomy & Table 1 Specification
+> 提出不重训生成器的 SID 推理新算法，属于方法设计。
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Shan et al. (2026) | Published / posted in `arXiv’26` |
-| **Problem Band** | `IV. Utility` | Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| **Primary Stage** | `Inference` | The primary design change sits in the Inference stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `R-KM` | Residual k-means. |
-| **Backbone** | `Enc-Dec† / Dec-Only†` | Evaluated on both Encoder-Decoder and Decoder-Only backbones. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP† / NTP → RL` | TIGER继承NTP目标，本文未重述故† |
-| **Inference Decoding** | `CF-Guided C-Beam` | 协同评分在剪枝前逐边引导合法SID束搜索。 |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Inference** |
 
-## Peer Methods in `IV. Utility` × `Inference` (1 peers)
+## Pipeline
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [ISD](isd.md) | arXiv’26 | `Text†` | `RQ-VAE†` | `Enc-Dec†` | `Fixed` | `NTP†` | `ISD Beam` |
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | `R-KM` | `Enc-Dec† / Dec-Only†` | `Fixed / NTP† / NTP → RL` | **`CF-Guided C-Beam`** |
+
+- `R-KM`: Residual k-means.
+- `Enc-Dec† / Dec-Only†`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP† / NTP → RL`: TIGER继承NTP目标，本文未重述故†
+- `CF-Guided C-Beam`: 协同评分在剪枝前逐边引导合法SID束搜索。
+
+## Same cell: IV × Inference (1 more)
+
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [ISD](isd.md) | arXiv’26 | `Text†` → `RQ-VAE†` → `Enc-Dec†` → `Fixed / NTP†` → **`ISD Beam`** |

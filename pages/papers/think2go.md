@@ -1,30 +1,32 @@
-# Think2Go: Think2Go: Generative Next POI Recommendation with LLM Reasoning
+# Think2Go
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2607.28997`)](https://arxiv.org/abs/2607.28997) · [Source Record (`data/papers/think2go.yaml`)](../../data/papers/think2go.yaml)
+*Generative Next POI Recommendation with LLM Reasoning* — Zhuang et al., KDD’26 · `POI`
 
-> **Summary**: Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.
+[arXiv](https://arxiv.org/abs/2607.28997) · [Record](../../data/papers/think2go.yaml) · [← Catalog](../../README.md#iii--training)
 
-## Taxonomy & Table 1 Specification
+> Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Zhuang et al. (2026) | Published / posted in `KDD’26` |
-| **Problem Band** | `III. SID–Model Alignment` | Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| **Primary Stage** | `Training` | The primary design change sits in the Training stage (Tokenizer update schedule or training Objective). |
-| **Representation** | `Attr+Geo+CF†` | Attr 为类别等结构化属性，Geo 为区域/邻接，CF 为用户访问。 |
-| **Tokenization** | `RQ-VAE` |  |
-| **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP → RL` | NTP, then reinforcement learning (GRPO, GBPO, etc.). |
-| **Inference Decoding** | `CoT+Beam` | Think, self-correct, answer, then beam search (Think2Go). |
-| **POI / Local-Life** | `true` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Attr+Geo+CF†` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT+Beam` |
+
+- `Attr+Geo+CF†`: Attr 为类别等结构化属性，Geo 为区域/邻接，CF 为用户访问。
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- `CoT+Beam`: Think, self-correct, answer, then beam search (Think2Go).
 
 ## Architecture
 
 ![Think2Go architecture diagram](../../architectures/think2go.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (abstract, p1): Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.
 - **`stage`** (§4.1–4.2, p4–6): SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
@@ -112,15 +114,15 @@ Think2Go 适合放在“推理增强的语义标识生成推荐”章节，重�
 - 核心贡献：统一 SFT、推理、自纠错与自适应强化学习。
 - 使用场景：下一 POI 推荐。
 
-## Peer Methods in `III. SID–Model Alignment` × `Training` (8 peers)
+## Same cell: III × Training (8 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
-| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` | `Learn. RQ` | `Enc-Dec` | `Altern.` | `NTP + Ctr.` | `Beam` |
-| [GREAM](gream.md) | arXiv’25 | `Text+CF` | `RQ-KM` | `Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` | `R-KM†` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `CoT+Fuzzy Match` |
-| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `C-Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
+| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` → `Learn. RQ` → `Enc-Dec` → **`Altern. / NTP + Ctr.`** → `Beam` |
+| [GREAM](gream.md) | arXiv’25 | `Text+CF` → `RQ-KM` → `Dec-Only` → **`Fixed / NTP → RL`** → `Beam` |
+| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT` |
+| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
+| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
+| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
+| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `C-Beam` |

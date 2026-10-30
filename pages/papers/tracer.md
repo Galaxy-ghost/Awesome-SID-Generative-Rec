@@ -1,21 +1,23 @@
-# TRACER: TRACER: Token ReAssignment for Concept ERasure in Generative Recommendation
+# TRACER
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2606.07688`)](https://arxiv.org/abs/2606.07688) · [Source Record (`data/papers/tracer.yaml`)](../../data/papers/tracer.yaml)
+*Token ReAssignment for Concept ERasure in Generative Recommendation* — Chen et al., NeurIPS’26
 
-> **Summary**: 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
+[arXiv](https://arxiv.org/abs/2606.07688) · [Record](../../data/papers/tracer.yaml) · [← Catalog](../../README.md#iv--tokenization)
 
-## Taxonomy & Table 1 Specification
+> 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Chen et al. (2026) | Published / posted in `NeurIPS’26` |
-| **Problem Band** | `IV. Utility` | Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `Text` |  |
-| **Tokenization** | `Soft Reassign. RQ` | 保留残差层级，以 softmax token selector 加轻量扰动做可微 token 重分配。 |
-| **Backbone** | `Dec-Only / Enc-Dec` | Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones） |
-| **Tokenizer Training** | `Joint` | The generator loss updates the tokenizer directly. |
-| **Training Objective** | `NTP + Aux.` | NTP plus another auxiliary loss. |
-| **Inference Decoding** | `–` | Not reported in the paper. |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Tokenization** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text` | **`Soft Reassign. RQ`** | `Dec-Only / Enc-Dec` | `Joint / NTP + Aux.` | `–` |
+
+- `Soft Reassign. RQ`: 保留残差层级，以 softmax token selector 加轻量扰动做可微 token 重分配。
+- `Dec-Only / Enc-Dec`: Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones）
+- `Joint`: The generator loss updates the tokenizer directly.
+- `NTP + Aux.`: NTP plus another auxiliary loss.
+- `–`: Not reported in the paper.

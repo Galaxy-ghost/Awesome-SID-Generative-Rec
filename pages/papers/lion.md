@@ -1,28 +1,27 @@
-# LION: Self-Evolving Memory for Generative Recommendation
+# LION
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2609.15598`)](https://arxiv.org/abs/2609.15598) · [Source Record (`data/papers/lion.yaml`)](../../data/papers/lion.yaml)
+*Self-Evolving Memory for Generative Recommendation* — Lin et al., CIKM’26
 
-> **Summary**: 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。
+[arXiv](https://arxiv.org/abs/2609.15598) · [Record](../../data/papers/lion.yaml) · [← Catalog](../../README.md#vi--backbone)
 
-## Taxonomy & Table 1 Specification
+> 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Lin et al. (2026) | Published / posted in `CIKM’26` |
-| **Problem Band** | `VI. Generalization` | Does it still work for new items, new domains, and shifting interests? |
-| **Primary Stage** | `Backbone` | The primary design change sits in the Generative Backbone stage. |
-| **Representation** | `Text†` |  |
-| **Tokenization** | `RQ-VAE†` |  |
-| **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `Fixed†` |  |
-| **Training Objective** | `NTP + Aux.` | NTP plus another auxiliary loss. |
-| **Inference Decoding** | `Beam` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Backbone** |
 
-## Peer Methods in `VI. Generalization` × `Backbone` (2 peers)
+## Pipeline
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [DualGR](dualgr.md) | WWW’26 Short | `–` | `R-KM` | `Dec-Only` | `Fixed` | `NTP + Rank` | `Dual Beam` |
-| [FedCGR](fedcgr.md) | CIKM’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP + Aux.` | `C-Beam` |
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text†` | `RQ-VAE†` | **`Enc-Dec`** | `Fixed† / NTP + Aux.` | `Beam` |
+
+- `Enc-Dec`: Encoder-decoder.
+- `NTP + Aux.`: NTP plus another auxiliary loss.
+
+## Same cell: VI × Backbone (2 more)
+
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [DualGR](dualgr.md) | WWW’26 Short | `–` → `R-KM` → **`Dec-Only`** → `Fixed / NTP + Rank` → `Dual Beam` |
+| [FedCGR](fedcgr.md) | CIKM’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP + Aux.` → `C-Beam` |

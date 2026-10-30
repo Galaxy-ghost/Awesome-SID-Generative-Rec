@@ -1,30 +1,30 @@
-# RPG: Generating long semantic ids in parallel for recommendation
+# RPG
 
-[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2506.05781`)](https://arxiv.org/abs/2506.05781) · [Source Record (`data/papers/rpg.yaml`)](../../data/papers/rpg.yaml)
+*Generating long semantic ids in parallel for recommendation* — Hou et al., KDD’25
 
-> **Summary**: Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".
+[arXiv](https://arxiv.org/abs/2506.05781) · [Record](../../data/papers/rpg.yaml) · [← Catalog](../../README.md#v--backbone)
 
-## Taxonomy & Table 1 Specification
+> Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".
 
-| Field | Value | Vocabulary Definition |
-| :--- | :--- | :--- |
-| **Authors & Year** | Hou et al. (2025) | Published / posted in `KDD’25` |
-| **Problem Band** | `V. Efficiency` | Can it be trained and served within latency and cost budgets? |
-| **Primary Stage** | `Backbone` | The primary design change sits in the Generative Backbone stage. |
-| **Representation** | `Text+Img` |  |
-| **Tokenization** | `Par. OPQ` |  |
-| **Backbone** | `Non-AR` | Non-autoregressive. |
-| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `MTP` | Predicts several codes in parallel at once. |
-| **Inference Decoding** | `Graph` |  |
-| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
-| **Code Repository** | Not reported | Official or public implementation link |
+| Problem it fixes | Stage it changes |
+| :-- | :-- |
+| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Backbone** |
+
+## Pipeline
+
+| Representation | Tokenization | Backbone | Training | Inference |
+| :-: | :-: | :-: | :-: | :-: |
+| `Text+Img` | `Par. OPQ` | **`Non-AR`** | `Fixed / MTP` | `Graph` |
+
+- `Non-AR`: Non-autoregressive.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `MTP`: Predicts several codes in parallel at once.
 
 ## Architecture
 
 ![RPG architecture diagram](../../architectures/rpg.png)
 
-## Verbatim Evidence & Rationale
+## Evidence
 
 - **`problem`** (arXiv abstract): Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".
 
@@ -208,17 +208,17 @@ RPG 的主要贡献是把长 SID 的表达能力与并行生成结合起来，�
 - 核心贡献：并行生成长语义标识。
 - 使用场景：长SID推荐。
 
-## Peer Methods in `V. Efficiency` × `Backbone` (10 peers)
+## Same cell: V × Backbone (10 more)
 
-| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [OneRec-V2](onerec-v2.md) | arXiv’25 | `Text+Img+CF†` | `R-KM†` | `Lazy Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
-| [ACERec](acerec.md) | arXiv’26 | `Text` | `Par. OPQ` | `Non-AR` | `Fixed` | `MTP + Ctr. + Aux.` | `Scoring` |
-| [Deco](deco.md) | arXiv’26 | `Text / –` | `R-KM` | `Dec-Only` | `Fixed` | `NTP + Aux.` | `C-Beam` |
-| [IBA](iba.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → (NTP + Aux.)` | `C-Beam` |
-| [LoopGR](loopgr.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP / NTP + Aux.` | `–` |
-| [Merge-and-Branch](merge-and-branch.md) | arXiv’26 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
-| [PinGER](pinger.md) | arXiv’26 | `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `–` | `NTP → DPO` | `Div. C-Beam` |
-| [SID-MLP](sid-mlp.md) | arXiv’26 | `Text` | `RQ-VAE†` | `Enc-MLP` | `Fixed` | `NTP + Aux.` | `C-Beam` |
-| [SPRINT](sprint.md) | arXiv’26 | `Text` | `Par. OPQ` | `Non-AR` | `Fixed` | `Dual-level Flow Ctr.` | `Scoring` |
-| [STAMP](stamp.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec / Dec-Only` | `Fixed` | `NTP + Aux.` | `C-Beam` |
+| Paper | Venue | Pipeline |
+| :-- | :-- | :-- |
+| [OneRec-V2](onerec-v2.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → **`Lazy Dec-Only`** → `Fixed / NTP → RL` → `Beam` |
+| [ACERec](acerec.md) | arXiv’26 | `Text` → `Par. OPQ` → **`Non-AR`** → `Fixed / MTP + Ctr. + Aux.` → `Scoring` |
+| [Deco](deco.md) | arXiv’26 | `Text / –` → `R-KM` → **`Dec-Only`** → `Fixed / NTP + Aux.` → `C-Beam` |
+| [IBA](iba.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP → (NTP + Aux.)` → `C-Beam` |
+| [LoopGR](loopgr.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP / NTP + Aux.` → `–` |
+| [Merge-and-Branch](merge-and-branch.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Dec-Only`** → `Fixed / NTP` → `C-Beam` |
+| [PinGER](pinger.md) | arXiv’26 | `Text+Img+CF` → `RQ-VAE` → **`Dec-Only`** → `– / NTP → DPO` → `Div. C-Beam` |
+| [SID-MLP](sid-mlp.md) | arXiv’26 | `Text` → `RQ-VAE†` → **`Enc-MLP`** → `Fixed / NTP + Aux.` → `C-Beam` |
+| [SPRINT](sprint.md) | arXiv’26 | `Text` → `Par. OPQ` → **`Non-AR`** → `Fixed / Dual-level Flow Ctr.` → `Scoring` |
+| [STAMP](stamp.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Enc-Dec / Dec-Only`** → `Fixed / NTP + Aux.` → `C-Beam` |
