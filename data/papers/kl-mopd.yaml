@@ -1,0 +1,34 @@
+id: kl-mopd
+name: KL-MOPD
+title: 'KL-MOPD: Discrepancy-Aware Multi-Objective On-Policy Distillation for Generative Recommendation'
+authors: Yang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.36973
+  code: null
+problem: IV
+stage: Training
+representation: CF
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed†
+objective: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
+inference: C-Beam
+poi: false
+summary: Coordinating multiple recommendation objectives (e.g., click and conversion) is critical for real-world generative
+  recommendation (GR). However, since a positive item in GR can be retrieved only when its tokens are successively selected
+  at every decoding step, traditional item-wise methods lack fine-grained token-wise supervision to guide intermediate steps.
+  Motivated by its success in foundation models, we consider introducing multi-objective on-policy distillation (MOPD) into
+  GR to distill two single-objective teachers into a student at each token. Yet, we find that in vanilla MOPD, (i) teachers
+  exhibit unequal distillation difficulty at each token (i.e., token-level imbalance), and (ii) the harder-to-distill teacher
+  varies across tokens (i.e., cross-token inconsistency), leaving each objective poorly learned at certain steps and hindering
+  positive item retrieval for both objectives, leading to suboptimal performance. To address this challenge, we propose KL-MOPD
+  (KL-Weighted Multi-Objective On-Policy Distillation), a simple yet effective distillation method that allocates token-wise
+  teacher weights proportional to the initial student-teacher token-wise KL divergences, thereby strengthening supervision
+  for the harder-to-distill teacher at every decoding step. Despite its simplicity, we theoretically prove that KL-MOPD strictly
+  outperforms vanilla MOPD in the additive joint recommendation objective under mild conditions. Moreover, KL-MOPD is plug-and-play
+  and computationally efficient, requiring only a one-time pre-training weight calibration with negligible training overhead.
+  Extensive experiments on three public benchmarks, a billion-scale industrial dataset, and online A/B tests on our e-commerce
+  advertising platform demonstrate that KL-MOPD significantly improves both individual and joint recommendation performance.
+  The anonymous code is provided for peer review.

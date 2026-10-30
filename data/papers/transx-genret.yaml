@@ -1,0 +1,19 @@
+id: transx-genret
+name: TransX-GenRet
+title: 'TransX Technical Report: Scaling Sequence Transduction for Recommendation'
+authors: Xu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.20913
+  code: null
+problem: psb
+stage: n/a
+representation: –
+tokenization: H-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP → (NTP + DPO)
+inference: C-Beam
+poi: false
+summary: End-to-end paradigm or benchmark using H-KM tokenization and Enc-Dec backbone.

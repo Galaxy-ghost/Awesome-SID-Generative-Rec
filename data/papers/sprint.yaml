@@ -1,0 +1,19 @@
+id: sprint
+name: SPRINT
+title: 'SPRINT: Single-Step Generative Recommendation via Average Probability Velocity'
+authors: Cai et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2609.34306
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: Par. OPQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: Dual-level Flow Ctr.
+inference: Scoring
+poi: false
+summary: 用 OPQ SID 并行概率生成并对有效完整 SID 融合评分，是广义 SID 混合生成而非 token-only 大目录召回。

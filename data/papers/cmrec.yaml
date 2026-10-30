@@ -1,0 +1,19 @@
+id: cmrec
+name: CMRec
+title: Cross-Country Code-Mixing for Generative Recommendation
+authors: Gao et al.
+year: 2026
+venue: CIKM’26 Short
+links:
+  arxiv: https://arxiv.org/abs/2609.28972
+  code: null
+problem: VI
+stage: Training
+representation: Text + Img + CF
+tokenization: RQ-VAE
+backbone: Dec-Only†
+tokenizer: –
+objective: NTP
+inference: –
+poi: false
+summary: 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。

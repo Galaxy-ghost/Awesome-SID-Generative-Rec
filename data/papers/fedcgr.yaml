@@ -1,0 +1,19 @@
+id: fedcgr
+name: FedCGR
+title: 'FedCGR: Federated Cross-Domain Generative Recommendation'
+authors: Liu et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2608.10929
+  code: null
+problem: VI
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: C-Beam
+poi: false
+summary: BGE-base-en-v1.5 编码公共 title/category/description；本地 SASRec CF 是后加输入，不进入冻结 tokenizer。

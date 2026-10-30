@@ -1,0 +1,19 @@
+id: isd
+name: ISD
+title: 'Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation'
+authors: Wang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2607.24995
+  code: null
+problem: IV
+stage: Inference
+representation: Text†
+tokenization: RQ-VAE†
+backbone: Enc-Dec†
+tokenizer: Fixed
+objective: NTP†
+inference: ISD Beam
+poi: false
+summary: 有明确推理解码新设计 ISD，不能只按标题认定纯分析。

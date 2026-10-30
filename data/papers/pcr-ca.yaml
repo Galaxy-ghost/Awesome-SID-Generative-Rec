@@ -1,0 +1,19 @@
+id: pcr-ca
+name: PCR-CA
+title: 'PCR-CA: Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation'
+authors: Tan et al.
+year: 2026
+venue: KDD’26
+links:
+  arxiv: https://arxiv.org/abs/2508.18166
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+CF
+tokenization: PC-AE
+backbone: Disc.
+tokenizer: Joint
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 沿VQ-Rec/LGRID先例收录推荐用离散构码新设计；实际任务为CTR，非逐码生成SID。

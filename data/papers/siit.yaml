@@ -1,53 +1,23 @@
 id: siit
 name: SIIT
-record_type: method
-citation: Chen et al., 2024
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2412.17171'
-  year: 2024
-  venue: arXiv’24
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "may not align with the LLM''s internal pretrained tokenization schema".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Self-Imp.
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Altern.
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: Multi-task NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Enhancing item tokenization for generative recommendation through self-improvement
+authors: Chen et al.
+year: 2024
+venue: arXiv’24
+links:
+  arxiv: https://arxiv.org/abs/2412.17171
+  code: null
+problem: III
+stage: Tokenization
+representation: Text
+tokenization: Self-Imp.
+backbone: Enc-Dec
+tokenizer: Altern.
+objective: Multi-task NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "may not align with the LLM''s internal pretrained tokenization schema".'
+evidence:
+- field: problem
+  quote: 'Abstract: "may not align with the LLM''s internal pretrained tokenization schema".'
+  where: arXiv abstract

@@ -1,0 +1,19 @@
+id: qt-mob
+name: QT-Mob
+title: Enhancing Large Language Models for Mobility Analytics with Semantic Location Tokenization
+authors: Chen et al.
+year: 2025
+venue: KDD’25
+links:
+  arxiv: https://arxiv.org/abs/2506.11109
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Geo
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: C-Beam
+poi: true
+summary: 四 token 位置编号是 next-location 生成目标，语义构码与文本双向对齐有明确全文证据。

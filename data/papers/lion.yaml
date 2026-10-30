@@ -1,0 +1,19 @@
+id: lion
+name: LION
+title: Self-Evolving Memory for Generative Recommendation
+authors: Lin et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2609.15598
+  code: null
+problem: VI
+stage: Backbone
+representation: Text†
+tokenization: RQ-VAE†
+backbone: Enc-Dec
+tokenizer: Fixed†
+objective: NTP + Aux.
+inference: Beam
+poi: false
+summary: 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。

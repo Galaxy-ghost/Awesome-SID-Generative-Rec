@@ -1,57 +1,32 @@
 id: adc-sid
 name: ADC-SID
-aliases:
-- MMQ-v2
-record_type: method
-citation: Xu et al., 2025
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2510.25622'
-  title: 'Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation'
-  year: 2025
-  venue: arXiv’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "leading to the loss of critical multimodal information". The arXiv API abstract is truncated; judged on the visible part.'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: MoE-VQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: p7
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    inferred: true
-    source: p7; p8
-    status: unverified
-    note: Not stated whether the generator updates the tokenizer; Fixed is inferred. Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP
-    source: p7; p8
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: –
-    source: missing
-    status: unverified
-    note: ""
-note: Named MMQ-v2 in the survey; arXiv 2510.25622 was renamed as of v3 (2026-03-11). The survey bib entry MMQ-v2 still uses the v1 title.
+title: 'Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation'
+authors: Xu et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2510.25622
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img+CF
+tokenization: MoE-VQ
+backbone: Enc-Dec
+tokenizer: Fixed†
+objective: NTP
+inference: –
+poi: false
+summary: 'Abstract: "leading to the loss of critical multimodal information". The arXiv API abstract is truncated; judged
+  on the visible part.'
+evidence:
+- field: problem
+  quote: 'Abstract: "leading to the loss of critical multimodal information". The arXiv API abstract is truncated; judged
+    on the visible part.'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Not stated whether the generator updates the tokenizer; Fixed is inferred. Location from the 10-26 'Training split'
+    table in the appendix.
+  where: p7; p8
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p7; p8

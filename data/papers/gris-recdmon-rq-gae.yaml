@@ -1,0 +1,19 @@
+id: gris-recdmon-rq-gae
+name: GrIS (RecDMoN / RQ-GAE)
+title: Graph-Informed Semantic IDs (RecDMoN / RQ-GAE) for Generative Recommendation
+authors: Medvedev et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2610.01533
+  code: null
+problem: I
+stage: Tokenization
+representation: Text + CF
+tokenization: RecDMoN / RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: –
+inference: –
+poi: false
+summary: 明确仅文本嵌入，边来自训练交互相邻共现。

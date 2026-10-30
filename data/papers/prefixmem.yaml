@@ -1,0 +1,19 @@
+id: prefixmem
+name: PrefixMem
+title: LLMs Need Encoders for Semantic IDs Too
+authors: Chen et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2606.00324
+  code: null
+problem: III
+stage: Backbone
+representation: MM
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: Beam
+poi: false
+summary: 给固定SID码位加入前缀条件记忆表示，让生成器识别同一码在不同前缀下的含义。

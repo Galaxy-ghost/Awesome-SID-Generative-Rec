@@ -1,0 +1,19 @@
+id: sidscope
+name: SIDScope
+title: 'SIDScope: A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation'
+authors: Ding et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2608.18779
+  code: null
+problem: psb
+stage: n/a
+representation: –
+tokenization: –
+backbone: –
+tokenizer: –
+objective: –
+inference: –
+poi: false
+summary: End-to-end paradigm or benchmark using – tokenization and – backbone.

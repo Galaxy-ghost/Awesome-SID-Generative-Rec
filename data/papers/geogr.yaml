@@ -1,54 +1,35 @@
 id: geogr
 name: GeoGR
-record_type: method
-citation: Wang et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2602.10411'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships"; "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
-  stage:
-    value: Representation
-    source: Eq. (4), p4
-    status: verified
-    note: The fix for I is contrastive representation learning on geo-constrained co-visit pairs (L_P2P); the EM-style SID refinement and CPT lean to III.
-  representation:
-    value: Text+Geo+CF
-    source: p2–4
-    status: verified
-    note: ""
-  tokenization:
-    value: R-KM+EM
-    source: p4–5, Algorithm 1
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Altern.
-    inferred: true
-    source: §4.1.3, Algorithm 1, p5; §4.2.1, p5
-    status: unverified
-    note: 'The EM algorithm updates the LLM and the SIDs in turns for "mutual alignment between the LLM and the SIDs"; the final recommender is retrained from the base LLM on the fixed SIDs, hence inferred.'
-  objective:
-    value: Multi-task NTP
-    source: §4.2.1, Eq. (9), p5
-    status: verified
-    note: '"multi-task CPT datasets with various prompt templates", then SFT. PLUM (also CPT then SFT) is recorded the same way.'
-  inference:
-    value: Beam
-    source: p6
-    status: verified
-    note: ""
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
+title: 'GeoGR: Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations'
+authors: Wang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2602.10411
+  code: null
+problem: I
+stage: Representation
+representation: Text+Geo+CF
+tokenization: R-KM+EM
+backbone: Dec-Only
+tokenizer: Altern.†
+objective: Multi-task NTP
+inference: Beam
+poi: true
+summary: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships";
+  "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new
+  designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
+evidence:
+- field: problem
+  quote: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships";
+    "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new
+    designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
+  where: abstract, p1
+- field: stage
+  quote: The fix for I is contrastive representation learning on geo-constrained co-visit pairs (L_P2P); the EM-style SID
+    refinement and CPT lean to III.
+  where: Eq. (4), p4
+- field: tokenizer
+  quote: The EM algorithm updates the LLM and the SIDs in turns for "mutual alignment between the LLM and the SIDs"; the final
+    recommender is retrained from the base LLM on the fixed SIDs, hence inferred.
+  where: §4.1.3, Algorithm 1, p5; §4.2.1, p5

@@ -1,53 +1,31 @@
 id: molar
 name: Molar
-record_type: method
-citation: Luo et al., 2024
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2412.18176'
-  year: 2024
-  venue: arXiv’24
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "inherently lack collaborative filtering information, relying primarily on textual content data neglecting other modalities".'
-  stage:
-    value: Representation
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: –
-    source: missing
-    status: unverified
-    note: Molar builds no item SID; content tokenization is not SID construction (external review, 10-11).
-  backbone:
-    value: Dec-Only
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: –
-    source: p3
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: Discrim.
-    source: p3
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: Scoring
-    source: missing
-    status: unverified
-    note: Items are scored by embedding similarity at inference (external review, 10-11).
-note: ""
+title: 'Molar: Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation'
+authors: Luo et al.
+year: 2024
+venue: arXiv’24
+links:
+  arxiv: https://arxiv.org/abs/2412.18176
+  code: null
+problem: I
+stage: Representation
+representation: Text+Img+CF
+tokenization: –
+backbone: Dec-Only
+tokenizer: –
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 'Abstract: "inherently lack collaborative filtering information, relying primarily on textual content data neglecting
+  other modalities".'
+evidence:
+- field: problem
+  quote: 'Abstract: "inherently lack collaborative filtering information, relying primarily on textual content data neglecting
+    other modalities".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p3
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p3

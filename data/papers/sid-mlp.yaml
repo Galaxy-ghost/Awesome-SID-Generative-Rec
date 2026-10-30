@@ -1,0 +1,19 @@
+id: sid-mlp
+name: SID-MLP
+title: MLPs are Efficient Distilled Generative Recommenders
+authors: Guo et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2605.12617
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE†
+backbone: Enc-MLP
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: C-Beam
+poi: false
+summary: 提出可部署的新 SID 生成解码结构，含冻结教师蒸馏与编码器扩展 SID-MLP++。

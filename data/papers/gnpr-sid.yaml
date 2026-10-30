@@ -1,53 +1,32 @@
 id: gnpr-sid
 name: GNPR-SID
-record_type: method
-citation: Wang et al., 2025
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2506.01375'
-  year: 2025
-  venue: KDD’25
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "employ random numeric IDs for POIs, limiting the ability to model semantic relationships between similar locations". The diversity loss only spreads SIDs evenly; the abstract does not blame prior work for collisions, so not II.'
-  stage:
-    value: Tokenization
-    source: contribution 2, p2; §4.1, p3–5
-    status: verified
-    note: SIDs quantized from semantic and collaborative features replace random IDs.
-  representation:
-    value: Attr+Geo+CF
-    source: p3–4
-    status: verified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: p4–5
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: p7
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §4.2, p6; §5, p7
-    status: verified
-    note: RQ-VAE is trained first; LLaMA3-8B is then fine-tuned with LoRA.
-  objective:
-    value: NTP
-    source: §4.2.2, p6
-    status: verified
-    note: SFT data take the SID of the true next POI as output.
-  inference:
-    value: –
-    source: missing
-    status: unverified
-    note: 'Appendix: decoding is not described in the paper.'
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
+title: Generative Next POI Recommendation with Semantic ID
+authors: Wang et al.
+year: 2025
+venue: KDD’25
+links:
+  arxiv: https://arxiv.org/abs/2506.01375
+  code: https://github.com/wds1996/GNPR-SID
+problem: I
+stage: Tokenization
+representation: Attr+Geo+CF
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: –
+poi: true
+summary: 'Abstract: "employ random numeric IDs for POIs, limiting the ability to model semantic relationships between similar
+  locations". The diversity loss only spreads SIDs evenly; the abstract does not blame prior work for collisions, so not II.'
+evidence:
+- field: problem
+  quote: 'Abstract: "employ random numeric IDs for POIs, limiting the ability to model semantic relationships between similar
+    locations". The diversity loss only spreads SIDs evenly; the abstract does not blame prior work for collisions, so not
+    II.'
+  where: abstract, p1
+- field: stage
+  quote: SIDs quantized from semantic and collaborative features replace random IDs.
+  where: contribution 2, p2; §4.1, p3–5
+- field: tokenizer
+  quote: RQ-VAE is trained first; LLaMA3-8B is then fine-tuned with LoRA.
+  where: §4.2, p6; §5, p7

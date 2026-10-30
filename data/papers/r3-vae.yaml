@@ -1,53 +1,27 @@
 id: r3-vae
 name: R3-VAE
-record_type: method
-citation: Wan et al., 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2604.11440'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment, where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by the majority of new designs).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Ref.-RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: –
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'R3-VAE: Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation'
+authors: Wan et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.11440
+  code: null
+problem: II
+stage: Tokenization
+representation: Text
+tokenization: Ref.-RQ
+backbone: –
+tokenizer: Fixed
+objective: NTP
+inference: Beam
+poi: false
+summary: 'Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment,
+  where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by
+  the majority of new designs).'
+evidence:
+- field: problem
+  quote: 'Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment,
+    where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by
+    the majority of new designs).'
+  where: arXiv abstract

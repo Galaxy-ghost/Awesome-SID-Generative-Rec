@@ -1,0 +1,19 @@
+id: grc
+name: GRC
+title: 'Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation'
+authors: Xing et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2602.23639
+  code: null
+problem: III
+stage: Inference
+representation: –
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP → RL
+inference: GRC+Beam
+poi: false
+summary: §5.1仅称Qwen3-8B encode item embeddings，未列构码原始输入模态；没有点名继承文本输入配置，不能把常见Qwen文本编码经验写Text†。

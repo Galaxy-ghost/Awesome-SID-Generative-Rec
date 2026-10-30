@@ -1,0 +1,19 @@
+id: gti
+name: GTI
+title: Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation
+authors: Chen et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.02324
+  code: null
+problem: III
+stage: Training
+representation: Text+CF / Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: –
+poi: false
+summary: 提出明确可复用的词嵌入 grounding 训练阶段，并在真实离散 RQ-VAE SID 推荐中验证。

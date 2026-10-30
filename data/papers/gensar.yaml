@@ -1,55 +1,29 @@
 id: gensar
 name: GenSAR
-record_type: method
-citation: Shi et al., 2025
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2504.05730'
-  doi: 10.1145/3705328.3748071
-  title: Unified Generative Search and Recommendation
-  year: 2025
-  venue: RecSys’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+CF
-    source: §3.2, p3
-    status: verified
-    note: ""
-  tokenization:
-    value: Shared/Spec. RQ
-    source: §3.2, Fig. 2, p3–4
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: Table 1, p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §3.3–3.4.1, p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: Multi-task NTP
-    source: §3.3–3.4.1, p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: C-Beam
-    source: §3.4.2, p5
-    status: verified
-    note: ""
-note: 'Formal RecSys’25 title: GenSAR: Unifying Balanced Search and Recommendation with Generative Retrieval.'
+title: Unified Generative Search and Recommendation
+authors: Shi et al.
+year: 2025
+venue: RecSys’25
+links:
+  arxiv: https://arxiv.org/abs/2504.05730
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+CF
+tokenization: Shared/Spec. RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
+evidence:
+- field: problem
+  quote: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §3.3–3.4.1, p5
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §3.3–3.4.1, p5

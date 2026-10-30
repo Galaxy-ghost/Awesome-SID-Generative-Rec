@@ -1,0 +1,19 @@
+id: trierec
+name: TrieRec
+title: Trie-Aware Transformers for Generative Recommendation
+authors: Xu et al.
+year: 2026
+venue: NeurIPS’26
+links:
+  arxiv: https://arxiv.org/abs/2602.21677
+  code: null
+problem: III
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed†
+objective: NTP†
+inference: C-Beam
+poi: false
+summary: 将 SID 的 trie 深度、祖先路径和 token 对关系写入生成器位置编码与注意力，改善其读取和建模层次 SID 的能力。

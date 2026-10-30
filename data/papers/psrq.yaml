@@ -1,53 +1,23 @@
 id: psrq
 name: PSRQ
-record_type: method
-citation: Wang et al., 2025a
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2508.20359'
-  year: 2025
-  venue: CIKM’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Prog. RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Encoder
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: Discrim.
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Scoring
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Progressive Semantic Residual Quantization for Multimodal-Joint Interest Modeling in Music Recommendation
+authors: Wang et al.
+year: 2025
+venue: CIKM’25
+links:
+  arxiv: https://arxiv.org/abs/2508.20359
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img
+tokenization: Prog. RQ
+backbone: Encoder
+tokenizer: Fixed
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
+evidence:
+- field: problem
+  quote: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
+  where: arXiv abstract

@@ -1,0 +1,30 @@
+id: onechord
+name: OneChord
+title: 'OneChord: Distill What You Rank, Recommend in One Pass'
+authors: Li et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.25805
+  code: null
+problem: IV
+stage: Training
+representation: –
+tokenization: Par. OPQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: Next-item CE + Cons. KD + Rank KD
+inference: Scoring
+poi: false
+summary: 'Accurate product discovery on the Web requires recommendation models that rank catalog candidates within tight inference
+  budgets. In semantic-ID recommendation, deployment can fuse code probabilities with item similarities, making the final
+  ranking depend on their normalization and relative weights. This motivates a direct training principle: \emph{distill what
+  you rank}. We present OneChord, which uses one learned, catalog-normalized fusion for next-item supervision, refinement
+  distillation, and inference. A shared parallel decoder produces joint SID evidence and item-matching scores. During training,
+  a frozen denoiser supplies legal partial SIDs; the student evaluates these states to construct refined fused targets. Matching
+  direct and refined predictions on shared hard candidates transfers refinement into one-pass recommendation. We characterize
+  the fusion weights induced by candidate conditioning and establish sufficient conditions for preserving the refined predictor''s
+  full-catalog Top-$K$ selection. Across six Amazon datasets, OneChord achieves the highest Recall@5 and NDCG@5 among the
+  compared methods on every dataset, with average relative gains of 6.30\% and 7.12\% over the strongest baseline. It also
+  achieves a 1.04--1.18$\times$ full-test generation speedup over the fastest baseline. OneChord makes the served ranking
+  distribution the common object of recommendation learning and distillation.'

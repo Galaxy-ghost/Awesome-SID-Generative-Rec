@@ -1,60 +1,26 @@
 id: transrec
 name: TransRec
-record_type: method
-citation: Lin et al., 2024
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2310.06491'
-  doi: 10.1145/3637528.3671884
-  title: 'Bridging Items and Language: A Transition Paradigm for Large Language Model-Based Recommendation'
-  year: 2024
-  venue: KDD’24
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: §3.1, p3–4
-    status: verified
-    note: ""
-  tokenization:
-    value: Multi-Facet ID
-    source: §3.1, p3–4; Fig. 4
-    status: verified
-    note: ""
-  backbone:
-    value:
-    - Enc-Dec
-    - Dec-Only
-    source: §4.1, p5–6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: §2.1, p3; p6
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: FM-Index+Agg.
-    source: §3.2, p4–5; p6
-    status: verified
-    note: ""
-settings:
-- BART-large
-- LLaMA-7B
-note: ""
+title: 'Bridging Items and Language: A Transition Paradigm for Large Language Model-Based Recommendation'
+authors: Lin et al.
+year: 2024
+venue: KDD’24
+links:
+  arxiv: https://arxiv.org/abs/2310.06491
+  code: null
+problem: II
+stage: Tokenization
+representation: Text
+tokenization: Multi-Facet ID
+backbone: Enc-Dec / Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: FM-Index+Agg.
+poi: false
+summary: 'Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".'
+evidence:
+- field: problem
+  quote: 'Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".'
+  where: arXiv abstract
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §2.1, p3; p6

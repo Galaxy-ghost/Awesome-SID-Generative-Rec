@@ -1,0 +1,19 @@
+id: spacetime-gr
+name: Spacetime-GR
+title: 'Spacetime-GR: A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation'
+authors: Lin et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2508.16126
+  code: null
+problem: I
+stage: Backbone
+representation: Geo
+tokenization: Geo-Idx
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → DPO
+inference: Beam
+poi: true
+summary: 工业版本以二元地理标识生成完整POI，映射原文明确一一对应；表值限生成推荐分支。

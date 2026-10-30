@@ -1,0 +1,19 @@
+id: iba
+name: IBA
+title: 'Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation'
+authors: Yang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2607.12425
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: –
+objective: NTP → (NTP + Aux.)
+inference: C-Beam
+poi: false
+summary: 新增隐式精炼模块与预算预测器，并给出训练和约束解码。

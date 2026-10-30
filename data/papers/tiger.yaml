@@ -1,54 +1,20 @@
 id: tiger
 name: TIGER
-record_type: paradigm-system-benchmark
-psb_kind: baseline
-citation: Rajput et al., 2023
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2305.05065'
-  year: 2023
-  venue: NeurIPS’23
-labels:
-  problem:
-    value: n/a
-    source: missing
-    status: unverified
-    note: Baseline; carries no problem label by rule.
-  stage:
-    value: n/a
-    source: missing
-    status: unverified
-    note: Baseline; carries no stage label by rule.
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Recommender Systems with Generative Retrieval
+authors: Rajput et al.
+year: 2023
+venue: NeurIPS’23
+links:
+  arxiv: https://arxiv.org/abs/2305.05065
+  code: https://github.com/baiyimeng/TIGER
+problem: psb
+stage: n/a
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam
+poi: false
+summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with
+  a T5 encoder-decoder.

@@ -1,0 +1,19 @@
+id: gryphon
+name: Gryphon
+title: 'Gryphon: A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations'
+authors: Tikhonovich et al.
+year: 2026
+venue: CIKM’26 Short
+links:
+  arxiv: https://arxiv.org/abs/2606.08604
+  code: null
+problem: IV
+stage: Backbone
+representation: –
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Rank
+inference: Hybrid
+poi: false
+summary: 有完整 SID 生成和 item-level scoring 新架构；放弃唯一 SID 并不使其成为非 SID。

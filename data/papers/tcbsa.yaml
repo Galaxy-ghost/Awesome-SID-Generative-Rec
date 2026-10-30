@@ -1,0 +1,19 @@
+id: tcbsa
+name: TCBSA
+title: 'From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation'
+authors: Shan et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.32098
+  code: null
+problem: IV
+stage: Inference
+representation: Text
+tokenization: R-KM
+backbone: Enc-Dec† / Dec-Only†
+tokenizer: Fixed
+objective: NTP† / NTP → RL
+inference: CF-Guided C-Beam
+poi: false
+summary: 提出不重训生成器的 SID 推理新算法，属于方法设计。

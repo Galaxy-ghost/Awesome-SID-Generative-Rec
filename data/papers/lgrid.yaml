@@ -1,53 +1,33 @@
 id: lgrid
 name: LGRID
-record_type: method
-citation: Zhang et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2607.27944'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization, degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes (I). The interpretability complaint fits none of the six problems.'
-  stage:
-    value: Representation
-    source: §3, Fig. 2, p3
-    status: verified
-    note: SD-Block and Synergistic Alignment act on the LLM hidden states before quantization.
-  representation:
-    value: Text+Geo
-    source: p3–4; p6
-    status: verified
-    note: ""
-  tokenization:
-    value: DSRQ
-    source: p3; p5
-    status: verified
-    note: ""
-  backbone:
-    value: Disc.
-    source: Table 1, p6; p8
-    status: verified
-    note: SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).
-  tokenizer:
-    value: Fixed
-    source: §3.6.2–3.6.3, p5
-    status: verified
-    note: DSRQ is trained after the slot representations converge and are fixed; all SIDs are generated offline.
-  objective:
-    value: Discrim.
-    source: §3.1, p3; Table 1, p6
-    status: verified
-    note: '"learning a scoring function to estimate the interaction probability"; evaluated by AUC.'
-  inference:
-    value: Scoring
-    source: Table 1, p6; p8
-    status: verified
-    note: ""
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. SIDs only serve as features for discriminative models (DIN etc.); no SID-by-SID generation experiment.
+title: Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation
+authors: Zhang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2607.27944
+  code: null
+problem: I
+stage: Representation
+representation: Text+Geo
+tokenization: DSRQ
+backbone: Disc.
+tokenizer: Fixed
+objective: Discrim.
+inference: Scoring
+poi: true
+summary: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization,
+  degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes
+  (I). The interpretability complaint fits none of the six problems.'
+evidence:
+- field: problem
+  quote: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization,
+    degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes
+    (I). The interpretability complaint fits none of the six problems.'
+  where: abstract, p1
+- field: stage
+  quote: SD-Block and Synergistic Alignment act on the LLM hidden states before quantization.
+  where: §3, Fig. 2, p3
+- field: backbone
+  quote: SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).
+  where: Table 1, p6; p8

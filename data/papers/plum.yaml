@@ -1,56 +1,29 @@
 id: plum
 name: PLUM
-record_type: paradigm-system-benchmark
-psb_kind: paradigm
-citation: He et al., 2026
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2510.07784'
-  doi: 10.1145/3774904.3792802
-  title: 'PLUM: Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations'
-  year: 2026
-  venue: WWW’26
-labels:
-  problem:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".'
-  stage:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: Appendix tentatively places the new design in Training.
-  representation:
-    value: Text+Img+CF
-    source: §2.1.1, p3; Fig. 1, p4; §2.1.3, p3
-    status: verified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: §2.1.2–2.1.4, p3–4
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: §3.1, p5; p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §2.2, p4; §2.3, p4–5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: Multi-task NTP
-    source: §2.2, p4; Table 1, p4; §2.3, p4–5
-    status: verified
-    note: 'CPT trains one NTP loss on a 50/50 mix of user behavior sequences and video metadata with SID-to-title and SID-to-topic templates, then generative retrieval SFT. Changed from NTP on 10-28; recorded like GeoGR.'
-  inference:
-    value: Beam
-    source: §2.3, p5
-    status: verified
-    note: Unconstrained; fewer than 5% invalid SIDs after SFT.
-note: ""
+title: 'PLUM: Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations'
+authors: He et al.
+year: 2026
+venue: WWW’26
+links:
+  arxiv: https://arxiv.org/abs/2510.07784
+  code: null
+problem: psb
+stage: n/a
+representation: Text+Img+CF
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: Beam
+poi: false
+summary: 'Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".'
+evidence:
+- field: problem
+  quote: 'Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".'
+  where: arXiv abstract
+- field: stage
+  quote: Appendix tentatively places the new design in Training.
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §2.2, p4; §2.3, p4–5

@@ -1,0 +1,19 @@
+id: rerankid
+name: ReRankID
+title: Reasoning Reranking with Semantic IDs as the Sole Item Representation
+authors: Tang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.22797
+  code: null
+problem: psb
+stage: n/a
+representation: Text
+tokenization: R-KM†
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+Greedy
+poi: false
+summary: End-to-end paradigm or benchmark using R-KM† tokenization and Dec-Only backbone.

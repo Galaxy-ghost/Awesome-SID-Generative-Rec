@@ -1,0 +1,19 @@
+id: resid
+name: ReSID
+title: 'Rethinking Generative Recommender Tokenizer: Recsys-Native Encoding and Semantic Quantization Beyond LLMs'
+authors: Liang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2602.02338
+  code: null
+problem: I
+stage: Representation
+representation: Attr+CF
+tokenization: GAOQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam
+poi: false
+summary: 提出完整 SID 构造方法并在统一生成推荐器上验证。

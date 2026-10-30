@@ -1,53 +1,27 @@
 id: tokenrec
 name: TokenRec
-record_type: method
-citation: Qu et al., 2025
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2406.10450'
-  year: 2025
-  venue: TKDE’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens"; "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the first new design).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Masked VQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Encoder
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: Discrim.
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Scoring
-    source: §II-D.3, p6, Eq. 17–19; §II-E.2, p7
-    status: verified
-    note: ""
-note: ""
+title: 'Tokenrec: Learning to tokenize id for llm-based generative recommendations'
+authors: Qu et al.
+year: 2025
+venue: TKDE’25
+links:
+  arxiv: https://arxiv.org/abs/2406.10450
+  code: null
+problem: I
+stage: Tokenization
+representation: CF
+tokenization: Masked VQ
+backbone: Encoder
+tokenizer: Fixed
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens";
+  "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the
+  first new design).'
+evidence:
+- field: problem
+  quote: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens";
+    "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the
+    first new design).'
+  where: arXiv abstract

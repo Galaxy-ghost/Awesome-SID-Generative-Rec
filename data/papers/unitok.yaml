@@ -1,54 +1,29 @@
 id: unitok
 name: UniTok
-record_type: method
-citation: Hou and Shin, 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2511.12922'
-  year: 2026
-  venue: AAAI’26
-labels:
-  problem:
-    value: VI
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "require training separate models for each item domain, limiting generalization".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Multi-Dom
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: TokenMoE
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: Appendix D.4, p15
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Beam
-    inferred: true
-    source: missing
-    status: unverified
-    note: Decoding not stated (no mention of beam); inferred from TIGER, which the paper reuses (Appendix D.4, p15).
-note: ""
+title: 'Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation'
+authors: Hou and Shin
+year: 2026
+venue: AAAI’26
+links:
+  arxiv: https://arxiv.org/abs/2511.12922
+  code: null
+problem: VI
+stage: Tokenization
+representation: Multi-Dom
+tokenization: TokenMoE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam†
+poi: false
+summary: 'Abstract: "require training separate models for each item domain, limiting generalization".'
+evidence:
+- field: problem
+  quote: 'Abstract: "require training separate models for each item domain, limiting generalization".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p5
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p5

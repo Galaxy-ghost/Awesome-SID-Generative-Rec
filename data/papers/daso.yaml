@@ -1,0 +1,19 @@
+id: daso
+name: DASO
+title: Difficulty-Aware Semantic-ID Optimization for Generative Recommendation
+authors: Yu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2608.20611
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: C-Beam
+poi: false
+summary: 提出完整 tree-aware GRPO 新训练方法，在固定 MiniOneRec SID 与工业 SID 上验证。

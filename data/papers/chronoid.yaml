@@ -1,0 +1,19 @@
+id: chronoid
+name: ChronoID
+title: 'ChronoID: Infusing Explicit Temporal Signals into Semantic IDs for Generative Recommendation'
+authors: Nian et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2606.14260
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Time
+tokenization: RQ-VAE / Par. VQ
+backbone: Dec-Only†
+tokenizer: Fixed
+objective: NTP
+inference: Beam†
+poi: false
+summary: 提出时间显式构码框架及配套基准，系统对照时间编码、融合和量化三维设计。

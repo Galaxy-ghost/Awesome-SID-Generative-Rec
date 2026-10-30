@@ -1,0 +1,19 @@
+id: dream
+name: DREAM
+title: 'DREAM: Dynamic Refinement of Early Assignment Mappings'
+authors: Guan et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2606.06947
+  code: null
+problem: VI
+stage: Tokenization
+representation: Text+CF
+tokenization: CART
+backbone: Dec-Only
+tokenizer: Altern.
+objective: NTP + Aux.
+inference: C-Beam
+poi: false
+summary: 提出冷物品 SID 重新分配及多路径生成新方法。

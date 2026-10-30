@@ -1,54 +1,29 @@
 id: specgr
 name: SpecGR
-record_type: method
-citation: Ding et al., 2026
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2410.02939'
-  title: Inductive Generative Recommendation via Retrieval-based Speculation
-  year: 2026
-  venue: AAAI’26
-labels:
-  problem:
-    value: VI
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "struggle to recommend unseen items".'
-  stage:
-    value: Inference
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+SID
-    source: Fig. 2, p3; p4–5
-    status: verified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: Implementation Details, p5
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: Implementation Details, p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP + Rank
-    source: p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Hybrid
-    source: Fig. 2, p3; p3–4
-    status: verified
-    note: ""
-note: ""
+title: Inductive Generative Recommendation via Retrieval-based Speculation
+authors: Ding et al.
+year: 2026
+venue: AAAI’26
+links:
+  arxiv: https://arxiv.org/abs/2410.02939
+  code: null
+problem: VI
+stage: Inference
+representation: Text+SID
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Rank
+inference: Hybrid
+poi: false
+summary: 'Abstract: "struggle to recommend unseen items".'
+evidence:
+- field: problem
+  quote: 'Abstract: "struggle to recommend unseen items".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p5
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p5

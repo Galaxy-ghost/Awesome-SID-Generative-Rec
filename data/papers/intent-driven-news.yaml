@@ -1,0 +1,19 @@
+id: intent-driven-news
+name: Intent-Driven-News
+title: Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation
+authors: Su et al.
+year: 2026
+venue: ACL’26 Industry
+links:
+  arxiv: https://arxiv.org/abs/2605.07613
+  code: null
+problem: III
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: CoT+Fuzzy Match
+poi: false
+summary: 明确生成离散 SID 前缀并接目录解析，适合广义 SID 生成综述；不属于完整唯一 SID 直接生成子集。

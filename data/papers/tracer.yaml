@@ -1,0 +1,19 @@
+id: tracer
+name: TRACER
+title: 'TRACER: Token ReAssignment for Concept ERasure in Generative Recommendation'
+authors: Chen et al.
+year: 2026
+venue: NeurIPS’26
+links:
+  arxiv: https://arxiv.org/abs/2606.07688
+  code: null
+problem: IV
+stage: Tokenization
+representation: Text
+tokenization: Soft Reassign. RQ
+backbone: Dec-Only / Enc-Dec
+tokenizer: Joint
+objective: NTP + Aux.
+inference: –
+poi: false
+summary: 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。

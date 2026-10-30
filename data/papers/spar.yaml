@@ -1,0 +1,19 @@
+id: spar
+name: SPAR
+title: 'SPAR: Enhancing Industrial-Scale Generative POI Recommendation via Real-World Spatial Perception'
+authors: Wang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2609.02062
+  code: null
+problem: I
+stage: Representation
+representation: Text+Geo
+tokenization: R-KM
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: –
+poi: true
+summary: 完整四位 SI-SID 含显式消歧码，三项空间机制独立可定位。

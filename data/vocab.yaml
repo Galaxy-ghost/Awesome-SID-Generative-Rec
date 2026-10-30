@@ -1,88 +1,116 @@
-# Allowed label values, one list per label field. scripts/validate.py reads this file.
-# Add a value here before using it in data/papers/*.yaml. "description" is optional.
-# Values are written exactly as in Table 1 (e.g. "NTP → DPO", "–"); the inferred mark (†)
-# is stored in the label's "inferred" flag, not in the value.
+# Allowed vocabulary values for data/papers/<id>.yaml, aligned with Table 1 (材料/Table1_扩展版.md).
+# Checked by scripts/check.py. Problem names and stage names are defined here only.
 
 problem:
+- value: psb
+  name: Paradigms, Systems and Benchmarks
+  description: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources.
 - value: I
   name: Informativeness
-  name_zh: 信息不足（协同与多模态信号缺失或冲突）
   description: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs?
 - value: II
   name: Uniqueness and Validity
-  name_zh: 唯一性与合法性（同码碰撞、出词表与码本塌缩）
   description: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
 - value: III
   name: SID–Model Alignment
-  name_zh: SID 与模型对齐（接口、推理与目标失配）
-  description: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
+  description: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same
+    goal?
 - value: IV
   name: Utility
-  name_zh: 效用对齐（排序、多样性与业务收益）
   description: Are training and search aimed at what users and the platform value, rather than at token likelihood?
 - value: V
   name: Efficiency
-  name_zh: 训练与推理效率（时延、吞吐与计算开销）
   description: Can it be trained and served within latency and cost budgets?
 - value: VI
   name: Generalization
-  name_zh: 泛化能力（冷启动、动态目录与跨域迁移）
   description: Does it still work for new items, new domains, and shifting interests?
-- value: n/a
-  description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
-- value: pending
-  description: Not labeled yet.
 stage:
 - value: Representation
-  display_name: Representation
-  name_zh: 表示层
-  description: The new design sits in the Representation stage.
+  name: Representation
+  description: The primary design change sits in the Representation stage.
 - value: Tokenization
-  display_name: Tokenization
-  name_zh: 分词与构码层
-  description: The new design sits in the Tokenization stage.
+  name: Tokenization
+  description: The primary design change sits in the Tokenization stage.
 - value: Backbone
-  display_name: Generative Backbone
-  name_zh: 生成主干层
-  description: The new design sits in the Backbone stage.
+  name: Generative Backbone
+  description: The primary design change sits in the Generative Backbone stage.
 - value: Training
-  display_name: Training
-  name_zh: 训练与优化层
-  description: The new design sits in the Training stage.
+  name: Training
+  description: The primary design change sits in the Training stage (Tokenizer update schedule or training Objective).
 - value: Inference
-  display_name: Inference
-  name_zh: 推理与解码层
-  description: The new design sits in the Inference stage.
+  name: Inference
+  description: The primary design change sits in the Inference stage.
 - value: n/a
-  description: 'Not labeled by rule: paradigm/system/benchmark records, and records merged into another record.'
-- value: pending
-  description: Not labeled yet.
+  name: Not Applicable
+  description: Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage.
 representation:
+- value: Attr+CF
+  description: Structured item attributes plus collaborative filtering signals (ReSID).
 - value: Attr+Geo+CF
   description: Category and other attributes, plus geography, plus CF (POI).
+- value: Attr+Geo+CF†
+  description: Attr 为类别等结构化属性，Geo 为区域/邻接，CF 为用户访问。
 - value: CF
   description: Collaborative filtering signal.
 - value: Cross-Dom
+- value: Geo
+  description: Geographic coordinates and spatial index features (Spacetime-GR).
+- value: MM
+  description: 原文明确使用PinCLIP多模态物品嵌入，但未展开具体构码模态组成。
 - value: Multi-Dom
 - value: Text
+- value: Text + CF
+  description: Item text embeddings plus collaborative graph edges (GrIS).
+- value: Text + Img + CF
+  description: Multimodal text and image embeddings aligned with collaborative interactions (CMRec).
+- value: Text / Audio
+  description: 不同实体类型分别使用文本或音频嵌入与独立码本，不代表拼接两模态。
+- value: Text / MM
+  description: 公开文本配置与internal-fashion multimodal配置分支
+- value: Text / Text+CF
+  description: Text-only setting (TIGER/RQ) vs. text plus collaborative setting (LETTER/ Vibrent vs. industrial).
+- value: Text / –
+  description: 文本构码数据 / Yambda提供128维物品向量但未披露输入来源。
+- value: Text+Attr+Geo
+  description: Attr 特指数值业务属性，Geo 包括连续坐标
 - value: Text+CF
+- value: Text+CF / Text
+  description: Representation：工业招聘候选用 Mistral-E5 加 recruiter engagement 两塔微调
 - value: Text+Geo
 - value: Text+Geo+CF
 - value: Text+Img
+- value: Text+Img+Attr
+  description: 构码显式融合广告图像、文本及行业/多级类别结构化属性。
+- value: Text+Img+Audio+CF
+  description: 直播文本、画面、音频经实时行为双塔后对齐。
 - value: Text+Img+CF
+- value: Text+Img+CF†
 - value: Text+Img+Geo
   description: Text, image and geography (OneLoc).
 - value: Text+Img+Geo+CF
+- value: Text+Img+Geo†
+- value: Text+Img†
 - value: Text+SID
   description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- value: Text+Time
+  description: 文本与交互时间输入
+- value: Text†
 - value: –
   description: Not reported in the paper, or not applicable.
+- value: – / Text+Img
+  description: Spotify/POG原CLHE输入未在本文分解
 tokenization:
 - value: Align. RQ
   description: Residual quantization with alignment losses and no autoencoder (SemConv).
+- value: BDQ
+  description: Bit-Decomposable Quantizer，基于 LFQ 的 bit 可分解离散编号器。
 - value: Bal. VQ+KM
   description: 'Balanced SID: single-layer VQ plus per-prefix k-means (MBGen).'
 - value: C-RQ
+- value: CART
+  description: Collaborative-Aware Refined Tokenization，协同感知码分配及候选池。
+- value: CF-Aligned MM RQ
+  description: MACRec双模态残差量化
 - value: Casc. RQ
 - value: CoBa RQ-VAE
   description: 'Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR).'
@@ -92,30 +120,59 @@ tokenization:
 - value: Curr. RQ
 - value: DSRQ
   description: Dual-stream residual quantization (LGRID).
+- value: Direct SID Heads
+  description: 从 MLLM 隐状态直接分类各 SID 层，不通过 RQ/RQ-VAE。
 - value: Dual H-KM
 - value: Dual RQ
+- value: Dual RQ-VAE
+  description: 分别量化文本和协同嵌入的双 RQ-VAE，加热度预算路由。
+- value: Dyn. KM+Disamb.
+  description: 曝光加权单层k-means语义码+固定消歧码，曝光EMA动态更新
+- value: Flow+PQ
+  description: 离线normalizing flow把语义嵌入变为标准正态latent，再独立子空间KMeans/PQ构码
+- value: Freq. R-KM
+  description: Frequency-aware residual K-means：共享残差码本按频率保留前缀，再加独立消歧码。
+- value: GAOQ
+  description: Globally Aligned Orthogonal Quantization，全局对齐正交量化。
+- value: Geo-Idx
+  description: 地理块+块内序号的两token层次索引，沿用LGSID的Geo-Idx写法。
 - value: Geo-Idx+RQ
   description: Geographic attribute index plus residual quantization (LGSID).
+- value: Geo-Prefix+HClus
+  description: S2地理前缀加层次聚类
 - value: Geo-Prefix+RQ-VAE
   description: Geographic prefix (S2 cell tokens), RQ-VAE semantic anchor and a distinguishing suffix (ROS).
 - value: Graph RQ-VAE
   description: Graph-based RQ-VAE (MMGRec).
 - value: H-KM
   description: Hierarchical k-means.
+- value: HARQ
+  description: Hyperbolic Adaptive Residual Quantization，双曲自适应残差量化及可变长度构码模块。
 - value: Hier. RQ
-- value: Learn. RQ
+- value: KG-RQ
+  description: 知识图谱结构监督的类型专用残差量化
 - value: LLM-Vocab
-- value: Masked VQ
+- value: Learn. RQ
 - value: MM-RQ
+- value: Masked VQ
 - value: MoE-VQ
 - value: Multi-Facet ID
   description: 'Multi-facet identifiers: ID, title substrings and attributes (TransRec).'
+- value: Multi-Path R-KM+Hash
+  description: 多路径残差kmeans加末层非语义hash，首层多中心后续逐条残差。
 - value: NU-RQ
   description: Non-uniform RQ variant.
+- value: Nested RQ
+  description: 多粒度嵌套残差量化，共享各残差层码本。
 - value: OPQ
   description: Optimized product quantization.
 - value: Orth. RQ
-  description: Orthogonal residual quantization with task-relevant dimension selection and layer-wise residual coding (DOS; ORQ in the paper).
+  description: Orthogonal residual quantization with task-relevant dimension selection and layer-wise residual coding (DOS;
+    ORQ in the paper).
+- value: PC-AE
+  description: Parallel Codebook Auto-Encoder
+- value: PID (P-SAE)
+  description: Pretrained Interpretable ID：预训练SAE feature indices、相对activation strengths及对应语义注释
 - value: Par. OPQ
 - value: Par. VQ
 - value: Post-hoc RQ
@@ -127,25 +184,55 @@ tokenization:
   description: Residual k-means.
 - value: R-KM+EM
   description: RQ-Kmeans refined by an EM-style algorithm (GeoGR).
+- value: R-KM+FSQ
+  description: 前两层残差 k-means，末层有限标量量化消歧。
 - value: R-KM+Geo-CB
   description: RQ-Kmeans codebook layers plus a geographic codebook layer (ProGEO).
-- value: Ref.-RQ
-  description: Reference-vector RQ variant.
+- value: R-KM+Graph
+  description: 残差K-means SID加离线层内语义图，图供推理轨迹构造。
+- value: R-KM†
 - value: RQ
   description: Residual quantization.
+- value: RQ+IST
+  description: 固定基础RQ编号＋仅历史侧Item-level Subword Tokenization
 - value: RQ+LoRA
 - value: RQ-KM
+- value: RQ-PIB
+  description: Residual Quantization with Prefix-aware Interaction Balancing
 - value: RQ-VAE
+- value: RQ-VAE / Learn. RQ
+  description: Evaluated on both standard RQ-VAE (TIGER) and learnable collaborative RQ (LETTER).
+- value: RQ-VAE / Par. VQ
+  description: 两种被对照的构码变体
+- value: RQ-VAE / R-KM / LETTER
+  description: 三种实际评估配置
 - value: RQ-VAE+DINO
+- value: RQ-VAE+PPR
+  description: RQ-VAE 构码时加基于 Personalized PageRank 共参与关系的对比监督。
+- value: RQ-VAE†
+- value: RecDMoN / RQ-VAE
+  description: 本篇两个替代构码实例：recursive DMoN graph partition path
+- value: Ref.-RQ
+  description: Reference-vector RQ variant.
+- value: SRBQ
+  description: Semantic Residual Balanced Quantization
 - value: Self-Imp.
 - value: Self-Sup. ID
   description: Self-supervised semantic indexer, not an RQ-VAE (LMIndexer).
 - value: Shared/Spec. RQ
   description: Shared codebook plus task-specific codebooks (GenSAR).
+- value: SimHash
+  description: 固定随机超平面局部敏感哈希。
+- value: Skeleton R-KM
+  description: 头部残差k-means骨架
+- value: Soft Reassign. RQ
+  description: 保留残差层级，以 softmax token selector 加轻量扰动做可微 token 重分配。
 - value: Soft-RQ
   description: Soft-routed RQ variant.
 - value: Spectral Clus.
   description: Recursive spectral clustering on the co-occurrence graph (CID).
+- value: Subspace RQ
+  description: 16个量化子空间，每空间3残差层，48个并行码头
 - value: Term-ID
 - value: TokenMoE
 - value: Tree
@@ -156,43 +243,91 @@ tokenization:
 backbone:
 - value: Dec-Only
   description: Decoder-only.
+- value: Dec-Only / Enc-Dec
+  description: Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones）
+- value: Dec-Only / Non-AR
+  description: Backbone：同一Qwen3-8B（另0.6B），A为LM head自回归，B为共享trunk后4个并行SID heads。（§3.2
+- value: Dec-Only†
 - value: Disc.
   description: Discriminative recommendation model such as DIN; SIDs only serve as features (LGRID, LGSID).
+- value: Disc. / Enc-Dec
+  description: Evaluated on both discriminative rankers (DIN, etc.) and Encoder-Decoder generative models (LGSID).
 - value: Dual Enc-Dec
 - value: Enc-Dec
   description: Encoder-decoder.
+- value: Enc-Dec / Dec-Only
+  description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+- value: Enc-Dec / Dec-Only (AR); Non-AR (PR)
+  description: AR结构为T5/GPT-2
+- value: Enc-Dec / Lazy Dec-Only
+  description: 主格分别为OneRec-V1和V2公开适配
+- value: Enc-Dec†
+- value: Enc-Dec† / Dec-Only
+  description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+- value: Enc-Dec† / Dec-Only†
+  description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+- value: Enc-MLP
+  description: 冻结T5 encoder，一次注意力上下文读出，逐码位前缀条件MLP
 - value: Encoder
 - value: Encoder (Non-AR)
 - value: HeterRec
   description: Name of the generation framework used by the paper; its structure is not described (MMQ).
 - value: Lazy Dec-Only
   description: The paper's Lazy Decoder-Only architecture (OneRec-V2).
+- value: Lazy Dec-Only†
+  description: 主生成模块以lazy decoder-only处理长历史，后两码用轻量顺序条件模块。
 - value: Non-AR
   description: Non-autoregressive.
+- value: Non-AR / Enc-Dec
+  description: Parallel prediction heads (main setting) vs. Encoder-Decoder TIGER integration (SCRec).
 - value: –
   description: Not reported in the paper, or not applicable.
 tokenizer:
 - value: Altern.
   description: Tokenizer and generator are updated in turns.
+- value: Altern.†
 - value: Fixed
   description: SIDs are built first and not changed while the generator trains.
+- value: Fixed†
 - value: Joint
   description: The generator loss updates the tokenizer directly.
-- value: pending
-  description: 'Not split yet: only the pre-10-26 Training value exists (see legacy_training).'
 - value: –
   description: No SID is built.
 objective:
+- value: (MTP + Masked Rec.) → MTP
+  description: 并行下一物品码预测CE与多粒度历史掩码重建CE联合训练，课程最后关闭重建、保留纯下一物品预测。
+- value: (NTP + Ctr.) → (NTP + Ctr. + RL)
+  description: 前阶段联合下一 token 与对比学习
+- value: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
+  description: 初始化A/B=TIGER/REG4Rec：前者NTP、后者NTP+category辅助监督，按点名继承标†
 - value: Discrim.
   description: Scores items; does not generate SIDs.
-- value: Masked
-  description: Masks part of the codes and reconstructs them (includes masked diffusion).
+- value: Discrim. / NTP
+  description: Discriminative scoring objective vs. generative next-token prediction objective (LGSID).
+- value: Dual-level Flow Ctr.
+  description: 平均概率速度参数化的两层item-negative contrastive目标：token概率乘积构成的SID分数与whole-SID表示相似度同时优化。Eq9替代逐码hard-label CE
 - value: MTP
   description: Predicts several codes in parallel at once.
+- value: MTP + Aux.
+  description: 并行码位预测，加无负例负余弦语义对齐。
 - value: MTP + Ctr.
   description: MTP plus a contrastive loss.
+- value: MTP + Ctr. + Aux.
+  description: 同阶段并行码CE + in-batch ISA对比 + 潜在token重建
+- value: MTP + Rel.MSE
+  description: 并行码位NLL联合token embedding空间与quantization codebook空间的pairwise cosine relation MSE
+- value: Masked
+  description: Masks part of the codes and reconstructs them (includes masked diffusion).
+- value: Masked → RL (→ Masked KD for Fast)
+  description: 先random-mask去噪CE，再semantic-fork-aware GRPO
 - value: Multi-task NTP
   description: The same NTP loss over several tasks.
+- value: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT
+  description: A单LM头在retrieval/content-QA/instruction混合数据上做加权NTP
+- value: Multi-task NTP†
+- value: Multi-task NTP† / NTP
+- value: Multi-task NTP† / NTP†
+  description: 分别MiniOneRec发布的SFT checkpoint（recommendation+SID-text alignment）与TIGER逐码预测
 - value: NTP
   description: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - value: NTP + Aux.
@@ -201,31 +336,74 @@ objective:
   description: NTP plus a contrastive loss.
 - value: NTP + Dense
   description: NTP plus dense-vector prediction.
+- value: NTP + PV-RSPO + Rank + Aux.
+  description: 多路径SID NTP与prefix-value listwise RSPO、eCPM LambdaLoss、行为深度ordinal loss及粗原型辅助监督在共享模型中联合训练。
+- value: NTP + RL
+  description: 条件逐码预测NLL与RL损失在同一优化阶段联合
 - value: NTP + Rank
   description: NTP plus a ranking loss.
+- value: NTP + Rank + Aux. / MTP + Rank + Aux.
+  description: AR/PR分别序列NLL/并行码预测，加candidate preference loss与Hellinger strength项，三项同阶段联合。
+- value: NTP / NTP + Aux.
+  description: full-budget LoopGR仅NTP
+- value: NTP → (NTP + Aux.)
+  description: 先uniform refinement CE，再主CE联合lookahead token CE及gain regression。
+- value: NTP → (NTP + DPO)
+  description: 先SID CE预训练
+- value: NTP → (RL + Rank)
+  description: 先以下一token损失SFT
 - value: NTP → DPO
   description: NTP, then preference optimization.
 - value: NTP → RL
   description: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- value: pending
-  description: 'Not split yet: only the pre-10-26 Training value exists (see legacy_training).'
+- value: NTP → RL†
+- value: NTP†
+- value: NTP† / NTP → RL
+  description: TIGER继承NTP目标，本文未重述故†
+- value: Next-item CE + Cons. KD + Rank KD
+  description: 学生以SID、item分支与完整目录融合分布的next-item监督联合边界/组合一致性KL及refined-fusion排名KL
+- value: –
 inference:
 - value: Beam
+- value: Beam+Agg.
+  description: 束搜索后聚合同物品多个SID的概率。
 - value: Beam+Geo-Filter
   description: Beam search with candidates limited to the nearest POIs (ProGEO).
 - value: BeamFusion
+- value: Beam†
+- value: Beam† / C-Beam
+- value: Beam† / C-Beam†
+  description: Unconstrained beam search (TIGER) vs. constrained beam search (LETTER) (GFlowGR).
+- value: Beam† / –
+  description: TIGER+RAGR 沿用 TIGER 的束搜索
 - value: Bid-Aware Beam
   description: Beam search after adjusting logits by real-time bids (GEM-Rec).
 - value: C-Beam
   description: Constrained beam search.
+- value: C-Beam / Scoring
+  description: AR为catalog-constrained beam50
+- value: CF-Guided C-Beam
+  description: 协同评分在剪枝前逐边引导合法SID束搜索。
 - value: CoT
   description: Chain-of-thought before the SID.
 - value: CoT+Beam
   description: Think, self-correct, answer, then beam search (Think2Go).
 - value: CoT+C-Beam
   description: Reasoning chain, then constrained beam search (ROS).
+- value: CoT+Fuzzy Match
+  description: 生成推理与3层 SID 前缀，通过动态池模糊匹配落到文章，省略第4层近唯一判别码。
+- value: CoT+Greedy
+  description: 贪心生成自然语言推理与候选索引排序，失败时追加结构化抽取。
 - value: Diff.
   description: Diffusion decoding.
+- value: Diff.+Beam
+  description: 掩码扩散迭代去噪，按置信度选位置并在多位置组合上做beam展开、保留多个完整SID
+- value: Diff.+Legalize
+  description: 扩散解码后候选集合内精确SID匹配，非法SID重构向量后cosine最近候选匹配并去重。
+- value: Div. Beam
+  description: diverse beam search，60 beams 分5组。
+- value: Div. C-Beam
+  description: 层次prefix相似性惩罚的多样化trie约束束搜索。
 - value: Dual Beam
   description: Two-branch beam search, then merge (DualGR).
 - value: Dyn. Beam
@@ -233,13 +411,30 @@ inference:
 - value: Ensemble
 - value: FM-Index+Agg.
   description: FM-index constrained generation plus aggregation scoring (TransRec).
+- value: FP8+RecoGEM
+  description: FP8 权重/激活 PTQ 加直接构建 TensorRT 图及专门 TopK、attention、MoE 算子。
 - value: Fusion
+- value: GRC+Beam
+  description: Generation–Reflection–Correction加束搜索，EGRS用反思熵分配固定修正预算。
 - value: Graph
+- value: Greedy
+  description: Single continuous greedy decoding until EOS (SLIDE).
 - value: Hybrid
+- value: ISD Beam
+  description: item rank在beam reduction前支持prefix，生成后同rank融合排序
+- value: Length-Quota Beam
+  description: 多长度分支 beam search，按预测长度概率分配推荐名额，过滤无效完整码后跨长度联合评分。
 - value: Non-AR
 - value: PRM-Beam
   description: Process-reward-model guided beam search.
+- value: PV-Beam+Rerank
+  description: Prefix-Value-aware Beam Search加共享模型判别重排。
 - value: Scoring
+- value: Scoring / Beam
+- value: Scoring / Beam†
+  description: Discriminative candidate scoring vs. generative beam search.
+- value: Scoring+Rerank
+  description: 全物品按并行码概率评分，再对候选池按 Hamming 原型一致性重排。
 - value: Self-Draft+Hash
   description: Self-drafting head generation with hash-set validity filtering (NEZHA).
 - value: Sess. Beam
@@ -250,41 +445,3 @@ inference:
   description: Vectorized constrained beam search (STATIC).
 - value: –
   description: Not reported in the paper.
-domain:
-- value: general
-  description: General, sequential, or e-commerce recommendation.
-- value: poi
-  description: Point-of-interest and spatial/geographic recommendation.
-- value: ads
-  description: Online advertising and auction/bidding recommendation.
-- value: cross-domain
-  description: Cross-domain and transferable recommendation.
-- value: multi-domain
-  description: Multi-domain and multi-scenario recommendation.
-evidence_grade:
-- value: Measured
-  description: Directly computed or reproduced under a unified protocol and script.
-- value: Reported
-  description: Empirically reported in a controlled experiment or ablation table in the cited paper.
-- value: Open
-  description: Lacks a controlled 2x2 orthogonal experiment under a shared backbone and protocol.
-claim_kind:
-- value: design-stated
-  description: Architectural assumption, problem motivation, or design choice stated by the authors (grade is null).
-- value: ablation-finding
-  description: Empirical finding from a controlled ablation in the paper (grade in evidence_grade).
-- value: boundary-case
-  description: Empirical boundary condition or counterexample reported in the paper (grade in evidence_grade).
-- value: deduction
-  description: Analytical or interface-level deduction from pipeline definitions (grade is null).
-- value: selection-rule
-  description: Engineering selection rule conditional on pipeline constraints (grade is null).
-- value: adjudicated-label
-  description: Dual-blind adjudicated taxonomy classification (grade is null).
-label_status:
-- value: unverified
-  description: Not yet checked against primary paper locations, or marked as inferred (†).
-- value: migrated
-  description: Migrated from the Table 1 / Table 2 source-location appendices prior to dual-blind repo review.
-- value: verified
-  description: Directly supported by source and verified against the primary paper.

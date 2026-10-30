@@ -1,0 +1,19 @@
+id: aware
+name: AWARE
+title: 'Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation'
+authors: Ding et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2605.11807
+  code: null
+problem: VI
+stage: Training
+representation: Text+Geo
+tokenization: Geo-Prefix+HClus
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: –
+poi: true
+summary: 沿用ROS的SID生成骨干，增量是有原文机制和实验支撑的世界知识获取及历史选择。

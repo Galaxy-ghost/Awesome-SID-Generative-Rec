@@ -1,0 +1,19 @@
+id: kgtb
+name: KGTB
+title: Knowledge Graph Tokenization for Behavior-Aware Generative Next POI Recommendation
+authors: Sun et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2509.12350
+  code: null
+problem: I
+stage: Tokenization
+representation: Attr+Geo+CF
+tokenization: KG-RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: –
+poi: true
+summary: 完整 POI StruID 是推荐输出，知识图谱编号和多行为监督提供独立设计。

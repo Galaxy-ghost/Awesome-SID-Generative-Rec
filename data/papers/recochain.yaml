@@ -1,53 +1,31 @@
 id: recochain
 name: RecoChain
-record_type: method
-citation: Liu and Cao, 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2604.25787'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: IV
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).'
-  stage:
-    value: Backbone
-    source: arXiv abstract; introduction (contribution list)
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p3
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP + Rank
-    source: p3
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: Hybrid
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation
+authors: Liu and Cao
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.25787
+  code: null
+problem: IV
+stage: Backbone
+representation: Text+Img
+tokenization: RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP + Rank
+inference: Hybrid
+poi: false
+summary: 'Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold:
+  a flawed training objective counts).'
+evidence:
+- field: problem
+  quote: 'Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold:
+    a flawed training objective counts).'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p3
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p3

@@ -1,0 +1,19 @@
+id: holorec
+name: HoloRec
+title: 'HoloRec: Holistic Encoding and Interleaved Reasoning for Generative Recommendation'
+authors: Zhao et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2606.15331
+  code: null
+problem: III
+stage: Tokenization
+representation: –
+tokenization: Nested RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: –
+poi: false
+summary: 构造多粒度语义码并交错推理，使编号结构支持推荐推理。

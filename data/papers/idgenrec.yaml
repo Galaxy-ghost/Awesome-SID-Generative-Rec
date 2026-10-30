@@ -1,53 +1,29 @@
 id: idgenrec
 name: IDGenRec
-record_type: method
-citation: Tan et al., 2024
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2403.19021'
-  year: 2024
-  venue: SIGIR’24
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: LLM-Vocab
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Altern.
-    source: p4
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP
-    source: p4
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'Idgenrec: Llm-recsys alignment with textual id learning'
+authors: Tan et al.
+year: 2024
+venue: SIGIR’24
+links:
+  arxiv: https://arxiv.org/abs/2403.19021
+  code: null
+problem: III
+stage: Tokenization
+representation: Text
+tokenization: LLM-Vocab
+backbone: Enc-Dec
+tokenizer: Altern.
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".'
+evidence:
+- field: problem
+  quote: 'Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p4
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p4

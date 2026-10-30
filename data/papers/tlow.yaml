@@ -1,0 +1,19 @@
+id: tlow
+name: Tlow
+title: 'Tlow: Flow-based Item Tokenizer for Recommendation'
+authors: Li et al.
+year: 2026
+venue: CIKM’26 Applied
+links:
+  arxiv: https://arxiv.org/abs/2608.24176
+  code: null
+problem: I
+stage: Tokenization
+representation: Text
+tokenization: Flow+PQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: MTP + Rel.MSE
+inference: Scoring
+poi: false
+summary: 主公开实验所有模型使用 sentence-t5-base item semantic embedding；多模态/跨域是附加实验。

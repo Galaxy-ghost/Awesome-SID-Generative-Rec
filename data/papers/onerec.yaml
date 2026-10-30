@@ -1,54 +1,23 @@
 id: onerec
 name: OneRec
-record_type: paradigm-system-benchmark
-psb_kind: paradigm
-citation: Deng et al., 2025
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2502.18965'
-  year: 2025
-  venue: arXiv’25
-labels:
-  problem:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
-  stage:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: R-KM
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP → DPO
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Sess. Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'Onerec: Unifying retrieve and rank with generative recommender and iterative preference alignment'
+authors: Deng et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2502.18965
+  code: null
+problem: psb
+stage: n/a
+representation: Text+CF
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP → DPO
+inference: Sess. Beam
+poi: false
+summary: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
+evidence:
+- field: problem
+  quote: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
+  where: arXiv abstract

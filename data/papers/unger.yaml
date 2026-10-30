@@ -1,0 +1,19 @@
+id: unger
+name: UNGER
+title: 'UNGER: Generative Recommendation with A Unified Code via Semantic and Collaborative Integration'
+authors: Xiao et al.
+year: 2025
+venue: TOIS’25
+links:
+  arxiv: https://arxiv.org/abs/2502.06269
+  code: null
+problem: I
+stage: Representation
+representation: Text+CF
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Ctr.
+inference: Beam
+poi: false
+summary: 提出统一表示、离散编码及完整 Unicode 生成查表流程。

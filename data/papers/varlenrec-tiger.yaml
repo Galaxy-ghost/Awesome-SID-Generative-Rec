@@ -1,0 +1,19 @@
+id: varlenrec-tiger
+name: VarLenRec（TIGER）
+title: Learning Variable-Length Tokenization for Generative Recommendation
+authors: Wang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2605.17779
+  code: null
+problem: I
+stage: Tokenization
+representation: Text
+tokenization: HARQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: C-Beam
+poi: false
+summary: 提出可变长度离散 SID 并接入生成推荐器。

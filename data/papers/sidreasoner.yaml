@@ -1,55 +1,29 @@
 id: sidreasoner
 name: SIDReasoner
-record_type: method
-citation: He et al., 2026
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2603.23183'
-  doi: 10.1145/3770855.3818122
-  year: 2026
-  venue: KDD’26
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "Itemic tokens are not natively meaningful to LLMs".'
-  stage:
-    value: Training
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: §3.2.1, p4
-    status: verified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: §3.2.1, p4
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: §4.1.3, p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP → RL
-    source: §3.2.2, §3.3.1, §3.3.2, p4–5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: C-Beam
-    source: 'code: HappyPointer/SIDReasoner evaluate_Qwen3_think.py (commit 2575927, read statically)'
-    status: verified
-    note: Not stated in the text.
-training_change: objective
-note: ""
+title: Reasoning over Semantic IDs Enhances Generative Recommendation
+authors: He et al.
+year: 2026
+venue: KDD’26
+links:
+  arxiv: https://arxiv.org/abs/2603.23183
+  code: null
+problem: III
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: C-Beam
+poi: false
+summary: 本篇§3.1明确复用SIDReasoner的SID管线；另核2603.23183v2 §3.2.1 PDF p4明确item textual metadata构码，本文未重述的输入标Text†。
+evidence:
+- field: problem
+  quote: 'Abstract: "Itemic tokens are not natively meaningful to LLMs".'
+  where: arXiv abstract
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §3.2.2, §3.3.1, §3.3.2, p4–5
+- field: inference
+  quote: Not stated in the text.
+  where: 'code: HappyPointer/SIDReasoner evaluate_Qwen3_think.py (commit 2575927, read statically)'

@@ -1,0 +1,19 @@
+id: topogr
+name: TopoGR
+title: 'TopoGR: Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation'
+authors: Zheng et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2607.25216
+  code: null
+problem: III
+stage: Tokenization
+representation: Text
+tokenization: BDQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: MTP + Aux.
+inference: Scoring+Rerank
+poi: false
+summary: 提出 Binary SID 与拓扑感知生成推荐组件，既非单纯分析亦非连续标识。

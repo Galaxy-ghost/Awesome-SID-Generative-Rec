@@ -1,0 +1,30 @@
+id: nau
+name: NAU
+title: Neighborhood-Aware Unlearning for Generative Recommendation
+authors: Lubitzsch et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.27232
+  code: null
+problem: IV
+stage: Training
+representation: –
+tokenization: R-KM
+backbone: Enc-Dec†
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: –
+poi: false
+summary: 'Generative recommendation predicts items by autoregressively generating semantic identifiers (SIDs), whose tokens
+  are shared across semantically related items. With this paradigm gaining adoption, the question of how to support unlearning
+  in it has become pressing. If training interactions must later be removed, such as injected spam or interactions with items
+  a user no longer wants, this sharing lets an unlearning update unintentionally affect the predictions for the interactions''
+  neighbors. We show that this effect is locally structured and hidden by global metrics: unlearning can leave recommendation
+  utility on the whole test set nearly unchanged while substantially degrading it on neighborhoods of the forgotten interactions''
+  SIDs. We propose Neighborhood-Aware Unlearning (NAU), which augments interaction-level unlearning with explicit control
+  over the probability mass assigned to the forgotten items'' neighborhoods. Across three datasets and four SID tokenizers,
+  NAU restores spam-induced exposure toward the retrained reference while retaining more than 95% of retrained utility, and
+  recovers the neighborhood utility that forget-and-repair unlearning loses at no global cost. We identify local probability
+  redistribution as an important failure mode of unlearning in SID-based generative recommenders and show that explicitly
+  controlling this redistribution can mitigate its effects.'

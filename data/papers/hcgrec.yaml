@@ -1,0 +1,19 @@
+id: hcgrec
+name: HCGRec
+title: 'Learning from Unreachable Rewards: Hint-Conditioned Reinforcement Learning for Generative Recommendation'
+authors: Zhang et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2608.11980
+  code: null
+problem: IV
+stage: Training
+representation: –
+tokenization: RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: Beam
+poi: false
+summary: 提出有限 rollout 可达性诊断与 hint-aware 信用分配的 SID 推荐训练方法。

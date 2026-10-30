@@ -1,53 +1,29 @@
 id: gram
 name: GRAM
-record_type: method
-citation: Lee et al., 2025
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2506.01673'
-  year: 2025
-  venue: ACL’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: H-KM
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p2
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP
-    source: p2
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'Gram: Generative recommendation via semantic-aware multi-granular late fusion'
+authors: Lee et al.
+year: 2025
+venue: ACL’25
+links:
+  arxiv: https://arxiv.org/abs/2506.01673
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+CF
+tokenization: H-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".'
+evidence:
+- field: problem
+  quote: 'Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p2
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p2

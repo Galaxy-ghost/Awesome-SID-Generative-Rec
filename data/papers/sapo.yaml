@@ -1,0 +1,19 @@
+id: sapo
+name: SAPO
+title: 'SAPO: Step-Aligned Policy Optimization for Reasoning-Based Generative Recommendation'
+authors: Zheng et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2605.17648
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+C-Beam
+poi: false
+summary: 把推理块与SID码位配对分配组内奖励，避免整条结果奖励同时惩罚匹配和不匹配的码位。

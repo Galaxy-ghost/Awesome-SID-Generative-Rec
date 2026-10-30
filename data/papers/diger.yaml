@@ -1,56 +1,32 @@
 id: diger
 name: DIGER
-record_type: method
-citation: Fu et al., 2026
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2601.19711'
-  doi: 10.1145/3805712.3809641
-  title: Differentiable Semantic ID for Generative Recommendation
-  year: 2026
-  venue: SIGIR’26
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are used". Candidates: III / II (rule: tie broken by the majority of new designs).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: §5, p6; §4.1, p4
-    status: verified
-    note: ""
-  tokenization:
-    value: Learn. RQ
-    source: §4.1–4.2, p4–5; p6
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Joint
-    source: §6.1, p6; Table 2, p7
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Beam
-    inferred: true
-    source: §3, p3; p6
-    status: unverified
-    note: Decoding not stated; implementation 'followed the settings in [29]' (ETEGRec); inferred from ETEGRec (Beam in Table 1).
-note: ""
+title: Differentiable Semantic ID for Generative Recommendation
+authors: Fu et al.
+year: 2026
+venue: SIGIR’26
+links:
+  arxiv: https://arxiv.org/abs/2601.19711
+  code: null
+problem: II
+stage: Tokenization
+representation: Text
+tokenization: Learn. RQ
+backbone: Enc-Dec
+tokenizer: Joint
+objective: NTP
+inference: Beam†
+poi: false
+summary: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are
+  used". Candidates: III / II (rule: tie broken by the majority of new designs).'
+evidence:
+- field: problem
+  quote: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are
+    used". Candidates: III / II (rule: tie broken by the majority of new designs).'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §6.1, p6; Table 2, p7
+- field: inference
+  quote: Decoding not stated; implementation 'followed the settings in [29]' (ETEGRec); inferred from ETEGRec (Beam in Table
+    1).
+  where: §3, p3; p6

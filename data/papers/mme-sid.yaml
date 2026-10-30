@@ -1,53 +1,25 @@
 id: mme-sid
 name: MME-SID
-record_type: method
-citation: Wang et al., 2025b
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2509.02017'
-  year: 2025
-  venue: CIKM’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: MM-RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Scoring
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Empowering large language model for sequential recommendation via multimodal embeddings and semantic ids
+authors: Wang et al.
+year: 2025
+venue: CIKM’25
+links:
+  arxiv: https://arxiv.org/abs/2509.02017
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img+CF
+tokenization: MM-RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: Scoring
+poi: false
+summary: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting
+  of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
+evidence:
+- field: problem
+  quote: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting
+    of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
+  where: arXiv abstract

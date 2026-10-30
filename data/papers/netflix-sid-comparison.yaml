@@ -1,0 +1,19 @@
+id: netflix-sid-comparison
+name: Netflix-SID-Comparison
+title: 'Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction'
+authors: Oh et al.
+year: 2026
+venue: NeurIPS’26 PALM Workshop
+links:
+  arxiv: https://arxiv.org/abs/2610.15864
+  code: null
+problem: psb
+stage: n/a
+representation: –
+tokenization: RQ-VAE
+backbone: Dec-Only / Non-AR
+tokenizer: Fixed
+objective: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT
+inference: C-Beam / Scoring
+poi: false
+summary: End-to-end paradigm or benchmark using RQ-VAE tokenization and Dec-Only / Non-AR backbone.

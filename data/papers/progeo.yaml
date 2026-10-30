@@ -1,53 +1,33 @@
 id: progeo
 name: ProGEO
-record_type: method
-citation: He et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2604.23156'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names no real item).'
-  stage:
-    value: Tokenization
-    source: Fig. 2, p3; §3, p3–4
-    status: verified
-    note: Geo-centroid local coordinates and GEO-RoPE both act on the third-layer geographic codebook.
-  representation:
-    value: Text+Geo
-    source: p11; p2–3
-    status: verified
-    note: ""
-  tokenization:
-    value: R-KM+Geo-CB
-    source: p3
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: p11
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: Appendix B, p11
-    status: verified
-    note: The codebook is built first, then Qwen2.5-1.5B is trained.
-  objective:
-    value: NTP
-    source: Appendix B, p11
-    status: verified
-    note: The generator is trained to output SID lists.
-  inference:
-    value: Beam+Geo-Filter
-    source: p3; p11
-    status: verified
-    note: ""
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
+title: 'Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation'
+authors: He et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.23156
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Geo
+tokenization: R-KM+Geo-CB
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: Beam+Geo-Filter
+poi: true
+summary: 'Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are
+  semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names
+  no real item).'
+evidence:
+- field: problem
+  quote: 'Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are
+    semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names
+    no real item).'
+  where: abstract, p1
+- field: stage
+  quote: Geo-centroid local coordinates and GEO-RoPE both act on the third-layer geographic codebook.
+  where: Fig. 2, p3; §3, p3–4
+- field: tokenizer
+  quote: The codebook is built first, then Qwen2.5-1.5B is trained.
+  where: Appendix B, p11

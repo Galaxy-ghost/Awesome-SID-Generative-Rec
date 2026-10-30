@@ -1,53 +1,29 @@
 id: s2gr
 name: S2GR
-record_type: method
-citation: Guo et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2601.18664'
-  year: 2026
-  venue: KDD’26
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract''s complaint first).'
-  stage:
-    value: Backbone
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+CF
-    source: §5.1.3, p7; §4.2.1, p4, Eq. 3–5
-    status: verified
-    note: Public-data (Beauty) setting; industrial data uses video frames.
-  tokenization:
-    value: CoBa RQ-VAE
-    source: §4.2, p4–5; Eq. 10–12; Eq. 13–14
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: §5.1.3, p7
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §5.1.3, p7; §5.3, p7
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP + Ctr.
-    source: Eq. 22–24, p6
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Beam
-    source: Appendix B.1, p10
-    status: verified
-    note: No prefix constraint reported.
-note: ""
+title: 'S2GR: Stepwise Semantic-Guided Reasoning in Latent Space for Generative Recommendation'
+authors: Guo et al.
+year: 2026
+venue: KDD’26
+links:
+  arxiv: https://arxiv.org/abs/2601.18664
+  code: null
+problem: III
+stage: Backbone
+representation: Text+CF
+tokenization: CoBa RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Ctr.
+inference: Beam
+poi: false
+summary: 'Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract''s complaint first).'
+evidence:
+- field: problem
+  quote: 'Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract''s complaint first).'
+  where: arXiv abstract
+- field: representation
+  quote: Public-data (Beauty) setting; industrial data uses video frames.
+  where: §5.1.3, p7; §4.2.1, p4, Eq. 3–5
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §5.1.3, p7; §5.3, p7

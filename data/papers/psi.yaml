@@ -1,53 +1,23 @@
 id: psi
 name: PSI
-record_type: method
-citation: Zhang et al., 2025a
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2509.16446'
-  year: 2025
-  venue: arXiv’25
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "suffer from semantic ID conflicts".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Post-hoc RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval
+authors: Zhang et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2509.16446
+  code: null
+problem: II
+stage: Tokenization
+representation: Text
+tokenization: Post-hoc RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam
+poi: false
+summary: 已有不收判定，按任务书维持；原理由见Table1收录筛选对应行。
+evidence:
+- field: problem
+  quote: 'Abstract: "suffer from semantic ID conflicts".'
+  where: arXiv abstract

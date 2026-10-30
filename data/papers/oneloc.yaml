@@ -1,54 +1,37 @@
 id: oneloc
 name: OneLoc
-record_type: method
-citation: Wei et al., 2025
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2508.14646'
-  year: 2025
-  venue: arXiv’25
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID, geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the paper is not in the top block (unlike OneRec).'
-  stage:
-    value: Representation
-    source: contribution list, p3; §2.2, p3
-    status: verified
-    note: The three designs for I sit in Representation and Backbone; the first contribution, the geo-aware SID, decides. Its quantizer follows OneRec; only the input embedding adds location context.
-  representation:
-    value: Text+Img+Geo
-    inferred: true
-    source: §2.1, §2.2, p3
-    status: unverified
-    note: 'No collaborative signal enters the SIDs. Img is inferred from "video content and location context information, extracted by a multimodal large language model". Table 2 had Text+Img+Geo+CF.'
-  tokenization:
-    value: R-KM
-    source: §2.2, Eq. (1)–(3), p3
-    status: verified
-    note: '"Following OneRec, we use res-kmeans". The RQ-VAE on p7 describes the TIGER baseline; Table 2 had RQ-VAE.'
-  backbone:
-    value: Enc-Dec
-    source: p2–4, Fig. 2
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §2.2, p3
-    status: verified
-    note: SIDs are built with res-kmeans before the recommender is trained.
-  objective:
-    value: NTP → DPO
-    source: Eq. (20)–(21), p5; §2.5, Eq. (24), p5
-    status: verified
-    note: NTP pre-training, then DPO with preference pairs from beam search scored by two rewards.
-  inference:
-    value: Beam
-    source: p5–6
-    status: verified
-    note: ""
-note: 'POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. Venue: arXiv has only v1 (2025-08-20) with no comments or journal-ref, and no WSDM 2026 acceptance was found (checked 10-28); Table 2 had WSDM’26 (unverified).'
+title: 'OneLoc: Geo-Aware Generative Recommender Systems for Local Life Service'
+authors: Wei et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2508.14646
+  code: null
+problem: I
+stage: Representation
+representation: Text+Img+Geo†
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP → DPO
+inference: Beam
+poi: true
+summary: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user
+  interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID,
+  geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the
+  paper is not in the top block (unlike OneRec).'
+evidence:
+- field: problem
+  quote: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user
+    interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID,
+    geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the
+    paper is not in the top block (unlike OneRec).'
+  where: abstract, p1
+- field: stage
+  quote: The three designs for I sit in Representation and Backbone; the first contribution, the geo-aware SID, decides. Its
+    quantizer follows OneRec; only the input embedding adds location context.
+  where: contribution list, p3; §2.2, p3
+- field: representation
+  quote: No collaborative signal enters the SIDs. Img is inferred from "video content and location context information, extracted
+    by a multimodal large language model". Table 2 had Text+Img+Geo+CF.
+  where: §2.1, §2.2, p3

@@ -1,55 +1,33 @@
 id: think2go
 name: Think2Go
-record_type: method
-citation: Zhuang et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2607.28997'
-  year: 2026
-  venue: KDD’26
-labels:
-  problem:
-    value: III
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.'
-  stage:
-    value: Training
-    source: §4.1–4.2, p4–6
-    status: verified
-    note: SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
-  representation:
-    value: Attr+Geo+CF
-    inferred: true
-    source: p7
-    status: unverified
-    note: Inferred from GNPR-SID, whose data processing the paper follows.
-  tokenization:
-    value: RQ-VAE
-    source: p7
-    status: verified
-    note: '"the correlation among semantic IDs learned through RQ-VAE".'
-  backbone:
-    value: Dec-Only
-    source: p11
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p7; §5.8, p9
-    status: verified
-    note: SIDs are pre-learned with RQ-VAE; the generator does not update the tokenizer.
-  objective:
-    value: NTP → RL
-    source: p4
-    status: verified
-    note: L_SFT and L_DAPO are optimized jointly in one stage, not SFT then RL; NTP → RL is the closest of the 12 values.
-  inference:
-    value: CoT+Beam
-    source: p11
-    status: verified
-    note: ""
-training_change: objective
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
+title: 'Think2Go: Generative Next POI Recommendation with LLM Reasoning'
+authors: Zhuang et al.
+year: 2026
+venue: KDD’26
+links:
+  arxiv: https://arxiv.org/abs/2607.28997
+  code: null
+problem: III
+stage: Training
+representation: Attr+Geo+CF†
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+Beam
+poi: true
+summary: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep
+  understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing
+  reasoning does not form a problem of its own.'
+evidence:
+- field: problem
+  quote: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep
+    understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since
+    missing reasoning does not form a problem of its own.'
+  where: abstract, p1
+- field: stage
+  quote: SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
+  where: §4.1–4.2, p4–6
+- field: representation
+  quote: Inferred from GNPR-SID, whose data processing the paper follows.
+  where: p7

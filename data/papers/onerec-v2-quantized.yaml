@@ -1,0 +1,19 @@
+id: onerec-v2-quantized
+name: OneRec-V2-Quantized
+title: Quantized Inference for OneRec-V2
+authors: Su et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2603.11486
+  code: null
+problem: V
+stage: Inference
+representation: Text+Img+CF†
+tokenization: R-KM†
+backbone: Lazy Dec-Only†
+tokenizer: Fixed†
+objective: NTP → RL†
+inference: FP8+RecoGEM
+poi: false
+summary: 新增可区分的 FP8 PTQ 与执行栈/算子设计，适合单独 V × Inference 条目，而非只重复 OneRec-V2。

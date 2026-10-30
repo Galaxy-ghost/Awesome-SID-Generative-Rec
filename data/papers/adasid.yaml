@@ -1,53 +1,23 @@
 id: adasid
 name: AdaSID
-record_type: method
-citation: Pan et al., 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2604.23522'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "effective SID learning is hindered by collisions".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale'
+authors: Pan et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.23522
+  code: null
+problem: II
+stage: Tokenization
+representation: Text+Img
+tokenization: RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "effective SID learning is hindered by collisions".'
+evidence:
+- field: problem
+  quote: 'Abstract: "effective SID learning is hindered by collisions".'
+  where: arXiv abstract

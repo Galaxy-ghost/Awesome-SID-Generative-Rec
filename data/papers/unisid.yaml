@@ -1,0 +1,19 @@
+id: unisid
+name: UniSID
+title: End-to-End Semantic ID Generation for Generative Advertisement Recommendation
+authors: Jiang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2602.10445
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img+Attr
+tokenization: Direct SID Heads
+backbone: –
+tokenizer: –
+objective: –
+inference: –
+poi: false
+summary: 是新的多模态 SID 编号方法并报告下一广告/下一物品实验；推荐生成器未披露须保留缺项。

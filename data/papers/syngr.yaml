@@ -1,54 +1,29 @@
 id: syngr
 name: SynGR
-record_type: method
-citation: Chen et al., 2026b
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2605.18920'
-  year: 2026
-  venue: ICML’26
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "underexplore synergistic information across modalities".'
-  stage:
-    value: Training
-    source: arXiv abstract; introduction, p2
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p6
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP + Ctr.
-    source: p6
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-training_change: objective
-note: ""
+title: 'SynGR: Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation'
+authors: Chen et al.
+year: 2026
+venue: ICML’26
+links:
+  arxiv: https://arxiv.org/abs/2605.18920
+  code: null
+problem: I
+stage: Training
+representation: Text+Img
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Ctr.
+inference: C-Beam
+poi: false
+summary: 'Abstract: "underexplore synergistic information across modalities".'
+evidence:
+- field: problem
+  quote: 'Abstract: "underexplore synergistic information across modalities".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p6
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p6

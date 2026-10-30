@@ -1,56 +1,29 @@
 id: gr-generalize
 name: GR-Generalize
-record_type: paradigm-system-benchmark
-psb_kind: framework
-citation: Ding et al., 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2603.19809'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "there is few systematic way to verify this hypothesis".'
-  stage:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: Appendix tentatively places the new design in Inference.
-  representation:
-    value: Text+SID
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    inferred: true
-    source: p5; p7
-    status: unverified
-    note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP
-    inferred: true
-    source: p5; p7
-    status: unverified
-    note: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: Hybrid
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: How Well Does Generative Recommendation Generalize?
+authors: Ding et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2603.19809
+  code: null
+problem: psb
+stage: n/a
+representation: Text+SID
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed†
+objective: NTP†
+inference: Hybrid
+poi: false
+summary: 'Abstract: "there is few systematic way to verify this hypothesis".'
+evidence:
+- field: problem
+  quote: 'Abstract: "there is few systematic way to verify this hypothesis".'
+  where: arXiv abstract
+- field: stage
+  quote: Appendix tentatively places the new design in Inference.
+  where: arXiv abstract
+- field: tokenizer
+  quote: Analysis paper; both values inferred from TIGER. Location from the 10-26 'Training split' table in the appendix.
+  where: p5; p7

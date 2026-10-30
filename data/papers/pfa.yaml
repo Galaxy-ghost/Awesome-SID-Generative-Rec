@@ -1,0 +1,34 @@
+id: pfa
+name: PFA
+title: 'PFA: Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation'
+authors: Zhou et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.39273
+  code: null
+problem: V
+stage: Inference
+representation: –
+tokenization: –
+backbone: Enc-Dec
+tokenizer: –
+objective: –
+inference: Beam
+poi: false
+summary: 'Long user behavioral sequences improve the performance of generative recommendation (GR), but computing full attention
+  over long histories during autoregressive beam search decoding incurs substantial online inference latency. To accelerate
+  long-sequence decoding, existing approaches typically rely on static history compression or dynamic top-k sparse attention;
+  however, the former risks losing critical semantics, whereas the latter incurs significant overhead from repeated token
+  selection and non-contiguous memory access. In this work, we thoroughly analyze attention patterns during GR decoding and
+  reveal two key properties: (i) progressive attention focusing, where attention progressively focuses on a small subset of
+  critical historical tokens; and (ii) cross-step ranking consistency, where their importance rankings remain relatively stable
+  across subsequent decoding steps. Motivated by these observations, we propose Progressively Focused Attention (PFA), an
+  efficient sparse decoding framework for long-sequence GR. PFA retains full attention at the initial decoding step to explore
+  global historical preferences. It then establishes a shared importance ranking through cross-beam weighted aggregation and
+  reorders the key-value cache of the selected tokens into a contiguous memory layout. Subsequent decoding steps reuse this
+  ranking and geometrically reduce the token budget, preserving critical semantics while lowering computational and memory
+  access overhead. Extensive experiments on two public benchmarks and a large-scale industrial dataset demonstrate that PFA
+  outperforms state-of-the-art baselines. A 7-day online A/B test on a large-scale e-commerce advertising platform further
+  confirms that PFA delivers substantial business gains while maintaining low inference latency. Our code is publicly available
+  at https://anonymous.4open.science/r/PFA-review-088D.'

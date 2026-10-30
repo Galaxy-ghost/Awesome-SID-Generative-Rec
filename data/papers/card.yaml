@@ -1,53 +1,25 @@
 id: card
 name: CARD
-record_type: method
-citation: Wei et al., 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2604.26427'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "provides insufficient supervision for heterogeneous fusion"; "non-uniform embeddings lead to codeword imbalance and generation bias". Candidates: I / II (rule: tie broken by the title).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: NU-RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: §4.1.3, p7
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: C-Beam
-    source: missing
-    status: unverified
-    note: ""
-note: ""
+title: 'CARD: Non-Uniform Quantization of Visual Semantic Unit for Generative Recommendation'
+authors: Wei et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2604.26427
+  code: null
+problem: II
+stage: Tokenization
+representation: Text+Img+CF
+tokenization: NU-RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "provides insufficient supervision for heterogeneous fusion"; "non-uniform embeddings lead to codeword
+  imbalance and generation bias". Candidates: I / II (rule: tie broken by the title).'
+evidence:
+- field: problem
+  quote: 'Abstract: "provides insufficient supervision for heterogeneous fusion"; "non-uniform embeddings lead to codeword
+    imbalance and generation bias". Candidates: I / II (rule: tie broken by the title).'
+  where: arXiv abstract

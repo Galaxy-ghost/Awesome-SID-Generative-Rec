@@ -1,54 +1,29 @@
 id: gem-rec
 name: GEM-Rec
-record_type: method
-citation: Jiang et al., 2026
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2603.22231'
-  year: 2026
-  venue: arXiv’26
-labels:
-  problem:
-    value: IV
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "do not address concerns such as monetization via ad revenue and incorporation of bids".'
-  stage:
-    value: Training
-    source: arXiv abstract; introduction (contribution list)
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: Appendix B.2, p17; Appendix F, p20; §5.4, p9
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p5
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP
-    source: p5
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: Bid-Aware Beam
-    source: §4.4, p7; §4.1 Eq. 3–4, p5–6
-    status: verified
-    note: ""
-training_change: objective
-note: ""
+title: 'One Model, Two Markets: Bid-Aware Generative Recommendation'
+authors: Jiang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2603.22231
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Bid-Aware Beam
+poi: false
+summary: 'Abstract: "do not address concerns such as monetization via ad revenue and incorporation of bids".'
+evidence:
+- field: problem
+  quote: 'Abstract: "do not address concerns such as monetization via ad revenue and incorporation of bids".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p5
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p5

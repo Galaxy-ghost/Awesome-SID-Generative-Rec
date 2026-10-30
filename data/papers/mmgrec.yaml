@@ -1,55 +1,31 @@
 id: mmgrec
 name: MMGRec
-record_type: method
-citation: Liu et al., 2026
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2404.16555'
-  doi: 10.1145/3838594
-  title: 'MMGRec: Multimodal Generative Recommendation with Transformer Model'
-  year: 2026
-  venue: TOMM’26
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "this paradigm suffers from inference cost, interaction modeling, and false-negative issues". Candidates: I / V (rule: complaint fits none of the six classes; judged by the new design).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    source: §3, p5–6
-    status: verified
-    note: Also uses acoustic features; recorded as Text+Img+CF per the vocabulary.
-  tokenization:
-    value: Graph RQ-VAE
-    source: p3; §3, p6–7
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: Fig. 2, p8; p9
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p5
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: C-Beam
-    source: §4.4, p10
-    status: verified
-    note: ""
-note: ""
+title: 'MMGRec: Multimodal Generative Recommendation with Transformer Model'
+authors: Liu et al.
+year: 2026
+venue: TOMM’26
+links:
+  arxiv: https://arxiv.org/abs/2404.16555
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img+CF
+tokenization: Graph RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "this paradigm suffers from inference cost, interaction modeling, and false-negative issues". Candidates:
+  I / V (rule: complaint fits none of the six classes; judged by the new design).'
+evidence:
+- field: problem
+  quote: 'Abstract: "this paradigm suffers from inference cost, interaction modeling, and false-negative issues". Candidates:
+    I / V (rule: complaint fits none of the six classes; judged by the new design).'
+  where: arXiv abstract
+- field: representation
+  quote: Also uses acoustic features; recorded as Text+Img+CF per the vocabulary.
+  where: §3, p5–6
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p5

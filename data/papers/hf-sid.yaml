@@ -1,0 +1,19 @@
+id: hf-sid
+name: HF-SID
+title: 'HF-SID: High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services'
+authors: Lin et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2608.30479
+  code: null
+problem: I
+stage: Representation
+representation: Text+Attr+Geo
+tokenization: R-KM
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: true
+summary: 直接研究 POI SID 质量并用于下游 next-POI 生成，建议保留方法；完整码到多 POI 的物化仍须明确标未知。

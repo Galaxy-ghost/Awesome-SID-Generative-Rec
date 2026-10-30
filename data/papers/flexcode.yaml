@@ -1,0 +1,19 @@
+id: flexcode
+name: FlexCode
+title: 'Semantics Meet Signals: Dual Codebook Representationl Learning for Generative Recommendation'
+authors: Hui et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2511.20673
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+CF
+tokenization: Dual RQ-VAE
+backbone: –
+tokenizer: Joint
+objective: NTP
+inference: –
+poi: false
+summary: 提出双码本、热度路由与端到端训练。

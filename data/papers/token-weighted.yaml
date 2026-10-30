@@ -1,0 +1,19 @@
+id: token-weighted
+name: Token-Weighted
+title: 'Beyond Uniform Token Training: A Multi-Target Framework for Learning Token-Weighted Objectives in Generative Recommenders'
+authors: Chiu et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2601.17787
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 提出 token 加权生成训练目标，而非只报告分析。

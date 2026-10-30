@@ -1,0 +1,27 @@
+id: merge-and-branch
+name: Merge-and-Branch
+title: 'Merge and Branch: Efficient Tree-Structured Supervised Fine-Tuning of LLMs for Recommendation'
+authors: Zhu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.37973
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'LLM-based generative recommendation reads long, text-rich interaction histories but generates only short semantic
+  identifiers (SIDs). This asymmetry makes supervised fine-tuning inefficient: encoding the history is expensive, yet each
+  history usually provides supervision for only one target. We present Merge and Branch (M&B) to reduce input cost and learn
+  more from each encoded history. Merge compresses each historical item''s SID and text into a small number of learned tokens.
+  Branch uses the compressed history to predict multiple target SIDs. To share history computation while keeping these targets
+  independent, M&B organizes each example as a shallow, wide tree. We develop tree FlashAttention to execute this layout efficiently,
+  processing the shared history once and propagating gradients from every branch for end-to-end training. A tree-structured
+  key/value cache extends history sharing to constrained decoding. Experiments on public benchmarks show that M&B outperforms
+  strong recommendation baselines while substantially improving training and decoding efficiency.'

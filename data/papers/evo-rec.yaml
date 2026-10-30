@@ -1,0 +1,19 @@
+id: evo-rec
+name: Evo-Rec
+title: Learning Better Reasoning for Generative Recommendation with Semantic IDs
+authors: Zhu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2609.29973
+  code: null
+problem: III
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+C-Beam
+poi: false
+summary: 提出推理效用筛选和基于 SID 排名的 GRPO，完整约束 SID 解码。

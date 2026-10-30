@@ -1,66 +1,33 @@
 id: lgsid
 name: LGSID
-record_type: method
-citation: Jiang et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2511.14221'
-  doi: 10.1609/aaai.v40i17.38514
-  year: 2026
-  venue: AAAI’26
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items".'
-  stage:
-    value: Representation
-    source: contribution list, p2; p4
-    status: verified
-    note: Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first contribution, aligning the item-encoding LLM (G-DPO), decides.
-  representation:
-    value: Text+Geo+CF
-    source: p2–4
-    status: verified
-    note: ""
-  tokenization:
-    value: Geo-Idx+RQ
-    source: p3–4
-    status: verified
-    note: ""
-  backbone:
-    value:
-    - Disc.
-    - Enc-Dec
-    source: Table 1, Table 2, p5–6
-    status: verified
-    note: Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table 2 of the paper), both Enc-Dec in Table 1.
-  tokenizer:
-    value: Fixed
-    source: Fig. 2, p3
-    status: verified
-    note: The LLM is aligned and the SIDs are built before the recommender is trained.
-  objective:
-    value:
-    - Discrim.
-    - NTP
-    source: Table 1, Table 2, p5–6; contribution 3, p2
-    status: verified
-    note: '"both discriminative and generative recommendation models".'
-  inference:
-    value:
-    - Scoring
-    - Beam
-    inferred:
-    - false
-    - true
-    source: Table 1, p5–6
-    status: unverified
-    note: The discriminative setting scores items; decoding of the generative setting is not stated and is inferred from TIGER.
-settings:
-- discriminative models (DIN, TWIN, ETA etc.; Table 1 of the paper)
-- generative models (TIGER, OneRec; Table 2 of the paper)
-note: 'POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. Venue: AAAI 2026, vol. 40, no. 17 (checked 10-28).'
+title: LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation
+authors: Jiang et al.
+year: 2026
+venue: AAAI’26
+links:
+  arxiv: https://arxiv.org/abs/2511.14221
+  code: null
+problem: I
+stage: Representation
+representation: Text+Geo+CF
+tokenization: Geo-Idx+RQ
+backbone: Disc. / Enc-Dec
+tokenizer: Fixed
+objective: Discrim. / NTP
+inference: Scoring / Beam†
+poi: true
+summary: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics
+  and real-world distance awareness among items".'
+evidence:
+- field: problem
+  quote: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics
+    and real-world distance awareness among items".'
+  where: abstract, p1
+- field: stage
+  quote: Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first
+    contribution, aligning the item-encoding LLM (G-DPO), decides.
+  where: contribution list, p2; p4
+- field: backbone
+  quote: Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table
+    2 of the paper), both Enc-Dec in Table 1.
+  where: Table 1, Table 2, p5–6

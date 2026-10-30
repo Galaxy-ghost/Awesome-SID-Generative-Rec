@@ -1,0 +1,19 @@
+id: dact
+name: DACT
+title: Drift-Aware Continual Tokenization for Generative Recommendation
+authors: Feng et al.
+year: 2026
+venue: SIGIR’26
+links:
+  arxiv: https://arxiv.org/abs/2603.29705
+  code: null
+problem: VI
+stage: Tokenization
+representation: Text+CF
+tokenization: RQ-VAE
+backbone: Enc-Dec / Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: –
+poi: false
+summary: 给完整 SID 生成模型提供持续更新编号器的新设计，在 TIGER 与 LC-Rec 验证。

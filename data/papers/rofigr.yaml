@@ -1,0 +1,29 @@
+id: rofigr
+name: RoFiGR
+title: 'RoFiGR: Coarse Routing, Fine Refinement via Level-Adaptive Distillation in Multimodal Generative Recommendation'
+authors: Dai et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.39470
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img+CF
+tokenization: CF-Aligned MM RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: C-Beam
+poi: false
+summary: Generative recommenders predict an item's semantic identifier (SID) one code at a time. Early codes select broad
+  branches, so a routing error can exclude relevant items before fine-grained prediction begins. In multimodal recommendation,
+  these coarse decisions must reflect collaborative preferences as well as item semantics. We introduce RoFiGR, a two-tree
+  recommender that uses collaborative information in both SID construction and generation. It aligns cumulative L1-L2 code
+  vectors with frozen collaborative item embeddings and explicitly encodes item distance and source level in the serialized
+  history. During generation, a sequential teacher supervises legal branches. Fixed coarse-level weights maintain routing
+  supervision, while a bounded adaptive residual allocates additional weight according to teacher-student demand. On Instruments,
+  Arts, and Games, RoFiGR improves all five ranking metrics over the evaluated external baselines. Five-seed paired tests
+  with Holm correction support the main NDCG@10 improvements. Comparisons with alternative collaborative supervision objectives
+  and tokenizers support the proposed design. Matched task and decoding analyses distinguish the effects of training exposure,
+  stream fusion, and candidate budgets.

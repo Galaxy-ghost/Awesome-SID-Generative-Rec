@@ -1,53 +1,32 @@
 id: ros
 name: ROS
-record_type: method
-citation: Lv et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2601.04562'
-  year: 2026
-  venue: ACL’26
-labels:
-  problem:
-    value: I
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the introduction narrows the gap to not reasoning over geography (p1).'
-  stage:
-    value: Tokenization
-    source: contribution (1), p2
-    status: verified
-    note: 'Three designs fix the same problem: Hierarchical Spatial SID (Tokenization), Mobility CoT and spatial-guided RL (Training); the first contribution decides.'
-  representation:
-    value: Text+Geo
-    source: p2; p12
-    status: verified
-    note: ""
-  tokenization:
-    value: Geo-Prefix+RQ-VAE
-    source: p2–3
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: §3.1, p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §2.2, p2
-    status: verified
-    note: SIDs are built before SID grounding pre-training.
-  objective:
-    value: NTP → RL
-    source: §2.3, p3; §2.4, p4; Appendix A.3, p12
-    status: verified
-    note: SID grounding pre-training and CoT SFT, then GRPO with format, accuracy and distance rewards.
-  inference:
-    value: CoT+C-Beam
-    source: p7
-    status: verified
-    note: 'Main experiments report HR@1 with CoT only; C-Beam is used only in the Top-K extension ("Top-K Recommendation via Two-Stage Inference", p7).'
-note: 'POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling. Venue: ACL 2026 Long, ACL Anthology 2026.acl-long.332 (checked 10-28).'
+title: 'Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation'
+authors: Lv et al.
+year: 2026
+venue: ACL’26
+links:
+  arxiv: https://arxiv.org/abs/2601.04562
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Geo
+tokenization: Geo-Prefix+RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+C-Beam
+poi: true
+summary: 'Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the
+  introduction narrows the gap to not reasoning over geography (p1).'
+evidence:
+- field: problem
+  quote: 'Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the
+    introduction narrows the gap to not reasoning over geography (p1).'
+  where: abstract, p1
+- field: stage
+  quote: 'Three designs fix the same problem: Hierarchical Spatial SID (Tokenization), Mobility CoT and spatial-guided RL
+    (Training); the first contribution decides.'
+  where: contribution (1), p2
+- field: tokenizer
+  quote: SIDs are built before SID grounding pre-training.
+  where: §2.2, p2

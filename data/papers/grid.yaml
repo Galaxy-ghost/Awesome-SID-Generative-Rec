@@ -1,55 +1,29 @@
 id: grid
 name: GRID
-record_type: paradigm-system-benchmark
-psb_kind: framework
-citation: Ju et al., 2025
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2507.22224'
-  doi: 10.1145/3746252.3761612
-  year: 2025
-  venue: CIKM’25
-labels:
-  problem:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
-  stage:
-    value: n/a
-    source: arXiv abstract
-    status: verified
-    note: Appendix tentatively places the new design in Backbone.
-  representation:
-    value: Text
-    source: §4 Setup, p3
-    status: verified
-    note: ""
-  tokenization:
-    value: R-KM
-    source: §4.1, p3
-    status: verified
-    note: R-KM is the paper's RK-Means, (L, W) = (3, 256).
-  backbone:
-    value: Enc-Dec
-    source: '§4 Setup, p3; Table 5 (§4.2), p4; code: configs/experiment/tiger_train_flat.yaml'
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §3.1, p2
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: §3.1, p2
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Beam
-    source: '§3.1, p2; Table 8 (§4.2), p4; code: src/models/modules/semantic_id/tiger_generation_model.py, should_check_prefix defaults to False (commit 2fe3475, read statically)'
-    status: verified
-    note: ""
-note: ""
+title: 'GRID: Generative Recommendation via Inpainting Diffusion'
+authors: Ju et al.
+year: 2025
+venue: CIKM’25
+links:
+  arxiv: https://arxiv.org/abs/2507.22224
+  code: null
+problem: psb
+stage: n/a
+representation: Text
+tokenization: R-KM
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam
+poi: false
+summary: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
+evidence:
+- field: problem
+  quote: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
+  where: arXiv abstract
+- field: stage
+  quote: Appendix tentatively places the new design in Backbone.
+  where: arXiv abstract
+- field: tokenization
+  quote: R-KM is the paper's RK-Means, (L, W) = (3, 256).
+  where: §4.1, p3

@@ -1,0 +1,29 @@
+id: pinger
+name: PinGER
+title: 'PinGER: Token-Efficient Generative Retrieval with Semantic IDs'
+authors: Li et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.33435
+  code: null
+problem: V
+stage: Backbone
+representation: Text+Img+CF
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: –
+objective: NTP → (NTP + DPO)
+inference: Div. C-Beam
+poi: false
+summary: Generative retrieval replaces nearest-neighbor search with token-by-token decoding of an item's semantic ID (SID).
+  But existing SID-based methods primarily use L levels of tokens sequentially to represent each item in the input history.
+  As a result, a fixed context window holds L times fewer items than it would with one embedding per item. We present PinGER,
+  a generative retriever deployed at Pinterest that retains SID outputs while making input histories compact, built on three
+  ideas. (1) An asymmetric attention mask over interleaved SID and dense tokens lets later items attend only to the dense
+  ones, so the model is supervised at every SID position in training yet serves one token per item while computing the same
+  function. (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity
+  penalty, which together steer retrieval toward surface-specific goals and diverse candidates. (3) A serving stack built
+  for efficient wide-beam generation is paired with decoding constrained to valid identifiers and candidate resolution from
+  a host-local index. Deployed in Related Pins, PinGER lifts saves of fresh Pins by 3.60% and overall saves by 0.62%, while
+  reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.

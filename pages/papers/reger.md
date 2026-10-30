@@ -1,0 +1,29 @@
+# REGER: REGER: Modeling inter-item Relations with Semantic IDs for Generative Recommendation
+
+[Back to Catalog](../../README.md) · [Paper (`https://arxiv.org/abs/2610.37584`)](https://arxiv.org/abs/2610.37584) · [Source Record (`data/papers/reger.yaml`)](../../data/papers/reger.yaml)
+
+> **Summary**: Personalized recommendation depends on learning semantic and collaborative relations among items from online content and user interactions. Generative recommendation (GR) offers a promising paradigm by autoregressively generating discrete semantic IDs (SIDs) of items. However, randomly initialized SID token embeddings and GR models trained from scratch do not directly inherit the semantic relations inherent in items, while inter-item collaborative relations are learned largely implicitly through token-level attention and next-token supervision. To address this limitation, we propose REGER, a unified framework that explicitly incorporates inter-item relations into semantic pretraining, history encoding, and SID generation. We pretrain the GR model through generative semantic retrieval, enabling it to inherit inter-item semantic similarity by learning to generate semantic neighbors' SIDs. We combine global attention with local attention aligned with SID boundaries to capture historical context and directed transitions between adjacent items. We further develop a theoretical framework for hierarchical preference decomposition over the SID prefix tree, proving an exact factorization of collaborative preference distributions and a weighted decomposition of item-level KL divergence into prefix-conditional KL divergences. Building on this analysis, we distill a discriminative teacher's full conditional distributions over all legal next tokens at ground-truth prefixes along the target SID path, jointly optimizing this objective with cross-entropy. Extensive experiments on real-world datasets demonstrate consistent improvements over existing GR baselines and support the effectiveness of the proposed preference distillation.
+
+## Taxonomy & Table 1 Specification
+
+| Field | Value | Vocabulary Definition |
+| :--- | :--- | :--- |
+| **Authors & Year** | Huang et al. (2026) | Published / posted in `arXiv’26` |
+| **Problem Band** | `I. Informativeness` | Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| **Primary Stage** | `Training` | The primary design change sits in the Training stage (Tokenizer update schedule or training Objective). |
+| **Representation** | `Text` |  |
+| **Tokenization** | `RQ-VAE` |  |
+| **Backbone** | `Enc-Dec` | Encoder-decoder. |
+| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
+| **Training Objective** | `NTP → (NTP + Aux.)` | 先uniform refinement CE，再主CE联合lookahead token CE及gain regression。 |
+| **Inference Decoding** | `Beam` |  |
+| **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
+| **Code Repository** | Not reported | Official or public implementation link |
+
+## Peer Methods in `I. Informativeness` × `Training` (3 peers)
+
+| Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [MBGen](mbgen.md) | CIKM’24 | `CF` | `Bal. VQ+KM` | `Enc-Dec` | `Fixed` | `NTP` | `Beam` |
+| [RAGR](ragr.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → DPO` | `Beam† / –` |
+| [SynGR](syngr.md) | ICML’26 | `Text+Img` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP + Ctr.` | `C-Beam` |

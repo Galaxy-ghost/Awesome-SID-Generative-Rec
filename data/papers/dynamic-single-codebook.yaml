@@ -1,0 +1,20 @@
+id: dynamic-single-codebook
+name: Dynamic-Single-Codebook
+title: From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative
+  Recommendation
+authors: Xie et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2608.21012
+  code: null
+problem: V
+stage: Tokenization
+representation: –
+tokenization: Dyn. KM+Disamb.
+backbone: Enc-Dec / Lazy Dec-Only
+tokenizer: Fixed
+objective: NTP†
+inference: Beam†
+poi: false
+summary: 有 SID 生成推荐下游和线上验证，区别于 MERGE 只做传统检索。

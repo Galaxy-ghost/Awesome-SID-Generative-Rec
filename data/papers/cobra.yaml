@@ -1,53 +1,29 @@
 id: cobra
 name: COBRA
-record_type: method
-citation: Yang et al., 2025
-survey: table1
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2503.02453'
-  year: 2025
-  venue: NeurIPS’25
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".'
-  stage:
-    value: Backbone
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+SID
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Casc. RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p5
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  objective:
-    value: NTP + Dense
-    source: p5
-    status: verified
-    note: Location from the 10-26 'Training split' table in the appendix.
-  inference:
-    value: BeamFusion
-    source: missing
-    status: unverified
-    note: ""
-note: Year set to 2025 per NeurIPS 2025 (proceedings vol. 38) on 10-25; the survey bib entry COBR still says 2026.
+title: 'Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations'
+authors: Yang et al.
+year: 2025
+venue: NeurIPS’25
+links:
+  arxiv: https://arxiv.org/abs/2503.02453
+  code: null
+problem: I
+stage: Backbone
+representation: Text+SID
+tokenization: Casc. RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP + Dense
+inference: BeamFusion
+poi: false
+summary: 'Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".'
+evidence:
+- field: problem
+  quote: 'Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p5
+- field: objective
+  quote: Location from the 10-26 'Training split' table in the appendix.
+  where: p5

@@ -1,54 +1,23 @@
 id: etegrec
 name: ETEGRec
-record_type: method
-citation: Liu et al., 2025a
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2409.05546'
-  year: 2025
-  venue: SIGIR’25
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
-  stage:
-    value: Training
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: CF
-    source: missing
-    status: unverified
-    note: ""
-  tokenization:
-    value: Learn. RQ
-    source: missing
-    status: unverified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: missing
-    status: unverified
-    note: ""
-  tokenizer:
-    value: Altern.
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP + Ctr.
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: Beam
-    source: missing
-    status: unverified
-    note: ""
-training_change: tokenizer
-note: ""
+title: Generative recommender with end-to-end learnable item tokenization
+authors: Liu et al.
+year: 2025
+venue: SIGIR’25
+links:
+  arxiv: https://arxiv.org/abs/2409.05546
+  code: null
+problem: III
+stage: Training
+representation: CF
+tokenization: Learn. RQ
+backbone: Enc-Dec
+tokenizer: Altern.
+objective: NTP + Ctr.
+inference: Beam
+poi: false
+summary: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
+evidence:
+- field: problem
+  quote: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
+  where: arXiv abstract

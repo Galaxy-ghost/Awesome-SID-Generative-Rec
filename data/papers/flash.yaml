@@ -1,0 +1,19 @@
+id: flash
+name: FLASH
+title: 'Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment'
+authors: Liu et al.
+year: 2026
+venue: NeurIPS’26
+links:
+  arxiv: https://arxiv.org/abs/2610.07402
+  code: null
+problem: III
+stage: Backbone
+representation: Text
+tokenization: SimHash
+backbone: Non-AR
+tokenizer: Fixed
+objective: MTP + Aux.
+inference: Scoring
+poi: false
+summary: 提出离散 SimHash SID 的完整生成推荐新设计。

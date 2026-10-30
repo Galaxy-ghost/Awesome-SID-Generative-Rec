@@ -1,0 +1,30 @@
+id: loopgr
+name: LoopGR
+title: 'LoopGR: Parameter-Efficient Scaling for Generative Recommendation via Recurrent Depth'
+authors: Zhang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.34157
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: RQ-VAE
+backbone: Enc-Dec
+tokenizer: –
+objective: NTP / NTP + Aux.
+inference: –
+poi: false
+summary: Generative recommendation formulates item recommendation as autoregressive generation rather than a discriminative
+  scoring problem. Although empirical studies exhibit favorable scaling behavior in recommendation, unleashing the benefits
+  of scaling remains challenging under the strict model size and inference cost constraints of real-world systems. A central
+  challenge is to combine expressive modeling of user-item interaction histories with flexible computational depth without
+  proportionally increasing model size. We introduce LoopGR, a parameter-efficient scaling framework for generative recommendation
+  via recurrent depth. LoopGR employs a tailored hierarchical recurrent depth mechanism that alternates between a shared generative
+  decoder and a lightweight context updater. For efficient inference, we further develop recurrent trajectory self-distillation
+  that distills a low-budget student from a high-budget teacher by aligning both predictive distributions and evolution directions.
+  Extensive experiments show that LoopGR consistently outperforms strong generative recommendation baselines. Compared with
+  a representative encoder-decoder baseline, LoopGR achieves superior performance while reducing model size by up to 52%.
+  These results establish recurrent depth as a new scaling dimension, offering a flexible and resource-efficient scaling path
+  for generative recommendation.

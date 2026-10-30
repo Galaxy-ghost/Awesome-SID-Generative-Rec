@@ -1,0 +1,31 @@
+id: slide
+name: SLIDE
+title: 'SLIDE: Search-to-List Item Distillation for Single-Rollout Generative Retrieval'
+authors: Zhan et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.34764
+  code: null
+problem: IV
+stage: Training
+representation: –
+tokenization: –
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: Greedy
+poi: false
+summary: 'Generative retrieval (GR) typically relies on item-level beam search to retrieve candidates, leaving cross-item
+  dependencies unmodeled and limiting direct optimization of list-level objectives. A natural alternative is to generate the
+  entire list within a single autoregressive trajectory. However, greedy decoding with directly trained list-wise models substantially
+  underperforms beam search. We identify two contributing factors: the broader search space explored by beam search and the
+  positional bias of scarce positive signals, which deprives later positions of adequate supervision. To address these challenges,
+  we propose $\textbf{SLIDE}$, a search-to-list item distillation framework that decouples offline search from online list
+  generation. A teacher model retrieves high-quality candidates through offline item-level beam search, providing additional
+  conversion-relevant supervision beyond sparse behavioral labels. Their Semantic IDs (SIDs) are then concatenated in beam-score
+  order to form list-wise distillation targets. This search-to-list conversion transforms candidates retrieved along separate
+  search paths into sequential item-generation targets within a single trajectory. Trained on these targets, the student generates
+  the Top-$K$ list in a single greedy pass, also decoupling teacher scaling from online deployment. Experiments on FORGE and
+  Taobao Search show that SLIDE substantially improves retrieval quality under single greedy decoding and, with stronger offline
+  teachers, surpasses the beam-search reference. Supplementary RL experiments support the effectiveness of list-level generation.'

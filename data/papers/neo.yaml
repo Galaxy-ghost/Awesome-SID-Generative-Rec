@@ -1,0 +1,19 @@
+id: neo
+name: NEO
+title: A Unified Language Model for Large Scale Search, Recommendation, and Reasoning
+authors: De Nadai et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2603.17533
+  code: null
+problem: psb
+stage: n/a
+representation: Text / Audio
+tokenization: R-KM
+backbone: Dec-Only
+tokenizer: Fixed
+objective: Multi-task NTP
+inference: C-Beam
+poi: false
+summary: End-to-end paradigm or benchmark using R-KM tokenization and Dec-Only backbone.

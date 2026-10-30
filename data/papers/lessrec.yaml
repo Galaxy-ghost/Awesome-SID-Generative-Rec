@@ -1,0 +1,30 @@
+id: lessrec
+name: LESSRec
+title: 'LESSRec: Level-Specific History Modeling for Semantic ID-Based Recommendation'
+authors: Yang et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.37286
+  code: null
+problem: III
+stage: Backbone
+representation: Text / Text+CF
+tokenization: RQ-VAE / R-KM / LETTER
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: Semantic ID-based recommendation represents each item as a sequence of semantic tokens obtained through residual
+  quantization. This paradigm generates the next item's tokens autoregressively from coarse to fine, entailing each prediction
+  attending to historical tokens at all semantic levels. However, our inference-time analysis reveals that historical tokens
+  at the target-token's semantic level tend to be more informative, whereas other levels can introduce interference. Motivated
+  by these findings, we propose LESSRec that separately encodes the historical token sequence at each semantic level and restricts
+  attention over historical tokens to the sequence at the target token's semantic level during prediction. To complement these
+  level-specific histories, LESSRec explicitly provides an item-level semantic sequence that represents each historical item's
+  overall semantics in chronological order. The decoder accesses the level-aligned token sequence and the item-level semantic
+  sequence through two separate cross-attention branches and fuses their contexts. We further introduce LESSRec+, which uses
+  separate encoders for different semantic-level histories with the same total parameter count to reduce encoder computation.
+  Extensive experiments across three public datasets and three tokenizers demonstrate the recommendation effectiveness of
+  LESSRec and LESSRec+, with efficiency analyses highlighting the computational benefits of LESSRec+.

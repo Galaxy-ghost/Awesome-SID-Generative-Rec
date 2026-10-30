@@ -1,0 +1,19 @@
+id: sprig
+name: SPRIG
+title: 'SPRIG: Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation'
+authors: Hangoebl et al.
+year: 2026
+venue: CIKM’26 Short
+links:
+  arxiv: https://arxiv.org/abs/2610.06590
+  code: null
+problem: I
+stage: Tokenization
+representation: Text / Audio
+tokenization: R-KM
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: Div. Beam
+poi: false
+summary: 生成关系路径及终端 SID，逆 SID lookup 确定物品。

@@ -1,53 +1,31 @@
 id: align3gr
 name: Align3GR
-record_type: method
-citation: Ye et al., 2026
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2511.11255'
-  year: 2026
-  venue: AAAI’26
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+CF
-    source: Token-level Alignment, p3–4
-    status: verified
-    note: ""
-  tokenization:
-    value: Dual RQ
-    source: Token-level Alignment, p3–4
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: Implementation Details, p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP → DPO
-    source: Multi-task SFT, p4; Progressive DPO, p4–5, Eq. 3
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Beam
-    source: Implementation Details and Evaluation Metrics, p5
-    status: verified
-    note: Beam width 20; no prefix constraint reported.
-note: ""
+title: 'Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation'
+authors: Ye et al.
+year: 2026
+venue: AAAI’26
+links:
+  arxiv: https://arxiv.org/abs/2511.11255
+  code: null
+problem: III
+stage: Tokenization
+representation: Text+CF
+tokenization: Dual RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → DPO
+inference: Beam
+poi: false
+summary: 'Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic
+  and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
+evidence:
+- field: problem
+  quote: 'Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic
+    and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
+  where: arXiv abstract
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: Multi-task SFT, p4; Progressive DPO, p4–5, Eq. 3
+- field: inference
+  quote: Beam width 20; no prefix constraint reported.
+  where: Implementation Details and Evaluation Metrics, p5

@@ -1,0 +1,19 @@
+id: digr
+name: DiGR
+title: 'From Token Generation to Item Ranking: Direct Generative Recommendation with Semantic IDs'
+authors: Zhao et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2602.07847
+  code: null
+problem: IV
+stage: Backbone
+representation: –
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: –
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 保留真实离散 SID 并提出完整的新推荐模型，虽不逐码生成，可按已准许例外收录。

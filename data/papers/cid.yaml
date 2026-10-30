@@ -1,55 +1,31 @@
 id: cid
 name: CID
-record_type: method
-citation: Hua et al., 2023
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2305.06569'
-  doi: 10.1145/3624918.3625339
-  title: How to Index Item IDs for Recommendation Foundation Models
-  year: 2023
-  venue: SIGIR-AP’23
-labels:
-  problem:
-    value: II
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: CF
-    source: §4.2, p4
-    status: verified
-    note: ""
-  tokenization:
-    value: Spectral Clus.
-    source: §4.2.1, p4–5; Fig. 1, p5
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: §5.2, p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p2; §5.2
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: p2; §5.2
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: C-Beam
-    source: p2
-    status: verified
-    note: ""
-note: ""
+title: How to Index Item IDs for Recommendation Foundation Models
+authors: Hua et al.
+year: 2023
+venue: SIGIR-AP’23
+links:
+  arxiv: https://arxiv.org/abs/2305.06569
+  code: null
+problem: II
+stage: Tokenization
+representation: CF
+tokenization: Spectral Clus.
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: 'Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible
+  item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
+evidence:
+- field: problem
+  quote: 'Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible
+    item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p2; §5.2
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: p2; §5.2

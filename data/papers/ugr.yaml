@@ -1,0 +1,19 @@
+id: ugr
+name: UGR
+title: Uncertainty-aware Generative Recommendation
+authors: Fan et al.
+year: 2026
+venue: KDD’26
+links:
+  arxiv: https://arxiv.org/abs/2602.11719
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → (RL + Rank)
+inference: Beam
+poi: false
+summary: 提出 SID 推荐专属不确定性对齐目标，完整生成 SID 并以置信度支持风险应用。

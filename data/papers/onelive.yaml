@@ -1,0 +1,19 @@
+id: onelive
+name: OneLive
+title: 'OneLive: Dynamically Unified Generative Framework for Live-Streaming Recommendation'
+authors: Wang et al.
+year: 2026
+venue: KDD’26 ADS
+links:
+  arxiv: https://arxiv.org/abs/2602.08612
+  code: null
+problem: VI
+stage: Tokenization
+representation: Text+Img+Audio+CF
+tokenization: R-KM
+backbone: Lazy Dec-Only
+tokenizer: Fixed
+objective: NTP + RL
+inference: Beam
+poi: false
+summary: 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。

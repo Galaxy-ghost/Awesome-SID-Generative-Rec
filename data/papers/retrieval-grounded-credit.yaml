@@ -1,0 +1,19 @@
+id: retrieval-grounded-credit
+name: Retrieval-Grounded-Credit
+title: 'From Interests to Semantic IDs: Retrieval-Grounded Credit Assignment for Generative Recommendation'
+authors: Zhu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2609.29983
+  code: null
+problem: IV
+stage: Training
+representation: Text†
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT+C-Beam
+poi: false
+summary: 用冻结检索器逐条核验兴趣查询，把奖励分配到产生有效召回的推理片段。

@@ -1,55 +1,29 @@
 id: nezha
 name: NEZHA
-record_type: method
-citation: Wang et al., 2026
-survey: none
-in_repo_cards: false
-in_table1: true
-external:
-  arxiv: '2511.18793'
-  doi: 10.1145/3774904.3792797
-  title: 'NEZHA: A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations'
-  year: 2026
-  venue: WWW’26 Industry
-labels:
-  problem:
-    value: V
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "severely hindered by high inference latency".'
-  stage:
-    value: Inference
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text
-    source: §4.1 Implementation Details, p6, footnote 2
-    status: verified
-    note: ""
-  tokenization:
-    value: RQ-VAE
-    source: p6
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: §4.1, p6; Table 1, p2
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: §3.4, p6; Algorithm 3
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP
-    source: §3.4, p6; Algorithm 3
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: Self-Draft+Hash
-    source: §3.1–3.3, p4–5; Table 3, p7
-    status: verified
-    note: ""
-note: ""
+title: 'NEZHA: A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations'
+authors: Wang et al.
+year: 2026
+venue: WWW’26 Industry
+links:
+  arxiv: https://arxiv.org/abs/2511.18793
+  code: null
+problem: V
+stage: Inference
+representation: Text
+tokenization: RQ-VAE
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP
+inference: Self-Draft+Hash
+poi: false
+summary: 'Abstract: "severely hindered by high inference latency".'
+evidence:
+- field: problem
+  quote: 'Abstract: "severely hindered by high inference latency".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §3.4, p6; Algorithm 3
+- field: objective
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: §3.4, p6; Algorithm 3

@@ -1,0 +1,19 @@
+id: pctx
+name: Pctx
+title: 'Pctx: Tokenizing Personalized Context for Generative Recommendation'
+authors: Zhong et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2510.21276
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+CF
+tokenization: RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: Beam+Agg.
+poi: false
+summary: 提出上下文感知 SID 编号器及多面概率聚合。

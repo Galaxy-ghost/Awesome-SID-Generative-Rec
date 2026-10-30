@@ -1,53 +1,33 @@
 id: gwhere
 name: Gwhere
-record_type: method
-citation: Zhai et al., 2026
-survey: none
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2607.26073'
-  year: 2026
-  venue: RecSys’26
-labels:
-  problem:
-    value: II
-    source: abstract, p1
-    status: verified
-    note: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals". II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8) serves II. Both labelings were unsure (alternative I).'
-  stage:
-    value: Tokenization
-    source: §3.2, p3
-    status: verified
-    note: The designs for both complaints sit in the tokenizer.
-  representation:
-    value: Text+Img+Geo+CF
-    source: p1–3
-    status: verified
-    note: ""
-  tokenization:
-    value: Contr. RQ
-    source: p2
-    status: verified
-    note: ""
-  backbone:
-    value: Dec-Only
-    source: p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: p1; Fig. 1, p6
-    status: verified
-    note: '"Based on these SIDs, Gwhere adapts LLMs"; SIDs are built offline before LLM training.'
-  objective:
-    value: NTP → DPO
-    source: §3.3.1, p4; §3.3.2, p4; §3.4, Eq. (1), p4–5
-    status: verified
-    note: CPT, then SFT, then EAKTO. EAKTO is a KTO variant, i.e. preference optimization. CPT also has two auxiliary tasks (masked SID prediction and SID–attribute matching, §3.3.1) that the 12 objective values cannot express.
-  inference:
-    value: –
-    source: missing
-    status: unverified
-    note: 'Appendix: the beam search configuration is not described.'
-note: POI / local-life paper, in Table 1 since 2026-10-28; problem, stage, tokenizer and objective come from the 10-28 labeling.
+title: 'Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap'
+authors: Zhai et al.
+year: 2026
+venue: RecSys’26
+links:
+  arxiv: https://arxiv.org/abs/2607.26073
+  code: https://github.com/alibaba/SimCIT
+problem: II
+stage: Tokenization
+representation: Text+Img+Geo+CF
+tokenization: Contr. RQ
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → DPO
+inference: –
+poi: true
+summary: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals".
+  II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8)
+  serves II. Both labelings were unsure (alternative I).'
+evidence:
+- field: problem
+  quote: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals".
+    II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8)
+    serves II. Both labelings were unsure (alternative I).'
+  where: abstract, p1
+- field: stage
+  quote: The designs for both complaints sit in the tokenizer.
+  where: §3.2, p3
+- field: tokenizer
+  quote: '"Based on these SIDs, Gwhere adapts LLMs"; SIDs are built offline before LLM training.'
+  where: p1; Fig. 1, p6

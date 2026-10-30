@@ -1,0 +1,19 @@
+id: mdgr
+name: MDGR
+title: Masked Diffusion Generative Recommendation
+authors: Mu et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2601.19501
+  code: null
+problem: III
+stage: Backbone
+representation: –
+tokenization: Par. OPQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: Masked
+inference: Diff.+Beam
+poi: false
+summary: OPQ 离散 SID + 双向掩码扩散 + 完整 SID 候选映射构成新方法。

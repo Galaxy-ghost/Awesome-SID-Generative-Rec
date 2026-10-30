@@ -1,0 +1,19 @@
+id: cite
+name: CITE
+title: 'CITE: Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers'
+authors: Ma et al.
+year: 2026
+venue: Electronics’26
+links:
+  arxiv: https://doi.org/10.3390/electronics15204749
+  code: null
+problem: I
+stage: Inference
+representation: Text
+tokenization: Par. OPQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: Discrim.
+inference: Scoring
+poi: false
+summary: 'CITE (Electronics’26): Inference-stage method using Par. OPQ tokenization and Non-AR backbone.'

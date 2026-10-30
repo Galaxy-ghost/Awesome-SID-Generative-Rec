@@ -1,0 +1,19 @@
+id: sst
+name: SST
+title: 'Rethinking Item Tokenization in Generative Recommenders: From Fixed Atoms to Semantic Subwords'
+authors: Miao et al.
+year: 2026
+venue: CIKM’26
+links:
+  arxiv: https://arxiv.org/abs/2608.22734
+  code: null
+problem: III
+stage: Tokenization
+representation: Text
+tokenization: RQ+IST
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP
+inference: C-Beam
+poi: false
+summary: Sentence-T5抽取物品文字语义向量用于四层基础RQ；BCA在推荐样本侧注入行为，不自动把基础SID输入记CF。

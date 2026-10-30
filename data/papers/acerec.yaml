@@ -1,0 +1,19 @@
+id: acerec
+name: ACERec
+title: Unleash the Potential of Long Semantic IDs for Generative Recommendation
+authors: Xia et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2602.13573
+  code: null
+problem: V
+stage: Backbone
+representation: Text
+tokenization: Par. OPQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: MTP + Ctr. + Aux.
+inference: Scoring
+poi: false
+summary: 有完整离散 SID、并行预测和全物品聚合检索，不因最终评分排除。

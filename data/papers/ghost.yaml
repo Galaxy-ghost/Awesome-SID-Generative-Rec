@@ -1,0 +1,19 @@
+id: ghost
+name: Ghost
+title: 'Echoes in Filter Bubble: Diagnosing and Curing Popularity Bias in Generative Recommenders'
+authors: Yin et al.
+year: 2026
+venue: NeurIPS’26
+links:
+  arxiv: https://arxiv.org/abs/2605.16825
+  code: null
+problem: IV
+stage: Training
+representation: Text
+tokenization: Skeleton R-KM
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP + Aux.
+inference: –
+poi: false
+summary: 既有诊断也提出 Ghost 新方法，不能按纯分析排除。

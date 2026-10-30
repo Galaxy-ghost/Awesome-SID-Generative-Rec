@@ -1,0 +1,32 @@
+id: dpe-rec
+name: DPE-Rec
+title: 'DPE-Rec: Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction'
+authors: Ma et al.
+year: 2026
+venue: arXiv’26
+links:
+  arxiv: https://arxiv.org/abs/2610.34700
+  code: null
+problem: IV
+stage: Training
+representation: – / Text+Img
+tokenization: RQ
+backbone: Non-AR
+tokenizer: Fixed
+objective: Masked → RL (→ Masked KD for Fast)
+inference: Diff.+Legalize
+poi: false
+summary: 'Generative bundle construction completes a partially observed bundle by generating its missing items from a large
+  product catalog. Compared to autoregressive LLMs, diffusion LLM emerges as a natural fit for this unordered generation task.
+  Their bidirectional attention provides an inductive bias better aligned with unordered bundle construction. Iterative denoising
+  can reveal multiple tokens per step, potentially reducing inference latency. However, directly applying DLMs to this task
+  presents two key challenges: 1 Despite its flexible reveal order, confidence-guided decoding tends to postpone semantic-fork
+  decisions until refinement tokens constrain their choices, reducing bundle diversity. 2 Revealing more tokens per step can
+  compromise recommendation quality, stifling the potential for faster inference. We introduce DPE-Rec, a diffusion framework
+  for diversity preservation and efficient recommendation. DPE-Rec preserves diversity by introducing semantic-fork-aware
+  GRPO, which prioritizes semantic-fork decisions via autoregressive rollouts. It improves efficiency through pseudo-trajectory
+  distillation, which concentrates learning from the vast random corruption space onto the compact trajectory-induced subspace
+  visited by high-quality decoding, unlocking reliable multi-token decoding. Together, these components enable diverse and
+  accurate bundle construction with substantially fewer denoise steps. Experiments on multiple bundle construction benchmarks
+  show that DPE-Rec improves recommendation performance by 63% on average, and its fast variant achieves 25.6$times$ faster
+  inference on average than existing generative recommendation arts, with minimal loss in recommendation quality.'

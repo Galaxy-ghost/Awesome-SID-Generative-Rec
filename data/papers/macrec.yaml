@@ -1,53 +1,26 @@
 id: macrec
 name: MACRec
-record_type: method
-citation: Zhang et al., 2026a
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2511.15122'
-  year: 2026
-  venue: AAAI’26
-labels:
-  problem:
-    value: I
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "remain limited in their ability to harness multimodal information".'
-  stage:
-    value: Tokenization
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img
-    source: Dual-modality Pseudo-label Generation, p3; Implementation Details, p6
-    status: verified
-    note: ""
-  tokenization:
-    value: Cross RQ
-    source: Cross-modal Item Quantization, p3–4, Eq. 6, 13; p6
-    status: verified
-    note: ""
-  backbone:
-    value: Enc-Dec
-    source: p5
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: 'p5; Conclusion, p7; code: zhangfw123/MACRec README and data.py'
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  objective:
-    value: NTP + Ctr.
-    source: missing
-    status: unverified
-    note: ""
-  inference:
-    value: C-Beam
-    source: p5
-    status: verified
-    note: ""
-note: ""
+title: Multi-aspect cross-modal quantization for generative recommendation
+authors: Zhang et al.
+year: 2026
+venue: AAAI’26
+links:
+  arxiv: https://arxiv.org/abs/2511.15122
+  code: null
+problem: I
+stage: Tokenization
+representation: Text+Img
+tokenization: Cross RQ
+backbone: Enc-Dec
+tokenizer: Fixed
+objective: NTP + Ctr.
+inference: C-Beam
+poi: false
+summary: 'Abstract: "remain limited in their ability to harness multimodal information".'
+evidence:
+- field: problem
+  quote: 'Abstract: "remain limited in their ability to harness multimodal information".'
+  where: arXiv abstract
+- field: tokenizer
+  quote: Location from the pre-10-26 Training evidence in the appendix.
+  where: 'p5; Conclusion, p7; code: zhangfw123/MACRec README and data.py'

@@ -1,56 +1,31 @@
 id: onerec-think
 name: OneRec-Think
-record_type: method
-citation: Liu et al., 2025b
-survey: table1
-in_repo_cards: true
-in_table1: true
-external:
-  arxiv: '2510.11639'
-  year: 2025
-  venue: arXiv’25
-labels:
-  problem:
-    value: III
-    source: arXiv abstract
-    status: verified
-    note: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule: lack of reasoning is not a class of its own).'
-  stage:
-    value: Training
-    source: arXiv abstract
-    status: verified
-    note: ""
-  representation:
-    value: Text+Img+CF
-    inferred: true
-    source: §3, p2; OneRec technical report §2.1.1
-    status: unverified
-    note: Paper says itemic tokens come from 'multi-modal and collaborative content' but does not name the visual inputs.
-  tokenization:
-    value: R-KM
-    inferred: true
-    source: §3, p2; OneRec technical report (arXiv 2506.13695v4) §2.1.2, Table 11; §5.4.1, p6
-    status: unverified
-    note: Paper only says 'Following OneRec'; R-KM inferred from the OneRec technical report (RQ-Kmeans).
-  backbone:
-    value: Dec-Only
-    source: §5.4.1, p6
-    status: verified
-    note: ""
-  tokenizer:
-    value: Fixed
-    source: missing
-    status: unverified
-    note: ""
-  objective:
-    value: NTP → RL
-    source: §4.3, p5; Appendix A.3, p17
-    status: verified
-    note: Location from the pre-10-26 Training evidence in the appendix.
-  inference:
-    value: CoT
-    source: Eq. 2, p3; Appendix A.1, p12
-    status: verified
-    note: ""
-training_change: objective
-note: Values follow the industrial setting; the public-dataset setting is not disclosed.
+title: 'Onerec-think: In-text reasoning for generative recommendation'
+authors: Liu et al.
+year: 2025
+venue: arXiv’25
+links:
+  arxiv: https://arxiv.org/abs/2510.11639
+  code: null
+problem: III
+stage: Training
+representation: Text+Img+CF†
+tokenization: R-KM†
+backbone: Dec-Only
+tokenizer: Fixed
+objective: NTP → RL
+inference: CoT
+poi: false
+summary: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule:
+  lack of reasoning is not a class of its own).'
+evidence:
+- field: problem
+  quote: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule:
+    lack of reasoning is not a class of its own).'
+  where: arXiv abstract
+- field: representation
+  quote: Paper says itemic tokens come from 'multi-modal and collaborative content' but does not name the visual inputs.
+  where: §3, p2; OneRec technical report §2.1.1
+- field: tokenization
+  quote: Paper only says 'Following OneRec'; R-KM inferred from the OneRec technical report (RQ-Kmeans).
+  where: §3, p2; OneRec technical report (arXiv 2506.13695v4) §2.1.2, Table 11; §5.4.1, p6
