@@ -1,13 +1,13 @@
 # Awesome Semantic ID Generative Recommendation
 
-> Declarative knowledge base of 182 papers on Semantic ID-based Generative Recommendation organized by a 6 Problems x 5 Stages matrix.
+> Declarative knowledge base of 181 papers on Semantic ID-based Generative Recommendation organized by a 6 Problems x 5 Stages matrix.
 
 ## Core Files
 - [README.md](README.md): Problem x Stage matrix and full awesome-list catalog.
 - [data/vocab.yaml](data/vocab.yaml): Controlled vocabulary for problems, stages, and all 6 Table 1 technical columns.
 - [schema/paper.schema.json](schema/paper.schema.json): Single-source JSON Schema for `data/papers/<id>.yaml`.
 
-## Papers Index (182 records)
+## Papers Index (181 records)
 - [ACERec](pages/papers/acerec.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text, Tok=Par. OPQ, Backbone=Non-AR, Train=Fixed/MTP + Ctr. + Aux., Inf=Scoring. 有完整离散 SID、并行预测和全物品聚合检索，不因最终评分排除。
 - [ActionPiece](pages/papers/actionpiece.md) (ICML’25): [I. Informativeness | Tokenization] Rep=Text, Tok=OPQ, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Ensemble. Abstract: "without considering contextual relationships".
 - [AdaSID](pages/papers/adasid.md) (arXiv’26): [II. Uniqueness and Validity | Tokenization] Rep=Text+Img, Tok=RQ, Backbone=Dec-Only, Train=Fixed/NTP, Inf=C-Beam. Abstract: "effective SID learning is hindered by collisions".
@@ -24,7 +24,7 @@
 - [ChronoID](pages/papers/chronoid.md) (arXiv’26): [I. Informativeness | Tokenization] Rep=Text+Time, Tok=RQ-VAE / Par. VQ, Backbone=Dec-Only†, Train=Fixed/NTP, Inf=Beam†. 提出时间显式构码框架及配套基准，系统对照时间编码、融合和量化三维设计。
 - [CID](pages/papers/cid.md) (SIGIR-AP’23): [II. Uniqueness and Validity | Tokenization] Rep=CF, Tok=Spectral Clus., Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract's complaint first).
 - [CITE](pages/papers/cite.md) (Electronics’26): [I. Informativeness | Inference] Rep=Text, Tok=Par. OPQ, Backbone=Non-AR, Train=Fixed/Discrim., Inf=Scoring. CITE (Electronics’26): Inference-stage method using Par. OPQ tokenization and Non-AR backbone.
-- [CMRec](pages/papers/cmrec.md) (CIKM’26 Short): [VI. Generalization | Training] Rep=Text + Img + CF, Tok=RQ-VAE, Backbone=Dec-Only†, Train=–/NTP, Inf=–. 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。
+- [CMRec](pages/papers/cmrec.md) (CIKM’26 Short): [VI. Generalization | Training] Rep=Text+Img+CF, Tok=RQ-VAE, Backbone=Dec-Only†, Train=–/NTP, Inf=–. 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。
 - [COBRA](pages/papers/cobra.md) (NeurIPS’25): [I. Informativeness | Backbone] Rep=Text+SID, Tok=Casc. RQ, Backbone=Dec-Only, Train=Fixed/NTP + Dense, Inf=BeamFusion. Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".
 - [CogRec](pages/papers/cogrec.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=Text, Tok=R-KM+Graph, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=CoT+C-Beam. 用SID拓扑生成结构化推理轨迹，解决自然语言推理与标识空间脱节。
 - [ColaRec](pages/papers/colarec.md) (CIKM’24): [I. Informativeness | Backbone] Rep=Text+CF, Tok=H-KM, Backbone=Enc-Dec, Train=Fixed/NTP + Ctr., Inf=C-Beam. Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored for item recommendation is still an open research challenge".
@@ -35,7 +35,7 @@
 - [Deco](pages/papers/deco.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text / –, Tok=R-KM, Backbone=Dec-Only, Train=Fixed/NTP + Aux., Inf=C-Beam. Generative recommenders retrieve items by writing their semantic IDs (SIDs) code by code under trie-constrained beam search, an approach now deployed on large web platforms. Standard autoregressive interfaces pay for the SID length K twice: a history of T items enters the backbone as TK code tokens, and every beam-search step runs through the backbone, so returning B candidates costs O(BK) backbone decode tokens per user. The second cost often dominates, and it grows with the backbone, the SID depth and the candidate budget. We introduce Deco (decoding from concepts), which separates reading the history from writing the identifier. The backbone reads each history item as one fused token and condenses the history once into a compact next-item concept; a light KV-cached decoder conditioned on the concept and the generated prefix runs the entire beam search, while the identifiers, the trie and the autoregressive factorization stay unchanged. The decoder approaches full-backbone accuracy with cross-entropy alone, and distillation improves it further. On seven datasets from e-commerce, movies and music streaming, Deco achieves comparable or better accuracy than both a standard generative recommender and the full-backbone teacher with fused inputs, while delivering 3.2-8.6$\times$ their throughput under a 50 ms p95 latency budget in a production-style serving pipeline. Delegating beam search makes larger candidate pools and models practical: Deco generates 1000 candidates faster than its teacher generates 100, and with a 1.5B-parameter LLM backbone, it matches the 69M-parameter teacher's throughput while achieving higher accuracy.
 - [DECOR](pages/papers/decor.md) (SIGIR’26): [III. SID–Model Alignment | Backbone] Rep=Text+CF, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam. Abstract: "suboptimal static tokenization"; "discarded pretrained semantics". Candidates: I / III (rule: tie broken by the first new design).
 - [DIGER](pages/papers/diger.md) (SIGIR’26): [II. Uniqueness and Validity | Tokenization] Rep=Text, Tok=Learn. RQ, Backbone=Enc-Dec, Train=Joint/NTP, Inf=Beam†. Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are used". Candidates: III / II (rule: tie broken by the majority of new designs).
-- [DiGR](pages/papers/digr.md) (arXiv’26): [IV. Utility | Backbone] Rep=–, Tok=RQ-VAE, Backbone=Dec-Only, Train=–/Discrim., Inf=Scoring. 保留真实离散 SID 并提出完整的新推荐模型，虽不逐码生成，可按已准许例外收录。
+- [DiGR](pages/papers/digr.md) (arXiv’26): [IV. Utility | Backbone] Rep=–, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Discrim., Inf=Scoring. 保留真实离散 SID 并提出完整的新推荐模型，虽不逐码生成，可按已准许例外收录。
 - [DiscRec](pages/papers/discrec.md) (arXiv’25): [I. Informativeness | Backbone] Rep=Text+CF, Tok=RQ-VAE / Learn. RQ, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "token-item misalignment"; "semantic-collaborative signal entanglement". Candidates: I / III (rule: tie broken by the title).
 - [DOS](pages/papers/dos.md) (WWW’26 Short): [III. SID–Model Alignment | Tokenization] Rep=Text+CF, Tok=Orth. RQ, Backbone=Dec-Only†, Train=Fixed†/NTP, Inf=–. The abstract identifies the codebook-generation gap (III) and semantic loss during quantization (I), addressed by DFI and ORQ respectively. The designs and title cover both equally; the first contribution, DFI, breaks the tie in favor of alignment.
 - [DPE-Rec](pages/papers/dpe-rec.md) (arXiv’26): [IV. Utility | Training] Rep=– / Text+Img, Tok=RQ, Backbone=Non-AR, Train=Fixed/Masked → RL (→ Masked KD for Fast), Inf=Diff.+Legalize. Generative bundle construction completes a partially observed bundle by generating its missing items from a large product catalog. Compared to autoregressive LLMs, diffusion LLM emerges as a natural fit for this unordered generation task. Their bidirectional attention provides an inductive bias better aligned with unordered bundle construction. Iterative denoising can reveal multiple tokens per step, potentially reducing inference latency. However, directly applying DLMs to this task presents two key challenges: 1 Despite its flexible reveal order, confidence-guided decoding tends to postpone semantic-fork decisions until refinement tokens constrain their choices, reducing bundle diversity. 2 Revealing more tokens per step can compromise recommendation quality, stifling the potential for faster inference. We introduce DPE-Rec, a diffusion framework for diversity preservation and efficient recommendation. DPE-Rec preserves diversity by introducing semantic-fork-aware GRPO, which prioritizes semantic-fork decisions via autoregressive rollouts. It improves efficiency through pseudo-trajectory distillation, which concentrates learning from the vast random corruption space onto the compact trajectory-induced subspace visited by high-quality decoding, unlocking reliable multi-token decoding. Together, these components enable diverse and accurate bundle construction with substantially fewer denoise steps. Experiments on multiple bundle construction benchmarks show that DPE-Rec improves recommendation performance by 63% on average, and its fast variant achieves 25.6$times$ faster inference on average than existing generative recommendation arts, with minimal loss in recommendation quality.
@@ -60,12 +60,12 @@
 - [GMC](pages/papers/gmc.md) (arXiv’25): [VI. Generalization | Tokenization] Rep=Cross-Dom, Tok=Unified RQ, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "may be unavailable in non-overlapped recommendation scenarios".
 - [GNPR-SID](pages/papers/gnpr-sid.md) (KDD’25): [I. Informativeness | Tokenization] Rep=Attr+Geo+CF, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP, Inf=–. Abstract: "employ random numeric IDs for POIs, limiting the ability to model semantic relationships between similar locations". The diversity loss only spreads SIDs evenly; the abstract does not blame prior work for collisions, so not II.
 - [GR-Generalize](pages/papers/gr-generalize.md) (arXiv’26): [Paradigms, Systems and Benchmarks | n/a] Rep=Text+SID, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed†/NTP†, Inf=Hybrid. Abstract: "there is few systematic way to verify this hypothesis".
-- [GR4AD-X](pages/papers/gr4ad-x.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=–, Tok=Multi-Path R-KM+Hash, Backbone=Enc-Dec, Train=–/NTP + PV-RSPO + Rank + Aux., Inf=PV-Beam+Rerank. Generative recommendation (GR) reformulates item retrieval as autoregressive generation of discrete semantic identifiers (SIDs), offering a unified paradigm for personalized recommendation. GR4AD, as an industrial generative recommendation framework, has greatly improved advertising revenue while enabling efficient real-time serving in Kuaishou.However, continued deployment has exposed three limitations: deterministic SID assignment remains sensitive to semantic boundaries; conventional backbone scaling provides diminishing revenue gains under strict serving constraints; and sequence-level value optimization provides limited credit assignment to intermediate SID decisions, causing likelihood-based beam search to prematurely prune potentially high-value candidates. We present GR4AD-X, which addresses these limitations through reliable SID construction, serving-efficient capacity scaling, and unified value alignment. Specifically, GR4AD-X improves SID reliability through Multi-Path assignment. It expands model capacity along multiple complementary dimensions rather than relying solely on wider or deeper backbones, achieving a better effectiveness-efficiency trade-off under strict serving constraints. Finally, Unified Value-Guided Generation and Discrimination (UniVGD) aligns generation with commercial value through prefix-level reward optimization, value-guided beam pruning, and discriminative reranking within a unified model. Large-scale online A/B tests on the Kuaishou advertising platform demonstrate that GR4AD-X achieves a cumulative revenue improvement of 3.07% over the deployed GR4AD baseline while satisfying strict latency and throughput constraints.
+- [GR4AD-X](pages/papers/gr4ad-x.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=–, Tok=Multi-Path R-KM+Hash, Backbone=Enc-Dec, Train=Fixed/NTP + PV-RSPO + Rank + Aux., Inf=PV-Beam+Rerank. Generative recommendation (GR) reformulates item retrieval as autoregressive generation of discrete semantic identifiers (SIDs), offering a unified paradigm for personalized recommendation. GR4AD, as an industrial generative recommendation framework, has greatly improved advertising revenue while enabling efficient real-time serving in Kuaishou.However, continued deployment has exposed three limitations: deterministic SID assignment remains sensitive to semantic boundaries; conventional backbone scaling provides diminishing revenue gains under strict serving constraints; and sequence-level value optimization provides limited credit assignment to intermediate SID decisions, causing likelihood-based beam search to prematurely prune potentially high-value candidates. We present GR4AD-X, which addresses these limitations through reliable SID construction, serving-efficient capacity scaling, and unified value alignment. Specifically, GR4AD-X improves SID reliability through Multi-Path assignment. It expands model capacity along multiple complementary dimensions rather than relying solely on wider or deeper backbones, achieving a better effectiveness-efficiency trade-off under strict serving constraints. Finally, Unified Value-Guided Generation and Discrimination (UniVGD) aligns generation with commercial value through prefix-level reward optimization, value-guided beam pruning, and discriminative reranking within a unified model. Large-scale online A/B tests on the Kuaishou advertising platform demonstrate that GR4AD-X achieves a cumulative revenue improvement of 3.07% over the deployed GR4AD baseline while satisfying strict latency and throughput constraints.
 - [GRAM](pages/papers/gram.md) (ACL’25): [I. Informativeness | Tokenization] Rep=Text+CF, Tok=H-KM, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".
 - [GRC](pages/papers/grc.md) (CIKM’26): [III. SID–Model Alignment | Inference] Rep=–, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed/NTP → RL, Inf=GRC+Beam. §5.1仅称Qwen3-8B encode item embeddings，未列构码原始输入模态；没有点名继承文本输入配置，不能把常见Qwen文本编码经验写Text†。
 - [GREAM](pages/papers/gream.md) (arXiv’25): [III. SID–Model Alignment | Training] Rep=Text+CF, Tok=RQ-KM, Backbone=Dec-Only, Train=Fixed/NTP → RL, Inf=Beam. Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".
 - [GRID](pages/papers/grid.md) (CIKM’25): [Paradigms, Systems and Benchmarks | n/a] Rep=Text, Tok=R-KM, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam. Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
-- [GrIS (RecDMoN / RQ-GAE)](pages/papers/gris-recdmon-rq-gae.md) (CIKM’26): [I. Informativeness | Tokenization] Rep=Text + CF, Tok=RecDMoN / RQ-VAE, Backbone=Enc-Dec, Train=Fixed/–, Inf=–. 明确仅文本嵌入，边来自训练交互相邻共现。
+- [GrIS (RecDMoN / RQ-GAE)](pages/papers/gris-recdmon-rq-gae.md) (CIKM’26): [I. Informativeness | Tokenization] Rep=Text+CF, Tok=RecDMoN / RQ-VAE, Backbone=Enc-Dec, Train=Fixed/–, Inf=–. 明确仅文本嵌入，边来自训练交互相邻共现。
 - [GRLM](pages/papers/grlm.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=Text, Tok=Term-ID, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=Beam. Abstract: "Text-based methods introduce LLMs' vast output space, leading to hallucination"; "encounter a semantic gap between SIDs and LLMs' native vocabulary". Candidates: II / III (rule: tie broken by the majority of new designs).
 - [Gryphon](pages/papers/gryphon.md) (CIKM’26 Short): [IV. Utility | Backbone] Rep=–, Tok=R-KM, Backbone=Enc-Dec, Train=Fixed/NTP + Rank, Inf=Hybrid. 有完整 SID 生成和 item-level scoring 新架构；放弃唯一 SID 并不使其成为非 SID。
 - [GTI](pages/papers/gti.md) (arXiv’26): [III. SID–Model Alignment | Training] Rep=Text+CF / Text, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=–. 提出明确可复用的词嵌入 grounding 训练阶段，并在真实离散 RQ-VAE SID 推荐中验证。
@@ -75,7 +75,7 @@
 - [HF-SID](pages/papers/hf-sid.md) (arXiv’26): [I. Informativeness | Representation] Rep=Text+Attr+Geo, Tok=R-KM, Backbone=Dec-Only, Train=Fixed/NTP, Inf=C-Beam. 直接研究 POI SID 质量并用于下游 next-POI 生成，建议保留方法；完整码到多 POI 的物化仍须明确标未知。
 - [HiD-VAE](pages/papers/hid-vae.md) (arXiv’25): [II. Uniqueness and Validity | Tokenization] Rep=Text, Tok=Hier. RQ, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement (i.e., ``ID collisions'')". Candidates: I / II (rule: tie broken by the majority of new designs).
 - [HoloRec](pages/papers/holorec.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=–, Tok=Nested RQ, Backbone=Enc-Dec, Train=Fixed/NTP + Aux., Inf=–. 构造多粒度语义码并交错推理，使编号结构支持推荐推理。
-- [IBA](pages/papers/iba.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text, Tok=RQ-VAE, Backbone=Enc-Dec, Train=–/NTP → (NTP + Aux.), Inf=C-Beam. 新增隐式精炼模块与预算预测器，并给出训练和约束解码。
+- [IBA](pages/papers/iba.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed/NTP → (NTP + Aux.), Inf=C-Beam. 新增隐式精炼模块与预算预测器，并给出训练和约束解码。
 - [IDGenRec](pages/papers/idgenrec.md) (SIGIR’24): [III. SID–Model Alignment | Tokenization] Rep=Text, Tok=LLM-Vocab, Backbone=Enc-Dec, Train=Altern./NTP, Inf=C-Beam. Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".
 - [IDM/CMM](pages/papers/idm-cmm.md) (arXiv’26): [IV. Utility | Training] Rep=Text, Tok=Subspace RQ, Backbone=Non-AR, Train=Fixed/MTP + Aux., Inf=Scoring. Generative recommendation with semantic IDs represents each item as a sequence of discrete codes derived from its semantic representation and predicts these codes to generate recommendations. Existing semantic-ID recommenders are typically trained with hard labels for the observed next item. Although such supervision identifies the target, it provides no explicit distributional information about alternative items conditioned on the same user history. Sequential recommenders can supply this item-level predictive knowledge, but transferring it to semantic-ID generation is challenging because the teacher and student operate in item and code spaces, respectively. We propose two complementary knowledge-distillation objectives for parallel semantic-ID recommenders, which predict all code positions simultaneously without autoregressive prefix conditioning. Item Distribution Matching (IDM) reconstructs a catalogue-level item distribution from the student's parallel code predictions and aligns it with the teacher's item distribution. Code Marginal Matching (CMM) projects the teacher's item probabilities onto each code position using fixed item-to-code assignments, then matches the resulting code marginals to the corresponding student heads. Both objectives transfer the teacher's soft distributional knowledge while preserving the student's parallel prediction structure. Experiments on benchmark datasets show that both methods consistently outperform existing state-of-the-art approaches. On average, IDM improves Recall@10 by 15.39%, while CMM improves NDCG@10 by 8.28%. These results demonstrate that distillation in either reconstructed item space or code-marginal space can substantially strengthen hard-label supervision for parallel generative recommendation.
 - [Intent-Driven-News](pages/papers/intent-driven-news.md) (ACL’26 Industry): [III. SID–Model Alignment | Training] Rep=Text, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=CoT+Fuzzy Match. 明确生成离散 SID 前缀并接目录解析，适合广义 SID 生成综述；不属于完整唯一 SID 直接生成子集。
@@ -93,7 +93,7 @@
 - [LION](pages/papers/lion.md) (CIKM’26): [VI. Generalization | Backbone] Rep=Text†, Tok=RQ-VAE†, Backbone=Enc-Dec, Train=Fixed†/NTP + Aux., Inf=Beam. 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。
 - [LLaDA-Rec](pages/papers/llada-rec.md) (arXiv’25): [III. SID–Model Alignment | Backbone] Rep=Text, Tok=Par. VQ, Backbone=Non-AR, Train=Fixed/Masked, Inf=Diff.. Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early tokens to propagate".
 - [LMIndexer](pages/papers/lmindexer.md) (ICML’24): [I. Informativeness | Tokenization] Rep=Text, Tok=Self-Sup. ID, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=C-Beam. Abstract: "each step introduces potential information loss".
-- [LoopGR](pages/papers/loopgr.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text, Tok=RQ-VAE, Backbone=Enc-Dec, Train=–/NTP / NTP + Aux., Inf=–. Generative recommendation formulates item recommendation as autoregressive generation rather than a discriminative scoring problem. Although empirical studies exhibit favorable scaling behavior in recommendation, unleashing the benefits of scaling remains challenging under the strict model size and inference cost constraints of real-world systems. A central challenge is to combine expressive modeling of user-item interaction histories with flexible computational depth without proportionally increasing model size. We introduce LoopGR, a parameter-efficient scaling framework for generative recommendation via recurrent depth. LoopGR employs a tailored hierarchical recurrent depth mechanism that alternates between a shared generative decoder and a lightweight context updater. For efficient inference, we further develop recurrent trajectory self-distillation that distills a low-budget student from a high-budget teacher by aligning both predictive distributions and evolution directions. Extensive experiments show that LoopGR consistently outperforms strong generative recommendation baselines. Compared with a representative encoder-decoder baseline, LoopGR achieves superior performance while reducing model size by up to 52%. These results establish recurrent depth as a new scaling dimension, offering a flexible and resource-efficient scaling path for generative recommendation.
+- [LoopGR](pages/papers/loopgr.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed/NTP / NTP + Aux., Inf=–. Generative recommendation formulates item recommendation as autoregressive generation rather than a discriminative scoring problem. Although empirical studies exhibit favorable scaling behavior in recommendation, unleashing the benefits of scaling remains challenging under the strict model size and inference cost constraints of real-world systems. A central challenge is to combine expressive modeling of user-item interaction histories with flexible computational depth without proportionally increasing model size. We introduce LoopGR, a parameter-efficient scaling framework for generative recommendation via recurrent depth. LoopGR employs a tailored hierarchical recurrent depth mechanism that alternates between a shared generative decoder and a lightweight context updater. For efficient inference, we further develop recurrent trajectory self-distillation that distills a low-budget student from a high-budget teacher by aligning both predictive distributions and evolution directions. Extensive experiments show that LoopGR consistently outperforms strong generative recommendation baselines. Compared with a representative encoder-decoder baseline, LoopGR achieves superior performance while reducing model size by up to 52%. These results establish recurrent depth as a new scaling dimension, offering a flexible and resource-efficient scaling path for generative recommendation.
 - [MACRec](pages/papers/macrec.md) (AAAI’26): [I. Informativeness | Tokenization] Rep=Text+Img, Tok=Cross RQ, Backbone=Enc-Dec, Train=Fixed/NTP + Ctr., Inf=C-Beam. Abstract: "remain limited in their ability to harness multimodal information".
 - [MBGen](pages/papers/mbgen.md) (CIKM’24): [I. Informativeness | Training] Rep=CF, Tok=Bal. VQ+KM, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam. Abstract: "neglecting the value of integrating the target behavior type into the learning objective".
 - [MBGR](pages/papers/mbgr.md) (arXiv’26): [VI. Generalization | Tokenization] Rep=Text+CF, Tok=RQ, Backbone=Dec-Only, Train=Fixed†/NTP + Aux., Inf=C-Beam. Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unified SID space causes". Candidates: VI / II (rule: judged by the abstract's complaint first).
@@ -112,10 +112,10 @@
 - [Netflix-SID-Comparison](pages/papers/netflix-sid-comparison.md) (NeurIPS’26 PALM Workshop): [Paradigms, Systems and Benchmarks | n/a] Rep=–, Tok=RQ-VAE, Backbone=Dec-Only / Non-AR, Train=Fixed/Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT, Inf=C-Beam / Scoring. End-to-end paradigm or benchmark using RQ-VAE tokenization and Dec-Only / Non-AR backbone.
 - [NEZHA](pages/papers/nezha.md) (WWW’26 Industry): [V. Efficiency | Inference] Rep=Text, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP, Inf=Self-Draft+Hash. Abstract: "severely hindered by high inference latency".
 - [OneChord](pages/papers/onechord.md) (arXiv’26): [IV. Utility | Training] Rep=–, Tok=Par. OPQ, Backbone=Non-AR, Train=Fixed/Next-item CE + Cons. KD + Rank KD, Inf=Scoring. Accurate product discovery on the Web requires recommendation models that rank catalog candidates within tight inference budgets. In semantic-ID recommendation, deployment can fuse code probabilities with item similarities, making the final ranking depend on their normalization and relative weights. This motivates a direct training principle: \emph{distill what you rank}. We present OneChord, which uses one learned, catalog-normalized fusion for next-item supervision, refinement distillation, and inference. A shared parallel decoder produces joint SID evidence and item-matching scores. During training, a frozen denoiser supplies legal partial SIDs; the student evaluates these states to construct refined fused targets. Matching direct and refined predictions on shared hard candidates transfers refinement into one-pass recommendation. We characterize the fusion weights induced by candidate conditioning and establish sufficient conditions for preserving the refined predictor's full-catalog Top-$K$ selection. Across six Amazon datasets, OneChord achieves the highest Recall@5 and NDCG@5 among the compared methods on every dataset, with average relative gains of 6.30\% and 7.12\% over the strongest baseline. It also achieves a 1.04--1.18$\times$ full-test generation speedup over the fastest baseline. OneChord makes the served ranking distribution the common object of recommendation learning and distillation.
-- [OneLatent](pages/papers/onelatent.md) (arXiv’26): [V. Efficiency | Training] Rep=MM, Tok=R-KM, Backbone=Dec-Only, Train=–/Multi-task NTP, Inf=Beam. 明确生成Res-Kmeans三位SID；首次2026-10-22在补搜窗口，提出新的latent对齐训练与高效推荐方法。
-- [OneLive](pages/papers/onelive.md) (KDD’26 ADS): [VI. Generalization | Tokenization] Rep=Text+Img+Audio+CF, Tok=R-KM, Backbone=Lazy Dec-Only, Train=Fixed/NTP + RL, Inf=Beam. 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。
+- [OneLatent](pages/papers/onelatent.md) (arXiv’26): [V. Efficiency | Training] Rep=MM, Tok=R-KM, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=Beam. 明确生成Res-Kmeans三位SID；首次2026-10-22在补搜窗口，提出新的latent对齐训练与高效推荐方法。
+- [OneLive](pages/papers/onelive.md) (KDD’26 ADS): [VI. Generalization | Tokenization] Rep=Text+Img+Audio+CF, Tok=R-KM, Backbone=Lazy Dec-Only, Train=Fixed/NTP → RL, Inf=Beam. 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。
 - [OneLoc](pages/papers/oneloc.md) (arXiv’25): [I. Informativeness | Representation] Rep=Text+Img+Geo†, Tok=R-KM, Backbone=Enc-Dec, Train=Fixed/NTP → DPO, Inf=Beam. Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID, geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the paper is not in the top block (unlike OneRec).
-- [OneMall](pages/papers/onemall.md) (CIKM’26): [Paradigms, Systems and Benchmarks | n/a] Rep=Text+Img+CF, Tok=R-KM+FSQ, Backbone=Enc-Dec, Train=–/(NTP + Ctr.) → (NTP + Ctr. + RL), Inf=Beam. End-to-end paradigm or benchmark using R-KM+FSQ tokenization and Enc-Dec backbone.
+- [OneMall](pages/papers/onemall.md) (CIKM’26): [Paradigms, Systems and Benchmarks | n/a] Rep=Text+Img+CF, Tok=R-KM+FSQ, Backbone=Enc-Dec, Train=Fixed/(NTP + Ctr.) → RL, Inf=Beam. End-to-end paradigm or benchmark using R-KM+FSQ tokenization and Enc-Dec backbone.
 - [OneRec](pages/papers/onerec.md) (arXiv’25): [Paradigms, Systems and Benchmarks | n/a] Rep=Text+CF, Tok=R-KM, Backbone=Enc-Dec, Train=Fixed/NTP → DPO, Inf=Sess. Beam. Abstract: "the generative model functions only as a selector during the retrieval stage".
 - [OneRec-Think](pages/papers/onerec-think.md) (arXiv’25): [III. SID–Model Alignment | Training] Rep=Text+Img+CF†, Tok=R-KM†, Backbone=Dec-Only, Train=Fixed/NTP → RL, Inf=CoT. Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule: lack of reasoning is not a class of its own).
 - [OneRec-V2](pages/papers/onerec-v2.md) (arXiv’25): [V. Efficiency | Backbone] Rep=Text+Img+CF†, Tok=R-KM†, Backbone=Lazy Dec-Only, Train=Fixed/NTP → RL, Inf=Beam. §4.1明确OneRec-V2 PTQ不改架构或训练；其§2.2.2点名沿用OneRec-V1 tokenizer。另核OneRec-V1 §2.1.1，caption/tag/ASR/OCR/cover/frames进入MiniCPM-V，再用协同物品对对齐。仅通过该两跳继承链报告，故标†。
@@ -124,7 +124,7 @@
 - [PCR-CA](pages/papers/pcr-ca.md) (KDD’26): [I. Informativeness | Tokenization] Rep=Text+CF, Tok=PC-AE, Backbone=Disc., Train=Joint/Discrim., Inf=Scoring. 沿VQ-Rec/LGRID先例收录推荐用离散构码新设计；实际任务为CTR，非逐码生成SID。
 - [Pctx](pages/papers/pctx.md) (CIKM’26): [I. Informativeness | Tokenization] Rep=Text+CF, Tok=RQ, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam+Agg.. 提出上下文感知 SID 编号器及多面概率聚合。
 - [PFA](pages/papers/pfa.md) (arXiv’26): [V. Efficiency | Inference] Rep=–, Tok=–, Backbone=Enc-Dec, Train=–/–, Inf=Beam. Long user behavioral sequences improve the performance of generative recommendation (GR), but computing full attention over long histories during autoregressive beam search decoding incurs substantial online inference latency. To accelerate long-sequence decoding, existing approaches typically rely on static history compression or dynamic top-k sparse attention; however, the former risks losing critical semantics, whereas the latter incurs significant overhead from repeated token selection and non-contiguous memory access. In this work, we thoroughly analyze attention patterns during GR decoding and reveal two key properties: (i) progressive attention focusing, where attention progressively focuses on a small subset of critical historical tokens; and (ii) cross-step ranking consistency, where their importance rankings remain relatively stable across subsequent decoding steps. Motivated by these observations, we propose Progressively Focused Attention (PFA), an efficient sparse decoding framework for long-sequence GR. PFA retains full attention at the initial decoding step to explore global historical preferences. It then establishes a shared importance ranking through cross-beam weighted aggregation and reorders the key-value cache of the selected tokens into a contiguous memory layout. Subsequent decoding steps reuse this ranking and geometrically reduce the token budget, preserving critical semantics while lowering computational and memory access overhead. Extensive experiments on two public benchmarks and a large-scale industrial dataset demonstrate that PFA outperforms state-of-the-art baselines. A 7-day online A/B test on a large-scale e-commerce advertising platform further confirms that PFA delivers substantial business gains while maintaining low inference latency. Our code is publicly available at https://anonymous.4open.science/r/PFA-review-088D.
-- [PinGER](pages/papers/pinger.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text+Img+CF, Tok=RQ-VAE, Backbone=Dec-Only, Train=–/NTP → (NTP + DPO), Inf=Div. C-Beam. Generative retrieval replaces nearest-neighbor search with token-by-token decoding of an item's semantic ID (SID). But existing SID-based methods primarily use L levels of tokens sequentially to represent each item in the input history. As a result, a fixed context window holds L times fewer items than it would with one embedding per item. We present PinGER, a generative retriever deployed at Pinterest that retains SID outputs while making input histories compact, built on three ideas. (1) An asymmetric attention mask over interleaved SID and dense tokens lets later items attend only to the dense ones, so the model is supervised at every SID position in training yet serves one token per item while computing the same function. (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity penalty, which together steer retrieval toward surface-specific goals and diverse candidates. (3) A serving stack built for efficient wide-beam generation is paired with decoding constrained to valid identifiers and candidate resolution from a host-local index. Deployed in Related Pins, PinGER lifts saves of fresh Pins by 3.60% and overall saves by 0.62%, while reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.
+- [PinGER](pages/papers/pinger.md) (arXiv’26): [V. Efficiency | Backbone] Rep=Text+Img+CF, Tok=RQ-VAE, Backbone=Dec-Only, Train=–/NTP → DPO, Inf=Div. C-Beam. Generative retrieval replaces nearest-neighbor search with token-by-token decoding of an item's semantic ID (SID). But existing SID-based methods primarily use L levels of tokens sequentially to represent each item in the input history. As a result, a fixed context window holds L times fewer items than it would with one embedding per item. We present PinGER, a generative retriever deployed at Pinterest that retains SID outputs while making input histories compact, built on three ideas. (1) An asymmetric attention mask over interleaved SID and dense tokens lets later items attend only to the dense ones, so the model is supervised at every SID position in training yet serves one token per item while computing the same function. (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity penalty, which together steer retrieval toward surface-specific goals and diverse candidates. (3) A serving stack built for efficient wide-beam generation is paired with decoding constrained to valid identifiers and candidate resolution from a host-local index. Deployed in Related Pins, PinGER lifts saves of fresh Pins by 3.60% and overall saves by 0.62%, while reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.
 - [PLUM](pages/papers/plum.md) (WWW’26): [Paradigms, Systems and Benchmarks | n/a] Rep=Text+Img+CF, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=Beam. Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".
 - [PrefixMem](pages/papers/prefixmem.md) (arXiv’26): [III. SID–Model Alignment | Backbone] Rep=MM, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=Beam. 给固定SID码位加入前缀条件记忆表示，让生成器识别同一码在不同前缀下的含义。
 - [ProGEO](pages/papers/progeo.md) (arXiv’26): [I. Informativeness | Tokenization] Rep=Text+Geo, Tok=R-KM+Geo-CB, Backbone=Dec-Only, Train=Fixed/NTP, Inf=Beam+Geo-Filter. Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names no real item).
@@ -146,7 +146,7 @@
 - [ROS](pages/papers/ros.md) (ACL’26): [I. Informativeness | Tokenization] Rep=Text+Geo, Tok=Geo-Prefix+RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP → RL, Inf=CoT+C-Beam. Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the introduction narrows the gap to not reasoning over geography (p1).
 - [RPG](pages/papers/rpg.md) (KDD’25): [V. Efficiency | Backbone] Rep=Text+Img, Tok=Par. OPQ, Backbone=Non-AR, Train=Fixed/MTP, Inf=Graph. Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".
 - [S2GR](pages/papers/s2gr.md) (KDD’26): [III. SID–Model Alignment | Backbone] Rep=Text+CF, Tok=CoBa RQ-VAE, Backbone=Enc-Dec, Train=Fixed/NTP + Ctr., Inf=Beam. Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
-- [SAGE-SID](pages/papers/sage-sid.md) (arXiv’26): [IV. Utility | Training] Rep=Text+Img†, Tok=R-KM†, Backbone=Dec-Only†, Train=Fixed†/NTP → RL, Inf=Beam†. 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。
+- [SAGE-SID](pages/papers/sage-sid.md) (arXiv’26): [IV. Utility | Training] Rep=Text+Img†, Tok=R-KM†, Backbone=Dec-Only†, Train=Fixed†/NTP → RL, Inf=–. 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。
 - [SAHL](pages/papers/sahl.md) (arXiv’26): [IV. Utility | Training] Rep=Text, Tok=SRBQ, Backbone=Non-AR, Train=Fixed/(MTP + Masked Rec.) → MTP, Inf=Graph. Generative recommendation constructs semantic IDs for catalog items and predicts the next ID from user interaction histories. However, existing methods face limitations in both stages. First, conventional quantizers may produce imbalanced code assignments and lack coherent intermediate semantic units between individual tokens and complete items, limiting history reconstruction. Second, recommendation models remain dominated by next-item prediction, treating historical interactions mainly as conditioning context and providing limited supervision for recovering persistent preferences across the historical path, particularly when relevant preference signals are distributed over distant interactions. To address these limitations, Structure-Aligned History Learning (SAHL) reconnects the two stages by using the structure created during quantization directly for history reconstruction. Its Semantic Residual Balanced Quantization (SRBQ) forms a balanced token-subspace-item hierarchy, and SAHL reconstructs history at these same granularities. Predictive entropy prioritizes uncertain transitions, while curriculum optimization progressively shifts training to inference-aligned next-item prediction. On four Amazon Review categories, SAHL improves NDCG@10 by 18.6%-30.0% over RPG and 2.7%-6.0% over strong method MHL. Controlled analyses verify balanced code use, the benefit of following quantizer-defined groups during reconstruction, and dependence on user history. The relevant code is available at https://github.com/CQU-MM-Intelligent-Lab/SAHL.
 - [SAPO](pages/papers/sapo.md) (arXiv’26): [IV. Utility | Training] Rep=Text, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP → RL, Inf=CoT+C-Beam. 把推理块与SID码位配对分配组内奖励，避免整条结果奖励同时惩罚匹配和不匹配的码位。
 - [SCRec](pages/papers/screc.md) (RecSys’26): [I. Informativeness | Representation] Rep=Text+CF, Tok=RQ-VAE, Backbone=Non-AR / Enc-Dec, Train=Fixed/MTP + Ctr., Inf=Scoring / Beam†. Abstract: "item tokenization is largely dominated by textual semantics with limited incorporation of collaborative signals"; "the generation stage tends to overlook the original semantic information".
@@ -177,7 +177,6 @@
 - [TopoGR](pages/papers/topogr.md) (arXiv’26): [III. SID–Model Alignment | Tokenization] Rep=Text, Tok=BDQ, Backbone=Non-AR, Train=Fixed/MTP + Aux., Inf=Scoring+Rerank. 提出 Binary SID 与拓扑感知生成推荐组件，既非单纯分析亦非连续标识。
 - [TRACER](pages/papers/tracer.md) (NeurIPS’26): [IV. Utility | Tokenization] Rep=Text, Tok=Soft Reassign. RQ, Backbone=Dec-Only / Enc-Dec, Train=Joint/NTP + Aux., Inf=–. 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
 - [TransRec](pages/papers/transrec.md) (KDD’24): [II. Uniqueness and Validity | Tokenization] Rep=Text, Tok=Multi-Facet ID, Backbone=Enc-Dec / Dec-Only, Train=Fixed/NTP, Inf=FM-Index+Agg.. Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".
-- [TransX-GenRet](pages/papers/transx-genret.md) (arXiv’26): [Paradigms, Systems and Benchmarks | n/a] Rep=–, Tok=H-KM, Backbone=Enc-Dec, Train=Fixed/NTP → (NTP + DPO), Inf=C-Beam. End-to-end paradigm or benchmark using H-KM tokenization and Enc-Dec backbone.
 - [TriAlignGR](pages/papers/trialigngr.md) (arXiv’26): [I. Informativeness | Representation] Rep=Text+Img, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/Multi-task NTP, Inf=C-Beam. Abstract: "SID Content Degradation (SCD)"; "SID Semantic Opacity (SSO)". Candidates: I / III (rule: tie broken by the majority of new designs).
 - [TrieRec](pages/papers/trierec.md) (NeurIPS’26): [III. SID–Model Alignment | Backbone] Rep=Text, Tok=RQ-VAE, Backbone=Enc-Dec, Train=Fixed†/NTP†, Inf=C-Beam. 将 SID 的 trie 深度、祖先路径和 token 对关系写入生成器位置编码与注意力，改善其读取和建模层次 SID 的能力。
 - [UGR](pages/papers/ugr.md) (KDD’26): [IV. Utility | Training] Rep=Text, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP → (RL + Rank), Inf=Beam. 提出 SID 推荐专属不确定性对齐目标，完整生成 SID 并以置信度支持风险应用。
@@ -188,10 +187,2329 @@
 - [UniTok](pages/papers/unitok.md) (AAAI’26): [VI. Generalization | Tokenization] Rep=Multi-Dom, Tok=TokenMoE, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam†. Abstract: "require training separate models for each item domain, limiting generalization".
 - [UTGRec](pages/papers/utgrec.md) (arXiv’25): [VI. Generalization | Tokenization] Rep=Multi-Dom, Tok=Tree, Backbone=Enc-Dec, Train=Fixed/NTP, Inf=Beam. Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".
 - [V-STAR](pages/papers/v-star.md) (KDD’26): [IV. Utility | Training] Rep=Text†, Tok=RQ-VAE, Backbone=Dec-Only, Train=Fixed/NTP → RL, Inf=C-Beam. Abstract: "fine-tuning these models with Reinforcement Learning (RL) often suffers from a fundamental probability-reward mismatch".
-- [VarLenRec（TIGER）](pages/papers/varlenrec-tiger.md) (arXiv’26): [I. Informativeness | Tokenization] Rep=Text, Tok=HARQ, Backbone=Enc-Dec, Train=Fixed/NTP + Aux., Inf=C-Beam. 提出可变长度离散 SID 并接入生成推荐器。
+- [VarLenRec (TIGER)](pages/papers/varlenrec-tiger.md) (arXiv’26): [I. Informativeness | Tokenization] Rep=Text, Tok=HARQ, Backbone=Enc-Dec, Train=Fixed/NTP + Aux., Inf=C-Beam. 提出可变长度离散 SID 并接入生成推荐器。
 - [VQ-Rec](pages/papers/vq-rec.md) (WWW’23): [VI. Generalization | Tokenization] Rep=Multi-Dom, Tok=OPQ, Backbone=Encoder, Train=Fixed/Discrim., Inf=Scoring. Abstract: "exaggerating the negative impact of domain gap".
 
-## Annotated Technical Deep Dives
+## Paper Notes
+
+### Note: actionpiece
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/actionpiece.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### ActionPiece：上下文动作序列分词
+
+> ActionPiece 根据同一动作内及相邻动作间的特征共现关系压缩行为序列，减少生成式推荐中的序列长度。
+
+### 研究动机与问题定义
+
+将每个动作展开为多个特征 token 会造成序列过长，并损失动作上下文。ActionPiece 关注的是行为序列的上下文分词效率，重点在已有物品特征的上下文组合。
+
+### TL;DR（核心摘要）
+
+`动作序列 → 共现统计 → ActionPiece 词表 → 序列压缩 → 生成式推荐输入`
+
+方法按加权共现关系迭代合并 token，并用集合排列正则减轻特征顺序影响。生成模型接收压缩后的动作序列。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 动作中的物品特征及动作顺序 |
+| 信息融入位置 | 行为序列分词与模型输入 |
+| 语义标识结构 | 不适用 |
+| 适用场景 | 长行为序列推荐 |
+
+### 方法设计
+
+#### 3.1 问题定义（Problem Formulation）
+ActionPiece 将一次用户动作表示为无序物品特征集合，把一段行为历史表示为特征集合序列。目标是为动作序列学习更短且包含上下文的 token 序列。
+
+#### 3.2 上下文动作序列分词器
+词表从每个特征 token 初始化，通过统计同一集合内部和相邻集合之间的共现关系，反复合并高权重 token 对。由于集合内部无序，论文引入集合排列分段策略，为同一动作产生多个等价分词结果。
+
+#### 3.3 生成式推荐模型
+压缩后的 ActionPiece 序列被送入生成式推荐模型训练。推理时模型生成动作 token，再解析回推荐动作/物品。论文还使用多种分段结果进行推理时集成，以降低某一种分段方式的偶然影响。
+
+#### 3.4 讨论与实验
+实验分别考察序列长度、词表规模、token 利用率、分段策略和案例。该方法的核心对象是动作 token。
+
+### 实验结论
+
+- ActionPiece 能缩短动作序列，并改善 token 利用率。
+- 上下文加权和集合排列正则对分词质量有贡献。
+
+### 局限性与研究定位
+
+#### 局限性
+- 对最终推荐物品的直接可解释映射不是论文重点。
+
+#### 研究定位
+ActionPiece 更适合放在“生成式推荐的行为序列建模与分词”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2502.13581)
+- [开源代码](https://github.com/google-deepmind/action_piece)
+
+### 标签
+
+`动作序列分词` · `子词合并` · `序列推荐`
+
+### 架构图来源
+
+*图源：原论文，图1（[论文原文](https://arxiv.org/abs/2502.13581)）。图片使用许可待核实。*
+
+---
+
+### 检索方式补充
+
+迁自 `d61aa6c:tables/boundary-and-excluded-methods.md` 的机制说明。
+
+重点是动作序列上下文分词；沿用的物品特征构码和生成配置见当前记录。
+
+旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
+
+### Note: adasid
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+按碰撞情况自适应地学习多模态 SID，替代静态的碰撞处理。
+
+### Note: adc-sid
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/mmqv2.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+以下说明与架构图来自旧版 MMQ-v2（arXiv 2510.25622）；该论文自 v3 起改名为 ADC-SID。它与 MMQ（arXiv 2508.15281）是不同论文，旧版说明不覆盖 v3 的全部变更。
+
+### MMQ-v2：自适应行为挖掘语义标识学习
+
+> MMQ-v2 以 ADA-SID 为核心，通过稀疏混合专家自适应融合内容与行为信号，学习更稳健的语义标识。
+
+### 研究动机与问题定义
+
+内容型 SID 难以表达协同偏好，而直接加入行为又可能引入噪声和流行度偏置。ADA-SID 试图根据物品和行为状态动态决定内容与协同信号的融合方式。
+
+### TL;DR（核心摘要）
+
+`文本/图像与行为 → 自适应路由量化 → ADA-SID → 生成模型 → 推荐物品`
+
+方法使用稀疏 MoE 量化网络，把共享专家和模态/行为特定专家结合起来；路由器依据信号选择专家，并通过对齐、去噪和放大机制优化 SID。论文在生成式推荐设置中用生成模型直接预测 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 文本、图像、交互和行为统计 |
+| 信息融入位置 | 自适应量化网络与 SID 学习目标 |
+| 语义标识结构 | 多级离散序列 |
+| 适用场景 | 多模态生成式推荐 |
+
+### 方法设计
+
+#### 3.1 行为-内容混合量化
+ADA-SID 使用内容编码器和行为/协同编码器获得多源表示，再通过稀疏 MoE 量化网络分配共享专家与模态特定专家。量化结果形成多级 SID，兼顾内容语义和交互结构。
+
+#### 3.2 自适应行为-内容对齐
+模型通过对齐目标让内容表示与行为表示互相约束，并用去噪机制抑制噪声行为、流行度和异常交互。放大机制进一步增强对推荐有效行为的利用。
+
+#### 3.3 动态行为路由
+动态路由器根据物品和行为状态决定专家组合，使不同物品不必采用同一种内容-行为融合比例。稀疏性正则控制激活专家数量和码本使用。
+
+#### 3.4 下游生成推荐
+生成式推荐器使用学习到的 SID 作为目标序列直接预测下一物品。论文也比较判别式下游任务，并通过工业数据、消融和流行度分层分析验证 ADA-SID。
+
+### 实验结论
+
+- 自适应行为路由优于固定融合策略。
+- 去噪和对齐模块对长尾物品表现有帮助。
+
+### 局限性与研究定位
+
+#### 局限性
+- 稀疏专家和多模态编码增加了训练与部署复杂度。
+- 生成任务与判别任务共用 SID 时的统一服务成本仍未充分报告。
+
+#### 研究定位
+MMQ-v2 的核心贡献是让行为信号以自适应方式参与 SID 学习，适合放在“行为增强的语义标识学习”章节。
+
+### 标签
+
+`多模态` · `稀疏MoE` · `行为挖掘` · `语义标识`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：自适应融合行为与内容。
+- 使用场景：多模态推荐。
+
+### Note: align3gr
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/align3gr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### Align3GR：多层统一对齐生成式推荐
+
+> Align3GR 在 token、行为建模和偏好三个层面联合对齐语义与协同信息，使 LLM 直接生成结构化协同语义标识。
+
+### 研究动机与问题定义
+
+既有方法往往只在输入或输出层面对齐语义和协同信号，难以同时保持标识可解释性与行为偏好。Align3GR 将对齐拆为三个相互衔接的层面，并以渐进式偏好优化完成训练。
+
+### TL;DR（核心摘要）
+
+`用户/物品信息 → SCID与协同表示 → 三层对齐 → LLM生成SCID → 推荐物品`
+
+模型先用语义和协同编码器构造层次化 SCID，再进行 token-level alignment；行为建模层加入用户/物品协同损失与索引-语言任务；最后用自博弈式渐进 DPO 注入真实反馈偏好。生成 SCID 直接确定物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互、物品文本语义和协同表示 |
+| 信息融入位置 | SCID 构建、行为目标和偏好优化 |
+| 语义标识结构 | 层次化序列 |
+| 适用场景 | 公共数据集与工业数据集推荐 |
+
+### 方法设计
+
+#### 3.1 层次化 SCID 构建
+Align3GR 为用户和物品分别构造语义-协同标识。语义编码器提供内容信息，协同编码器提供行为信息，RQ-VAE 将两者转为层次化 SCID，并以 token-level alignment 约束对应表示。
+
+#### 3.2 行为建模层对齐
+在基础 next-item 生成之外，模型加入用户/物品重构、行为建模和显式索引-语言对齐任务。SCID 被放入任务提示和生成序列，使语言模型学习标识 token 与推荐行为之间的对应关系。
+
+#### 3.3 偏好层对齐
+论文采用 Progressive DPO，从较容易的偏好样本逐步过渡到更困难样本。SP-DPO 使用自博弈生成偏好对，RF-DPO 再结合真实反馈校正模型，使优化目标从离线生成质量逐渐接近真实推荐偏好。
+
+#### 3.4 训练与推理
+模型先进行多任务监督微调，再执行渐进式偏好优化。在线阶段直接自回归生成完整 SCID，并通过标识词表解析为物品。
+
+### 实验结论
+
+- 多层对齐整体优于只做单层对齐的设置。
+- 论文报告了公共和工业数据上的一致收益，并验证了渐进式偏好优化。
+
+### 局限性与研究定位
+
+#### 局限性
+- 训练流程较复杂，依赖多种对齐数据和反馈构造。
+- 线上部署成本、动态物品和更开放物品空间仍缺少充分验证。
+
+#### 研究定位
+Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议。它适合放在“生成式推荐对齐与偏好优化”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2511.11255)
+
+### 标签
+
+`多层对齐` · `SCID` · `渐进式DPO` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：在三层面统一对齐。
+- 使用场景：公共与工业推荐。
+
+### Note: capsid
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用胶囊路由替代硬残差量化，按置信度决定 SID 长度，再用 Semantic BPE 合并相邻 token。
+
+### Note: card
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+把文本、图像和协同信号统一成视觉语义单元，再用非均匀 RQ-VAE 缓解码字分布不均。
+
+### Note: causaldpo
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+生成物品标题文本，再对全物品打分映射到物品；当前记录将标题标识归为 LLM-Vocab。
+
+### Note: cobra
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+先生成稀疏 ID，再生成稠密向量并在该 ID 下做近邻检索，用 BeamFusion 融合两种分数排序。
+
+### Note: colarec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/colarec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### ColaRec：基于内容的协同生成推荐
+
+> ColaRec 用 GNN 协同表示构造生成标识，并联合内容信息与推荐目标，直接生成物品 GID。
+
+### 研究动机与问题定义
+
+随机或纯内容型物品 ID 难以表达协同关系。ColaRec 将 GNN 学到的协同结构转化为层次化 GID，同时保留标题、描述等内容信息，解决生成推荐与物品索引之间的脱节。
+
+### TL;DR（核心摘要）
+
+`交互与内容 → GNN协同表示 → 层次化GID → 生成模型 → 推荐物品`
+
+模型用 LightGCN 提取协同表示，以受约束的 K-means 构造树状 GID；用户-物品推荐和物品-GID 索引共享编码器-解码器。训练联合推荐、索引、排序和对比目标，生成的 GID 直接映射到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互、物品文本内容和 GNN 协同表示 |
+| 信息融入位置 | GID 构建、模型输入和联合目标 |
+| 语义标识结构 | 定长树状序列 |
+| 适用场景 | 内容增强的生成式推荐 |
+
+### 方法设计
+
+#### 4.1 ColaRec 总体结构
+ColaRec 共享一个编码器-解码器，同时服务用户-物品推荐和物品-GID 索引两个任务。前者学习用户历史到下一物品的映射，后者学习物品内容到协同生成标识的映射。
+
+#### 4.2 生成标识构建（Generative Identifier Construction）
+论文先用 GNN/LightGCN 学习物品协同表示，再以受约束的层次化聚类构造 GID。树的路径就是物品标识，前缀表达较粗粒度的相似性，叶节点区分具体物品；内容信息通过文本和描述进入索引任务。
+
+#### 4.3 用户-物品推荐与物品-物品索引
+推荐任务根据用户历史自回归生成目标 GID。索引任务要求模型根据物品文本生成其 GID，使内容表示和协同标识保持一致。两个任务共享生成器，但目标分别对应推荐和索引。
+
+#### 4.4 多任务训练
+总目标联合推荐损失、索引损失、排序损失和对比损失。消融实验分别验证内容、协同 GID 以及各辅助目标的作用。
+
+### 实验结论
+
+- 内容-协同联合建模优于单独使用任一来源信息。
+- 推荐和索引任务的联合训练均有贡献。
+
+### 局限性与研究定位
+
+#### 局限性
+- GID 依赖离线 GNN 与聚类，目录变化时需要更新。
+- 生成标识长度、聚类规模和在线效率之间的权衡仍需进一步研究。
+
+#### 研究定位
+ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放在“协同语义标识构建”章节。
+
+### 标签
+
+`内容-协同融合` · `GID` · `GNN` · `联合学习`
+
+### 架构图来源
+
+*图源：原论文，图3。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用协同图结构学习GID。
+- 使用场景：内容增强推荐。
+
+### Note: cost
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+在量化中加入对比学习，让 SID 保留物品之间的邻域关系。
+
+### Note: das
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+单阶段同时优化量化和协同对齐，让用户侧与广告侧的 SID 互相对齐。
+
+### Note: eager
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/eager.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### EAGER：行为-语义协同双流生成式推荐
+
+> EAGER 通过共享编码器和双解码器分别生成行为码与语义码，再以内部置信度合并两路结果，用于直接生成下一物品的推荐列表。
+
+### 研究动机与问题定义
+
+现有生成式推荐通常只利用行为信息或语义信息，难以同时保留用户偏好与物品内容的互补性。EAGER 将二者置于同一生成式检索框架中，目标是直接生成物品标识，而不是先生成表示再依赖 ANN 检索。
+
+### TL;DR（核心摘要）
+
+`用户历史 → 共享编码器 → 行为/语义双码 → 双解码器生成 → 置信度合并 → 推荐物品`
+
+模型先使用预训练 DIN 提取行为表示、Sentence-T5 提取文本语义表示，并分别通过层次化 K-means 构造两套物品码。共享 Transformer 编码用户历史，两个独立解码器并行自回归生成行为码和语义码。推理时分别用束搜索取得候选，再依据两路码的对数概率进行置信度排序和去重，直接得到 Top-K 物品。图像语义也在 Yelp 的扩展实验中进行了验证。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互行为、物品文本语义；扩展实验加入图像信息 |
+| 信息融入位置 | 行为和语义分别进入码构建；历史进入共享编码器；辅助任务进入训练目标 |
+| 语义标识结构 | 层次化序列码；长度由树的分支数决定 |
+| 适用场景 | 常规序列推荐、多模态语义扩展 |
+
+### 方法设计
+
+#### 3.1 行为码与语义码构建
+EAGER 分别从用户行为表示和物品语义表示学习两套层次化 code。行为侧使用预训练行为模型，语义侧使用文本/图像编码器，再通过层次化聚类获得可生成的离散码。两套码保留不同信息来源的互补性。
+
+#### 3.2 双流生成器
+共享 Transformer 编码器读取用户历史，行为解码器和语义解码器分别预测下一物品的行为码与语义码。训练包含各自的生成损失，并通过全局对比任务约束用户、物品和两类语义空间之间的一致性。旧卡片的速览还列有重构与识别辅助目标。
+
+#### 3.3 语义引导迁移与推理
+语义引导迁移任务把一类标识或模态作为条件，要求模型预测另一类标识，从而让两条生成流相互传递信息。推理时两路分别进行束搜索，再用内部置信度合并、去重和排序，输出最终物品。
+
+#### 3.4 扩展实验
+论文还讨论了图像信息、不同码结构和速度。行为码、语义码及迁移任务的消融共同支持双流设计。
+
+### 实验结论
+
+- 在 Beauty、Sports、Toys 和 Yelp 四个公开数据集上，EAGER 在论文报告的多数 Recall/NDCG 指标上优于比较方法。
+- 去除双流架构、全局对比任务或语义引导迁移任务都会造成性能下降，其中双流架构影响最大。
+- 双流生成在 Beauty 上报告了优于 DIN 和 TIGER 的推理速度，但缺少完整线上服务评测。
+
+### 局限性与研究定位
+
+#### 局限性
+- 行为码依赖预训练 DIN，语义码依赖预训练模态编码器和离线层次化聚类，新增物品的更新流程未充分说明。
+- 两路结果仍需要内部置信度排序；虽然不是外部精排器，但会增加合并和去重逻辑。
+- 实验主要采用 Amazon/Yelp 的 5-core 留一法设置，真实动态目录、开放物品空间和长期线上收益尚未验证。
+
+#### 研究定位
+EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局对比学习和语义引导迁移实现协同。它适合放在“多源信息融合”和“生成式推荐架构”章节；后续研究可关注动态物品更新、码结构稳定性与可扩展解码。
+
+### 相关资源
+
+- [论文原文](https://doi.org/10.1145/3637528.3671775)
+- [开源代码（作者仓库）](https://github.com/yewzz/EAGER)
+
+### 标签
+
+`行为-语义协同` · `双流生成` · `层次化聚类` · `对比学习` · `序列推荐` · `束搜索`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：联合生成行为码与语义码。
+- 使用场景：多源序列推荐。
+
+### Note: etegrec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/etegrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### ETEGRec：端到端可学习物品分词生成推荐
+
+> ETEGRec 将物品分词器与生成推荐器联合优化，让物品标识同时保留语义信息并适应推荐偏好。
+
+### 研究动机与问题定义
+
+固定或独立训练的物品 tokenizer 可能与推荐目标不一致，导致语义标识虽可解释却不利于生成。ETEGRec 研究 tokenizer 与推荐器的端到端协同学习。
+
+### TL;DR（核心摘要）
+
+`物品交互表示 → RQ-VAE分词器 → 语义/偏好对齐 → 生成推荐器 → SID对应物品`
+
+物品编码器和残差量化器产生离散 token，生成推荐器根据用户历史预测 token 序列。序列-物品对齐和偏好-语义对齐损失共同更新两部分，使标识学习受到推荐任务反向约束。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品交互表示、用户历史和交互偏好 |
+| 信息融入位置 | tokenizer 表示、生成输入和对齐目标 |
+| 语义标识结构 | 多级离散序列 |
+| 适用场景 | 常规生成式序列推荐 |
+
+### 方法设计
+
+#### 3.1 问题定义与双编码器-解码器结构
+ETEGRec 同时包含物品 tokenizer 和生成推荐器。物品交互表示经过编码器和 RQ-VAE 得到离散表示，用户历史中的物品表示则由生成推荐器编码并用于预测下一物品 token。
+
+#### 3.2 物品 tokenizer
+tokenizer 通过残差量化逐层编码语义向量，并由解码器重构物品表示。量化损失和重构损失保证离散标识仍保留语义信息；相比固定 tokenizer，它可以在推荐训练中继续接受任务反馈。
+
+#### 3.3 推荐导向对齐
+序列-物品对齐让生成器学习历史与目标物品之间的关系，偏好-语义对齐则约束推荐偏好表示和重构语义表示的一致性。两个目标共同推动 tokenizer 从“语义可重构”转向“推荐可生成”。
+
+#### 3.4 交替优化
+论文在 tokenizer 和生成推荐器之间进行交替更新，避免离散 code 变化导致推荐器训练不稳定。推理时生成完整 item token 序列，并映射到目标物品。
+
+### 实验结论
+
+- 端到端可学习 tokenizer 在已见和未见用户设置下均有收益。
+- 序列-物品与偏好-语义两类对齐目标均有效。
+
+### 局限性与研究定位
+
+#### 局限性
+- 交替优化增加训练复杂度和稳定性要求。
+- 动态新增物品、低延迟解码和开放目录场景仍未充分验证。
+
+#### 研究定位
+ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适合放在“端到端物品标识学习”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2409.05546)
+
+### 标签
+
+`端到端学习` · `物品分词` · `语义-偏好对齐` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：端到端对齐tokenizer与推荐器。
+- 使用场景：序列推荐。
+
+### Note: forge
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/forge.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### FORGE：工业数据集语义标识构建
+
+> FORGE 面向大规模工业交互数据，融合多模态内容和协同关系构造、清洗并评估生成式检索所需的语义标识。
+
+### 研究动机与问题定义
+
+小规模公开数据集难以反映工业生成式检索中的多模态、长尾和标识碰撞问题。FORGE 提供大规模数据、SID 构建流程、碰撞后处理和生成式检索评估，重点考察标识质量对推荐的影响。
+
+### TL;DR（核心摘要）
+
+`多模态内容与协同关系 → RQ-VAE SID → 碰撞消解 → 生成式检索 → 推荐物品`
+
+文本和图像编码器提取内容表示，并以最相关的物品关系补充协同信息；RQ-VAE 生成多级 SID，随后使用碰撞处理和质量指标筛选。下游生成式检索模型直接生成 SID，SID 再映射到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 文本、图像、物品关系和用户交互 |
+| 信息融入位置 | SID 构建与生成式检索训练 |
+| 语义标识结构 | 多级离散序列 |
+| 适用场景 | 大规模工业生成式检索 |
+
+### 方法设计
+
+#### 3.1 SID 生成（SID Generation）
+FORGE 使用文本和图像语言模型提取物品多模态内容，并结合最具协同关系的物品信息。融合表示经过 RQ-VAE 量化为多级 SID，既保留内容语义，也纳入工业交互中的相似关系。
+
+#### 3.2 标识碰撞缓解（Alleviating ID Collisions）
+论文分析多个物品获得相同 SID 的情况，并通过碰撞后处理、码本分配和质量指标评估标识可用性。相关指标包括碰撞、分布均衡、生成命中和代码升级收敛等。
+
+#### 3.3 生成式检索（Generative Retrieval）
+SID 被作为生成式检索的目标序列，推荐模型直接预测 SID。论文同时讨论训练阶段和动态推理阶段，考察大规模工业交互下生成结果的有效性与泛化。
+
+#### 3.4 评估与工业分析
+实验把 SID 直接指标和下游推荐指标结合，并分析数据规模、模态组合、代码本升级和线上可用性。FORGE 的重点也包括工业数据资源与评估基准。
+
+### 实验结论
+
+- FORGE 的工业数据规模和交互密度显著高于常见公开基准。
+- SID 质量指标与生成式检索效果存在关联，碰撞处理能改善可用性。
+
+### 局限性与研究定位
+
+#### 局限性
+- 工业数据和线上结果的可复现程度受数据开放范围限制。
+- 具体下游模型与完整线上延迟比较未统一报告。
+
+#### 研究定位
+FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程与评估。它适合放在“工业生成式检索与语义标识质量”章节。
+
+### 相关资源
+
+- [项目与数据资源](https://huggingface.co/AL-GR)
+
+### 标签
+
+`工业数据` · `多模态` · `SID优化` · `生成式检索`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：提供工业SID构建与评估流程。
+- 使用场景：工业生成式检索。
+
+### Note: gem-rec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用控制 token 决定是否展示广告，并在约束解码时注入实时出价。
+
+### Note: gencdr
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gencdr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GenCDR：带自适应语义分词的跨域生成推荐
+
+> GenCDR 用共享语义空间和域特定适配器构造统一 SID，并以动态路由适配不同领域的推荐偏好。
+
+### 研究动机与问题定义
+
+跨域推荐既需要共享知识，也需要保留领域特征；固定的物品标识和静态融合容易造成负迁移。GenCDR 研究如何让 SID 和生成器同时具备跨域共享与域内适应能力。
+
+### TL;DR（核心摘要）
+
+`多域物品文本 → 通用SID → 域适配量化 → 统一生成器 → 域路由 → 推荐物品`
+
+第一阶段用共享编码器和 RQ-VAE 学习通用 SID；第二阶段通过 LoRA 适配器学习域特定表示，并用 item-level 动态路由融合通用与域内表示。统一生成器先学习跨域兴趣，再进行域特定微调，使用前缀树约束生成完整 SID，直接得到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 多域物品文本与用户交互 |
+| 信息融入位置 | SID 构建、LoRA 适配和生成输入 |
+| 语义标识结构 | 跨域共享的层次化序列 |
+| 适用场景 | 跨域序列推荐 |
+
+### 方法设计
+
+#### 3.1 问题定义与总体流程
+GenCDR 面向多个领域的跨域序列推荐，目标是使用共享 SID 建立可迁移的物品和用户兴趣空间。系统分为域自适应分词、跨域自回归推荐和域特定微调三部分。
+
+#### 3.2 域自适应分词
+通用编码器和 RQ-VAE 先从多域文本学习共享语义基础；每个领域再通过 LoRA 适配器补充领域特征。item-level 动态路由器以物品为单位融合通用表示和域特定表示，融合结果再量化为 SID。
+
+#### 3.3 跨域自回归推荐
+统一生成器把跨域历史 SID 作为输入，先学习域无关的兴趣模式。域特定适配阶段加入各领域 LoRA，使模型保留共享知识并适应领域差异。
+
+#### 3.4 训练与推理
+训练采用通用阶段和领域微调阶段。在线生成时使用前缀树约束，确保输出完整 SID 能对应目标领域中的真实物品。
+
+### 实验结论
+
+- GenCDR 在跨域推荐设置中改善了域内和迁移表现。
+- 动态路由和域特定 LoRA 有助于缓解负迁移。
+
+### 局限性与研究定位
+
+#### 局限性
+- 多适配器和路由网络增加部署管理成本。
+- 前缀树与域特定 SID 更新流程仍需更多工业验证。
+
+#### 研究定位
+GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由，适合放在“跨域语义标识生成”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2511.08006)
+
+### 标签
+
+`跨域推荐` · `自适应分词` · `动态路由` · `LoRA`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：自适应融合通用与域特定语义。
+- 使用场景：跨域推荐。
+
+### Note: genrec-jd
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+按页做下一 token 预测，压缩输入侧的多 token SID，并做偏好对齐。
+
+### Note: geogr
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/geogr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GeoGR：面向工业规模生成式 POI 推荐的时空感知框架
+
+> GeoGR 通过地理约束共访关系构造时空协同 SID，并用持续预训练和监督微调使 LLM 直接生成可服务的 POI 标识。
+
+### 研究动机与问题定义
+
+工业 POI 推荐同时面对稀疏行为、复杂地理关系和 LLM 不理解非原生 SID token 的问题。GeoGR 面向导航类本地服务，目标是在保留用户时空状态变化的同时，建立可生成、可扩展并能在线服务的 POI 标识。
+
+### TL;DR（核心摘要）
+
+`POI描述/地理/共访关系 → 对比表示学习 → RQ-KMeans SID → CPT → SFT生成 → 在线POI`
+
+GeoGR 先利用地理约束的共访 POI 对学习时空协同表示，再通过层次化 RQ-KMeans 生成 SID，并用 EM 风格优化减少标识质量问题。推荐模型经过多模板持续预训练和监督微调，使 LLM 学会 SID、POI 描述与下一位置预测之间的对应关系。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | POI 描述、经纬度、地理约束共访关系和用户轨迹 |
+| 信息融入位置 | SID 表示、量化优化、持续预训练和生成输入 |
+| 语义标识结构 | 多级定长离散序列 |
+| 适用场景 | 导航、本地生活和工业规模服务 |
+
+### 方法设计
+
+#### 4.1 地理感知 POI SID 构建
+GeoGR 将 POI 文本、经纬度、地址和类别输入 LLM，构造初始语义表示。为避免只依赖文本相似性，作者从用户轨迹中挖掘地理接近且具有共访关系的 POI 对，并加入正负样本进行对比学习。
+
+#### 4.1.1 时空协同语义表示
+正样本来自轨迹中频繁共现且空间相近的 POI，负样本通过采样获得。对比目标使表示同时靠近行为相关和地理合理的 POI，减少“文本相似但行为无关”的错误关联。
+
+#### 4.1.2 语义表示量化
+模型使用层次化 RQ-KMeans 逐级量化 POI 表示。每层对当前残差聚类并生成 code，所有 code 拼成 POI SID；层次结构让前缀承载较粗粒度的时空语义。
+
+#### 4.1.3 EM 风格 SID 优化
+作者让 LLM 根据生成 SID 相关任务反向评估标识质量，再用 EM 风格过程交替细化 SID 和模型参数，改善 SID 与 POI 语义、地理关系的一致性。
+
+#### 4.2 生成式 POI 推荐
+在推荐训练前，GeoGR 用包含 SID 描述、用户轨迹和 POI 问答的多任务语料进行持续预训练，使 LLM 适应新增的非原生 token。之后使用下一 POI 监督模板进行 SFT，模型根据历史和当前上下文自回归生成目标 SID。
+
+### 实验结论
+
+- 公共数据集和工业数据集实验均报告 GeoGR 优于比较方法。
+- 在线部署三个月的实验报告 WINRATE 提升 2.91%、PV_CTR 提升 5.55%，说明该框架具备生产可用性。
+- 消融与表示可视化支持地理协同 SID、CPT 和 SFT 对效果的贡献；模型规模影响也被单独分析。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- SID 构建、EM 风格优化和多阶段 LLM 训练流程较复杂，复现实验需要较多工业数据与资源。
+- 论文对动态新增 POI、标识碰撞在线修复和生成失败回退的细节报告有限。
+
+#### 研究定位
+
+GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协同 SID 与 LLM 任务对齐、线上部署相结合的路线。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2602.10411)
+
+### 标签
+
+`工业规模` · `时空协同` · `RQ-KMeans` · `在线部署`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2602.10411)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：面向工业规模结合时空 SID 与多阶段 LLM 对齐。
+- 使用场景：导航与工业 POI 推荐。
+
+### Note: gflowgr
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gflowgr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GFlowGR：生成流网络生成式推荐微调
+
+> GFlowGR 将生成流网络用于生成式推荐微调，使模型从多条可能的生成轨迹中学习更符合推荐价值的物品标识。
+
+### 研究动机与问题定义
+
+最大似然训练倾向于复现日志中的单一路径，难以表达推荐结果的多样性和长期价值。GFlowGR 将 SID 生成过程视为轨迹采样问题，用奖励约束生成分布。
+
+### TL;DR（核心摘要）
+
+`用户历史 → SID生成轨迹 → 奖励模型 → GFlowNet微调 → 推荐物品`
+
+框架从交互日志、随机采样、协同模型或在线策略获得轨迹，并训练奖励模型评估生成结果。GFlowNet 目标在训练阶段调整生成概率；在线仍由生成器直接产生完整 SID 并映射物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 交互日志、协同信号和生成轨迹 |
+| 信息融入位置 | 奖励模型与轨迹采样 |
+| 语义标识结构 | 多 token 序列 |
+| 适用场景 | 偏好对齐与多样化推荐 |
+
+### 方法设计
+
+#### 3.1 轨迹采样器（Trajectory Sampler）
+GFlowGR 把 SID 逐 token 生成看作从根节点到完整物品标识的轨迹。轨迹可以来自交互日志、随机策略、协同模型、组合采样或当前生成策略，用于覆盖单一监督路径之外的候选空间。
+
+#### 3.2 奖励模型（Reward Model）
+奖励模型评估完整生成结果或中间轨迹的推荐价值，将点击/偏好等信号转成训练奖励。它负责提供 GFlowNet 所需的终点价值，但不作为在线独立精排器。
+
+#### 3.3 GFN 训练目标
+模型学习前向生成概率与后向流之间的平衡，使不同高价值 SID 轨迹获得合理概率。该目标鼓励多条有效生成路径共存，缓解最大似然对单一日志目标的过拟合。
+
+#### 3.4 训练与推理
+训练阶段交替采样轨迹、计算奖励和更新生成器；推理阶段仍由生成器直接产生 SID。实验还分析不同轨迹来源、参数设置和部署成本。
+
+### 实验结论
+
+- GFlowNet 微调改善了生成推荐的排序表现。
+- 不同轨迹来源对训练效果有影响，在线策略轨迹更贴近目标。
+
+### 局限性与研究定位
+
+#### 局限性
+- 奖励模型和轨迹采样带来额外训练成本。
+- 奖励偏差、探索范围与线上稳定性仍需验证。
+
+#### 研究定位
+GFlowGR 的贡献是把生成式推荐的偏好微调改写为生成流学习问题，适合放在“生成轨迹优化与偏好学习”章节。
+
+### 标签
+
+`生成流网络` · `偏好优化` · `SID生成` · `序列推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用生成流网络进行偏好微调。
+- 使用场景：偏好对齐。
+
+### Note: gmc
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gmc.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GMC：生成式多目标跨域推荐
+
+> GMC 以共享语义标识连接多个推荐领域，并通过领域对比学习和域特定 LoRA 同时生成不同领域的推荐结果。
+
+### 研究动机与问题定义
+
+多目标跨域推荐需要从多个领域的行为中迁移知识，但领域间物品通常不重叠，传统 ID 难以建立共享空间。GMC 将物品文本转为跨域共享的语义 token，并统一训练生成器。
+
+### TL;DR（核心摘要）
+
+`多域文本 → 共享RQ-VAE SID → 统一生成器 → 域特定LoRA → 多域推荐物品`
+
+GMC 使用 LLM 文本表示和 RQ-VAE 构造共享语义标识，并以领域对比损失拉近域内物品、区分跨域物品。统一推荐器在所有领域上训练，再为各领域加入 LoRA 适配器，直接自回归生成目标 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 多域物品文本和用户交互 |
+| 信息融入位置 | SID 量化、领域对比目标和生成训练 |
+| 语义标识结构 | 跨域共享定长序列 |
+| 适用场景 | 多目标跨域推荐 |
+
+### 方法设计
+
+#### 3.1 任务定义与总体流程
+GMC 研究多个领域同时存在多个推荐目标的场景。方法分为语义标识学习、统一推荐器训练和领域特定微调三个步骤，核心是让不同领域共享可生成的 SID。
+
+#### 3.2 语义标识学习
+LLM 将物品文本编码为语义向量，统一 RQ-VAE 生成跨域共享的多级标识。领域对比损失拉近同领域物品表示并区分跨领域表示，同时保持 codeword 可共享。
+
+#### 3.3 统一推荐器训练
+所有领域的交互序列先替换为 SID，再用 Transformer 统一训练 next-item 生成。共享 SID 使不同领域的推荐模式可以在同一生成词表中迁移。
+
+#### 3.4 领域特定微调
+冻结统一推荐器后，为各领域加入 LoRA，并通过域内拉近、域间区分的目标适配领域偏好。最终生成器直接预测各领域目标 SID，完成多目标推荐。
+
+### 实验结论
+
+- GMC 在多目标跨域设置中优于论文列出的传统、预训练和生成式基线。
+- 共享 SID、领域对比损失和域特定适配均有贡献。
+
+### 局限性与研究定位
+
+#### 局限性
+- 多领域适配器和统一词表增加管理成本。
+- 论文主要依赖离线文本表示，动态内容和开放物品验证有限。
+
+#### 研究定位
+GMC 的核心贡献是用共享 SID 作为多目标跨域知识桥梁，适合放在“跨域生成式推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2507.12871)
+
+### 标签
+
+`多目标跨域` · `共享SID` · `领域对比学习` · `LoRA`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：以共享SID统一多目标跨域推荐。
+- 使用场景：多目标跨域。
+
+### Note: gnpr-sid
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gnprsid.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GNPR-SID：基于语义标识的生成式下一兴趣点推荐
+
+> GNPR-SID 将 POI 的语义、地理、时间和协同信息构造成层次化 SID，再由大语言模型直接生成下一 POI 的完整标识。
+
+### 研究动机与问题定义
+
+传统下一 POI 推荐常使用随机数值 ID，模型难以从相近地点的标识之间迁移语义和地理关系。GNPR-SID 研究如何把 POI 描述与用户协同信息编码为可生成的语义标识，并根据用户历史访问记录和目标时间预测下一访问地点。
+
+### TL;DR（核心摘要）
+
+`POI内容/地理/时间/协同信息 → RQ-VAE量化 → POI SID → LLM生成 → 下一POI`
+
+模型先用 POI 类别、区域、营业时间和协同关系构成语义向量，再用带多样性约束的残差量化得到层次化 SID；随后将用户历史 SID 与时间组织为提示，微调 LLM 自回归生成目标 SID。生成的 SID 通过标识表直接解析为 POI，不需要独立排序模型。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | POI 类别、区域、营业时间、用户协同信号和历史访问时间 |
+| 信息融入位置 | SID 构建阶段及 LLM 的序列生成输入 |
+| 语义标识结构 | 定长、多级离散序列 |
+| 适用场景 | 下一 POI 推荐、跨域泛化和冷启动分析 |
+
+### 方法设计
+
+#### 4.1 语义标识构建
+作者将 POI 的类别、区域、时间信号以及用户协同关系拼接为统一语义表示。协同部分依据用户共同访问 POI 的关系构造，使表示同时包含内容相似性和行为关联。
+
+#### 4.1.1 POI 语义表示
+每个 POI 的基本属性被转换为 one-hot 特征，并与区域、营业时间和协同用户信息拼接。这样构造出的向量既描述 POI 本身，也保留其在交互网络中的位置。
+
+#### 4.1.2 POI 量化
+模型使用 RQ-VAE 的编码器、残差量化器和解码器，将连续 POI 表示映射到多级 codebook。每一级量化当前残差，多个 code 组成层次化 SID；相近 POI 可共享前缀，从而为生成模型提供可迁移的语义结构。
+
+#### 4.1.3 模型优化
+除重构和量化目标外，方法加入 diversity loss，使 code 在离散空间中更均匀分布，减少大量 POI 使用相同 code 或形成碰撞。附录还给出了裁剪、填空式训练等数据增强方式。
+
+#### 4.2 生成式 POI 推荐
+用户历史被序列化为带时间的 SID 序列，模型在指定时间条件下生成下一 POI SID。训练阶段采用语言模型微调目标；推理时直接生成完整 SID 并通过映射确定 POI。论文还比较了移除 SID、时间信息和多样性损失后的效果。
+
+### 实验结论
+
+- 在三个 POI 数据集上，GNPR-SID 相比比较方法取得更好的下一地点预测效果，论文报告最高约 16% 的准确率提升。
+- SID 的语义相关性分析表明，相似 POI 更倾向共享前缀；多样性损失有助于缓解离散标识分布不均。
+- 论文报告了跨域、效率和序列长度分析，说明语义标识输入能减少部分生成负担，但具体线上服务收益未报告。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- SID 仍依赖离线量化和固定 POI 标识表，动态新增 POI 的处理方式未充分展开。
+- 多级自回归生成的在线延迟和无效 SID 的容错机制仍需更系统的工程评估。
+
+#### 研究定位
+
+GNPR-SID 是较早将 Semantic ID 直接用于下一 POI 生成的工作，适合放在“地理场景生成式推荐”章节，重点体现内容-协同融合量化与时间条件生成。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2506.01375)
+- [开源代码](https://github.com/wds1996/GNPR-SID)
+
+### 标签
+
+`下一兴趣点推荐` · `残差量化` · `多样性损失` · `大语言模型`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2506.01375)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：将语义、地理、时间和协同信息构造成可生成 SID。
+- 使用场景：下一 POI 推荐。
+
+### Note: gr-generalize
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+以分析为主；提出的方法按实例加权融合生成式模型和 SASRec 的分数，最终物品不由 SID 生成单独决定。
+
+### Note: gram
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gram.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GRAM：语义感知多粒度后融合生成推荐
+
+> GRAM 在层次化语义与协同语义之间进行多粒度后融合，由生成模型直接输出物品标识。
+
+### 研究动机与问题定义
+
+早期融合容易让不同来源的信息相互干扰，单一粒度的语义标识又难以兼顾概括性和区分性。GRAM 延迟融合多层语义，以改善生成推荐的表达与决策。
+
+### TL;DR（核心摘要）
+
+`物品内容与交互 → 层次化语义/协同信息 → 多粒度编码 → 后融合解码 → 推荐物品`
+
+模型构造层次化语义标识，并将协同语义 verbalize 为可被语言模型处理的 token。多粒度编码器分别建模局部和整体语义，解码端进行 late fusion，直接生成目标物品标识。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户行为、物品文本语义和协同语义 |
+| 信息融入位置 | 多粒度编码与解码端后融合 |
+| 语义标识结构 | 层次化多粒度序列 |
+| 适用场景 | 语义增强序列推荐 |
+
+### 方法设计
+
+#### 3.1 语义到词汇的转换
+GRAM 先建立层次化语义索引，将物品整体语义拆成多个粒度，再把协同表示转换为可被语言模型处理的协同语义 token。这样既保留语义结构，也让用户行为信号进入文本生成空间。
+
+#### 3.2 多粒度编码器
+多粒度编码器分别处理粗粒度类别、细粒度属性和协同语义。编码结果保留各层级的位置信息和语义差异，为后续生成提供互补条件。
+
+#### 3.3 后融合解码器
+与输入端早期融合不同，GRAM 在解码端延迟组合多源表示。解码器在生成不同 SID 位置时选择对应粒度的语义信息，从而减少模态间相互干扰。
+
+#### 3.4 训练与推理
+模型以用户历史到目标 SID 的生成损失训练，推理时自回归生成完整标识并映射到物品。实验重点比较多粒度、融合位置和语义来源。
+
+### 实验结论
+
+- 多粒度后融合优于单粒度或早期融合设置。
+- 语义和协同信息的联合使用带来互补收益。
+
+### 局限性与研究定位
+
+#### 局限性
+- 多路编码和融合增加模型与推理开销。
+- 动态物品加入和大规模线上服务仍未充分评估。
+
+#### 研究定位
+GRAM 的关键贡献是将多粒度语义融合位置推迟到解码阶段，适合放在“多源语义融合”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2506.01673)
+- 代码公开情况未报告。
+
+### 标签
+
+`多粒度融合` · `语义标识` · `后融合` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图4。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：多粒度语义后融合。
+- 使用场景：语义增强推荐。
+
+### Note: gream
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gream.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GREAM：基于大语言模型的生成式推理推荐
+
+> GREAM 将协同-语义对齐、推理课程学习和稀疏反馈强化学习结合，在生成物品标识的同时提供可解释推理。
+
+### 研究动机与问题定义
+
+已有推理式推荐常把推理与最终物品选择分离，依赖外部检索器或黑盒评分器。GREAM 试图让模型端到端完成推理和物品标识生成，并处理推荐反馈稀疏、偏置强的问题。
+
+### TL;DR（核心摘要）
+
+`用户历史与物品文本 → 协同-语义对齐 → 推理课程学习 → SRPO → 完整物品标识`
+
+模型用标题、描述和评论构造离散物品索引，并加入行为对齐任务。随后通过五阶段合成推理数据训练证据提取、偏好建模、意图推断、推荐形成和序列重写；SRPO 使用可验证奖励与稀疏正则优化。论文提供直接序列推荐和先推理后推荐两种模式，最终标识直接确定物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互、物品文本、评论和稀疏反馈 |
+| 信息融入位置 | 索引构建、推理数据和强化学习奖励 |
+| 语义标识结构 | 层次化离散序列 |
+| 适用场景 | 常规序列推荐与可解释推荐 |
+
+### 方法设计
+
+#### 3.1 生成式推荐与知识丰富索引
+GREAM 将目标物品表示为层次化索引序列。物品标题、描述和评论经语言模型编码，再通过 RQ-KMeans 残差量化获得具有前缀共享的离散索引；索引 token 被映射到 LLM 词表。
+
+#### 3.2 可验证奖励强化学习
+论文先构造协同-语义对齐任务，让 LLM 学习行为和语言之间的关系；再通过反向推理生成五阶段结构化推理数据，包括行为证据、潜在偏好、意图、购买目标和推荐形成。
+
+#### 3.3 混合 SFT 与课程学习
+模型在对齐数据和推理数据上进行混合监督微调，按课程逐步提高推理难度。直接序列模式服务高吞吐推荐，推理模式先生成可解释链再生成目标索引。
+
+#### 3.4 SRPO
+Sparse-Regularized Group Policy Optimization 结合残差敏感可验证奖励和校准组优势，针对点击/购买反馈稀疏的问题稳定策略更新。最终生成完整索引并映射物品。
+
+### 实验结论
+
+- GREAM 在三个公开数据集的直接推荐和推理指标上优于比较基线。
+- 推理课程学习和 SRPO 均有增益。
+- 推理性能随训练计算量增加仍有提升趋势。
+
+### 局限性与研究定位
+
+#### 局限性
+- 推理链会增加生成长度和计算成本。
+- 推荐反馈的反事实偏差和稀疏性仍难完全消除。
+- 论文未充分报告大规模线上服务结果。
+
+#### 研究定位
+GREAM 的贡献是把显式推理与直接 SID 生成放进同一推荐模型，适合放在“推理增强与强化学习”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2510.20815)
+
+### 标签
+
+`生成式推理` · `协同语义对齐` · `强化学习` · `稀疏反馈`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：将显式推理与可验证强化学习结合。
+- 使用场景：可解释推荐。
+
+### Note: grid
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/grid.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GRID：语义标识生成式推荐实践框架
+
+> GRID 将物品分词、生成模型训练、约束解码和评估组织为可复用的 Semantic ID 生成式推荐流程。
+
+### 研究动机与问题定义
+
+语义标识生成式推荐涉及标识学习、数据处理、模型训练和解码部署多个环节，实践中缺少统一流程。GRID 以工程视角整理这些组件，并讨论不同设计的选择。
+
+### TL;DR（核心摘要）
+
+`物品内容/交互 → SID分词器 → 生成模型 → 约束解码 → 推荐物品`
+
+框架先用内容或协同信息学习物品 SID，再把用户历史转为标识序列输入生成模型。模型生成完整 SID 后通过词表或索引映射到物品；手册同时覆盖训练、评估、开放物品和部署注意事项。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 交互、文本、图像和协同信息，依配置而定 |
+| 信息融入位置 | SID 构建、模型输入和评估流程 |
+| 语义标识结构 | 多级离散序列 |
+| 适用场景 | 生成式推荐研究与工程实践 |
+
+### 方法设计
+
+#### 3.1 先分词后生成（Tokenization-then-Generation）
+GRID 将 Semantic ID 生成式推荐拆成物品分词和推荐生成两个相对独立的阶段。物品分词器把文本、图像或协同表示转换为离散标识；生成器再根据用户历史标识预测下一标识。
+
+#### 3.2 物品分词实践
+手册比较 RQ-VAE、码本设计、标识长度、碰撞、语义一致性和新物品更新等选择。不同分词策略会改变词表规模、前缀共享和生成合法率，因此需要结合数据与服务目标选择。
+
+#### 3.3 生成、评估与部署
+生成模型可以使用编码器-解码器或其他自回归骨干，推理通常配合前缀树、束搜索和合法 SID 过滤。GRID 还讨论数据处理、评价协议、开放物品和系统部署，重点是形成可复用实践流程，而非提出单一新模型。
+
+### 实验结论
+
+- 手册系统比较了 SID 构建与生成流程中的常见选择。
+- 结果强调标识质量、生成有效性和系统效率需要联合考虑。
+
+### 局限性与研究定位
+
+#### 局限性
+- GRID 是实践框架与总结性工作，并非单一新模型。
+- 具体性能取决于所选分词器、生成骨干和数据设置。
+
+#### 研究定位
+GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic ID 生成式推荐完整流程的入口。
+
+### 标签
+
+`实践框架` · `Semantic ID` · `生成式推荐` · `工程流程`
+
+### 架构图来源
+
+*图源：原论文，图1（a、b）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：统一SID生成推荐实践流程。
+- 使用场景：研究与工程实践。
+
+### Note: grlm
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/grlm.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GRLM：基于结构化术语标识的原生 LLM 生成推荐
+
+> GRLM 用原生语言词表构造结构化 Term IDs，使 LLM 直接生成语义丰富的物品术语标识。
+
+### 研究动机与问题定义
+
+数值 SID 通常需要扩展词表和额外对齐，文本标识又容易出现同义词分裂和幻觉。GRLM 以原生 LLM token 构造 Term IDs，并通过邻域上下文提升一致性与区分性。
+
+### TL;DR（核心摘要）
+
+`物品元信息与相似邻域 → 上下文术语生成 → IIFT → Term ID生成 → EIG落地物品`
+
+上下文术语生成从相似物品邻域中抽取标准化且有区分度的关键词。IIFT 联合训练术语内化和用户行为预测；推理时生成 Term ID。若无法精确匹配，EIG 会对候选库进行结构化匹配评分，因此最终物品仍依赖外部标识落地机制。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品元信息、相似邻域和用户交互 |
+| 信息融入位置 | 术语生成、LLM 训练和候选落地 |
+| 语义标识结构 | 变长术语序列 |
+| 适用场景 | 跨域、长尾和文本信息丰富的推荐 |
+
+### 方法设计
+
+#### 3.1 上下文术语生成（CTG）
+GRLM 先用嵌入模型检索与目标物品相似的邻域，再把目标元信息和邻域元信息一起交给 LLM。提示要求共享属性使用一致术语，同时保留能区分相似物品的细粒度关键词，得到 Term ID。
+
+#### 3.2 综合指令微调（IIFT）
+IIFT 联合训练术语内化和用户行为序列预测。术语内化要求模型从元信息恢复标准 Term ID，行为任务则使用历史 Term ID 与标题预测后续物品，从而让 LLM 同时理解标识结构和用户偏好。
+
+#### 3.3 弹性标识落地（EIG）
+推理时先尝试 Term ID 的精确字符串匹配；若失败，再按术语位置和衰减权重对候选库进行结构化匹配评分。该后置步骤负责将生成的术语标识落到候选物品。
+
+#### 3.4 实验分析
+论文分别评估域内、跨域、消融、规模扩展和术语幻觉，分析上下文邻域对一致性、区分性和可落地性的影响。
+
+### 实验结论
+
+- GRLM 在域内和跨域设置中报告了较强推荐效果。
+- 上下文术语生成降低了标识碎片化与幻觉。
+- 论文报告了随模型规模扩大而提升的趋势。
+
+### 局限性与研究定位
+
+#### 局限性
+- EIG 的结构化匹配依赖候选库和后置评分，不是纯 SID 直达。
+- 术语生成、候选库更新和多级匹配增加工程复杂度。
+- 代码公开状态未报告。
+
+#### 研究定位
+GRLM 的主要贡献是利用 LLM 原生词表构造可解释 Term ID；它适合放在“文本标识与生成推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2601.06798)
+
+### 标签
+
+`术语标识` · `上下文术语生成` · `LLM推荐` · `标识落地`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 检索方式补充
+
+迁自 `d61aa6c:tables/boundary-and-excluded-methods.md` 的机制说明。
+
+Term ID 无法精确匹配时，仍通过候选库结构化评分完成物品落地。
+
+旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
+
+### Note: gwhere
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gwhere.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### Gwhere：高德生成式下一兴趣点推荐
+
+> Gwhere 融合文本、图像、空间和协同信号学习 POI SID，再通过时空语料、监督微调和暴露感知偏好优化服务高德下一 POI 推荐。
+
+### 研究动机与问题定义
+
+工业下一 POI 推荐需要处理异构 POI 信息、用户移动规律和高并发低延迟服务。随机或碰撞严重的标识会削弱生成模型的泛化，单纯监督训练也难以利用曝光数据中的偏好信号。Gwhere 以端到端 SID 生成和线上服务为目标。
+
+### TL;DR（核心摘要）
+
+`文本/图像/空间/协同 → 对比残差量化 → POI SID → CPT/SFT/EAKTO → 生成下一POI`
+
+Gwhere 先用对比学习残差量化器让多模态和协同表示形成区分度更高的 SID；再用 SID-地点描述语料和时空行为语料持续预训练 LLM，随后进行 SFT 与 Exposure-Aware Kahneman-Tversky Optimization（EAKTO，暴露感知卡尼曼-特沃斯基优化）。线上数据服务将实时上下文转为提示，模型直接生成 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | POI 文本、图像、空间、协同、用户轨迹和曝光反馈 |
+| 信息融入位置 | SID 量化、持续预训练、监督微调和偏好优化 |
+| 语义标识结构 | 多级离散 POI SID |
+| 适用场景 | 高德工业级下一 POI 推荐 |
+
+### 方法设计
+
+#### 3.2 对比物品分词
+Gwhere 为每个 POI 编码文本、图片和空间信息，并结合协同关系。残差量化器逐层选择 code；对比目标拉近真实相关 POI、分离难负样本，以减少异构信息融合后的标识碰撞。
+
+#### 3.3 时空 LLM 后训练
+持续预训练语料包含 SID-地点描述、用户时空行为和 POI 问答，使 LLM 学会非原生 SID token 与地理语义之间的对应。SFT 再把用户画像、近期轨迹、当前时间和位置组织为下一 POI 预测任务。
+
+#### 3.4 EAKTO 偏好对齐
+EAKTO 使用曝光数据中的点击/未点击或行为反馈构造偏好信号，并以 Kahneman-Tversky 风格的价值函数处理正负反馈的不对称性。它在生成式目标之外补充行为偏好，使模型不只拟合历史点击。
+
+#### 4.5 工业部署
+线上服务通过模型存储引擎和数据服务引擎生成实时提示，模型输出 SID 后映射回可读 POI，并返回客户端。图1同时展示离线构建、训练与在线 serving 的完整链路。
+
+### 实验结论
+
+- 公共数据集和高德工业数据集实验均支持 Gwhere 的有效性。
+- 长期线上 A/B 测试相较生产基线报告 P-CTR 提升 5.83%、U-CTR 提升 6.20%。
+- 多模态协同、偏好对齐和序列长度分析表明，EAKTO 与异构信号融合是关键设计；模型缩放趋势也被报告。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 多模态 tokenizer、持续预训练和 EAKTO 组成较长的工程链路，复现成本较高。
+- 论文对动态 POI、跨城市迁移和生成无效 SID 的统一处理仍缺少细节。
+
+#### 研究定位
+
+Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节，突出从 SID 学习到线上 serving 的完整闭环。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2607.26073)
+- [开源代码](https://github.com/alibaba/SimCIT)
+
+### 标签
+
+`下一兴趣点推荐` · `多模态SID` · `暴露感知优化` · `工业部署`
+
+### 架构图来源
+
+*图源：原论文，图1（[论文原文](https://arxiv.org/abs/2607.26073)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：融合多模态 SID 与暴露感知偏好优化实现工业部署。
+- 使用场景：高德下一 POI 推荐。
+
+### Note: hid-vae
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/hidvae.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### HiD-VAE：层次解耦语义标识可解释生成推荐
+
+> HiD-VAE 通过层次标签监督和唯一性约束学习可解释、低碰撞的物品语义标识，并用于直接生成推荐。
+
+### 研究动机与问题定义
+
+现有 SID 往往缺乏可解释层次，且不同物品可能碰撞到相同标识。HiD-VAE 研究如何让标识的不同层级对应可理解类别，同时在潜空间中减少表示重叠。
+
+### TL;DR（核心摘要）
+
+`物品语义与层次标签 → HiD-VAE → 层次SID/标签ID → Transformer → 推荐物品`
+
+离线阶段用文本表示和层次标签训练监督 VAE：标签对齐与标签预测约束各量化层的语义粒度，唯一性损失惩罚不同物品的潜表示重叠。在线阶段冻结 tokenizer，Transformer 根据用户历史自回归生成 SID，并用约束解码映射到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品文本、类别层次和用户交互 |
+| 信息融入位置 | VAE 监督目标与生成模型输入 |
+| 语义标识结构 | 层次化序列，并附带标签 ID |
+| 适用场景 | 可解释序列推荐与冷启动 |
+
+### 方法设计
+
+#### 3.3 框架总览
+HiD-VAE 分为离线层次 ID 学习和在线可解释推荐两阶段。第一阶段学习冻结的物品 tokenizer，第二阶段用 Transformer 根据用户历史生成语义 ID，同时预测或展示对应的层次标签。
+
+#### 3.4 层次标签生成
+对于缺少人工类别的数据，论文先使用 LLM 从物品文本和候选标签中生成层次标签。标签从粗粒度类别逐步细化，为不同 VAE 层提供监督信号。
+
+#### 3.5 层次表示学习
+HiD-VAE 在 RQ-VAE 的多级量化基础上加入标签对齐损失和标签预测损失，使每一层承担特定语义粒度。重构和量化损失保证表示可恢复，标签监督保证层次可解释。
+
+#### 3.6 解耦与唯一性损失
+唯一性损失直接惩罚不同物品潜表示的重叠，减少 ID collision。训练后在线生成阶段采用约束解码，只保留码本中存在且能对应真实物品的标识。
+
+### 实验结论
+
+- HiD-VAE 在三个公开数据集上提升了推荐效果和标识可解释性。
+- 层次监督改善了语义层次，唯一性损失降低了 ID 碰撞。
+- 对缺少类别标签的数据，论文使用 LLM 生成层次标签。
+
+### 局限性与研究定位
+
+#### 局限性
+- 依赖离线标签生成和 tokenizer 更新。
+- 约束自回归解码仍存在延迟。
+- 真实动态目录和线上效果未充分验证。
+
+#### 研究定位
+HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，适合放在“可解释语义标识学习”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2508.04618)
+
+### 标签
+
+`层次监督` · `解耦表示` · `唯一性损失` · `可解释推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：学习可解释且低碰撞的SID。
+- 使用场景：可解释推荐。
+
+### Note: idgenrec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/idgenrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### IDGenRec：文本 ID 学习的 LLM-推荐系统对齐
+
+> IDGenRec 同时学习物品文本 ID 和推荐生成器，使 LLM 能直接生成可识别的目标物品 ID。
+
+### 研究动机与问题定义
+
+随机 ID 难以利用 LLM 的语言知识，直接使用长文本又会造成冗余和幻觉。IDGenRec 将物品元信息压缩为文本 ID，并让这些 ID 与推荐器共同适配。
+
+### TL;DR（核心摘要）
+
+`物品元信息 → ID生成器 → 文本ID → 推荐提示 → 基础推荐器 → 目标ID`
+
+ID 生成器从标题、类别、价格等元信息生成简短 token 序列，并用多样束搜索减少重复。基础推荐器接收用户历史中的文本 ID，通过前缀树约束直接生成目标 ID；两者交替训练，生成结果可映射到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品元信息、用户交互和推荐目标 |
+| 信息融入位置 | ID 生成、提示输入和交替训练目标 |
+| 语义标识结构 | 变长文本 token 序列 |
+| 适用场景 | 序列推荐和零样本扩展 |
+
+### 方法设计
+
+#### 2.1 生成过程
+旧卡片的速览将 ID 生成器和基础推荐器都记为 T5 编码器-解码器。IDGenRec 把物品元信息转成简短文本 ID，再将用户历史中的物品替换为这些 ID，填入推荐提示。基础推荐器以提示和历史 ID 为条件，逐 token 生成目标物品 ID。
+
+#### 2.2 ID 生成器
+ID 生成器读取标题、类别、价格、描述等 plain text，输出短而具有区分性的 token 序列。它使用语言模型的文本知识进行压缩，不要求扩展为独立数值词表。
+
+#### 2.3 多样 ID 生成
+为减少不同物品获得相同 ID，论文使用多样束搜索，逐步提高多样性惩罚；必要时增加 ID 长度。生成过程维护已分配 ID 集合，直到获得可区分标识。
+
+#### 2.4 基础推荐器与交替训练
+基础推荐器使用前缀树进行约束解码，确保目标 ID 对应真实物品。ID 生成器和推荐器交替更新：前者学习可被推荐器使用的 ID，后者学习根据当前 ID 预测下一物品。
+
+### 实验结论
+
+- IDGenRec 在标准序列推荐和零样本设置中均展示了生成能力。
+- 交替训练改善了文本 ID 与推荐器之间的可用性。
+
+### 局限性与研究定位
+
+#### 局限性
+- ID 生成器和基础推荐器构成双模型流程，训练成本更高。
+- 前缀树与多样束搜索需要维护候选 ID 库。
+- 最终泛化受元信息质量影响。
+
+#### 研究定位
+IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，适合放在“文本化物品标识与 LLM 对齐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2403.19021)
+
+### 标签
+
+`文本ID` · `交替训练` · `LLM对齐` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：以文本ID对齐LLM与推荐器。
+- 使用场景：序列推荐。
+
+### Note: latte
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+指出逐码解码树限制了表达能力，在每个 SID 前插入潜 token 重塑解码空间。
+
+### Note: lc-rec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/lcrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LC-Rec：协同语义融合的语言模型推荐
+
+> LC-Rec 将语言语义与协同语义共同编码为物品索引，并通过多任务对齐使语言模型直接生成推荐物品标识。
+
+### 研究动机与问题定义
+
+纯文本 LLM 推荐难以表达用户-物品协同关系，纯 ID 建模又缺乏语义。LC-Rec 试图在有限增加词表的前提下，把两类信息纳入统一的生成式推荐模型。
+
+### TL;DR（核心摘要）
+
+`物品文本与交互 → 向量量化/统一映射 → LLM 对齐 → 生成物品索引 → 推荐物品`
+
+模型利用文本编码器构造层次化物品索引，将索引 token 接入 LLM，再通过对齐任务引入协同信号。训练包含序列物品预测、显式索引-语言映射以及推荐对齐任务；在线生成的索引直接对应物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品标题/描述、用户交互和协同表示 |
+| 信息融入位置 | 索引构建、词表扩展和对齐目标 |
+| 语义标识结构 | 层次化序列索引 |
+| 适用场景 | 序列推荐、意图预测和物品索引 |
+
+### 方法设计
+
+#### III-A 方法概览（Overview of the Approach）
+LC-Rec 的目标是缩小语言语义与协同语义之间的差距。系统由物品索引学习和 LLM 对齐两部分组成：前者建立可生成的离散索引，后者让语言模型理解索引的推荐含义。
+
+#### III-B 物品索引学习（Learning Item Indices）
+论文使用物品文本编码器获得语义向量，再通过向量量化得到层次化 item index，并设计统一语义映射减少索引冲突。索引 token 被加入语言模型词表，作为文本语义和协同语义的共同接口。
+
+#### III-C 语言-协同语义对齐
+模型训练序列物品预测、显式索引生成、物品意图预测和协同/语言语义对齐等任务。不同任务分别从物品、用户历史和推荐目标施加约束，使 LLM 能在生成索引的同时利用协同结构。
+
+#### III-D 训练与推理
+论文采用分阶段对齐与推荐训练。推理时模型生成目标 item index，标识直接对应物品；索引构建和模型输入中的信息来源被明确区分。
+
+### 实验结论
+
+- 语言-协同联合对齐提升了物品预测和索引相关任务表现。
+- 推荐对齐任务有助于缩小语言语义与协同语义之间的差距。
+
+### 局限性与研究定位
+
+#### 局限性
+- 依赖离线物品索引构建，动态物品更新成本未充分讨论。
+- 多任务对齐增加了训练和词表管理复杂度。
+
+#### 研究定位
+LC-Rec 的核心价值是把协同语义显式注入 LLM 的物品索引体系。它适合放在“LLM 推荐的协同语义对齐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2311.09049)
+
+### 标签
+
+`协同语义` · `多任务对齐` · `层次化量化` · `LLM推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：把协同语义注入LLM物品索引。
+- 使用场景：LLM推荐。
+
+### Note: letter
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/letter.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LETTER：生成式推荐的可学习物品分词
+
+> LETTER 通过层次语义、协同信号和码分配多样性三个目标学习更适合生成推荐的物品标识。
+
+### 研究动机与问题定义
+
+普通文本或码本 ID 可能缺乏层次语义、协同关系，且容易产生码分配偏置。LETTER 设计可学习 tokenizer，使 token 序列同时服务于语义表达和生成可辨识性。
+
+### TL;DR（核心摘要）
+
+`物品语义与协同表示 → RQ-VAE/LETTER → 生成模型 → 物品标识 → 推荐物品`
+
+LETTER 在 RQ-VAE 基础上加入语义正则、协同正则和多样性正则：前两者约束码的内容与行为信息，后一项缓解高频码偏置。标识被用于生成模型的 next-item 预测，生成结果直接映射物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品语义、用户交互和协同表示 |
+| 信息融入位置 | tokenizer 学习目标与生成输入 |
+| 语义标识结构 | 层次化离散序列 |
+| 适用场景 | 常规生成式推荐 |
+
+### 方法设计
+
+#### 3.1 LETTER tokenizer
+LETTER 基于 RQ-VAE 学习层次化物品 token，并在码本训练中加入三类正则。语义正则使 token 保留内容层次，协同正则把交互结构引入 code assignment，多样性正则缓解高频码和生成偏置。
+
+#### 3.2 生成推荐实例化
+训练时，用户历史物品被替换为 LETTER 标识，生成器自回归预测下一物品标识。tokenizer 与生成推荐模型可以分别训练，再把学习到的标识用于不同生成骨干。
+
+#### 3.3 标识偏置分析
+论文从层次语义、协同信号、码分配和生成分布分析 LETTER。实验还研究正则权重、码本规模、标识长度和不同生成模型，以验证标识质量不是单一性能数字造成的。
+
+#### 3.4 相关扩展
+论文通过协同表示对齐、码使用率和误差案例分析 LETTER 相比普通文本/码本标识的差异。
+
+### 实验结论
+
+- LETTER 在多个数据集上优于既有物品 tokenization 方法。
+- 三类正则分别改善语义、协同和码分配特性。
+
+### 局限性与研究定位
+
+#### 局限性
+- tokenizer 需要离线更新，动态目录支持有限。
+- 正则权重与码本规模会影响稳定性和生成效率。
+
+#### 研究定位
+LETTER 的贡献是明确提出面向生成推荐的三目标物品分词器，适合放在“可学习语义标识构建”章节。
+
+### 相关资源
+
+- [开源代码](https://github.com/Honghuibao2000/LETTER)
+
+### 标签
+
+`可学习分词` · `层次化语义` · `协同信号` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：联合语义、协同和码多样性。
+- 使用场景：生成式推荐。
+
+### Note: lgrid
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/lgrid.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LGRID：基于大语言模型生成解耦的可解释表示
+
+> LGRID 通过“编码-解耦-对齐-量化”流程，将地理和语义属性分配到可解释槽位，并分别量化为双流 SID。
+
+### 研究动机与问题定义
+
+单一表示量化会把城市、区域、品牌和类别等异质属性纠缠在一起，导致关键属性丢失、SID 碰撞严重且难以解释。LGRID 面向本地生活推荐，目标是得到可解码的属性槽位和具有层次语义的低碰撞 SID。
+
+### TL;DR（核心摘要）
+
+`POI内容/位置 → LLM编码 → 结构化解耦槽位 → 对齐学习 → 双流RQ-VAE → 地理/语义SID`
+
+LGRID 用 LLM 编码 POI 文本，在 Structured Disentangled Block 中通过锚点引导感知和结构化因果路由，将隐藏状态分配到地理槽和语义槽。渐进式生成解耦与结构感知对比学习使槽位可解码、可区分，最后分别量化两类槽位得到双流 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | POI 内容、行政地理、品牌、类别和用户交互 |
+| 信息融入位置 | LLM 隐状态、解耦槽位、对齐目标和量化器 |
+| 语义标识结构 | 地理流与语义流组成的层次序列 |
+| 适用场景 | 本地生活、可解释推荐和属性分析 |
+
+### 方法设计
+
+#### 3.2 总体流程
+LGRID 的核心顺序是 Encode → Disentangle → Align → Quantize。先由 LLM 建模 POI 内容和地理之间的依赖，再显式切分属性槽位，之后用多种任务让槽位具备可解释含义，最后分别进行残差量化。
+
+#### 3.3 联合 LLM 编码
+输入包含内容描述和位置字段，LLM 产生上下文隐藏状态。与字段独立编码不同，联合编码保留了“某类商户位于某区域”的依赖，但也会带来表示纠缠，因此后续需要结构化路由。
+
+#### 3.4 结构化解耦模块
+模块先注入地理、语义和内容锚点 token，再用 Anchor-Guided Perception 从隐藏状态提取对应信息。结构化因果路由通过注意力掩码限制不同槽位之间的依赖，使地理槽更多关注位置信息、语义槽更多关注品牌和类别信息。
+
+#### 3.5 协同对齐学习
+渐进式生成解耦要求 LLM 逐步恢复 POI 的地理、内容和细节属性；结构感知对比学习拉近同属性 POI、分离难负样本；潜空间多样性正则减少不同槽位学习重复信息。多个目标共同提高可解码性和区分度。
+
+#### 3.6 双流残差量化
+地理槽和语义槽分别经过槽位合并与 RQ-VAE 量化器，形成两个 code stream。双流结构使 SID 的部分位置具有明确属性含义，也降低单一 codebook 同时承载所有属性造成的碰撞。
+
+### 实验结论
+
+- 在 Kuaishou 和 Foursquare 数据上，LGRID 相比 SID 基线取得更好的推荐效果，论文报告最高 5.44% 的相对 AUC 提升。
+- 粗粒度地理属性解码准确率超过 99%，说明槽位具有较强的属性可解释性。
+- 完整 SID 碰撞率报告为 39.9%，低于对比方法 LGSID 的 97.0%；效率和规模分析支持其可部署性。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 槽位、锚点和结构化掩码引入较多设计选择，跨领域迁移的稳定性仍需验证。
+- 属性缺失、动态新增 POI 和在线 SID 更新机制未被充分讨论。
+
+#### 研究定位
+
+LGRID 适合放在“可解释与解耦语义标识”章节，代表通过生成式解耦显式赋予 SID 位置以地理或语义含义的路线。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2607.27944)
+
+### 标签
+
+`生成解耦` · `双流量化` · `可解释SID` · `本地生活`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2607.27944)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：将地理与语义属性解耦为可解释的双流 SID。
+- 使用场景：本地生活与可解释推荐。
+
+### Note: lgsid
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/lgsid.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LGSID：大语言模型对齐的地理物品分词
+
+> LGSID 先用地理偏好对齐大语言模型，再将地理属性和内容表示分别量化为层次化 SID，以增强本地生活推荐的空间一致性。
+
+### 研究动机与问题定义
+
+本地生活物品的语义相似并不等于地理可行。仅把地点写进提示词，可能无法让 LLM 学到细粒度的城市、区域和街道关系。LGSID 试图让 LLM 的表示具有真实空间知识，并把这种表示用于生成可解释的地理物品 SID。
+
+### TL;DR（核心摘要）
+
+`内容/地理信息 → 地理奖励模型与G-DPO → 地理/语义表示 → 层次化量化 → 判别式或生成式推荐`
+
+方法首先利用正负地理提示训练 list-wise reward model，再通过 G-DPO 将空间关系和协同信号注入 LLM。随后从对齐后的 LLM 表示和离散地理属性中构造主 token，并用残差量化补充细节 token；SID 分别用于判别式与生成式推荐模型。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | POI 文本内容、行政区、地理位置和用户行为 |
+| 信息融入位置 | LLM 对齐、主 token 构建、残差量化和生成输入 |
+| 语义标识结构 | 层次化主 token 加残差 token |
+| 适用场景 | 本地生活和地理约束推荐 |
+
+### 方法设计
+
+#### 3.1 地理奖励模型训练
+作者构造内容相同或相近但地理位置不同的提示对，并用实际地理关系生成排序偏好。奖励模型输出内容-地理匹配分数，作为后续 LLM 对齐的监督信号。
+
+#### 3.2 基于 G-DPO 的地理 LLM 对齐
+G-DPO 使用正、负地理信息和奖励模型分数构造偏好优化目标。模型需要提高符合真实位置关系的响应概率，同时保留原有语义能力；双相似度对比损失进一步约束内容和地理表示。
+
+#### 3.3 层次化地理物品分词
+HGIT 从 POI 的行政区、品牌、类别等离散属性得到地理 code，再使用对齐 LLM 表示进行多级残差量化。最终 SID 的前缀具有较粗粒度地理含义，后续 token 表达更细的内容与位置差异。
+
+#### 3.4 下游推荐
+论文分别评估判别式模型（DIN、TWIN、ETA 等，Table 1）和生成式模型（TIGER、OneRec，Table 2）。前者使用 SID 特征对候选评分，后者生成 SID；当前记录以 A / B 写法保留两个分支。
+
+### 实验结论
+
+- 在 Kuaishou 本地生活数据上，LGSID 相比比较方法取得更好的离线 AUC 和推荐效果。
+- 可视化和属性解码实验表明，层次化 SID 前缀能保留城市、区域等地理结构，并提高属性可解释性。
+- 论文报告不同 token 化策略的分布差异，但动态物品和线上延迟结果未报告。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- G-DPO 需要构造地理偏好对和奖励模型，训练流程较复杂。
+- 地理主 token 依赖行政与属性索引，对跨区域、属性缺失和新增 POI 的适应性仍需验证。
+
+#### 研究定位
+
+LGSID 位于“LLM 对齐驱动的地理 SID 构建”方向，突出先获得空间感知表示、再进行层次化量化的设计。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2511.14221)
+
+### 标签
+
+`地理物品分词` · `G-DPO` · `层次化SID` · `本地生活`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2511.14221)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用地理对齐和层次化分词增强空间一致性。
+- 使用场景：本地生活推荐。
+
+### Note: liger
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/liger.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LIGER：生成检索与稠密检索统一
+
+> LIGER 将生成式检索与稠密检索结合，以缓解生成模型对冷启动物品和开放物品集合的覆盖不足。
+
+### 研究动机与问题定义
+
+生成式检索能直接生成 SID，但对训练集中未出现或难以生成的物品不够稳健；稠密检索具有更好的开放集合覆盖。LIGER 研究两者的混合推荐流程。
+
+### TL;DR（核心摘要）
+
+`用户历史 → 生成式检索候选 + 稠密检索候选 → 外部融合/排序 → 推荐物品`
+
+模型先用生成式检索产生 SID 候选，再将其与稠密检索结果及冷启动候选合并，并通过编码器相似度进行最终排序。因此，完整 SID 并不能单独决定最终推荐物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户序列、SID 表示和稠密用户/物品向量 |
+| 信息融入位置 | 生成召回、稠密召回和融合排序 |
+| 语义标识结构 | 多 token 序列 |
+| 适用场景 | 开放物品、冷启动和混合检索 |
+
+### 方法设计
+
+#### 2.1 生成式检索与稠密检索
+LIGER 对比两条序列推荐链路：生成式模型根据历史 SID 束搜索目标标识，稠密模型将历史和物品文本编码为向量并进行相似度检索。两者在物品表示、输入信息和预测机制上不同。
+
+#### 2.2 混合检索模型
+LIGER 将语义 ID、物品位置和文本表示共同输入编码器，同时产生用户/目标物品的稠密表示。生成式候选、稠密候选和冷启动物品被合并，再依据表示相似度完成最终排序。
+
+#### 2.3 冷启动分析
+论文重点研究生成式检索对未见物品的覆盖不足，并用稠密检索补充开放物品集合。该设计提升覆盖，但也意味着完整 SID 不是最终推荐的唯一决定因素。
+
+#### 2.4 实验与讨论
+实验比较生成、稠密和混合方法在集合内/集合外数据上的效果，并分析 SID 输入、文本表示和候选融合的作用。
+
+### 实验结论
+
+- 混合检索改善了生成模型对未见物品的覆盖。
+- 稠密检索与生成检索具有互补性。
+
+### 局限性与研究定位
+
+#### 局限性
+- 需要外部稠密检索和最终排序，未实现纯生成式端到端推荐。
+- 多路召回与融合增加线上服务链路和延迟。
+
+#### 研究定位
+LIGER 适合放在“生成式推荐与稠密检索融合”章节。
+
+### 标签
+
+`生成检索` · `稠密检索` · `混合检索` · `冷启动`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 检索方式补充
+
+迁自 `d61aa6c:tables/boundary-and-excluded-methods.md` 的机制说明。
+
+生成 SID 后仍依赖稠密检索、候选融合和最终排序。
+
+旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
+
+### Note: llada-rec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/lladarec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### LLaDA-Rec：离散扩散并行语义标识生成
+
+> LLaDA-Rec 用离散扩散模型并行生成完整 Semantic ID，以降低自回归推荐的延迟。
+
+### 研究动机与问题定义
+
+自回归 SID 生成需要逐 token 解码，长序列场景延迟较高。LLaDA-Rec 将推荐目标建模为离散序列去噪，让多个标识位置可以并行恢复。
+
+### TL;DR（核心摘要）
+
+`用户历史 → 多头物品分词 → 离散扩散去噪 → 完整SID → 推荐物品`
+
+方法用多头量化器产生物品 token，并训练扩散模型从掩码或噪声状态恢复目标 SID。推理阶段迭代选择待恢复位置，结合自适应位置策略和束式候选保留，最终将完整 SID 映射到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户行为与物品语义 |
+| 信息融入位置 | SID 分词和扩散模型条件输入 |
+| 语义标识结构 | 定长多 token 序列 |
+| 适用场景 | 低延迟生成式推荐 |
+
+### 方法设计
+
+#### 4.1 多头 VQ-VAE 并行分词
+LLaDA-Rec 为物品学习多个离散 token 头，将语义表示映射为定长 SID。多头结构让不同位置能够分别承载语义信息，并为并行恢复提供独立预测单元。
+
+#### 4.2 离散扩散训练
+训练时随机掩码或扰动目标 SID，模型根据用户历史和剩余可见 token 预测被破坏位置。相比左到右目标，扩散训练让模型学习在不同噪声程度下共同恢复多个位置。
+
+#### 4.3 离散扩散推理
+推理从全掩码或部分掩码状态开始，迭代选择位置并恢复 token。论文设计自适应位置选择，使置信度高的位置优先确定，并结合候选保留与合法性约束输出完整 SID。
+
+#### 4.4 讨论与实验
+实验比较不同注意力、恢复顺序、去噪步数和并行程度，重点评估推荐质量与延迟之间的权衡。
+
+### 实验结论
+
+- 并行扩散生成在保持效果的同时减少解码步数。
+- 自适应位置选择优于固定恢复顺序。
+
+### 局限性与研究定位
+
+#### 局限性
+- 多轮去噪仍有迭代成本，实际收益取决于步数和硬件。
+- 动态新增物品与工业级服务评估仍未报告。
+
+#### 研究定位
+LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低延迟解码”章节。
+
+### 标签
+
+`离散扩散` · `并行生成` · `Semantic ID` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：并行去噪生成SID。
+- 使用场景：低延迟推荐。
+
+### Note: macrec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/macrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### MACRec：多方面跨模态量化生成式推荐
+
+> MACRec 在 SID 量化和生成推荐训练中同时建模文本、图像及其交互，减少跨模态语义损失和标识碰撞。
+
+### 研究动机与问题定义
+
+已有多模态生成推荐常独立量化不同模态，难以利用互补信息。MACRec 将跨模态对比学习放入量化过程，并在生成阶段加入多方面对齐。
+
+### TL;DR（核心摘要）
+
+`文本/图像 → 跨模态量化 → 多模态SID → 生成模型 → 内部集成 → 推荐物品`
+
+模型分别编码文本和图像，通过伪标签、跨模态残差量化和重构对齐学习语义标识；生成推荐阶段包含隐式表示对齐、显式 item/sequence 对齐和 Seq2Seq 目标。推理时对两种模态进行约束束搜索并在模型内部平均分数，得到最终物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品文本、图像和用户交互 |
+| 信息融入位置 | 量化目标、对齐任务和生成输入 |
+| 语义标识结构 | 文本/视觉多级离散序列 |
+| 适用场景 | 多模态序列推荐 |
+
+### 方法设计
+
+#### 3.1 双模态伪标签
+MACRec 分别用文本编码器和视觉编码器获得物品表示，再在两种模态上聚类生成伪标签。伪标签用于构造跨模态正样本，使文本和图像在量化过程中能够相互提供监督。
+
+#### 3.2 跨模态量化与重构
+文本、视觉表示分别经过 MLP 和多级残差量化。跨模态对比损失让一类模态的残差表示吸收另一类模态的相似性；重构损失和量化损失保证离散 code 能恢复原始表示。
+
+#### 3.3 多方面生成对齐
+生成推荐阶段包含同模态 next-item 生成、跨模态 item/sequence 对齐，以及隐式表示对齐。模型由一种模态的历史 SID 预测另一种模态的目标 SID，促进两套标识的协同。
+
+#### 3.4 训练与推理
+训练目标联合推荐损失和对齐损失。推理时两种模态分别进行约束束搜索，最后在模型内部平均候选分数并去重，得到推荐结果。
+
+### 实验结论
+
+- MACRec 在三个 Amazon 数据集上优于比较方法。
+- 跨模态量化和多方面对齐均改善效果，并降低碰撞。
+
+### 局限性与研究定位
+
+#### 局限性
+- 双模态生成和结果集成增加推理成本。
+- 图像缺失、动态物品和线上服务效率仍需验证。
+
+#### 研究定位
+MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在“多模态语义标识与生成推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2511.15122)
+
+### 标签
+
+`跨模态量化` · `多方面对齐` · `多模态推荐` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：在量化阶段建模跨模态交互。
+- 使用场景：多模态推荐。
+
+### Note: mbgr
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用业务感知 SID 和多业务预测结构缓解多业务场景的跷跷板问题。
+
+### Note: minionerec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/minionerec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### MiniOneRec：可扩展生成式推荐框架
+
+> MiniOneRec 将语义标识构建、语言模型对齐和偏好强化学习串成统一流程，探索从小模型到大模型的生成式推荐扩展。
+
+### 研究动机与问题定义
+
+现有生成式推荐在模型规模、语义对齐和推荐偏好之间缺少统一训练框架。MiniOneRec 研究如何让语言模型直接生成物品的完整语义标识，并保持规模扩展后的推荐效果。
+
+### TL;DR（核心摘要）
+
+`用户历史 → RQ-VAE 物品标识 → 语言模型对齐 → SID 生成 → 推荐物品`
+
+论文使用标题和描述的文本表示，通过三级 RQ-VAE 构造定长 SID；随后对 Qwen 系列模型进行监督微调，并使用 GRPO/RLVR 类偏好优化。推理时采用束搜索，生成的 SID 查表得到物品；当前 Table 1 记录为 Beam。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 交互历史、物品文本和协同偏好信号 |
+| 信息融入位置 | 文本进入 SID 构建，历史进入语言模型，偏好信号进入奖励 |
+| 语义标识结构 | 定长层次化序列 |
+| 适用场景 | 常规序列推荐与跨领域扩展 |
+
+### 方法设计
+
+#### 3.1 任务形式化与物品分词
+MiniOneRec 将下一物品预测写成完整 SID 序列生成。物品标题和描述经过冻结文本编码器后输入三级 RQ-VAE，得到层次化 codebook 和定长 SID。
+
+#### 3.2 与 LLM 对齐
+模型在 SFT 阶段把用户历史 SID、文本提示和目标 SID接入 Qwen 等语言模型。论文强调 full-process SID-language alignment，使语言模型不仅记住目标 token，还学习 SID 的层次和语义结构。
+
+#### 3.3 推荐偏好优化
+RL 阶段采用推荐导向奖励，综合合法性、去重、协同/排序信号等因素，并用 GRPO 类策略优化调整生成分布。奖励主要用于训练，不改变在线直接生成 SID 的链路。
+
+#### 3.4 训练与评估
+论文比较不同模型规模、世界知识、数据设置和生成配置，分析规模扩大对收敛、性能和泛化的影响。
+
+### 实验结论
+
+- 推荐性能随模型规模扩大而提升，并展示了语言模型世界知识对推荐的影响。
+- 端到端 SID 对齐和偏好优化均有独立贡献。
+- 论文提供了开源框架与多规模训练设置，便于复现实验。
+
+### 局限性与研究定位
+
+#### 局限性
+- 自回归束搜索仍带来服务成本。
+- 新物品的 SID 更新和动态目录维护未充分验证。
+- 真实线上收益与更大规模工业数据上的稳定性仍未报告。
+
+#### 研究定位
+MiniOneRec 的主要贡献是把 SID 对齐、语言模型扩展和推荐偏好优化纳入一个可复用框架。它适合放在“规模扩展与训练对齐”章节；后续可关注动态物品和低延迟解码。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2510.24431)
+- [开源代码](https://github.com/AkaliKong/MiniOneRec)
+
+### 标签
+
+`RQ-VAE` · `生成式推荐` · `强化学习` · `可扩展性`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：统一规模扩展、对齐与偏好优化。
+- 使用场景：序列与跨域推荐。
+
+### Note: mme-sid
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
+
+### Note: molar
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用多模态 LLM 产出用户和物品嵌入，按相似度推荐，不使用 SID。
+
+### Note: mql4grec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/mql4grec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### MQL4GRec：生成式推荐的多模态量化语言
+
+> MQL4GRec 将不同领域和模态的物品内容翻译为统一的离散量化语言，并以生成任务迁移推荐知识。
+
+### 研究动机与问题定义
+
+文本和图像内容形式复杂，跨域推荐中的表示难以共享。MQL4GRec 把量化器视为翻译器，将多模态内容映射到共享 codebook 语言，降低跨域迁移的表示差异。
+
+### TL;DR（核心摘要）
+
+`文本/图像 → RQ-VAE量化语言 → 预训练生成任务 → 目标域微调 → 推荐物品`
+
+冻结模态编码器提取文本或图像表示，RQ-VAE 将其转为带模态前缀的离散 token；通过下一物品生成、非对称生成和量化语言对齐任务进行预训练，再在目标推荐数据上微调。论文在生成候选后进行模态结果重排，重排仍属于模型内部流程。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 文本、图像、用户交互和多域数据 |
+| 信息融入位置 | 量化语言、预训练任务和目标域生成 |
+| 语义标识结构 | 带模态前缀的多级序列 |
+| 适用场景 | 多模态、跨域推荐 |
+
+### 方法设计
+
+#### 3.1 量化语言
+MQL4GRec 将量化器视为翻译器。冻结的 LLaMA/ViT 编码器提取文本或图像表示，RQ-VAE 为每种模态学习多级 codebook，并通过模态前缀组成统一量化语言。碰撞物品再依据残差距离重新分配 code。
+
+#### 3.2 量化语言生成任务
+除同模态下一物品生成外，论文加入非对称生成：用文本历史预测图像量化语言，或反向预测；同时加入 text-to-image 和 image-to-text 的显式量化语言对齐任务。
+
+#### 3.3 训练与推荐
+模型先在多域、多模态数据上预训练，再在目标推荐任务上微调。生成器预测目标模态的量化 token，推理阶段综合不同模态生成列表，并依据模型分数进行内部重排。
+
+#### 3.4 零样本与分析
+实验考察跨域迁移、模态组合、消融和零样本能力，重点验证量化语言是否能把模态知识和推荐知识传递到新领域。
+
+### 实验结论
+
+- MQL4GRec 在 ICLR 2025 论文报告的跨域设置中优于比较方法。
+- 量化语言预训练和跨模态对齐带来迁移收益。
+
+### 局限性与研究定位
+
+#### 局限性
+- 模态候选重排增加了推理链路。
+- 量化语言依赖模态编码器和离线 codebook。
+- 开放物品和动态领域更新仍需验证。
+
+#### 研究定位
+MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言生成，适合放在“跨域与多模态生成推荐”章节。
+
+### 标签
+
+`量化语言` · `多模态` · `跨域迁移` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：以量化语言促进跨域迁移。
+- 使用场景：多模态跨域。
+
+### Note: mscgrec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用多模态语义码和协同码共同表示物品，以约束 softmax 训练，约束束搜索解码。
 
 ### Note: oneloc
 
@@ -297,6 +2615,470 @@ def oneloc_geo_dpo_step(q, k, v, dist_matrix, geo_bucket_emb, gate,
 1. **Implicit vs. explicit spatial prefix in SIDs**: OneLoc injects location context into the MLLM embedding before `R-KM` (`Text+Img+Geo†`), so spatial hierarchy is not guaranteed to align with individual code positions. Within the same cell (`I. Informativeness` $\times$ `Representation`), **`LGSID`** (`Geo-Idx+RQ`) and **`GeoGR`** (`R-KM+EM`) explicitly couple spatial/grid structure or EM-updated geographic alignment with collaborative signals (`Text+Geo+CF`), while **`LGRID`** (`DSRQ`) disentangles semantic and geographic latent spaces.
 2. **Closed industrial evaluation**: Evaluation relies on proprietary short-video local-life logs and business GMV estimators without a public reproducibility benchmark.
 
+---
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/oneloc.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### OneLoc：面向本地生活服务的地理感知生成式推荐
+
+> OneLoc 将地理感知 SID、位置自注意力和邻域提示结合到端到端生成式推荐中，并用地理与 GMV 奖励平衡兴趣和距离目标。
+
+### 研究动机与问题定义
+
+本地生活推荐既要满足用户兴趣，也要考虑用户实时位置、商户距离和业务价值。传统模型通常将地理特征作为额外输入，难以在端到端生成中同时控制这些目标。OneLoc 直接生成本地生活 POI/商户的语义 token，并研究其在 Kuaishou 本地生活场景中的部署方式。
+
+### TL;DR（核心摘要）
+
+`用户行为/视频/位置 → 地理感知SID → 地理自注意力编码 → 邻域提示解码 → 商户推荐`
+
+OneLoc 用视频和地理信息构造语义 token，在编码器中利用历史商户位置与实时位置调节注意力，在解码器中加入周边商户提示。监督训练后，模型通过地理奖励和 GMV 奖励构造偏好对并进行 DPO 式强化学习，生成 token 直接对应推荐商户。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户行为、视频内容、历史位置、实时位置、邻域商户和 GMV |
+| 信息融入位置 | SID、编码器注意力、解码提示和强化学习奖励 |
+| 语义标识结构 | 多 token 离散序列 |
+| 适用场景 | 本地生活服务推荐和工业部署 |
+
+### 方法设计
+
+#### 2.2 地理感知语义标识
+OneLoc 将视频内容 token 与地理 token 共同用于商户/内容表示，使生成器看到的离散标识同时包含语义和位置线索。论文强调，位置并非简单拼接的连续特征，而是参与物品 token 化。
+
+#### 2.3 编码器
+编码器接收用户历史行为、历史商户位置和实时位置。Geo-aware Self-Attention 根据行为内容相似性、历史位置关系以及用户当前地点计算注意力，并以门控方式调节位置上下文的影响。
+
+#### 2.4 解码器与邻域提示
+解码器采用带因果自注意力和交叉注意力的生成结构。Neighbor-aware Prompt 将用户实时位置周围的地理网格、邻近商户和位置提示加入解码过程，使生成结果更符合本地可达性。
+
+#### 2.5 强化学习
+监督训练得到初始模型后，OneLoc 从模型分布采样多个视频/商户结果。地理奖励衡量距离约束，GMV 奖励反映业务价值，再按奖励排序构造偏好对，用 DPO 更新模型。
+
+### 实验结论
+
+- 离线实验和在线 A/B 测试均报告了相对生产基线的收益；论文报告日活约 4 亿用户场景下 GMV 和订单数分别提升 21.016% 与 17.891%。
+- 地理自注意力、邻域提示以及两类奖励的消融结果支持这些模块对效果的贡献。
+- 论文展示了系统部署框架，但稿件中的会议元数据仍为占位文本，正式发表信息未确认。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 多目标奖励权重和偏好数据构造依赖具体业务，跨平台复现难度较高。
+- POI 动态更新、生成非法商户以及候选覆盖率的处理细节未充分报告。
+
+#### 研究定位
+
+OneLoc 代表将 Semantic ID 生成式推荐推进到本地生活工业场景的路线，适合放在“地理约束与多目标生成推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2508.14646)
+
+### 标签
+
+`本地生活` · `地理感知` · `邻域提示` · `强化学习`
+
+### 架构图来源
+
+*图源：原论文，图2。论文页面信息未完整报告，图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用地理感知生成和偏好优化统一本地生活目标。
+- 使用场景：本地生活推荐。
+
+### Note: onerec-think
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/onerecthink.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### OneRec-Think：文本内推理生成式推荐
+
+> OneRec-Think 在物品标识生成前加入用户偏好推理，并用多任务对齐和强化学习提升推荐质量与可解释性。
+
+### 研究动机与问题定义
+
+生成式推荐能够直接预测物品标识，但通常缺少可观察的偏好推理。OneRec-Think 试图让 LLM 在同一自回归过程中先形成理由，再生成目标 itemic token，同时兼顾工业响应速度。
+
+### TL;DR（核心摘要）
+
+`用户历史与itemic token → 多任务对齐 → 偏好理由 → 生成itemic token → 推荐物品`
+
+框架包含 itemic alignment、reasoning activation 和 reasoning enhancement 三阶段。多任务预训练融合用户画像、序列偏好、物品描述生成和通用语言建模；随后从裁剪历史中引导理由生成，并用推荐奖励强化推理路径。Think-Ahead 架构将部分推理前置，最终 token 直接对应物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户行为、用户画像、物品文本和偏好反馈 |
+| 信息融入位置 | itemic token 对齐、推理文本和奖励目标 |
+| 语义标识结构 | 推理序列后接 itemic token 序列 |
+| 适用场景 | 工业序列推荐和可解释推荐 |
+
+### 方法设计
+
+#### 4.1 多任务 Itemic 对齐预训练
+OneRec-Think 将 itemic token 与文本 token 放进同一语言空间，训练用户画像、序列偏好、itemic dense captioning 和通用语言建模四类任务。Token warm-up 先学习 itemic embedding，再进行多任务联合整合。
+
+#### 4.2 推理激活
+为应对工业行为序列噪声，模型先从裁剪后的相关历史中生成偏好理由，再把这些理由蒸馏到原始行为上下文。推理目标不是独立解释，而是为后续 itemic token 生成提供中间偏好结构。
+
+#### 4.3 推理增强
+模型生成多条 reasoning rollout，并用推荐特定奖励比较目标一致性、路径质量和结果可靠性。强化学习进一步筛选能够导向有效 itemic token 的推理路径。
+
+#### 4.4 Think-Ahead 部署架构
+论文将部分推理工作前置或离线化，在线阶段快速读取增强后的上下文并生成目标 itemic token，从而在可解释性和工业响应时间之间折中。
+
+### 实验结论
+
+- OneRec-Think 在多个公开基准上报告了较强推荐表现。
+- 三阶段训练分别改善语义对齐、推理激活和偏好一致性。
+- Think-Ahead 在工业部署中报告了停留时长收益。
+
+### 局限性与研究定位
+
+#### 局限性
+- 文本推理增加 token 数量和训练、推理成本。
+- 推理奖励依赖用户行为代理信号，可能存在偏差。
+- 复杂场景下的实时推理稳定性仍需更多公开验证。
+
+#### 研究定位
+OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放在“推理增强生成式推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2510.11639)
+
+### 标签
+
+`文本内推理` · `多任务预训练` · `Think-Ahead` · `偏好强化学习`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：在生成物品标识前加入文本内推理。
+- 使用场景：工业推荐。
+
+### Note: onerec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/onerec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### OneRec：检索排序一体化生成式推荐
+
+> OneRec 用生成模型直接产生推荐列表，并通过迭代偏好对齐替代传统的召回-排序级联。
+
+### 研究动机与问题定义
+
+级联系统把召回和排序拆开，模块目标不一致且存在信息损失。OneRec 将会话建模、候选选择和排序统一为列表生成，并研究如何使生成结果贴近真实偏好。
+
+### TL;DR（核心摘要）
+
+`会话历史 → SID列表目标 → 生成模型 → 推荐列表 → 偏好对齐`
+
+模型以会话级物品列表作为训练目标，使用平衡聚类构造物品语义标识，并直接生成列表。训练后通过奖励反馈和迭代 DPO 逐步对齐列表质量；在线阶段生成的 SID 直接对应推荐物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 会话交互、物品标识和偏好反馈 |
+| 信息融入位置 | 列表目标、生成输入和偏好训练 |
+| 语义标识结构 | 列表中的多 token 序列 |
+| 适用场景 | 工业会话推荐 |
+
+### 方法设计
+
+#### 3.1 会话级列表生成
+OneRec 把单物品 next-item 目标扩展为 session-wise list generation。训练样本包含会话上下文和目标推荐列表，生成器按统一序列格式输出多个物品 SID，并在列表内部处理顺序与重复。
+
+#### 3.2 生成器训练
+模型采用编码器-解码器结构，以会话行为和物品标识作为条件。标识由平衡聚类构造，使不同物品在生成词表中具有较好的覆盖和可区分性。
+
+#### 3.3 迭代偏好对齐
+训练后使用奖励模型产生偏好信号，构造列表级偏好样本并进行 DPO。迭代过程不断用更新后的模型生成新样本，使生成列表逐步靠近业务偏好。
+
+#### 3.4 系统部署
+论文进一步设计线上生成、去重和服务流程，目标是用一个生成模型连接原本分离的召回与排序阶段。
+
+### 实验结论
+
+- OneRec 在论文报告的公开和工业设置中改善了生成式推荐效果。
+- 列表级训练和偏好对齐均带来额外收益。
+
+### 局限性与研究定位
+
+#### 局限性
+- 列表生成、去重和约束会增加推理工程复杂度。
+- 动态物品、极端长尾和跨场景迁移仍需更多验证。
+
+#### 研究定位
+OneRec 的主要贡献是以生成列表统一召回与排序，适合放在“端到端工业生成式推荐”章节。
+
+### 标签
+
+`召回排序一体化` · `列表生成` · `偏好对齐` · `工业推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：统一召回与排序。
+- 使用场景：工业会话推荐。
+
+### Note: pad-rec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+在投机解码的草稿模型中加入 SID 位置信息，加速列表式生成。
+
+### Note: progeo
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/progeo.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### ProGEO：邻近 POI 聚类的距离感知地理码本
+
+> ProGEO 在标准语义码本之外加入地理码本，用局部坐标和旋转位置编码把 POI 邻近关系直接写入 SID。
+
+### 研究动机与问题定义
+
+本地生活推荐要求结果在地理上可达，但常规语义码本只按向量相似性聚类，可能生成语义相关却跨城不可配送的商户。ProGEO 研究如何将地理约束从辅助特征提升为 SID 结构的一部分，同时保留内容语义。
+
+### TL;DR（核心摘要）
+
+`商户内容/地理 → 标准码本量化 → 地理中心局部坐标 → Geo-RoPE地理码本 → 生成推荐`
+
+模型先用标准 RQ-KMeans 得到多级语义 code，再从残差表示中建立地理中心和局部坐标系。Geo-RoPE 将局部距离和方向转为高维旋转，形成特殊 geo-codebook；微调后的 LLM 生成包含地理 code 的 SID，并在结果层面排除跨城无效配送。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 商户文本、类别、价格、地理位置和用户意图 |
+| 信息融入位置 | 标准量化、特殊地理码本和生成约束 |
+| 语义标识结构 | 标准 code 加 geo code 的多级序列 |
+| 适用场景 | 本地生活、配送和地理可达推荐 |
+
+### 方法设计
+
+#### 3.1 语义码本聚类
+POI 文本和地理特征用于构建表示，标准码本使用残差 K-means 逐层聚类。每一层产生一个 code，前两层负责表达通用语义，剩余量化空间留给地理关系。
+
+#### 3.2 地理中心局部坐标映射
+对于语义簇内的 POI，ProGEO 计算地理中心，并把全球经纬度转换为相对该中心的距离和方向。局部坐标避免直接在全球坐标上建模，使同一语义簇中的邻近关系更容易被量化。
+
+#### 3.3 Geo-RoPE
+地理距离和方向被映射为正交旋转变换，作用于残差表示的不同维度。这样，表示内积会随相对空间关系变化，地理相近的 POI 更可能共享或接近特殊 geo code。
+
+#### 3.4 生成推荐与无效结果过滤
+用户意图和历史行为输入生成模型，模型输出 POI SID。由于 SID 中含有地理 code，系统可在生成后识别跨城配送等不可行结果；论文图示还展示了按用户位置返回可达商户的流程。
+
+### 实验结论
+
+- 在大规模工业数据集上，ProGEO 报告 Hit@50 提升 1.87%，平均地理聚类距离下降 45.60%。
+- 消融结果支持局部坐标、Geo-RoPE 和不同地理信息注入位置对推荐效果的贡献。
+- 案例和可视化显示，特殊地理码本能减少语义相关但跨城不可达的推荐。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 地理码本和跨城过滤依赖业务配送边界，跨平台和跨交通场景的通用性未验证。
+- 论文对动态地理边界、实时路网距离以及新增商户的 SID 更新机制报告有限。
+
+#### 研究定位
+
+ProGEO 适合放在“地理结构化语义标识”章节，代表通过专用码本和几何变换增强 SID 空间可行性的路线。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2604.23156)
+
+### 标签
+
+`地理码本` · `局部坐标系` · `Geo-RoPE` · `本地生活`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2604.23156)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用局部坐标和 Geo-RoPE 将邻近关系写入 SID。
+- 使用场景：本地生活与配送推荐。
+
+### Note: promise
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用过程奖励模型给中间解码步打分，并据此剪枝束搜索。
+
+### Note: psi
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+放宽最近质心分配，不追加非语义 token 也能得到唯一 SID。
+
+### Note: psrq
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
+
+### Note: q-bert4rec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+掩码预测下一物品的 SID，推理时在物品集合上取概率最大者，原文没有给出生成或解码 SID 的过程。
+
+### Note: r3-vae
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用参考向量和点积评分稳定残差量化训练，并给出不用训练生成模型的 SID 评估指标。
+
+### Note: recbase
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+推理时可逐位生成概念 ID，但实验按 AUC 对候选物品打分排序。
+
+### Note: recochain
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+束搜索生成候选 SID 后，再由排序头对候选打分重排。
+
+### Note: ros
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/ros.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### ROS：空间推理增强的生成式下一兴趣点推荐
+
+> ROS 将地理关系显式纳入下一 POI 推理过程，通过层次化空间 SID、移动思维链和空间引导强化学习生成可行地点。
+
+### 研究动机与问题定义
+
+下一 POI 不是普通的物品分类：用户兴趣、时间规律和空间可达性共同决定目的地。已有 LLM 推荐方法虽能生成 SID，却常把空间信息作为文本或单步条件，缺少显式的候选构造和可行性判断。ROS 将推荐建模为带空间约束的多阶段决策。
+
+### TL;DR（核心摘要）
+
+`坐标/网格/类别 → 空间SID → 用户画像与候选空间 → 移动CoT剪枝 → 生成POI SID`
+
+ROS 把 POI SID 分成地理前缀、语义锚点和区分性后缀。模型先通过双向对齐和序列预训练学习 SID 与地址/类别的对应关系，再用三步 Mobility CoT 建立用户画像、构造意图候选并进行局部性剪枝，最后用空间、SID 和格式奖励进行强化学习。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | GPS、S2 网格、POI 类别、地址、用户历史和时间 |
+| 信息融入位置 | SID 结构、预训练任务、思维链和强化学习奖励 |
+| 语义标识结构 | 层次化、定长离散序列 |
+| 适用场景 | 下一 POI、跨城市迁移和地理可行性推荐 |
+
+### 方法设计
+
+#### 2.1 问题形式化
+给定用户历史轨迹、时间和上下文，模型需要生成下一 POI 的完整 SID。与只预测一个标签不同，ROS 将生成过程拆为画像分析、候选空间构造和局部性筛选等有顺序的决策。
+
+#### 2.2 空间语义标识
+地理前缀由 GPS 映射到 S2 网格，再转换为层次化六边形 token；语义锚点由 POI 类别等文本信息经过编码和 RQ-VAE 量化得到；后缀用于区分同一地理和语义区域内的不同 POI。三者拼接为 Hierarchical Spatial SID。
+
+#### 2.2.2 SID 对齐预训练
+模型使用双向 SID-文本/地址对齐任务，使 SID 能预测 POI 的类别和地址，也使文本能恢复 SID。另一个序列预训练任务让模型学习移动轨迹中的时间、类别重复和邻域连续性。
+
+#### 2.3 Mobility CoT 推理
+第一步从历史轨迹提炼用户移动画像；第二步根据画像和当前上下文形成候选 POI 空间；第三步依据访问频率、时间和空间邻近性对候选进行局部性剪枝，再生成目标 SID。这种流程把地理可行性变成显式推理条件。
+
+#### 2.4 空间引导强化学习
+训练时从策略模型采样推理轨迹，奖励由空间距离、SID 层次匹配和格式合法性组成，并通过 GRPO 优化。层级 SID 奖励使正确的地理前缀和语义部分获得分层反馈。
+
+### 实验结论
+
+- 在三个 LBSN 数据集上，ROS 相比 LLM 基线取得更高命中率，论文报告相对提升超过 10%。
+- 移动 CoT 和空间奖励的消融支持显式候选构造与地理剪枝的作用。
+- 跨城市实验显示模型具有较好的迁移能力，但论文指出短时间长距离移动的交通先验仍未充分建模。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 当前地理可行性主要采用短时间内长距离移动不太可能的单调先验，可能低估地铁、高速等交通支持的远距离移动。
+- 多阶段思维链会增加生成 token 和推理成本，在线延迟比较未充分展开。
+
+#### 研究定位
+
+ROS 代表把“空间推理”引入 Semantic ID 生成推荐的路线，适合放在“推理增强与地理约束生成推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2601.04562)
+
+### 标签
+
+`空间推理` · `层次化SID` · `移动思维链` · `空间强化学习`
+
+### 架构图来源
+
+*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2601.04562)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：用移动思维链和空间奖励显式执行地理推理。
+- 使用场景：下一 POI、跨城市迁移。
+
 ### Note: rpg
 
 ## Positioning in the Problem × Stage Matrix
@@ -399,6 +3181,347 @@ Because the $M$ heads predict marginal distributions independently, naively pick
 
 1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $M$ sub-tokens given $\mathbf{h}_u$. Within the same cell (`V. Efficiency` $\times$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
 2. **Graph maintenance overhead**: Maintaining the item similarity graph $\mathcal{G}$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
+
+---
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/rpg.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### RPG：并行生成长语义标识
+
+> RPG 面向长语义标识的生成效率与质量问题，结合多 token 预测和标识图传播，实现更高效的推荐生成。
+
+### 研究动机与问题定义
+
+更长的 SID 能承载更细粒度语义，但自回归逐 token 生成会显著增加成本，且长序列误差更易累积。RPG 研究如何在保留长 SID 表达能力的同时进行并行预测和结构化解码。
+
+### TL;DR（核心摘要）
+
+`物品信息 → 长SID与相似图 → 多token训练 → 并行生成/图传播 → 推荐物品`
+
+RPG 为物品学习长语义标识，使用 multi-token prediction 同时学习多个位置，并根据 SID 相似关系构建图。推理时结合候选标识的图结构进行迭代传播，最后生成完整 SID 并映射物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 交互历史、物品语义和 SID 相似关系 |
+| 信息融入位置 | SID 构建、并行预测目标和解码图 |
+| 语义标识结构 | 长定长序列 |
+| 适用场景 | 长标识生成式推荐 |
+
+### 方法设计
+
+#### 2.1 长语义标识物品表示
+RPG 将物品表示为较长的层次化 SID，使不同 code 位置能够表达更细粒度的语义。长标识提升表达能力，但也带来序列长度、内存和自回归误差累积问题。
+
+#### 2.2 并行学习 SID 生成
+模型采用 multi-token prediction，同时预测多个 SID 位置，减少严格逐 token 训练的依赖。训练目标仍要求生成结果与目标 SID 一致，并通过语义表示和协同关系维持标识质量。
+
+#### 2.3 图结构辅助解码
+论文根据 SID 或物品相似关系构建图，在候选生成过程中传播相邻标识的信息。推理阶段先产生部分/并行候选，再利用图结构迭代补全和筛选，输出完整 SID。
+
+#### 2.4 讨论
+论文进一步讨论 SID 长度、运行内存、推理速度和冷启动。RPG 的核心是让长 SID 的表达收益不被自回归成本抵消。
+
+### 实验结论
+
+- RPG 在延长 SID 后仍能保持或提升推荐效果。
+- 并行生成降低了长标识带来的推理开销。
+- 冷启动分析显示语义标识对未见物品具有一定帮助。
+
+### 局限性与研究定位
+
+#### 局限性
+- 图构建和迭代传播增加了系统组件。
+- 长 SID 的词表、图规模与在线内存成本仍需更多工业验证。
+
+#### 研究定位
+RPG 的主要贡献是把长 SID 的表达能力与并行生成结合起来，适合放在“长语义标识与高效解码”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2506.05781)
+
+### 标签
+
+`长SID` · `并行生成` · `图传播` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：并行生成长语义标识。
+- 使用场景：长SID推荐。
+
+### Note: s2gr
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/s2gr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### S2GR：潜空间逐步语义引导推理
+
+> S2GR 在生成 SID 的每一步注入语义引导信号，使模型在潜空间中逐步缩小推荐候选范围。
+
+### 研究动机与问题定义
+
+传统生成器通常只在最终 SID 上接受监督，缺乏对中间 token 决策的细粒度引导。S2GR 研究如何利用 SID 层次结构在生成过程中表达逐步推理。
+
+### TL;DR（核心摘要）
+
+`交互图与物品内容 → 协同平衡RQ-VAE → 逐步语义引导 → 生成SID → 推荐物品`
+
+模型先构造物品共现图并学习兼顾协同关系和码本均衡的 RQ-VAE。生成时把逐步思考 token 插入 SID 序列，并用语义引导对齐监督中间状态；完整 SID 直接确定物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互、物品内容和物品共现图 |
+| 信息融入位置 | RQ-VAE、生成中间状态和对齐目标 |
+| 语义标识结构 | 层次化序列，交织推理 token |
+| 适用场景 | 常规和工业生成式推荐 |
+
+### 方法设计
+
+#### 4.1 协同与均衡 RQ-VAE
+S2GR 先根据物品共现构建协同图，并在 RQ-VAE 中加入码本均衡约束。量化器得到层次化 SID，同时减少 codeword 使用偏斜，为后续逐步推理提供稳定结构。
+
+#### 4.2 逐步语义引导推理
+模型把 thinking token 交织到 SID 生成过程中。每个 thinking token 对应一个层次或候选簇，生成器据此从粗粒度语义逐步缩小到细粒度 code；中间状态接受语义对齐监督。
+
+#### 4.3 训练与部署
+训练联合 next-item 生成、语义-行为对齐、码本均衡和逐步监督。推理时按层次顺序生成 thinking token 与 SID，最终完整标识直接映射到物品。论文还报告线上测试和不同规模分析。
+
+### 实验结论
+
+- 逐步语义引导提升了推荐效果。
+- 协同平衡量化和中间状态监督均有贡献。
+- 论文报告了工业线上测试结果。
+
+### 局限性与研究定位
+
+#### 局限性
+- 交织推理 token 增加序列长度与服务成本。
+- 工业线上收益的可复现细节有限。
+
+#### 研究定位
+S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放在“潜空间推理与结构化生成”章节。
+
+### 标签
+
+`潜空间推理` · `语义引导` · `协同量化` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图3。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：逐步语义引导潜空间推理。
+- 使用场景：工业推荐。
+
+### Note: seater
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+构造等长的平衡树状标识，并用对比学习建模标识结构。
+
+### Note: sidreasoner
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/sidreasoner.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### SIDReasoner：基于语义标识推理的生成式推荐
+
+> SIDReasoner 让语言模型在生成最终语义标识前显式推理用户偏好，以提升跨域和冷启动推荐能力。
+
+### 研究动机与问题定义
+
+直接预测 SID 容易把推荐当作模式匹配，难以利用物品语义和用户偏好之间的中间关系。SIDReasoner 将推理文本或结构化思考引入 SID 生成过程。
+
+### TL;DR（核心摘要）
+
+`用户历史与物品信息 → 对齐语料预训练 → 偏好推理 → 生成SID → 推荐物品`
+
+模型以语义标识为推荐目标，先通过丰富的对齐语料学习语义、行为和标识之间的关系，再使用冷启动推理激活与分组强化学习优化推理链。最终输出 SID 直接映射物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户行为、物品语义和跨域推荐数据 |
+| 信息融入位置 | 对齐语料、推理过程和强化学习奖励 |
+| 语义标识结构 | 推理序列后接多 token SID |
+| 适用场景 | 跨域、冷启动和常规推荐 |
+
+### 方法设计
+
+#### 3.1 任务形式化
+SIDReasoner 将推荐输出表示为语义标识，并要求模型在生成标识前形成与用户历史和物品语义相关的推理过程。推理文本和最终 SID 在同一生成任务中衔接。
+
+#### 3.2 丰富的 SID-语言对齐
+模型构造多种对齐语料，让 SID 能被翻译为物品语义、让物品内容能解释 SID，并同时学习行为序列预测。该阶段的作用是把离散标识嵌入语言模型的语义空间。
+
+#### 3.3 推理增强强化学习
+方法包含冷启动推理激活和分组强化学习。模型根据候选推理路径及最终推荐结果获得奖励，训练其生成更有依据的偏好分析，再输出目标 SID。
+
+#### 3.4 实验与分析
+论文评估跨域泛化、不同对齐策略、模型规模和强化学习设置，重点观察推理能力是否真正转化为推荐收益。
+
+### 实验结论
+
+- 推理增强改善了跨域推荐表现。
+- 丰富对齐语料、冷启动激活和强化学习均有独立贡献。
+
+### 局限性与研究定位
+
+#### 局限性
+- 推理文本会增加生成长度和推理成本。
+- 推理质量、奖励设计与真实用户意图之间仍可能存在偏差。
+
+#### 研究定位
+SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适合放在“推理增强生成式推荐”章节。
+
+### 标签
+
+`语义标识推理` · `强化学习` · `跨域泛化` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：在SID生成前进行偏好推理。
+- 使用场景：跨域与冷启动。
+
+### Note: siit
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+让 LLM 在训练中迭代修正自己的物品分词。
+
+### Note: stamp
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+输入侧裁掉冗余 SID token，输出侧加多步预测，提高训练效率。
+
+### Note: syngr
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+在生成阶段显式利用文本和图像之间的协同信息。
+
+### Note: think2go
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/think2go.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### Think2Go：带大语言模型推理的生成式下一兴趣点推荐
+
+> Think2Go 将监督微调和强化学习推理统一到自回归生成中，通过自纠错和自适应优势校准提升 LLM 对 POI SID 的理解。
+
+### 研究动机与问题定义
+
+用户移动轨迹具有稀疏、周期和多步空间规律，单步生成可能难以捕获深层意图。另一方面，独立训练的 SID 对 LLM 来说只是符号序列，模型未必理解 token 的类别和空间意义。Think2Go 研究如何让生成模型在输出下一 POI SID 前进行可控推理，并保持对行为模式的记忆。
+
+### TL;DR（核心摘要）
+
+`用户历史SID/时间 → Think → Self-Correct → Answer SID`
+
+Think2Go 在一个自回归框架中同时训练推理轨迹和最终答案。监督微调先教模型生成思考与 SID，强化学习再用答案奖励更新推理过程；Prompt epistemic uncertainty（提示认知不确定性）鼓励难例探索，reward-informed advantage scaling（奖励感知优势缩放）调节不同难度样本的更新幅度。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户历史 SID、时间信息和 POI 生成结果 |
+| 信息融入位置 | 推理提示、答案监督和奖励校准 |
+| 语义标识结构 | 多级离散序列 |
+| 适用场景 | 下一 POI、跨域泛化和推理增强推荐 |
+
+### 方法设计
+
+#### 4.1 模型架构
+模型接收带时间的用户历史和目标上下文，输出 reasoning、Self-Correct 和 Answer 三类 token。Answer 是最终 POI SID，reasoning 用于表达用户偏好和时空判断，Self-Correct 连接推理阶段与监督答案阶段。
+
+#### 4.2 自适应优势校准
+作者指出只用普通优势估计可能造成不同难度样本更新幅度相同，或因估计偏差抑制探索。Think2Go 用核密度估计当前提示与用户历史的时空周期匹配程度，得到提示认知不确定性，并据此调节优势权重。
+
+#### 4.2.2 奖励感知缩放
+奖励被相对于同组样本最大值归一化，用于缩放策略梯度。高价值且难度合适的样本得到更有效更新，减少噪声奖励导致的过拟合和策略熵塌缩。
+
+#### 4.2.3 规则奖励与训练目标
+规则奖励综合答案 SID 正确性、格式合法性和时空行为匹配。模型在自回归推理轨迹上计算奖励，并用校准后的策略优化目标更新；这种设计形成隐式课程学习。
+
+#### 附录：自纠错与零样本 SID 语义预测
+附录给出 Self-Correct 提示格式和零样本类别预测任务。模型在答案错误时生成修正建议；类别预测实验用于检查微调和强化学习后，SID 是否承载可恢复的语义信息。
+
+### 实验结论
+
+- 三个真实数据集上的实验显示 Think2Go 能提升生成式下一 POI 推荐效果和 SID 语义理解。
+- 优势校准、推理轨迹和自纠错的消融支持其对探索与训练稳定性的贡献。
+- 相比基于完整文本提示的推理方法，论文报告 Think2Go 在训练时间、测试时间和显存占用上更高效。
+
+### 局限性与研究定位
+
+#### 局限性
+
+- 推理轨迹增加输出长度和推理成本，效果与效率之间需要按场景权衡。
+- 规则奖励和核密度不确定性估计依赖数据分布，跨城市和极少行为用户的可靠性仍需验证。
+
+#### 研究定位
+
+Think2Go 适合放在“推理增强的语义标识生成推荐”章节，重点体现将 SID 理解、显式推理和自适应强化学习结合起来。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2607.28997)
+
+### 标签
+
+`下一兴趣点推荐` · `推理增强` · `强化学习` · `自纠错`
+
+### 架构图来源
+
+*图源：原论文，图1（[论文原文](https://arxiv.org/abs/2607.28997)）。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：统一 SFT、推理、自纠错与自适应强化学习。
+- 使用场景：下一 POI 推荐。
 
 ### Note: tiger
 
@@ -528,4 +3651,344 @@ $$\mathcal{L}_{\text{NTP}} = -\sum_{m=1}^{4} \log P_\theta\!\left(c_{t,m} \;\mid
 2. **Non-semantic collision suffix and invalid beams (`II. Uniqueness and Validity`)**: The trailing integer $c_4$ introduces an arbitrary suffix token and unconstrained beam search can emit unassigned 4-tuples; addressed by Sinkhorn/uniformity regularizers (`LETTER`, `MME-SID`) and prefix-tree constrained decoding (`C-Beam`).
 3. **Two-stage objective mismatch (`III. SID–Model Alignment`)**: The tokenizer is frozen (`Fixed`) before generator training; addressed by alternating or joint optimization (`ETEGRec`, `Align3GR`).
 4. **Sequential beam cost on long codes (`V. Efficiency`)**: Autoregressive decoding scales linearly with code length $M$ and beam width $B$; addressed by parallel multi-token prediction (`RPG`, `ACERec`, `SPRINT`) and speculative decoding (`AtSpeed`, `NEZHA`).
+
+---
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/tiger.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### TIGER：生成式检索推荐
+
+> TIGER 将物品内容压缩为层次化语义标识，并让 Transformer 直接生成下一件物品的完整标识，从而把序列推荐中的候选检索转化为生成任务。
+
+### 研究动机与问题定义
+
+论文将传统序列推荐中的 ANN/MIPS 候选检索改写为语义标识生成：Transformer 参数充当生成式索引，直接预测下一件物品。TIGER 是这一方向的早期代表工作，但其冷启动结果来自模拟的未见物品设置，并非真实线上动态目录验证。
+
+### TL;DR（核心摘要）
+
+`用户历史 → 物品语义标识 → T5 编码器-解码器 → 完整语义标识 → 查表得到推荐物品`
+
+首先，论文将物品标题、价格、品牌和类别输入 Sentence-T5，再用 RQ-VAE（残差量化变分自编码器）逐层量化内容向量，得到定长、层次化 Semantic ID；碰撞时追加后缀码字保证当前物品库中的唯一性。训练时将用户历史展开为语义标识序列，由 T5 风格编码器-解码器自回归生成下一物品的完整标识。在线使用束搜索生成候选，并通过冻结查表解析物品，不依赖独立召回器或精排器。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户交互历史，以及物品标题、价格、品牌和类别等文本化元数据 |
+| 信息融入位置 | 内容信息进入语义标识构建；交互历史和用户标识进入生成模型输入 |
+| 语义标识结构 | 定长、顺序化、层次化码字序列 |
+| 适用场景 | 常规序列推荐，以及基于内容编码的模拟物品冷启动 |
+
+### 方法设计
+
+#### 3.1 生成式检索任务（Generative Retrieval）
+TIGER 将下一物品预测改写为目标物品 Semantic ID 序列生成。用户历史先转换为对应 SID，T5 风格编码器读取历史序列，解码器逐 token 生成目标 SID；完整标识通过物品索引表解析为推荐物品。
+
+#### 3.2 物品标识学习（Item Tokenization）
+论文使用 RQ-VAE 将物品标题和描述的语义向量进行残差量化。不同量化层形成从粗到细的层次化 codeword，物品因此拥有固定长度的 SID。量化器通过重构损失和码本相关损失学习，训练完成后冻结用于推荐。
+
+#### 3.3 生成模型与推理（Generative Recommender）
+生成器以历史 SID 为输入进行自回归 next-item 训练。推理时使用束搜索，将生成的有效 SID 映射到物品形成 Top-K 结果。当前 Table 1 记录为 Beam。
+
+#### 3.4 实验相关设计
+论文进一步分析了 SID 长度、码本大小、无效标识和模拟冷启动。实验结果说明层次语义能帮助新物品表示，但动态物品更新并未成为完整在线方案。
+
+### 实验结论
+
+- 三个 Amazon 商品数据集上的 Recall/NDCG 均优于论文列出的比较基线。
+- RQ-VAE 语义标识优于 LSH 标识和随机标识，支持内容码字共享有助于推荐。
+- 模拟冷启动实验显示共享语义前缀可以推荐未见物品，温度采样可调节类别多样性。
+
+### 局限性与研究定位
+
+#### 局限性
+- 唯一性后缀不一定具有语义，模型也会生成少量无效标识。
+- 自回归束搜索可能比 ANN 检索更昂贵，论文未报告完整线上效率。
+- 数据集和冷启动协议较有限，动态新增物品与真实时间切分仍未验证。
+
+#### 研究定位
+TIGER 展示了直接生成 Semantic ID 作为推荐检索的可行性，并将 RQ-VAE 内容语义引入离散标识。它适合放在“语义标识构建”和“生成式推荐架构”章节；后续工作主要改进约束解码、效率和动态目录泛化。
+
+### 相关资源
+
+- [论文原文](https://papers.neurips.cc/paper_files/paper/2023/hash/20dcab0f14046a5c6b02b61da9f13229-Abstract-Conference.html)
+- [公开 PyTorch 实现（第三方）](https://github.com/baiyimeng/TIGER)
+
+### 标签
+
+`残差量化` · `语义标识` · `自回归生成` · `编码器-解码器` · `冷启动` · `束搜索`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：将内容表示转为可生成的层次化SID。
+- 使用场景：序列推荐、冷启动。
+
+### Note: tokenrec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/tokenrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### TokenRec：面向 LLM 生成推荐的 ID 分词
+
+> TokenRec 用掩码向量量化 tokenizer 将用户和物品 ID 转为多 token 表示，增强 LLM 对协同结构的建模能力。
+
+### 研究动机与问题定义
+
+原子 ID 缺乏语义且词表规模随物品数增长，多 token 表示又需要合理分配协同信息。TokenRec 学习 LLM 兼容的 ID tokenization，用于推荐表示与检索。
+
+### TL;DR（核心摘要）
+
+`交互图与ID → 多码本量化 → 用户/物品 token → 序列编码 → 全物品评分`
+
+方法用 K-way encoder 和掩码向量量化器学习物品 token，并用 K-to-1 decoder 重构原始表示；用户也可通过 MQ-tokenizer 表示。T5-small 编码用户表示，再与 GNN 物品表示计算余弦相似度，对全物品排序并取 Top-K。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户-物品交互与高阶协同结构 |
+| 信息融入位置 | 向量数据库、tokenizer 和生成输入 |
+| 语义标识结构 | K 个离散 token 的序列 |
+| 适用场景 | LLM 生成式推荐与新物品泛化 |
+
+### 方法设计
+
+#### 2-A 记号与整体框架
+TokenRec 将用户和物品表示为可组合的多 token code。用户 tokenizer 可将用户协同表示转成兼容 token；推荐模型使用这些表示完成检索。
+
+#### 2-B 掩码向量量化 tokenizer
+K-way encoder 为一个物品生成多个潜向量，掩码向量量化器从多个 codebook 中选择离散 token。K-to-1 decoder 重构原始表示，使不同 code 的组合仍保留协同信息，并通过高阶交互增强区分度。
+
+#### 2-C 推荐检索
+LLM（T5-small）编码用户表示，再与 GNN 物品表示计算余弦相似度，对全部物品排序取 Top-K，不逐码生成 SID（§II-D.3，p6，Eq. 17–19；§II-E.2，p7）。当前记录为 Encoder、Discrim.、Scoring。
+
+#### 2-D 效率与泛化
+论文分析新用户/物品、codebook 规模、效率和消融，重点说明多 token 表示相对原子 ID 的词表与泛化优势。
+
+### 实验结论
+
+- TokenRec 在多个数据集上改善了推荐效果。
+- 多码本 tokenizer 带来更好的效率与泛化能力。
+
+### 局限性与研究定位
+
+#### 局限性
+- 向量数据库与多码本维护增加工程依赖。
+- 动态用户/物品更新和大规模在线延迟仍需更多验证。
+
+#### 研究定位
+TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 物品分词与协同表示”章节。
+
+### 标签
+
+`多码本量化` · `ID分词` · `LLM推荐` · `生成式检索`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：学习可组合的协同ID token。
+- 使用场景：LLM推荐。
+
+### Note: trialigngr
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+把视觉语义编进 SID，并用视觉描述等多任务让模型理解 SID 的含义。
+
+### Note: unirec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+解码 SID 前先生成类目、商家、品牌等属性 token，补上物品侧的特征交叉。
+
+### Note: unitok
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用共享专家和领域专家码本，把多个领域的物品统一分词。
+
+### Note: utgrec
+
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用多模态大模型和树状码本构造跨领域通用的物品标识。
+
+### Note: v-star
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/vstar.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### V-STAR：价值引导结构化采样与优化
+
+> V-STAR 让生成式推荐把搜索预算集中到高价值分支，并联合学习价值模型与结构化解码策略。
+
+### 研究动机与问题定义
+
+束搜索会在大量低价值分支上浪费计算，单纯扩大搜索预算也未必改善推荐。V-STAR 研究如何使用价值估计选择值得继续探索的 SID 前缀。
+
+### TL;DR（核心摘要）
+
+`用户历史 → SID前缀搜索 → 价值模型 → 结构化采样 → 完整SID → 推荐物品`
+
+方法学习估计候选前缀价值的模型，提出 Value-Guided Efficient Decoding 选择搜索分支，并用 Sibling-GRPO 让策略从同层兄弟候选的相对价值中学习。生成完整 SID 后直接得到物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 用户历史、SID 前缀概率和候选价值 |
+| 信息融入位置 | 价值模型、解码选择和策略训练 |
+| 语义标识结构 | 层次化序列 |
+| 适用场景 | 搜索预算受限的生成式推荐 |
+
+### 方法设计
+
+#### 4.1 语义感知价值模型
+V-STAR 学习估计 SID 前缀在当前用户上下文下的推荐价值。价值模型同时参考生成概率、语义/协同表示和候选结果质量，为搜索过程提供比局部 token 概率更长程的判断。
+
+#### 4.2 价值引导高效解码
+VED 在树状 SID 空间中优先扩展高价值前缀，将有限搜索预算集中到更有希望的分支。它保留结构化约束，避免生成无法映射到物品的标识。
+
+#### 4.3 Sibling-GRPO
+Sibling-GRPO 将同一父节点下的兄弟候选组成相对比较组，用组内优势更新生成策略。这样模型能学习在局部结构中选择真正有价值的分支。
+
+#### 4.4 训练与测试
+V-STAR 形成解码-学习自演化闭环：解码器提供候选，价值模型评价候选，策略优化再改善解码。实验比较搜索预算、离线指标、线上效果和消融。
+
+### 实验结论
+
+- 价值引导解码在相同搜索预算下优于普通束搜索。
+- 价值模型与策略优化具有互补作用。
+
+### 局限性与研究定位
+
+#### 局限性
+- 额外价值模型和采样逻辑增加系统复杂度。
+- 价值估计误差可能导致高价值分支被错误剪枝。
+
+#### 研究定位
+V-STAR 的主要贡献是按候选价值分配生成搜索预算，适合放在“高效解码与搜索优化”章节。
+
+### 标签
+
+`价值引导解码` · `结构化采样` · `GRPO` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：按价值分配搜索预算。
+- 使用场景：高效解码。
+
+### Note: vq-rec
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/vqrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### VQ-Rec：可迁移序列推荐的向量量化物品表示
+
+> VQ-Rec 将物品文本编码为离散 code，再查表获得序列推荐器的物品表示，以提升跨域迁移能力。
+
+### 研究动机与问题定义
+
+传统物品 ID 与具体物品绑定，难以跨域迁移；直接使用文本又会让推荐器表示不稳定。VQ-Rec 关注的是可迁移的物品表示学习，而不是生成式检索。
+
+### TL;DR（核心摘要）
+
+`物品文本 → PLM表示 → 产品量化code → code embedding → 序列编码器评分`
+
+模型用固定 PLM 编码物品文本，再通过优化产品量化得到离散 code，并查表聚合为物品向量。推荐器使用该向量进行对比预训练和跨域微调，最终通过全物品评分排序，而非生成完整 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 物品文本、用户交互和跨域数据 |
+| 信息融入位置 | 物品表示和序列编码器输入 |
+| 语义标识结构 | 多维离散 code 向量 |
+| 适用场景 | 可迁移序列推荐 |
+
+### 方法设计
+
+#### 2.1 向量量化物品表示
+VQ-Rec 先用固定 BERT/PLM 把物品文本编码为向量，再用优化产品量化将向量拆分成多个离散 code。每个 code 维度有独立 codebook，多个 code 的 embedding 查表后平均得到物品表示。
+
+#### 2.2 对比式推荐器预训练
+模型构造真实下一物品、半合成负样本和混合域负样本，训练序列编码器区分它们。code embedding 表在该阶段学习，使离散表示能承载可迁移协同关系。
+
+#### 2.3 跨域推荐器微调
+迁移到目标域时，论文分别微调 code 与序列推荐器。文本到 code 的映射可在新物品上重新分配，推荐器则使用共享 code embedding 适应目标域。
+
+#### 2.4 讨论与范围
+VQ-Rec 最终通过序列编码器对物品进行全物品评分，而不是自回归生成完整 SID。因此它是语义/量化表示学习相关方法。
+
+### 实验结论
+
+- 量化 code 表示改善了跨域序列推荐和冷启动物品表现。
+- 对比预训练与跨域微调均有作用。
+
+### 局限性与研究定位
+
+#### 局限性
+- 不属于直接生成完整 SID 的生成式推荐方法。
+- 全物品评分需要维护物品表示并进行候选计算。
+
+#### 研究定位
+VQ-Rec 适合放在“语义标识生成式推荐的前置表示学习与相关工作”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2210.12316)
+
+### 标签
+
+`向量量化` · `可迁移推荐` · `产品量化` · `序列推荐`
+
+### 架构图来源
+
+*图源：原论文，图1（[论文原文](https://arxiv.org/abs/2210.12316)）。图片使用许可待核实。*
+
+---
+
+### 检索方式补充
+
+迁自 `d61aa6c:tables/boundary-and-excluded-methods.md` 的机制说明。
+
+量化 code 仅作为序列推荐器表示，最终依赖全物品评分。
+
+旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
 

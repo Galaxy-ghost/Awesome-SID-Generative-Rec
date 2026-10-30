@@ -7,11 +7,12 @@
 """
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
 import yaml
-from build import DEFAULT_TABLE1, ROOT, TECH_COLS, parse_table1_md, slugify_heading
+from build import ROOT, TECH_COLS, parse_table1_md, slugify_heading
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
 
@@ -155,7 +156,7 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
                 anchors.add(slugify_heading(h_clean))
         headings_cache[mf.resolve()] = anchors
 
-    link_pat = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
+    link_pat = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
     for mf in md_files:
         if not mf.exists():
             continue
@@ -177,7 +178,7 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
-    ap.add_argument("--table1", type=Path, default=DEFAULT_TABLE1)
+    ap.add_argument("--table1", type=Path, default=os.environ.get("TABLE1"), help="External Table 1 source (or TABLE1)")
     args = ap.parse_args()
 
     schema = json.loads((args.root / "schema/paper.schema.json").read_text(encoding="utf-8"))
@@ -186,7 +187,10 @@ def main():
 
     records = check_schema_and_vocab(args.root, schema, vocab, errors)
     check_uniqueness(records, errors)
-    check_table1_roundtrip(records, args.table1, errors)
+    if args.table1 is not None:
+        check_table1_roundtrip(records, args.table1, errors)
+    else:
+        print("SKIP: external Table 1 round-trip (supply --table1 PATH or TABLE1).")
     check_links_and_content_rules(args.root, vocab, errors)
 
     if errors:
@@ -197,7 +201,8 @@ def main():
 
     print(
         f"OK: {len(records)} records passed schema, vocab, uniqueness, "
-        f"Table 1 round-trip ({len(records) * 8} cells), and relative link checks."
+        f"relative link checks."
+        + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if args.table1 is not None else "")
     )
 
 

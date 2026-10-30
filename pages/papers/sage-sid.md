@@ -16,7 +16,7 @@
 | **Backbone** | `Dec-Only†` |  |
 | **Tokenizer Training** | `Fixed†` |  |
 | **Training Objective** | `NTP → RL` | NTP, then reinforcement learning (GRPO, GBPO, etc.). |
-| **Inference Decoding** | `Beam†` |  |
+| **Inference Decoding** | `–` | Not reported in the paper. |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
 | **Code Repository** | Not reported | Official or public implementation link |
 

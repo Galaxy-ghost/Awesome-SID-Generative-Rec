@@ -14,7 +14,7 @@
 | **Representation** | `–` | Not reported in the paper, or not applicable. |
 | **Tokenization** | `Multi-Path R-KM+Hash` | 多路径残差kmeans加末层非语义hash，首层多中心后续逐条残差。 |
 | **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `–` | No SID is built. |
+| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
 | **Training Objective** | `NTP + PV-RSPO + Rank + Aux.` | 多路径SID NTP与prefix-value listwise RSPO、eCPM LambdaLoss、行为深度ordinal loss及粗原型辅助监督在共享模型中联合训练。 |
 | **Inference Decoding** | `PV-Beam+Rerank` | Prefix-Value-aware Beam Search加共享模型判别重排。 |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |

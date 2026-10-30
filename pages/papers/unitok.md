@@ -26,6 +26,12 @@
 - **`tokenizer`** (p5): Location from the pre-10-26 Training evidence in the appendix.
 - **`objective`** (p5): Location from the pre-10-26 Training evidence in the appendix.
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用共享专家和领域专家码本，把多个领域的物品统一分词。
+
 ## Peer Methods in `VI. Generalization` × `Tokenization` (8 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
@@ -37,4 +43,4 @@
 | [DREAM](dream.md) | arXiv’26 | `Text+CF` | `CART` | `Dec-Only` | `Altern.` | `NTP + Aux.` | `C-Beam` |
 | [GenCDR](gencdr.md) | AAAI’26 | `Cross-Dom` | `RQ+LoRA` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
 | [MBGR](mbgr.md) | arXiv’26 | `Text+CF` | `RQ` | `Dec-Only` | `Fixed†` | `NTP + Aux.` | `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` | `R-KM` | `Lazy Dec-Only` | `Fixed` | `NTP + RL` | `Beam` |
+| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` | `R-KM` | `Lazy Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |

@@ -26,6 +26,12 @@
 - **`tokenizer`** (p5): Location from the 10-26 'Training split' table in the appendix.
 - **`objective`** (p5): Location from the 10-26 'Training split' table in the appendix.
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+先生成稀疏 ID，再生成稠密向量并在该 ID 下做近邻检索，用 BeamFusion 融合两种分数排序。
+
 ## Peer Methods in `I. Informativeness` × `Backbone` (6 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

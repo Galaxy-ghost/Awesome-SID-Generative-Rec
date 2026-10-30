@@ -14,13 +14,13 @@
 | **Representation** | `Text+Img+CF` |  |
 | **Tokenization** | `R-KM+FSQ` | 前两层残差 k-means，末层有限标量量化消歧。 |
 | **Backbone** | `Enc-Dec` | Encoder-decoder. |
-| **Tokenizer Training** | `–` | No SID is built. |
-| **Training Objective** | `(NTP + Ctr.) → (NTP + Ctr. + RL)` | 前阶段联合下一 token 与对比学习 |
+| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
+| **Training Objective** | `(NTP + Ctr.) → RL` | 先联合 NTP 与 in-batch contrastive，随后加入 RL。RL 阶段仍联合原两损失；箭头右侧只标新增 RL，不重复写保留的 NTP/Ctr.。 |
 | **Inference Decoding** | `Beam` |  |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
 | **Code Repository** | Not reported | Official or public implementation link |
 
-## Peer Methods in `Paradigms, Systems and Benchmarks` × `n/a` (12 peers)
+## Peer Methods in `Paradigms, Systems and Benchmarks` × `n/a` (11 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -35,4 +35,3 @@
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Multi-task NTP` | `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` | `R-KM†` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+Greedy` |
 | [SIDScope](sidscope.md) | arXiv’26 | `–` | `–` | `–` | `–` | `–` | `–` |
-| [TransX-GenRet](transx-genret.md) | arXiv’26 | `–` | `H-KM` | `Enc-Dec` | `Fixed` | `NTP → (NTP + DPO)` | `C-Beam` |

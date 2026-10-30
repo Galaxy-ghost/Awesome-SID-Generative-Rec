@@ -14,7 +14,7 @@
 | **Representation** | `–` | Not reported in the paper, or not applicable. |
 | **Tokenization** | `RQ-VAE` |  |
 | **Backbone** | `Dec-Only` | Decoder-only. |
-| **Tokenizer Training** | `–` | No SID is built. |
+| **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
 | **Training Objective** | `Discrim.` | Scores items; does not generate SIDs. |
 | **Inference Decoding** | `Scoring` |  |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |

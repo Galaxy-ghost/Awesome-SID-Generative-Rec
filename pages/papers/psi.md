@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "suffer from semantic ID conflicts".
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+放宽最近质心分配，不追加非语义 token 也能得到唯一 SID。
+
 ## Peer Methods in `II. Uniqueness and Validity` × `Tokenization` (11 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

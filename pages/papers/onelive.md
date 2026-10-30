@@ -15,7 +15,7 @@
 | **Tokenization** | `R-KM` | Residual k-means. |
 | **Backbone** | `Lazy Dec-Only` | The paper's Lazy Decoder-Only architecture (OneRec-V2). |
 | **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
-| **Training Objective** | `NTP + RL` | 条件逐码预测NLL与RL损失在同一优化阶段联合 |
+| **Training Objective** | `NTP → RL` | NTP, then reinforcement learning (GRPO, GBPO, etc.). |
 | **Inference Decoding** | `Beam` |  |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
 | **Code Repository** | Not reported | Official or public implementation link |

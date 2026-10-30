@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "aligning the generative policy with nuanced user preference signals". Candidates: IV / V (rule: IV threshold: a flawed training objective counts).
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+按页做下一 token 预测，压缩输入侧的多 token SID，并做偏好对齐。
+
 ## Peer Methods in `IV. Utility` × `Training` (21 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
@@ -42,7 +48,7 @@
 | [NAU](nau.md) | arXiv’26 | `–` | `R-KM` | `Enc-Dec†` | `Fixed` | `NTP + Aux.` | `–` |
 | [OneChord](onechord.md) | arXiv’26 | `–` | `Par. OPQ` | `Non-AR` | `Fixed` | `Next-item CE + Cons. KD + Rank KD` | `Scoring` |
 | [Retrieval-Grounded-Credit](retrieval-grounded-credit.md) | arXiv’26 | `Text†` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+C-Beam` |
-| [SAGE-SID](sage-sid.md) | arXiv’26 | `Text+Img†` | `R-KM†` | `Dec-Only†` | `Fixed†` | `NTP → RL` | `Beam†` |
+| [SAGE-SID](sage-sid.md) | arXiv’26 | `Text+Img†` | `R-KM†` | `Dec-Only†` | `Fixed†` | `NTP → RL` | `–` |
 | [SAHL](sahl.md) | arXiv’26 | `Text` | `SRBQ` | `Non-AR` | `Fixed` | `(MTP + Masked Rec.) → MTP` | `Graph` |
 | [SAPO](sapo.md) | arXiv’26 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP → RL` | `CoT+C-Beam` |
 | [SLIDE](slide.md) | arXiv’26 | `–` | `–` | `Dec-Only` | `Fixed` | `NTP` | `Greedy` |

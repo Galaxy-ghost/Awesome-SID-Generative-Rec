@@ -12,7 +12,7 @@ stage: Training
 representation: MM
 tokenization: R-KM
 backbone: Dec-Only
-tokenizer: –
+tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false

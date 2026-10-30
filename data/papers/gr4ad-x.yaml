@@ -12,7 +12,7 @@ stage: Tokenization
 representation: –
 tokenization: Multi-Path R-KM+Hash
 backbone: Enc-Dec
-tokenizer: –
+tokenizer: Fixed
 objective: NTP + PV-RSPO + Rank + Aux.
 inference: PV-Beam+Rerank
 poi: false

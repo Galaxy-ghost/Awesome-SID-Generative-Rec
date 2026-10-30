@@ -26,4 +26,4 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | [RecBase](recbase.md) | EMNLP’25 | `Text` | `Curr. RQ` | `Dec-Only` | `Fixed` | `NTP` | `Beam` |
 | [CausalDPO](causaldpo.md) | ICML’26 | `Text` | `LLM-Vocab` | `Dec-Only` | `Fixed` | `NTP → DPO` | `Scoring` |
-| [CMRec](cmrec.md) | CIKM’26 Short | `Text + Img + CF` | `RQ-VAE` | `Dec-Only†` | `–` | `NTP` | `–` |
+| [CMRec](cmrec.md) | CIKM’26 Short | `Text+Img+CF` | `RQ-VAE` | `Dec-Only†` | `–` | `NTP` | `–` |

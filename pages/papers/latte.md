@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "making it difficult to distinguish among them based on user-specific preferences".
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+指出逐码解码树限制了表达能力，在每个 SID 前插入潜 token 重塑解码空间。
+
 ## Peer Methods in `III. SID–Model Alignment` × `Backbone` (8 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

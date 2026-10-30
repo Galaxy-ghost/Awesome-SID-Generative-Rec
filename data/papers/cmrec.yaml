@@ -9,7 +9,7 @@ links:
   code: null
 problem: VI
 stage: Training
-representation: Text + Img + CF
+representation: Text+Img+CF
 tokenization: RQ-VAE
 backbone: Dec-Only†
 tokenizer: –

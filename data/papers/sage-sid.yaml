@@ -14,6 +14,6 @@ tokenization: R-KM†
 backbone: Dec-Only†
 tokenizer: Fixed†
 objective: NTP → RL
-inference: Beam†
+inference: –
 poi: false
 summary: 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。

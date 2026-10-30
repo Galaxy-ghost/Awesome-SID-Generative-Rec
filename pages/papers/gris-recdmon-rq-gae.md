@@ -11,7 +11,7 @@
 | **Authors & Year** | Medvedev et al. (2026) | Published / posted in `CIKM’26` |
 | **Problem Band** | `I. Informativeness` | Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | **Primary Stage** | `Tokenization` | The primary design change sits in the Tokenization stage. |
-| **Representation** | `Text + CF` | Item text embeddings plus collaborative graph edges (GrIS). |
+| **Representation** | `Text+CF` |  |
 | **Tokenization** | `RecDMoN / RQ-VAE` | 本篇两个替代构码实例：recursive DMoN graph partition path |
 | **Backbone** | `Enc-Dec` | Encoder-decoder. |
 | **Tokenizer Training** | `Fixed` | SIDs are built first and not changed while the generator trains. |
@@ -56,4 +56,4 @@
 | [Tlow](tlow.md) | CIKM’26 Applied | `Text` | `Flow+PQ` | `Non-AR` | `Fixed` | `MTP + Rel.MSE` | `Scoring` |
 | [UniRec](unirec.md) | arXiv’26 | `Text+CF` | `RQ` | `Dec-Only` | `Fixed` | `NTP → DPO` | `C-Beam` |
 | [UniSID](unisid.md) | arXiv’26 | `Text+Img+Attr` | `Direct SID Heads` | `–` | `–` | `–` | `–` |
-| [VarLenRec（TIGER）](varlenrec-tiger.md) | arXiv’26 | `Text` | `HARQ` | `Enc-Dec` | `Fixed` | `NTP + Aux.` | `C-Beam` |
+| [VarLenRec (TIGER)](varlenrec-tiger.md) | arXiv’26 | `Text` | `HARQ` | `Enc-Dec` | `Fixed` | `NTP + Aux.` | `C-Beam` |

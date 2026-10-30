@@ -13,7 +13,7 @@ representation: Text+Img+Audio+CF
 tokenization: R-KM
 backbone: Lazy Dec-Only
 tokenizer: Fixed
-objective: NTP + RL
+objective: NTP → RL
 inference: Beam
 poi: false
 summary: 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。

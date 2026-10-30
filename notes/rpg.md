@@ -98,3 +98,82 @@ Because the $M$ heads predict marginal distributions independently, naively pick
 
 1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $M$ sub-tokens given $\mathbf{h}_u$. Within the same cell (`V. Efficiency` $\times$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
 2. **Graph maintenance overhead**: Maintaining the item similarity graph $\mathcal{G}$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
+
+---
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/rpg.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### RPG：并行生成长语义标识
+
+> RPG 面向长语义标识的生成效率与质量问题，结合多 token 预测和标识图传播，实现更高效的推荐生成。
+
+### 研究动机与问题定义
+
+更长的 SID 能承载更细粒度语义，但自回归逐 token 生成会显著增加成本，且长序列误差更易累积。RPG 研究如何在保留长 SID 表达能力的同时进行并行预测和结构化解码。
+
+### TL;DR（核心摘要）
+
+`物品信息 → 长SID与相似图 → 多token训练 → 并行生成/图传播 → 推荐物品`
+
+RPG 为物品学习长语义标识，使用 multi-token prediction 同时学习多个位置，并根据 SID 相似关系构建图。推理时结合候选标识的图结构进行迭代传播，最后生成完整 SID 并映射物品。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 交互历史、物品语义和 SID 相似关系 |
+| 信息融入位置 | SID 构建、并行预测目标和解码图 |
+| 语义标识结构 | 长定长序列 |
+| 适用场景 | 长标识生成式推荐 |
+
+### 方法设计
+
+#### 2.1 长语义标识物品表示
+RPG 将物品表示为较长的层次化 SID，使不同 code 位置能够表达更细粒度的语义。长标识提升表达能力，但也带来序列长度、内存和自回归误差累积问题。
+
+#### 2.2 并行学习 SID 生成
+模型采用 multi-token prediction，同时预测多个 SID 位置，减少严格逐 token 训练的依赖。训练目标仍要求生成结果与目标 SID 一致，并通过语义表示和协同关系维持标识质量。
+
+#### 2.3 图结构辅助解码
+论文根据 SID 或物品相似关系构建图，在候选生成过程中传播相邻标识的信息。推理阶段先产生部分/并行候选，再利用图结构迭代补全和筛选，输出完整 SID。
+
+#### 2.4 讨论
+论文进一步讨论 SID 长度、运行内存、推理速度和冷启动。RPG 的核心是让长 SID 的表达收益不被自回归成本抵消。
+
+### 实验结论
+
+- RPG 在延长 SID 后仍能保持或提升推荐效果。
+- 并行生成降低了长标识带来的推理开销。
+- 冷启动分析显示语义标识对未见物品具有一定帮助。
+
+### 局限性与研究定位
+
+#### 局限性
+- 图构建和迭代传播增加了系统组件。
+- 长 SID 的词表、图规模与在线内存成本仍需更多工业验证。
+
+#### 研究定位
+RPG 的主要贡献是把长 SID 的表达能力与并行生成结合起来，适合放在“长语义标识与高效解码”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2506.05781)
+
+### 标签
+
+`长SID` · `并行生成` · `图传播` · `生成式推荐`
+
+### 架构图来源
+
+*图源：原论文，图1。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：并行生成长语义标识。
+- 使用场景：长SID推荐。

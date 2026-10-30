@@ -13,7 +13,7 @@ representation: Text+Img+CF
 tokenization: RQ-VAE
 backbone: Dec-Only
 tokenizer: –
-objective: NTP → (NTP + DPO)
+objective: NTP → DPO
 inference: Div. C-Beam
 poi: false
 summary: Generative retrieval replaces nearest-neighbor search with token-by-token decoding of an item's semantic ID (SID).

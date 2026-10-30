@@ -20,9 +20,89 @@
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
 | **Code Repository** | Not reported | Official or public implementation link |
 
+## Architecture
+
+![GMC architecture diagram](../../architectures/gmc.png)
+
 ## Verbatim Evidence & Rationale
 
 - **`problem`** (arXiv abstract): Abstract: "may be unavailable in non-overlapped recommendation scenarios".
+
+## 旧卡片说明
+
+迁自 `d61aa6c:papers/gmc.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+
+### GMC：生成式多目标跨域推荐
+
+> GMC 以共享语义标识连接多个推荐领域，并通过领域对比学习和域特定 LoRA 同时生成不同领域的推荐结果。
+
+### 研究动机与问题定义
+
+多目标跨域推荐需要从多个领域的行为中迁移知识，但领域间物品通常不重叠，传统 ID 难以建立共享空间。GMC 将物品文本转为跨域共享的语义 token，并统一训练生成器。
+
+### TL;DR（核心摘要）
+
+`多域文本 → 共享RQ-VAE SID → 统一生成器 → 域特定LoRA → 多域推荐物品`
+
+GMC 使用 LLM 文本表示和 RQ-VAE 构造共享语义标识，并以领域对比损失拉近域内物品、区分跨域物品。统一推荐器在所有领域上训练，再为各领域加入 LoRA 适配器，直接自回归生成目标 SID。
+
+### 输入与使用场景
+
+| 方面 | 说明 |
+|---|---|
+| 使用信息 | 多域物品文本和用户交互 |
+| 信息融入位置 | SID 量化、领域对比目标和生成训练 |
+| 语义标识结构 | 跨域共享定长序列 |
+| 适用场景 | 多目标跨域推荐 |
+
+### 方法设计
+
+#### 3.1 任务定义与总体流程
+GMC 研究多个领域同时存在多个推荐目标的场景。方法分为语义标识学习、统一推荐器训练和领域特定微调三个步骤，核心是让不同领域共享可生成的 SID。
+
+#### 3.2 语义标识学习
+LLM 将物品文本编码为语义向量，统一 RQ-VAE 生成跨域共享的多级标识。领域对比损失拉近同领域物品表示并区分跨领域表示，同时保持 codeword 可共享。
+
+#### 3.3 统一推荐器训练
+所有领域的交互序列先替换为 SID，再用 Transformer 统一训练 next-item 生成。共享 SID 使不同领域的推荐模式可以在同一生成词表中迁移。
+
+#### 3.4 领域特定微调
+冻结统一推荐器后，为各领域加入 LoRA，并通过域内拉近、域间区分的目标适配领域偏好。最终生成器直接预测各领域目标 SID，完成多目标推荐。
+
+### 实验结论
+
+- GMC 在多目标跨域设置中优于论文列出的传统、预训练和生成式基线。
+- 共享 SID、领域对比损失和域特定适配均有贡献。
+
+### 局限性与研究定位
+
+#### 局限性
+- 多领域适配器和统一词表增加管理成本。
+- 论文主要依赖离线文本表示，动态内容和开放物品验证有限。
+
+#### 研究定位
+GMC 的核心贡献是用共享 SID 作为多目标跨域知识桥梁，适合放在“跨域生成式推荐”章节。
+
+### 相关资源
+
+- [论文原文](https://arxiv.org/abs/2507.12871)
+
+### 标签
+
+`多目标跨域` · `共享SID` · `领域对比学习` · `LoRA`
+
+### 架构图来源
+
+*图源：原论文，图2。图片使用许可待核实。*
+
+---
+
+### 旧总表补充
+
+来源：`d61aa6c:tables/all-methods.md`。
+
+- 核心贡献：以共享SID统一多目标跨域推荐。
+- 使用场景：多目标跨域。
 
 ## Peer Methods in `VI. Generalization` × `Tokenization` (8 peers)
 
@@ -34,5 +114,5 @@
 | [DREAM](dream.md) | arXiv’26 | `Text+CF` | `CART` | `Dec-Only` | `Altern.` | `NTP + Aux.` | `C-Beam` |
 | [GenCDR](gencdr.md) | AAAI’26 | `Cross-Dom` | `RQ+LoRA` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
 | [MBGR](mbgr.md) | arXiv’26 | `Text+CF` | `RQ` | `Dec-Only` | `Fixed†` | `NTP + Aux.` | `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` | `R-KM` | `Lazy Dec-Only` | `Fixed` | `NTP + RL` | `Beam` |
+| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` | `R-KM` | `Lazy Dec-Only` | `Fixed` | `NTP → RL` | `Beam` |
 | [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` | `TokenMoE` | `Enc-Dec` | `Fixed` | `NTP` | `Beam†` |

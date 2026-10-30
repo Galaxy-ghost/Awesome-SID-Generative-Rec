@@ -15,7 +15,7 @@
 | **Tokenization** | `RQ-VAE` |  |
 | **Backbone** | `Dec-Only` | Decoder-only. |
 | **Tokenizer Training** | `–` | No SID is built. |
-| **Training Objective** | `NTP → (NTP + DPO)` | 先SID CE预训练 |
+| **Training Objective** | `NTP → DPO` | NTP, then preference optimization. |
 | **Inference Decoding** | `Div. C-Beam` | 层次prefix相似性惩罚的多样化trie约束束搜索。 |
 | **POI / Local-Life** | `false` | Point-of-interest / geographic recommendation indicator |
 | **Code Repository** | Not reported | Official or public implementation link |
@@ -28,8 +28,8 @@
 | [RPG](rpg.md) | KDD’25 | `Text+Img` | `Par. OPQ` | `Non-AR` | `Fixed` | `MTP` | `Graph` |
 | [ACERec](acerec.md) | arXiv’26 | `Text` | `Par. OPQ` | `Non-AR` | `Fixed` | `MTP + Ctr. + Aux.` | `Scoring` |
 | [Deco](deco.md) | arXiv’26 | `Text / –` | `R-KM` | `Dec-Only` | `Fixed` | `NTP + Aux.` | `C-Beam` |
-| [IBA](iba.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `–` | `NTP → (NTP + Aux.)` | `C-Beam` |
-| [LoopGR](loopgr.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `–` | `NTP / NTP + Aux.` | `–` |
+| [IBA](iba.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP → (NTP + Aux.)` | `C-Beam` |
+| [LoopGR](loopgr.md) | arXiv’26 | `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed` | `NTP / NTP + Aux.` | `–` |
 | [Merge-and-Branch](merge-and-branch.md) | arXiv’26 | `Text` | `RQ-VAE` | `Dec-Only` | `Fixed` | `NTP` | `C-Beam` |
 | [SID-MLP](sid-mlp.md) | arXiv’26 | `Text` | `RQ-VAE†` | `Enc-MLP` | `Fixed` | `NTP + Aux.` | `C-Beam` |
 | [SPRINT](sprint.md) | arXiv’26 | `Text` | `Par. OPQ` | `Non-AR` | `Fixed` | `Dual-level Flow Ctr.` | `Scoring` |

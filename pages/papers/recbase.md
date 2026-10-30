@@ -24,10 +24,16 @@
 
 - **`problem`** (arXiv abstract): Abstract: "cross-domain generalization is hindered by a fundamental mismatch between language-centric pretraining and the recommendation task".
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+推理时可逐位生成概念 ID，但实验按 AUC 对候选物品打分排序。
+
 ## Peer Methods in `VI. Generalization` × `Training` (3 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | [AWARE](aware.md) | arXiv’26 | `Text+Geo` | `Geo-Prefix+HClus` | `Dec-Only` | `Fixed` | `NTP` | `–` |
 | [CausalDPO](causaldpo.md) | ICML’26 | `Text` | `LLM-Vocab` | `Dec-Only` | `Fixed` | `NTP → DPO` | `Scoring` |
-| [CMRec](cmrec.md) | CIKM’26 Short | `Text + Img + CF` | `RQ-VAE` | `Dec-Only†` | `–` | `NTP` | `–` |
+| [CMRec](cmrec.md) | CIKM’26 Short | `Text+Img+CF` | `RQ-VAE` | `Dec-Only†` | `–` | `NTP` | `–` |

@@ -9,7 +9,7 @@ links:
   code: null
 problem: I
 stage: Tokenization
-representation: Text + CF
+representation: Text+CF
 tokenization: RecDMoN / RQ-VAE
 backbone: Enc-Dec
 tokenizer: Fixed

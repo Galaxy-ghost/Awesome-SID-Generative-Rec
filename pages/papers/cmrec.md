@@ -11,7 +11,7 @@
 | **Authors & Year** | Gao et al. (2026) | Published / posted in `CIKM’26 Short` |
 | **Problem Band** | `VI. Generalization` | Does it still work for new items, new domains, and shifting interests? |
 | **Primary Stage** | `Training` | The primary design change sits in the Training stage (Tokenizer update schedule or training Objective). |
-| **Representation** | `Text + Img + CF` | Multimodal text and image embeddings aligned with collaborative interactions (CMRec). |
+| **Representation** | `Text+Img+CF` |  |
 | **Tokenization** | `RQ-VAE` |  |
 | **Backbone** | `Dec-Only†` |  |
 | **Tokenizer Training** | `–` | No SID is built. |

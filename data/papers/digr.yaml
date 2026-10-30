@@ -12,7 +12,7 @@ stage: Backbone
 representation: –
 tokenization: RQ-VAE
 backbone: Dec-Only
-tokenizer: –
+tokenizer: Fixed
 objective: Discrim.
 inference: Scoring
 poi: false

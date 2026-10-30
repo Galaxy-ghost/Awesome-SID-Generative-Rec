@@ -296,8 +296,8 @@ tokenizer:
 objective:
 - value: (MTP + Masked Rec.) → MTP
   description: 并行下一物品码预测CE与多粒度历史掩码重建CE联合训练，课程最后关闭重建、保留纯下一物品预测。
-- value: (NTP + Ctr.) → (NTP + Ctr. + RL)
-  description: 前阶段联合下一 token 与对比学习
+- value: (NTP + Ctr.) → RL
+  description: 先联合 NTP 与 in-batch contrastive，随后加入 RL。RL 阶段仍联合原两损失；箭头右侧只标新增 RL，不重复写保留的 NTP/Ctr.。
 - value: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
   description: 初始化A/B=TIGER/REG4Rec：前者NTP、后者NTP+category辅助监督，按点名继承标†
 - value: Discrim.

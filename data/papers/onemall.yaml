@@ -12,8 +12,8 @@ stage: n/a
 representation: Text+Img+CF
 tokenization: R-KM+FSQ
 backbone: Enc-Dec
-tokenizer: –
-objective: (NTP + Ctr.) → (NTP + Ctr. + RL)
+tokenizer: Fixed
+objective: (NTP + Ctr.) → RL
 inference: Beam
 poi: false
 summary: End-to-end paradigm or benchmark using R-KM+FSQ tokenization and Enc-Dec backbone.

@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment, where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by the majority of new designs).
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+用参考向量和点积评分稳定残差量化训练，并给出不用训练生成模型的 SID 评估指标。
+
 ## Peer Methods in `II. Uniqueness and Validity` × `Tokenization` (11 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

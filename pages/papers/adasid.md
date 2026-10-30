@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "effective SID learning is hindered by collisions".
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+按碰撞情况自适应地学习多模态 SID，替代静态的碰撞处理。
+
 ## Peer Methods in `II. Uniqueness and Validity` × `Tokenization` (11 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

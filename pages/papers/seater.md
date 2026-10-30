@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+构造等长的平衡树状标识，并用对比学习建模标识结构。
+
 ## Peer Methods in `V. Efficiency` × `Tokenization` (2 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

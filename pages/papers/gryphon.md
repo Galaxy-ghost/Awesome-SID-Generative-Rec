@@ -24,5 +24,5 @@
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [DiGR](digr.md) | arXiv’26 | `–` | `RQ-VAE` | `Dec-Only` | `–` | `Discrim.` | `Scoring` |
+| [DiGR](digr.md) | arXiv’26 | `–` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Discrim.` | `Scoring` |
 | [RecoChain](recochain.md) | arXiv’26 | `Text+Img` | `RQ` | `Dec-Only` | `Fixed` | `NTP + Rank` | `Hybrid` |

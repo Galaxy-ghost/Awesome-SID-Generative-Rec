@@ -12,7 +12,7 @@ stage: Backbone
 representation: Text
 tokenization: RQ-VAE
 backbone: Enc-Dec
-tokenizer: –
+tokenizer: Fixed
 objective: NTP / NTP + Aux.
 inference: –
 poi: false

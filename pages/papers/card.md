@@ -24,6 +24,12 @@
 
 - **`problem`** (arXiv abstract): Abstract: "provides insufficient supervision for heterogeneous fusion"; "non-uniform embeddings lead to codeword imbalance and generation bias". Candidates: I / II (rule: tie broken by the title).
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+把文本、图像和协同信号统一成视觉语义单元，再用非均匀 RQ-VAE 缓解码字分布不均。
+
 ## Peer Methods in `II. Uniqueness and Validity` × `Tokenization` (11 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |

@@ -3,12 +3,12 @@
 or synchronize Table 1 columns from Table1_扩展版.md (--sync-table1).
 """
 import argparse
+import os
 import re
 from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_TABLE1 = Path("/home/shinax/Project/SID-Survey/材料/Table1_扩展版.md")
 TECH_COLS = ["representation", "tokenization", "backbone", "tokenizer", "objective", "inference"]
 STAGE_MAP = [
     (2, "Representation", "representation"),
@@ -94,27 +94,23 @@ def parse_table1_md(md_path: Path):
 
 def sync_table1(root: Path, md_path: Path):
     rows = parse_table1_md(md_path)
-    by_name = {}
+    by_name, by_id, retained = {}, {}, set()
     for p in sorted((root / "data/papers").glob("*.yaml")):
         d = yaml.safe_load(p.read_text(encoding="utf-8"))
         by_name[d["name"]] = (p, d)
+        by_id[d["id"]] = (p, d)
     for r in rows:
+        pid = re.sub(r"[^a-z0-9]+", "-", r["name"].lower()).strip("-")
         if r["name"] in by_name:
             p, d = by_name[r["name"]]
+        elif pid in by_id:
+            p, d = by_id[pid]
         else:
-            pid = re.sub(r"[^a-z0-9]+", "-", r["name"].lower()).strip("-")
             p = root / "data/papers" / f"{pid}.yaml"
             d = {
                 "id": pid,
-                "name": r["name"],
                 "title": r["name"],
-                "authors": r["authors"],
-                "year": r["year"],
-                "venue": r["venue"],
                 "links": {"arxiv": r["url"] or "", "code": None},
-                "problem": r["problem"],
-                "stage": r["stage"],
-                **{k: r[k] for k in TECH_COLS},
                 "poi": ("Geo" in r["representation"]) or ("Geo" in r["tokenization"]),
                 "summary": f"{r['name']} ({r['venue']}): {r['stage']}-stage method.",
             }
@@ -129,6 +125,10 @@ def sync_table1(root: Path, md_path: Path):
         for k in TECH_COLS:
             d[k] = r[k]
         p.write_text(yaml.dump(d, sort_keys=False, allow_unicode=True, width=120), encoding="utf-8")
+        retained.add(p)
+    for p in sorted((root / "data/papers").glob("*.yaml")):
+        if p not in retained:
+            p.unlink()
     print(f"Synchronized {len(rows)} rows from {md_path} into data/papers/*.yaml.")
 
 
@@ -138,7 +138,7 @@ def format_item(rec: dict) -> str:
     summary = summary[0].upper() + summary[1:] if summary else "Method in Semantic ID generative recommendation"
     code_part = f", [Code]({rec['links']['code']})" if rec["links"].get("code") else ""
     poi_part = " `POI`" if rec.get("poi") else ""
-    note_part = " (`Annotated Deep Dive`)" if (ROOT / "notes" / f"{rec['id']}.md").exists() else ""
+    note_part = " (`Notes`)" if (ROOT / "notes" / f"{rec['id']}.md").exists() else ""
     spec = (
         f"`Rep: {rec['representation']}` · `Tok: {rec['tokenization']}` · "
         f"`Backbone: {rec['backbone']}` · `Train: {rec['tokenizer']} / {rec['objective']}` · "
@@ -180,7 +180,7 @@ def build_readme(vocab: dict, papers: list) -> str:
         "<!--lint disable awesome-github-->",
         "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)",
         "",
-        "> A curated, taxonomy-driven living repository of 182 papers on Semantic ID-based Generative Recommendation, organized by a Problem x Stage matrix.",
+        f"> A curated, taxonomy-driven living repository of {len(papers)} papers on Semantic ID-based Generative Recommendation, organized by a Problem x Stage matrix.",
         "",
         "Each paper is stored as a single declarative record in [`data/papers/`](data/papers/) validated against [`schema/paper.schema.json`](schema/paper.schema.json) and [`data/vocab.yaml`](data/vocab.yaml), with per-paper technical pages in [`pages/papers/`](pages/papers/) (including labml-style annotated deep dives for [`TIGER`](pages/papers/tiger.md), [`RPG`](pages/papers/rpg.md), and [`OneLoc`](pages/papers/oneloc.md)) and machine-readable indices in [`llms.txt`](llms.txt) and [`llms-full.txt`](llms-full.txt).",
         "",
@@ -288,6 +288,10 @@ def build_paper_page(rec: dict, vocab: dict, all_papers: list, root: Path) -> st
         "",
     ]
 
+    image = root / "architectures" / f"{rec['id']}.png"
+    if image.is_file():
+        lines += ["## Architecture", "", f"![{rec['name']} architecture diagram](../../architectures/{image.name})", ""]
+
     if rec.get("evidence"):
         lines += ["## Verbatim Evidence & Rationale", ""]
         for ev in rec["evidence"]:
@@ -324,14 +328,14 @@ def build_llms(vocab: dict, papers: list, root: Path):
     lines = [
         "# Awesome Semantic ID Generative Recommendation",
         "",
-        "> Declarative knowledge base of 182 papers on Semantic ID-based Generative Recommendation organized by a 6 Problems x 5 Stages matrix.",
+        f"> Declarative knowledge base of {len(papers)} papers on Semantic ID-based Generative Recommendation organized by a 6 Problems x 5 Stages matrix.",
         "",
         "## Core Files",
         "- [README.md](README.md): Problem x Stage matrix and full awesome-list catalog.",
         "- [data/vocab.yaml](data/vocab.yaml): Controlled vocabulary for problems, stages, and all 6 Table 1 technical columns.",
         "- [schema/paper.schema.json](schema/paper.schema.json): Single-source JSON Schema for `data/papers/<id>.yaml`.",
         "",
-        "## Papers Index (182 records)",
+        f"## Papers Index ({len(papers)} records)",
     ]
     for rec in sorted(papers, key=lambda x: x["id"]):
         p_label = prob_map[rec["problem"]] if rec["problem"] == "psb" else f"{rec['problem']}. {prob_map[rec['problem']]}"
@@ -343,7 +347,7 @@ def build_llms(vocab: dict, papers: list, root: Path):
         )
     (root / "llms.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    full = list(lines) + ["", "## Annotated Technical Deep Dives", ""]
+    full = list(lines) + ["", "## Paper Notes", ""]
     for np in sorted((root / "notes").glob("*.md")):
         full += [f"### Note: {np.stem}", "", np.read_text(encoding="utf-8").strip(), ""]
     (root / "llms-full.txt").write_text("\n".join(full) + "\n", encoding="utf-8")
@@ -352,11 +356,14 @@ def build_llms(vocab: dict, papers: list, root: Path):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
-    ap.add_argument("--sync-table1", type=Path, nargs="?", const=DEFAULT_TABLE1)
+    ap.add_argument("--sync-table1", type=Path, nargs="?", const=True, help="Sync from PATH, or TABLE1 when omitted")
     args = ap.parse_args()
 
-    if args.sync_table1:
-        sync_table1(args.root, args.sync_table1)
+    if args.sync_table1 is not None:
+        table1 = os.environ.get("TABLE1") if args.sync_table1 is True else args.sync_table1
+        if not table1 or not Path(table1).is_file():
+            ap.error("--sync-table1 requires an existing PATH or TABLE1 source file")
+        sync_table1(args.root, Path(table1))
         return
 
     vocab = load_vocab(args.root)

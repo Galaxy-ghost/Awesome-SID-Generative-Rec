@@ -26,9 +26,15 @@
 - **`tokenizer`** (p3): Location from the 10-26 'Training split' table in the appendix.
 - **`objective`** (p3): Location from the 10-26 'Training split' table in the appendix.
 
+## 旧目录说明
+
+迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
+
+束搜索生成候选 SID 后，再由排序头对候选打分重排。
+
 ## Peer Methods in `IV. Utility` × `Backbone` (2 peers)
 
 | Method | Venue | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [DiGR](digr.md) | arXiv’26 | `–` | `RQ-VAE` | `Dec-Only` | `–` | `Discrim.` | `Scoring` |
+| [DiGR](digr.md) | arXiv’26 | `–` | `RQ-VAE` | `Dec-Only` | `Fixed` | `Discrim.` | `Scoring` |
 | [Gryphon](gryphon.md) | CIKM’26 Short | `–` | `R-KM` | `Enc-Dec` | `Fixed` | `NTP + Rank` | `Hybrid` |
