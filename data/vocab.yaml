@@ -98,6 +98,8 @@ tokenization:
   description: Non-uniform RQ variant.
 - value: OPQ
   description: Optimized product quantization.
+- value: Orth. RQ
+  description: Orthogonal residual quantization with task-relevant dimension selection and layer-wise residual coding (DOS; ORQ in the paper).
 - value: Par. OPQ
 - value: Par. VQ
 - value: Post-hoc RQ

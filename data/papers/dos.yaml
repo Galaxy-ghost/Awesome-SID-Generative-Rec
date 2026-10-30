@@ -1,0 +1,57 @@
+id: dos
+name: DOS
+record_type: method
+citation: Yin et al., 2026
+survey: none
+in_repo_cards: false
+in_table1: true
+external:
+  arxiv: '2602.04460'
+  doi: 10.1145/3774904.3792845
+  title: 'DOS: Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan'
+  year: 2026
+  venue: WWW’26 Short
+labels:
+  problem:
+    value: III
+    source: abstract, p1; contribution list, p2
+    status: verified
+    note: The abstract identifies the codebook-generation gap (III) and semantic loss during quantization (I), addressed by DFI and ORQ respectively. The designs and title cover both equally; the first contribution, DFI, breaks the tie in favor of alignment.
+  stage:
+    value: Tokenization
+    source: contribution 1, p2; §2.1, p2; Fig. 1(a), p3
+    status: verified
+    note: The first contribution is Dual-Flow Integration (DFI), which incorporates user-item collaborative information directly into quantization through two flows and a shared codebook. It changes SID construction, not the generation backbone.
+  representation:
+    value: Text+CF
+    source: §2.1, Eq. (1)–(5), p2
+    status: verified
+    note: Qwen3-0.6B-embedding encodes restaurant names, categories, dishes and prices. DFI adds collaborative signals from click sequences and target items during SID construction. No explicit geographic field is reported in the prompt template.
+  tokenization:
+    value: Orth. RQ
+    source: §2.2, Eq. (6)–(11), p2–3; Fig. 1(b), p3
+    status: verified
+    note: Orthogonal Residual Quantization (ORQ) rotates the feature space, selects task-relevant dimensions and quantizes them layer by layer, passing residual and secondary features to the next layer.
+  backbone:
+    value: Dec-Only
+    inferred: true
+    source: DOS §3.2.2, Table 2, p4; HSTU (arXiv 2402.17152v1), §2.2–3
+    status: unverified
+    note: DOS names HSTU without specifying its architecture details. Decoder-only is inferred from the causal autoregressive setting in the original HSTU paper, https://arxiv.org/html/2402.17152v1. It is not directly reported for the DOS instance.
+  tokenizer:
+    value: Fixed
+    inferred: true
+    source: §2.2, Eq. (11), p3; §3.1.1, p3; §3.2.2, p4
+    status: unverified
+    note: DOS quantization training and downstream HSTU evaluation are described separately, suggesting SIDs are built before generator training. The paper does not state whether HSTU training freezes or updates the tokenizer. Joint optimization within DOS is not evidence that HSTU losses update it.
+  objective:
+    value: NTP
+    source: §3.2.2, Table 2, p4
+    status: verified
+    note: The HSTU-DOS experiment explicitly evaluates next-token prediction. The BCE, orthogonality, mutual-information, reconstruction and VQ losses in Eq. (11) train DOS, not the HSTU generator, so they do not imply NTP + Aux.
+  inference:
+    value: –
+    source: missing
+    status: unverified
+    note: No decoding algorithm is reported in §2–4, Fig. 1 or Tables 1–3. Hit@10 does not establish beam search.
+note: 'POI / local-life paper, added to Table 1 on 2026-10-30 after independent labeling and leader adjudication. The backbone and objective describe the HSTU-DOS generative experiment; AUC and F1 in Table 1 evaluate the quantization task. Venue and short-paper track are stated in the arXiv comments. Table 2 keeps 2-Stage (inferred) in its single Training column, corresponding to Fixed (inferred) and NTP here.'
