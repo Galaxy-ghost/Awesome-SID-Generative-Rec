@@ -2515,8 +2515,8 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 
 ## Positioning in the Problem × Stage Matrix
 
-- **Matrix Cell**: **I. Informativeness** $\times$ **Representation** (`problem: I`, `stage: Representation`, `poi: true`).
-- **Why Here**: In local-life and point-of-interest (POI) recommendation, item semantics depend jointly on multimodal content and physical geography. OneLoc enriches the **Representation** stage (`Text+Img+Geo†`) before residual $k$-means (`R-KM`) tokenization, and couples it with geo-aware encoder self-attention, neighbor-aware decoder prompts, and two-stage `NTP → DPO` optimization with geographic distance and GMV rewards.
+- **Matrix Cell**: **I. Informativeness** $`\times`$ **Representation** (`problem: I`, `stage: Representation`, `poi: true`).
+- **Why Here**: In local-life and point-of-interest (POI) recommendation, item semantics depend jointly on multimodal content and physical geography. OneLoc enriches the **Representation** stage (`Text+Img+Geo†`) before residual $`k`$-means (`R-KM`) tokenization, and couples it with geo-aware encoder self-attention, neighbor-aware decoder prompts, and two-stage `NTP → DPO` optimization with geographic distance and GMV rewards.
 
 ```
 Short Video + Store Metadata + Location Context (lat/lon, geohash, district)
@@ -2542,31 +2542,39 @@ Top-K local-life stores / videos
 
 ### Step 1: Geo-Aware Multimodal Representation & `R-KM` Tokenization
 
-For each local-life item $i$ (a short video linked to a physical store), OneLoc prompts a multimodal large language model (MLLM) with the video frames, textual description, and structured geographic context (city, business district, coordinates) to extract a unified dense representation $\mathbf{e}_i \in \mathbb{R}^d$ (`Text+Img+Geo†`).
+For each local-life item $`i`$ (a short video linked to a physical store), OneLoc prompts a multimodal large language model (MLLM) with the video frames, textual description, and structured geographic context (city, business district, coordinates) to extract a unified dense representation $`\mathbf{e}_i \in \mathbb{R}^d`$ (`Text+Img+Geo†`).
 
-Following OneRec, OneLoc quantizes $\mathbf{e}_i$ into an $L$-level discrete Semantic ID $\mathbf{s}_i = (s_{i,1}, \dots, s_{i,L})$ via Residual K-Means (`R-KM`, §2.2, Eq. 1–3):
+Following OneRec, OneLoc quantizes $`\mathbf{e}_i`$ into an $`L`$-level discrete Semantic ID $`\mathbf{s}_i = (s_{i,1}, \dots, s_{i,L})`$ via Residual K-Means (`R-KM`, §2.2, Eq. 1–3):
 
-$$\mathbf{r}_i^{(1)} = \mathbf{e}_i, \qquad s_{i,l} = \arg\min_{k \in \{1,\dots,K\}} \left\| \mathbf{r}_i^{(l)} - \mathbf{c}_k^{(l)} \right\|_2^2, \qquad \mathbf{r}_i^{(l+1)} = \mathbf{r}_i^{(l)} - \mathbf{c}_{s_{i,l}}^{(l)}$$
+```math
+\mathbf{r}_i^{(1)} = \mathbf{e}_i, \qquad s_{i,l} = \arg\min_{k \in \{1,\dots,K\}} \left\| \mathbf{r}_i^{(l)} - \mathbf{c}_k^{(l)} \right\|_2^2, \qquad \mathbf{r}_i^{(l+1)} = \mathbf{r}_i^{(l)} - \mathbf{c}_{s_{i,l}}^{(l)}
+```
 
-where $\mathcal{C}^{(l)} = \{\mathbf{c}_k^{(l)}\}_{k=1}^{K}$ is the level-$l$ centroid matrix trained offline and kept `Fixed` during recommender training.
+where $`\mathcal{C}^{(l)} = \{\mathbf{c}_k^{(l)}\}_{k=1}^{K}`$ is the level-$`l`$ centroid matrix trained offline and kept `Fixed` during recommender training.
 
 ### Step 2: Geo-Aware Self-Attention & Neighbor-Aware Decoder Prompt
 
-In the encoder (§2.3), given user history items with locations $\{(\mathbf{h}_j, \ell_j)\}_{j=1}^{T}$ and the user's real-time location $\ell_u$, OneLoc modulates self-attention logits with a gated spatial bias $\mathbf{B}^{\text{geo}} \in \mathbb{R}^{T \times T}$ derived from pairwise Haversine distances $d(\ell_j, \ell_{j'})$ and user-to-store distances $d(\ell_u, \ell_j)$:
+In the encoder (§2.3), given user history items with locations $`\{(\mathbf{h}_j, \ell_j)\}_{j=1}^{T}`$ and the user's real-time location $`\ell_u`$, OneLoc modulates self-attention logits with a gated spatial bias $`\mathbf{B}^{\text{geo}} \in \mathbb{R}^{T \times T}`$ derived from pairwise Haversine distances $`d(\ell_j, \ell_{j'})`$ and user-to-store distances $`d(\ell_u, \ell_j)`$:
 
-$$\operatorname{Attn}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \operatorname{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}} + g_u \odot \mathbf{B}^{\text{geo}}\right)\mathbf{V}$$
+```math
+\mathrm{Attn}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}} + g_u \odot \mathbf{B}^{\text{geo}}\right)\mathbf{V}
+```
 
-In the decoder (§2.4), a **Neighbor-Aware Prompt** injects the Semantic IDs of stores within the user's current geohash cell $\mathcal{N}(\ell_u)$ as prefix context so the decoder attends directly to physically reachable candidates.
+In the decoder (§2.4), a **Neighbor-Aware Prompt** injects the Semantic IDs of stores within the user's current geohash cell $`\mathcal{N}(\ell_u)`$ as prefix context so the decoder attends directly to physically reachable candidates.
 
 ### Step 3: Two-Stage `NTP → DPO` with Geographic and Commercial Rewards
 
-After supervised next-token prediction (`NTP`) pre-training (§2.5, Eq. 20–21), OneLoc samples $G$ candidate Semantic IDs $\{\mathbf{s}^{(1)}, \dots, \mathbf{s}^{(G)}\}$ via beam search for each user request $(u, \ell_u)$ and scores each valid store using a composite reward combining spatial proximity $R_{\text{geo}}$ and expected Gross Merchandise Volume $R_{\text{GMV}}$:
+After supervised next-token prediction (`NTP`) pre-training (§2.5, Eq. 20–21), OneLoc samples $`G`$ candidate Semantic IDs $`\{\mathbf{s}^{(1)}, \dots, \mathbf{s}^{(G)}\}`$ via beam search for each user request $`(u, \ell_u)`$ and scores each valid store using a composite reward combining spatial proximity $`R_{\text{geo}}`$ and expected Gross Merchandise Volume $`R_{\text{GMV}}`$:
 
-$$R(\mathbf{s}, u, \ell_u) = \lambda_{\text{geo}}\, R_{\text{geo}}\!\left(d(\ell_u, \ell_{\mathbf{s}})\right) + \lambda_{\text{GMV}}\, R_{\text{GMV}}(\mathbf{s}, u)$$
+```math
+R(\mathbf{s}, u, \ell_u) = \lambda_{\text{geo}}\, R_{\text{geo}}\!\left(d(\ell_u, \ell_{\mathbf{s}})\right) + \lambda_{\text{GMV}}\, R_{\text{GMV}}(\mathbf{s}, u)
+```
 
-Winning-losing pairs $(\mathbf{s}_w, \mathbf{s}_l)$ with $R(\mathbf{s}_w) > R(\mathbf{s}_l)$ optimize the Direct Preference Optimization (`DPO`, §2.5, Eq. 24) objective relative to the reference NTP policy $\pi_{\text{ref}}$:
+Winning-losing pairs $`(\mathbf{s}_w, \mathbf{s}_l)`$ with $`R(\mathbf{s}_w) \gt R(\mathbf{s}_l)`$ optimize the Direct Preference Optimization (`DPO`, §2.5, Eq. 24) objective relative to the reference NTP policy $`\pi_{\text{ref}}`$:
 
-$$\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(x, \mathbf{s}_w, \mathbf{s}_l)} \left[ \log \sigma\!\left( \beta \log \frac{\pi_\theta(\mathbf{s}_w \mid x)}{\pi_{\text{ref}}(\mathbf{s}_w \mid x)} - \beta \log \frac{\pi_\theta(\mathbf{s}_l \mid x)}{\pi_{\text{ref}}(\mathbf{s}_l \mid x)} \right) \right]$$
+```math
+\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(x, \mathbf{s}_w, \mathbf{s}_l)} \left[ \log \sigma\!\left( \beta \log \frac{\pi_\theta(\mathbf{s}_w \mid x)}{\pi_{\text{ref}}(\mathbf{s}_w \mid x)} - \beta \log \frac{\pi_\theta(\mathbf{s}_l \mid x)}{\pi_{\text{ref}}(\mathbf{s}_l \mid x)} \right) \right]
+```
 
 ```python
 # Annotated PyTorch walkthrough of OneLoc's Geo-Aware Attention + DPO loss
@@ -2603,7 +2611,7 @@ def oneloc_geo_dpo_step(q, k, v, dist_matrix, geo_bucket_emb, gate,
 
 ## Experimental Protocol & Key Results
 
-- **Datasets & Deployment**: Evaluated on industrial Kuaishou local-life service logs and deployed in online A/B testing serving $\sim 400\text{M}$ daily active users.
+- **Datasets & Deployment**: Evaluated on industrial Kuaishou local-life service logs and deployed in online A/B testing serving $`\sim 400\text{M}`$ daily active users.
 - **Reported Gains** (§3.2–3.4 of the paper):
   - **Online A/B Test**: Reports **+21.016% GMV** and **+17.891% order volume** over the production multi-stage local-life ranking baseline.
   - **Module Ablations**: Removing geo-aware SIDs, geo-aware self-attention, neighbor-aware prompts, or either DPO reward (`Geo` / `GMV`) degrades both offline hit rate and distance compliance.
@@ -2612,7 +2620,7 @@ def oneloc_geo_dpo_step(q, k, v, dist_matrix, geo_bucket_emb, gate,
 
 ## Limitations & Comparison with Peer POI Methods in `I. Informativeness`
 
-1. **Implicit vs. explicit spatial prefix in SIDs**: OneLoc injects location context into the MLLM embedding before `R-KM` (`Text+Img+Geo†`), so spatial hierarchy is not guaranteed to align with individual code positions. Within the same cell (`I. Informativeness` $\times$ `Representation`), **`LGSID`** (`Geo-Idx+RQ`) and **`GeoGR`** (`R-KM+EM`) explicitly couple spatial/grid structure or EM-updated geographic alignment with collaborative signals (`Text+Geo+CF`), while **`LGRID`** (`DSRQ`) disentangles semantic and geographic latent spaces.
+1. **Implicit vs. explicit spatial prefix in SIDs**: OneLoc injects location context into the MLLM embedding before `R-KM` (`Text+Img+Geo†`), so spatial hierarchy is not guaranteed to align with individual code positions. Within the same cell (`I. Informativeness` $`\times`$ `Representation`), **`LGSID`** (`Geo-Idx+RQ`) and **`GeoGR`** (`R-KM+EM`) explicitly couple spatial/grid structure or EM-updated geographic alignment with collaborative signals (`Text+Geo+CF`), while **`LGRID`** (`DSRQ`) disentangles semantic and geographic latent spaces.
 2. **Closed industrial evaluation**: Evaluation relies on proprietary short-video local-life logs and business GMV estimators without a public reproducibility benchmark.
 
 ---
@@ -3083,8 +3091,8 @@ ROS 代表把“空间推理”引入 Semantic ID 生成推荐的路线，适合
 
 ## Positioning in the Problem × Stage Matrix
 
-- **Matrix Cell**: **V. Efficiency** $\times$ **Backbone** (`problem: V`, `stage: Backbone`).
-- **Why Here**: Longer Semantic IDs ($M \in \{16, 32, 64\}$ sub-tokens) eliminate collisions and capture fine-grained item semantics, but autoregressive decoding over $M$ steps incurs prohibitive latency and cascading prefix errors. RPG replaces sequential token-by-token generation with a **non-autoregressive (`Non-AR`) parallel multi-token prediction (`MTP`) backbone** coupled with **Optimized Product Quantization (`Par. OPQ`)** and **graph-guided decoding (`Graph`)**.
+- **Matrix Cell**: **V. Efficiency** $`\times`$ **Backbone** (`problem: V`, `stage: Backbone`).
+- **Why Here**: Longer Semantic IDs ($`M \in \{16, 32, 64\}`$ sub-tokens) eliminate collisions and capture fine-grained item semantics, but autoregressive decoding over $`M`$ steps incurs prohibitive latency and cascading prefix errors. RPG replaces sequential token-by-token generation with a **non-autoregressive (`Non-AR`) parallel multi-token prediction (`MTP`) backbone** coupled with **Optimized Product Quantization (`Par. OPQ`)** and **graph-guided decoding (`Graph`)**.
 
 ```
 Dense Item Embedding x_i ∈ ℝ^d
@@ -3105,22 +3113,26 @@ Top-K valid long-SID items
 
 ### Step 1: Parallel Subspace Tokenization via `Par. OPQ`
 
-Whereas `RQ-VAE` quantizes residuals sequentially (creating strict order dependencies $c_1 \rightarrow c_2 \rightarrow \dots \rightarrow c_M$), RPG learns an orthogonal rotation matrix $\mathbf{R} \in \mathbb{R}^{d \times d}$ ($\mathbf{R}^\top \mathbf{R} = \mathbf{I}$) that decomposes the item representation $\mathbf{x}_i \in \mathbb{R}^d$ into $M$ orthogonal subspaces of dimension $d/M$:
+Whereas `RQ-VAE` quantizes residuals sequentially (creating strict order dependencies $`c_1 \rightarrow c_2 \rightarrow \dots \rightarrow c_M`$), RPG learns an orthogonal rotation matrix $`\mathbf{R} \in \mathbb{R}^{d \times d}`$ ($`\mathbf{R}^\top \mathbf{R} = \mathbf{I}`$) that decomposes the item representation $`\mathbf{x}_i \in \mathbb{R}^d`$ into $`M`$ orthogonal subspaces of dimension $`d/M`$:
 
-$$\tilde{\mathbf{x}}_i = \mathbf{R}\mathbf{x}_i = \left[\tilde{\mathbf{x}}_i^{(1)} \,\|\, \tilde{\mathbf{x}}_i^{(2)} \,\|\, \dots \,\|\, \tilde{\mathbf{x}}_i^{(M)}\right], \qquad c_{i,m} = \arg\min_{k \in \{1,\dots,K\}} \left\| \tilde{\mathbf{x}}_i^{(m)} - \mathbf{e}_k^{(m)} \right\|_2^2$$
+```math
+\tilde{\mathbf{x}}_i = \mathbf{R}\mathbf{x}_i = \left[\tilde{\mathbf{x}}_i^{(1)} \,\|\, \tilde{\mathbf{x}}_i^{(2)} \,\|\, \dots \,\|\, \tilde{\mathbf{x}}_i^{(M)}\right], \qquad c_{i,m} = \arg\min_{k \in \{1,\dots,K\}} \left\| \tilde{\mathbf{x}}_i^{(m)} - \mathbf{e}_k^{(m)} \right\|_2^2
+```
 
 where:
-- $\tilde{\mathbf{x}}_i^{(m)} \in \mathbb{R}^{d/M}$ is the $m$-th subspace projection of item $i$;
-- $\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}$ is the $m$-th subspace codebook;
-- $c_{i,m} \in \{1, \dots, K\}$ is the $m$-th token of item $i$'s unordered Semantic ID tuple $\mathbf{c}_i = (c_{i,1}, \dots, c_{i,M})$.
+- $`\tilde{\mathbf{x}}_i^{(m)} \in \mathbb{R}^{d/M}`$ is the $`m`$-th subspace projection of item $`i`$;
+- $`\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}`$ is the $`m`$-th subspace codebook;
+- $`c_{i,m} \in \{1, \dots, K\}`$ is the $`m`$-th token of item $`i`$'s unordered Semantic ID tuple $`\mathbf{c}_i = (c_{i,1}, \dots, c_{i,M})`$.
 
 ### Step 2: Non-Autoregressive Multi-Token Prediction (`Non-AR` + `MTP`)
 
-Given the user interaction sequence $S_u = (i_1, \dots, i_{t-1})$, RPG aggregates each history item's $M$ sub-token embeddings into a single item-level vector so the sequence length fed into the Transformer backbone remains $t-1$ rather than $M(t-1)$. From the final hidden state $\mathbf{h}_u \in \mathbb{R}^d$, $M$ parallel projection heads $\mathbf{W}^{(1)}, \dots, \mathbf{W}^{(M)}$ predict all $M$ target code positions in a single forward pass:
+Given the user interaction sequence $`S_u = (i_1, \dots, i_{t-1})`$, RPG aggregates each history item's $`M`$ sub-token embeddings into a single item-level vector so the sequence length fed into the Transformer backbone remains $`t-1`$ rather than $`M(t-1)`$. From the final hidden state $`\mathbf{h}_u \in \mathbb{R}^d`$, $`M`$ parallel projection heads $`\mathbf{W}^{(1)}, \dots, \mathbf{W}^{(M)}`$ predict all $`M`$ target code positions in a single forward pass:
 
-$$P_\theta^{(m)}(c_{t,m} = k \mid S_u) = \frac{\exp\!\left(\mathbf{e}_k^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}{\sum_{k'=1}^{K} \exp\!\left(\mathbf{e}_{k'}^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}, \qquad \mathcal{L}_{\text{MTP}} = -\frac{1}{M}\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{t,m} \mid S_u)$$
+```math
+P_\theta^{(m)}(c_{t,m} = k \mid S_u) = \frac{\exp\!\left(\mathbf{e}_k^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}{\sum_{k'=1}^{K} \exp\!\left(\mathbf{e}_{k'}^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}, \qquad \mathcal{L}_{\text{MTP}} = -\frac{1}{M}\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{t,m} \mid S_u)
+```
 
-where $\tau > 0$ is a temperature hyperparameter.
+where $`\tau \gt 0`$ is a temperature hyperparameter.
 
 ```python
 # Annotated PyTorch walkthrough of RPG's Non-AR MTP forward + Graph propagation decoding
@@ -3156,7 +3168,7 @@ def rpg_mtp_and_graph_decode(h_u, heads, codebooks, item_codes, adj_neighbors, t
 
 ### Step 3: Graph-Guided Decoding (`Graph`)
 
-Because the $M$ heads predict marginal distributions independently, naively picking $\arg\max_k P_\theta^{(m)}(k \mid S_u)$ for each $m$ rarely lands on a valid catalog item when $K^M \gg |\mathcal{I}|$, while scoring all $|\mathcal{I}|$ items scales linearly with catalog size. RPG constructs a sparse $k$-NN graph $\mathcal{G} = (\mathcal{I}, \mathcal{E})$ over the catalog items based on their quantized OPQ representations, scores a small seed set using $\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{i,m} \mid S_u)$, and iteratively expands neighbors on $\mathcal{G}$ to retrieve the highest-scoring valid items in sub-linear time.
+Because the $`M`$ heads predict marginal distributions independently, naively picking $`\arg\max_k P_\theta^{(m)}(k \mid S_u)`$ for each $`m`$ rarely lands on a valid catalog item when $`K^M \gg |\mathcal{I}|`$, while scoring all $`|\mathcal{I}|`$ items scales linearly with catalog size. RPG constructs a sparse $`k`$-NN graph $`\mathcal{G} = (\mathcal{I}, \mathcal{E})`$ over the catalog items based on their quantized OPQ representations, scores a small seed set using $`\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{i,m} \mid S_u)`$, and iteratively expands neighbors on $`\mathcal{G}`$ to retrieve the highest-scoring valid items in sub-linear time.
 
 ---
 
@@ -3172,15 +3184,15 @@ Because the $M$ heads predict marginal distributions independently, naively pick
 
 - **Datasets & Split**: Amazon Reviews (`Beauty`, `Sports and Outdoors`, `Toys and Games`, `CDs and Vinyl`), 5-core leave-one-out split.
 - **Reported Findings** (§3, Tables 1–3 of the paper):
-  - **Scaling SID length $M$**: Increasing $M$ from $4$ to $16$–$64$ in RPG consistently improves Recall@10 and NDCG@10 while eliminating SID collisions without needing an arbitrary trailing collision token.
-  - **Inference Speedup**: Because all $M$ positions are predicted in one forward pass followed by lightweight graph propagation, RPG reduces decoding latency and GPU memory by an order of magnitude compared to autoregressive beam search over long SIDs.
+  - **Scaling SID length $`M`$**: Increasing $`M`$ from $`4`$ to $`16`$–$`64`$ in RPG consistently improves Recall@10 and NDCG@10 while eliminating SID collisions without needing an arbitrary trailing collision token.
+  - **Inference Speedup**: Because all $`M`$ positions are predicted in one forward pass followed by lightweight graph propagation, RPG reduces decoding latency and GPU memory by an order of magnitude compared to autoregressive beam search over long SIDs.
 
 ---
 
 ## Limitations & Comparison with Peer Methods in `V. Efficiency`
 
-1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $M$ sub-tokens given $\mathbf{h}_u$. Within the same cell (`V. Efficiency` $\times$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
-2. **Graph maintenance overhead**: Maintaining the item similarity graph $\mathcal{G}$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
+1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $`M`$ sub-tokens given $`\mathbf{h}_u`$. Within the same cell (`V. Efficiency` $`\times`$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
+2. **Graph maintenance overhead**: Maintaining the item similarity graph $`\mathcal{G}`$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
 
 ---
 
@@ -3528,7 +3540,7 @@ Think2Go 适合放在“推理增强的语义标识生成推荐”章节，重�
 ## Positioning in the Problem × Stage Matrix
 
 - **Matrix Cell**: **Paradigms, Systems and Benchmarks** (`problem: psb`, `stage: n/a`).
-- **Why Here**: TIGER defines the canonical five-stage pipeline for Semantic ID-based generative recommendation rather than patching a single failure mode. Subsequent methods in bands `I`–`VI` modify one or more of TIGER's five stages (`Text` representation $\rightarrow$ `RQ-VAE` tokenization $\rightarrow$ `Enc-Dec` backbone $\rightarrow$ `Fixed` / `NTP` training $\rightarrow$ `Beam` inference).
+- **Why Here**: TIGER defines the canonical five-stage pipeline for Semantic ID-based generative recommendation rather than patching a single failure mode. Subsequent methods in bands `I`–`VI` modify one or more of TIGER's five stages (`Text` representation $`\rightarrow`$ `RQ-VAE` tokenization $`\rightarrow`$ `Enc-Dec` backbone $`\rightarrow`$ `Fixed` / `NTP` training $`\rightarrow`$ `Beam` inference).
 
 ```
 Item Text (title, brand, price, category)
@@ -3552,16 +3564,18 @@ Top-K recommended items
 
 ### Step 1: Content Encoding and Residual Vector Quantization (`RQ-VAE`)
 
-For each item $i$, its textual metadata (title, brand, price, and category) is encoded by a frozen pre-trained Sentence-T5 encoder into a dense vector $\mathbf{x} \in \mathbb{R}^{768}$, which an MLP encoder $E(\cdot)$ projects to a latent vector $\mathbf{z} := E(\mathbf{x}) \in \mathbb{R}^{d_z}$ ($d_z = 32$).
+For each item $`i`$, its textual metadata (title, brand, price, and category) is encoded by a frozen pre-trained Sentence-T5 encoder into a dense vector $`\mathbf{x} \in \mathbb{R}^{768}`$, which an MLP encoder $`E(\cdot)`$ projects to a latent vector $`\mathbf{z} := E(\mathbf{x}) \in \mathbb{R}^{d_z}`$ ($`d_z = 32`$).
 
-At quantization depth $m \in \{1, \dots, M\}$ ($M = 3$) with level-specific codebook $\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}$ ($K = 256$), RQ-VAE quantizes the residual $\mathbf{r}_m$ greedily from coarse to fine:
+At quantization depth $`m \in \{1, \dots, M\}`$ ($`M = 3`$) with level-specific codebook $`\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}`$ ($`K = 256`$), RQ-VAE quantizes the residual $`\mathbf{r}_m`$ greedily from coarse to fine:
 
-$$\mathbf{r}_1 = \mathbf{z}, \qquad c_m = \arg\min_{k \in \{1,\dots,K\}} \left\| \mathbf{r}_m - \mathbf{e}_k^{(m)} \right\|_2^2, \qquad \mathbf{r}_{m+1} = \mathbf{r}_m - \mathbf{e}_{c_m}^{(m)}$$
+```math
+\mathbf{r}_1 = \mathbf{z}, \qquad c_m = \arg\min_{k \in \{1,\dots,K\}} \left\| \mathbf{r}_m - \mathbf{e}_k^{(m)} \right\|_2^2, \qquad \mathbf{r}_{m+1} = \mathbf{r}_m - \mathbf{e}_{c_m}^{(m)}
+```
 
 where:
-- $\mathbf{r}_m \in \mathbb{R}^{d_z}$ is the residual vector entering level $m$;
-- $c_m \in \{0, \dots, K-1\}$ is the discrete codeword index at depth $m$;
-- $\mathbf{e}_{c_m}^{(m)} \in \mathbb{R}^{d_z}$ is the selected centroid at level $m$.
+- $`\mathbf{r}_m \in \mathbb{R}^{d_z}`$ is the residual vector entering level $`m`$;
+- $`c_m \in \{0, \dots, K-1\}`$ is the discrete codeword index at depth $`m`$;
+- $`\mathbf{e}_{c_m}^{(m)} \in \mathbb{R}^{d_z}`$ is the selected centroid at level $`m`$.
 
 ```python
 # Annotated PyTorch walkthrough of TIGER's RQ-VAE residual loop
@@ -3596,15 +3610,17 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 
 ### Step 2: Training Objective of the Tokenizer
 
-The quantized vector $\hat{\mathbf{z}} = \sum_{m=1}^{M} \mathbf{e}_{c_m}^{(m)}$ is passed through an MLP decoder $D(\cdot)$ to reconstruct $\hat{\mathbf{x}} = D(\hat{\mathbf{z}})$. The total RQ-VAE loss is:
+The quantized vector $`\hat{\mathbf{z}} = \sum_{m=1}^{M} \mathbf{e}_{c_m}^{(m)}`$ is passed through an MLP decoder $`D(\cdot)`$ to reconstruct $`\hat{\mathbf{x}} = D(\hat{\mathbf{z}})`$. The total RQ-VAE loss is:
 
-$$\mathcal{L}_{\text{RQ-VAE}}(\mathbf{x}) = \|\mathbf{x} - \hat{\mathbf{x}}\|_2^2 + \sum_{m=1}^{M} \left( \left\|\operatorname{sg}[\mathbf{r}_m] - \mathbf{e}_{c_m}^{(m)}\right\|_2^2 + \beta \left\|\mathbf{r}_m - \operatorname{sg}[\mathbf{e}_{c_m}^{(m)}]\right\|_2^2 \right)$$
+```math
+\mathcal{L}_{\text{RQ-VAE}}(\mathbf{x}) = \|\mathbf{x} - \hat{\mathbf{x}}\|_2^2 + \sum_{m=1}^{M} \left( \left\|\mathrm{sg}[\mathbf{r}_m] - \mathbf{e}_{c_m}^{(m)}\right\|_2^2 + \beta \left\|\mathbf{r}_m - \mathrm{sg}[\mathbf{e}_{c_m}^{(m)}]\right\|_2^2 \right)
+```
 
-where $\operatorname{sg}[\cdot]$ is the stop-gradient operator and $\beta = 0.25$ balances commitment to the chosen centroids. To prevent codebook collapse on the first batch, TIGER initializes $\mathcal{C}^{(m)}$ via $k$-means on the residuals $\mathbf{r}_m$.
+where $`\mathrm{sg}[\cdot]`$ is the stop-gradient operator and $`\beta = 0.25`$ balances commitment to the chosen centroids. To prevent codebook collapse on the first batch, TIGER initializes $`\mathcal{C}^{(m)}`$ via $`k`$-means on the residuals $`\mathbf{r}_m`$.
 
 ### Step 3: Collision Resolution Suffix and Sequence-to-Sequence NTP
 
-If $N_{\text{coll}}$ items share the same 3-tuple $(c_1, c_2, c_3)$, TIGER appends a fourth disambiguating token $c_4 \in \{0, 1, \dots, N_{\text{coll}}-1\}$ assigned in arbitrary order:
+If $`N_{\text{coll}}`$ items share the same 3-tuple $`(c_1, c_2, c_3)`$, TIGER appends a fourth disambiguating token $`c_4 \in \{0, 1, \dots, N_{\text{coll}}-1\}`$ assigned in arbitrary order:
 
 ```python
 # Collision resolution via trailing integer token c_4 (§3.1, p.4)
@@ -3620,9 +3636,11 @@ def append_collision_suffix(raw_tuples):
     return semantic_ids
 ```
 
-Given a user interaction history $(i_1, \dots, i_{t-1})$ flattened into a sequence of Semantic ID tokens (prepended with a hashed user token), a T5-style Encoder-Decoder maximizes the token-level next-token prediction (`NTP`) log-likelihood over the target item's 4-token code $\mathbf{c}_t = (c_{t,1}, c_{t,2}, c_{t,3}, c_{t,4})$:
+Given a user interaction history $`(i_1, \dots, i_{t-1})`$ flattened into a sequence of Semantic ID tokens (prepended with a hashed user token), a T5-style Encoder-Decoder maximizes the token-level next-token prediction (`NTP`) log-likelihood over the target item's 4-token code $`\mathbf{c}_t = (c_{t,1}, c_{t,2}, c_{t,3}, c_{t,4})`$:
 
-$$\mathcal{L}_{\text{NTP}} = -\sum_{m=1}^{4} \log P_\theta\!\left(c_{t,m} \;\middle|\; \mathbf{c}_{1:t-1},\, c_{t,1:m-1}\right)$$
+```math
+\mathcal{L}_{\text{NTP}} = -\sum_{m=1}^{4} \log P_\theta\!\left(c_{t,m} \;\middle|\; \mathbf{c}_{1:t-1},\, c_{t,1:m-1}\right)
+```
 
 ---
 
@@ -3637,7 +3655,7 @@ $$\mathcal{L}_{\text{NTP}} = -\sum_{m=1}^{4} \log P_\theta\!\left(c_{t,m} \;\mid
 ## Experimental Protocol & Key Results
 
 - **Datasets & Split**: Amazon Product Reviews (`Beauty`, `Sports and Outdoors`, `Toys and Games`), 5-core filtering, standard leave-one-out split (last item for test, second-to-last for validation).
-- **Reported Metrics** (Table 1 of the paper, 4-layer T5 encoder + 4-layer T5 decoder, $M=3, K=256$):
+- **Reported Metrics** (Table 1 of the paper, 4-layer T5 encoder + 4-layer T5 decoder, $`M=3, K=256`$):
   - **Beauty**: Recall@5 = `0.0454`, NDCG@5 = `0.0321`, Recall@10 = `0.0648`, NDCG@10 = `0.0384` (vs. SASRec Recall@5 = `0.0387`, NDCG@5 = `0.0249`).
   - **Sports and Outdoors**: Recall@5 = `0.0264`, NDCG@5 = `0.0181`, Recall@10 = `0.0400`, NDCG@10 = `0.0225` (vs. SASRec Recall@5 = `0.0233`, NDCG@5 = `0.0154`).
   - **Toys and Games**: Recall@5 = `0.0521`, NDCG@5 = `0.0371`, Recall@10 = `0.0712`, NDCG@10 = `0.0432` (vs. SASRec Recall@5 = `0.0463`, NDCG@5 = `0.0306`).
@@ -3648,9 +3666,9 @@ $$\mathcal{L}_{\text{NTP}} = -\sum_{m=1}^{4} \log P_\theta\!\left(c_{t,m} \;\mid
 ## Limitations & Follow-up Work in the Matrix
 
 1. **Content-only representation (`I. Informativeness`)**: Frozen Sentence-T5 embeddings ignore collaborative co-occurrence; addressed by `LETTER`, `CoST`, `EAGER-LLM`, and `UNGER`.
-2. **Non-semantic collision suffix and invalid beams (`II. Uniqueness and Validity`)**: The trailing integer $c_4$ introduces an arbitrary suffix token and unconstrained beam search can emit unassigned 4-tuples; addressed by Sinkhorn/uniformity regularizers (`LETTER`, `MME-SID`) and prefix-tree constrained decoding (`C-Beam`).
+2. **Non-semantic collision suffix and invalid beams (`II. Uniqueness and Validity`)**: The trailing integer $`c_4`$ introduces an arbitrary suffix token and unconstrained beam search can emit unassigned 4-tuples; addressed by Sinkhorn/uniformity regularizers (`LETTER`, `MME-SID`) and prefix-tree constrained decoding (`C-Beam`).
 3. **Two-stage objective mismatch (`III. SID–Model Alignment`)**: The tokenizer is frozen (`Fixed`) before generator training; addressed by alternating or joint optimization (`ETEGRec`, `Align3GR`).
-4. **Sequential beam cost on long codes (`V. Efficiency`)**: Autoregressive decoding scales linearly with code length $M$ and beam width $B$; addressed by parallel multi-token prediction (`RPG`, `ACERec`, `SPRINT`) and speculative decoding (`AtSpeed`, `NEZHA`).
+4. **Sequential beam cost on long codes (`V. Efficiency`)**: Autoregressive decoding scales linearly with code length $`M`$ and beam width $`B`$; addressed by parallel multi-token prediction (`RPG`, `ACERec`, `SPRINT`) and speculative decoding (`AtSpeed`, `NEZHA`).
 
 ---
 

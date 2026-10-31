@@ -1,7 +1,7 @@
 ## Positioning in the Problem × Stage Matrix
 
-- **Matrix Cell**: **V. Efficiency** $\times$ **Backbone** (`problem: V`, `stage: Backbone`).
-- **Why Here**: Longer Semantic IDs ($M \in \{16, 32, 64\}$ sub-tokens) eliminate collisions and capture fine-grained item semantics, but autoregressive decoding over $M$ steps incurs prohibitive latency and cascading prefix errors. RPG replaces sequential token-by-token generation with a **non-autoregressive (`Non-AR`) parallel multi-token prediction (`MTP`) backbone** coupled with **Optimized Product Quantization (`Par. OPQ`)** and **graph-guided decoding (`Graph`)**.
+- **Matrix Cell**: **V. Efficiency** $`\times`$ **Backbone** (`problem: V`, `stage: Backbone`).
+- **Why Here**: Longer Semantic IDs ($`M \in \{16, 32, 64\}`$ sub-tokens) eliminate collisions and capture fine-grained item semantics, but autoregressive decoding over $`M`$ steps incurs prohibitive latency and cascading prefix errors. RPG replaces sequential token-by-token generation with a **non-autoregressive (`Non-AR`) parallel multi-token prediction (`MTP`) backbone** coupled with **Optimized Product Quantization (`Par. OPQ`)** and **graph-guided decoding (`Graph`)**.
 
 ```
 Dense Item Embedding x_i ∈ ℝ^d
@@ -22,22 +22,26 @@ Top-K valid long-SID items
 
 ### Step 1: Parallel Subspace Tokenization via `Par. OPQ`
 
-Whereas `RQ-VAE` quantizes residuals sequentially (creating strict order dependencies $c_1 \rightarrow c_2 \rightarrow \dots \rightarrow c_M$), RPG learns an orthogonal rotation matrix $\mathbf{R} \in \mathbb{R}^{d \times d}$ ($\mathbf{R}^\top \mathbf{R} = \mathbf{I}$) that decomposes the item representation $\mathbf{x}_i \in \mathbb{R}^d$ into $M$ orthogonal subspaces of dimension $d/M$:
+Whereas `RQ-VAE` quantizes residuals sequentially (creating strict order dependencies $`c_1 \rightarrow c_2 \rightarrow \dots \rightarrow c_M`$), RPG learns an orthogonal rotation matrix $`\mathbf{R} \in \mathbb{R}^{d \times d}`$ ($`\mathbf{R}^\top \mathbf{R} = \mathbf{I}`$) that decomposes the item representation $`\mathbf{x}_i \in \mathbb{R}^d`$ into $`M`$ orthogonal subspaces of dimension $`d/M`$:
 
-$$\tilde{\mathbf{x}}_i = \mathbf{R}\mathbf{x}_i = \left[\tilde{\mathbf{x}}_i^{(1)} \,\|\, \tilde{\mathbf{x}}_i^{(2)} \,\|\, \dots \,\|\, \tilde{\mathbf{x}}_i^{(M)}\right], \qquad c_{i,m} = \arg\min_{k \in \{1,\dots,K\}} \left\| \tilde{\mathbf{x}}_i^{(m)} - \mathbf{e}_k^{(m)} \right\|_2^2$$
+```math
+\tilde{\mathbf{x}}_i = \mathbf{R}\mathbf{x}_i = \left[\tilde{\mathbf{x}}_i^{(1)} \,\|\, \tilde{\mathbf{x}}_i^{(2)} \,\|\, \dots \,\|\, \tilde{\mathbf{x}}_i^{(M)}\right], \qquad c_{i,m} = \arg\min_{k \in \{1,\dots,K\}} \left\| \tilde{\mathbf{x}}_i^{(m)} - \mathbf{e}_k^{(m)} \right\|_2^2
+```
 
 where:
-- $\tilde{\mathbf{x}}_i^{(m)} \in \mathbb{R}^{d/M}$ is the $m$-th subspace projection of item $i$;
-- $\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}$ is the $m$-th subspace codebook;
-- $c_{i,m} \in \{1, \dots, K\}$ is the $m$-th token of item $i$'s unordered Semantic ID tuple $\mathbf{c}_i = (c_{i,1}, \dots, c_{i,M})$.
+- $`\tilde{\mathbf{x}}_i^{(m)} \in \mathbb{R}^{d/M}`$ is the $`m`$-th subspace projection of item $`i`$;
+- $`\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}`$ is the $`m`$-th subspace codebook;
+- $`c_{i,m} \in \{1, \dots, K\}`$ is the $`m`$-th token of item $`i`$'s unordered Semantic ID tuple $`\mathbf{c}_i = (c_{i,1}, \dots, c_{i,M})`$.
 
 ### Step 2: Non-Autoregressive Multi-Token Prediction (`Non-AR` + `MTP`)
 
-Given the user interaction sequence $S_u = (i_1, \dots, i_{t-1})$, RPG aggregates each history item's $M$ sub-token embeddings into a single item-level vector so the sequence length fed into the Transformer backbone remains $t-1$ rather than $M(t-1)$. From the final hidden state $\mathbf{h}_u \in \mathbb{R}^d$, $M$ parallel projection heads $\mathbf{W}^{(1)}, \dots, \mathbf{W}^{(M)}$ predict all $M$ target code positions in a single forward pass:
+Given the user interaction sequence $`S_u = (i_1, \dots, i_{t-1})`$, RPG aggregates each history item's $`M`$ sub-token embeddings into a single item-level vector so the sequence length fed into the Transformer backbone remains $`t-1`$ rather than $`M(t-1)`$. From the final hidden state $`\mathbf{h}_u \in \mathbb{R}^d`$, $`M`$ parallel projection heads $`\mathbf{W}^{(1)}, \dots, \mathbf{W}^{(M)}`$ predict all $`M`$ target code positions in a single forward pass:
 
-$$P_\theta^{(m)}(c_{t,m} = k \mid S_u) = \frac{\exp\!\left(\mathbf{e}_k^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}{\sum_{k'=1}^{K} \exp\!\left(\mathbf{e}_{k'}^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}, \qquad \mathcal{L}_{\text{MTP}} = -\frac{1}{M}\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{t,m} \mid S_u)$$
+```math
+P_\theta^{(m)}(c_{t,m} = k \mid S_u) = \frac{\exp\!\left(\mathbf{e}_k^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}{\sum_{k'=1}^{K} \exp\!\left(\mathbf{e}_{k'}^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}, \qquad \mathcal{L}_{\text{MTP}} = -\frac{1}{M}\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{t,m} \mid S_u)
+```
 
-where $\tau > 0$ is a temperature hyperparameter.
+where $`\tau \gt 0`$ is a temperature hyperparameter.
 
 ```python
 # Annotated PyTorch walkthrough of RPG's Non-AR MTP forward + Graph propagation decoding
@@ -73,7 +77,7 @@ def rpg_mtp_and_graph_decode(h_u, heads, codebooks, item_codes, adj_neighbors, t
 
 ### Step 3: Graph-Guided Decoding (`Graph`)
 
-Because the $M$ heads predict marginal distributions independently, naively picking $\arg\max_k P_\theta^{(m)}(k \mid S_u)$ for each $m$ rarely lands on a valid catalog item when $K^M \gg |\mathcal{I}|$, while scoring all $|\mathcal{I}|$ items scales linearly with catalog size. RPG constructs a sparse $k$-NN graph $\mathcal{G} = (\mathcal{I}, \mathcal{E})$ over the catalog items based on their quantized OPQ representations, scores a small seed set using $\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{i,m} \mid S_u)$, and iteratively expands neighbors on $\mathcal{G}$ to retrieve the highest-scoring valid items in sub-linear time.
+Because the $`M`$ heads predict marginal distributions independently, naively picking $`\arg\max_k P_\theta^{(m)}(k \mid S_u)`$ for each $`m`$ rarely lands on a valid catalog item when $`K^M \gg |\mathcal{I}|`$, while scoring all $`|\mathcal{I}|`$ items scales linearly with catalog size. RPG constructs a sparse $`k`$-NN graph $`\mathcal{G} = (\mathcal{I}, \mathcal{E})`$ over the catalog items based on their quantized OPQ representations, scores a small seed set using $`\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{i,m} \mid S_u)`$, and iteratively expands neighbors on $`\mathcal{G}`$ to retrieve the highest-scoring valid items in sub-linear time.
 
 ---
 
@@ -89,15 +93,15 @@ Because the $M$ heads predict marginal distributions independently, naively pick
 
 - **Datasets & Split**: Amazon Reviews (`Beauty`, `Sports and Outdoors`, `Toys and Games`, `CDs and Vinyl`), 5-core leave-one-out split.
 - **Reported Findings** (§3, Tables 1–3 of the paper):
-  - **Scaling SID length $M$**: Increasing $M$ from $4$ to $16$–$64$ in RPG consistently improves Recall@10 and NDCG@10 while eliminating SID collisions without needing an arbitrary trailing collision token.
-  - **Inference Speedup**: Because all $M$ positions are predicted in one forward pass followed by lightweight graph propagation, RPG reduces decoding latency and GPU memory by an order of magnitude compared to autoregressive beam search over long SIDs.
+  - **Scaling SID length $`M`$**: Increasing $`M`$ from $`4`$ to $`16`$–$`64`$ in RPG consistently improves Recall@10 and NDCG@10 while eliminating SID collisions without needing an arbitrary trailing collision token.
+  - **Inference Speedup**: Because all $`M`$ positions are predicted in one forward pass followed by lightweight graph propagation, RPG reduces decoding latency and GPU memory by an order of magnitude compared to autoregressive beam search over long SIDs.
 
 ---
 
 ## Limitations & Comparison with Peer Methods in `V. Efficiency`
 
-1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $M$ sub-tokens given $\mathbf{h}_u$. Within the same cell (`V. Efficiency` $\times$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
-2. **Graph maintenance overhead**: Maintaining the item similarity graph $\mathcal{G}$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
+1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $`M`$ sub-tokens given $`\mathbf{h}_u`$. Within the same cell (`V. Efficiency` $`\times`$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
+2. **Graph maintenance overhead**: Maintaining the item similarity graph $`\mathcal{G}`$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
 
 ---
 

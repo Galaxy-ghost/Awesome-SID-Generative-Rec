@@ -148,6 +148,12 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
         for wn in wrong_names:
             if wn in txt:
                 errors.append(f"[content-rule-1] forbidden non-vocab problem name {wn!r} found in {mf.relative_to(root)}")
+        if mf.parent.name == "notes":
+            # GitHub math: Markdown eats \| \{ \, inside $...$ and $$...$$, and rejects \operatorname.
+            # Use ```math blocks and $`...`$ inline; write \gt / \lt inline.
+            if "\\operatorname" in txt or "$$" in txt or re.search(r"(?<!`)\$(?!`)", txt) \
+                    or any(c in m for m in re.findall(r"\$`(.*?)`\$", txt) for c in "<>"):
+                errors.append(f"[math] {mf.relative_to(root)}: use ```math / $`...`$, no \\operatorname, \\gt/\\lt inline")
         anchors = set()
         for line in txt.splitlines():
             hm = re.match(r"^#{1,6}\s+(.+)$", line.strip())
