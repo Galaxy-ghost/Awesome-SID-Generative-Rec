@@ -6,7 +6,8 @@ year: 2023
 venue: NeurIPS’23
 links:
   arxiv: https://arxiv.org/abs/2305.05065
-  code: https://github.com/baiyimeng/TIGER
+  code: null
+  code_third_party: https://github.com/baiyimeng/TIGER
 problem: psb
 stage: n/a
 representation: Text
@@ -18,3 +19,63 @@ inference: Beam
 poi: false
 summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with
   a T5 encoder-decoder.
+setup:
+  datasets: 'Amazon Product Reviews (May 1996-July 2014): Beauty, Sports and Outdoors, Toys and Games. Users with fewer than
+    5 reviews are filtered; an item-frequency filter is not reported. Retained item counts: 12,101 / 18,357 / 11,924, respectively.'
+  split: 'Chronological per-user leave-one-out: last interaction for test, penultimate for validation, earlier interactions
+    for training; training histories contain at most 20 items. Separate Beauty cold-start experiment: remove 5% of test items
+    from the training split.'
+  candidates: 'Main evaluation: full catalog versus sampled candidates not reported. Cold-start retrieval adds unseen items
+    sharing the first three codes with a generated SID to the matching seen item; epsilon caps the proportion of unseen items
+    in the returned top-K list (epsilon=0.1 in Fig. 5a).'
+  visibility: 'Main leave-one-out evaluation: per-target generator/tokenizer training visibility not reported. Beauty cold-start
+    experiment: unseen by tokenizer too; the selected items are removed from the training split, both RQ-VAE and the generator
+    are trained on that split, and unseen-item SIDs are produced afterward.'
+  sid: 'Main configuration: 3 residual-quantization levels x 256 codewords (32-dimensional code embeddings), plus a fourth
+    collision-disambiguation token, giving 4 tokens per item. Colliding three-code tuples receive different fourth tokens;
+    non-colliding tuples receive 0. The generator uses 4 x 256 item-token entries.'
+  inference_budget: 'Autoregressive beam search; numerical beam width not reported. Main evaluation: Recall and NDCG at K=5
+    and 10. Cold-start Fig. 5a varies K at epsilon=0.1; Fig. 5b evaluates Recall@10 while varying epsilon. Hardware, inference
+    batch size, and measured latency: not reported.'
+  results_from: Original paper Table 1 (main sequential recommendation); Appendix E, Table 9 (three-seed means and standard
+    errors); Fig. 5 (Beauty cold start). Table 1 combines the authors' TIGER results, previously published S3-Rec benchmark
+    results for baselines other than P5, and P5 rerun with modified preprocessing.
+setup_where:
+  datasets: 'Dataset/date range and user-only filtering: https://arxiv.org/html/2305.05065v3#A3.p1; corpus sizes: https://arxiv.org/html/2305.05065v3#A3.T6.'
+  split: 'Chronological ordering, exact leave-one-out allocation, and training-history cap: https://arxiv.org/html/2305.05065v3#A3.p1.
+    The separate Beauty cold-start manipulation removes 5% of test items from the training split: https://arxiv.org/html/2305.05065v3#S4.SS3.p3.'
+  candidates: 'Full-catalog versus sampled-negative evaluation is not specified in Methods/Experiments or Appendices A-E;
+    the evaluation description is https://arxiv.org/html/2305.05065v3#S4.p2 and https://arxiv.org/html/2305.05065v3#A3.p1.
+    Cold-start candidate construction and unseen-item quota: https://arxiv.org/html/2305.05065v3#S4.SS3.p4; epsilon=0.1 comparison:
+    https://arxiv.org/html/2305.05065v3#S4.SS3.p5.'
+  visibility: 'Main preprocessing defines interaction holdouts without explicitly enumerating item-level training visibility:
+    https://arxiv.org/html/2305.05065v3#A3.p1 and https://arxiv.org/html/2305.05065v3#S4.p4. For the cold-start experiment
+    both RQ-VAE and the sequence-to-sequence model are trained on the reduced training split; unseen items are encoded afterward:
+    https://arxiv.org/html/2305.05065v3#S4.SS3.p3.'
+  sid: 'Main RQ levels, codebook cardinality, latent dimension, and collision suffix including zero for a unique tuple: https://arxiv.org/html/2305.05065v3#S4.p4.
+    Four position-specific 256-token vocabularies: https://arxiv.org/html/2305.05065v3#S4.p5; one-time collision lookup: https://arxiv.org/html/2305.05065v3#S3.SS1.p8.'
+  inference_budget: 'Autoregressive beam search: https://arxiv.org/html/2305.05065v3#A5.p3; main metric cutoffs: https://arxiv.org/html/2305.05065v3#S4.p2;
+    cold-start cutoffs/quota experiment: https://arxiv.org/html/2305.05065v3#S4.F5. No numerical beam width, inference hardware,
+    inference batch size, or latency is specified after checking Methods/Experiments and Appendices A-E; https://arxiv.org/html/2305.05065v3#S4.p4
+    and https://arxiv.org/html/2305.05065v3#S4.p6 give training batches only.'
+  results_from: 'Original main comparison: https://arxiv.org/html/2305.05065v3#S4.T1; separate three-seed mean/standard-error
+    table: https://arxiv.org/html/2305.05065v3#A5.T9; cold-start: https://arxiv.org/html/2305.05065v3#S4.F5. Baselines except
+    P5 were taken from S3-Rec''s published results; P5 was rerun with modified preprocessing: https://arxiv.org/html/2305.05065v3#S4.SS1.p2
+    and https://arxiv.org/html/2305.05065v3#A4.p2.'
+related:
+- id: vq-rec
+  relation: alternative
+  note: VQ-Rec uses product-quantized content codes for transferable recommendation without generative retrieval; TIGER uses
+    RQ-VAE codes for autoregressive retrieval.
+  where: 'TIGER, Section 2, Semantic IDs paragraph: https://arxiv.org/html/2305.05065v3#S2.SS0.SSS0.Px2.p1; Section 3.2: https://arxiv.org/html/2305.05065v3#S3.SS2.p1.'
+- id: letter
+  relation: successor
+  note: LETTER extends TIGER's semantic-only tokenization with collaborative and diversity regularization, and adds a ranking-guided
+    generation loss.
+  where: 'Evidence is from the later LETTER paper, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1
+    explicitly builds the LETTER-TIGER variants: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.'
+- id: rpg
+  relation: alternative
+  note: RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
+  where: 'Evidence is from the later RPG paper: Section 2 overview, https://arxiv.org/html/2506.05781v1#S2.p1; Section 2.1.1,
+    https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1; its TIGER baseline description in Section 3.1, https://arxiv.org/html/2506.05781v1#S3.SS1.p4.'

@@ -35,3 +35,56 @@ evidence:
   quote: No collaborative signal enters the SIDs. Img is inferred from "video content and location context information, extracted
     by a multimodal large language model". Table 2 had Text+Img+Geo+CF.
   where: §2.1, §2.2, p3
+setup:
+  datasets: 'KuaiLLSR: eight days of uniformly sampled Kuaishou local-life-service short-video interactions, with 60 million
+    users, 900,000 videos, and 440 million interactions; additional filtering rules not reported. Foursquare NYC: 1,042 users,
+    36,359 POIs, 212,347 interactions; Tokyo: 2,187 users, 59,472 POIs, 545,301 interactions. The public subsets use LibCity
+    preprocessing to filter users and POIs; numerical filtering thresholds not reported.'
+  split: 'KuaiLLSR: streaming training on the first seven days and evaluation on the final day. NYC and Tokyo: each user''s
+    check-ins are sorted chronologically, with interaction sequences split 80%/10%/10% for training/validation/testing.'
+  candidates: not reported
+  visibility: not reported
+  sid: 3 layers x 8,192 codes per layer, using geo-aware residual K-means; collision handling not reported.
+  inference_budget: Production serving uses beam search on NVIDIA A10 GPUs, followed by SID-to-video mapping, GMV scoring,
+    rule-based filtering, and top-K output. Beam width and output K not reported. Dynamic batching, mixed precision, KV caching,
+    and TensorRT are used; numerical inference batch size and latency not reported.
+  results_from: 'Table 1: offline Recall/NDCG at K=5, 10, and 20 on KuaiLLSR, NYC, and Tokyo. Table 3 and Figures 4-5: module/reward
+    ablations. Table 4 and Section 5: one-week online A/B test with 10% treatment traffic, compared with the production multi-stage
+    system.'
+setup_where:
+  datasets: Section 4.1.1 and Table 2 identify the original industrial/public datasets and preprocessing, without numerical
+    LibCity filter thresholds; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2508.14646v1#S4.T2.
+  split: Section 4.1.1 states streaming seven-day training plus next-day evaluation and the public 80/10/10 sequence split;
+    https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1.
+  candidates: Offline metrics do not disclose full-catalog versus sampled evaluation, and the online statement of identical
+    candidate pools does not determine their size; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS3.p1 and https://arxiv.org/html/2508.14646v1#S5.p1.
+  visibility: The paper claims cold-start benefits but does not define generator/tokenizer visibility for a cold-start evaluation;
+    https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2508.14646v1#S5.p2.
+  sid: Sections 2.2 and 4.1.4 specify three residual-K-means layers of 8,192 codes, but no SID collision-resolution rule;
+    https://arxiv.org/html/2508.14646v1#S2.SS2.p1, https://arxiv.org/html/2508.14646v1#S2.SS2.p3, and https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1.
+  inference_budget: Section 3 gives serving hardware and optimizations but no numerical beam width, output K, batch size,
+    or latency; the A800 hardware in Section 4.1.4 is for training; https://arxiv.org/html/2508.14646v1#S3.p1 and https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1.
+  results_from: Main offline comparisons and online outcomes are in Tables 1 and 4, with module ablations in Table 3 and Figures
+    4-5; https://arxiv.org/html/2508.14646v1#S2.T1, https://arxiv.org/html/2508.14646v1#S4.T3, https://arxiv.org/html/2508.14646v1#S4.F4,
+    https://arxiv.org/html/2508.14646v1#S4.F5, https://arxiv.org/html/2508.14646v1#S5.p1, and https://arxiv.org/html/2508.14646v1#S5.T4.
+related:
+- id: onerec
+  relation: predecessor
+  note: OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this
+    direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
+  where: 'OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and
+    preference alignment: https://arxiv.org/html/2508.14646v1#S6.SS2.p1; Section 2 describes OneLoc''s geographic modules
+    and rewards: https://arxiv.org/html/2508.14646v1#S2.p1.'
+- id: tiger
+  relation: competitor
+  note: TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers
+    together with geographic sequence modeling and neighborhood prompts.
+  where: 'OneLoc v1, Section 4.1.2 identifies TIGER as a baseline: https://arxiv.org/html/2508.14646v1#S4.SS1.SSS2.p1; Table
+    1 reports its comparison with OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1; Sections 2 and 2.2 describe OneLoc''s
+    added geographic mechanisms: https://arxiv.org/html/2508.14646v1#S2.p1 and https://arxiv.org/html/2508.14646v1#S2.SS2.p1.'
+- id: gnpr-sid
+  relation: competitor
+  note: GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling
+    into attention, neighborhood prompting, and rewards for local-life video consumption.
+  where: 'OneLoc v1, Section 1 explains the geographic-modeling difference: https://arxiv.org/html/2508.14646v1#S1.p2, https://arxiv.org/html/2508.14646v1#S1.p3,
+    and https://arxiv.org/html/2508.14646v1#S1.p4; Table 1 directly compares GNPR-SID and OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1.'

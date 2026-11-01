@@ -6,7 +6,7 @@ year: 2024
 venue: CIKM’24
 links:
   arxiv: https://arxiv.org/abs/2405.07314
-  code: https://github.com/Honghuibao2000/LETTER
+  code: https://github.com/HonghuiBao2000/LETTER
 problem: I
 stage: Tokenization
 representation: Text+CF
@@ -23,3 +23,64 @@ evidence:
   quote: 'Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code
     assignment bias".'
   where: arXiv abstract
+setup:
+  datasets: Amazon Instruments, Amazon Beauty, and Yelp; users and items with fewer than 5 interactions are discarded. Dataset
+    release/date windows and retained corpus sizes are not reported.
+  split: Chronological interaction histories with leave-one-out evaluation; training histories contain at most 20 items. The
+    exact validation/test position allocation is not reported beyond the leave-one-out label.
+  candidates: not reported (full catalog versus sampled evaluation candidates); generation is constrained to valid identifier
+    continuations with a trie.
+  visibility: Standard leave-one-out evaluation; per-target generator/tokenizer training visibility is not reported. The tokenizer
+    uses item content and SASRec collaborative embeddings before generator training, but inclusion of held-out-only items
+    in tokenizer/CF training is not reported. A dedicated cold-start evaluation is not reported.
+  sid: 'Main configuration: 4 residual-quantization levels x 256 codewords, with 32-dimensional code embeddings; the identifier
+    contains 4 learned codes. Collision handling or an additional collision suffix: not reported.'
+  inference_budget: 'Trie-constrained autoregressive generation; numerical beam width not reported. Recall and NDCG at K=5
+    and 10. All experiments use 4 NVIDIA RTX A5000 GPUs; allocation specifically for inference is not reported. Inference
+    batch size and measured latency: not reported.'
+  results_from: Original paper Table 1, with separate LETTER-TIGER and LETTER-LC-Rec rows on Instruments, Beauty, and Yelp.
+    The authors reimplement TIGER and instantiate LC-Rec with LoRA-tuned LLaMA2-7B; these are this paper's experimental configurations,
+    not the original TIGER paper's results.
+setup_where:
+  datasets: 'Dataset names and explicit filtering of both users and items: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1.'
+  split: 'Leave-one-out and the 20-item training-history cap: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1; chronological
+    histories: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS1.p1. Methods/Experiments and Appendix 7 do not spell out the
+    exact validation-versus-test position allocation beyond naming leave-one-out.'
+  candidates: 'Inference defines trie-constrained generation, but not full-catalog versus sampled-negative evaluation: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS2.p1;
+    evaluation states only metrics: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS3.p1; Methods/Experiments and Appendix 7
+    were checked.'
+  visibility: 'Tokenizer training precedes generator training: https://arxiv.org/html/2405.07314v1#S3.SS2.p1; LLaMA2 content
+    embeddings and SASRec collaborative embeddings: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1; leave-one-out: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1.
+    Methods/Experiments and Appendix 7 give no item-disjoint cold-start experiment or explicit tokenizer/CF visibility for
+    held-out-only items.'
+  sid: 'Four levels, 256 entries each, and 32-dimensional embeddings: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p2;
+    L is the identifier length: https://arxiv.org/html/2405.07314v1#S3.SS1.p4. Methods/Experiments and Appendix 7 do not specify
+    collision resolution or an additional disambiguation suffix; the four learned levels must not be replaced by TIGER''s
+    three levels plus suffix.'
+  inference_budget: 'Trie-constrained autoregressive generation: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS2.p1; metric
+    cutoffs: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS3.p1; experiment hardware: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1.
+    Methods/Experiments and Appendix 7 specify no beam width, inference batch, or measured latency; the 1,024 batch in https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p2
+    is tokenizer training, not inference.'
+  results_from: 'Original main table and model instantiations: https://arxiv.org/html/2405.07314v1#S4.T1 and https://arxiv.org/html/2405.07314v1#S4.SS2.p1;
+    TIGER reimplementation and LC-Rec/LoRA setup: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1.'
+related:
+- id: tiger
+  relation: predecessor
+  note: LETTER builds on TIGER's RQ-VAE semantic tokenization by adding collaborative and diversity regularization plus a
+    ranking-guided generation loss.
+  where: 'LETTER, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1 defines the progression from TIGER
+    to LETTER-TIGER: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.'
+- id: lc-rec
+  relation: predecessor
+  note: LC-Rec supplies an existing code-ID recommender with auxiliary language-alignment tasks; LETTER reuses it as a backend
+    for its learnable tokenizer.
+  where: 'LETTER, Section 4.1.2 describes LC-Rec: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS2.p1; Section 4.1.4 explicitly
+    instantiates LETTER on LC-Rec: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1; Table 1 includes LC-Rec and LETTER-LC-Rec:
+    https://arxiv.org/html/2405.07314v1#S4.T1.'
+- id: cid
+  relation: competitor
+  note: LETTER compares against P5-CID, which builds identifiers by spectral clustering of an item co-appearance graph instead
+    of LETTER's regularized RQ-VAE tokenization.
+  where: 'LETTER, Section 4.1.2 identifies the P5-CID baseline from Hua et al.: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS2.p1;
+    Table 1 compares P5-CID with LETTER: https://arxiv.org/html/2405.07314v1#S4.T1; Section 3.1 defines LETTER''s RQ-VAE tokenizer:
+    https://arxiv.org/html/2405.07314v1#S3.SS1.p2.'

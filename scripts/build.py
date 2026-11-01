@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 """Build README.md, per-paper pages (pages/papers/<id>.md), llms.txt, and llms-full.txt,
-or synchronize Table 1 columns from Table1_扩展版.md (--sync-table1).
+or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
 """
 import argparse
 import os
 import re
+import sys
 from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 TECH_COLS = ["representation", "tokenization", "backbone", "tokenizer", "objective", "inference"]
-STAGE_MAP = [
-    (2, "Representation", "representation"),
-    (3, "Tokenization", "tokenization"),
-    (4, "Backbone", "backbone"),
-    (5, "Tokenizer", "tokenizer"),
-    (6, "Objective", "objective"),
-    (7, "Inference", "inference"),
-]
+COL_STAGES = ["Representation", "Tokenization", "Backbone", "Training", "Training", "Inference"]
+PROB_MAP = {
+    "Paradigms, Systems and Benchmarks": "psb",
+    "I. Informativeness": "I",
+    "II. Uniqueness and Validity": "II",
+    "III. SID–Model Alignment": "III",
+    "IV. Utility": "IV",
+    "V. Efficiency": "V",
+    "VI. Generalization": "VI",
+}
 
 
 def load_vocab(root: Path):
@@ -35,99 +38,70 @@ def slugify_heading(title: str) -> str:
     return re.sub(r"[^a-z0-9 _-]", "", title.strip().lower()).replace(" ", "-")
 
 
-def parse_table1_md(md_path: Path):
-    lines = md_path.read_text(encoding="utf-8").splitlines()
-    start = lines.index("## Table 1")
-    tlines = []
-    for ln in lines[start + 1:]:
-        if ln.startswith("|"):
-            tlines.append(ln)
-        elif tlines:
-            break
-    prob_map = {
-        "Paradigms, Systems and Benchmarks": "psb",
-        "I. Informativeness": "I",
-        "II. Uniqueness and Validity": "II",
-        "III. SID–Model Alignment": "III",
-        "IV. Utility": "IV",
-        "V. Efficiency": "V",
-        "VI. Generalization": "VI",
-    }
-    cur_prob = None
+def norm_tex(s: str) -> str:
+    s = s.replace("$\\rightarrow$", "→").replace("$^\\dagger$", "†").replace("--", "–").replace("'", "’").replace("\\&", "&")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def na_to_dash(val: str) -> str:
+    return " / ".join("–" if x == "n/a" else x for x in val.split(" / "))
+
+
+def parse_table1_tex(paths) -> list:
     rows = []
-    for ln in tlines[2:]:
-        cells = [c.strip() for c in ln.strip().strip("|").split("|")]
-        if all(c == "" for c in cells[1:]):
-            cur_prob = prob_map[cells[0].strip("*")]
-            continue
-        m = re.match(
-            r"^(★‡\s+|★\s+)?(?:\[([^\]]+)\]\(([^\)]+)\)|([A-Za-z0-9_.-]+))\s*(?:\(([^\)]+)\))?(（基线）)?$",
-            cells[0],
-        )
-        _, lname, url, pname, cit, _ = m.groups()
-        name = lname or pname
-        authors = re.sub(r",\s*\d{4}[a-z]?$", "", cit or "").strip()
-        ym = re.search(r"(\d{4})", cit or "")
-        year = int(ym.group(1)) if ym else 2000 + int(re.search(r"’(\d{2})\b", cells[1]).group(1))
-        stage = "n/a"
-        vals = {}
-        for idx, st_name, key in STAGE_MAP:
-            v = cells[idx]
-            if v.startswith("**") and v.endswith("**"):
-                v = v[2:-2].strip()
-                stage = "Training" if st_name in ("Tokenizer", "Objective") else st_name
-            vals[key] = v
-        rows.append({
-            "name": name,
-            "authors": authors,
-            "year": year,
-            "venue": cells[1],
-            "url": url,
-            "problem": cur_prob,
-            "stage": stage,
-            **vals,
-        })
+    for p in paths:
+        txt = Path(p).read_text(encoding="utf-8")
+        for blk in re.findall(r"\\begin\{tabular\}.*?\\end\{tabular\}", txt, re.S):
+            if "\\textbf{Representation}" not in blk:
+                continue
+            cur_prob = None
+            for ln in blk.splitlines():
+                m = re.search(r"\\rowcolor\{bandblue\}.*?\\textbf\{([^}]*)\}", ln)
+                if m:
+                    cur_prob = PROB_MAP[m.group(1).replace("--", "–")]
+                    continue
+                if "\\cite" not in ln or ln.count("&") != 7:
+                    continue
+                c = [x.strip() for x in ln.rstrip().rstrip("\\").split("&")]
+                name = norm_tex(re.sub(r"~?\\cite\{[^}]*\}", "", c[0]))
+                stage = "n/a"
+                vals = {}
+                for i, key in enumerate(TECH_COLS):
+                    v = c[i + 2]
+                    mm = re.match(r"\\cellcolor\{modgray\}\\textbf\{(.*)\}$", v)
+                    if mm:
+                        v = mm.group(1)
+                        stage = COL_STAGES[i]
+                    vals[key] = norm_tex(v)
+                rows.append({"name": name, "venue": norm_tex(c[1]), "problem": cur_prob, "stage": stage, **vals})
     return rows
 
 
-def sync_table1(root: Path, md_path: Path):
-    rows = parse_table1_md(md_path)
-    by_name, by_id, retained = {}, {}, set()
+def sync_table1(root: Path, tex_paths: list):
+    rows = parse_table1_tex(tex_paths)
+    by_name = {}
     for p in sorted((root / "data/papers").glob("*.yaml")):
         d = yaml.safe_load(p.read_text(encoding="utf-8"))
         by_name[d["name"]] = (p, d)
-        by_id[d["id"]] = (p, d)
+    missing = [r["name"] for r in rows if r["name"] not in by_name]
+    if missing:
+        for nm in missing:
+            print(f"ERROR: row in tex missing from data/papers/: {nm}", file=sys.stderr)
+        sys.exit(1)
+    seen = set()
     for r in rows:
-        pid = re.sub(r"[^a-z0-9]+", "-", r["name"].lower()).strip("-")
-        if r["name"] in by_name:
-            p, d = by_name[r["name"]]
-        elif pid in by_id:
-            p, d = by_id[pid]
-        else:
-            p = root / "data/papers" / f"{pid}.yaml"
-            d = {
-                "id": pid,
-                "title": r["name"],
-                "links": {"arxiv": r["url"] or "", "code": None},
-                "poi": ("Geo" in r["representation"]) or ("Geo" in r["tokenization"]),
-                "summary": f"{r['name']} ({r['venue']}): {r['stage']}-stage method.",
-            }
-        d["name"] = r["name"]
-        d["authors"] = r["authors"]
-        d["year"] = r["year"]
+        seen.add(r["name"])
+        p, d = by_name[r["name"]]
         d["venue"] = r["venue"]
-        if r["url"]:
-            d["links"]["arxiv"] = r["url"]
         d["problem"] = r["problem"]
         d["stage"] = r["stage"]
         for k in TECH_COLS:
-            d[k] = r[k]
+            if na_to_dash(str(d.get(k, ""))) != r[k]:
+                d[k] = r[k]
         p.write_text(yaml.dump(d, sort_keys=False, allow_unicode=True, width=120), encoding="utf-8")
-        retained.add(p)
-    for p in sorted((root / "data/papers").glob("*.yaml")):
-        if p not in retained:
-            p.unlink()
-    print(f"Synchronized {len(rows)} rows from {md_path} into data/papers/*.yaml.")
+    for nm in sorted(set(by_name) - seen):
+        print(f"WARNING: record {nm} not found in Table 1 tex; kept.", file=sys.stderr)
+    print(f"Synchronized {len(rows)} rows from {[str(x) for x in tex_paths]} into data/papers/*.yaml.")
 
 
 STAGES = ["Representation", "Tokenization", "Backbone", "Training", "Inference"]
@@ -279,14 +253,14 @@ def build_llms(vocab: dict, papers: list, root: Path):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
-    ap.add_argument("--sync-table1", type=Path, nargs="?", const=True, help="Sync from PATH, or TABLE1 when omitted")
+    ap.add_argument("--sync-table1", type=Path, nargs="*", help="Sync from PATH(s), or TABLE1 when omitted")
     args = ap.parse_args()
 
     if args.sync_table1 is not None:
-        table1 = os.environ.get("TABLE1") if args.sync_table1 is True else args.sync_table1
-        if not table1 or not Path(table1).is_file():
-            ap.error("--sync-table1 requires an existing PATH or TABLE1 source file")
-        sync_table1(args.root, Path(table1))
+        paths = args.sync_table1 or [Path(x) for x in os.environ.get("TABLE1", "").split()]
+        if not paths or any(not p.is_file() for p in paths):
+            ap.error("--sync-table1 requires existing PATH(s) or TABLE1 source file(s)")
+        sync_table1(args.root, paths)
         return
 
     vocab = load_vocab(args.root)

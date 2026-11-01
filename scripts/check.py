@@ -2,7 +2,7 @@
 """Validate all paper records and generated views:
 1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + 3 hard content rules)
 2. Global uniqueness (file stem, id, name, links.arxiv)
-3. Table 1 cell-by-cell round-trip against Table1_扩展版.md
+3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
 4. Relative Markdown links and anchors across README.md, CONTRIBUTING.md, schema/README.md, notes/, pages/
 """
 import argparse
@@ -12,9 +12,11 @@ import re
 import sys
 from pathlib import Path
 import yaml
-from build import ROOT, TECH_COLS, parse_table1_md, slugify_heading
+from build import ROOT, TECH_COLS, na_to_dash, parse_table1_tex, slugify_heading
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
+SETUP_KEYS = ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"]
+RELATIONS = {"predecessor", "successor", "competitor", "alternative"}
 
 
 def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) -> dict:
@@ -23,7 +25,7 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     id_pat = re.compile(schema["properties"]["id"]["pattern"])
     ev_item_schema = schema["properties"]["evidence"]["items"]
     ev_req = set(ev_item_schema["required"])
-    ev_fields = allowed_keys - {"evidence"}
+    ev_fields = allowed_keys - {"evidence", "tldr", "setup", "related", "setup_where"}
 
     vocab_sets = {
         "problem": {e["value"] for e in vocab["problem"]},
@@ -56,10 +58,15 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
             errors.append(f"[schema] {p.name}: poi must be boolean")
 
         links = rec.get("links", {})
-        if not isinstance(links, dict) or set(links.keys()) != {"arxiv", "code"}:
-            errors.append(f"[schema] {p.name}: links must contain exactly 'arxiv' and 'code'")
-        elif not isinstance(links.get("arxiv"), str) or not links["arxiv"].startswith("http"):
-            errors.append(f"[schema] {p.name}: links.arxiv must be a non-empty URL")
+        if not isinstance(links, dict) or not ({"arxiv", "code"} <= set(links.keys()) <= {"arxiv", "code", "code_third_party"}):
+            errors.append(f"[schema] {p.name}: links must contain 'arxiv' and 'code' (and optionally 'code_third_party')")
+        else:
+            if not isinstance(links.get("arxiv"), str) or not links["arxiv"].startswith("http"):
+                errors.append(f"[schema] {p.name}: links.arxiv must be a non-empty URL")
+            if links.get("code") is not None and (not isinstance(links["code"], str) or not links["code"].startswith("http")):
+                errors.append(f"[schema] {p.name}: links.code must be a URL or null")
+            if "code_third_party" in links and (not isinstance(links["code_third_party"], str) or not links["code_third_party"].startswith("http")):
+                errors.append(f"[schema] {p.name}: links.code_third_party must be a non-empty URL")
 
         for vk, vset in vocab_sets.items():
             val = rec.get(vk)
@@ -81,7 +88,51 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
                     elif item.get("field") not in ev_fields:
                         errors.append(f"[schema] {p.name}: evidence[{idx}].field={item.get('field')!r} invalid")
 
+        if "tldr" in rec and (not isinstance(rec["tldr"], str) or not rec["tldr"].strip()):
+            errors.append(f"[schema] {p.name}: tldr must be a non-empty string")
+
+        if "setup" in rec:
+            st = rec["setup"]
+            if not isinstance(st, dict) or list(st.keys()) != SETUP_KEYS:
+                errors.append(f"[schema] {p.name}: setup must have exact ordered keys {SETUP_KEYS}")
+            elif any(not isinstance(v, str) or not v.strip() for v in st.values()):
+                errors.append(f"[schema] {p.name}: all setup values must be non-empty strings")
+
+        if "setup_where" in rec:
+            if "setup" not in rec:
+                errors.append(f"[schema] {p.name}: setup_where can only appear with setup")
+            sw = rec["setup_where"]
+            if not isinstance(sw, dict) or set(sw.keys()) != set(SETUP_KEYS):
+                errors.append(f"[schema] {p.name}: setup_where must have keys {SETUP_KEYS}")
+            elif any(not isinstance(v, str) or not v.strip() for v in sw.values()):
+                errors.append(f"[schema] {p.name}: all setup_where values must be non-empty strings")
+
         records[rec["id"]] = rec
+
+    for pid, rec in records.items():
+        if "related" not in rec:
+            continue
+        rel = rec["related"]
+        if not isinstance(rel, list) or not (1 <= len(rel) <= 5):
+            errors.append(f"[schema] {pid}.yaml: related must be a list of 1–5 items")
+            continue
+        seen_rel = set()
+        for idx, item in enumerate(rel):
+            if not isinstance(item, dict) or set(item.keys()) != {"id", "relation", "note", "where"}:
+                errors.append(f"[schema] {pid}.yaml: related[{idx}] must have exact keys id, relation, note, where")
+                continue
+            if any(not isinstance(v, str) or not v.strip() for v in item.values()):
+                errors.append(f"[schema] {pid}.yaml: related[{idx}] values must be non-empty strings")
+                continue
+            if item["relation"] not in RELATIONS:
+                errors.append(f"[schema] {pid}.yaml: related[{idx}].relation={item['relation']!r} invalid")
+            rid = item["id"]
+            if rid == pid or rid not in records:
+                errors.append(f"[schema] {pid}.yaml: related[{idx}].id={rid!r} must be another existing record id")
+            if rid in seen_rel:
+                errors.append(f"[schema] {pid}.yaml: duplicate related id {rid!r}")
+            seen_rel.add(rid)
+
     return records
 
 
@@ -99,30 +150,36 @@ def check_uniqueness(records: dict, errors: list):
         seen_arxiv[ax] = pid
 
 
-def check_table1_roundtrip(records: dict, table1_path: Path, errors: list):
-    if not table1_path.exists():
-        errors.append(f"[table1] source file not found: {table1_path}")
-        return
-    rows = parse_table1_md(table1_path)
+def check_table1_roundtrip(records: dict, table1_paths: list, errors: list):
+    for p in table1_paths:
+        if not p.exists():
+            errors.append(f"[table1] source file not found: {p}")
+            return
+    rows = parse_table1_tex(table1_paths)
     by_name = {r["name"]: r for r in records.values()}
     if len(rows) != len(records):
         errors.append(f"[table1] row count mismatch: Table 1 has {len(rows)}, repo has {len(records)}")
 
+    seen = set()
     for r in rows:
         nm = r["name"]
+        if nm in seen:
+            errors.append(f"[table1] duplicate row {nm!r} in Table 1 tex")
+            continue
+        seen.add(nm)
         if nm not in by_name:
             errors.append(f"[table1] row {nm!r} in Table 1 missing from data/papers/")
             continue
         rec = by_name[nm]
-        for field in ["authors", "year", "venue", "problem", "stage", *TECH_COLS]:
+        for field in ["name", "venue", "problem", "stage"]:
             if rec[field] != r[field]:
-                errors.append(
-                    f"[table1] cell mismatch for {nm} / {field}: repo={rec[field]!r} vs table1={r[field]!r}"
-                )
-        if r["url"] and rec["links"]["arxiv"] != r["url"]:
-            errors.append(
-                f"[table1] URL mismatch for {nm}: repo={rec['links']['arxiv']!r} vs table1={r['url']!r}"
-            )
+                errors.append(f"[table1] cell mismatch for {nm} / {field}: repo={rec[field]!r} vs table1={r[field]!r}")
+        for col in TECH_COLS:
+            repo_val = na_to_dash(rec[col])
+            if repo_val != r[col]:
+                errors.append(f"[table1] cell mismatch for {nm} / {col}: repo={rec[col]!r} ({repo_val!r}) vs table1={r[col]!r}")
+    for nm in sorted(set(by_name) - seen):
+        errors.append(f"[table1] repo record {nm!r} missing from Table 1 tex")
 
 
 def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
@@ -184,7 +241,7 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
-    ap.add_argument("--table1", type=Path, default=os.environ.get("TABLE1"), help="External Table 1 source (or TABLE1)")
+    ap.add_argument("--table1", type=Path, nargs="+", help="External Table 1 source(s) (or TABLE1)")
     args = ap.parse_args()
 
     schema = json.loads((args.root / "schema/paper.schema.json").read_text(encoding="utf-8"))
@@ -193,10 +250,11 @@ def main():
 
     records = check_schema_and_vocab(args.root, schema, vocab, errors)
     check_uniqueness(records, errors)
-    if args.table1 is not None:
-        check_table1_roundtrip(records, args.table1, errors)
+    table1_paths = args.table1 or [Path(x) for x in os.environ.get("TABLE1", "").split()]
+    if table1_paths:
+        check_table1_roundtrip(records, table1_paths, errors)
     else:
-        print("SKIP: external Table 1 round-trip (supply --table1 PATH or TABLE1).")
+        print("SKIP: external Table 1 round-trip (supply --table1 PATH... or TABLE1).")
     check_links_and_content_rules(args.root, vocab, errors)
 
     if errors:
@@ -208,7 +266,7 @@ def main():
     print(
         f"OK: {len(records)} records passed schema, vocab, uniqueness, "
         f"relative link checks."
-        + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if args.table1 is not None else "")
+        + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if table1_paths else "")
     )
 
 

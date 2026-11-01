@@ -67,8 +67,13 @@
           "minLength": 1
         },
         "code": {
-          "description": "Official code or project repository URL, or null.",
+          "description": "Code or project repository released by the paper's authors, or null.",
           "type": ["string", "null"]
+        },
+        "code_third_party": {
+          "description": "Third-party code repository URL, if no author implementation is available.",
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -134,6 +139,61 @@
           "where": {"type": "string", "minLength": 1}
         }
       }
+    },
+    "tldr": {
+      "description": "One-sentence English summary stating the problem, core mechanism, and difference from prior work.",
+      "type": "string",
+      "minLength": 1
+    },
+    "setup": {
+      "description": "Experimental setup card with seven fixed fields.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"],
+      "properties": {
+        "datasets": {"type": "string", "minLength": 1},
+        "split": {"type": "string", "minLength": 1},
+        "candidates": {"type": "string", "minLength": 1},
+        "visibility": {"type": "string", "minLength": 1},
+        "sid": {"type": "string", "minLength": 1},
+        "inference_budget": {"type": "string", "minLength": 1},
+        "results_from": {"type": "string", "minLength": 1}
+      }
+    },
+    "setup_where": {
+      "description": "Paper section/table/anchor locations for each setup field; only present alongside setup.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"],
+      "properties": {
+        "datasets": {"type": "string", "minLength": 1},
+        "split": {"type": "string", "minLength": 1},
+        "candidates": {"type": "string", "minLength": 1},
+        "visibility": {"type": "string", "minLength": 1},
+        "sid": {"type": "string", "minLength": 1},
+        "inference_budget": {"type": "string", "minLength": 1},
+        "results_from": {"type": "string", "minLength": 1}
+      }
+    },
+    "related": {
+      "description": "Manually verified relations to 1–5 other catalog papers.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "relation", "note", "where"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "relation": {"type": "string", "enum": ["predecessor", "successor", "competitor", "alternative"]},
+          "note": {"type": "string", "minLength": 1},
+          "where": {"type": "string", "minLength": 1}
+        }
+      }
     }
+  },
+  "dependentRequired": {
+    "setup_where": ["setup"]
   }
 }

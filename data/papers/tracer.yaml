@@ -14,6 +14,6 @@ tokenization: Soft Reassign. RQ
 backbone: Dec-Only / Enc-Dec
 tokenizer: Joint
 objective: NTP + Aux.
-inference: –
+inference: Beam
 poi: false
 summary: 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。

@@ -10,9 +10,9 @@ links:
 problem: I
 stage: Representation
 representation: Text+Img+CF
-tokenization: –
+tokenization: n/a
 backbone: Dec-Only
-tokenizer: –
+tokenizer: n/a
 objective: Discrim.
 inference: Scoring
 poi: false

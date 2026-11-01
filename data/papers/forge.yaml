@@ -6,7 +6,7 @@ year: 2025
 venue: KDD’26
 links:
   arxiv: https://arxiv.org/abs/2509.20904
-  code: https://huggingface.co/AL-GR
+  code: https://github.com/selous123/al_sid
 problem: psb
 stage: n/a
 representation: Text+Img
