@@ -18,7 +18,7 @@
 
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Ctr. + Aux.`: 同阶段并行码CE + in-batch ISA对比 + 潜在token重建
+- `MTP + Ctr. + Aux.`: Multi-token prediction jointly optimized with contrastive and auxiliary objectives.
 
 ## Same cell: V × Backbone (10 more)
 

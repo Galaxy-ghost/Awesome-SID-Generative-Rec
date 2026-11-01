@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`RQ+IST`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
 
-- `RQ+IST`: 固定基础RQ编号＋仅历史侧Item-level Subword Tokenization
+- `RQ+IST`: Residual quantization combined with item-level subword tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

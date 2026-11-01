@@ -17,7 +17,7 @@
 | `–` | `RQ-VAE` | `Enc-MLP` | **`Fixed / NTP + Aux.`** | `C-Beam` |
 
 - `–`: Not reported in the paper, or not applicable.
-- `Enc-MLP`: 冻结T5 encoder，一次注意力上下文读出，逐码位前缀条件MLP
+- `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `C-Beam`: Constrained beam search.

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF` | **`Graph RQ-VAE`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
 
-- `Graph RQ-VAE`: Graph-based RQ-VAE (MMGRec).
+- `Graph RQ-VAE`: A graph-informed residual-quantized variational autoencoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

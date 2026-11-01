@@ -19,7 +19,7 @@
 - `SRBQ`: Semantic Residual Balanced Quantization
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `(MTP + Masked Rec.) → MTP`: 并行下一物品码预测CE与多粒度历史掩码重建CE联合训练，课程最后关闭重建、保留纯下一物品预测。
+- `(MTP + Masked Rec.) → MTP`: Joint multi-token prediction and masked reconstruction, followed by multi-token prediction alone.
 
 ## Same cell: IV × Training (21 more)
 

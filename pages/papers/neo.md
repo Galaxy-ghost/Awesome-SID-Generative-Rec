@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / Audio` | `R-KM` | `Dec-Only` | `Fixed / Multi-task NTP` | `C-Beam` |
 
-- `Text / Audio`: 不同实体类型分别使用文本或音频嵌入与独立码本，不代表拼接两模态。
+- `Text / Audio`: Text or audio representations in different branches or evaluation settings.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -37,4 +37,4 @@
 | [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |
+| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |

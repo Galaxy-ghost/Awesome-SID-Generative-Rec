@@ -18,7 +18,7 @@
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → (NTP + Aux.)`: 先uniform refinement CE，再主CE联合lookahead token CE及gain regression。
+- `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
 - `C-Beam`: Constrained beam search.
 
 ## Same cell: V × Backbone (10 more)

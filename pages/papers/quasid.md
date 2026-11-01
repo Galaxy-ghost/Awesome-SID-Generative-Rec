@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`QA-RQ`** | `Enc-Dec` | `Fixed / NTP` | `Beam†` |
 
-- `QA-RQ`: Qualification-Aware RQ-VAE (QuaSID).
+- `QA-RQ`: Qualification-Aware RQ-VAE.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`Self-Sup. ID`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
 
-- `Self-Sup. ID`: Self-supervised semantic indexer, not an RQ-VAE (LMIndexer).
+- `Self-Sup. ID`: Semantic identifiers learned through self-supervision.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Time` | **`RQ-VAE / Par. VQ`** | `Dec-Only†` | `Fixed / NTP` | `Beam†` |
 
-- `Text+Time`: 文本与交互时间输入
-- `RQ-VAE / Par. VQ`: 两种被对照的构码变体
+- `Text+Time`: Text representations combined with interaction timestamps.
+- `RQ-VAE / Par. VQ`: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 

@@ -29,8 +29,8 @@ Click a count to jump to its papers; darker means more papers, `·` means none y
 
 > Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources.
 
-- [TIGER](https://arxiv.org/abs/2305.05065) - Recommender Systems with Generative Retrieval. Rajput et al., NeurIPS’23 · [Page](pages/papers/tiger.md) · [Code](https://github.com/baiyimeng/TIGER). `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam`.
-- [FORGE](https://arxiv.org/abs/2509.20904) - Forming semantic identifiers for generative retrieval in industrial datasets. Fu et al., KDD’26 · [Page](pages/papers/forge.md) · [Code](https://huggingface.co/AL-GR). `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam`.
+- [TIGER](https://arxiv.org/abs/2305.05065) - Recommender Systems with Generative Retrieval. Rajput et al., NeurIPS’23 · [Page](pages/papers/tiger.md). `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam`.
+- [FORGE](https://arxiv.org/abs/2509.20904) - Forming semantic identifiers for generative retrieval in industrial datasets. Fu et al., KDD’26 · [Page](pages/papers/forge.md) · [Code](https://github.com/selous123/al_sid). `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam`.
 - [GRID](https://arxiv.org/abs/2507.22224) - Generative Recommendation with Semantic IDs: A Practitioner's Handbook. Ju et al., CIKM’25 · [Page](pages/papers/grid.md). `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam`.
 - [MiniOneRec](https://arxiv.org/abs/2510.24431) - An Open-Source Framework for Scaling Generative Recommendation. Kong et al., arXiv’25 · [Page](pages/papers/minionerec.md) · [Code](https://github.com/AkaliKong/MiniOneRec). `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam`.
 - [OneRec](https://arxiv.org/abs/2502.18965) - Unifying retrieve and rank with generative recommender and iterative preference alignment. Deng et al., arXiv’25 · [Page](pages/papers/onerec.md). `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam`.
@@ -40,7 +40,7 @@ Click a count to jump to its papers; darker means more papers, `·` means none y
 - [OneMall](https://arxiv.org/abs/2601.21770) - One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce. Zhang et al., CIKM’26 · [Page](pages/papers/onemall.md). `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam`.
 - [PLUM](https://arxiv.org/abs/2510.07784) - Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations. He et al., WWW’26 · [Page](pages/papers/plum.md). `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam`.
 - [ReRankID](https://arxiv.org/abs/2610.22797) - Reasoning Reranking with Semantic IDs as the Sole Item Representation. Tang et al., arXiv’26 · [Page](pages/papers/rerankid.md). `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy`.
-- [SIDScope](https://arxiv.org/abs/2608.18779) - A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation. Ding et al., arXiv’26 · [Page](pages/papers/sidscope.md). `–` → `–` → `–` → `– / –` → `–`.
+- [SIDScope](https://arxiv.org/abs/2608.18779) - A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation. Ding et al., arXiv’26 · [Page](pages/papers/sidscope.md). `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a`.
 
 ## I. Informativeness
 
@@ -48,7 +48,7 @@ Click a count to jump to its papers; darker means more papers, `·` means none y
 
 ### I × Representation
 
-- [Molar](https://arxiv.org/abs/2412.18176) - Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation. Luo et al., arXiv’24 · [Page](pages/papers/molar.md). **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring`.
+- [Molar](https://arxiv.org/abs/2412.18176) - Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation. Luo et al., arXiv’24 · [Page](pages/papers/molar.md). **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring`.
 - [OneLoc](https://arxiv.org/abs/2508.14646) - Geo-Aware Generative Recommender Systems for Local Life Service. Wei et al., arXiv’25 · `POI` · [Page](pages/papers/oneloc.md). **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam`.
 - [Q-BERT4Rec](https://arxiv.org/abs/2512.02474) - Quantized Semantic-ID Representation Learning for Multimodal Recommendation. Huang and Gai, arXiv’25 · [Page](pages/papers/q-bert4rec.md). **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR`.
 - [UNGER](https://arxiv.org/abs/2502.06269) - Generative Recommendation with A Unified Code via Semantic and Collaborative Integration. Xiao et al., TOIS’25 · [Page](pages/papers/unger.md). **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam`.
@@ -64,7 +64,7 @@ Click a count to jump to its papers; darker means more papers, `·` means none y
 ### I × Tokenization
 
 - [CoST](https://arxiv.org/abs/2404.14774) - Contrastive quantization based semantic tokenization for generative recommendation. Zhu et al., RecSys’24 · [Page](pages/papers/cost.md). `Text` → **`C-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam`.
-- [LETTER](https://arxiv.org/abs/2405.07314) - Learnable item tokenization for generative recommendation. Wang et al., CIKM’24 · [Page](pages/papers/letter.md) · [Code](https://github.com/Honghuibao2000/LETTER). `Text+CF` → **`Learn. RQ`** → `Enc-Dec` → `Fixed / NTP + Rank` → `C-Beam`.
+- [LETTER](https://arxiv.org/abs/2405.07314) - Learnable item tokenization for generative recommendation. Wang et al., CIKM’24 · [Page](pages/papers/letter.md) · [Code](https://github.com/HonghuiBao2000/LETTER). `Text+CF` → **`Learn. RQ`** → `Enc-Dec` → `Fixed / NTP + Rank` → `C-Beam`.
 - [LMIndexer](https://arxiv.org/abs/2310.07815) - Language Models As Semantic Indexers. Jin et al., ICML’24 · [Page](pages/papers/lmindexer.md). `Text` → **`Self-Sup. ID`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam`.
 - [ActionPiece](https://arxiv.org/abs/2502.13581) - Contextually Tokenizing Action Sequences for Generative Recommendation. Hou et al., ICML’25 · [Page](pages/papers/actionpiece.md) · [Code](https://github.com/google-deepmind/action_piece). `Text` → **`OPQ`** → `Enc-Dec` → `Fixed / NTP` → `Ensemble`.
 - [ADC-SID](https://arxiv.org/abs/2510.25622) - Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation. Xu et al., arXiv’25 · [Page](pages/papers/adc-sid.md). `Text+Img+CF` → **`MoE-VQ`** → `Enc-Dec` → `Fixed† / NTP` → `–`.
@@ -192,7 +192,7 @@ Click a count to jump to its papers; darker means more papers, `·` means none y
 
 ### IV × Tokenization
 
-- [TRACER](https://arxiv.org/abs/2606.07688) - Token ReAssignment for Concept ERasure in Generative Recommendation. Chen et al., NeurIPS’26 · [Page](pages/papers/tracer.md). `Text` → **`Soft Reassign. RQ`** → `Dec-Only / Enc-Dec` → `Joint / NTP + Aux.` → `–`.
+- [TRACER](https://arxiv.org/abs/2606.07688) - Token ReAssignment for Concept ERasure in Generative Recommendation. Chen et al., NeurIPS’26 · [Page](pages/papers/tracer.md). `Text` → **`Soft Reassign. RQ`** → `Dec-Only / Enc-Dec` → `Joint / NTP + Aux.` → `Beam`.
 
 ### IV × Backbone
 

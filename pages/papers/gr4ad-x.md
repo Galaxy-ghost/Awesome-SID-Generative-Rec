@@ -17,11 +17,11 @@
 | `–` | **`Multi-Path R-KM+Hash`** | `Enc-Dec` | `Fixed / NTP + PV-RSPO + Rank + Aux.` | `PV-Beam+Rerank` |
 
 - `–`: Not reported in the paper, or not applicable.
-- `Multi-Path R-KM+Hash`: 多路径残差kmeans加末层非语义hash，首层多中心后续逐条残差。
+- `Multi-Path R-KM+Hash`: Multiple residual-k-means code paths combined with a hash-based identifier component.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + PV-RSPO + Rank + Aux.`: 多路径SID NTP与prefix-value listwise RSPO、eCPM LambdaLoss、行为深度ordinal loss及粗原型辅助监督在共享模型中联合训练。
-- `PV-Beam+Rerank`: Prefix-Value-aware Beam Search加共享模型判别重排。
+- `NTP + PV-RSPO + Rank + Aux.`: Next-token prediction jointly optimized with prefix-value RSPO, ranking, and auxiliary objectives.
+- `PV-Beam+Rerank`: Prefix-value-guided beam search followed by reranking.
 
 ## Same cell: III × Tokenization (10 more)
 

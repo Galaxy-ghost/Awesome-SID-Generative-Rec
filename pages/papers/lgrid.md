@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | **`Text+Geo`** | `DSRQ` | `Disc.` | `Fixed / Discrim.` | `Scoring` |
 
-- `DSRQ`: Dual-stream residual quantization (LGRID).
-- `Disc.`: Discriminative recommendation model such as DIN; SIDs only serve as features (LGRID, LGSID).
+- `DSRQ`: Dual-stream residual quantization.
+- `Disc.`: A discriminative recommendation model that scores candidates.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
 
@@ -117,7 +117,7 @@ LGRID 适合放在“可解释与解耦语义标识”章节，代表通过生�
 
 | Paper | Venue | Pipeline |
 | :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring` |
+| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
 | [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
 | [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
 | [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |

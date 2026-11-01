@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Attr+Geo+CF†` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT+Beam` |
 
-- `Attr+Geo+CF†`: Attr 为类别等结构化属性，Geo 为区域/邻接，CF 为用户访问。
+- `Attr+Geo+CF†`: Structured item attributes, geographic information, and collaborative signals (inferred).
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `CoT+Beam`: Think, self-correct, answer, then beam search (Think2Go).
+- `CoT+Beam`: Reasoning followed by beam-search decoding.
 
 ## Architecture
 

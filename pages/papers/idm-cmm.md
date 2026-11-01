@@ -16,10 +16,10 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | `Subspace RQ` | `Non-AR` | **`Fixed / MTP + Aux.`** | `Scoring` |
 
-- `Subspace RQ`: 16个量化子空间，每空间3残差层，48个并行码头
+- `Subspace RQ`: Residual quantization applied separately within embedding subspaces.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: 并行码位预测，加无负例负余弦语义对齐。
+- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
 
 ## Same cell: IV × Training (21 more)
 

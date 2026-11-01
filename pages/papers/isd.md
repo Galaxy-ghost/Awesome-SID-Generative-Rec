@@ -17,7 +17,7 @@
 | `Text†` | `RQ-VAE†` | `Enc-Dec†` | `Fixed / NTP†` | **`ISD Beam`** |
 
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `ISD Beam`: item rank在beam reduction前支持prefix，生成后同rank融合排序
+- `ISD Beam`: Item-supported beam search.
 
 ## Same cell: IV × Inference (1 more)
 

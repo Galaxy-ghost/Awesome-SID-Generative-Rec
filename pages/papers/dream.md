@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`CART`** | `Dec-Only` | `Altern. / NTP + Aux.` | `C-Beam` |
 
-- `CART`: Collaborative-Aware Refined Tokenization，协同感知码分配及候选池。
+- `CART`: Collaborative-Aware Refined Tokenization.
 - `Dec-Only`: Decoder-only.
 - `Altern.`: Tokenizer and generator are updated in turns.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

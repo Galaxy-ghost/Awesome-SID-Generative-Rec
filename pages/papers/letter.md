@@ -2,7 +2,7 @@
 
 *Learnable item tokenization for generative recommendation* — Wang et al., CIKM’24
 
-[arXiv](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/Honghuibao2000/LETTER) · [Record](../../data/papers/letter.yaml) · [← Catalog](../../README.md#i--tokenization)
+[arXiv](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) · [Record](../../data/papers/letter.yaml) · [← Catalog](../../README.md#i--tokenization)
 
 > Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code assignment bias".
 

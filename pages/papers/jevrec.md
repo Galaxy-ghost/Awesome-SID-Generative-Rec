@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`Freq. R-KM`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `Length-Quota Beam` |
 
-- `Freq. R-KM`: Frequency-aware residual K-means：共享残差码本按频率保留前缀，再加独立消歧码。
+- `Freq. R-KM`: Frequency-aware residual k-means tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
-- `Length-Quota Beam`: 多长度分支 beam search，按预测长度概率分配推荐名额，过滤无效完整码后跨长度联合评分。
+- `Length-Quota Beam`: Beam search with recommendation quotas allocated across output lengths.
 
 ## Same cell: V × Tokenization (2 more)
 

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+Geo+CF` | **`Contr. RQ`** | `Dec-Only` | `Fixed / NTP → DPO` | `–` |
 
-- `Contr. RQ`: Fully contrastive residual-quantization tokenizer (Gwhere).
+- `Contr. RQ`: Residual quantization trained with contrastive objectives.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.

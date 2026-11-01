@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / Text+CF` | `RQ-VAE / R-KM / LETTER` | **`Enc-Dec`** | `Fixed / NTP` | `C-Beam` |
 
-- `Text / Text+CF`: Text-only setting (TIGER/RQ) vs. text plus collaborative setting (LETTER/ Vibrent vs. industrial).
-- `RQ-VAE / R-KM / LETTER`: 三种实际评估配置
+- `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
+- `RQ-VAE / R-KM / LETTER`: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

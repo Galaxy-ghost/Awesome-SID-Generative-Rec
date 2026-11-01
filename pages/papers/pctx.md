@@ -20,7 +20,7 @@
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Beam+Agg.`: 束搜索后聚合同物品多个SID的概率。
+- `Beam+Agg.`: Beam search followed by aggregation of predictions that refer to the same item.
 
 ## Same cell: I × Tokenization (33 more)
 

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | **`Text+CF`** | `RQ-VAE` | `Non-AR / Enc-Dec` | `Fixed / MTP + Ctr.` | `Scoring / Beam†` |
 
-- `Non-AR / Enc-Dec`: Parallel prediction heads (main setting) vs. Encoder-Decoder TIGER integration (SCRec).
+- `Non-AR / Enc-Dec`: Non-autoregressive and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Ctr.`: MTP plus a contrastive loss.
 - `Scoring / Beam†`: Discriminative candidate scoring vs. generative beam search.
@@ -31,7 +31,7 @@
 
 | Paper | Venue | Pipeline |
 | :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring` |
+| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
 | [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
 | [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
 | [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |

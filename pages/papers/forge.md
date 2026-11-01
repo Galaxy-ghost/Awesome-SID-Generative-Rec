@@ -2,7 +2,7 @@
 
 *Forming semantic identifiers for generative retrieval in industrial datasets* — Fu et al., KDD’26
 
-[arXiv](https://arxiv.org/abs/2509.20904) · [Code](https://huggingface.co/AL-GR) · [Record](../../data/papers/forge.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+[arXiv](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid) · [Record](../../data/papers/forge.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
 
 > Abstract: "their SID assessment typically relies on costly GR training".
 
@@ -120,4 +120,4 @@ FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程
 | [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |
+| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |

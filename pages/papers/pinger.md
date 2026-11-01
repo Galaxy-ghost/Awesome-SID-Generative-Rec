@@ -19,7 +19,7 @@
 - `Dec-Only`: Decoder-only.
 - `–`: No SID is built.
 - `NTP → DPO`: NTP, then preference optimization.
-- `Div. C-Beam`: 层次prefix相似性惩罚的多样化trie约束束搜索。
+- `Div. C-Beam`: Constrained beam search with an explicit diversity mechanism.
 
 ## Same cell: V × Backbone (10 more)
 

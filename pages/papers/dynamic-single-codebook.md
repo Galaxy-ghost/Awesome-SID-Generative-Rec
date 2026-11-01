@@ -17,8 +17,8 @@
 | `–` | **`Dyn. KM+Disamb.`** | `Enc-Dec / Lazy Dec-Only` | `Fixed / NTP†` | `Beam†` |
 
 - `–`: Not reported in the paper, or not applicable.
-- `Dyn. KM+Disamb.`: 曝光加权单层k-means语义码+固定消歧码，曝光EMA动态更新
-- `Enc-Dec / Lazy Dec-Only`: 主格分别为OneRec-V1和V2公开适配
+- `Dyn. KM+Disamb.`: Dynamically updated k-means codes combined with disambiguation codes.
+- `Enc-Dec / Lazy Dec-Only`: Encoder–decoder and lazy decoder-only backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 
 ## Same cell: V × Tokenization (2 more)

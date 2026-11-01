@@ -16,9 +16,9 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+Audio+CF` | **`R-KM`** | `Lazy Dec-Only` | `Fixed / NTP → RL` | `Beam` |
 
-- `Text+Img+Audio+CF`: 直播文本、画面、音频经实时行为双塔后对齐。
+- `Text+Img+Audio+CF`: Text, visual, and audio content combined with collaborative signals.
 - `R-KM`: Residual k-means.
-- `Lazy Dec-Only`: The paper's Lazy Decoder-Only architecture (OneRec-V2).
+- `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 

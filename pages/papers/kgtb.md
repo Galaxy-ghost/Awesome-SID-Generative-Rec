@@ -17,7 +17,7 @@
 | `Attr+Geo+CF` | **`KG-RQ`** | `Dec-Only` | `Fixed / Multi-task NTP` | `–` |
 
 - `Attr+Geo+CF`: Category and other attributes, plus geography, plus CF (POI).
-- `KG-RQ`: 知识图谱结构监督的类型专用残差量化
+- `KG-RQ`: Residual quantization informed by knowledge-graph structure.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

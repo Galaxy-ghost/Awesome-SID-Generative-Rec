@@ -20,7 +20,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Vec. C-Beam`: Vectorized constrained beam search (STATIC).
+- `Vec. C-Beam`: Vectorized constrained beam search.
 
 ## Evidence
 

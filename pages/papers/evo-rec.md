@@ -19,7 +19,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `CoT+C-Beam`: Reasoning chain, then constrained beam search (ROS).
+- `CoT+C-Beam`: Reasoning followed by constrained beam-search decoding.
 
 ## Same cell: III × Training (8 more)
 

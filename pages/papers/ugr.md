@@ -18,7 +18,7 @@
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → (RL + Rank)`: 先以下一token损失SFT
+- `NTP → (RL + Rank)`: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
 
 ## Same cell: IV × Training (21 more)
 

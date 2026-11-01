@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`Multi-Facet ID`** | `Enc-Dec / Dec-Only` | `Fixed / NTP` | `FM-Index+Agg.` |
 
-- `Multi-Facet ID`: Multi-facet identifiers: ID, title substrings and attributes (TransRec).
+- `Multi-Facet ID`: Identifiers representing multiple facets of an item.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `FM-Index+Agg.`: FM-index constrained generation plus aggregation scoring (TransRec).
+- `FM-Index+Agg.`: FM-index-constrained generation followed by identifier-to-item score aggregation.
 
 ## Evidence
 

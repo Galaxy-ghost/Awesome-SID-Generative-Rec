@@ -19,7 +19,7 @@
 - `–`: Not reported in the paper, or not applicable.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Next-item CE + Cons. KD + Rank KD`: 学生以SID、item分支与完整目录融合分布的next-item监督联合边界/组合一致性KL及refined-fusion排名KL
+- `Next-item CE + Cons. KD + Rank KD`: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
 
 ## Same cell: IV × Training (21 more)
 

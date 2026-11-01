@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | `Skeleton R-KM` | `Dec-Only` | **`Fixed / NTP + Aux.`** | `–` |
 
-- `Skeleton R-KM`: 头部残差k-means骨架
+- `Skeleton R-KM`: Residual k-means organized around a shared semantic skeleton.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

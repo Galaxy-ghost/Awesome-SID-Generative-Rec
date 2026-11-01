@@ -16,12 +16,12 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `– / Text+Img` | `RQ` | `Non-AR` | **`Fixed / Masked → RL (→ Masked KD for Fast)`** | `Diff.+Legalize` |
 
-- `– / Text+Img`: Spotify/POG原CLHE输入未在本文分解
+- `– / Text+Img`: The representation source is unreported in one configuration; text and image representations are used in another.
 - `RQ`: Residual quantization.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Masked → RL (→ Masked KD for Fast)`: 先random-mask去噪CE，再semantic-fork-aware GRPO
-- `Diff.+Legalize`: 扩散解码后候选集合内精确SID匹配，非法SID重构向量后cosine最近候选匹配并去重。
+- `Masked → RL (→ Masked KD for Fast)`: Masked-prediction pretraining, followed by reinforcement learning and optional masked-prediction distillation for a faster variant.
+- `Diff.+Legalize`: Diffusion-based decoding followed by mapping generated codes to valid items.
 
 ## Same cell: IV × Training (21 more)
 

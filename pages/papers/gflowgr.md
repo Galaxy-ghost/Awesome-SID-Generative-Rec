@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / Text+CF` | `RQ-VAE / Learn. RQ` | `Enc-Dec†` | **`Fixed / NTP + Aux.`** | `Beam† / C-Beam†` |
 
-- `Text / Text+CF`: Text-only setting (TIGER/RQ) vs. text plus collaborative setting (LETTER/ Vibrent vs. industrial).
-- `RQ-VAE / Learn. RQ`: Evaluated on both standard RQ-VAE (TIGER) and learnable collaborative RQ (LETTER).
+- `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
+- `RQ-VAE / Learn. RQ`: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
-- `Beam† / C-Beam†`: Unconstrained beam search (TIGER) vs. constrained beam search (LETTER) (GFlowGR).
+- `Beam† / C-Beam†`: Beam search or constrained beam search in the respective inherited configurations.
 
 ## Architecture
 

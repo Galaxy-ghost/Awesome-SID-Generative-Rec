@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | `CoBa RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP + Ctr.` | `Beam` |
 
-- `CoBa RQ-VAE`: Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR).
+- `CoBa RQ-VAE`: Collaborative and Balanced RQ-VAE.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.

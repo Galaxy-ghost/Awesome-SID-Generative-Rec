@@ -17,7 +17,7 @@
 | `Text+CF` | **`PC-AE`** | `Disc.` | `Joint / Discrim.` | `Scoring` |
 
 - `PC-AE`: Parallel Codebook Auto-Encoder
-- `Disc.`: Discriminative recommendation model such as DIN; SIDs only serve as features (LGRID, LGSID).
+- `Disc.`: A discriminative recommendation model that scores candidates.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `Discrim.`: Scores items; does not generate SIDs.
 

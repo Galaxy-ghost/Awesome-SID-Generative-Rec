@@ -19,7 +19,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
-- `CoT+Fuzzy Match`: 生成推理与3层 SID 前缀，通过动态池模糊匹配落到文章，省略第4层近唯一判别码。
+- `CoT+Fuzzy Match`: Reasoning-guided identifier generation followed by fuzzy matching to available items.
 
 ## Same cell: III × Training (8 more)
 

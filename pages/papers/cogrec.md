@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`R-KM+Graph`** | `Dec-Only` | `Fixed / Multi-task NTP` | `CoT+C-Beam` |
 
-- `R-KM+Graph`: 残差K-means SID加离线层内语义图，图供推理轨迹构造。
+- `R-KM+Graph`: Residual k-means combined with a graph over semantic codes.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
-- `CoT+C-Beam`: Reasoning chain, then constrained beam search (ROS).
+- `CoT+C-Beam`: Reasoning followed by constrained beam-search decoding.
 
 ## Same cell: III × Tokenization (10 more)
 

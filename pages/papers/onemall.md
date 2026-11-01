@@ -16,10 +16,10 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF` | `R-KM+FSQ` | `Enc-Dec` | `Fixed / (NTP + Ctr.) → RL` | `Beam` |
 
-- `R-KM+FSQ`: 前两层残差 k-means，末层有限标量量化消歧。
+- `R-KM+FSQ`: Residual k-means combined with finite scalar quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `(NTP + Ctr.) → RL`: 先联合 NTP 与 in-batch contrastive，随后加入 RL。RL 阶段仍联合原两损失；箭头右侧只标新增 RL，不重复写保留的 NTP/Ctr.。
+- `(NTP + Ctr.) → RL`: Joint next-token and contrastive training, followed by a reinforcement-learning stage; retained losses are specified per paper.
 
 ## Same cell: Paradigms, Systems and Benchmarks (11 more)
 
@@ -35,4 +35,4 @@
 | [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |
+| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |

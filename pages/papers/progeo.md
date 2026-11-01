@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Geo` | **`R-KM+Geo-CB`** | `Dec-Only` | `Fixed / NTP` | `Beam+Geo-Filter` |
 
-- `R-KM+Geo-CB`: RQ-Kmeans codebook layers plus a geographic codebook layer (ProGEO).
+- `R-KM+Geo-CB`: Residual k-means combined with a geographic codebook.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Beam+Geo-Filter`: Beam search with candidates limited to the nearest POIs (ProGEO).
+- `Beam+Geo-Filter`: Beam search with geographically restricted candidates.
 
 ## Architecture
 

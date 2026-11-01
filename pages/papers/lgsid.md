@@ -16,10 +16,10 @@
 | :-: | :-: | :-: | :-: | :-: |
 | **`Text+Geo+CF`** | `Geo-Idx+RQ` | `Disc. / Enc-Dec` | `Fixed / Discrim. / NTP` | `Scoring / Beam†` |
 
-- `Geo-Idx+RQ`: Geographic attribute index plus residual quantization (LGSID).
-- `Disc. / Enc-Dec`: Evaluated on both discriminative rankers (DIN, etc.) and Encoder-Decoder generative models (LGSID).
+- `Geo-Idx+RQ`: Geographic indexing combined with residual quantization.
+- `Disc. / Enc-Dec`: Discriminative scoring and encoder–decoder generation variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Discrim. / NTP`: Discriminative scoring objective vs. generative next-token prediction objective (LGSID).
+- `Discrim. / NTP`: Discriminative scoring or next-token prediction in different configurations.
 - `Scoring / Beam†`: Discriminative candidate scoring vs. generative beam search.
 
 ## Architecture
@@ -115,7 +115,7 @@ LGSID 位于“LLM 对齐驱动的地理 SID 构建”方向，突出先获得�
 
 | Paper | Venue | Pipeline |
 | :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring` |
+| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
 | [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
 | [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
 | [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |

@@ -17,7 +17,7 @@
 | `–` | **`Nested RQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `–` |
 
 - `–`: Not reported in the paper, or not applicable.
-- `Nested RQ`: 多粒度嵌套残差量化，共享各残差层码本。
+- `Nested RQ`: Residual quantization across nested representation granularities.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

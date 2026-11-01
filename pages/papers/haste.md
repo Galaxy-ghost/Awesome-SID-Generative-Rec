@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / MM` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP + Aux.`** | `–` |
 
-- `Text / MM`: 公开文本配置与internal-fashion multimodal配置分支
+- `Text / MM`: Text-only or multimodal representations in different configurations.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

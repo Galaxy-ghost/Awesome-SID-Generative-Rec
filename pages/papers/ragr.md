@@ -19,7 +19,7 @@
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
-- `Beam† / –`: TIGER+RAGR 沿用 TIGER 的束搜索
+- `Beam† / –`: Inherited beam search in one configuration; decoding not reported in the other.
 
 ## Same cell: I × Training (3 more)
 

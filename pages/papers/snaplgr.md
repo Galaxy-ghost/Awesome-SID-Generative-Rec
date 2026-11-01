@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF` | **`RQ-VAE+PPR`** | `Dec-Only` | `Fixed / Multi-task NTP` | `Beam` |
 
-- `RQ-VAE+PPR`: RQ-VAE 构码时加基于 Personalized PageRank 共参与关系的对比监督。
+- `RQ-VAE+PPR`: Residual-quantized variational codes informed by Personalized PageRank signals.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

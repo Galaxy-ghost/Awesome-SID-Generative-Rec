@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | `RQ-VAE / Learn. RQ` | **`Enc-Dec`** | `Fixed / NTP` | `C-Beam` |
 
-- `RQ-VAE / Learn. RQ`: Evaluated on both standard RQ-VAE (TIGER) and learnable collaborative RQ (LETTER).
+- `RQ-VAE / Learn. RQ`: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF / Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `–` |
 
-- `Text+CF / Text`: Representation：工业招聘候选用 Mistral-E5 加 recruiter engagement 两塔微调
+- `Text+CF / Text`: Text with collaborative signals, or text-only representations, in different configurations.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

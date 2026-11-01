@@ -16,9 +16,9 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text†` | `RQ-VAE†` | `Dec-Only / Enc-Dec` | `Fixed / Multi-task NTP† / NTP†` | **`Hybrid`** |
 
-- `Dec-Only / Enc-Dec`: Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones）
+- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP† / NTP†`: 分别MiniOneRec发布的SFT checkpoint（recommendation+SID-text alignment）与TIGER逐码预测
+- `Multi-task NTP† / NTP†`: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
 
 ## Same cell: I × Inference (1 more)
 

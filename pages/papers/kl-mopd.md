@@ -19,7 +19,7 @@
 - `CF`: Collaborative filtering signal.
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
-- `(NTP† / (NTP + Aux.)†) → KL-weighted OPD`: 初始化A/B=TIGER/REG4Rec：前者NTP、后者NTP+category辅助监督，按点名继承标†
+- `(NTP† / (NTP + Aux.)†) → KL-weighted OPD`: Inferred next-token-based initialization variants followed by KL-weighted on-policy distillation.
 - `C-Beam`: Constrained beam search.
 
 ## Same cell: IV × Training (21 more)

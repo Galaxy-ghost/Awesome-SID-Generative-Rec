@@ -18,7 +18,7 @@
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP / NTP + Aux.`: full-budget LoopGR仅NTP
+- `NTP / NTP + Aux.`: Next-token prediction alone or jointly optimized with auxiliary objectives.
 - `–`: Not reported in the paper.
 
 ## Same cell: V × Backbone (10 more)

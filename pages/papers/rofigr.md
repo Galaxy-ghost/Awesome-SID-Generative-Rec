@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF` | **`CF-Aligned MM RQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `C-Beam` |
 
-- `CF-Aligned MM RQ`: MACRec双模态残差量化
+- `CF-Aligned MM RQ`: Multimodal residual quantization aligned with collaborative signals.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

@@ -21,7 +21,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
-- `Dual Beam`: Two-branch beam search, then merge (DualGR).
+- `Dual Beam`: Beam-search decoding in two branches with merged candidates.
 
 ## Evidence
 

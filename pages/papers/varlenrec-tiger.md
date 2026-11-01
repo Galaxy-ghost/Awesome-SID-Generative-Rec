@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`HARQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `C-Beam` |
 
-- `HARQ`: Hyperbolic Adaptive Residual Quantization，双曲自适应残差量化及可变长度构码模块。
+- `HARQ`: Hyperbolic Adaptive Residual Quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.

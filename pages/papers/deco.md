@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / –` | `R-KM` | **`Dec-Only`** | `Fixed / NTP + Aux.` | `C-Beam` |
 
-- `Text / –`: 文本构码数据 / Yambda提供128维物品向量但未披露输入来源。
+- `Text / –`: Text representations in one configuration; the representation source is not reported in another.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.

@@ -16,10 +16,10 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | `SimHash` | **`Non-AR`** | `Fixed / MTP + Aux.` | `Scoring` |
 
-- `SimHash`: 固定随机超平面局部敏感哈希。
+- `SimHash`: Locality-sensitive hashing with random hyperplanes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: 并行码位预测，加无负例负余弦语义对齐。
+- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
 
 ## Same cell: III × Backbone (8 more)
 

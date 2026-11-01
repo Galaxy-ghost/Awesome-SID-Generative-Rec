@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img` | **`MoE-VQ`** | `HeterRec` | `Joint / MTP` | `–` |
 
-- `HeterRec`: Name of the generation framework used by the paper; its structure is not described (MMQ).
+- `HeterRec`: HeterRec, the named recommendation backbone used in the paper.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `MTP`: Predicts several codes in parallel at once.
 - `–`: Not reported in the paper.

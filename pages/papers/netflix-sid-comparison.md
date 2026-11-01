@@ -17,10 +17,10 @@
 | `–` | `RQ-VAE` | `Dec-Only / Non-AR` | `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` | `C-Beam / Scoring` |
 
 - `–`: Not reported in the paper, or not applicable.
-- `Dec-Only / Non-AR`: Backbone：同一Qwen3-8B（另0.6B），A为LM head自回归，B为共享trunk后4个并行SID heads。（§3.2
+- `Dec-Only / Non-AR`: Decoder-only autoregressive and non-autoregressive prediction variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT`: A单LM头在retrieval/content-QA/instruction混合数据上做加权NTP
-- `C-Beam / Scoring`: AR为catalog-constrained beam50
+- `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT`: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task reinforcement learning follows supervised fine-tuning.
+- `C-Beam / Scoring`: Constrained beam search or direct item scoring, depending on the configuration.
 
 ## Same cell: Paradigms, Systems and Benchmarks (11 more)
 
@@ -36,4 +36,4 @@
 | [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |
+| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |

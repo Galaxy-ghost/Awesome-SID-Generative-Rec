@@ -17,7 +17,7 @@
 | `CF` | **`Spectral Clus.`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
 
 - `CF`: Collaborative filtering signal.
-- `Spectral Clus.`: Recursive spectral clustering on the co-occurrence graph (CID).
+- `Spectral Clus.`: Spectral clustering-based tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

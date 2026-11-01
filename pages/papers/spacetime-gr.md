@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Geo` | `Geo-Idx` | **`Dec-Only`** | `Fixed / NTP → DPO` | `Beam` |
 
-- `Geo`: Geographic coordinates and spatial index features (Spacetime-GR).
-- `Geo-Idx`: 地理块+块内序号的两token层次索引，沿用LGSID的Geo-Idx写法。
+- `Geo`: Geographic coordinates or spatial features.
+- `Geo-Idx`: Identifiers constructed from geographic indexing.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.

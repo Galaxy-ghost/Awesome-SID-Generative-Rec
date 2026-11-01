@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`RecDMoN / RQ-VAE`** | `Enc-Dec` | `Fixed / –` | `–` |
 
-- `RecDMoN / RQ-VAE`: 本篇两个替代构码实例：recursive DMoN graph partition path
+- `RecDMoN / RQ-VAE`: Recursive DMoN graph partitioning or residual-quantized variational coding.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `–`: Not reported in the paper.

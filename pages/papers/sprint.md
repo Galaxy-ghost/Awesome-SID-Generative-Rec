@@ -18,7 +18,7 @@
 
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Dual-level Flow Ctr.`: 平均概率速度参数化的两层item-negative contrastive目标：token概率乘积构成的SID分数与whole-SID表示相似度同时优化。Eq9替代逐码hard-label CE
+- `Dual-level Flow Ctr.`: Contrastive training at token and complete-identifier levels in a flow-based model.
 
 ## Same cell: V × Backbone (10 more)
 

@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `MM` | `RQ-VAE` | **`Dec-Only`** | `Fixed / Multi-task NTP` | `Beam` |
 
-- `MM`: 原文明确使用PinCLIP多模态物品嵌入，但未展开具体构码模态组成。
+- `MM`: Multimodal item representations.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

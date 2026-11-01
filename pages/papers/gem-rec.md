@@ -19,7 +19,7 @@
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Bid-Aware Beam`: Beam search after adjusting logits by real-time bids (GEM-Rec).
+- `Bid-Aware Beam`: Beam search whose scores incorporate bid information.
 
 ## Evidence
 

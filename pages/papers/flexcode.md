@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`Dual RQ-VAE`** | `–` | `Joint / NTP` | `–` |
 
-- `Dual RQ-VAE`: 分别量化文本和协同嵌入的双 RQ-VAE，加热度预算路由。
+- `Dual RQ-VAE`: Two residual-quantized variational autoencoders for separate representation streams.
 - `–`: Not reported in the paper, or not applicable.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

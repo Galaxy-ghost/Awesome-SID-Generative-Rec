@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`PID (P-SAE)`** | `Enc-Dec / Dec-Only (AR); Non-AR (PR)` | `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` | `C-Beam / Scoring` |
 
-- `PID (P-SAE)`: Pretrained Interpretable ID：预训练SAE feature indices、相对activation strengths及对应语义注释
-- `Enc-Dec / Dec-Only (AR); Non-AR (PR)`: AR结构为T5/GPT-2
+- `PID (P-SAE)`: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
+- `Enc-Dec / Dec-Only (AR); Non-AR (PR)`: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Rank + Aux. / MTP + Rank + Aux.`: AR/PR分别序列NLL/并行码预测，加candidate preference loss与Hellinger strength项，三项同阶段联合。
-- `C-Beam / Scoring`: AR为catalog-constrained beam50
+- `NTP + Rank + Aux. / MTP + Rank + Aux.`: Autoregressive or parallel token prediction jointly optimized with ranking and auxiliary objectives.
+- `C-Beam / Scoring`: Constrained beam search or direct item scoring, depending on the configuration.
 
 ## Same cell: II × Tokenization (11 more)
 

@@ -14,11 +14,11 @@
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
-| **`Text+Img+CF`** | `–` | `Dec-Only` | `– / Discrim.` | `Scoring` |
+| **`Text+Img+CF`** | `n/a` | `Dec-Only` | `n/a / Discrim.` | `Scoring` |
 
-- `–`: No item SID is built, or not reported.
+- `n/a`: Not applicable to this method.
 - `Dec-Only`: Decoder-only.
-- `–`: No SID is built.
+- `n/a`: Not applicable to this method.
 - `Discrim.`: Scores items; does not generate SIDs.
 
 ## Evidence

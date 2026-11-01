@@ -20,7 +20,7 @@
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
-- `Diff.+Beam`: 掩码扩散迭代去噪，按置信度选位置并在多位置组合上做beam展开、保留多个完整SID
+- `Diff.+Beam`: Diffusion-based decoding combined with beam search.
 
 ## Same cell: III × Backbone (8 more)
 

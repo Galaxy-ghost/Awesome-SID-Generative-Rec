@@ -2,7 +2,7 @@
 
 *Recommender Systems with Generative Retrieval* — Rajput et al., NeurIPS’23
 
-[arXiv](https://arxiv.org/abs/2305.05065) · [Code](https://github.com/baiyimeng/TIGER) · [Record](../../data/papers/tiger.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+[arXiv](https://arxiv.org/abs/2305.05065) · [Record](../../data/papers/tiger.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
 
 > Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with a T5 encoder-decoder.
 
@@ -252,4 +252,4 @@ TIGER 展示了直接生成 Semantic ID 作为推荐检索的可行性，并将 
 | [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
 | [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
 | [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `–` → `–` → `–` → `– / –` → `–` |
+| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |

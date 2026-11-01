@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`Orth. RQ`** | `Dec-Only†` | `Fixed† / NTP` | `–` |
 
-- `Orth. RQ`: Orthogonal residual quantization with task-relevant dimension selection and layer-wise residual coding (DOS; ORQ in the paper).
+- `Orth. RQ`: Orthogonal residual quantization.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `–`: Not reported in the paper.
 

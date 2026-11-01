@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Geo` | **`Geo-Prefix+RQ-VAE`** | `Dec-Only` | `Fixed / NTP → RL` | `CoT+C-Beam` |
 
-- `Geo-Prefix+RQ-VAE`: Geographic prefix (S2 cell tokens), RQ-VAE semantic anchor and a distinguishing suffix (ROS).
+- `Geo-Prefix+RQ-VAE`: Geographic prefixes combined with residual-quantized variational codes.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `CoT+C-Beam`: Reasoning chain, then constrained beam search (ROS).
+- `CoT+C-Beam`: Reasoning followed by constrained beam-search decoding.
 
 ## Architecture
 

@@ -14,10 +14,9 @@
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Soft Reassign. RQ`** | `Dec-Only / Enc-Dec` | `Joint / NTP + Aux.` | `–` |
+| `Text` | **`Soft Reassign. RQ`** | `Dec-Only / Enc-Dec` | `Joint / NTP + Aux.` | `Beam` |
 
-- `Soft Reassign. RQ`: 保留残差层级，以 softmax token selector 加轻量扰动做可微 token 重分配。
-- `Dec-Only / Enc-Dec`: Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones）
+- `Soft Reassign. RQ`: Residual quantization with differentiable soft code reassignment.
+- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
-- `–`: Not reported in the paper.

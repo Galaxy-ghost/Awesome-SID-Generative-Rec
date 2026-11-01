@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | **`Text+Geo+CF`** | `R-KM+EM` | `Dec-Only` | `Altern.† / Multi-task NTP` | `Beam` |
 
-- `R-KM+EM`: RQ-Kmeans refined by an EM-style algorithm (GeoGR).
+- `R-KM+EM`: Residual k-means with expectation-maximization-style refinement.
 - `Dec-Only`: Decoder-only.
 - `Multi-task NTP`: The same NTP loss over several tasks.
 
@@ -116,7 +116,7 @@ GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协�
 
 | Paper | Venue | Pipeline |
 | :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `–` → `Dec-Only` → `– / Discrim.` → `Scoring` |
+| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
 | [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
 | [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
 | [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |

@@ -20,7 +20,7 @@
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `GRC+Beam`: Generation–Reflection–Correction加束搜索，EGRS用反思熵分配固定修正预算。
+- `GRC+Beam`: Generation, reflection and correction combined with beam search.
 
 ## Same cell: III × Inference (1 more)
 

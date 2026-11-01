@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`Shared/Spec. RQ`** | `Enc-Dec` | `Fixed / Multi-task NTP` | `C-Beam` |
 
-- `Shared/Spec. RQ`: Shared codebook plus task-specific codebooks (GenSAR).
+- `Shared/Spec. RQ`: Residual quantization using shared and task-specific codebooks.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

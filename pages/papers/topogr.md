@@ -16,11 +16,11 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`BDQ`** | `Non-AR` | `Fixed / MTP + Aux.` | `Scoring+Rerank` |
 
-- `BDQ`: Bit-Decomposable Quantizer，基于 LFQ 的 bit 可分解离散编号器。
+- `BDQ`: Bit-Decomposable Quantizer.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: 并行码位预测，加无负例负余弦语义对齐。
-- `Scoring+Rerank`: 全物品按并行码概率评分，再对候选池按 Hamming 原型一致性重排。
+- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
+- `Scoring+Rerank`: Score candidate items and then rerank a selected subset.
 
 ## Same cell: III × Tokenization (10 more)
 

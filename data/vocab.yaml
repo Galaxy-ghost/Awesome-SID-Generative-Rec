@@ -1,4 +1,4 @@
-# Allowed vocabulary values for data/papers/<id>.yaml, aligned with Table 1 (材料/Table1_扩展版.md).
+# Allowed vocabulary values for data/papers/<id>.yaml, aligned with Table 1 in the survey paper (main.tex and supplementary.tex).
 # Checked by scripts/check.py. Problem names and stage names are defined here only.
 
 problem:
@@ -45,241 +45,246 @@ stage:
   description: Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage.
 representation:
 - value: Attr+CF
-  description: Structured item attributes plus collaborative filtering signals (ReSID).
+  description: Structured item attributes combined with collaborative signals.
 - value: Attr+Geo+CF
   description: Category and other attributes, plus geography, plus CF (POI).
 - value: Attr+Geo+CF†
-  description: Attr 为类别等结构化属性，Geo 为区域/邻接，CF 为用户访问。
+  description: Structured item attributes, geographic information, and collaborative signals (inferred).
 - value: CF
   description: Collaborative filtering signal.
 - value: Cross-Dom
 - value: Geo
-  description: Geographic coordinates and spatial index features (Spacetime-GR).
+  description: Geographic coordinates or spatial features.
 - value: MM
-  description: 原文明确使用PinCLIP多模态物品嵌入，但未展开具体构码模态组成。
+  description: Multimodal item representations.
 - value: Multi-Dom
 - value: Text
 - value: Text + CF
-  description: Item text embeddings plus collaborative graph edges (GrIS).
+  description: Text representations combined with collaborative signals.
 - value: Text + Img + CF
-  description: Multimodal text and image embeddings aligned with collaborative interactions (CMRec).
+  description: Text and image representations combined with collaborative signals.
 - value: Text / Audio
-  description: 不同实体类型分别使用文本或音频嵌入与独立码本，不代表拼接两模态。
+  description: Text or audio representations in different branches or evaluation settings.
 - value: Text / MM
-  description: 公开文本配置与internal-fashion multimodal配置分支
+  description: Text-only or multimodal representations in different configurations.
 - value: Text / Text+CF
-  description: Text-only setting (TIGER/RQ) vs. text plus collaborative setting (LETTER/ Vibrent vs. industrial).
+  description: Text-only representations or text representations combined with collaborative signals.
 - value: Text / –
-  description: 文本构码数据 / Yambda提供128维物品向量但未披露输入来源。
+  description: Text representations in one configuration; the representation source is not reported in another.
 - value: Text+Attr+Geo
-  description: Attr 特指数值业务属性，Geo 包括连续坐标
+  description: Text, structured attributes, and geographic information.
 - value: Text+CF
 - value: Text+CF / Text
-  description: Representation：工业招聘候选用 Mistral-E5 加 recruiter engagement 两塔微调
+  description: Text with collaborative signals, or text-only representations, in different configurations.
 - value: Text+Geo
 - value: Text+Geo+CF
 - value: Text+Img
 - value: Text+Img+Attr
-  description: 构码显式融合广告图像、文本及行业/多级类别结构化属性。
+  description: Text, images, and structured item attributes.
 - value: Text+Img+Audio+CF
-  description: 直播文本、画面、音频经实时行为双塔后对齐。
+  description: Text, visual, and audio content combined with collaborative signals.
 - value: Text+Img+CF
 - value: Text+Img+CF†
 - value: Text+Img+Geo
-  description: Text, image and geography (OneLoc).
+  description: Text, images, and geographic information.
 - value: Text+Img+Geo+CF
 - value: Text+Img+Geo†
 - value: Text+Img†
 - value: Text+SID
   description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - value: Text+Time
-  description: 文本与交互时间输入
+  description: Text representations combined with interaction timestamps.
 - value: Text†
+- value: n/a
+  description: Not applicable to this method.
 - value: –
   description: Not reported in the paper, or not applicable.
 - value: – / Text+Img
-  description: Spotify/POG原CLHE输入未在本文分解
+  description: The representation source is unreported in one configuration; text and image representations are used in another.
 tokenization:
 - value: Align. RQ
-  description: Residual quantization with alignment losses and no autoencoder (SemConv).
+  description: Residual quantization trained with alignment objectives.
 - value: BDQ
-  description: Bit-Decomposable Quantizer，基于 LFQ 的 bit 可分解离散编号器。
+  description: Bit-Decomposable Quantizer.
 - value: Bal. VQ+KM
-  description: 'Balanced SID: single-layer VQ plus per-prefix k-means (MBGen).'
+  description: Balanced tokenization combining vector quantization and k-means clustering.
 - value: C-RQ
 - value: CART
-  description: Collaborative-Aware Refined Tokenization，协同感知码分配及候选池。
+  description: Collaborative-Aware Refined Tokenization.
 - value: CF-Aligned MM RQ
-  description: MACRec双模态残差量化
+  description: Multimodal residual quantization aligned with collaborative signals.
 - value: Casc. RQ
 - value: CoBa RQ-VAE
-  description: 'Collaborative and Balanced RQ-VAE: item co-occurrence signal, codebook uniformity and load balancing (S2GR).'
+  description: Collaborative and Balanced RQ-VAE.
 - value: Contr. RQ
-  description: Fully contrastive residual-quantization tokenizer (Gwhere).
+  description: Residual quantization trained with contrastive objectives.
 - value: Cross RQ
 - value: Curr. RQ
 - value: DSRQ
-  description: Dual-stream residual quantization (LGRID).
+  description: Dual-stream residual quantization.
 - value: Direct SID Heads
-  description: 从 MLLM 隐状态直接分类各 SID 层，不通过 RQ/RQ-VAE。
+  description: Prediction heads that directly assign semantic-ID codes.
 - value: Dual H-KM
 - value: Dual RQ
 - value: Dual RQ-VAE
-  description: 分别量化文本和协同嵌入的双 RQ-VAE，加热度预算路由。
+  description: Two residual-quantized variational autoencoders for separate representation streams.
 - value: Dyn. KM+Disamb.
-  description: 曝光加权单层k-means语义码+固定消歧码，曝光EMA动态更新
+  description: Dynamically updated k-means codes combined with disambiguation codes.
 - value: Flow+PQ
-  description: 离线normalizing flow把语义嵌入变为标准正态latent，再独立子空间KMeans/PQ构码
+  description: Flow-based representation transformation followed by product quantization.
 - value: Freq. R-KM
-  description: Frequency-aware residual K-means：共享残差码本按频率保留前缀，再加独立消歧码。
+  description: Frequency-aware residual k-means tokenization.
 - value: GAOQ
-  description: Globally Aligned Orthogonal Quantization，全局对齐正交量化。
+  description: Globally Aligned Orthogonal Quantization.
 - value: Geo-Idx
-  description: 地理块+块内序号的两token层次索引，沿用LGSID的Geo-Idx写法。
+  description: Identifiers constructed from geographic indexing.
 - value: Geo-Idx+RQ
-  description: Geographic attribute index plus residual quantization (LGSID).
+  description: Geographic indexing combined with residual quantization.
 - value: Geo-Prefix+HClus
-  description: S2地理前缀加层次聚类
+  description: Geographic prefixes combined with hierarchical clustering codes.
 - value: Geo-Prefix+RQ-VAE
-  description: Geographic prefix (S2 cell tokens), RQ-VAE semantic anchor and a distinguishing suffix (ROS).
+  description: Geographic prefixes combined with residual-quantized variational codes.
 - value: Graph RQ-VAE
-  description: Graph-based RQ-VAE (MMGRec).
+  description: A graph-informed residual-quantized variational autoencoder.
 - value: H-KM
   description: Hierarchical k-means.
 - value: HARQ
-  description: Hyperbolic Adaptive Residual Quantization，双曲自适应残差量化及可变长度构码模块。
+  description: Hyperbolic Adaptive Residual Quantization.
 - value: Hier. RQ
 - value: KG-RQ
-  description: 知识图谱结构监督的类型专用残差量化
+  description: Residual quantization informed by knowledge-graph structure.
 - value: LLM-Vocab
 - value: Learn. RQ
 - value: MM-RQ
 - value: Masked VQ
 - value: MoE-VQ
 - value: Multi-Facet ID
-  description: 'Multi-facet identifiers: ID, title substrings and attributes (TransRec).'
+  description: Identifiers representing multiple facets of an item.
 - value: Multi-Path R-KM+Hash
-  description: 多路径残差kmeans加末层非语义hash，首层多中心后续逐条残差。
+  description: Multiple residual-k-means code paths combined with a hash-based identifier component.
 - value: NU-RQ
   description: Non-uniform RQ variant.
 - value: Nested RQ
-  description: 多粒度嵌套残差量化，共享各残差层码本。
+  description: Residual quantization across nested representation granularities.
 - value: OPQ
   description: Optimized product quantization.
 - value: Orth. RQ
-  description: Orthogonal residual quantization with task-relevant dimension selection and layer-wise residual coding (DOS;
-    ORQ in the paper).
+  description: Orthogonal residual quantization.
 - value: PC-AE
   description: Parallel Codebook Auto-Encoder
 - value: PID (P-SAE)
-  description: Pretrained Interpretable ID：预训练SAE feature indices、相对activation strengths及对应语义注释
+  description: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
 - value: Par. OPQ
 - value: Par. VQ
 - value: Post-hoc RQ
 - value: Prog. RQ
   description: Progressive RQ variant.
 - value: QA-RQ
-  description: Qualification-Aware RQ-VAE (QuaSID).
+  description: Qualification-Aware RQ-VAE.
 - value: R-KM
   description: Residual k-means.
 - value: R-KM+EM
-  description: RQ-Kmeans refined by an EM-style algorithm (GeoGR).
+  description: Residual k-means with expectation-maximization-style refinement.
 - value: R-KM+FSQ
-  description: 前两层残差 k-means，末层有限标量量化消歧。
+  description: Residual k-means combined with finite scalar quantization.
 - value: R-KM+Geo-CB
-  description: RQ-Kmeans codebook layers plus a geographic codebook layer (ProGEO).
+  description: Residual k-means combined with a geographic codebook.
 - value: R-KM+Graph
-  description: 残差K-means SID加离线层内语义图，图供推理轨迹构造。
+  description: Residual k-means combined with a graph over semantic codes.
 - value: R-KM†
 - value: RQ
   description: Residual quantization.
 - value: RQ+IST
-  description: 固定基础RQ编号＋仅历史侧Item-level Subword Tokenization
+  description: Residual quantization combined with item-level subword tokenization.
 - value: RQ+LoRA
 - value: RQ-KM
 - value: RQ-PIB
   description: Residual Quantization with Prefix-aware Interaction Balancing
 - value: RQ-VAE
 - value: RQ-VAE / Learn. RQ
-  description: Evaluated on both standard RQ-VAE (TIGER) and learnable collaborative RQ (LETTER).
+  description: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
 - value: RQ-VAE / Par. VQ
-  description: 两种被对照的构码变体
+  description: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
 - value: RQ-VAE / R-KM / LETTER
-  description: 三种实际评估配置
+  description: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
 - value: RQ-VAE+DINO
 - value: RQ-VAE+PPR
-  description: RQ-VAE 构码时加基于 Personalized PageRank 共参与关系的对比监督。
+  description: Residual-quantized variational codes informed by Personalized PageRank signals.
 - value: RQ-VAE†
 - value: RecDMoN / RQ-VAE
-  description: 本篇两个替代构码实例：recursive DMoN graph partition path
+  description: Recursive DMoN graph partitioning or residual-quantized variational coding.
 - value: Ref.-RQ
   description: Reference-vector RQ variant.
 - value: SRBQ
   description: Semantic Residual Balanced Quantization
 - value: Self-Imp.
 - value: Self-Sup. ID
-  description: Self-supervised semantic indexer, not an RQ-VAE (LMIndexer).
+  description: Semantic identifiers learned through self-supervision.
 - value: Shared/Spec. RQ
-  description: Shared codebook plus task-specific codebooks (GenSAR).
+  description: Residual quantization using shared and task-specific codebooks.
 - value: SimHash
-  description: 固定随机超平面局部敏感哈希。
+  description: Locality-sensitive hashing with random hyperplanes.
 - value: Skeleton R-KM
-  description: 头部残差k-means骨架
+  description: Residual k-means organized around a shared semantic skeleton.
 - value: Soft Reassign. RQ
-  description: 保留残差层级，以 softmax token selector 加轻量扰动做可微 token 重分配。
+  description: Residual quantization with differentiable soft code reassignment.
 - value: Soft-RQ
   description: Soft-routed RQ variant.
 - value: Spectral Clus.
-  description: Recursive spectral clustering on the co-occurrence graph (CID).
+  description: Spectral clustering-based tokenization.
 - value: Subspace RQ
-  description: 16个量化子空间，每空间3残差层，48个并行码头
+  description: Residual quantization applied separately within embedding subspaces.
 - value: Term-ID
 - value: TokenMoE
 - value: Tree
 - value: Tree-Clus.
 - value: Unified RQ
+- value: n/a
+  description: Not applicable to this method.
 - value: –
   description: No item SID is built, or not reported.
 backbone:
 - value: Dec-Only
   description: Decoder-only.
 - value: Dec-Only / Enc-Dec
-  description: Backbone：MiniOneRec 为 Qwen2.5-7B，TIGER/P5SID/LETTER/ETEGRec 为 T5。（§4 Backbones）
+  description: Decoder-only and encoder–decoder backbone variants.
 - value: Dec-Only / Non-AR
-  description: Backbone：同一Qwen3-8B（另0.6B），A为LM head自回归，B为共享trunk后4个并行SID heads。（§3.2
+  description: Decoder-only autoregressive and non-autoregressive prediction variants.
 - value: Dec-Only†
 - value: Disc.
-  description: Discriminative recommendation model such as DIN; SIDs only serve as features (LGRID, LGSID).
+  description: A discriminative recommendation model that scores candidates.
 - value: Disc. / Enc-Dec
-  description: Evaluated on both discriminative rankers (DIN, etc.) and Encoder-Decoder generative models (LGSID).
+  description: Discriminative scoring and encoder–decoder generation variants.
 - value: Dual Enc-Dec
 - value: Enc-Dec
   description: Encoder-decoder.
 - value: Enc-Dec / Dec-Only
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - value: Enc-Dec / Dec-Only (AR); Non-AR (PR)
-  description: AR结构为T5/GPT-2
+  description: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
 - value: Enc-Dec / Lazy Dec-Only
-  description: 主格分别为OneRec-V1和V2公开适配
+  description: Encoder–decoder and lazy decoder-only backbone variants.
 - value: Enc-Dec†
 - value: Enc-Dec† / Dec-Only
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - value: Enc-Dec† / Dec-Only†
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - value: Enc-MLP
-  description: 冻结T5 encoder，一次注意力上下文读出，逐码位前缀条件MLP
+  description: A history encoder followed by MLP-based prediction heads.
 - value: Encoder
 - value: Encoder (Non-AR)
 - value: HeterRec
-  description: Name of the generation framework used by the paper; its structure is not described (MMQ).
+  description: HeterRec, the named recommendation backbone used in the paper.
 - value: Lazy Dec-Only
-  description: The paper's Lazy Decoder-Only architecture (OneRec-V2).
+  description: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - value: Lazy Dec-Only†
-  description: 主生成模块以lazy decoder-only处理长历史，后两码用轻量顺序条件模块。
+  description: A lazy decoder-only backbone inferred from the adopted model.
 - value: Non-AR
   description: Non-autoregressive.
 - value: Non-AR / Enc-Dec
-  description: Parallel prediction heads (main setting) vs. Encoder-Decoder TIGER integration (SCRec).
+  description: Non-autoregressive and encoder–decoder backbone variants.
+- value: n/a
+  description: Not applicable to this method.
 - value: –
   description: Not reported in the paper, or not applicable.
 tokenizer:
@@ -291,43 +296,48 @@ tokenizer:
 - value: Fixed†
 - value: Joint
   description: The generator loss updates the tokenizer directly.
+- value: n/a
+  description: Not applicable to this method.
 - value: –
   description: No SID is built.
 objective:
 - value: (MTP + Masked Rec.) → MTP
-  description: 并行下一物品码预测CE与多粒度历史掩码重建CE联合训练，课程最后关闭重建、保留纯下一物品预测。
+  description: Joint multi-token prediction and masked reconstruction, followed by multi-token prediction alone.
 - value: (NTP + Ctr.) → RL
-  description: 先联合 NTP 与 in-batch contrastive，随后加入 RL。RL 阶段仍联合原两损失；箭头右侧只标新增 RL，不重复写保留的 NTP/Ctr.。
+  description: Joint next-token and contrastive training, followed by a reinforcement-learning stage; retained losses are
+    specified per paper.
 - value: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
-  description: 初始化A/B=TIGER/REG4Rec：前者NTP、后者NTP+category辅助监督，按点名继承标†
+  description: Inferred next-token-based initialization variants followed by KL-weighted on-policy distillation.
 - value: Discrim.
   description: Scores items; does not generate SIDs.
 - value: Discrim. / NTP
-  description: Discriminative scoring objective vs. generative next-token prediction objective (LGSID).
+  description: Discriminative scoring or next-token prediction in different configurations.
 - value: Dual-level Flow Ctr.
-  description: 平均概率速度参数化的两层item-negative contrastive目标：token概率乘积构成的SID分数与whole-SID表示相似度同时优化。Eq9替代逐码hard-label CE
+  description: Contrastive training at token and complete-identifier levels in a flow-based model.
 - value: MTP
   description: Predicts several codes in parallel at once.
 - value: MTP + Aux.
-  description: 并行码位预测，加无负例负余弦语义对齐。
+  description: Multi-token prediction jointly optimized with auxiliary objectives.
 - value: MTP + Ctr.
   description: MTP plus a contrastive loss.
 - value: MTP + Ctr. + Aux.
-  description: 同阶段并行码CE + in-batch ISA对比 + 潜在token重建
+  description: Multi-token prediction jointly optimized with contrastive and auxiliary objectives.
 - value: MTP + Rel.MSE
-  description: 并行码位NLL联合token embedding空间与quantization codebook空间的pairwise cosine relation MSE
+  description: Multi-token prediction jointly optimized with a mean-squared-error objective on relations.
 - value: Masked
   description: Masks part of the codes and reconstructs them (includes masked diffusion).
 - value: Masked → RL (→ Masked KD for Fast)
-  description: 先random-mask去噪CE，再semantic-fork-aware GRPO
+  description: Masked-prediction pretraining, followed by reinforcement learning and optional masked-prediction distillation
+    for a faster variant.
 - value: Multi-task NTP
   description: The same NTP loss over several tasks.
 - value: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT
-  description: A单LM头在retrieval/content-QA/instruction混合数据上做加权NTP
+  description: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task
+    reinforcement learning follows supervised fine-tuning.
 - value: Multi-task NTP†
 - value: Multi-task NTP† / NTP
 - value: Multi-task NTP† / NTP†
-  description: 分别MiniOneRec发布的SFT checkpoint（recommendation+SID-text alignment）与TIGER逐码预测
+  description: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
 - value: NTP
   description: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - value: NTP + Aux.
@@ -337,21 +347,21 @@ objective:
 - value: NTP + Dense
   description: NTP plus dense-vector prediction.
 - value: NTP + PV-RSPO + Rank + Aux.
-  description: 多路径SID NTP与prefix-value listwise RSPO、eCPM LambdaLoss、行为深度ordinal loss及粗原型辅助监督在共享模型中联合训练。
+  description: Next-token prediction jointly optimized with prefix-value RSPO, ranking, and auxiliary objectives.
 - value: NTP + RL
-  description: 条件逐码预测NLL与RL损失在同一优化阶段联合
+  description: Next-token prediction jointly optimized with reinforcement learning.
 - value: NTP + Rank
   description: NTP plus a ranking loss.
 - value: NTP + Rank + Aux. / MTP + Rank + Aux.
-  description: AR/PR分别序列NLL/并行码预测，加candidate preference loss与Hellinger strength项，三项同阶段联合。
+  description: Autoregressive or parallel token prediction jointly optimized with ranking and auxiliary objectives.
 - value: NTP / NTP + Aux.
-  description: full-budget LoopGR仅NTP
+  description: Next-token prediction alone or jointly optimized with auxiliary objectives.
 - value: NTP → (NTP + Aux.)
-  description: 先uniform refinement CE，再主CE联合lookahead token CE及gain regression。
+  description: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
 - value: NTP → (NTP + DPO)
-  description: 先SID CE预训练
+  description: Next-token prediction, followed by joint next-token prediction and direct preference optimization.
 - value: NTP → (RL + Rank)
-  description: 先以下一token损失SFT
+  description: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
 - value: NTP → DPO
   description: NTP, then preference optimization.
 - value: NTP → RL
@@ -359,89 +369,94 @@ objective:
 - value: NTP → RL†
 - value: NTP†
 - value: NTP† / NTP → RL
-  description: TIGER继承NTP目标，本文未重述故†
+  description: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning
+    in another.
 - value: Next-item CE + Cons. KD + Rank KD
-  description: 学生以SID、item分支与完整目录融合分布的next-item监督联合边界/组合一致性KL及refined-fusion排名KL
+  description: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
+- value: n/a
+  description: Not applicable to this method.
 - value: –
 inference:
 - value: Beam
 - value: Beam+Agg.
-  description: 束搜索后聚合同物品多个SID的概率。
+  description: Beam search followed by aggregation of predictions that refer to the same item.
 - value: Beam+Geo-Filter
-  description: Beam search with candidates limited to the nearest POIs (ProGEO).
+  description: Beam search with geographically restricted candidates.
 - value: BeamFusion
 - value: Beam†
 - value: Beam† / C-Beam
 - value: Beam† / C-Beam†
-  description: Unconstrained beam search (TIGER) vs. constrained beam search (LETTER) (GFlowGR).
+  description: Beam search or constrained beam search in the respective inherited configurations.
 - value: Beam† / –
-  description: TIGER+RAGR 沿用 TIGER 的束搜索
+  description: Inherited beam search in one configuration; decoding not reported in the other.
 - value: Bid-Aware Beam
-  description: Beam search after adjusting logits by real-time bids (GEM-Rec).
+  description: Beam search whose scores incorporate bid information.
 - value: C-Beam
   description: Constrained beam search.
 - value: C-Beam / Scoring
-  description: AR为catalog-constrained beam50
+  description: Constrained beam search or direct item scoring, depending on the configuration.
 - value: CF-Guided C-Beam
-  description: 协同评分在剪枝前逐边引导合法SID束搜索。
+  description: Constrained beam search guided by collaborative signals.
 - value: CoT
   description: Chain-of-thought before the SID.
 - value: CoT+Beam
-  description: Think, self-correct, answer, then beam search (Think2Go).
+  description: Reasoning followed by beam-search decoding.
 - value: CoT+C-Beam
-  description: Reasoning chain, then constrained beam search (ROS).
+  description: Reasoning followed by constrained beam-search decoding.
 - value: CoT+Fuzzy Match
-  description: 生成推理与3层 SID 前缀，通过动态池模糊匹配落到文章，省略第4层近唯一判别码。
+  description: Reasoning-guided identifier generation followed by fuzzy matching to available items.
 - value: CoT+Greedy
-  description: 贪心生成自然语言推理与候选索引排序，失败时追加结构化抽取。
+  description: Reasoning with greedy decoding.
 - value: Diff.
   description: Diffusion decoding.
 - value: Diff.+Beam
-  description: 掩码扩散迭代去噪，按置信度选位置并在多位置组合上做beam展开、保留多个完整SID
+  description: Diffusion-based decoding combined with beam search.
 - value: Diff.+Legalize
-  description: 扩散解码后候选集合内精确SID匹配，非法SID重构向量后cosine最近候选匹配并去重。
+  description: Diffusion-based decoding followed by mapping generated codes to valid items.
 - value: Div. Beam
-  description: diverse beam search，60 beams 分5组。
+  description: Beam search with an explicit diversity mechanism.
 - value: Div. C-Beam
-  description: 层次prefix相似性惩罚的多样化trie约束束搜索。
+  description: Constrained beam search with an explicit diversity mechanism.
 - value: Dual Beam
-  description: Two-branch beam search, then merge (DualGR).
+  description: Beam-search decoding in two branches with merged candidates.
 - value: Dyn. Beam
   description: Dynamic beam search.
 - value: Ensemble
 - value: FM-Index+Agg.
-  description: FM-index constrained generation plus aggregation scoring (TransRec).
+  description: FM-index-constrained generation followed by identifier-to-item score aggregation.
 - value: FP8+RecoGEM
-  description: FP8 权重/激活 PTQ 加直接构建 TensorRT 图及专门 TopK、attention、MoE 算子。
+  description: FP8 inference with the RecoGEM execution framework.
 - value: Fusion
 - value: GRC+Beam
-  description: Generation–Reflection–Correction加束搜索，EGRS用反思熵分配固定修正预算。
+  description: Generation, reflection and correction combined with beam search.
 - value: Graph
 - value: Greedy
-  description: Single continuous greedy decoding until EOS (SLIDE).
+  description: Select the highest-scoring next token at each decoding step.
 - value: Hybrid
 - value: ISD Beam
-  description: item rank在beam reduction前支持prefix，生成后同rank融合排序
+  description: Item-supported beam search.
 - value: Length-Quota Beam
-  description: 多长度分支 beam search，按预测长度概率分配推荐名额，过滤无效完整码后跨长度联合评分。
+  description: Beam search with recommendation quotas allocated across output lengths.
 - value: Non-AR
 - value: PRM-Beam
   description: Process-reward-model guided beam search.
 - value: PV-Beam+Rerank
-  description: Prefix-Value-aware Beam Search加共享模型判别重排。
+  description: Prefix-value-guided beam search followed by reranking.
 - value: Scoring
 - value: Scoring / Beam
 - value: Scoring / Beam†
   description: Discriminative candidate scoring vs. generative beam search.
 - value: Scoring+Rerank
-  description: 全物品按并行码概率评分，再对候选池按 Hamming 原型一致性重排。
+  description: Score candidate items and then rerank a selected subset.
 - value: Self-Draft+Hash
-  description: Self-drafting head generation with hash-set validity filtering (NEZHA).
+  description: Self-drafted candidate generation with hash-set validity checking.
 - value: Sess. Beam
 - value: Spec. Dec.
   description: Speculative decoding.
 - value: Trie/C-Beam
 - value: Vec. C-Beam
-  description: Vectorized constrained beam search (STATIC).
+  description: Vectorized constrained beam search.
+- value: n/a
+  description: Not applicable to this method.
 - value: –
   description: Not reported in the paper.

@@ -16,12 +16,12 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text / Audio` | **`R-KM`** | `Dec-Only` | `Fixed / NTP` | `Div. Beam` |
 
-- `Text / Audio`: 不同实体类型分别使用文本或音频嵌入与独立码本，不代表拼接两模态。
+- `Text / Audio`: Text or audio representations in different branches or evaluation settings.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Div. Beam`: diverse beam search，60 beams 分5组。
+- `Div. Beam`: Beam search with an explicit diversity mechanism.
 
 ## Same cell: I × Tokenization (33 more)
 

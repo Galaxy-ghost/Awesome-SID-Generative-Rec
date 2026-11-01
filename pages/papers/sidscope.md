@@ -14,13 +14,14 @@
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
-| `–` | `–` | `–` | `– / –` | `–` |
+| `n/a` | `n/a` | `n/a` | `n/a / n/a` | `n/a` |
 
-- `–`: Not reported in the paper, or not applicable.
-- `–`: No item SID is built, or not reported.
-- `–`: Not reported in the paper, or not applicable.
-- `–`: No SID is built.
-- `–`: Not reported in the paper.
+- `n/a`: Not applicable to this method.
+- `n/a`: Not applicable to this method.
+- `n/a`: Not applicable to this method.
+- `n/a`: Not applicable to this method.
+- `n/a`: Not applicable to this method.
+- `n/a`: Not applicable to this method.
 
 ## Same cell: Paradigms, Systems and Benchmarks (11 more)
 

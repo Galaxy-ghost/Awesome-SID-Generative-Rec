@@ -21,7 +21,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Greedy`: Single continuous greedy decoding until EOS (SLIDE).
+- `Greedy`: Select the highest-scoring next token at each decoding step.
 
 ## Same cell: IV × Training (21 more)
 

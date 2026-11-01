@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+Attr` | **`Direct SID Heads`** | `–` | `– / –` | `–` |
 
-- `Text+Img+Attr`: 构码显式融合广告图像、文本及行业/多级类别结构化属性。
-- `Direct SID Heads`: 从 MLLM 隐状态直接分类各 SID 层，不通过 RQ/RQ-VAE。
+- `Text+Img+Attr`: Text, images, and structured item attributes.
+- `Direct SID Heads`: Prediction heads that directly assign semantic-ID codes.
 - `–`: Not reported in the paper, or not applicable.
 - `–`: No SID is built.
 - `–`: Not reported in the paper.

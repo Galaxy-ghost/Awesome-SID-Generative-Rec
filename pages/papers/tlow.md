@@ -16,10 +16,10 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`Flow+PQ`** | `Non-AR` | `Fixed / MTP + Rel.MSE` | `Scoring` |
 
-- `Flow+PQ`: 离线normalizing flow把语义嵌入变为标准正态latent，再独立子空间KMeans/PQ构码
+- `Flow+PQ`: Flow-based representation transformation followed by product quantization.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Rel.MSE`: 并行码位NLL联合token embedding空间与quantization codebook空间的pairwise cosine relation MSE
+- `MTP + Rel.MSE`: Multi-token prediction jointly optimized with a mean-squared-error objective on relations.
 
 ## Same cell: I × Tokenization (33 more)
 

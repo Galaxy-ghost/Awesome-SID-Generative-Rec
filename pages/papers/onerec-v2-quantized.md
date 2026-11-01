@@ -16,8 +16,8 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF†` | `R-KM†` | `Lazy Dec-Only†` | `Fixed† / NTP → RL†` | **`FP8+RecoGEM`** |
 
-- `Lazy Dec-Only†`: 主生成模块以lazy decoder-only处理长历史，后两码用轻量顺序条件模块。
-- `FP8+RecoGEM`: FP8 权重/激活 PTQ 加直接构建 TensorRT 图及专门 TopK、attention、MoE 算子。
+- `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
+- `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
 
 ## Same cell: V × Inference (5 more)
 

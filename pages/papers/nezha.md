@@ -19,7 +19,7 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Self-Draft+Hash`: Self-drafting head generation with hash-set validity filtering (NEZHA).
+- `Self-Draft+Hash`: Self-drafted candidate generation with hash-set validity checking.
 
 ## Evidence
 

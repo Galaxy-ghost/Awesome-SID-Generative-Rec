@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Geo` | `Geo-Prefix+HClus` | `Dec-Only` | **`Fixed / NTP`** | `–` |
 
-- `Geo-Prefix+HClus`: S2地理前缀加层次聚类
+- `Geo-Prefix+HClus`: Geographic prefixes combined with hierarchical clustering codes.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

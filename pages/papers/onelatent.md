@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `MM` | `R-KM` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `Beam` |
 
-- `MM`: 原文明确使用PinCLIP多模态物品嵌入，但未展开具体构码模态组成。
+- `MM`: Multimodal item representations.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.

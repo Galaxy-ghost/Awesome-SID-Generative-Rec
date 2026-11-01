@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+Img+CF†` | `R-KM†` | **`Lazy Dec-Only`** | `Fixed / NTP → RL` | `Beam` |
 
-- `Lazy Dec-Only`: The paper's Lazy Decoder-Only architecture (OneRec-V2).
+- `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 

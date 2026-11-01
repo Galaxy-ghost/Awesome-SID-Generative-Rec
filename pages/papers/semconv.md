@@ -16,7 +16,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | `Text+CF` | **`Align. RQ`** | `Dec-Only` | `Fixed / Multi-task NTP` | `Beam` |
 
-- `Align. RQ`: Residual quantization with alignment losses and no autoencoder (SemConv).
+- `Align. RQ`: Residual quantization trained with alignment objectives.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.

@@ -17,7 +17,7 @@
 | `CF` | `Bal. VQ+KM` | `Enc-Dec` | **`Fixed / NTP`** | `Beam` |
 
 - `CF`: Collaborative filtering signal.
-- `Bal. VQ+KM`: Balanced SID: single-layer VQ plus per-prefix k-means (MBGen).
+- `Bal. VQ+KM`: Balanced tokenization combining vector quantization and k-means clustering.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.

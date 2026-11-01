@@ -19,8 +19,8 @@
 - `R-KM`: Residual k-means.
 - `Enc-Dec† / Dec-Only†`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP† / NTP → RL`: TIGER继承NTP目标，本文未重述故†
-- `CF-Guided C-Beam`: 协同评分在剪枝前逐边引导合法SID束搜索。
+- `NTP† / NTP → RL`: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning in another.
+- `CF-Guided C-Beam`: Constrained beam search guided by collaborative signals.
 
 ## Same cell: IV × Inference (1 more)
 
