@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `R-KM` | `Enc-Dec / Dec-Only` | **`Fixed / NTP + Rank`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
@@ -55,6 +58,14 @@ APAO adds prefix-level losses and an adaptive worst-prefix strategy to training,
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["APAO"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LC-Rec"]
+    P -->|predecessor| C["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is the encoder-decoder backbone; APAO adds prefix-level losses so that training matches beam-search pruning.
   - Source: APAO v4, backbones: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS2.p3; Table 1: https://arxiv.org/html/2603.02730v4#S5.T1; beam-search analysis: https://arxiv.org/html/2603.02730v4#S3.SS3.p3.

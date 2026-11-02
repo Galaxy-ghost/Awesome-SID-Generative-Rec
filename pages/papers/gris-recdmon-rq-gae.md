@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`RecDMoN / RQ-VAE`** | `Enc-Dec` | `Fixed / –` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RecDMoN / RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / –"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `RecDMoN / RQ-VAE`: Recursive DMoN graph partitioning or residual-quantized variational coding.
 - `Enc-Dec`: Encoder-decoder.
@@ -55,6 +58,14 @@ GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partitio
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GrIS (RecDMoN / RQ-GAE)"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["MMGRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Uses TIGER's T5 backbone to isolate improvements from graph-informed SID construction.
   - Source: GrIS v1, Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1.

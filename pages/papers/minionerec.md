@@ -8,9 +8,10 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP → RL` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -42,8 +43,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![MiniOneRec architecture diagram](../../architectures/minionerec.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -109,6 +108,14 @@ The RL stage uses GRPO with constrained beam search as the sampler, so every gen
 - OneRec builds SIDs from text and collaborative signals (`Text+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MiniOneRec"]
+    P -->|predecessor| A["OneRec"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["LC-Rec"]
+```
 
 - **Predecessor** · [OneRec](onerec.md): MiniOneRec is an open-source reproduction of the OneRec-style pipeline: SID construction, SFT, and RL with constrained beam rollouts on public data.
   - Source: MiniOneRec v1, Section 1 positions it against OneRec: https://arxiv.org/html/2510.24431v1#S1.p1 and https://arxiv.org/html/2510.24431v1#S1.p3; Section 3.3: https://arxiv.org/html/2510.24431v1#S3.SS3.p1.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,15 @@ DECOR refines Semantic ID token embeddings by interaction context and fuses pret
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DECOR"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["ETEGRec"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["CID"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): DECOR augments TIGER's fixed tokenization with contextual token embeddings.
   - Source: DECOR v2, Sections 3.2/4.1.2 and Table 2: https://arxiv.org/html/2509.10468v2#S3.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.

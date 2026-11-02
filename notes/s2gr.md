@@ -10,8 +10,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 3, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item co-occurrence graph] --> B[CoBa RQ-VAE]

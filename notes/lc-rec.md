@@ -12,8 +12,6 @@ Based on arXiv v4.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[LLaMA embeddings]

@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -40,8 +43,6 @@ Based on arXiv v4.
 ### 2. How It Works
 
 ![LC-Rec architecture diagram](../../architectures/lc-rec.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -102,6 +103,15 @@ All tasks are formatted as conditional language generation for one instruction-t
 - TIGER uses the same `RQ-VAE` codes with an `Enc-Dec` generator; LC-Rec uses a `Dec-Only` LLM trained with `Multi-task NTP`.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LC-Rec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["CID"]
+    P -->|predecessor| C["VQ-Rec"]
+    P -->|alternative| D["TransRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER resolves leaf conflicts with an extra index level and uses a small seq2seq model; LC-Rec redistributes conflicting last-level codes uniformly and tunes LLaMA with language-collaborative alignment tasks.
   - Source: LC-Rec v4, conflict discussion: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1; baselines and Table 3: https://arxiv.org/html/2311.09049v4#S4.I1.i10.p1 and https://arxiv.org/html/2311.09049v4#S4.T3.

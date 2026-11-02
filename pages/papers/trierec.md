@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | **`Enc-Dec`** | `Fixed† / NTP†` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `C-Beam`: Constrained beam search.
@@ -53,6 +56,14 @@ TrieRec adds a trie-aware absolute positional encoding and a topology-aware rela
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TrieRec"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["CoST"]
+    P -->|predecessor| C["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TrieRec adds trie-aware positional encodings to TIGER.
   - Source: TrieRec v1, Sections 1/4.1: https://arxiv.org/html/2602.21677v1#S1.p5; https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | **`Dec-Only`** | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ Merge-and-Branch compresses each history item's Semantic ID and text into few le
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Merge-and-Branch"]
+    P -->|competitor| A["LETTER"]
+    P -->|competitor| B["EAGER-LLM"]
+    P -->|alternative| C["AtSpeed"]
+```
 
 - **Competitor** · [LETTER](letter.md): LETTER-TIGER is reproduced on Sports/Toys; its Beauty score comes from the original paper.
   - Source: M&B v1, Appendix B.1: https://arxiv.org/html/2610.37973v1#A2.SS1.p1; https://arxiv.org/html/2610.37973v1#A2.SS1.p2.

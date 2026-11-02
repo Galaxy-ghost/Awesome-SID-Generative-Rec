@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text†` | `RQ-VAE†` | `Dec-Only / Enc-Dec` | `Fixed / Multi-task NTP† / NTP†` | **`Hybrid`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["Inference<br/>Hybrid"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,14 @@ CAPE is a training-free plug-in that retrieves co-occurrence-supported tail item
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CAPE"]
+    P -->|predecessor| A["MiniOneRec"]
+    P -->|predecessor| B["TIGER"]
+    P -->|alternative| C["LIGER"]
+```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies a frozen backbone and released Amazon checkpoints.
   - Source: CAPE v1, Sec.5.1 and Appendix B: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#A2.p2.

@@ -13,8 +13,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[User history] --> B[Trajectory sampler]

@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | **`Dual RQ`** | `Enc-Dec` | `Fixed / Multi-task NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -40,8 +43,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![MQL4GRec architecture diagram](../../architectures/mql4grec.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -109,6 +110,16 @@ At inference, the generator returns one recommendation list per modality, and a 
 - TIGER quantizes text only (`Text`); MQL4GRec adds images (`Text+Img`) and keeps the same `Enc-Dec` generator with `Beam` decoding.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MQL4GRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["LC-Rec"]
+    P -->|competitor| C["CID"]
+    P -->|competitor| D["VQ-Rec"]
+    P -->|successor| E["MACRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER uses one text modality and an appended index for collisions; MQL4GRec translates text and images into separate quantitative languages and reassigns colliding tokens by distance.
   - Source: MQL4GRec v1, Table 1 baseline TIGER: https://arxiv.org/html/2504.05314v1#S4.T1; collision comparison in Table 2: https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#S4.T2.

@@ -43,14 +43,6 @@ Click a count to jump to its papers; darker means more papers.
 | Empty cell | No paper yet.                                    |
 | `warm`     | Protocol label in setup cards.                   |
 
-```mermaid
-xychart-beta
-    title "Papers per year"
-    x-axis ["2023", "2024", "2025", "2026"]
-    y-axis "Papers"
-    bar [3, 13, 37, 128]
-```
-
 The [glossary](guides/glossary.md) defines every value in the paper pages.
 
 ## Recent Updates

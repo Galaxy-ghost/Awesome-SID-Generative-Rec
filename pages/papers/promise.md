@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed† / NTP + Aux.` | **`PRM-Beam`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>PRM-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -54,6 +57,14 @@ PROMISE adds a lightweight process reward model that scores intermediate Semanti
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PROMISE"]
+    P -->|competitor| A["ActionPiece"]
+    P -->|competitor| B["TIGER"]
+    P -->|alternative| C["OneRec-V2"]
+```
 
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds a process reward model to steer beam search.
   - Source: Promise v1, generative baselines: https://arxiv.org/html/2601.04674v1#S4.I2.i3.p1; Table 1 and Section 4.1.5: https://arxiv.org/html/2601.04674v1#S4.T1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS5.p2.

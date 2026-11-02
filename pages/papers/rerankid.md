@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `R-KM†` | `Dec-Only` | `Fixed / NTP → RL` | `CoT+Greedy` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+Greedy"]
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +56,13 @@ ReRankID is a controlled testbed, not a new recommender: models reason over and 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ReRankID"]
+    P -->|alternative| A["OneRec-Think"]
+    P -->|predecessor| B["TIGER"]
+```
 
 - **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think reasons before catalog-item generation; ReRankID reasons over a supplied candidate slate.
   - Source: ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+CF`** | `RQ-VAE` | `Non-AR / Enc-Dec` | `Fixed / MTP + Ctr.` | `Scoring / Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Non-AR / Enc-Dec"] --> TR["Training<br/>Fixed / MTP + Ctr."] --> I["Inference<br/>Scoring / Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Non-AR / Enc-Dec`: Non-autoregressive and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ SCRec injects textualized collaborative signals into semantic tokenization, reca
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SCRec"]
+    P -->|predecessor| A["RPG"]
+    P -->|predecessor| B["TIGER"]
+    P -->|predecessor| C["LIGER"]
+```
 
 - **Predecessor** · [RPG](rpg.md): SCRec adopts a decoder-only backbone following RPG but replaces tokenization with collaborative-enhanced RQ-VAE and adds semantic/manifold alignment modules.
   - Source: SCRec v1, Sections 3.1/4.1: https://arxiv.org/html/2609.13678v1#S3.SS1.p9; https://arxiv.org/html/2609.13678v1#S4.SS1.p5.

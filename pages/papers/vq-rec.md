@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Multi-Dom` | **`OPQ`** | `Encoder` | `Fixed / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `OPQ`: Optimized product quantization.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -37,8 +40,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![VQ-Rec architecture diagram](../../architectures/vq-rec.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -111,6 +112,14 @@ A new item in a known domain needs no retraining.
 - UTGRec also targets multi-domain transfer (`Multi-Dom`) but replaces product quantization with a `Tree` tokenizer and decodes with `Beam`.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["VQ-Rec"]
+    P -->|successor| A["ActionPiece"]
+    P -->|successor| B["LC-Rec"]
+    P -->|alternative| C["UTGRec"]
+```
 
 - **Successor** · [ActionPiece](actionpiece.md): ActionPiece later follows VQ-Rec in quantizing sentence embeddings with OPQ into unordered codes and merges them into context-dependent tokens for generation.
   - Source: Evidence is from the later ActionPiece paper, Appendix F: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; VQ-Rec is a Table 4 baseline: https://arxiv.org/html/2502.13581v3#S3.T4.

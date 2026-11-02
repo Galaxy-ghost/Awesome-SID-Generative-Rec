@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed / NTP + Rank` | **`Hybrid`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Enc-Dec`: Encoder-decoder.
@@ -55,6 +58,14 @@ SpecGR uses an inductive drafter to propose existing and new items and the gener
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SpecGR"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LIGER"]
+    P -->|alternative| C["AtSpeed"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): SpecGR uses TIGER as its generative verifier and adds inductive drafting; SpecGR++ reuses the same encoder for self-drafting.
   - Source: SpecGR v2, Implementation Details and Drafting Strategies: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1; https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1.

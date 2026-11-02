@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `Subspace RQ` | `Non-AR` | **`Fixed / MTP + Aux.`** | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Subspace RQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Subspace RQ`: Residual quantization applied separately within embedding subspaces.
 - `Non-AR`: Non-autoregressive.
@@ -55,6 +58,14 @@ IDM/CMM distills a sequential recommender into a parallel Semantic ID generator 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["IDM/CMM"]
+    P -->|competitor| A["RPG"]
+    P -->|competitor| B["TIGER"]
+    P -->|alternative| C["LLaDA-Rec"]
+```
 
 - **Competitor** · [RPG](rpg.md): Reproduced parallel baseline with graph-guided decoding; IDM/CMM add soft teacher supervision.
   - Source: IDM/CMM v1, Section 4.1 and Table 2: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2; https://arxiv.org/html/2610.32943v1#S4.T2.

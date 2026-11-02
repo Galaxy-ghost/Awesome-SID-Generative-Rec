@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Enc-Dec` | **`Fixed / NTP → DPO`** | `Beam† / –` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam† / –"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,13 @@ RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in th
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["RAGR"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): RAGR augments TIGER with interleaved review SIDs, review-generation supervision and DPO alignment toward item generation.
   - Source: RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.

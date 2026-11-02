@@ -2,14 +2,6 @@
 
 How each paper trains its tokenizer and generator. Values are Table 1 entries defined in the [glossary](../guides/glossary.md); setup text is quoted from each paper's setup card.
 
-```mermaid
-xychart-beta
-    title "Objective values (top 8)"
-    x-axis ["NTP", "Multi-task NTP", "NTP + Aux.", "NTP → RL", "NTP → DPO", "Discrim.", "NTP + Ctr.", "NTP + Rank"]
-    y-axis "Papers"
-    bar [53, 20, 18, 18, 10, 8, 8, 7]
-```
-
 | Paper | Tokenizer Update | Objective | Related |
 | :-- | :-- | :-- | :-- |
 | [SIIT](../pages/papers/siit.md) | `Altern.` | `Multi-task NTP` | Competitor: [LETTER](../pages/papers/letter.md); Competitor: [TIGER](../pages/papers/tiger.md); Competitor: [CID](../pages/papers/cid.md); Predecessor: [LC-Rec](../pages/papers/lc-rec.md) |

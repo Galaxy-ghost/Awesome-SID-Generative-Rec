@@ -8,9 +8,12 @@
 
 Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | `Par. OPQ` | **`Non-AR`** | `Fixed / MTP` | `Graph` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP"] --> I["Inference<br/>Graph"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -39,8 +42,6 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 ### 2. How It Works
 
 ![RPG architecture diagram](../../architectures/rpg.png)
-
-*Figure source: Fig. 1, original paper.*
 
 #### Overview
 
@@ -197,6 +198,14 @@ Simplifications: The code scores every item in the catalog before the graph sear
 - The decoding graph is an index outside the model. It has one node per catalog item and must be rebuilt after retraining or re-tokenization (Sec. 2.3.1).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["RPG"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["VQ-Rec"]
+    P -->|alternative| C["LETTER"]
+```
 
 - **Competitor** · [TIGER](tiger.md): RPG compares its parallel OPQ-token prediction and graph-constrained decoding with TIGER's autoregressive RQ-VAE-token generation.
   - Source: RPG v1, Section 2.1.1 describes OPQ: https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1; Section 2.4.2 explicitly contrasts TIGER: https://arxiv.org/html/2506.05781v1#S2.SS4.SSS2.p1; Section 3.1 names the TIGER baseline and Table 2 compares results: https://arxiv.org/html/2506.05781v1#S3.SS1.p4 and https://arxiv.org/html/2506.05781v1#S2.T2.

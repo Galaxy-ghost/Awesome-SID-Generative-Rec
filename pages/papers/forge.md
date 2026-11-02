@@ -8,9 +8,10 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP` | `Dyn. Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Dyn. Beam"]
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -41,8 +42,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![FORGE architecture diagram](../../architectures/forge.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -112,6 +111,14 @@ Embedding HitRate and the Gini coefficient measure SID quality without GR traini
 - OneRec uses `R-KM` codes and OneRec-V2 uses `R-KM†` codes; FORGE's base configuration uses `RQ-VAE` codes.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["FORGE"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["OneRec"]
+    P -->|alternative| C["OneRec-V2"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for recommendation; FORGE benchmarks how modality, encoding, and collision post-processing choices for such SIDs affect retrieval at industrial scale.
   - Source: FORGE v3, Section 2.2 cites Rajput et al. (2023) as the SID adopted in recommendation: https://arxiv.org/html/2509.20904v3#S2.SS2.p1; Section 3.1.2 RQ-VAE encoding: https://arxiv.org/html/2509.20904v3#S3.SS1.SSS2.p1.

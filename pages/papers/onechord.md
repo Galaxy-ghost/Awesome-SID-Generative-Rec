@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `Par. OPQ` | `Non-AR` | **`Fixed / Next-item CE + Cons. KD + Rank KD`** | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Next-item CE + Cons. KD + Rank KD"] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `–`: Not reported in the paper.
 - `Non-AR`: Non-autoregressive.
@@ -55,6 +58,14 @@ OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-mat
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneChord"]
+    P -->|competitor| A["SPRINT"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["LLaDA-Rec"]
+```
 
 - **Competitor** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
   - Source: OneChord v1, Section 2 and Table 1: https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.25805v1#S3.T1.

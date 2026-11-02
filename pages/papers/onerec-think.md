@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF†` | `R-KM†` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -42,8 +45,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![OneRec-Think architecture diagram](../../architectures/onerec-think.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -109,6 +110,14 @@ The full OneRec-Think model generates the reasoning path and the first two itemi
 - The online gain comes from a split system in which a different model produces the last token. This suggests that the measured effect mixes the offline reasoning with the online model's own updates.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneRec-Think"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["LC-Rec"]
+    P -->|alternative| C["GRLM"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates the next itemic tokens directly; OneRec-Think first generates interleaved text-and-item reasoning and is rewarded with a beam-based signal.
   - Source: OneRec-Think v2, baselines: https://arxiv.org/html/2510.11639v2#S5.SS1.p2 and https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2510.11639v2#S4.T1.

@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | `R-KM+FSQ` | `Enc-Dec` | `Fixed / (NTP + Ctr.) → RL` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>R-KM+FSQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["Inference<br/>Beam"]
+```
 
 - `R-KM+FSQ`: Residual k-means combined with finite scalar quantization.
 - `Enc-Dec`: Encoder-decoder.
@@ -55,6 +56,13 @@ OneMall unifies product-card, short-video, and live-streaming e-commerce in one 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneMall"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["OneRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the equally sized encoder-decoder replay baseline.
   - Source: OneMall v1, Section 4.2 and Table 2: https://arxiv.org/html/2601.21770v1#S4.SS2.p1; https://arxiv.org/html/2601.21770v1#S4.T2.

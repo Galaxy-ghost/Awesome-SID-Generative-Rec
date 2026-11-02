@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `CF` | `Bal. VQ+KM` | `Enc-Dec` | **`Fixed / NTP`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>CF"] --> T["Tokenization<br/>Bal. VQ+KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `CF`: Collaborative filtering signal.
 - `Bal. VQ+KM`: Balanced tokenization combining vector quantization and k-means clustering.
@@ -56,6 +59,14 @@ MBGen interleaves behavior tokens and item tokens in one sequence, predicts the 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MBGen"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["MMGRec"]
+    P -->|alternative| C["LMIndexer"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a reproduced generative baseline; MBGen balances item tokens and jointly predicts behavior types and items.
   - Source: MBGen v1, Sections 3.2/4.1.2 and Table 3: https://arxiv.org/html/2405.16871v1#S3.SS2.p1; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS2.p2; https://arxiv.org/html/2405.16871v1#S4.T3.

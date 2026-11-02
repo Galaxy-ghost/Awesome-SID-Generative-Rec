@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed† / NTP†` | `Hybrid` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>Hybrid"]
+```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Enc-Dec`: Encoder-decoder.
@@ -53,6 +54,15 @@ GR-Generalize is an analysis, not a new recommender: it labels test instances as
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GR-Generalize"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["LIGER"]
+    P -->|alternative| C["SpecGR"]
+    P -->|predecessor| D["ETEGRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.
   - Source: GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: https://arxiv.org/html/2603.19809v1#S1.p6 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2; Table 1: https://arxiv.org/html/2603.19809v1#S2.T1.

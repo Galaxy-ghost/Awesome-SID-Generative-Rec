@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Shared/Spec. RQ`** | `Enc-Dec` | `Fixed / Multi-task NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Shared/Spec. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Shared/Spec. RQ`: Residual quantization using shared and task-specific codebooks.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,14 @@ GenSAR unifies search and recommendation in one generator with dual-purpose iden
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GenSAR"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["CID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a recommendation baseline; GenSAR extends RQ-VAE identifiers with shared and task-specific codes for joint search/recommendation.
   - Source: GenSAR v2, Sections 1 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S1.p6; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / MM` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP + Aux.`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Text / MM`: Text-only or multimodal representations in different configurations.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ HASTE adds a loss at each Semantic ID level and attribute-specific losses to gen
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["HASTE"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["IDGenRec"]
+    P -->|alternative| C["LC-Rec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
   - Source: https://arxiv.org/html/2610.17368v1#S6.p3 ; #S9.SS1.SSS4.p1.

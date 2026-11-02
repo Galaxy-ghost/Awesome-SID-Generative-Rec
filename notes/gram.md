@@ -13,8 +13,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 4, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[Textual IDs]

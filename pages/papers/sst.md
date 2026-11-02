@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`RQ+IST`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ+IST"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `RQ+IST`: Residual quantization combined with item-level subword tokenization.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,13 @@ SST represents history items as variable-length subwords merged from stable adja
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SST"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): SST compresses TIGER-VAE/TIGER-KM histories while retaining fixed-length target SIDs.
   - Source: SST v1, Sections 3.1.2/3.1.4 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2; https://arxiv.org/html/2608.22734v1#S3.T1.

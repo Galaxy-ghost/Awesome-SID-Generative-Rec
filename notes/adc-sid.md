@@ -12,8 +12,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Content and behavior] --> B[Mixture-of-quantization]

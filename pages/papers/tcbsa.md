@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `R-KM` | `Enc-Dec† / Dec-Only†` | `Fixed / NTP† / NTP → RL` | **`CF-Guided C-Beam`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec† / Dec-Only†"] --> TR["Training<br/>Fixed / NTP† / NTP → RL"] --> I["Inference<br/>CF-Guided C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec† / Dec-Only†`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
@@ -56,6 +59,14 @@ TCBSA converts a discriminative recommender's score margins into potentials on s
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TCBSA"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["MiniOneRec"]
+    P -->|competitor| C["APAO"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Frozen generative backbone used with SASRec and GRU4Rec guidance.
   - Source: TCBSA v1, Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1.

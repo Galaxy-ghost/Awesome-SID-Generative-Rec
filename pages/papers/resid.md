@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Attr+CF`** | `GAOQ` | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Attr+CF"] --> T["Tokenization<br/>GAOQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Attr+CF`: Structured item attributes combined with collaborative signals.
 - `GAOQ`: Globally Aligned Orthogonal Quantization.
@@ -56,6 +59,14 @@ ReSID learns item representations from structured features with field-aware mask
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ReSID"]
+    P -->|competitor| A["LETTER"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["UNGER"]
+```
 
 - **Competitor** · [LETTER](letter.md): LETTER is the strongest compared SID baseline and a quantization-runtime reference.
   - Source: ReSID v1, Sections 5.1/5.4: https://arxiv.org/html/2602.02338v1#S5.SS1.p4; https://arxiv.org/html/2602.02338v1#S5.SS4.p1.

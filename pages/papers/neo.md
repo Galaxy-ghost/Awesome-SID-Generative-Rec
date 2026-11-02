@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / Audio` | `R-KM` | `Dec-Only` | `Fixed / Multi-task NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+```
 
 - `Text / Audio`: Text or audio representations in different branches or evaluation settings.
 - `R-KM`: Residual k-means.
@@ -57,6 +58,14 @@ NEO adapts a decoder-only LLM to interleave natural language and typed item Sema
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["NEO"]
+    P -->|alternative| A["PLUM"]
+    P -->|predecessor| B["TIGER"]
+    P -->|alternative| C["EAGER-LLM"]
+```
 
 - **Alternative** · [PLUM](plum.md): Concurrent SID-LLM adaptation; NEO emphasizes mixed text-ID outputs and multiple item types.
   - Source: NEO v1, Section 2 and Table 1: https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2; https://arxiv.org/html/2603.17533v1#S2.T1.

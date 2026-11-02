@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `RQ-VAE` | **`Dec-Only`** | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,16 @@ Latte inserts a latent token before each Semantic ID, turning one decoding tree 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Latte"]
+    P -->|predecessor| A["PSI"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["ActionPiece"]
+    P -->|predecessor| E["GRID"]
+```
 
 - **Predecessor** · [PSI](psi.md): PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before the semantic ID.
   - Source: Latte v1, base model and implementation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / –` | `R-KM` | **`Dec-Only`** | `Fixed / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / –"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Text / –`: Text representations in one configuration; the representation source is not reported in another.
 - `R-KM`: Residual k-means.
@@ -57,6 +60,15 @@ Deco reads each history item as one fused token, condenses the history into a ne
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Deco"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["LLaDA-Rec"]
+    P -->|competitor| D["NEZHA"]
+```
 
 - **Competitor** · [TIGER](tiger.md): KV-cached TIGER is retrained as an autoregressive comparison.
   - Source: Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.

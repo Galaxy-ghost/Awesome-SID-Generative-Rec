@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img†` | `R-KM†` | `Dec-Only†` | **`Fixed† / NTP → RL`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 - `–`: Not reported in the paper.
@@ -53,6 +56,14 @@ SAGE-SID optimizes list-wise generators with a geometric-mean sequence ratio, de
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SAGE-SID"]
+    P -->|predecessor| A["OneRec-V2"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Predecessor** · [OneRec-V2](onerec-v2.md): SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
   - Source: SAGE v3, Sections 3.4.1/4.1.2: https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1; https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4.

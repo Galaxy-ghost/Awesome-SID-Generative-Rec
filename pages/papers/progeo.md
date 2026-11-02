@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Geo` | **`R-KM+Geo-CB`** | `Dec-Only` | `Fixed / NTP` | `Beam+Geo-Filter` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM+Geo-CB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam+Geo-Filter"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `R-KM+Geo-CB`: Residual k-means combined with a geographic codebook.
 - `Dec-Only`: Decoder-only.
@@ -44,8 +47,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![ProGEO architecture diagram](../../architectures/progeo.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -114,6 +115,16 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 - GNPR-SID also encodes geography in POI SIDs (`Attr+Geo+CF`) but uses a plain `RQ-VAE`, without a dedicated geo-codebook layer.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ProGEO"]
+    P -->|competitor| A["OneRec"]
+    P -->|competitor| B["TIGER"]
+    P -->|predecessor| C["GNPR-SID"]
+    P -->|alternative| D["OneLoc"]
+    P -->|alternative| E["LGSID"]
+```
 
 - **Competitor** · [OneRec](onerec.md): OneRec's RQ-Kmeans is the second-best tokenizer in Table 1; Pro-GEO injects geographic rotary encoding at the third quantization layer and resolves SID conflicts by user distance.
   - Source: Pro-GEO v1, baseline RQ-Kmeans (Deng et al., 2025): https://arxiv.org/html/2604.23156v1#A2.SS4.p1; Table 1 and public Table 6: https://arxiv.org/html/2604.23156v1#S4.T1 and https://arxiv.org/html/2604.23156v1#A2.T6.

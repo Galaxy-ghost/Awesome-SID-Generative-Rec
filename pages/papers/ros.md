@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Geo` | **`Geo-Prefix+RQ-VAE`** | `Dec-Only` | `Fixed / NTP → RL` | `CoT+C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Geo-Prefix+RQ-VAE`: Geographic prefixes combined with residual-quantized variational codes.
 - `Dec-Only`: Decoder-only.
@@ -43,8 +46,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![ROS architecture diagram](../../architectures/ros.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -113,6 +114,15 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 - SpaceTime-GR uses geographic indices only (`Geo`, `Geo-Idx`); ROS adds category semantics to the SID and reasons before decoding (`CoT+C-Beam`).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ROS"]
+    P -->|competitor| A["GNPR-SID"]
+    P -->|competitor| B["Spacetime-GR"]
+    P -->|alternative| C["OneLoc"]
+    P -->|alternative| D["LGSID"]
+```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID quantizes POI embeddings without explicit spatial structure; ROS builds S2-cell locality tokens plus semantic codes and adds mobility chain-of-thought and spatial RL.
   - Source: ROS v2, LLM-based baselines: https://arxiv.org/html/2601.04562v2#S3.SS1.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2601.04562v2#S3.T1.

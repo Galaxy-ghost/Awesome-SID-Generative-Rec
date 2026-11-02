@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `LLM-Vocab` | `Dec-Only` | **`Fixed / NTP → DPO`** | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,12 @@ CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, sof
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CausalDPO"]
+    P -->|alternative| A["OneRec"]
+```
 
 - **Alternative** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
   - Source: CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: https://arxiv.org/html/2603.22335v2#S4.p2; not a baseline in Table 1.

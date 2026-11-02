@@ -96,8 +96,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[Action sequences] --> B[Co-occurrence counts]
@@ -224,8 +222,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Content and behavior] --> B[Mixture-of-quantization]
@@ -315,8 +311,6 @@ Turning a large language model (LLM) into a recommender meets semantic and behav
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -892,8 +886,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 3, original paper.*
-
 ```mermaid
 flowchart LR
     A[Interactions] --> B[LightGCN]
@@ -1468,8 +1460,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[User history] --> B[Shared encoder]
@@ -1600,8 +1590,6 @@ Current approaches often train item tokenization and generative recommendation a
 Based on arXiv v3.
 
 ### 2. How It Works
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -1831,8 +1819,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Multimodal content] --> B[Item representation]
@@ -1960,8 +1946,6 @@ Traditional cross-domain recommendation relies on shared user or item IDs, which
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -2124,8 +2108,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[POI description] --> B[Contrastive representation]
@@ -2219,8 +2201,6 @@ Generative recommendation (GR) models are usually fine-tuned with the next-token
 Based on arXiv v3.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -2347,8 +2327,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[LLM embeddings]
@@ -2432,8 +2410,6 @@ Existing generative POI recommenders usually give POIs random numeric IDs, which
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -2595,8 +2571,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 4, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[Textual IDs]
@@ -2719,8 +2693,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text and reviews] --> B[Rewritten description]
@@ -2804,8 +2776,6 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 1(a) and Fig. 1(b), original paper.*
 
 ```mermaid
 flowchart LR
@@ -2928,8 +2898,6 @@ Text-based item identifiers expose the large output space of an LLM, while Seman
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -3084,8 +3052,6 @@ The authors state that scaling generative retrieval to industry is hard because 
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -3279,8 +3245,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> C[Supervised quantization]
@@ -3439,8 +3403,6 @@ The authors state that generative recommendation struggles to encode items in th
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -3773,8 +3735,6 @@ Based on arXiv v4.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[LLaMA embeddings]
@@ -3897,8 +3857,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 #### Semantic Regularization
 
 An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).
@@ -4000,8 +3958,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item fields] --> B[Joint LLM encoding]
@@ -4091,8 +4047,6 @@ Text-based recommenders encode item text with prompts and tokenize items into di
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -4184,8 +4138,6 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -4307,8 +4259,6 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -4471,8 +4421,6 @@ MACRec adds cross-modal interaction at two points: inside the quantizer and in t
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -4703,8 +4651,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Item text] --> B[RQ-VAE]
@@ -4929,8 +4875,6 @@ Generative recommenders that build on pre-trained language models carry general 
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -5333,8 +5277,6 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 #### Overview
 
 ```mermaid
@@ -5555,8 +5497,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Behavior history] --> B[Encoder]
@@ -5648,8 +5588,6 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -6049,8 +5987,6 @@ ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes ea
 Based on arXiv v1.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -6664,8 +6600,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Check-ins] --> B[Spatial SID]
@@ -6758,8 +6692,6 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
 
 ### 2. How It Works
-
-*Figure source: Fig. 1, original paper.*
 
 #### Overview
 
@@ -6939,8 +6871,6 @@ Most generative recommenders generate Semantic IDs (SIDs) directly from interact
 Based on arXiv v3.
 
 ### 2. How It Works
-
-*Figure source: Fig. 3, original paper.*
 
 ```mermaid
 flowchart LR
@@ -7276,8 +7206,6 @@ LLM-based generative recommenders already share one token space for language and
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -7880,8 +7808,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[SID history and time] --> B[Think]
@@ -7977,8 +7903,6 @@ Large-scale recommenders usually embed users and items in one space and select c
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 #### Overview
 
@@ -8239,8 +8163,6 @@ LLM-based recommenders need user and item tokens that the LLM can read (Abstract
 Based on arXiv v3.
 
 ### 2. How It Works
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -8742,8 +8664,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[User context] --> B[Policy]
@@ -8859,8 +8779,6 @@ Transferable recommenders encode item text with a pre-trained language model (PL
 Based on arXiv v2.
 
 ### 2. How It Works
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR

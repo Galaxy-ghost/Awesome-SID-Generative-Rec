@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | **`Multi-Path R-KM+Hash`** | `Enc-Dec` | `Fixed / NTP + PV-RSPO + Rank + Aux.` | `PV-Beam+Rerank` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>Multi-Path R-KM+Hash"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + PV-RSPO + Rank + Aux."] --> I["Inference<br/>PV-Beam+Rerank"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `–`: Not reported in the paper.
 - `Multi-Path R-KM+Hash`: Multiple residual-k-means code paths combined with a hash-based identifier component.
@@ -57,6 +60,14 @@ GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, ca
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GR4AD-X"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["RPG"]
+    P -->|alternative| C["MMQ"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): GR4AD-X places its multi-path residual SID construction in the lineage of TIGER's residual-quantized identifiers.
   - Source: GR4AD-X v1, Sections 2.1 and 3.2: https://arxiv.org/html/2610.38378v1#S2.SS1.p1; https://arxiv.org/html/2610.38378v1#S3.SS2.p3.

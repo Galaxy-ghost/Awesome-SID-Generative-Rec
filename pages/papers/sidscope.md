@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `n/a` | `n/a` | `n/a` | `n/a / n/a` | `n/a` |
+```mermaid
+flowchart LR
+    R["Representation<br/>n/a"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>n/a"] --> TR["Training<br/>n/a / n/a"] --> I["Inference<br/>n/a"]
+```
 
 - `n/a`: Not applicable to this method.
 
@@ -52,6 +53,16 @@ SIDScope is a diagnostic resource, not a new recommender: it checks released Sem
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SIDScope"]
+    P -->|predecessor| A["GRID"]
+    P -->|predecessor| B["CARD"]
+    P -->|predecessor| C["DIGER"]
+    P -->|predecessor| D["LETTER"]
+    P -->|predecessor| E["LC-Rec"]
+```
 
 - **Predecessor** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
   - Source: SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: https://arxiv.org/html/2608.18779v2#S3.T2; Table 3 gives its diagnostic profile: https://arxiv.org/html/2608.18779v2#S4.T3; Tables 5 and 7 report the fixed-budget and resolver tests: https://arxiv.org/html/2608.18779v2#S5.T5 and https://arxiv.org/html/2608.18779v2#S5.T7.

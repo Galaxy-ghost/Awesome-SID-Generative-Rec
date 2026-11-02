@@ -8,9 +8,10 @@
 
 Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -39,8 +40,6 @@ Large-scale recommenders usually embed users and items in one space and select c
 ### 2. How It Works
 
 ![TIGER architecture diagram](../../architectures/tiger.png)
-
-*Figure source: Fig. 2, original paper.*
 
 #### Overview
 
@@ -207,6 +206,14 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 - Beam search runs one generator step per SID token. RPG predicts all tokens of an SID in parallel (`Non-AR`) and decodes over a graph of valid IDs (`Graph`).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TIGER"]
+    P -->|alternative| A["VQ-Rec"]
+    P -->|successor| B["LETTER"]
+    P -->|alternative| C["RPG"]
+```
 
 - **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized content codes for transferable recommendation without generative retrieval; TIGER uses RQ-VAE codes for autoregressive retrieval.
   - Source: TIGER, Section 2, Semantic IDs paragraph: https://arxiv.org/html/2305.05065v3#S2.SS0.SSS0.Px2.p1; Section 3.2: https://arxiv.org/html/2305.05065v3#S3.SS2.p1.

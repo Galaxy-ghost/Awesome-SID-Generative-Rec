@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Attr+Geo+CF` | **`KG-RQ`** | `Dec-Only` | `Fixed / Multi-task NTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Attr+Geo+CF"] --> T["Tokenization<br/>KG-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Attr+Geo+CF`: Category and other attributes, plus geography, plus CF (POI).
 - `KG-RQ`: Residual quantization informed by knowledge-graph structure.
@@ -57,6 +60,12 @@ KGTB organizes POI data as a knowledge graph, quantizes each node into a structu
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["KGTB"]
+    P -->|competitor| A["GNPR-SID"]
+```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
   - Source: KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2; https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.

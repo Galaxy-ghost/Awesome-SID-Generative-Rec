@@ -122,7 +122,8 @@ LEGEND = [  # (mark, meaning); the first four are the cell symbols listed in the
     ("Empty cell", "No paper yet."),
     ("`warm`", "Protocol label in setup cards."),
 ]
-CHART_TOP = 8
+FLOW_IDS = ["R", "T", "B", "TR", "I"]
+MAIN_STYLE = "fill:#eaf2fb,stroke:#6b8fc7"
 
 
 def title_of(rec: dict) -> str:
@@ -130,10 +131,33 @@ def title_of(rec: dict) -> str:
     return t[0].upper() + t[1:] if t else rec["name"]
 
 
-def pipeline(rec: dict, sep: str = " → ") -> str:
-    vals = [rec["representation"], rec["tokenization"], rec["backbone"],
+def stage_values(rec: dict) -> list:
+    return [rec["representation"], rec["tokenization"], rec["backbone"],
             f"{rec['tokenizer']} / {rec['objective']}", rec["inference"]]
-    return sep.join(f"**`{v}`**" if s == rec["stage"] else f"`{v}`" for s, v in zip(STAGES, vals))
+
+
+def pipeline(rec: dict, sep: str = " → ") -> str:
+    return sep.join(f"**`{v}`**" if s == rec["stage"] else f"`{v}`" for s, v in zip(STAGES, stage_values(rec)))
+
+
+def mm_label(s: str) -> str:
+    return '"' + str(s).replace('"', "#quot;") + '"'
+
+
+def flow_chart(rec: dict) -> list:
+    """Mermaid flowchart of the five stages; the stage the paper mainly changes gets the main style."""
+    nodes = " --> ".join(f"{i}[{mm_label(f'{s}<br/>{v}')}]" for i, s, v in zip(FLOW_IDS, STAGES, stage_values(rec)))
+    main = [f"    classDef main {MAIN_STYLE}", f"    class {FLOW_IDS[STAGES.index(rec['stage'])]} main"] if rec["stage"] in STAGES else []
+    return ["```mermaid", "flowchart LR", f"    {nodes}", *main, "```"]
+
+
+def related_chart(rec: dict, by_id: dict) -> str:
+    """Mermaid graph from this paper to each related paper, labeled by relation; empty without related."""
+    rel = rec.get("related", [])
+    if not rel:
+        return ""
+    edges = [f"    P -->|{r['relation']}| {chr(65 + i)}[{mm_label(by_id[r['id']]['name'])}]" for i, r in enumerate(rel)]
+    return "\n".join(["```mermaid", "flowchart LR", f"    P[{mm_label(rec['name'])}]", *edges, "```"])
 
 
 def band(p: dict) -> str:
@@ -228,20 +252,6 @@ def setup_card(rec: dict, folded: bool = False) -> str:
     return card + ("\n\n<details>\n<summary>Sources</summary>\n\n" + "\n".join(src) + "\n\n</details>" if src else "")
 
 
-def bar_chart(title: str, counts: list) -> list:
-    """Mermaid bar chart lines from (label, count) pairs."""
-    labels = ", ".join('"' + str(l).replace('"', "'") + '"' for l, _ in counts)
-    return ["```mermaid", "xychart-beta", f'    title "{title}"', f"    x-axis [{labels}]",
-            '    y-axis "Papers"', f"    bar [{', '.join(str(n) for _, n in counts)}]", "```"]
-
-
-def top_counts(papers: list, key: str, top: int = CHART_TOP) -> list:
-    counts = {}
-    for r in papers:
-        counts[r[key]] = counts.get(r[key], 0) + 1
-    return sorted(counts.items(), key=lambda x: (-x[1], x[0]))[:top]
-
-
 def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
     probs = {e["value"]: e for e in vocab["problem"]}
     prob = probs[rec["problem"]]
@@ -262,7 +272,7 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
     blocks += [(None, [n["rest"]])] if n and n["rest"] else []
     rel = "\n".join(f"- **{r['relation'].capitalize()}** · [{by_id[r['id']]['name']}]({r['id']}.md): {r['note']}"
                     f"\n  - Source: {r['where']}" for r in rec.get("related", []))
-    blocks.append((RELATED_TITLE, [p for p in (rel, f"[View all papers in this cell](../../README.md#{anchor})") if p]))
+    blocks.append((RELATED_TITLE, [p for p in (related_chart(rec, by_id), rel, f"[View all papers in this cell](../../README.md#{anchor})") if p]))
     tags = [band(prob), stage_label(rec)] + (["POI"] if rec.get("poi") else [])
     toc = " · ".join(f"[{t}](#{slugify_heading(t)})" for t, _ in blocks if t)
     vals = dict.fromkeys(f"- `{rec[c]}`: {defs[c][rec[c]]}" for c in TECH_COLS if defs[c].get(rec[c]))
@@ -272,7 +282,7 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
         " · ".join(f"`{t}`" for t in tags), "",
         link_line(rec, [f"[Matrix](../../README.md#{anchor})"]), "",
         f"Reading level: {LEVELS[level - 1]} (Level {level}) · On this page: {toc}", "",
-        f"| {' | '.join(STAGES)} |", "|" + " :-: |" * len(STAGES), f"| {pipeline(rec, ' | ')} |", "",
+        *flow_chart(rec), "",
         *vals, "",
     ]
     for t, parts in blocks:
@@ -337,7 +347,6 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
         *align(table), "",
         "Click a count to jump to its papers; darker means more papers.", "",
         *align(["| Mark | Meaning |", "| :-- | :-- |", *[f"| {m} | {t} |" for m, t in LEGEND]]), "",
-        *bar_chart("Papers per year", [(y, sum(r["year"] == y for r in papers)) for y in sorted({r["year"] for r in papers})]), "",
         "The [glossary](guides/glossary.md) defines every value in the paper pages.", "",
         "## Recent Updates", "",
         *[f"- {u['date']}: {u['change'].strip()}" + (f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}." if u["papers"] else "")
@@ -384,12 +393,12 @@ def build_indexes(vocab: dict, papers: list) -> dict:
     return {"stages.md": "\n".join(stages), "code.md": "\n".join(code), "poi.md": "\n".join(poi_page)}
 
 
-COMPARISONS = [  # (file, title, intro, charted key, sort keys, [(header, record key or setup.<key>)])
-    ("tokenizer", "Tokenizer", "How each paper builds its Semantic IDs.", "tokenization", ["tokenization"],
+COMPARISONS = [  # (file, title, intro, sort keys, [(header, record key or setup.<key>)])
+    ("tokenizer", "Tokenizer", "How each paper builds its Semantic IDs.", ["tokenization"],
      [("Information Source", "representation"), ("Quantization", "tokenization"),
       ("SID Length, Codebook, Collisions", "setup.sid"), ("Tokenizer Update", "tokenizer")]),
-    ("training", "Training", "How each paper trains its tokenizer and generator.", "objective", ["tokenizer", "objective"], [("Tokenizer Update", "tokenizer"), ("Objective", "objective")]),
-    ("inference", "Inference", "How each paper generates Semantic IDs at inference.", "inference", ["inference"],
+    ("training", "Training", "How each paper trains its tokenizer and generator.", ["tokenizer", "objective"], [("Tokenizer Update", "tokenizer"), ("Objective", "objective")]),
+    ("inference", "Inference", "How each paper generates Semantic IDs at inference.", ["inference"],
      [("Backbone", "backbone"), ("Decoding", "inference"), ("Search Budget", "setup.inference_budget"),
       ("Visibility", "setup.visibility")]),
 ]
@@ -404,15 +413,14 @@ def build_comparisons(papers: list, by_id: dict) -> dict:
     val = lambda r, k: cell_text((r.get("setup") or {}).get(k[6:], "no card yet")) if k.startswith("setup.") else f"`{cell_text(r[k])}`"
     rel = lambda r: "; ".join(f"{x['relation'].capitalize()}: {link(by_id[x['id']])}" for x in r.get("related", [])) or "–"
     out = {}
-    for f, title, intro, ck, keys, cols in COMPARISONS:
+    for f, title, intro, keys, cols in COMPARISONS:
         rows = sorted(papers, key=lambda r: [r[k].lower() for k in keys] + [r["name"].lower()])
         head = ["Paper", *(h for h, _ in cols), "Related"]
         table = [f"| {' | '.join(head)} |", "|" + " :-- |" * len(head),
                  *[f"| {' | '.join([link(r), *(val(r, k) for _, k in cols), rel(r)])} |" for r in rows]]
-        chart = bar_chart(f"{ck.capitalize()} values (top {CHART_TOP})", top_counts(papers, ck))
         out[f"{f}.md"] = "\n".join([f"# {title} Comparison", "", f"{intro} Values are Table 1 entries defined in the "
                                     "[glossary](../guides/glossary.md); setup text is quoted from each paper's setup card.", "",
-                                    *chart, "", *table, ""])
+                                    *table, ""])
     return out
 
 

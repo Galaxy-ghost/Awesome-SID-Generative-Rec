@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `CF` | `Learn. RQ` | `Enc-Dec` | **`Altern. / NTP + Ctr.`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>CF"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / NTP + Ctr."] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `CF`: Collaborative filtering signal.
 - `Enc-Dec`: Encoder-decoder.
@@ -41,8 +44,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![ETEGRec architecture diagram](../../architectures/etegrec.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -105,6 +106,15 @@ In the tokenizer phase, the quantization loss and both alignment losses update t
 - LETTER also uses `Learn. RQ` codes but trains them before the generator; ETEGRec trains them together with the generator.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ETEGRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["CID"]
+    P -->|alternative| D["AdaSID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER trains the RQ-VAE tokenizer once and freezes it; ETEGRec optimizes tokenizer and generator alternately with sequence-item and preference-semantic alignment losses.
   - Source: ETEGRec v3, baselines and implementation: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS2.p1 and https://arxiv.org/html/2409.05546v3#S4.SS1.SSS5.p2; Table 3: https://arxiv.org/html/2409.05546v3#S4.T3; unseen-user comparison in Figure 2: https://arxiv.org/html/2409.05546v3#S4.SS4.SSS1.p1.

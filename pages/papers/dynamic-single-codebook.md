@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | **`Dyn. KM+Disamb.`** | `Enc-Dec / Lazy Dec-Only` | `Fixed / NTP†` | `Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>Dyn. KM+Disamb."] --> B["Backbone<br/>Enc-Dec / Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP†"] --> I["Inference<br/>Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `–`: Not reported in the paper.
 - `Dyn. KM+Disamb.`: Dynamically updated k-means codes combined with disambiguation codes.
@@ -55,6 +58,14 @@ Dynamic-Single-Codebook replaces multi-level residual codes with one token from 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Dynamic-Single-Codebook"]
+    P -->|alternative| A["RPG"]
+    P -->|alternative| B["LLaDA-Rec"]
+    P -->|alternative| C["LETTER"]
+```
 
 - **Alternative** · [RPG](rpg.md): RPG parallelizes long SIDs; this method shortens SIDs.
   - Source: Dynamic-Single-Codebook v1, Section 2.2: https://arxiv.org/html/2608.21012v1#S2.SS2.p2.

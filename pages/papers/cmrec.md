@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | `RQ-VAE` | `Dec-Only†` | **`– / NTP`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>– / NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `–`: Not reported in the paper.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -53,6 +56,14 @@ CMRec learns a shared cross-country codebook and synthesizes mixed-country seque
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CMRec"]
+    P -->|predecessor| A["GenCDR"]
+    P -->|competitor| B["TIGER"]
+    P -->|alternative| C["GMC"]
+```
 
 - **Predecessor** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
   - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2

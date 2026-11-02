@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `Par. OPQ` | **`Non-AR`** | `Fixed / MTP + Ctr. + Aux.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Ctr. + Aux."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,16 @@ ACERec compresses long Semantic IDs into compact latent tokens with an Attentive
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ACERec"]
+    P -->|competitor| A["RPG"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["ActionPiece"]
+    P -->|competitor| D["ETEGRec"]
+    P -->|predecessor| E["VQ-Rec"]
+```
 
 - **Competitor** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent tokens for sequence modeling and scores all items exactly.
   - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2; ID-length comparison: https://arxiv.org/html/2602.13573v2#S4.SS3.p3.

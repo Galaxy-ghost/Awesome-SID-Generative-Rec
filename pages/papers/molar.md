@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Img+CF`** | `n/a` | `Dec-Only` | `n/a / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>n/a / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `n/a`: Not applicable to this method.
 - `Dec-Only`: Decoder-only.

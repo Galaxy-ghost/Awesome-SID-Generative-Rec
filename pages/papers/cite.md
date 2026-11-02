@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `Par. OPQ` | `Non-AR` | `Fixed / Discrim.` | **`Scoring`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,14 @@ CITE adds an item-level transition score with separate source and destination em
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CITE"]
+    P -->|predecessor| A["RPG"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["VQ-Rec"]
+```
 
 - **Predecessor** · [RPG](rpg.md): CITE adds transition scoring to a frozen reproduced RPG generator.
   - Source: Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. https://doi.org/10.3390/electronics15204749

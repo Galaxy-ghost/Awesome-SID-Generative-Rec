@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`RQ-VAE`** | `Enc-Dec / Dec-Only` | `Fixed / NTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-le
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DACT"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LC-Rec"]
+    P -->|predecessor| C["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): T5-based SID generator is a backbone for testing DACT under period-wise tokenizer and recommender updates.
   - Source: https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T2

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP` | **`Self-Draft+Hash`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Self-Draft+Hash"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ NEZHA adds an autoregressive draft head inside the main model for self-drafting 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["NEZHA"]
+    P -->|alternative| A["AtSpeed"]
+    P -->|alternative| B["SpecGR"]
+    P -->|alternative| C["RPG"]
+```
 
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head and hash-set validation. AtSpeed is omitted from public comparisons.
   - Source: NEZHA v1, Sections 2.2/4.1: https://arxiv.org/html/2511.18793v1#S2.SS2.p2; https://arxiv.org/html/2511.18793v1#S4.SS1.p2.

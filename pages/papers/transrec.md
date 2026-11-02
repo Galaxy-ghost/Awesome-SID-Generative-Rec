@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Multi-Facet ID`** | `Enc-Dec / Dec-Only` | `Fixed / NTP` | `FM-Index+Agg.` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Multi-Facet ID"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>FM-Index+Agg."]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Multi-Facet ID`: Identifiers representing multiple facets of an item.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
@@ -56,6 +59,13 @@ TransRec indexes items with multi-facet identifiers combining ID, title, and att
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TransRec"]
+    P -->|competitor| A["CID"]
+    P -->|competitor| B["TIGER"]
+```
 
 - **Competitor** · [CID](cid.md): CID+IID and the other Hua et al. indexing variants are compared baselines.
   - Source: TransRec v2, Sec.4.1 Baselines and Appendix A.3: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#A1.SS3.p1.

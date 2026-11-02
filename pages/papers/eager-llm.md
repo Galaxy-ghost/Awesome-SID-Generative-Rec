@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Dual H-KM`** | `Dec-Only` | `Fixed / Multi-task NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual H-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,14 @@ EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignm
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["EAGER-LLM"]
+    P -->|predecessor| A["EAGER"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["LETTER"]
+```
 
 - **Predecessor** · [EAGER](eager.md): The authors explicitly extend EAGER's dual-source modeling to an LLM backbone.
   - Source: EAGER-LLM v1, Section 2.1: https://arxiv.org/html/2502.14735v1#S2.SS1.p1.

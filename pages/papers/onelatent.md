@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `MM` | `R-KM` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>MM"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `MM`: Multimodal item representations.
 - `R-KM`: Residual k-means.
@@ -56,6 +59,13 @@ OneLatent compresses explicit chain-of-thought into learnable latent tokens thro
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneLatent"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["OneRec-Think"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a SID-based generative baseline in the reported comparison.
   - Source: OneLatent v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.30675v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.30675v1#S4.T2.

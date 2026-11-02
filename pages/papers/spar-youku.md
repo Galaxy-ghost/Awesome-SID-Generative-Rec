@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `RQ-PIB` | **`Dec-Only`** | `Fixed / NTP → DPO` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-PIB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `RQ-PIB`: Residual Quantization with Prefix-aware Interaction Balancing
@@ -57,6 +60,14 @@ SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence f
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SPAR-Youku"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["OneRec"]
+    P -->|alternative| C["UniRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a residual-SID retrieval baseline; SPAR jointly changes prefix-local branch balance and prefix-conditioned user evidence.
   - Source: SPAR-Youku v1, Section 3.5.1 and Table 1: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1; https://arxiv.org/html/2610.27898v1#S3.T1.

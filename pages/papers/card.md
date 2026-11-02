@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | **`NU-RQ`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>NU-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `NU-RQ`: Non-uniform RQ variant.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,16 @@ CARD fuses text, image, and collaborative signals into a visual semantic unit be
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CARD"]
+    P -->|competitor| A["MACRec"]
+    P -->|competitor| B["MQL4GRec"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["TIGER"]
+    P -->|competitor| E["VQ-Rec"]
+```
 
 - **Competitor** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Section 2.1: https://arxiv.org/html/2604.26427v1#S2.SS1.p1.

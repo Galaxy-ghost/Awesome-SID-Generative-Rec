@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`LLM-Vocab`** | `Enc-Dec` | `Altern. / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Altern.`: Tokenizer and generator are updated in turns.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![IDGenRec architecture diagram](../../architectures/idgenrec.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -107,6 +108,15 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 - CID builds `Spectral Clus.` IDs from `CF` signals and keeps them fixed; IDGenRec builds `LLM-Vocab` IDs from text and updates them.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["IDGenRec"]
+    P -->|competitor| A["CID"]
+    P -->|alternative| B["GRAM"]
+    P -->|alternative| C["GRLM"]
+    P -->|alternative| D["GMC"]
+```
 
 - **Competitor** · [CID](cid.md): P5-SID, P5-CID, and P5-SemID assign sequential, collaborative, or category IDs; IDGenRec learns a textual ID generator jointly with the recommender.
   - Source: IDGenRec v2, baselines: https://arxiv.org/html/2403.19021v2#S3.I1.i2.p1; Table 4: https://arxiv.org/html/2403.19021v2#S3.T4.

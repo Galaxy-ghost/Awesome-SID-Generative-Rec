@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `Par. OPQ` | **`Non-AR`** | `Fixed / Masked` | `Diff.+Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Diff.+Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `Non-AR`: Non-autoregressive.
@@ -56,6 +59,14 @@ MDGR uses a parallel codebook, adaptive masking along time and samples, and warm
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MDGR"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["COBRA"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates residual-quantized IDs autoregressively; MDGR denoises parallel-codebook IDs and is also tested against production TIGER online.
   - Source: MDGR v1, Sections 5.1.2/5.6 and Table 2: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S5.SS6.p1; https://arxiv.org/html/2601.19501v1#S4.T2.

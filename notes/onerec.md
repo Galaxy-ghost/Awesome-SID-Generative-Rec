@@ -14,8 +14,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Behavior history] --> B[Encoder]

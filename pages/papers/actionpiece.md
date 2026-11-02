@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`OPQ`** | `Enc-Dec` | `Fixed / NTP` | `Ensemble` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Ensemble"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `OPQ`: Optimized product quantization.
 - `Enc-Dec`: Encoder-decoder.
@@ -40,8 +43,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![ActionPiece architecture diagram](../../architectures/actionpiece.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -106,6 +107,15 @@ Because feature sets are unordered, set permutation regularization produces mult
 - VQ-Rec uses `OPQ` codes in an `Encoder` with `Scoring`; ActionPiece starts from the same kind of codes but generates merged tokens with an `Enc-Dec` generator.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ActionPiece"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["VQ-Rec"]
+    P -->|competitor| C["LMIndexer"]
+    P -->|competitor| D["CID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER tokenizes each item independently into ordered RQ-VAE codes, whereas ActionPiece merges unordered feature sets into context-dependent tokens; both use the same encoder-decoder and beam search.
   - Source: ActionPiece v3, Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4; same architecture statement: https://arxiv.org/html/2502.13581v3#A8.p2.

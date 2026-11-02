@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `R-KM` | **`Enc-Dec`** | `Fixed / NTP + Rank` | `Hybrid` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `R-KM`: Residual k-means.
@@ -56,6 +59,14 @@ Gryphon adds a jointly trained item-level scoring component to an encoder-decode
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Gryphon"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["QuaSID"]
+    P -->|alternative| C["PROMISE"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER's extra collision-resolution token motivates the resolved-GR baseline; Gryphon instead scores colliding items separately.
   - Source: Gryphon v1, Sections 2.2/4.1.2: https://arxiv.org/html/2606.08604v1#S2.SS2.p1; https://arxiv.org/html/2606.08604v1#S4.SS1.SSS2.p3.

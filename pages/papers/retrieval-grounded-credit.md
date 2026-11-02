@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text†` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT+C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ Retrieval-Grounded-Credit splits each reasoning trace into interest hypotheses, 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Retrieval-Grounded-Credit"]
+    P -->|predecessor| A["SIDReasoner"]
+    P -->|alternative| B["PROMISE"]
+    P -->|alternative| C["SAPO"]
+```
 
 - **Predecessor** · [SIDReasoner](sidreasoner.md): Reuses SIDReasoner's tokenizer, alignment data, and evaluator; adds retrieval-grounded trace credit.
   - Source: Retrieval-Grounded-Credit v1, Sections 3.1/3.2 and 4.1, pp. 3/6: https://arxiv.org/pdf/2609.29983v1#page=3; https://arxiv.org/pdf/2609.29983v1#page=6.

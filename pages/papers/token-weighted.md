@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Enc-Dec` | **`Fixed / NTP`** | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,13 @@ Token-Weighted weights Semantic ID tokens by prefix ambiguity reduction and by t
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Token-Weighted"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): The proposed curriculum combines token-weighted objectives with standard likelihood on the TIGER architecture.
   - Source: Token-Weighted v2, Section 5.1.2 and Table 3: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.17787v2#S4.T3.

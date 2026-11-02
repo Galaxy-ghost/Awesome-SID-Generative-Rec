@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Time` | **`RQ-VAE / Par. VQ`** | `Dec-Only†` | `Fixed / NTP` | `Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Time"] --> T["Tokenization<br/>RQ-VAE / Par. VQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Text+Time`: Text representations combined with interaction timestamps.
 - `RQ-VAE / Par. VQ`: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
@@ -55,6 +58,15 @@ ChronoID is a framework and benchmark for time-aware Semantic ID learning that s
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ChronoID"]
+    P -->|predecessor| A["MiniOneRec"]
+    P -->|predecessor| B["TokenRec"]
+    P -->|competitor| C["ActionPiece"]
+    P -->|predecessor| D["TIGER"]
+```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
   - Source: ChronoID v1, Introduction/Section 3 and Table 1: https://arxiv.org/html/2606.14260v1#S1.p2 ; https://arxiv.org/html/2606.14260v1#S3.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.

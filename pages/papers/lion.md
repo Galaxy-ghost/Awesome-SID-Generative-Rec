@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text†` | `RQ-VAE†` | **`Enc-Dec`** | `Fixed† / NTP + Aux.` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -53,6 +56,12 @@ LION adds a sparse key-value memory layer that isolates the evolution of differe
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LION"]
+    P -->|predecessor| A["TIGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): LION adds sparse evolving memory to TIGER's continual fine-tuning baseline.
   - Source: LION v1, Sections 5.1.3/5.1.4 and Table 1: https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1; https://arxiv.org/html/2609.15598v1#S5.SS1.SSS4.p1; https://arxiv.org/html/2609.15598v1#S5.T1.

@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Cross-Dom` | **`RQ+LoRA`** | `Dec-Only` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Cross-Dom"] --> T["Tokenization<br/>RQ+LoRA"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![GenCDR architecture diagram](../../architectures/gencdr.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -109,6 +110,14 @@ For each domain, an offline prefix tree holds all valid ID sequences from the to
 - VQ-Rec also transfers across domains (`Multi-Dom`), with `OPQ` codes and `Scoring`; GenCDR generates `RQ+LoRA` codes with a `Dec-Only` LLM.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GenCDR"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["VQ-Rec"]
+    P -->|alternative| C["UTGRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER tokenizes one domain with a single RQ-VAE; GenCDR adds domain-specific tokenizer adapters with item-level routing and an LLM with universal and domain LoRA experts.
   - Source: GenCDR v2, baselines: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p4 and https://arxiv.org/html/2511.08006v2#Sx5.I3.i2.I1.i2.p1; Table 2: https://arxiv.org/html/2511.08006v2#Sx5.T2; inference scalability in Figure 6: https://arxiv.org/html/2511.08006v2#Sx5.F6.

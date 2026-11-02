@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | **`MoE-VQ`** | `Enc-Dec` | `Fixed† / NTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>MoE-VQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -40,8 +43,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![ADC-SID architecture diagram](../../architectures/adc-sid.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -106,6 +107,16 @@ A gate learns an importance score for each behavioral SID from the L2 magnitude 
 - MME-SID uses the same three inputs with `MM-RQ` codes and a `Dec-Only` generator scored by `Scoring`; ADC-SID uses `MoE-VQ` codes with an `Enc-Dec` generator.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ADC-SID"]
+    P -->|competitor| A["DAS"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["MME-SID"]
+    P -->|competitor| D["TIGER"]
+    P -->|competitor| E["RPG"]
+```
 
 - **Competitor** · [DAS](das.md): DAS aligns SIDs with collaborative signals by multi-view contrastive learning; ADC-SID adds adaptive alignment strength and dynamic weighting to denoise behavior signals for long-tail items.
   - Source: ADC-SID v3, Section 4.1.2 baselines: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1; Table 2: https://arxiv.org/html/2510.25622v3#S4.T2.

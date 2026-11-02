@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | **`RQ-VAE+DINO`** | `Enc-Dec` | `Fixed† / NTP` | `Trie/C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+DINO"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>Trie/C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -53,6 +56,16 @@ MSCGRec quantizes images with self-supervised DINO-based learning, adds collabor
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MSCGRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["MQL4GRec"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["CoST"]
+    P -->|competitor| E["ETEGRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER quantizes one modality; MSCGRec concatenates codes from image, text, and collaborative modalities and trains with a softmax restricted to permissible next codes, keeping TIGER's collision level.
   - Source: MSCGRec v1, baselines TIGER_i and TIGER_t: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2; collision level follows TIGER: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2.

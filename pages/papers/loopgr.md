@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP / NTP + Aux.` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP / NTP + Aux."] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ LoopGR adds recurrent depth by alternating a shared generative decoder with a li
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LoopGR"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["ActionPiece"]
+```
 
 - **Competitor** · [TIGER](tiger.md): Encoder-decoder baseline; LoopGR adds shared recurrent context refinement.
   - Source: LoopGR v1, Section 5.1 and Tables 1/2: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.34157v1#S5.T1; https://arxiv.org/html/2610.34157v1#S5.T2.

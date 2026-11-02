@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | **`RQ`** | `Dec-Only` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,15 @@ AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repu
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["AdaSID"]
+    P -->|predecessor| A["QuaSID"]
+    P -->|predecessor| B["TIGER"]
+    P -->|alternative| C["HiD-VAE"]
+    P -->|alternative| D["ETEGRec"]
+```
 
 - **Predecessor** · [QuaSID](quasid.md): QuaSID applies a fixed qualification-aware collision regularizer; AdaSID instantiates its collision term following QuaSID and makes the repulsion adaptive to semantic compatibility, local load, and training progress.
   - Source: AdaSID v1, Section 4.1 follows Hu et al. (2026) for the collision term: https://arxiv.org/html/2604.23522v1#S4.SS1.p2; QuaSID is the collision-aware baseline in Section 5.1.3 and Table 2: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2604.23522v1#S5.T2.

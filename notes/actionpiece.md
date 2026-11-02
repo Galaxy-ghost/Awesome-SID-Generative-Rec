@@ -8,8 +8,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[Action sequences] --> B[Co-occurrence counts]

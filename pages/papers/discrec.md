@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `RQ-VAE / Learn. RQ` | **`Enc-Dec`** | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `RQ-VAE / Learn. RQ`: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,14 @@ DiscRec adds item-level position embeddings and splits semantic and collaborativ
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DiscRec"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+    P -->|competitor| C["EAGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): DiscRec-T inserts disentangled modeling into TIGER.
   - Source: https://arxiv.org/html/2506.15576v2#S1.p5 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2

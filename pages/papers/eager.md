@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `Dual H-KM` | **`Dual Enc-Dec`** | `Fixed / NTP + Ctr.` | `Fusion` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual H-KM"] --> B["Backbone<br/>Dual Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Fusion"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
@@ -40,8 +43,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![EAGER architecture diagram](../../architectures/eager.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -112,6 +113,15 @@ Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log p
 - CoST trains its codes with a contrastive objective (`C-RQ`); EAGER keeps `Dual H-KM` codes fixed and adds the contrastive term on the generator side.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["EAGER"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["SEATER"]
+    P -->|alternative| C["LMIndexer"]
+    P -->|alternative| D["CoST"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes one content-based semantic ID; EAGER decodes behavior and semantic hierarchical k-means codes with two decoders and merges them by confidence.
   - Source: EAGER v2, baselines: https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1; Table 2: https://arxiv.org/html/2406.14017v2#S3.T2; speed comparison in Table 6: https://arxiv.org/html/2406.14017v2#S4.T6.

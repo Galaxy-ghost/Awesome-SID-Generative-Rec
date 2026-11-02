@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | `RQ-VAE` | **`Dec-Only`** | `– / NTP → DPO` | `Div. C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>– / NTP → DPO"] --> I["Inference<br/>Div. C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Dec-Only`: Decoder-only.
 - `–`: Not reported in the paper.
@@ -55,6 +58,14 @@ PinGER interleaves Semantic ID and dense tokens with an asymmetric attention mas
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PinGER"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["STATIC"]
+    P -->|predecessor| C["COBRA"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is compared at matched training context and serving-token budgets.
   - Source: PinGER v1, Section 5.2.1 and Table 2: https://arxiv.org/html/2610.33435v1#S5.SS2.SSS1.p1; https://arxiv.org/html/2610.33435v1#S5.T2.

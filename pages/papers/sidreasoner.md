@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![SIDReasoner architecture diagram](../../architectures/sidreasoner.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -107,6 +108,15 @@ GRPO samples groups of reasoning-and-prediction trajectories and optimizes them 
 - TIGER predicts `RQ-VAE` SIDs with a small `Enc-Dec` generator trained by `NTP`; SIDReasoner uses the same kind of SIDs with a `Dec-Only` LLM.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SIDReasoner"]
+    P -->|competitor| A["LC-Rec"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["TIGER"]
+    P -->|alternative| D["OneRec-Think"]
+```
 
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to SIDs with multi-task tuning; SIDReasoner enriches SID-language alignment with teacher-written corpora and adds reasoning activation and GRPO.
   - Source: SIDReasoner v2, generative baselines: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS2.p1; Table 2: https://arxiv.org/html/2603.23183v2#S4.T2; multi-task alignment is ablation S1 in Table 3: https://arxiv.org/html/2603.23183v2#S4.T3.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `R-KM` | **`Dec-Only`** | `Fixed / NTP + Rank` | `Dual Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Dual Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `R-KM`: Residual k-means.
@@ -57,6 +60,12 @@ DualGR adds a long- and short-term interest router, decodes fine Semantic ID lev
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DualGR"]
+    P -->|competitor| A["TIGER"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
   - Source: DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.

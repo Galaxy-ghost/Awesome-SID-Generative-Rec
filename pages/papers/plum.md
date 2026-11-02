@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | `RQ-VAE` | `Dec-Only` | `Fixed / Multi-task NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +55,14 @@ PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID t
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PLUM"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["MMQ"]
+    P -->|alternative| C["LIGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): PLUM extends TIGER's SID construction and adapts pretrained LLMs.
   - Source: PLUM v1, Sections 1.1.2/2.1.2: https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p1; https://arxiv.org/html/2510.07784v1#S2.SS1.SSS2.p2.

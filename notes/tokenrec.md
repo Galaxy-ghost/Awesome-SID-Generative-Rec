@@ -10,8 +10,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[GNN representations] --> B[MQ-Tokenizer]

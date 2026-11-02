@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Dual RQ`** | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,14 @@ DAS optimizes quantization and collaborative alignment in one stage, with multi-
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DAS"]
+    P -->|competitor| A["LETTER"]
+    P -->|competitor| B["TIGER"]
+    P -->|alternative| C["ADC-SID"]
+```
 
 - **Competitor** · [LETTER](letter.md): LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly in one stage and aligns user and ad SIDs dually.
   - Source: DAS v2, Section 4.2 variant (4) +ASID (LETTER): https://arxiv.org/html/2508.10584v2#S4.SS2.p2; Table 1: https://arxiv.org/html/2508.10584v2#S4.T1.

@@ -2,14 +2,6 @@
 
 How each paper generates Semantic IDs at inference. Values are Table 1 entries defined in the [glossary](../guides/glossary.md); setup text is quoted from each paper's setup card.
 
-```mermaid
-xychart-beta
-    title "Inference values (top 8)"
-    x-axis ["C-Beam", "Beam", "–", "Scoring", "Hybrid", "Beam†", "CoT+C-Beam", "C-Beam / Scoring"]
-    y-axis "Papers"
-    bar [45, 41, 20, 16, 6, 5, 5, 2]
-```
-
 | Paper | Backbone | Decoding | Search Budget | Visibility | Related |
 | :-- | :-- | :-- | :-- | :-- | :-- |
 | [Align3GR](../pages/papers/align3gr.md) | `Dec-Only` | `Beam` | Beam search with beam width 20 for generative methods (following EAGER-LLM); Recall and NDCG at K=5 and 10. All experiments use 4 NVIDIA GPUs (model not stated); inference batch size and latency: not reported. Backbone: Llama2-7B with LoRA. | warm; no unseen-item protocol is defined. | Competitor: [EAGER-LLM](../pages/papers/eager-llm.md); Competitor: [LC-Rec](../pages/papers/lc-rec.md); Competitor: [LETTER](../pages/papers/letter.md); Competitor: [TIGER](../pages/papers/tiger.md) |

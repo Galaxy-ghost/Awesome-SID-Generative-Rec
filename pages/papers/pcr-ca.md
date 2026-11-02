@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`PC-AE`** | `Disc.` | `Joint / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>PC-AE"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Joint / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `PC-AE`: Parallel Codebook Auto-Encoder
 - `Disc.`: A discriminative recommendation model that scores candidates.
@@ -55,6 +58,12 @@ PCR-CA learns parallel codebook representations of app text, unlike hierarchical
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PCR-CA"]
+    P -->|alternative| A["CoST"]
+```
 
 - **Alternative** · [CoST](cost.md): CoST uses residual vector quantization; PCR-CA replaces its hierarchy with parallel codebooks for multiple-category app features and CTR prediction.
   - Source: PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): https://arxiv.org/html/2508.18166v1#S1.p4; https://arxiv.org/html/2508.18166v1#S2.SS2.p3.

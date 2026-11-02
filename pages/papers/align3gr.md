@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Dual RQ`** | `Dec-Only` | `Fixed / NTP → DPO` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -40,8 +43,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![Align3GR architecture diagram](../../architectures/align3gr.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -103,6 +104,15 @@ Self-play DPO (SP-DPO) runs in Easy, Medium, and Hard stages defined by prefix n
 - EAGER-LLM also feeds semantic and collaborative signals to a `Dec-Only` LLM, but with `Dual H-KM` codes; Align3GR uses `Dual RQ` codes and adds DPO.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Align3GR"]
+    P -->|competitor| A["EAGER-LLM"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["TIGER"]
+```
 
 - **Competitor** · [EAGER-LLM](eager-llm.md): EAGER-LLM aligns item tokens with collaborative signals; Align3GR also tokenizes users and adds progressive self-play and real-feedback DPO.
   - Source: Align3GR v2, Experimental Settings baselines (13) and beam-width protocol: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2 and https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.

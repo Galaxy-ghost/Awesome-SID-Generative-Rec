@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Flow+PQ`** | `Non-AR` | `Fixed / MTP + Rel.MSE` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Flow+PQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Rel.MSE"] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Flow+PQ`: Flow-based representation transformation followed by product quantization.
 - `Non-AR`: Non-autoregressive.
@@ -55,6 +58,14 @@ Tlow maps semantic embeddings with a normalizing flow into a standard normal lat
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Tlow"]
+    P -->|predecessor| A["RPG"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["ETEGRec"]
+```
 
 - **Predecessor** · [RPG](rpg.md): Supplies the parallel prediction setup and the rerun controlled baseline.
   - Source: Tlow v1, Section 3.1.4: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1.

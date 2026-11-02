@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ FedCGR performs federated cross-domain recommendation over shared Semantic IDs f
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["FedCGR"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["GenCDR"]
+    P -->|predecessor| C["VQ-Rec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER and its FedAvg/FedProx variants are full-ranking baselines.
   - Source: FedCGR v1, Section 4.1.2 and Table 3: https://arxiv.org/html/2608.10929v1#S4.SS1.SSS2.p2; https://arxiv.org/html/2608.10929v1#S4.T3.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | **`Prog. RQ`** | `Encoder` | `Fixed / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Prog. RQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Prog. RQ`: Progressive RQ variant.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,14 @@ PSRQ generates modality-specific and modality-joint Semantic IDs that preserve p
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PSRQ"]
+    P -->|alternative| A["TIGER"]
+    P -->|alternative| B["VQ-Rec"]
+    P -->|alternative| C["OneRec"]
+```
 
 - **Alternative** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive semantic residual K-means and uses the IDs as ranking features for cold-start items.
   - Source: PSRQ v1, Section 1 and Section 2.2 cite Rajput et al. (2023): https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1; RQ-VAE is a quantizer baseline in Table 3: https://arxiv.org/html/2508.20359v1#S5.T3.

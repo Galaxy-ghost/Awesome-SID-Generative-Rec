@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | **`MoE-VQ`** | `HeterRec` | `Joint / MTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>MoE-VQ"] --> B["Backbone<br/>HeterRec"] --> TR["Training<br/>Joint / MTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `HeterRec`: HeterRec, the named recommendation backbone used in the paper.
 - `Joint`: The generator loss updates the tokenizer directly.
@@ -55,6 +58,14 @@ MMQ trains a multimodal tokenizer with modality-shared and modality-specific exp
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MMQ"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["OneRec"]
+    P -->|alternative| C["LC-Rec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): MMQ replaces TIGER's separated tokenizer training with behavior-aware joint adaptation.
   - Source: MMQ v1, Section 3.3: https://arxiv.org/html/2508.15281v1#S3.SS3.p1.

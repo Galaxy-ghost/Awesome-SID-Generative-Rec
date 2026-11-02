@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `CoBa RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP + Ctr.` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>CoBa RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `CoBa RQ-VAE`: Collaborative and Balanced RQ-VAE.
 - `Enc-Dec`: Encoder-decoder.
@@ -39,8 +42,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![S2GR architecture diagram](../../architectures/s2gr.png)
-
-*Figure source: Fig. 3, original paper.*
 
 ```mermaid
 flowchart LR
@@ -106,6 +107,14 @@ Each beam produces the thinking token and its following SID code in one continuo
 - OneRec-Think reasons in text with a `Dec-Only` LLM (`CoT`); S2GR keeps an `Enc-Dec` generator with `Beam` decoding and reasons in latent tokens.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["S2GR"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["OneRec-Think"]
+    P -->|alternative| C["PLUM"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER predicts SID codes directly; S2GR inserts thinking tokens aligned with coarse code semantics before each SID level and balances the codebook with behavior-aligned embeddings.
   - Source: S2GR v3, baselines: https://arxiv.org/html/2601.18664v3#S5.I1.i6.p1; Table 2: https://arxiv.org/html/2601.18664v3#S5.T2; online control group: https://arxiv.org/html/2601.18664v3#S5.SS4.p1.

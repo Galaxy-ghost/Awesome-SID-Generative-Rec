@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Geo` | `Geo-Prefix+HClus` | `Dec-Only` | **`Fixed / NTP`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+HClus"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Geo-Prefix+HClus`: Geographic prefixes combined with hierarchical clustering codes.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ AWARE adds agent-generated narratives about local events, culture, and seasonal 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["AWARE"]
+    P -->|predecessor| A["ROS"]
+    P -->|competitor| B["GNPR-SID"]
+    P -->|competitor| C["Spacetime-GR"]
+```
 
 - **Predecessor** · [ROS](ros.md): AWARE reuses ROS's SID-equipped pretrained backbone as the controlled baseline.
   - Source: AWARE v1, Sec.4.2 and Appendix D: https://arxiv.org/html/2605.11807v1#S4.SS2.p1; https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px12.p1.

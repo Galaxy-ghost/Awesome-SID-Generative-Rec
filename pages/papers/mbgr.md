@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`RQ`** | `Dec-Only` | `Fixed† / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
@@ -55,6 +58,13 @@ MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MBGR"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["OneRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.
   - Source: MBGR v1, Table 1 baseline Tiger: https://arxiv.org/html/2604.02684v1#S6.T1; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.

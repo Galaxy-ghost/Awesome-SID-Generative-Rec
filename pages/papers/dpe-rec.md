@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `– / Text+Img` | `RQ` | `Non-AR` | **`Fixed / Masked → RL (→ Masked KD for Fast)`** | `Diff.+Legalize` |
+```mermaid
+flowchart LR
+    R["Representation<br/>– / Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked → RL (→ Masked KD for Fast)"] --> I["Inference<br/>Diff.+Legalize"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `– / Text+Img`: The representation source is unreported in one configuration; text and image representations are used in another.
 - `RQ`: Residual quantization.
@@ -57,6 +60,12 @@ DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DPE-Rec"]
+    P -->|alternative| A["TIGER"]
+```
 
 - **Alternative** · [TIGER](tiger.md): Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional diffusion for unordered bundle construction.
   - Source: https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)

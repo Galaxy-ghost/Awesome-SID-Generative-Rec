@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `SRBQ` | `Non-AR` | **`Fixed / (MTP + Masked Rec.) → MTP`** | `Graph` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>SRBQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / (MTP + Masked Rec.) → MTP"] --> I["Inference<br/>Graph"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `SRBQ`: Semantic Residual Balanced Quantization
 - `Non-AR`: Non-autoregressive.
@@ -55,6 +58,14 @@ SAHL quantizes items with SRBQ into a balanced token-subspace-item hierarchy and
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SAHL"]
+    P -->|predecessor| A["RPG"]
+    P -->|competitor| B["Tlow"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Predecessor** · [RPG](rpg.md): Supplies the parallel backbone and graph-constrained decoder retained by SAHL.
   - Source: SAHL v1, Sections 5.3/6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3.

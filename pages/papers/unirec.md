@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`RQ`** | `Dec-Only` | `Fixed / NTP → DPO` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,15 @@ UniRec prefixes each Semantic ID with category, seller, and brand tokens through
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["UniRec"]
+    P -->|competitor| A["OneRec-V2"]
+    P -->|competitor| B["TIGER"]
+    P -->|predecessor| C["OneRec"]
+    P -->|alternative| D["CapsID"]
+```
 
 - **Competitor** · [OneRec-V2](onerec-v2.md): OneRec-V2 decodes SIDs with a decoder-only model over user context; UniRec first decodes coarse item attributes, uses exposure-capacity-constrained SIDs, and aligns to GMV with RFT and DPO.
   - Source: UniRec v5, baselines: https://arxiv.org/html/2604.12234v5#S4.I2.i3.p1; Table 1: https://arxiv.org/html/2604.12234v5#S4.T1.

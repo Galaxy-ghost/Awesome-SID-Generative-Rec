@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `SimHash` | **`Non-AR`** | `Fixed / MTP + Aux.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>SimHash"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `SimHash`: Locality-sensitive hashing with random hyperplanes.
 - `Non-AR`: Non-autoregressive.
@@ -55,6 +58,15 @@ FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explic
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["FLASH"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["RPG"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["DIGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): FLASH revisits TIGER's SimHash ablation with parallel decoding and semantic alignment.
   - Source: FLASH v1, Introduction and Table 1: https://arxiv.org/html/2610.07402v1#S1.p2; https://arxiv.org/html/2610.07402v1#S1.p3; https://arxiv.org/html/2610.07402v1#S3.T1.

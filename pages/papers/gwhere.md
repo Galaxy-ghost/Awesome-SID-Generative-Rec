@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+Geo+CF` | **`Contr. RQ`** | `Dec-Only` | `Fixed / NTP → DPO` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+Geo+CF"] --> T["Tokenization<br/>Contr. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Contr. RQ`: Residual quantization trained with contrastive objectives.
 - `Dec-Only`: Decoder-only.
@@ -42,8 +45,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![Gwhere architecture diagram](../../architectures/gwhere.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -106,6 +107,13 @@ Exposure-Aware Kahneman-Tversky Optimization (EAKTO) adapts KTO to the clicks an
 - GNPR-SID builds `RQ-VAE` codes and trains with plain `NTP`; Gwhere builds `Contr. RQ` codes and adds preference alignment.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Gwhere"]
+    P -->|competitor| A["GNPR-SID"]
+    P -->|alternative| B["TIGER"]
+```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID quantizes POIs with an RQ-VAE plus diversity losses; Gwhere fuses four modalities with a contrastive Gumbel-softmax quantizer and adds continued pretraining and exposure-aware preference alignment.
   - Source: Gwhere v1, follows GNPR-SID preprocessing and baselines: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p2 and https://arxiv.org/html/2607.26073v1#S4.SS1.SSS3.p1; Table 4: https://arxiv.org/html/2607.26073v1#S4.T4.

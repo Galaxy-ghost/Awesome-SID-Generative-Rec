@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Multi-Dom` | **`TokenMoE`** | `Enc-Dec` | `Fixed / NTP` | `Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>TokenMoE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,15 @@ UniTok tokenizes items from multiple domains with a shared encoder, domain-speci
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["UniTok"]
+    P -->|competitor| A["LETTER"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["LC-Rec"]
+    P -->|competitor| D["CID"]
+```
 
 - **Competitor** · [LETTER](letter.md): LETTER trains one regularized RQ-VAE tokenizer per dataset; UniTok shares one tokenizer across ten domains with a mixture of quantization experts.
   - Source: UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1-3: https://arxiv.org/html/2511.12922v1#Sx3.T1, https://arxiv.org/html/2511.12922v1#Sx4.T2, https://arxiv.org/html/2511.12922v1#Sx4.T3.

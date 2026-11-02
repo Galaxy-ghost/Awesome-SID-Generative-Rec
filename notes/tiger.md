@@ -11,8 +11,6 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 #### Overview
 
 ```mermaid

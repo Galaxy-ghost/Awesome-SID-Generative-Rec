@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `CF` | `R-KM` | `Enc-Dec` | **`Fixed† / (NTP† / (NTP + Aux.)†) → KL-weighted OPD`** | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / (NTP† / (NTP + Aux.)†) → KL-weighted OPD"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `CF`: Collaborative filtering signal.
 - `R-KM`: Residual k-means.
@@ -56,6 +59,12 @@ KL-MOPD distills click and conversion teachers into a student generator token by
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["KL-MOPD"]
+    P -->|predecessor| A["TIGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is a backbone for token-wise multi-teacher distillation, with CF-derived SIDs in this study.
   - Source: KL-MOPD v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.36973v1#S4.SS1.p2; https://arxiv.org/html/2610.36973v1#S2.T3.

@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `H-KM` | **`Enc-Dec`** | `Fixed / NTP + Ctr.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `H-KM`: Hierarchical k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -42,8 +45,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![ColaRec architecture diagram](../../architectures/colarec.png)
-
-*Figure source: Fig. 3, original paper.*
 
 ```mermaid
 flowchart LR
@@ -111,6 +112,15 @@ Constrained beam search limits each token to those valid under the prefix (Sec. 
 - SEATER also uses tree-structured identifiers (`Tree-Clus.`) from `CF` input; ColaRec adds item content to the input (`Text+CF`).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ColaRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|alternative| C["CID"]
+    P -->|alternative| D["SEATER"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER builds content-only RQ-VAE identifiers; ColaRec builds collaborative GIDs from LightGCN embeddings and aligns them with item content through item-item indexing.
   - Source: ColaRec v2, Section 5.3 baselines: https://arxiv.org/html/2403.18480v2#S5.SS3.p1 and https://arxiv.org/html/2403.18480v2#S5.I2.i8.p1 (adapted without sequential order); Table 2: https://arxiv.org/html/2403.18480v2#S4.T2.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text†` | `RQ-VAE†` | `Enc-Dec†` | `Fixed / NTP†` | **`ISD Beam`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP†"] --> I["Inference<br/>ISD Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `ISD Beam`: Item-supported beam search.
@@ -53,6 +56,14 @@ ISD lets a user-specific item ranking support Semantic ID prefixes before beam s
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["ISD"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LIGER"]
+    P -->|competitor| C["ETEGRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): ISD augments a frozen TIGER decoder with item-supported prefix selection and final ordering, without changing its SIDs or retraining.
   - Source: ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.

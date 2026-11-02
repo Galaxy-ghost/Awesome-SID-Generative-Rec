@@ -8,9 +8,10 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `R-KM` | `Enc-Dec` | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -40,8 +41,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![GRID architecture diagram](../../architectures/grid.png)
-
-*Figure source: Fig. 1(a) and Fig. 1(b), original paper.*
 
 ```mermaid
 flowchart LR
@@ -102,6 +101,13 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 - TIGER uses `RQ-VAE` codes; GRID's default uses `R-KM` codes, the same tokenization as OneRec.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GRID"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["OneRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER's RQ-VAE tokenizer, user tokens, and appended-digit de-duplication are the components that GRID ablates in one open framework.
   - Source: GRID v1, Section 4.1 on RQ-VAE as the TIGER default: https://arxiv.org/html/2507.22224v1#S4.SS1.p2; Table 4 (TIGER-style user tokens): https://arxiv.org/html/2507.22224v1#S4.T4; Section 4.2 de-duplication: https://arxiv.org/html/2507.22224v1#S4.SS2.p5.

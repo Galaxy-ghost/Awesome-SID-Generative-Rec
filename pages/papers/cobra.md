@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+SID` | `Casc. RQ` | **`Dec-Only`** | `Fixed / NTP + Dense` | `BeamFusion` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>Casc. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>BeamFusion"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Dec-Only`: Decoder-only.
@@ -55,6 +58,14 @@ COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["COBRA"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["LIGER"]
+    P -->|alternative| C["CapsID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER retrieves items from sparse semantic IDs alone; COBRA follows TIGER's SID construction but generates a dense vector after each sparse ID and fuses beam and ANN scores.
   - Source: COBRA v1, baselines and SID setting: https://arxiv.org/html/2503.02453v1#S4.I1.i9.p1 and https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2503.02453v1#S4.T2; the w/o Dense variant mirrors TIGER: https://arxiv.org/html/2503.02453v1#S4.I2.i2.p1.

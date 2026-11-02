@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `–` | **`Enc-Dec`** | `– / NTP + Rank` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>– / NTP + Rank"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `Enc-Dec`: Encoder-decoder.
@@ -54,6 +57,14 @@ UniSGR-V2 anticipates a continuous target-side feature vector before each codewo
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["UniSGR-V2"]
+    P -->|predecessor| A["UniRec"]
+    P -->|competitor| B["OneRec-V2"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Predecessor** · [UniRec](unirec.md): Its discrete attribute chain is the closest motivation and a same-backbone baseline.
   - Source: https://arxiv.org/html/2610.16132v2#S1.p5 ; https://arxiv.org/html/2610.16132v2#S4.SS1.p2

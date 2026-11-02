@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img` | `RQ` | **`Dec-Only`** | `Fixed / NTP + Rank` | `Hybrid` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
@@ -55,6 +58,13 @@ RecoChain generates candidates by hierarchical Semantic ID prediction and then r
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["RecoChain"]
+    P -->|alternative| A["TIGER"]
+    P -->|alternative| B["OneRec"]
+```
 
 - **Alternative** · [TIGER](tiger.md): TIGER stops at beam-search retrieval; RecoChain appends retrieved history items to each beam candidate and re-ranks them in the same decoder.
   - Source: RecoChain v1, Section 1 cites TIGER and OneRec as beam-search retrievers: https://arxiv.org/html/2604.25787v1#S1.p4.

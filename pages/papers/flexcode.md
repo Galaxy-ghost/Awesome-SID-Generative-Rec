@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Dual RQ-VAE`** | `–` | `Joint / NTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ-VAE"] --> B["Backbone<br/>–"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Dual RQ-VAE`: Two residual-quantized variational autoencoders for separate representation streams.
 - `–`: Not reported in the paper.
@@ -55,6 +58,14 @@ FlexCode splits a fixed token budget between a collaborative codebook and a sema
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["FlexCode"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["COBRA"]
+```
 
 - **Competitor** · [TIGER](tiger.md): Compared semantic-ID baseline; FlexCode separates semantic and collaborative codebooks.
   - Source: FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.

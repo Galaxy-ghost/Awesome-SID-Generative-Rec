@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF†` | `R-KM†` | `Lazy Dec-Only†` | `Fixed† / NTP → RL†` | **`FP8+RecoGEM`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL†"] --> I["Inference<br/>FP8+RecoGEM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
 - `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
@@ -53,6 +56,12 @@ OneRec-V2-Quantized applies low-precision floating-point post-training quantizat
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneRec-V2-Quantized"]
+    P -->|predecessor| A["OneRec-V2"]
+```
 
 - **Predecessor** · [OneRec-V2](onerec-v2.md): Provides the unchanged base architecture and training procedure for FP8 deployment.
   - Source: Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: https://arxiv.org/html/2603.11486v1#S1.p3; https://arxiv.org/html/2603.11486v1#S4.SS1.p1.

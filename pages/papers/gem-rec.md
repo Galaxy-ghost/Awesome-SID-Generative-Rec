@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Enc-Dec` | **`Fixed / NTP`** | `Bid-Aware Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Bid-Aware Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,13 @@ GEM-Rec adds control tokens that decide whether to show an ad and bid-aware deco
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GEM-Rec"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["LIGER"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.
   - Source: GEM-Rec v1, Section 5.3: https://arxiv.org/html/2603.22231v1#S5.SS3.p1; Table 1 and Appendix Table 3: https://arxiv.org/html/2603.22231v1#S5.T1 and https://arxiv.org/html/2603.22231v1#A7.T3.

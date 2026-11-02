@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Img`** | `RQ-VAE` | `Dec-Only` | `Fixed / Multi-task NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,16 @@ TriAlignGR adds visual content and LLM-mined user intents to Semantic ID constru
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TriAlignGR"]
+    P -->|competitor| A["SIDReasoner"]
+    P -->|predecessor| B["MiniOneRec"]
+    P -->|competitor| C["LETTER"]
+    P -->|competitor| D["ETEGRec"]
+    P -->|competitor| E["LC-Rec"]
+```
 
 - **Competitor** · [SIDReasoner](sidreasoner.md): SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds visual captions and mined interests before quantization and eight alignment tasks.
   - Source: TriAlignGR v3, Section 4.1: https://arxiv.org/html/2605.05249v3#S4.SS1.p1; Table 2: https://arxiv.org/html/2605.05249v3#S4.T2.

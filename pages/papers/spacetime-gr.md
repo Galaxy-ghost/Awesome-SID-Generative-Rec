@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Geo` | `Geo-Idx` | **`Dec-Only`** | `Fixed / NTP → DPO` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Geo"] --> T["Tokenization<br/>Geo-Idx"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Geo`: Geographic coordinates or spatial features.
 - `Geo-Idx`: Identifiers constructed from geographic indexing.
@@ -56,6 +59,13 @@ Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal co
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Spacetime-GR"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["OneRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Semantic-ID generation inspires the geographic two-token POI indexing design.
   - Source: Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Img+CF`** | `RQ-VAE` | `Encoder (Non-AR)` | `Fixed / Masked` | `Non-AR` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Encoder (Non-AR)"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Non-AR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
@@ -53,6 +56,15 @@ Q-BERT4Rec fuses text, image, and structural features into item embeddings, quan
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Q-BERT4Rec"]
+    P -->|competitor| A["MQL4GRec"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["VQ-Rec"]
+    P -->|competitor| D["CID"]
+```
 
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.
   - Source: Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): https://arxiv.org/html/2512.02474v2#S3.SS4.p7; Table 2 baseline: https://arxiv.org/html/2512.02474v2#S3.T2.

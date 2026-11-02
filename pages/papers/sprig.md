@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / Audio` | **`R-KM`** | `Dec-Only` | `Fixed / NTP` | `Div. Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Div. Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Text / Audio`: Text or audio representations in different branches or evaluation settings.
 - `R-KM`: Residual k-means.
@@ -57,6 +60,13 @@ SPRIG trains a generator on knowledge-graph paths that end in content-derived Se
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SPRIG"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["GRID"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): SPRIG adopts TIGER's content-derived SID formulation and evaluates its GRID variant.
   - Source: SPRIG v1, Sec.1 and Table2: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S4.T2.

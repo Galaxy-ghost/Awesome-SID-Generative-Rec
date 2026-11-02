@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF / Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF / Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Text+CF / Text`: Text with collaborative signals, or text-only representations, in different configurations.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,13 @@ GTI maps new Semantic ID tokens to distinct locations in the pretrained embeddin
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GTI"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LC-Rec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): GTI adopts TIGER-style RQ-VAE semantic identifiers.
   - Source: https://arxiv.org/html/2604.02324v1#S7.SS3.p2 (Appendix 7.3).

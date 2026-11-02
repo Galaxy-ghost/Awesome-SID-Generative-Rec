@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Soft Reassign. RQ`** | `Dec-Only / Enc-Dec` | `Joint / NTP + Aux.` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Soft Reassign. RQ"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Joint / NTP + Aux."] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Soft Reassign. RQ`: Residual quantization with differentiable soft code reassignment.
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
@@ -55,6 +58,15 @@ TRACER removes sensitive concepts from a generative recommender by reassigning c
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TRACER"]
+    P -->|predecessor| A["MiniOneRec"]
+    P -->|predecessor| B["TIGER"]
+    P -->|predecessor| C["LETTER"]
+    P -->|predecessor| D["ETEGRec"]
+```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies the Qwen2.5-7B backbone for unlearning.
   - Source: TRACER v1, Sec.4 Models/Backbones: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1.

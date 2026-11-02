@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT+C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ Evo-Rec aligns Semantic IDs with text and behavior, fine-tunes on sampled reason
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Evo-Rec"]
+    P -->|competitor| A["SIDReasoner"]
+    P -->|predecessor| B["LC-Rec"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Competitor** · [SIDReasoner](sidreasoner.md): Evo-Rec compares against SIDReasoner and adds utility-selected reasoning plus ranking-aware RL.
   - Source: Evo-Rec v1, Sections 2.2/4.1.2 and Table 2: https://arxiv.org/html/2609.29973v1#S2.SS2.p1; https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2609.29973v1#S4.T2.

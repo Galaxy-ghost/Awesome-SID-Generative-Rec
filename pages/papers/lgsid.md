@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Geo+CF`** | `Geo-Idx+RQ` | `Disc. / Enc-Dec` | `Fixed / Discrim. / NTP` | `Scoring / Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>Geo-Idx+RQ"] --> B["Backbone<br/>Disc. / Enc-Dec"] --> TR["Training<br/>Fixed / Discrim. / NTP"] --> I["Inference<br/>Scoring / Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Geo-Idx+RQ`: Geographic indexing combined with residual quantization.
 - `Disc. / Enc-Dec`: Discriminative scoring and encoder–decoder generation variants.
@@ -42,8 +45,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![LGSID architecture diagram](../../architectures/lgsid.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -109,6 +110,15 @@ Primary tokens come from discrete spatial and content attributes, and residual t
 - LGRID uses `DSRQ` codes for discriminative ranking only; LGSID uses `Geo-Idx+RQ` codes for both ranking and generation.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LGSID"]
+    P -->|competitor| A["TIGER"]
+    P -->|predecessor| B["OneRec"]
+    P -->|alternative| C["GNPR-SID"]
+    P -->|successor| D["LGRID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER's RQ-VAE is a tokenizer baseline and TIGER is one of two generative backbones; LGSID aligns the LLM embedding with geographic rewards before a hierarchical quantizer.
   - Source: LGSID v1, baselines: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1; Tables 1 and 2: https://arxiv.org/html/2511.14221v1#Sx5.T1 and https://arxiv.org/html/2511.14221v1#Sx5.T2.

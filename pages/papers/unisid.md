@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+Attr` | **`Direct SID Heads`** | `–` | `– / –` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+Attr"] --> T["Tokenization<br/>Direct SID Heads"] --> B["Backbone<br/>–"] --> TR["Training<br/>– / –"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Text+Img+Attr`: Text, images, and structured item attributes.
 - `Direct SID Heads`: Prediction heads that directly assign semantic-ID codes.
@@ -54,6 +57,13 @@ UniSID optimizes embeddings and Semantic IDs end to end from raw advertising dat
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["UniSID"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): On Beauty, UniSID replaces TIGER RQ-VAE tokenization with direct multimodal SID heads while retaining the TIGER training and evaluation framework.
   - Source: UniSID v3, Section 4.2 and Table 4: https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.

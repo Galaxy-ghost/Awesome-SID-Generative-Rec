@@ -12,8 +12,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[CF embeddings] --> B[RQ-VAE tokenizer]

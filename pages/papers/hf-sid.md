@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Attr+Geo`** | `R-KM` | `Dec-Only` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Attr+Geo"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `Text+Attr+Geo`: Text, structured attributes, and geographic information.
 - `R-KM`: Residual k-means.
@@ -57,6 +60,14 @@ HF-SID restores geographic, numerical, and structural detail in POI representati
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["HF-SID"]
+    P -->|competitor| A["ProGEO"]
+    P -->|competitor| B["GeoGR"]
+    P -->|competitor| C["GNPR-SID"]
+```
 
 - **Competitor** · [ProGEO](progeo.md): Pro-GEO injects geography during quantization; HF-SID improves representations before quantization.
   - Source: HF-SID v1, Sections 2 and 4.1, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS1.p2; https://arxiv.org/html/2608.30479v1#S4.T2.

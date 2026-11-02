@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+CF`** | `R-KM` | `Enc-Dec` | `Fixed / NTP + Ctr.` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -55,6 +58,14 @@ UNGER learns one integrated semantic-collaborative embedding through cross-modal
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["UNGER"]
+    P -->|predecessor| A["EAGER"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["ColaRec"]
+```
 
 - **Predecessor** · [EAGER](eager.md): Its dual-code design motivates UNGER's unified code.
   - Source: https://arxiv.org/html/2502.06269v3#S1.p3 ; §3.3.5 follows its quantization approach; §4.2 baseline.

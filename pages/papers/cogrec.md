@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`R-KM+Graph`** | `Dec-Only` | `Fixed / Multi-task NTP` | `CoT+C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM+Graph"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>CoT+C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `R-KM+Graph`: Residual k-means combined with a graph over semantic codes.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,15 @@ CogRec grounds reasoning in Semantic ID structure through intra-layer graphs, it
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["CogRec"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["EAGER"]
+    P -->|competitor| D["OneRec-Think"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Hierarchical SID recommendation provides the identifier-generation foundation; TIGER also appears in the broad baseline comparison.
   - Source: https://arxiv.org/html/2607.24402v1#S2.p2 ; #S4.SS2.p3

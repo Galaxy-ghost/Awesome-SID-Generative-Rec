@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`QA-RQ`** | `Enc-Dec` | `Fixed / NTP` | `Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>QA-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `QA-RQ`: Qualification-Aware RQ-VAE.
 - `Enc-Dec`: Encoder-decoder.
@@ -55,6 +58,14 @@ QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled m
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["QuaSID"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["LETTER"]
+    P -->|alternative| C["HiD-VAE"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Supplies the shared downstream backbone for tokenizer comparisons.
   - Source: QuaSID v1, Section 5.1.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1.

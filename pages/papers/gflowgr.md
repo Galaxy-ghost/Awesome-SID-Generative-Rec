@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / Text+CF` | `RQ-VAE / Learn. RQ` | `Enc-Dec†` | **`Fixed / NTP + Aux.`** | `Beam† / C-Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>Beam† / C-Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
 - `RQ-VAE / Learn. RQ`: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
@@ -43,8 +46,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![GFlowGR architecture diagram](../../architectures/gflowgr.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -110,6 +111,14 @@ The paper derives detailed balance (DB) and trajectory balance (TB) objectives f
 - OneRec aligns its generator by `NTP → DPO`; GFlowGR adds a GFlowNet loss to the next-token loss (`NTP + Aux.`).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GFlowGR"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+    P -->|competitor| C["OneRec"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is one of the two generative backbones; GFlowGR updates the LLM with the sum of the SFT loss and a GFlowNets loss over augmented generation trajectories.
   - Source: GFlowGR v3, Section 4.1 installs GFlowGR on TIGER: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; Table 2: https://arxiv.org/html/2506.16114v3#S4.T2; training objective: https://arxiv.org/html/2506.16114v3#S3.SS4.p1.

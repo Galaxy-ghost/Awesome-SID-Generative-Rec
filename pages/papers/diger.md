@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Learn. RQ`** | `Enc-Dec` | `Joint / NTP` | `Beam†` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>Beam†"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Joint`: The generator loss updates the tokenizer directly.
@@ -54,6 +57,14 @@ DIGER makes Semantic IDs differentiable so recommendation gradients update the t
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DIGER"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["ETEGRec"]
+    P -->|competitor| C["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER supplies the reference two-stage framework for differentiable-ID training.
   - Source: DIGER v3, Sections 3/5 and Table 3: https://arxiv.org/html/2601.19711v3#S3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.

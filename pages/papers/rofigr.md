@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | **`CF-Aligned MM RQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>CF-Aligned MM RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `CF-Aligned MM RQ`: Multimodal residual quantization aligned with collaborative signals.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,14 @@ RoFiGR aligns coarse Semantic ID code vectors with collaborative embeddings and 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["RoFiGR"]
+    P -->|predecessor| A["MACRec"]
+    P -->|competitor| B["SynGR"]
+    P -->|competitor| C["MQL4GRec"]
+```
 
 - **Predecessor** · [MACRec](macrec.md): RoFiGR retains MACRec's two-tree quantizer and adds coarse collaborative alignment.
   - Source: RoFiGR v1, Section 3.2 and Table 3: https://arxiv.org/html/2610.39470v1#S3.SS2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.

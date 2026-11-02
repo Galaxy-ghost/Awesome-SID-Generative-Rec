@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Ref.-RQ`** | `–` | `Fixed / NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Ref.-RQ"] --> B["Backbone<br/>–"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Ref.-RQ`: Reference-vector RQ variant.
 - `–`: Not reported in the paper.
@@ -55,6 +58,15 @@ R3-VAE stabilizes residual quantization with a reference vector as semantic anch
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["R3-VAE"]
+    P -->|competitor| A["OneRec"]
+    P -->|competitor| B["TokenRec"]
+    P -->|competitor| C["VQ-Rec"]
+    P -->|alternative| D["FORGE"]
+```
 
 - **Competitor** · [OneRec](onerec.md): OneRec's residual K-means is the main industrial baseline and the generation framework; R3-VAE adds a reference-vector projection, rating-weighted residual quantization, and SID-quality regularization.
   - Source: R3-VAE v3, baselines and OneRec framework: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1 and https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1; Tables 1, 3, 4: https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T3, https://arxiv.org/html/2604.11440v3#S4.T4.

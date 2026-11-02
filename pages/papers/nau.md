@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `R-KM` | `Enc-Dec†` | **`Fixed / NTP + Aux.`** | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `–`: Not reported in the paper.
 - `R-KM`: Residual k-means.
@@ -55,6 +58,14 @@ NAU adds explicit control over the probability mass on forgotten items' Semantic
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["NAU"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+    P -->|competitor| C["TRACER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
   - Source: NAU v1, Section 4: https://arxiv.org/html/2610.27232v1#S4.p2.

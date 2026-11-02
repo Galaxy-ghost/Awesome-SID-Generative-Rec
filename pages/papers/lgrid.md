@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Geo`** | `DSRQ` | `Disc.` | `Fixed / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>DSRQ"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `DSRQ`: Dual-stream residual quantization.
 - `Disc.`: A discriminative recommendation model that scores candidates.
@@ -40,8 +43,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![LGRID architecture diagram](../../architectures/lgrid.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -105,6 +106,15 @@ The two streams are quantized separately, so SID positions correspond to item at
 - TIGER quantizes one representation with `RQ-VAE`; LGRID quantizes two streams (`DSRQ`) and feeds a discriminative ranker.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LGRID"]
+    P -->|competitor| A["LGSID"]
+    P -->|competitor| B["TIGER"]
+    P -->|alternative| C["OneLoc"]
+    P -->|alternative| D["GNPR-SID"]
+```
 
 - **Competitor** · [LGSID](lgsid.md): LGSID injects geography into one fused representation before quantization; LGRID disentangles geographic and semantic slots and quantizes them in two streams, cutting full-SID collisions from 97.0% to 39.9%.
   - Source: LGRID v1, baselines and Table 1: https://arxiv.org/html/2607.27944v1#S4.SS1.p2 and https://arxiv.org/html/2607.27944v1#S3.T1; collisions in Table 5: https://arxiv.org/html/2607.27944v1#S4.SS3.p4 and https://arxiv.org/html/2607.27944v1#S4.T5; candidate protocol follows LGSID: https://arxiv.org/html/2607.27944v1#A1.SS3.p2.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`HARQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>HARQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `HARQ`: Hyperbolic Adaptive Residual Quantization.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,14 @@ VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["VarLenRec (TIGER)"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["ETEGRec"]
+    P -->|competitor| C["LETTER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
   - Source: VarLenRec v2, Sections III-D/IV-B: https://arxiv.org/html/2605.17779v2#S3.SS4.p3; https://arxiv.org/html/2605.17779v2#S4.SS2.p1.

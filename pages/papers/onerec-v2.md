@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF†` | `R-KM†` | **`Lazy Dec-Only`** | `Fixed / NTP → RL` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -54,6 +57,13 @@ OneRec-V2 replaces the OneRec encoder-decoder with a lazy decoder-only architect
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneRec-V2"]
+    P -->|alternative| A["TIGER"]
+    P -->|successor| B["OneRec-V2-Quantized"]
+```
 
 - **Alternative** · [TIGER](tiger.md): Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
   - Source: OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.20900v4#S1.p1; https://arxiv.org/html/2508.20900v4#S2.SS1.

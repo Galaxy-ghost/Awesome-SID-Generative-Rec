@@ -8,9 +8,12 @@
 
 Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Img+Geo†`** | `R-KM` | `Enc-Dec` | `Fixed / NTP → DPO` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+Geo†"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -40,8 +43,6 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 ### 2. How It Works
 
 ![OneLoc architecture diagram](../../architectures/oneloc.png)
-
-*Figure source: Fig. 2, original paper.*
 
 #### Overview
 
@@ -202,6 +203,14 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 - The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneLoc"]
+    P -->|predecessor| A["OneRec"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["GNPR-SID"]
+```
 
 - **Predecessor** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
   - Source: OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and preference alignment: https://arxiv.org/html/2508.14646v1#S6.SS2.p1; Section 2 describes OneLoc's geographic modules and rewards: https://arxiv.org/html/2508.14646v1#S2.p1.

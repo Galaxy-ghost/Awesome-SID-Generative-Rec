@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`PID (P-SAE)`** | `Enc-Dec / Dec-Only (AR); Non-AR (PR)` | `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` | `C-Beam / Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>PID (P-SAE)"] --> B["Backbone<br/>Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["Training<br/>Fixed / NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["Inference<br/>C-Beam / Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `PID (P-SAE)`: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
 - `Enc-Dec / Dec-Only (AR); Non-AR (PR)`: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
@@ -56,6 +59,15 @@ API reuses feature indices of a pretrained sparse autoencoder as an interpretabl
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["API"]
+    P -->|predecessor| A["GRID"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["TIGER"]
+    P -->|competitor| D["HiD-VAE"]
+```
 
 - **Predecessor** · [GRID](grid.md): API keeps GRID's preprocessed data and its residual-quantization tokenizer baselines, and replaces learned codes with pretrained interpretable SAE feature IDs.
   - Source: API v1, benchmark and tokenization baselines aligned with GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1 and https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.

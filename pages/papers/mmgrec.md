@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+CF` | **`Graph RQ-VAE`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>Graph RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Graph RQ-VAE`: A graph-informed residual-quantized variational autoencoder.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,12 @@ MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collabor
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["MMGRec"]
+    P -->|predecessor| A["TIGER"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): MMGRec extends TIGER's RQ-VAE idea with multimodal/CF inputs and popularity-based collision suffixes; TIGER is not evaluated.
   - Source: MMGRec v4, Sections 1, 3 and 5.2: https://arxiv.org/html/2404.16555v4#S1.p4; https://arxiv.org/html/2404.16555v4#S3.p1; https://arxiv.org/html/2404.16555v4#S5.SS2.p2.

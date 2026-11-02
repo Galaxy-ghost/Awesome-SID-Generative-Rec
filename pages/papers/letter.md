@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`Learn. RQ`** | `Enc-Dec` | `Fixed / NTP + Rank` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -42,8 +45,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![LETTER architecture diagram](../../architectures/letter.png)
-
-*Figure source: Fig. 1, original paper.*
 
 #### Semantic Regularization
 
@@ -120,6 +121,14 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 - The opposite effects of the two terms on code usage (Sec. 4.3.2) suggest that their weights trade one property against the other.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LETTER"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LC-Rec"]
+    P -->|competitor| C["CID"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): LETTER builds on TIGER's RQ-VAE semantic tokenization by adding collaborative and diversity regularization plus a ranking-guided generation loss.
   - Source: LETTER, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1 defines the progression from TIGER to LETTER-TIGER: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.

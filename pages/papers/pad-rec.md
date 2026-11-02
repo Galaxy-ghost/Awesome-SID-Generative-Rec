@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+SID` | `RQ-VAE` | `Dec-Only` | `Fixed / Multi-task NTP†` | **`Spec. Dec.`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP†"] --> I["Inference<br/>Spec. Dec."]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Dec-Only`: Decoder-only.
@@ -55,6 +58,15 @@ PAD-Rec adds gated item-slot and draft-step position embeddings to the draft mod
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PAD-Rec"]
+    P -->|predecessor| A["LC-Rec"]
+    P -->|predecessor| B["LETTER"]
+    P -->|alternative| C["AtSpeed"]
+    P -->|alternative| D["SpecGR"]
+```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): PAD-Rec accelerates a list-wise LC-Rec target model with speculative decoding, adding item and step position embeddings to the draft head.
   - Source: PAD-Rec v1, implementation on LC-Rec: https://arxiv.org/html/2604.27747v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p5.

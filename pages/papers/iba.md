@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | **`Enc-Dec`** | `Fixed / NTP → (NTP + Aux.)` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ IBA allocates latent reasoning steps across Semantic ID positions by information
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["IBA"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+    P -->|alternative| C["SIDReasoner"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): IBA adds learned latent refinement allocation to TIGER.
   - Source: IBA v1, Section IV-A2 and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.T2.

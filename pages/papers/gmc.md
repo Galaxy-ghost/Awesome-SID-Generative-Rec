@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Cross-Dom` | **`Unified RQ`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Cross-Dom"] --> T["Tokenization<br/>Unified RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -41,8 +44,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![GMC architecture diagram](../../architectures/gmc.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -100,6 +101,15 @@ After unified training, each domain gets its own LoRA module (Sec. 1, Sec. 3.5).
 - VQ-Rec also transfers across domains, with `OPQ` codes in an `Encoder` and `Scoring`; GMC generates `Unified RQ` codes with an `Enc-Dec` generator.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GMC"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["VQ-Rec"]
+    P -->|competitor| C["CID"]
+    P -->|competitor| D["IDGenRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER learns one-domain RQ-VAE identifiers; GMC learns a domain-shared codebook with a domain-aware contrastive loss and adds domain-specific LoRA tuning to a unified generator.
   - Source: GMC v3, generative baselines: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i2.p1; Table 1 comparison: https://arxiv.org/html/2507.12871v3#S3.T1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.

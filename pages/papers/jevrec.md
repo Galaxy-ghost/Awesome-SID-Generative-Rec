@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Freq. R-KM`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `Length-Quota Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Freq. R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>Length-Quota Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Freq. R-KM`: Frequency-aware residual k-means tokenization.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,15 @@ JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["JevRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+    P -->|competitor| C["ActionPiece"]
+    P -->|alternative| D["Pctx"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER uses fixed-length RQ-VAE SIDs; JevRec truncates shared residual-quantizer prefixes by item frequency and explicitly predicts target length.
   - Source: JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.

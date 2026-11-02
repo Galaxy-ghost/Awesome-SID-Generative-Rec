@@ -13,8 +13,6 @@ Based on arXiv v3.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 #### Semantic Regularization
 
 An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).

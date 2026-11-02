@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`H-KM`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `H-KM`: Hierarchical k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -43,8 +46,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![GRAM architecture diagram](../../architectures/gram.png)
-
-*Figure source: Fig. 4, original paper.*
 
 ```mermaid
 flowchart LR
@@ -107,6 +108,16 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 - LC-Rec maps `RQ-VAE` codes to new tokens in a `Dec-Only` LLM; GRAM uses `H-KM` textual IDs in an `Enc-Dec` model.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GRAM"]
+    P -->|competitor| A["LC-Rec"]
+    P -->|competitor| B["IDGenRec"]
+    P -->|competitor| C["TIGER"]
+    P -->|competitor| D["CID"]
+    P -->|competitor| E["LETTER"]
+```
 
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec maps RQ-VAE codes to new out-of-vocabulary tokens; GRAM builds hierarchical IDs from existing vocabulary tokens and verbalizes collaborative signals in item prompts.
   - Source: GRAM v1, Section 3.2.1 contrasts the token choice: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; inference time in Table 7: https://arxiv.org/html/2506.01673v1#A3.T7.

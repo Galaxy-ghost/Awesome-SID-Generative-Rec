@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE` | `Dec-Only` | **`Fixed / Multi-task NTP`** | `CoT+Fuzzy Match` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>CoT+Fuzzy Match"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,14 @@ Intent-Driven-News trains an LLM to map implicit conversational intents to hiera
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Intent-Driven-News"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["OneRec-Think"]
+    P -->|alternative| C["DiscRec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): Compared on cold-start news users; the proposed method generates conversational SID prefixes.
   - Source: Intent-Driven News v1, Section 4.5 and Table 6: https://arxiv.org/html/2605.07613v1#S4.SS5.SSS0.Px2.p1; https://arxiv.org/html/2605.07613v1#S4.T6.

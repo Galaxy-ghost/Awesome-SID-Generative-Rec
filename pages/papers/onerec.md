@@ -8,9 +8,10 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | `R-KM` | `Enc-Dec` | `Fixed / NTP → DPO` | `Sess. Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
+```
 
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
@@ -43,8 +44,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![OneRec architecture diagram](../../architectures/onerec.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -110,6 +109,14 @@ A recommender shows each request only once, so true positive and negative lists 
 - MiniOneRec reproduces the pipeline on public data with `RQ-VAE` SIDs over text only (`Text`), a `Dec-Only` generator, and RL in place of DPO (`NTP → RL`).
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|successor| B["MiniOneRec"]
+    P -->|alternative| C["GFlowGR"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates one next item from RQ-VAE semantic IDs; OneRec generates whole sessions with balanced residual K-means IDs, an MoE encoder-decoder, and iterative DPO.
   - Source: OneRec v1, baselines: https://arxiv.org/html/2502.18965v1#S5.I1.i4.p1; Table 1: https://arxiv.org/html/2502.18965v1#S3.T1; tokenizer contrast with RQ-VAE: https://arxiv.org/html/2502.18965v1#S3.SS1.p2.

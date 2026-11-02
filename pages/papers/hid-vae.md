@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Hier. RQ`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Hier. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![HiD-VAE architecture diagram](../../architectures/hid-vae.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -107,6 +108,15 @@ A generator predicts the next item's SID from the user history (Sec. 3.3).
 - TIGER uses unsupervised `RQ-VAE` codes with plain `Beam` search; HiD-VAE uses tag-supervised `Hier. RQ` codes with the same `Enc-Dec` generator and constrained decoding.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["HiD-VAE"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["LC-Rec"]
+    P -->|competitor| C["VQ-Rec"]
+    P -->|alternative| D["AdaSID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER resolves collisions by appending an integer after unsupervised RQ-VAE; HiD-VAE supervises each level with category tags and adds a uniqueness loss so that fewer items collide.
   - Source: HiD-VAE v2, baselines and Table 1: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.T1; TIGER-style suffix in the ablation: https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1 and https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1.

@@ -8,9 +8,10 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `RQ-VAE` | `Dec-Only / Non-AR` | `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` | `C-Beam / Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Non-AR"] --> TR["Training<br/>Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["Inference<br/>C-Beam / Scoring"]
+```
 
 - `–`: Not reported in the paper.
 - `Dec-Only / Non-AR`: Decoder-only autoregressive and non-autoregressive prediction variants.
@@ -56,6 +57,15 @@ Netflix-SID-Comparison is an industry comparison, not a new recommender: it comp
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Netflix-SID-Comparison"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["RPG"]
+    P -->|alternative| C["STAMP"]
+    P -->|alternative| D["NEZHA"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): The single-head arm follows TIGER-style autoregressive SID generation with constrained beam search in a multitask streaming-media LLM.
   - Source: Netflix comparison v1, Introduction and Section 3.2.1: https://arxiv.org/html/2610.15864v1#S1.p3; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS1.p1.

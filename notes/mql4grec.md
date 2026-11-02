@@ -12,8 +12,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Text and image] --> B[Quantitative translators]

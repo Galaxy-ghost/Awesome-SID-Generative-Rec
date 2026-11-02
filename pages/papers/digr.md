@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `RQ-VAE` | **`Dec-Only`** | `Fixed / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `–`: Not reported in the paper.
 - `Dec-Only`: Decoder-only.
@@ -55,6 +58,14 @@ DiGR uses Semantic ID tokens as item representations and scores items with one i
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DiGR"]
+    P -->|competitor| A["LC-Rec"]
+    P -->|competitor| B["RPG"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Competitor** · [LC-Rec](lc-rec.md): Matched-backbone baseline and exhaustive-ranking reference.
   - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1

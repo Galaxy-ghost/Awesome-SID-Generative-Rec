@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `CF` | **`Tree-Clus.`** | `Enc-Dec` | `Fixed / NTP + Ctr.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>CF"] --> T["Tokenization<br/>Tree-Clus."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `CF`: Collaborative filtering signal.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,14 @@ SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-de
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SEATER"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["CID"]
+    P -->|alternative| C["EAGER"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER builds identifiers by RQ-VAE over text embeddings; SEATER builds balanced tree identifiers from collaborative SASRec embeddings and adds alignment and ranking losses over the tree.
   - Source: SEATER v2, Section 4.1 related work: https://arxiv.org/html/2309.13375v2#S4.SS1.p2; Table 3 generative baseline: https://arxiv.org/html/2309.13375v2#S5.T3.

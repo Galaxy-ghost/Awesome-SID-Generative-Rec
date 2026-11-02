@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `CF` | **`Masked VQ`** | `Encoder` | `Fixed / Discrim.` | `Scoring` |
+```mermaid
+flowchart LR
+    R["Representation<br/>CF"] --> T["Tokenization<br/>Masked VQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `CF`: Collaborative filtering signal.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -38,8 +41,6 @@ Based on arXiv v3.
 ### 2. How It Works
 
 ![TokenRec architecture diagram](../../architectures/tokenrec.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -103,6 +104,15 @@ The LLM reads a prompt with the user's tokens and, optionally, the tokens of int
 - CID also tokenizes collaborative signals (`CF`) but with `Spectral Clus.` and decodes with `C-Beam`; TokenRec uses `Masked VQ` and an `Encoder`.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TokenRec"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["CID"]
+    P -->|alternative| C["LC-Rec"]
+    P -->|alternative| D["R3-VAE"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes RQ-VAE item IDs by beam search; TokenRec tokenizes users and items with a masked K-way quantizer and scores all items directly, about ten times faster.
   - Source: TokenRec v3, baselines: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1; Tables 2-5: https://arxiv.org/html/2406.10450v3#S3.T2, https://arxiv.org/html/2406.10450v3#S3.T3, https://arxiv.org/html/2406.10450v3#S3.T4, https://arxiv.org/html/2406.10450v3#S3.T5.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | `RQ-VAE†` | **`Enc-MLP`** | `Fixed / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-MLP"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -55,6 +58,15 @@ SID-MLP distills an autoregressive Transformer decoder into position-specific ML
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SID-MLP"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LC-Rec"]
+    P -->|competitor| C["AtSpeed"]
+    P -->|competitor| D["NEZHA"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER supplies the main frozen teacher and fixed SID space.
   - Source: SID-MLP v1, Sec.4.1: https://arxiv.org/html/2605.12617v1#S4.SS1.p1; https://arxiv.org/html/2605.12617v1#S4.SS1.p2.

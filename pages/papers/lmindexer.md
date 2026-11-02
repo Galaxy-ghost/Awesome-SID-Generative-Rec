@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Self-Sup. ID`** | `Enc-Dec` | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Self-Sup. ID"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Self-Sup. ID`: Semantic identifiers learned through self-supervision.
 - `Enc-Dec`: Encoder-decoder.
@@ -56,6 +59,13 @@ LMIndexer learns sequential Semantic IDs with a generative language model throug
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LMIndexer"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["CID"]
+```
 
 - **Competitor** · [TIGER](tiger.md): Its RQ-VAE indexing approach is adapted as a matched T5-base baseline.
   - Source: LMIndexer v3, Section 5.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p3; https://arxiv.org/html/2310.07815v3#S5.SS1.p4.

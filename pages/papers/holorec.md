@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | **`Nested RQ`** | `Enc-Dec` | `Fixed / NTP + Aux.` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>Nested RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `–`: Not reported in the paper.
 - `Nested RQ`: Residual quantization across nested representation granularities.
@@ -56,6 +59,14 @@ HoloRec builds hierarchical Semantic IDs by nested residual quantization with a 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["HoloRec"]
+    P -->|predecessor| A["TIGER"]
+    P -->|alternative| B["LLaDA-Rec"]
+    P -->|alternative| C["OneRec-Think"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): HoloRec retains TIGER's T5 backbone and adds nested semantic granularities.
   - Source: HoloRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2606.15331v1#S4.T2.

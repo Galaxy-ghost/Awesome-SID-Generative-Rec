@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `–` | `Dec-Only` | **`Fixed / NTP`** | `Greedy` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Greedy"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `–`: Not reported in the paper.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ SLIDE concatenates a teacher's offline beam-search candidates into list-wise Sem
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SLIDE"]
+    P -->|predecessor| A["FORGE"]
+    P -->|alternative| B["OneRec"]
+    P -->|predecessor| C["TIGER"]
+```
 
 - **Predecessor** · [FORGE](forge.md): SLIDE reuses FORGE's S3 split and SID vocabulary.
   - Source: SLIDE v1, Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1; https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1.

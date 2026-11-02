@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+SID` | `RQ-VAE` | `Enc-Dec` | `Fixed / NTP + Dense` | **`Hybrid`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>Hybrid"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Enc-Dec`: Encoder-decoder.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![LIGER architecture diagram](../../architectures/liger.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -103,6 +104,15 @@ The authors base this design on an assumption about cold-start items (Sec. 3).
 - TIGER retrieves by `Beam` search only; LIGER adds a dense loss (`NTP + Dense`) and `Hybrid` ranking.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LIGER"]
+    P -->|competitor| A["TIGER"]
+    P -->|alternative| B["VQ-Rec"]
+    P -->|alternative| C["COBRA"]
+    P -->|successor| D["GEM-Rec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER retrieves only by beam search over semantic IDs and almost never generates cold-start items; LIGER reranks TIGER-style beam candidates plus cold-start items with a dense head trained jointly.
   - Source: LIGER v2, faithful TIGER implementation: https://arxiv.org/html/2411.18814v2#S1.p5; Table 2: https://arxiv.org/html/2411.18814v2#S4.T2; cold-start analysis of TIGER's epsilon quota: https://arxiv.org/html/2411.18814v2#S2.SS4.p3; LIGER builds on TIGER: https://arxiv.org/html/2411.18814v2#S4.SS2.p2.

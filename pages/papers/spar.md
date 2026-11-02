@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Geo`** | `R-KM` | `Dec-Only` | `Fixed / Multi-task NTP` | `–` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ SPAR fuses sinusoidal coordinate embeddings into Semantic ID construction, conti
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SPAR"]
+    P -->|competitor| A["GNPR-SID"]
+    P -->|competitor| B["PLUM"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): SID POI baseline; SPAR explicitly injects and preserves urban spatial knowledge.
   - Source: SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.

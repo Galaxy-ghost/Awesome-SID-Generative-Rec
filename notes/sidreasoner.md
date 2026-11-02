@@ -12,8 +12,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1, original paper.*
-
 ```mermaid
 flowchart LR
     A[Teacher-enriched corpus] --> B[Multi-task alignment]

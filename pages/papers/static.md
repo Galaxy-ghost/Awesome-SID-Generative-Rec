@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `RQ-VAE` | `Dec-Only` | `Fixed / NTP` | **`Vec. C-Beam`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Vec. C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `–`: Not reported in the paper.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, 
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["STATIC"]
+    P -->|predecessor| A["PLUM"]
+    P -->|predecessor| B["TIGER"]
+    P -->|alternative| C["LIGER"]
+```
 
 - **Predecessor** · [PLUM](plum.md): STATIC adds production decoding constraints to a PLUM-based YouTube retriever.
   - Source: STATIC v3, Sections 5.1/5.4: https://arxiv.org/html/2602.22647v3#S5.SS1.p2; https://arxiv.org/html/2602.22647v3#S5.SS4.p1.

@@ -14,8 +14,6 @@ Based on arXiv v2.
 
 ### 2. How It Works
 
-*Figure source: Fig. 2, original paper.*
-
 ```mermaid
 flowchart LR
     A[Text and image] --> B[Pseudo-labels]

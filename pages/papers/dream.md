@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+CF` | **`CART`** | `Dec-Only` | `Altern. / NTP + Aux.` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>CART"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern. / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `CART`: Collaborative-Aware Refined Tokenization.
 - `Dec-Only`: Decoder-only.
@@ -56,6 +59,14 @@ DREAM refines cold-start item Semantic IDs after the initial assignment, with an
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["DREAM"]
+    P -->|predecessor| A["LC-Rec"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["SpecGR"]
+```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): DREAM adopts LC-Rec's LLaMA-7B setup, adding staged SID refinement.
   - Source: DREAM v1, Section 4.1: https://arxiv.org/html/2606.06947v1#S4.SS1.p4.

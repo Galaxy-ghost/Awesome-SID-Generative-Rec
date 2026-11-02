@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| **`Text+Geo+CF`** | `R-KM+EM` | `Dec-Only` | `Altern.† / Multi-task NTP` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>R-KM+EM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern.† / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class R main
+```
 
 - `R-KM+EM`: Residual k-means with expectation-maximization-style refinement.
 - `Dec-Only`: Decoder-only.
@@ -41,8 +44,6 @@ Based on arXiv v2.
 ### 2. How It Works
 
 ![GeoGR architecture diagram](../../architectures/geogr.png)
-
-*Figure source: Fig. 2, original paper.*
 
 ```mermaid
 flowchart LR
@@ -110,6 +111,15 @@ Continued pre-training (CPT) injects POI information and user behavior sequences
 - GNPR-SID keeps its `RQ-VAE` codes fixed; GeoGR refines its `R-KM+EM` codes against the generator.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["GeoGR"]
+    P -->|competitor| A["OneLoc"]
+    P -->|competitor| B["GNPR-SID"]
+    P -->|competitor| C["TIGER"]
+    P -->|predecessor| D["OneRec"]
+```
 
 - **Competitor** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
   - Source: GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3; discussion in Section 5.2.2: https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3.

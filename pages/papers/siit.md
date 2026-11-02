@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`Self-Imp.`** | `Enc-Dec` | `Altern. / Multi-task NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Self-Imp."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Enc-Dec`: Encoder-decoder.
 - `Altern.`: Tokenizer and generator are updated in turns.
@@ -55,6 +58,15 @@ SIIT starts from item tokenizations of any external model and periodically adjus
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["SIIT"]
+    P -->|competitor| A["LETTER"]
+    P -->|competitor| B["TIGER"]
+    P -->|competitor| C["CID"]
+    P -->|predecessor| D["LC-Rec"]
+```
 
 - **Competitor** · [LETTER](letter.md): LETTER fixes its regularized RQ-VAE identifiers before generator training; SIIT starts from such identifiers and lets the LLM regenerate them iteratively with alignment tasks.
   - Source: SIIT v1, advanced-tokenization baselines and initializer: https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; data from LETTER: https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Table 2: https://arxiv.org/html/2412.17171v1#S4.T2.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `–` | `Enc-Dec` | `– / –` | **`Beam`** |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>– / –"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
 
 - `–`: Not reported in the paper.
 - `Enc-Dec`: Encoder-decoder.
@@ -53,6 +56,13 @@ PFA keeps full attention at the first decoding step, then reuses a shared import
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["PFA"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["DualGR"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the standard generative full-history baseline.
   - Source: PFA v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S4.T3.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text / Text+CF` | `RQ-VAE / R-KM / LETTER` | **`Enc-Dec`** | `Fixed / NTP` | `C-Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / R-KM / LETTER"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
 
 - `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
 - `RQ-VAE / R-KM / LETTER`: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
@@ -57,6 +60,15 @@ LESSRec encodes the history separately at each Semantic ID level and restricts a
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["LESSRec"]
+    P -->|predecessor| A["TIGER"]
+    P -->|predecessor| B["LETTER"]
+    P -->|competitor| C["DiscRec"]
+    P -->|competitor| D["RPG"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): LESSRec reorganizes TIGER's history encoding by semantic level.
   - Source: LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.

@@ -8,9 +8,12 @@
 
 Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Attr+Geo+CF†` | `RQ-VAE` | `Dec-Only` | **`Fixed / NTP → RL`** | `CoT+Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Attr+Geo+CF†"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `Attr+Geo+CF†`: Structured item attributes, geographic information, and collaborative signals (inferred).
 - `Dec-Only`: Decoder-only.
@@ -39,8 +42,6 @@ Based on arXiv v1.
 ### 2. How It Works
 
 ![Think2Go architecture diagram](../../architectures/think2go.png)
-
-*Figure source: Fig. 1, original paper.*
 
 ```mermaid
 flowchart LR
@@ -112,6 +113,14 @@ The second weight rescales the group advantage by the reward relative to the max
 - ROS also reasons before decoding (`CoT+C-Beam`) but puts geography into the SID itself (`Geo-Prefix+RQ-VAE`); Think2Go keeps a plain `RQ-VAE` SID and models space through the advantage weights.
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["Think2Go"]
+    P -->|competitor| A["GNPR-SID"]
+    P -->|alternative| B["OneRec-Think"]
+    P -->|alternative| C["OneLoc"]
+```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID trains SID knowledge by SFT alone; Think2Go adds reasoning tokens and advantage-calibrated GRPO over the same kind of POI semantic IDs and generalizes better across cities.
   - Source: Think2Go v1, LLM-based baselines and preprocessing: https://arxiv.org/html/2607.28997v1#S5.SS2.p4 and https://arxiv.org/html/2607.28997v1#S5.SS1.p1; Tables 2, 4, 5: https://arxiv.org/html/2607.28997v1#S5.T2, https://arxiv.org/html/2607.28997v1#S5.T4, https://arxiv.org/html/2607.28997v1#S5.T5.

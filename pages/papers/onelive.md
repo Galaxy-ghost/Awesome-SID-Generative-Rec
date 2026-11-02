@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text+Img+Audio+CF` | **`R-KM`** | `Lazy Dec-Only` | `Fixed / NTP → RL` | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+Audio+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `Text+Img+Audio+CF`: Text, visual, and audio content combined with collaborative signals.
 - `R-KM`: Residual k-means.
@@ -56,6 +59,14 @@ OneLive adapts generative recommendation to live streaming with a dynamic residu
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["OneLive"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["OneRec"]
+    P -->|alternative| C["MMQ"]
+```
 
 - **Predecessor** · [TIGER](tiger.md): OneLive extends SID generation to dynamic live-streaming content.
   - Source: OneLive v1, Appendix A.2 and Table 2: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.T2.

@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `–` | `RQ` | `Dec-Only` | **`Fixed / NTP → RL`** | `Beam` |
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
 
 - `–`: Not reported in the paper.
 - `RQ`: Residual quantization.
@@ -56,6 +59,14 @@ HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct it
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["HCGRec"]
+    P -->|predecessor| A["LC-Rec"]
+    P -->|competitor| B["MiniOneRec"]
+    P -->|competitor| C["TIGER"]
+```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
   - Source: HCGRec v2, Section 4.2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2.

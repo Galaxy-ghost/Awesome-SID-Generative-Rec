@@ -8,9 +8,12 @@
 
 Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
-| Representation | Tokenization | Backbone | Training | Inference |
-| :-: | :-: | :-: | :-: | :-: |
-| `Text` | **`BDQ`** | `Non-AR` | `Fixed / MTP + Aux.` | `Scoring+Rerank` |
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>BDQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring+Rerank"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class T main
+```
 
 - `BDQ`: Bit-Decomposable Quantizer.
 - `Non-AR`: Non-autoregressive.
@@ -56,6 +59,14 @@ TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geomet
 </details>
 
 ### 5. Connections to Related Work
+
+```mermaid
+flowchart LR
+    P["TopoGR"]
+    P -->|competitor| A["TIGER"]
+    P -->|competitor| B["RPG"]
+    P -->|alternative| C["LLaDA-Rec"]
+```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes residual SIDs autoregressively; TopoGR exposes binary SID geometry and predicts all positions in parallel before full-corpus scoring.
   - Source: TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p4.

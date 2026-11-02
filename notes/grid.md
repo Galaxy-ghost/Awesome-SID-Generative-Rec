@@ -8,8 +8,6 @@ Based on arXiv v1.
 
 ### 2. How It Works
 
-*Figure source: Fig. 1(a) and Fig. 1(b), original paper.*
-
 ```mermaid
 flowchart LR
     A[Item content] --> B[Semantic encoder]

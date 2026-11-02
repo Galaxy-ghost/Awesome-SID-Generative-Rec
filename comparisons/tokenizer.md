@@ -2,14 +2,6 @@
 
 How each paper builds its Semantic IDs. Values are Table 1 entries defined in the [glossary](../guides/glossary.md); setup text is quoted from each paper's setup card.
 
-```mermaid
-xychart-beta
-    title "Tokenization values (top 8)"
-    x-axis ["RQ-VAE", "R-KM", "RQ", "Par. OPQ", "R-KM†", "RQ-VAE†", "Dual RQ", "Learn. RQ"]
-    y-axis "Papers"
-    bar [51, 17, 7, 6, 5, 4, 3, 3]
-```
-
 | Paper | Information Source | Quantization | SID Length, Codebook, Collisions | Tokenizer Update | Related |
 | :-- | :-- | :-- | :-- | :-- | :-- |
 | [SemConv](../pages/papers/semconv.md) | `Text+CF` | `Align. RQ` | Aligned residual codebooks: 4 levels x 256 codes; Games reports 0% collisions at four levels. Explicit collision handling: not reported. | `Fixed` | Competitor: [LC-Rec](../pages/papers/lc-rec.md); Predecessor: [TIGER](../pages/papers/tiger.md) |
