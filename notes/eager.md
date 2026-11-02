@@ -1,78 +1,61 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/eager.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Key Findings: Removing the two-stream architecture causes the largest drop in the ablation (Sec. 4.3, Table 3), and on Beauty EAGER takes 0.0325 s per sample at inference against 0.0281 s for TIGER (Table 6).
+Limitation: Inference runs beam search in two decoders and merges the results, which makes EAGER slower than TIGER (Sec. 3.6, Table 6).
 
-### EAGER：行为-语义协同双流生成式推荐
+### 1. Why This Paper Matters
 
-> EAGER 通过共享编码器和双解码器分别生成行为码与语义码，再以内部置信度合并两路结果，用于直接生成下一物品的推荐列表。
+Existing generative methods use either the behavioral or the semantic side of item information, which the authors state neglects their complementary nature (Abstract). EAGER names three requirements for combining them: one architecture for both feature types, independent learning for each, and interaction between them (Abstract).
 
-### 研究动机与问题定义
+> "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy" (Abstract)
 
-现有生成式推荐通常只利用行为信息或语义信息，难以同时保留用户偏好与物品内容的互补性。EAGER 将二者置于同一生成式检索框架中，目标是直接生成物品标识，而不是先生成表示再依赖 ANN 检索。
+Based on arXiv v2.
 
-### TL;DR（核心摘要）
+### 2. How It Works
 
-`用户历史 → 共享编码器 → 行为/语义双码 → 双解码器生成 → 置信度合并 → 推荐物品`
+*Figure source: Fig. 2, original paper.*
 
-模型先使用预训练 DIN 提取行为表示、Sentence-T5 提取文本语义表示，并分别通过层次化 K-means 构造两套物品码。共享 Transformer 编码用户历史，两个独立解码器并行自回归生成行为码和语义码。推理时分别用束搜索取得候选，再依据两路码的对数概率进行置信度排序和去重，直接得到 Top-K 物品。图像语义也在 Yelp 的扩展实验中进行了验证。
+```mermaid
+flowchart LR
+    A[User history] --> B[Shared encoder]
+    B --> C[Behavior decoder]
+    B --> D[Semantic decoder]
+    C --> E[Confidence ranking]
+    D --> E
+    E --> F[Items]
+```
 
-### 输入与使用场景
+#### Behavior Codes and Semantic Codes
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户交互行为、物品文本语义；扩展实验加入图像信息 |
-| 信息融入位置 | 行为和语义分别进入码构建；历史进入共享编码器；辅助任务进入训练目标 |
-| 语义标识结构 | 层次化序列码；长度由树的分支数决定 |
-| 适用场景 | 常规序列推荐、多模态语义扩展 |
+A pre-trained DIN model is the behavior encoder and Sentence-T5 is the semantic encoder, with hidden size 128 (Sec. 4.1). Hierarchical k-means with cluster number 256 turns each embedding into codes (Sec. 3.3, Sec. 4.1).
 
-### 方法设计
+#### Global Contrastive Task
 
-#### 3.1 行为码与语义码构建
-EAGER 分别从用户行为表示和物品语义表示学习两套层次化 code。行为侧使用预训练行为模型，语义侧使用文本/图像编码器，再通过层次化聚类获得可生成的离散码。两套码保留不同信息来源的互补性。
+A summary token in each stream is distilled toward that stream's pre-trained item embedding with a positive-only contrastive metric instead of InfoNCE (Sec. 3.4, Eq. 3).
 
-#### 3.2 双流生成器
-共享 Transformer 编码器读取用户历史，行为解码器和语义解码器分别预测下一物品的行为码与语义码。训练包含各自的生成损失，并通过全局对比任务约束用户、物品和两类语义空间之间的一致性。旧卡片的速览还列有重构与识别辅助目标。
+#### Semantic-Guided Transfer Task
 
-#### 3.3 语义引导迁移与推理
-语义引导迁移任务把一类标识或模态作为条件，要求模型预测另一类标识，从而让两条生成流相互传递信息。推理时两路分别进行束搜索，再用内部置信度合并、去重和排序，输出最终物品。
+The semantic global feature reconstructs masked behavior codes, and a recognition objective adds a relevance classifier (Sec. 3.5).
 
-#### 3.4 扩展实验
-论文还讨论了图像信息、不同码结构和速度。行为码、语义码及迁移任务的消融共同支持双流设计。
+#### Confidence-Based Ranking
 
-### 实验结论
+Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log probability (Sec. 3.6).
 
-- 在 Beauty、Sports、Toys 和 Yelp 四个公开数据集上，EAGER 在论文报告的多数 Recall/NDCG 指标上优于比较方法。
-- 去除双流架构、全局对比任务或语义引导迁移任务都会造成性能下降，其中双流架构影响最大。
-- 双流生成在 Beauty 上报告了优于 DIN 和 TIGER 的推理速度，但缺少完整线上服务评测。
+> "With the 2*k prediction codes, we calculate the log probabilities over the codes as the confidence score of each prediction, which is similar to the perplexity used in the language model and the lower value indicates more confidence." (Sec. 3.6)
 
-### 局限性与研究定位
+### 3. Experimental Findings
 
-#### 局限性
-- 行为码依赖预训练 DIN，语义码依赖预训练模态编码器和离线层次化聚类，新增物品的更新流程未充分说明。
-- 两路结果仍需要内部置信度排序；虽然不是外部精排器，但会增加合并和去重逻辑。
-- 实验主要采用 Amazon/Yelp 的 5-core 留一法设置，真实动态目录、开放物品空间和长期线上收益尚未验证。
+- Main comparison: EAGER reports better performance than existing methods on four public benchmarks (Abstract).
+- Ablation: removing the global contrastive task (GCT) costs more than removing the semantic-guided transfer task (STT) (Sec. 4.3, Table 3).
 
-#### 研究定位
-EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局对比学习和语义引导迁移实现协同。它适合放在“多源信息融合”和“生成式推荐架构”章节；后续研究可关注动态物品更新、码结构稳定性与可扩展解码。
+  > "Removing GCT leads to more performance drops than removing STT, suggesting that global information distillation of the inter-code is slightly more important than the knowledge flow between the intra-code." (Sec. 4.3)
 
-### 相关资源
+- Visual features: on Yelp, ViT-B features of item covers produce a visual semantic code (Sec. 4.4, Table 4).
+- Inference speed: with top-k 5 and beam size 100 on Beauty, RecForest takes 0.0499 s and DIN 0.2349 s per sample (Table 6).
 
-- [论文原文](https://doi.org/10.1145/3637528.3671775)
-- [开源代码（作者仓库）](https://github.com/yewzz/EAGER)
+### 4. Limitations & Critical Analysis
 
-### 标签
+**Our analysis.**
 
-`行为-语义协同` · `双流生成` · `层次化聚类` · `对比学习` · `序列推荐` · `束搜索`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：联合生成行为码与语义码。
-- 使用场景：多源序列推荐。
+- Both code sets come from frozen encoders and offline clustering. This suggests that adding items requires re-running both encoders and the clustering.
+- CoST trains its codes with a contrastive objective (`C-RQ`); EAGER keeps `Dual H-KM` codes fixed and adds the contrastive term on the generator side.

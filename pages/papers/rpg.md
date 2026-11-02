@@ -40,6 +40,8 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 ![RPG architecture diagram](../../architectures/rpg.png)
 
+*Figure source: Fig. 1, original paper.*
+
 #### Overview
 
 ```

@@ -49,12 +49,6 @@ CARD fuses text, image, and collaborative signals into a visual semantic unit be
 - **Results from**: Table 2 (Food, Phones, Clothing; paired t-tests against the best baseline); Tables 3-4 (ablations of the two CARD variants); Table 5 (non-uniform quantization with different quantizers); Table 6 (text-only encoding).
   - Source: Main table: https://arxiv.org/html/2604.26427v1#S4.T2; ablations: https://arxiv.org/html/2604.26427v1#S4.T3 and https://arxiv.org/html/2604.26427v1#S4.T4; plug-in quantizers: https://arxiv.org/html/2604.26427v1#S4.T5; text-only variants: https://arxiv.org/html/2604.26427v1#S4.T6.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-把文本、图像和协同信号统一成视觉语义单元，再用非均匀 RQ-VAE 缓解码字分布不均。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.

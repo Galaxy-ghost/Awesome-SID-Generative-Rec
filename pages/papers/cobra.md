@@ -48,12 +48,6 @@ COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, 
 - **Results from**: Table 2 (Beauty, Sports, Toys); Table 3 (Baidu industrial Recall@50-800 with ablated variants); Section 4.4 (online A/B: +3.60% conversion, +4.15% ARPU); Figures 4-6 (embedding analysis and recall-diversity curves).
   - Source: Public table: https://arxiv.org/html/2503.02453v1#S4.T2; industrial variants: https://arxiv.org/html/2503.02453v1#S4.T3; online: https://arxiv.org/html/2503.02453v1#S4.SS4.p1; diversity curves: https://arxiv.org/html/2503.02453v1#S4.F6.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-先生成稀疏 ID，再生成稠密向量并在该 ID 下做近邻检索，用 BeamFusion 融合两种分数排序。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER retrieves items from sparse semantic IDs alone; COBRA follows TIGER's SID construction but generates a dense vector after each sparse ID and fuses beam and ANN scores.

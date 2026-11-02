@@ -49,12 +49,6 @@ AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repu
 - **Results from**: Table 2 (tokenizer comparison on Toys and Beauty under a shared TIGER backbone); Table 3 (Kuaishou online retrieval A/B and offline ranking AUC); Table 4 (ablations); Figure 3 (codebook statistics); Figure 4 (hyperparameter sensitivity on Beauty).
   - Source: Main offline table: https://arxiv.org/html/2604.23522v1#S5.T2; industrial table: https://arxiv.org/html/2604.23522v1#S5.T3; ablation: https://arxiv.org/html/2604.23522v1#S5.T4; codebook statistics: https://arxiv.org/html/2604.23522v1#S5.F3.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-按碰撞情况自适应地学习多模态 SID，替代静态的碰撞处理。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [QuaSID](quasid.md): QuaSID applies a fixed qualification-aware collision regularizer; AdaSID instantiates its collision term following QuaSID and makes the repulsion adaptive to semantic compatibility, local load, and training progress.

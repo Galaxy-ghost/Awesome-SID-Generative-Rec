@@ -1,77 +1,54 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/hidvae.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Limitation: The tokenizer needs multi-level item tags, which an LLM must generate for datasets without them, so ID quality depends on tag quality (Sec. 3.4).
 
-### HiD-VAE：层次解耦语义标识可解释生成推荐
+### 1. Why This Paper Matters
 
-> HiD-VAE 通过层次标签监督和唯一性约束学习可解释、低碰撞的物品语义标识，并用于直接生成推荐。
+The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two flaws: they are semantically flat, and different items collide on entangled representations (Abstract).
 
-### 研究动机与问题定义
+> "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items." (Sec. 1)
 
-现有 SID 往往缺乏可解释层次，且不同物品可能碰撞到相同标识。HiD-VAE 研究如何让标识的不同层级对应可理解类别，同时在潜空间中减少表示重叠。
+Based on arXiv v2.
 
-### TL;DR（核心摘要）
+### 2. How It Works
 
-`物品语义与层次标签 → HiD-VAE → 层次SID/标签ID → Transformer → 推荐物品`
+*Figure source: Fig. 2, original paper.*
 
-离线阶段用文本表示和层次标签训练监督 VAE：标签对齐与标签预测约束各量化层的语义粒度，唯一性损失惩罚不同物品的潜表示重叠。在线阶段冻结 tokenizer，Transformer 根据用户历史自回归生成 SID，并用约束解码映射到物品。
+```mermaid
+flowchart LR
+    A[Item text] --> C[Supervised quantization]
+    B[Hierarchical tags] --> C
+    C --> D[SIDs]
+    D --> E[Generator]
+    E --> F[Constrained decoding]
+```
 
-### 输入与使用场景
+#### Hierarchical Tag Generation
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品文本、类别层次和用户交互 |
-| 信息融入位置 | VAE 监督目标与生成模型输入 |
-| 语义标识结构 | 层次化序列，并附带标签 ID |
-| 适用场景 | 可解释序列推荐与冷启动 |
+For datasets without hierarchical tags, such as KuaiRand, an LLM produces them in a two-stage "retrieval-then-classification" workflow (Sec. 3.4, Sec. 1).
 
-### 方法设计
+#### Hierarchically Supervised Quantization
 
-#### 3.3 框架总览
-HiD-VAE 分为离线层次 ID 学习和在线可解释推荐两阶段。第一阶段学习冻结的物品 tokenizer，第二阶段用 Transformer 根据用户历史生成语义 ID，同时预测或展示对应的层次标签。
+The trained codebooks can predict the item tags, which gives each recommendation a traceable semantic path (Abstract).
 
-#### 3.4 层次标签生成
-对于缺少人工类别的数据，论文先使用 LLM 从物品文本和候选标签中生成层次标签。标签从粗粒度类别逐步细化，为不同 VAE 层提供监督信号。
+#### Uniqueness Loss
 
-#### 3.5 层次表示学习
-HiD-VAE 在 RQ-VAE 的多级量化基础上加入标签对齐损失和标签预测损失，使每一层承担特定语义粒度。重构和量化损失保证表示可恢复，标签监督保证层次可解释。
+The uniqueness loss penalizes latent overlap between different items (Sec. 1). The authors state that the loss also raises recommendation diversity (Abstract).
 
-#### 3.6 解耦与唯一性损失
-唯一性损失直接惩罚不同物品潜表示的重叠，减少 ID collision。训练后在线生成阶段采用约束解码，只保留码本中存在且能对应真实物品的标识。
+> "This mechanism not only resolves the critical ID collision problem but also promotes recommendation diversity by ensuring a more comprehensive utilization of the item representation space." (Abstract)
 
-### 实验结论
+#### Generation
 
-- HiD-VAE 在三个公开数据集上提升了推荐效果和标识可解释性。
-- 层次监督改善了语义层次，唯一性损失降低了 ID 碰撞。
-- 对缺少类别标签的数据，论文使用 LLM 生成层次标签。
+A generator predicts the next item's SID from the user history (Sec. 3.3).
 
-### 局限性与研究定位
+> "During inference, constrained decoding ensures that generated IDs correspond to valid items." (Sec. 3.3)
 
-#### 局限性
-- 依赖离线标签生成和 tokenizer 更新。
-- 约束自回归解码仍存在延迟。
-- 真实动态目录和线上效果未充分验证。
+### 3. Experimental Findings
 
-#### 研究定位
-HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，适合放在“可解释语义标识学习”章节。
+- Main comparison: on three public benchmarks, HiD-VAE reports better performance than the compared methods (Abstract).
 
-### 相关资源
+### 4. Limitations & Critical Analysis
 
-- [论文原文](https://arxiv.org/abs/2508.04618)
+**Our analysis.**
 
-### 标签
-
-`层次监督` · `解耦表示` · `唯一性损失` · `可解释推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：学习可解释且低碰撞的SID。
-- 使用场景：可解释推荐。
+- TIGER uses unsupervised `RQ-VAE` codes with plain `Beam` search; HiD-VAE uses tag-supervised `Hier. RQ` codes with the same `Enc-Dec` generator and constrained decoding.

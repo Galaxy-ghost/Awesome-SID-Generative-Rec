@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) · [Matrix](../../README.md#iii--training)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,10 +27,46 @@ LC-Rec assigns non-conflicting item indices by vector quantization with uniform 
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists. |
 | Modified Stage | Training |
+| Limitation | The item indices come from text embeddings only, so collaborative semantics enter only through the tuning tasks (Sec. III-B). |
+
+### 1. Why This Paper Matters
+
+Items in recommender systems are often indexed by IDs outside the vocabulary of a large language model (LLM), which leaves a semantic gap between the two (Abstract).
+
+> "In essence, LLMs capture language semantics while recommender systems imply collaborative semantics, making it difficult to sufficiently leverage the model capacity of LLMs for recommendation." (Abstract)
+
+Based on arXiv v4.
 
 ### 2. How It Works
 
 ![LC-Rec architecture diagram](../../architectures/lc-rec.png)
+
+*Figure source: Fig. 1, original paper.*
+
+```mermaid
+flowchart LR
+    A[Item text] --> B[LLaMA embeddings]
+    B --> C[Vector quantization]
+    C --> D[Item indices]
+    D --> E[Instruction tuning]
+    E --> F[Generated index]
+```
+
+#### Item Indexing
+
+LC-Rec encodes item text with LLaMA and quantizes the embeddings (Sec. III-B). Uniform semantic mapping redistributes the last-level codewords of items that would otherwise share an index (Sec. III-B2).
+
+#### Alignment Tuning
+
+Sequential item prediction is the main objective (Sec. III-C1). Two explicit tasks map titles or descriptions to indices and back (Sec. III-C2). Implicit tasks add asymmetric item prediction, intention-based prediction, and preference inference (Sec. III-C3).
+
+> "On the one hand, the LLM should be capable of accurately identifying the item indices based on the associated title or description. On the other hand, it is expected that LLM can naturally capture relevant item information from its indices." (Sec. III-C2)
+
+#### Training
+
+All tasks are formatted as conditional language generation for one instruction-tuned model (Sec. III-D).
+
+> "To this end, we employ LLaMA [25] as our backbone model and then optimize it via instruction tuning." (Sec. III-D)
 
 ### 3. Experimental Findings
 
@@ -51,81 +87,13 @@ LC-Rec assigns non-conflicting item indices by vector quantization with uniform 
 - **Results from**: Table 3 (Instruments, Arts, Games; LC-Rec averaged over instruction templates); Table 4 (alignment-task ablation); Table 5 (similar-negative ranking accuracy).
   - Source: Main: https://arxiv.org/html/2311.09049v4#S4.T3; ablation: https://arxiv.org/html/2311.09049v4#S4.T4; negative-item analysis: https://arxiv.org/html/2311.09049v4#S4.T5.
 
-## 旧卡片说明
+- Main comparison: LC-Rec outperforms traditional recommenders and existing LLM-based recommenders (Abstract).
 
-迁自 `d61aa6c:papers/lcrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### LC-Rec：协同语义融合的语言模型推荐
+**Our analysis.**
 
-> LC-Rec 将语言语义与协同语义共同编码为物品索引，并通过多任务对齐使语言模型直接生成推荐物品标识。
-
-### 研究动机与问题定义
-
-纯文本 LLM 推荐难以表达用户-物品协同关系，纯 ID 建模又缺乏语义。LC-Rec 试图在有限增加词表的前提下，把两类信息纳入统一的生成式推荐模型。
-
-### TL;DR（核心摘要）
-
-`物品文本与交互 → 向量量化/统一映射 → LLM 对齐 → 生成物品索引 → 推荐物品`
-
-模型利用文本编码器构造层次化物品索引，将索引 token 接入 LLM，再通过对齐任务引入协同信号。训练包含序列物品预测、显式索引-语言映射以及推荐对齐任务；在线生成的索引直接对应物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品标题/描述、用户交互和协同表示 |
-| 信息融入位置 | 索引构建、词表扩展和对齐目标 |
-| 语义标识结构 | 层次化序列索引 |
-| 适用场景 | 序列推荐、意图预测和物品索引 |
-
-### 方法设计
-
-#### III-A 方法概览（Overview of the Approach）
-LC-Rec 的目标是缩小语言语义与协同语义之间的差距。系统由物品索引学习和 LLM 对齐两部分组成：前者建立可生成的离散索引，后者让语言模型理解索引的推荐含义。
-
-#### III-B 物品索引学习（Learning Item Indices）
-论文使用物品文本编码器获得语义向量，再通过向量量化得到层次化 item index，并设计统一语义映射减少索引冲突。索引 token 被加入语言模型词表，作为文本语义和协同语义的共同接口。
-
-#### III-C 语言-协同语义对齐
-模型训练序列物品预测、显式索引生成、物品意图预测和协同/语言语义对齐等任务。不同任务分别从物品、用户历史和推荐目标施加约束，使 LLM 能在生成索引的同时利用协同结构。
-
-#### III-D 训练与推理
-论文采用分阶段对齐与推荐训练。推理时模型生成目标 item index，标识直接对应物品；索引构建和模型输入中的信息来源被明确区分。
-
-### 实验结论
-
-- 语言-协同联合对齐提升了物品预测和索引相关任务表现。
-- 推荐对齐任务有助于缩小语言语义与协同语义之间的差距。
-
-### 局限性与研究定位
-
-#### 局限性
-- 依赖离线物品索引构建，动态物品更新成本未充分讨论。
-- 多任务对齐增加了训练和词表管理复杂度。
-
-#### 研究定位
-LC-Rec 的核心价值是把协同语义显式注入 LLM 的物品索引体系。它适合放在“LLM 推荐的协同语义对齐”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2311.09049)
-
-### 标签
-
-`协同语义` · `多任务对齐` · `层次化量化` · `LLM推荐`
-
-### 架构图来源
-
-*图源：原论文，图1。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：把协同语义注入LLM物品索引。
-- 使用场景：LLM推荐。
+- TIGER uses the same `RQ-VAE` codes with an `Enc-Dec` generator; LC-Rec uses a `Dec-Only` LLM trained with `Multi-task NTP`.
 
 ### 5. Connections to Related Work
 

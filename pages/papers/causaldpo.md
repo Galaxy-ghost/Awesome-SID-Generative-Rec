@@ -47,12 +47,6 @@ CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, sof
 - **Results from**: Table 1 (popularity, temporal, and exposure shifts on Yelp2018, ML-10M, Book-Crossing); Table 4 (mixed shift); Table 3 (IID test sets); Table 5 (causal regularizer added to other DPO variants); Table 8 (ablations); Table 9 (model sizes).
   - Source: OOD table: https://arxiv.org/html/2603.22335v2#S3.T1; IID: https://arxiv.org/html/2603.22335v2#A2.T3; mixed shift: https://arxiv.org/html/2603.22335v2#A2.T4; regularizer transfer: https://arxiv.org/html/2603.22335v2#A2.T5; ablation: https://arxiv.org/html/2603.22335v2#A2.T8; model sizes: https://arxiv.org/html/2603.22335v2#A2.T9.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-生成物品标题文本，再对全物品打分映射到物品；当前记录将标题标识归为 LLM-Vocab。
-
 ### 5. Connections to Related Work
 
 - **Alternative** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.

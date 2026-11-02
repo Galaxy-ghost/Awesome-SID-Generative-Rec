@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,10 +27,52 @@ GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visit
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning. |
 | Modified Stage | Representation |
+| Key Findings | In a three-month deployment on the AMAP platform, GeoGR reports online gains of +2.91% in WINRATE and +5.55% in PV_CTR (Abstract). |
+| Limitation | The Semantic IDs (SIDs) are updated from the LLM's predictions, so they are tied to the LLM checkpoint used in refinement (Sec. 4.1.3). |
+
+### 1. Why This Paper Matters
+
+The authors state that SID-based point-of-interest (POI) recommenders lack SIDs that capture cross-category spatio-temporal collaborative relationships and align poorly with large language models (LLMs) (Abstract). GeoGR addresses both for navigation services such as AMAP.
+
+> "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs." (Sec. 4.1.1)
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![GeoGR architecture diagram](../../architectures/geogr.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[POI description] --> B[Contrastive representation]
+    C[Co-visit pairs] --> B
+    B --> D[RQ-Kmeans SIDs]
+    D --> E[Iterative refinement]
+    E --> F[CPT]
+    F --> G[SFT]
+```
+
+#### Location Description
+
+Each POI gets a description with coordinates, address, and attributes such as name, brand, categories, geohash code, consumption level, and active time period, encoded by a Qwen model (Sec. 4.1.1).
+
+#### Co-Visit Contrastive Learning
+
+POI pairs that frequently co-occur in trajectories are weighted by Swing similarity to downweight popular items, and an NCE loss trains on them (Sec. 4.1.1, Eq. 4).
+
+#### Quantization and Iterative Refinement
+
+RQ-Kmeans discretizes the LLM embeddings into hierarchical SIDs (Sec. 1).
+
+> "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions." (Sec. 4.1.3)
+
+#### Multi-Stage LLM Training
+
+Continued pre-training (CPT) injects POI information and user behavior sequences through several prompt templates (Sec. 4.2.1). Supervised fine-tuning then trains POI generation (Abstract).
+
+> "Since the newly introduced SID tokens are out-of-vocabulary for the base LLM, we first perform Continued Pre-Training (CPT) to warm up these tokens and inject scenario-specific recommendation knowledge." (Sec. 4.2)
 
 ### 3. Experimental Findings
 
@@ -51,87 +93,15 @@ GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visit
 - **Results from**: Table 2 (NYC, TKY versus traditional, POI, and generative baselines); Table 3 (AMAP, AMAP-SH); Table 4 (ablation); Table 5 (SID quality); Table 6 (CPT effect); Section 5.6 (model scaling); Table 7 and Section 5.9 (three-month online A/B test).
   - Source: Public: https://arxiv.org/html/2602.10411v2#S5.T2; industrial: https://arxiv.org/html/2602.10411v2#S5.T3; ablation: https://arxiv.org/html/2602.10411v2#S5.T4; SID evaluation: https://arxiv.org/html/2602.10411v2#S5.T5; CPT: https://arxiv.org/html/2602.10411v2#S5.T6; scaling: https://arxiv.org/html/2602.10411v2#S5.SS6.p2; online: https://arxiv.org/html/2602.10411v2#S5.SS9.p2.
 
-## 旧卡片说明
+- Offline comparison: GeoGR reports better performance than the baselines on multiple real-world datasets (Abstract).
+- Online deployment: the three-month test served millions of users (Abstract).
 
-迁自 `d61aa6c:papers/geogr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### GeoGR：面向工业规模生成式 POI 推荐的时空感知框架
+**Our analysis.**
 
-> GeoGR 通过地理约束共访关系构造时空协同 SID，并用持续预训练和监督微调使 LLM 直接生成可服务的 POI 标识。
-
-### 研究动机与问题定义
-
-工业 POI 推荐同时面对稀疏行为、复杂地理关系和 LLM 不理解非原生 SID token 的问题。GeoGR 面向导航类本地服务，目标是在保留用户时空状态变化的同时，建立可生成、可扩展并能在线服务的 POI 标识。
-
-### TL;DR（核心摘要）
-
-`POI描述/地理/共访关系 → 对比表示学习 → RQ-KMeans SID → CPT → SFT生成 → 在线POI`
-
-GeoGR 先利用地理约束的共访 POI 对学习时空协同表示，再通过层次化 RQ-KMeans 生成 SID，并用 EM 风格优化减少标识质量问题。推荐模型经过多模板持续预训练和监督微调，使 LLM 学会 SID、POI 描述与下一位置预测之间的对应关系。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | POI 描述、经纬度、地理约束共访关系和用户轨迹 |
-| 信息融入位置 | SID 表示、量化优化、持续预训练和生成输入 |
-| 语义标识结构 | 多级定长离散序列 |
-| 适用场景 | 导航、本地生活和工业规模服务 |
-
-### 方法设计
-
-#### 4.1 地理感知 POI SID 构建
-GeoGR 将 POI 文本、经纬度、地址和类别输入 LLM，构造初始语义表示。为避免只依赖文本相似性，作者从用户轨迹中挖掘地理接近且具有共访关系的 POI 对，并加入正负样本进行对比学习。
-
-#### 4.1.1 时空协同语义表示
-正样本来自轨迹中频繁共现且空间相近的 POI，负样本通过采样获得。对比目标使表示同时靠近行为相关和地理合理的 POI，减少“文本相似但行为无关”的错误关联。
-
-#### 4.1.2 语义表示量化
-模型使用层次化 RQ-KMeans 逐级量化 POI 表示。每层对当前残差聚类并生成 code，所有 code 拼成 POI SID；层次结构让前缀承载较粗粒度的时空语义。
-
-#### 4.1.3 EM 风格 SID 优化
-作者让 LLM 根据生成 SID 相关任务反向评估标识质量，再用 EM 风格过程交替细化 SID 和模型参数，改善 SID 与 POI 语义、地理关系的一致性。
-
-#### 4.2 生成式 POI 推荐
-在推荐训练前，GeoGR 用包含 SID 描述、用户轨迹和 POI 问答的多任务语料进行持续预训练，使 LLM 适应新增的非原生 token。之后使用下一 POI 监督模板进行 SFT，模型根据历史和当前上下文自回归生成目标 SID。
-
-### 实验结论
-
-- 公共数据集和工业数据集实验均报告 GeoGR 优于比较方法。
-- 在线部署三个月的实验报告 WINRATE 提升 2.91%、PV_CTR 提升 5.55%，说明该框架具备生产可用性。
-- 消融与表示可视化支持地理协同 SID、CPT 和 SFT 对效果的贡献；模型规模影响也被单独分析。
-
-### 局限性与研究定位
-
-#### 局限性
-
-- SID 构建、EM 风格优化和多阶段 LLM 训练流程较复杂，复现实验需要较多工业数据与资源。
-- 论文对动态新增 POI、标识碰撞在线修复和生成失败回退的细节报告有限。
-
-#### 研究定位
-
-GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协同 SID 与 LLM 任务对齐、线上部署相结合的路线。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2602.10411)
-
-### 标签
-
-`工业规模` · `时空协同` · `RQ-KMeans` · `在线部署`
-
-### 架构图来源
-
-*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2602.10411)）。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：面向工业规模结合时空 SID 与多阶段 LLM 对齐。
-- 使用场景：导航与工业 POI 推荐。
+- OneLoc adds images to its input and trains an `Enc-Dec` generator with DPO; GeoGR adds collaborative signals and trains a `Dec-Only` LLM with `Multi-task NTP`.
+- GNPR-SID keeps its `RQ-VAE` codes fixed; GeoGR refines its `R-KM+EM` codes against the generator.
 
 ### 5. Connections to Related Work
 

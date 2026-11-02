@@ -48,12 +48,6 @@ Latte inserts a latent token before each Semantic ID, turning one decoding tree 
 - **Results from**: Table 1 (Instruments, Scientific, Games; most baseline numbers copied from prior work, PSID rerun from its released code); Table 2 (tree-distance correlations); Tables 3-4 and Figure 4 (tokenizers, aggregation, number of latent tokens); Table 5 (MPD modality order).
   - Source: Main: https://arxiv.org/html/2605.06331v1#S5.T1; constraint analysis: https://arxiv.org/html/2605.06331v1#S5.T2; tokenizers: https://arxiv.org/html/2605.06331v1#S5.T3; aggregation: https://arxiv.org/html/2605.06331v1#S5.T4; latent count: https://arxiv.org/html/2605.06331v1#S5.F4; MPD: https://arxiv.org/html/2605.06331v1#S6.T5; copied baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p2.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-指出逐码解码树限制了表达能力，在每个 SID 前插入潜 token 重塑解码空间。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [PSI](psi.md): PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before the semantic ID.

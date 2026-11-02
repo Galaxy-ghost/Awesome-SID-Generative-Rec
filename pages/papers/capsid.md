@@ -49,12 +49,6 @@ CapsID replaces hard residual quantization with capsule routing, which soft-rout
 - **Results from**: Table 3 (Beauty, Sports, Toys; mean over three seeds); Table 4 (patching versus tokenizer-centric design, with normalized cost); Table 5 (ablations); Table 6 (35M-item industrial catalog, single run); Figure 3 (collision, purity, predictability); Table 10 (Beauty cold-item subset).
   - Source: Main table: https://arxiv.org/html/2605.05096v1#S4.T3; patching comparison: https://arxiv.org/html/2605.05096v1#S4.T4; ablation: https://arxiv.org/html/2605.05096v1#S4.T5; industrial: https://arxiv.org/html/2605.05096v1#S4.T6; cold subset: https://arxiv.org/html/2605.05096v1#A2.SS2.p1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用胶囊路由替代硬残差量化，按置信度决定 SID 长度，再用 Semantic BPE 合并相邻 token。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [COBRA](cobra.md): COBRA patches incomplete sparse IDs with a dense vector and BeamFusion at inference; CapsID instead makes the SID itself soft-routed and variable-length, without a dense path.

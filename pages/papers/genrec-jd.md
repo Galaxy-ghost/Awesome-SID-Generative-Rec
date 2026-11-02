@@ -47,12 +47,6 @@ GenRec-JD trains a decoder-only generator with page-wise next-token prediction, 
 - **Results from**: Table 1 (page-wise SFT versus BERT4Rec, SASRec, TIGER, LC-Rec, with hallucination rate); Table 2 (model scaling); Table 3 (GRPO-SR and reward variants); Table 4 (one-month online A/B test).
   - Source: SFT table: https://arxiv.org/html/2604.14878v1#S3.T1; scaling: https://arxiv.org/html/2604.14878v1#S3.T2; RL: https://arxiv.org/html/2604.14878v1#S3.T3; online: https://arxiv.org/html/2604.14878v1#S3.T4.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-按页做下一 token 预测，压缩输入侧的多 token SID，并做偏好对齐。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER is trained with point-wise next-item prediction; GenRec trains on page-wise target lists with a decoder-only LLM and aligns it with GRPO-SR.

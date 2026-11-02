@@ -11,6 +11,8 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 ### 2. How It Works
 
+*Figure source: Fig. 1, original paper.*
+
 #### Overview
 
 ```

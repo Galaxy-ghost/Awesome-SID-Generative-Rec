@@ -48,12 +48,6 @@ GEM-Rec adds control tokens that decide whether to show an ad and bid-aware deco
 - **Results from**: Table 1 (marketplace performance versus TIGER; full version in Appendix G, Table 3); Table 2 and Appendix H, Tables 5-8 (bid-shock response); Figures 2-7 (Pareto frontiers, steerability, organic integrity, high-ad-rate ablations); Table 4 (generative validity).
   - Source: Main: https://arxiv.org/html/2603.22231v1#S5.T1; full results: https://arxiv.org/html/2603.22231v1#A7.T3; volatility: https://arxiv.org/html/2603.22231v1#S5.T2, https://arxiv.org/html/2603.22231v1#A8.T5, https://arxiv.org/html/2603.22231v1#A8.T6, https://arxiv.org/html/2603.22231v1#A8.T7, https://arxiv.org/html/2603.22231v1#A8.T8.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用控制 token 决定是否展示广告，并在约束解码时注入实时出价。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.

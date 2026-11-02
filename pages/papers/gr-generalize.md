@@ -46,12 +46,6 @@ GR-Generalize is an analysis, not a new recommender: it labels test instances as
 - **Results from**: Table 1 (NDCG@10 of TIGER and SASRec on memorization and generalization subsets); Figures 4-7 and Table 3 (token-level memorization analysis and codebook-size study); Table 4 (memorization-aware adaptive ensemble).
   - Source: Breakdown: https://arxiv.org/html/2603.19809v1#S2.T1; SID configurations: https://arxiv.org/html/2603.19809v1#S4.T3; ensemble: https://arxiv.org/html/2603.19809v1#S5.T4.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-以分析为主；提出的方法按实例加权融合生成式模型和 SASRec 的分数，最终物品不由 SID 生成单独决定。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.

@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2506.16114) · [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -29,10 +29,45 @@ GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNe
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNets, using a collaborative trajectory sampler and reward model to explore unobserved positives, instead of next-token or DPO fine-tuning. |
 | Modified Stage | Training |
+| Key Findings | On Taobao production data, GFlowGR reports H@20 of 0.444 and N@20 of 0.452 against 0.358 and 0.371 for SFT, and a 15-day online A/B test shows a +0.43% lift in total revenue (Sec. 5, Table 7). |
+| Limitation | The reward model learns item utility from logged user signals, so the fine-tuning target is only as good as those logs (Sec. 3.2). |
+
+### 1. Why This Paper Matters
+
+Generative recommendation (GR) models are usually fine-tuned with the next-token loss of supervised fine-tuning (SFT) or with DPO-style objectives (Abstract). The authors state that these objectives predict a single ground-truth item and treat all interactions as equally informative (Abstract).
+
+> "To address these challenges, we reformulate GR as a sequential set-generation problem and propose GFlowGR, a GFlowNet-based fine-tuning framework that explicitly aligns generation probabilities with item-level utilities." (Abstract)
+
+Based on arXiv v3.
 
 ### 2. How It Works
 
 ![GFlowGR architecture diagram](../../architectures/gflowgr.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[User history] --> B[Trajectory sampler]
+    B --> C[Trajectories]
+    C --> D[Reward model]
+    D --> E[GFlowNet loss]
+    E --> F[Generator]
+```
+
+#### Trajectory Sampler
+
+The trajectory set comes from four methods (Sec. 3.1). The authors state that random samples cause training instability and drift from the model's learning dynamics (Sec. 3.1).
+
+> "There are four methods for constructing the trajectory set: interaction log, random sampling, CM-based sampling, and on-policy sampling." (Sec. 3.1)
+
+#### Reward Model
+
+A behavior-aware reward model quantifies item utility from heterogeneous user signals (Sec. 1, Sec. 3.2).
+
+#### GFlowNet Objectives
+
+The paper derives detailed balance (DB) and trajectory balance (TB) objectives from the flow-matching principle (Sec. 2).
 
 ### 3. Experimental Findings
 
@@ -53,77 +88,20 @@ GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNe
 - **Results from**: Table 2 (Beauty, Instruments, Yelp; SFT, GRPO, DPO-family baselines on TIGER and LETTER backbones); Tables 3-6 (rewards, combination, sample selection, LLM reward); Figures 3-4 (parameter study); Table 7 and Section 5 (production offline and 15-day online A/B).
   - Source: Main: https://arxiv.org/html/2506.16114v3#S4.T2; ablations and strategies: https://arxiv.org/html/2506.16114v3#S4.T3, https://arxiv.org/html/2506.16114v3#S4.T4, https://arxiv.org/html/2506.16114v3#S4.T5, https://arxiv.org/html/2506.16114v3#S4.T6; production: https://arxiv.org/html/2506.16114v3#S4.T7 and https://arxiv.org/html/2506.16114v3#S5.p3.
 
-## 旧卡片说明
+- Public data: the paper evaluates GFlowGR with two different GR backbones (Abstract).
+- Production data: GRPO reaches H@20 = 0.427 and N@20 = 0.408 (Sec. 5, Table 7).
 
-迁自 `d61aa6c:papers/gflowgr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+  > "The results show that GFlowGR achieves H@20 of 0.444 and N@20 of 0.452, substantially outperforming SFT (0.358/0.371) and GRPO (0.427/0.408), mirroring the conclusions on public datasets." (Sec. 5)
 
-### GFlowGR：生成流网络生成式推荐微调
+- Online test: the A/B test used 10% of traffic with a 50/50 split (Sec. 5).
+- Deployment: since May 2025, GFlowGR trains the GR models of Taobao search advertising, including Taobao Mobile, Xianyu, and Taobao Web (Sec. 5).
 
-> GFlowGR 将生成流网络用于生成式推荐微调，使模型从多条可能的生成轨迹中学习更符合推荐价值的物品标识。
+### 4. Limitations & Critical Analysis
 
-### 研究动机与问题定义
+**Our analysis.**
 
-最大似然训练倾向于复现日志中的单一路径，难以表达推荐结果的多样性和长期价值。GFlowGR 将 SID 生成过程视为轨迹采样问题，用奖励约束生成分布。
-
-### TL;DR（核心摘要）
-
-`用户历史 → SID生成轨迹 → 奖励模型 → GFlowNet微调 → 推荐物品`
-
-框架从交互日志、随机采样、协同模型或在线策略获得轨迹，并训练奖励模型评估生成结果。GFlowNet 目标在训练阶段调整生成概率；在线仍由生成器直接产生完整 SID 并映射物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 交互日志、协同信号和生成轨迹 |
-| 信息融入位置 | 奖励模型与轨迹采样 |
-| 语义标识结构 | 多 token 序列 |
-| 适用场景 | 偏好对齐与多样化推荐 |
-
-### 方法设计
-
-#### 3.1 轨迹采样器（Trajectory Sampler）
-GFlowGR 把 SID 逐 token 生成看作从根节点到完整物品标识的轨迹。轨迹可以来自交互日志、随机策略、协同模型、组合采样或当前生成策略，用于覆盖单一监督路径之外的候选空间。
-
-#### 3.2 奖励模型（Reward Model）
-奖励模型评估完整生成结果或中间轨迹的推荐价值，将点击/偏好等信号转成训练奖励。它负责提供 GFlowNet 所需的终点价值，但不作为在线独立精排器。
-
-#### 3.3 GFN 训练目标
-模型学习前向生成概率与后向流之间的平衡，使不同高价值 SID 轨迹获得合理概率。该目标鼓励多条有效生成路径共存，缓解最大似然对单一日志目标的过拟合。
-
-#### 3.4 训练与推理
-训练阶段交替采样轨迹、计算奖励和更新生成器；推理阶段仍由生成器直接产生 SID。实验还分析不同轨迹来源、参数设置和部署成本。
-
-### 实验结论
-
-- GFlowNet 微调改善了生成推荐的排序表现。
-- 不同轨迹来源对训练效果有影响，在线策略轨迹更贴近目标。
-
-### 局限性与研究定位
-
-#### 局限性
-- 奖励模型和轨迹采样带来额外训练成本。
-- 奖励偏差、探索范围与线上稳定性仍需验证。
-
-#### 研究定位
-GFlowGR 的贡献是把生成式推荐的偏好微调改写为生成流学习问题，适合放在“生成轨迹优化与偏好学习”章节。
-
-### 标签
-
-`生成流网络` · `偏好优化` · `SID生成` · `序列推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：用生成流网络进行偏好微调。
-- 使用场景：偏好对齐。
+- GFlowGR changes only the fine-tuning objective. This suggests that its gains add to the choice of tokenizer rather than replace it.
+- OneRec aligns its generator by `NTP → DPO`; GFlowGR adds a GFlowNet loss to the next-token loss (`NTP + Aux.`).
 
 ### 5. Connections to Related Work
 

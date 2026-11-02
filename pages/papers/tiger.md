@@ -40,6 +40,8 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 ![TIGER architecture diagram](../../architectures/tiger.png)
 
+*Figure source: Fig. 2, original paper.*
+
 #### Overview
 
 ```

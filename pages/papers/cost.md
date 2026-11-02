@@ -47,12 +47,6 @@ CoST trains the item tokenizer with a contrastive quantization objective that ca
 - **Results from**: Table 2 (MIND) and Table 3 (Office (S) and Office (L)), comparing random hashing, reconstruction-only RQ-VAE, contrastive-only, and combined losses; Figures 3-4 (temperature, epochs, codebook size, number of codebooks, embedding dimension).
   - Source: MIND: https://arxiv.org/html/2404.14774v2#S4.T2; Office: https://arxiv.org/html/2404.14774v2#S4.T3; sensitivity: https://arxiv.org/html/2404.14774v2#S4.F3 and https://arxiv.org/html/2404.14774v2#S4.F4.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-在量化中加入对比学习，让 SID 保留物品之间的邻域关系。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [TIGER](tiger.md): TIGER's RQ-VAE is trained only with reconstruction loss; CoST keeps TIGER's generator and adds a contrastive loss so that neighboring items get distinguishable codes.

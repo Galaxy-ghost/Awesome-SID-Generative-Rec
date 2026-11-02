@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2511.11255) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,10 +27,46 @@ Align3GR aligns an LLM recommender at three levels, with dual semantic and colla
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | Align3GR aligns an LLM recommender at three levels, with dual semantic and collaborative tokenization, bidirectional semantic alignment in behavior modeling, and progressive DPO from self-play and real-world feedback. |
 | Modified Stage | Tokenization |
+| Key Findings | On the public dataset, Align3GR reports +17.8% in Recall@10 and +20.2% in NDCG@10 over the strongest baseline (Abstract). |
+
+### 1. Why This Paper Matters
+
+Turning a large language model (LLM) into a recommender meets semantic and behavioral misalignment (Abstract). Earlier LLM recommenders such as LC-Rec align item tokens through supervised tasks. Align3GR treats alignment as one problem across token, behavior modeling, and preference levels.
+
+> "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment." (Abstract)
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![Align3GR architecture diagram](../../architectures/align3gr.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Users and items] --> B[Dual SC encoders]
+    B --> C[SCIDs]
+    C --> D[Multi-task SFT]
+    D --> E[SP-DPO]
+    E --> F[RF-DPO]
+```
+
+#### Token-Level Alignment
+
+Dual semantic-collaborative (SC) encoders and RQ-VAEs build SCIDs for both users and items (Fig. 2 caption). The LLM vocabulary is expanded with these tokens.
+
+> "Following previous work (Zheng et al. 2024), we first expand the LLM vocabulary to include the SCID tokens of the user and the item, thus avoiding out-of-vocabulary issues and ensuring smooth integration with autoregressive generation tasks." (Behavior Modeling-level Alignment)
+
+#### Behavior Modeling-Level Alignment
+
+Supervised fine-tuning (SFT) follows LC-Rec with four tasks: sequential item prediction, asymmetric item prediction, item prediction based on user intention, and personalized preference inference (Multi-task SFT). The user's SCID token appears in every task prompt, and one task reconstructs the user profile text from the user SCID (Multi-task SFT).
+
+#### Preference-Level Alignment
+
+Self-play DPO (SP-DPO) runs in Easy, Medium, and Hard stages defined by prefix n-gram match over the hierarchical SCID (Preference-level Alignment). Real-feedback DPO (RF-DPO) then uses feedback labeled disliked, neutral, or liked (Preference-level Alignment).
+
+> "Specifically, considering the hierarchical nature of SCID, we divide progressive SP-DPO learning into three stages: Easy, Medium, and Hard, using a prefix-ngram match metric (Zheng et al. 2025)" (Preference-level Alignment)
 
 ### 3. Experimental Findings
 
@@ -51,81 +87,14 @@ Align3GR aligns an LLM recommender at three levels, with dual semantic and colla
 - **Results from**: Table 1 (Instruments, Beauty, Yelp; averages over five seeds); Table 2 (industrial Recall@100 and online revenue versus a two-tower baseline and TIGER); Tables 3-5 and Figure 4 (tokenization, SFT-task, and DPO ablations).
   - Source: Main table: https://arxiv.org/html/2511.11255v2#Sx3.T1; industrial: https://arxiv.org/html/2511.11255v2#Sx4.T2; ablations: https://arxiv.org/html/2511.11255v2#Sx4.T3, https://arxiv.org/html/2511.11255v2#Sx4.T4, https://arxiv.org/html/2511.11255v2#Sx4.T5; five seeds: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4.
 
-## 旧卡片说明
+- Industrial deployment: the authors report gains in online A/B tests and full-scale deployment on an industrial recommendation platform (Abstract).
 
-迁自 `d61aa6c:papers/align3gr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### Align3GR：多层统一对齐生成式推荐
+**Our analysis.**
 
-> Align3GR 在 token、行为建模和偏好三个层面联合对齐语义与协同信息，使 LLM 直接生成结构化协同语义标识。
-
-### 研究动机与问题定义
-
-既有方法往往只在输入或输出层面对齐语义和协同信号，难以同时保持标识可解释性与行为偏好。Align3GR 将对齐拆为三个相互衔接的层面，并以渐进式偏好优化完成训练。
-
-### TL;DR（核心摘要）
-
-`用户/物品信息 → SCID与协同表示 → 三层对齐 → LLM生成SCID → 推荐物品`
-
-模型先用语义和协同编码器构造层次化 SCID，再进行 token-level alignment；行为建模层加入用户/物品协同损失与索引-语言任务；最后用自博弈式渐进 DPO 注入真实反馈偏好。生成 SCID 直接确定物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户交互、物品文本语义和协同表示 |
-| 信息融入位置 | SCID 构建、行为目标和偏好优化 |
-| 语义标识结构 | 层次化序列 |
-| 适用场景 | 公共数据集与工业数据集推荐 |
-
-### 方法设计
-
-#### 3.1 层次化 SCID 构建
-Align3GR 为用户和物品分别构造语义-协同标识。语义编码器提供内容信息，协同编码器提供行为信息，RQ-VAE 将两者转为层次化 SCID，并以 token-level alignment 约束对应表示。
-
-#### 3.2 行为建模层对齐
-在基础 next-item 生成之外，模型加入用户/物品重构、行为建模和显式索引-语言对齐任务。SCID 被放入任务提示和生成序列，使语言模型学习标识 token 与推荐行为之间的对应关系。
-
-#### 3.3 偏好层对齐
-论文采用 Progressive DPO，从较容易的偏好样本逐步过渡到更困难样本。SP-DPO 使用自博弈生成偏好对，RF-DPO 再结合真实反馈校正模型，使优化目标从离线生成质量逐渐接近真实推荐偏好。
-
-#### 3.4 训练与推理
-模型先进行多任务监督微调，再执行渐进式偏好优化。在线阶段直接自回归生成完整 SCID，并通过标识词表解析为物品。
-
-### 实验结论
-
-- 多层对齐整体优于只做单层对齐的设置。
-- 论文报告了公共和工业数据上的一致收益，并验证了渐进式偏好优化。
-
-### 局限性与研究定位
-
-#### 局限性
-- 训练流程较复杂，依赖多种对齐数据和反馈构造。
-- 线上部署成本、动态物品和更开放物品空间仍缺少充分验证。
-
-#### 研究定位
-Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议。它适合放在“生成式推荐对齐与偏好优化”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2511.11255)
-
-### 标签
-
-`多层对齐` · `SCID` · `渐进式DPO` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：在三层面统一对齐。
-- 使用场景：公共与工业推荐。
+- The pipeline trains SCID tokenizers, multi-task SFT, and two DPO phases in sequence. This suggests that a catalog change requires repeating several stages.
+- EAGER-LLM also feeds semantic and collaborative signals to a `Dec-Only` LLM, but with `Dual H-KM` codes; Align3GR uses `Dual RQ` codes and adds DPO.
 
 ### 5. Connections to Related Work
 

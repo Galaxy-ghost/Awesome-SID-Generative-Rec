@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -29,10 +29,46 @@ GRAM translates hierarchical and collaborative item relationships into LLM vocab
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular prompts separately, fusing them only at decoding, to use lengthy item text efficiently. |
 | Modified Stage | Tokenization |
+| Key Findings | On four benchmark datasets, GRAM reports improvements of 11.5–16.0% in Recall@5 and 5.3–13.6% in NDCG@5 over eight generative recommendation models (Abstract). |
+| Limitation | The authors name the TF-IDF selection of vocabulary words and the small T5 models as limitations (Sec. 7). |
+
+### 1. Why This Paper Matters
+
+Generative recommenders built on large language models (LLMs) struggle to incorporate implicit item relationships and to use rich but lengthy item information (Abstract). GRAM addresses the first with textual IDs and the second with late fusion.
+
+> "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
+
+Based on arXiv v1.
 
 ### 2. How It Works
 
 ![GRAM architecture diagram](../../architectures/gram.png)
+
+*Figure source: Fig. 4, original paper.*
+
+```mermaid
+flowchart LR
+    A[Item text] --> B[Textual IDs]
+    C[Collaborative signals] --> D[Item prompts]
+    B --> E[User prompt]
+    E --> F[Separate encoders]
+    D --> F
+    F --> G[Decoder fusion]
+```
+
+#### Semantic-to-Lexical Translation
+
+The hierarchical IDs are textual, for example "soap-mild-mango", with words chosen by TF-IDF from the LLM vocabulary (Sec. 7).
+
+> "To bridge collaborative semantics to LLMs, we extract collaborative signals and convert them as an additional item attribute." (Sec. 3.2.2)
+
+#### Multi-Granular Prompts
+
+A coarse-grained user prompt concatenates the item IDs of the history, and fine-grained item prompts carry item attributes and collaborative semantics (Sec. 3.3.1).
+
+#### Late Fusion
+
+The decoder uses the combined encoder outputs as the key-value matrix in cross-attention at every step (Sec. 3.3.2, Eq. 8-9).
 
 ### 3. Experimental Findings
 
@@ -53,82 +89,16 @@ GRAM translates hierarchical and collaborative item relationships into LLM vocab
 - **Results from**: Table 2 (four datasets versus six sequential and eight generative baselines; three seeds); Table 3 (ablations); Table 4 (ID types); Figures 6-8 (head/tail, ID length, similar items); Tables 6-7 (preprocessing and inference time); Tables 8-9 (baseline reproduction fixes for ELMRec and IDGenRec).
   - Source: Main: https://arxiv.org/html/2506.01673v1#S4.T2; ablation: https://arxiv.org/html/2506.01673v1#S5.T3; ID types: https://arxiv.org/html/2506.01673v1#S5.T4; reproducibility: https://arxiv.org/html/2506.01673v1#A3.T8 and https://arxiv.org/html/2506.01673v1#A4.T9.
 
-## 旧卡片说明
+- Efficiency: the authors analyze preprocessing and inference time in Appendix C.
 
-迁自 `d61aa6c:papers/gram.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### GRAM：语义感知多粒度后融合生成推荐
+**Stated by the authors.** The authors state that the TF-IDF-based choice of vocabulary words and the use of T5-small and T5-base limit the study (Sec. 7).
 
-> GRAM 在层次化语义与协同语义之间进行多粒度后融合，由生成模型直接输出物品标识。
+**Our analysis.**
 
-### 研究动机与问题定义
-
-早期融合容易让不同来源的信息相互干扰，单一粒度的语义标识又难以兼顾概括性和区分性。GRAM 延迟融合多层语义，以改善生成推荐的表达与决策。
-
-### TL;DR（核心摘要）
-
-`物品内容与交互 → 层次化语义/协同信息 → 多粒度编码 → 后融合解码 → 推荐物品`
-
-模型构造层次化语义标识，并将协同语义 verbalize 为可被语言模型处理的 token。多粒度编码器分别建模局部和整体语义，解码端进行 late fusion，直接生成目标物品标识。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户行为、物品文本语义和协同语义 |
-| 信息融入位置 | 多粒度编码与解码端后融合 |
-| 语义标识结构 | 层次化多粒度序列 |
-| 适用场景 | 语义增强序列推荐 |
-
-### 方法设计
-
-#### 3.1 语义到词汇的转换
-GRAM 先建立层次化语义索引，将物品整体语义拆成多个粒度，再把协同表示转换为可被语言模型处理的协同语义 token。这样既保留语义结构，也让用户行为信号进入文本生成空间。
-
-#### 3.2 多粒度编码器
-多粒度编码器分别处理粗粒度类别、细粒度属性和协同语义。编码结果保留各层级的位置信息和语义差异，为后续生成提供互补条件。
-
-#### 3.3 后融合解码器
-与输入端早期融合不同，GRAM 在解码端延迟组合多源表示。解码器在生成不同 SID 位置时选择对应粒度的语义信息，从而减少模态间相互干扰。
-
-#### 3.4 训练与推理
-模型以用户历史到目标 SID 的生成损失训练，推理时自回归生成完整标识并映射到物品。实验重点比较多粒度、融合位置和语义来源。
-
-### 实验结论
-
-- 多粒度后融合优于单粒度或早期融合设置。
-- 语义和协同信息的联合使用带来互补收益。
-
-### 局限性与研究定位
-
-#### 局限性
-- 多路编码和融合增加模型与推理开销。
-- 动态物品加入和大规模线上服务仍未充分评估。
-
-#### 研究定位
-GRAM 的关键贡献是将多粒度语义融合位置推迟到解码阶段，适合放在“多源语义融合”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2506.01673)
-- 代码公开情况未报告。
-
-### 标签
-
-`多粒度融合` · `语义标识` · `后融合` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图4。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：多粒度语义后融合。
-- 使用场景：语义增强推荐。
+- The IDs reuse vocabulary words instead of new tokens. This suggests that the words carry pretrained meanings, which can match or conflict with the item.
+- LC-Rec maps `RQ-VAE` codes to new tokens in a `Dec-Only` LLM; GRAM uses `H-KM` textual IDs in an `Enc-Dec` model.
 
 ### 5. Connections to Related Work
 

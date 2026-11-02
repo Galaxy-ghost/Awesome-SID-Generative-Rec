@@ -41,6 +41,8 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ![OneLoc architecture diagram](../../architectures/oneloc.png)
 
+*Figure source: Fig. 2, original paper.*
+
 #### Overview
 
 ```

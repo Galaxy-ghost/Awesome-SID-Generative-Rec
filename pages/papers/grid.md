@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -29,9 +29,41 @@ GRID is an open-source modular framework, not a new recommender: it makes compon
 | Key Contribution | GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks. |
 | Modified Stage | No single stage |
 
+### 1. Why This Paper Matters
+
+Varied modeling techniques, hyperparameters, and experimental setups make direct comparisons between generative recommendation (GR) proposals difficult (Abstract). GRID gives these proposals one modular framework in which components can be swapped and ablated.
+
+> "Our comprehensive experiments with GRID reveal that many overlooked architectural components in GR models with SIDs substantially impact performance." (Abstract)
+
+Based on arXiv v1.
+
 ### 2. How It Works
 
 ![GRID architecture diagram](../../architectures/grid.png)
+
+*Figure source: Fig. 1(a) and Fig. 1(b), original paper.*
+
+```mermaid
+flowchart LR
+    A[Item content] --> B[Semantic encoder]
+    B --> C[SID tokenizer]
+    C --> D[Generator]
+    D --> E[Beam search]
+```
+
+#### Tokenization then Generation
+
+GRID splits GR with Semantic IDs (SIDs) into a tokenization phase and a generation phase (Sec. 3.1).
+
+#### Tokenization Ablations
+
+The study varies the tokenizer algorithm, the size of the semantic encoder, and the number of residual layers $`L`$ and tokens per layer $`W`$ (Sec. 4.1).
+
+> "Unless otherwise noted, we use RK-Means with (L,W)=(3,256) and Flan-T5-XL." (Sec. 4.1)
+
+#### Generation Ablations
+
+The study varies the number of user tokens, encoder-decoder versus decoder-only, data augmentation, de-duplication IDs, and constrained versus unconstrained beam search (Sec. 4.2).
 
 ### 3. Experimental Findings
 
@@ -52,74 +84,16 @@ GRID is an open-source modular framework, not a new recommender: it makes compon
 - **Results from**: Tables 1-3 (tokenizer algorithm, encoder size, codebook dimensions); Tables 4-8 (user tokens, encoder-decoder versus decoder-only, augmentation, SID de-duplication, constrained versus free-form beam). Tables 3 and 4 cover Beauty only; the other tables cover Beauty, Sports, and Toys; results average 5 seeds.
   - Source: Tables 1-8: https://arxiv.org/html/2507.22224v1#S3.T1, https://arxiv.org/html/2507.22224v1#S3.T2, https://arxiv.org/html/2507.22224v1#S3.T3, https://arxiv.org/html/2507.22224v1#S4.T4, https://arxiv.org/html/2507.22224v1#S4.T5, https://arxiv.org/html/2507.22224v1#S4.T6, https://arxiv.org/html/2507.22224v1#S4.T7, https://arxiv.org/html/2507.22224v1#S4.T8.
 
-## 旧卡片说明
+- Main finding: several components assumed essential, which often cost compute or engineering, can be replaced with more efficient alternatives without losing performance (Sec. 5).
 
-迁自 `d61aa6c:papers/grid.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+  > "Conversely, other, often overlooked design choices prove to be vital, such as encoder-decoder architectures and data augmentation." (Sec. 5)
 
-### GRID：语义标识生成式推荐实践框架
+### 4. Limitations & Critical Analysis
 
-> GRID 将物品分词、生成模型训练、约束解码和评估组织为可复用的 Semantic ID 生成式推荐流程。
+**Our analysis.**
 
-### 研究动机与问题定义
-
-语义标识生成式推荐涉及标识学习、数据处理、模型训练和解码部署多个环节，实践中缺少统一流程。GRID 以工程视角整理这些组件，并讨论不同设计的选择。
-
-### TL;DR（核心摘要）
-
-`物品内容/交互 → SID分词器 → 生成模型 → 约束解码 → 推荐物品`
-
-框架先用内容或协同信息学习物品 SID，再把用户历史转为标识序列输入生成模型。模型生成完整 SID 后通过词表或索引映射到物品；手册同时覆盖训练、评估、开放物品和部署注意事项。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 交互、文本、图像和协同信息，依配置而定 |
-| 信息融入位置 | SID 构建、模型输入和评估流程 |
-| 语义标识结构 | 多级离散序列 |
-| 适用场景 | 生成式推荐研究与工程实践 |
-
-### 方法设计
-
-#### 3.1 先分词后生成（Tokenization-then-Generation）
-GRID 将 Semantic ID 生成式推荐拆成物品分词和推荐生成两个相对独立的阶段。物品分词器把文本、图像或协同表示转换为离散标识；生成器再根据用户历史标识预测下一标识。
-
-#### 3.2 物品分词实践
-手册比较 RQ-VAE、码本设计、标识长度、碰撞、语义一致性和新物品更新等选择。不同分词策略会改变词表规模、前缀共享和生成合法率，因此需要结合数据与服务目标选择。
-
-#### 3.3 生成、评估与部署
-生成模型可以使用编码器-解码器或其他自回归骨干，推理通常配合前缀树、束搜索和合法 SID 过滤。GRID 还讨论数据处理、评价协议、开放物品和系统部署，重点是形成可复用实践流程，而非提出单一新模型。
-
-### 实验结论
-
-- 手册系统比较了 SID 构建与生成流程中的常见选择。
-- 结果强调标识质量、生成有效性和系统效率需要联合考虑。
-
-### 局限性与研究定位
-
-#### 局限性
-- GRID 是实践框架与总结性工作，并非单一新模型。
-- 具体性能取决于所选分词器、生成骨干和数据设置。
-
-#### 研究定位
-GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic ID 生成式推荐完整流程的入口。
-
-### 标签
-
-`实践框架` · `Semantic ID` · `生成式推荐` · `工程流程`
-
-### 架构图来源
-
-*图源：原论文，图1（a、b）。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：统一SID生成推荐实践流程。
-- 使用场景：研究与工程实践。
+- The ablations change one component at a time against a default configuration (Sec. 4.1). This suggests that interactions between components are not covered.
+- TIGER uses `RQ-VAE` codes; GRID's default uses `R-KM` codes, the same tokenization as OneRec.
 
 ### 5. Connections to Related Work
 

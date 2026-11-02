@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) · [Matrix](../../README.md#vi--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,10 +28,50 @@ GenCDR generates domain-disentangled Semantic IDs by routing between a universal
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes over a domain-aware prefix tree, instead of relying on shared user or item IDs. |
 | Modified Stage | Tokenization |
+| Limitation | Each domain adds its own tokenizer adapter and its own offline prefix tree (Domain-adaptive Tokenization, Domain-aware Prefix-tree). |
+
+### 1. Why This Paper Matters
+
+Traditional cross-domain recommendation relies on shared user or item IDs, which most real-world scenarios do not have (Abstract). The authors state that LLM-based approaches face an item ID tokenization dilemma and insufficient domain-specific modeling (Abstract). GenCDR moves domain adaptation into the tokenizer itself.
+
+> "GenCDR first employs a Domain-adaptive Tokenization module, which generates disentangled semantic IDs for items by dynamically routing between a universal encoder and domain-specific adapters." (Abstract)
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![GenCDR architecture diagram](../../architectures/gencdr.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Items] --> B[Universal encoder]
+    A --> C[Domain adapters]
+    B --> D[Item-level routing]
+    C --> D
+    D --> E[Semantic IDs]
+    E --> F[LLM with LoRA experts]
+    F --> G[Prefix tree]
+```
+
+#### Domain-Adaptive Tokenization
+
+One LoRA adapter per domain learns domain-specific representations next to the universal encoder (Domain-adaptive Tokenization).
+
+> "To effectively integrate universal and domain-specific representations, we propose an Item-level Dynamic Semantic Routing Network that adaptively balances these representations on a per-item basis." (Domain-adaptive Tokenization)
+
+The authors state that per-item routing reduces the negative transfer of static fusion (Domain-adaptive Tokenization).
+
+#### Cross-Domain Autoregressive Recommendation
+
+The generator first trains a mixture of LoRA adapters on data from all domains to capture domain-agnostic interests (Cross-domain Autoregressive Recommendation). A user-level routing network regularized by a variational information bottleneck (VIB) fuses universal and domain-specific interests (Cross-domain Autoregressive Recommendation).
+
+#### Domain-Aware Prefix Tree
+
+For each domain, an offline prefix tree holds all valid ID sequences from the tokenizer and restricts decoding (Domain-aware Prefix-tree).
+
+> "Finally, a Domain-aware Prefix-tree enables efficient and accurate generation." (Abstract)
 
 ### 3. Experimental Findings
 
@@ -52,81 +92,15 @@ GenCDR generates domain-disentangled Semantic IDs by routing between a universal
 - **Results from**: Table 2 (six domains across three pairs versus single-domain, generative, and cross-domain baselines); Table 3 (ablations); Figures 3-6 (t-SNE, sensitivity, training efficiency, inference scalability).
   - Source: Main: https://arxiv.org/html/2511.08006v2#Sx5.T2; ablation: https://arxiv.org/html/2511.08006v2#Sx5.T3; efficiency: https://arxiv.org/html/2511.08006v2#Sx5.F5 and https://arxiv.org/html/2511.08006v2#Sx5.F6.
 
-## 旧卡片说明
+- Main comparison: GenCDR reports better performance than the baselines on multiple real-world datasets (Abstract).
+- Ablation: Table 3 removes the MTM component, the adapter, the specific expert, the universal experts, the MoE gate, and the prefix tree (Table 3).
 
-迁自 `d61aa6c:papers/gencdr.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### GenCDR：带自适应语义分词的跨域生成推荐
+**Our analysis.**
 
-> GenCDR 用共享语义空间和域特定适配器构造统一 SID，并以动态路由适配不同领域的推荐偏好。
-
-### 研究动机与问题定义
-
-跨域推荐既需要共享知识，也需要保留领域特征；固定的物品标识和静态融合容易造成负迁移。GenCDR 研究如何让 SID 和生成器同时具备跨域共享与域内适应能力。
-
-### TL;DR（核心摘要）
-
-`多域物品文本 → 通用SID → 域适配量化 → 统一生成器 → 域路由 → 推荐物品`
-
-第一阶段用共享编码器和 RQ-VAE 学习通用 SID；第二阶段通过 LoRA 适配器学习域特定表示，并用 item-level 动态路由融合通用与域内表示。统一生成器先学习跨域兴趣，再进行域特定微调，使用前缀树约束生成完整 SID，直接得到物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 多域物品文本与用户交互 |
-| 信息融入位置 | SID 构建、LoRA 适配和生成输入 |
-| 语义标识结构 | 跨域共享的层次化序列 |
-| 适用场景 | 跨域序列推荐 |
-
-### 方法设计
-
-#### 3.1 问题定义与总体流程
-GenCDR 面向多个领域的跨域序列推荐，目标是使用共享 SID 建立可迁移的物品和用户兴趣空间。系统分为域自适应分词、跨域自回归推荐和域特定微调三部分。
-
-#### 3.2 域自适应分词
-通用编码器和 RQ-VAE 先从多域文本学习共享语义基础；每个领域再通过 LoRA 适配器补充领域特征。item-level 动态路由器以物品为单位融合通用表示和域特定表示，融合结果再量化为 SID。
-
-#### 3.3 跨域自回归推荐
-统一生成器把跨域历史 SID 作为输入，先学习域无关的兴趣模式。域特定适配阶段加入各领域 LoRA，使模型保留共享知识并适应领域差异。
-
-#### 3.4 训练与推理
-训练采用通用阶段和领域微调阶段。在线生成时使用前缀树约束，确保输出完整 SID 能对应目标领域中的真实物品。
-
-### 实验结论
-
-- GenCDR 在跨域推荐设置中改善了域内和迁移表现。
-- 动态路由和域特定 LoRA 有助于缓解负迁移。
-
-### 局限性与研究定位
-
-#### 局限性
-- 多适配器和路由网络增加部署管理成本。
-- 前缀树与域特定 SID 更新流程仍需更多工业验证。
-
-#### 研究定位
-GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由，适合放在“跨域语义标识生成”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2511.08006)
-
-### 标签
-
-`跨域推荐` · `自适应分词` · `动态路由` · `LoRA`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：自适应融合通用与域特定语义。
-- 使用场景：跨域推荐。
+- The prefix trees are built offline from the tokenizer output. This suggests that new items require re-tokenization and a tree rebuild.
+- VQ-Rec also transfers across domains (`Multi-Dom`), with `OPQ` codes and `Scoring`; GenCDR generates `RQ+LoRA` codes with a `Dec-Only` LLM.
 
 ### 5. Connections to Related Work
 

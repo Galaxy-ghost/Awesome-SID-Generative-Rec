@@ -1,75 +1,59 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/forge.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Key Findings: In online A/B tests on Taobao, SID construction strategies chosen from the benchmark findings increase transaction count by 0.35% (Abstract).
 
-### FORGE：工业数据集语义标识构建
+### 1. Why This Paper Matters
 
-> FORGE 面向大规模工业交互数据，融合多模态内容和协同关系构造、清洗并评估生成式检索所需的语义标识。
+Current studies offer limited investigation of how to construct Semantic IDs (SIDs), and their SID assessment usually needs costly generative retrieval (GR) training (Abstract). FORGE turns these choices into a benchmark.
 
-### 研究动机与问题定义
+> "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings." (Abstract)
 
-小规模公开数据集难以反映工业生成式检索中的多模态、长尾和标识碰撞问题。FORGE 提供大规模数据、SID 构建流程、碰撞后处理和生成式检索评估，重点考察标识质量对推荐的影响。
+Based on arXiv v3.
 
-### TL;DR（核心摘要）
+### 2. How It Works
 
-`多模态内容与协同关系 → RQ-VAE SID → 碰撞消解 → 生成式检索 → 推荐物品`
+*Figure source: Fig. 2, original paper.*
 
-文本和图像编码器提取内容表示，并以最相关的物品关系补充协同信息；RQ-VAE 生成多级 SID，随后使用碰撞处理和质量指标筛选。下游生成式检索模型直接生成 SID，SID 再映射到物品。
+```mermaid
+flowchart LR
+    A[Multimodal content] --> B[Item representation]
+    C[Co-occurrence pairs] --> B
+    B --> D[SID encoder]
+    D --> E[Collision post-processing]
+    E --> F[GR model]
+```
 
-### 输入与使用场景
+#### Item Representation
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 文本、图像、物品关系和用户交互 |
-| 信息融入位置 | SID 构建与生成式检索训练 |
-| 语义标识结构 | 多级离散序列 |
-| 适用场景 | 大规模工业生成式检索 |
+Items are encoded with CN-CLIP and fused with a QFormer (Sec. 3.1.1). An optional InfoNCE loss with positives from the item-to-item co-occurrence table adds user-behavior patterns (Sec. 3.1.1, Eq. 2).
 
-### 方法设计
+#### SID Encoding and Collision Post-Processing
 
-#### 3.1 SID 生成（SID Generation）
-FORGE 使用文本和图像语言模型提取物品多模态内容，并结合最具协同关系的物品信息。融合表示经过 RQ-VAE 量化为多级 SID，既保留内容语义，也纳入工业交互中的相似关系。
+The benchmark compares RQ-VAE with random assignment, multiple VQ, OPQ, and RQ-Kmeans (Sec. 3.1.2). KNN-based and random-based post-processing cap the number of items per SID (Sec. 3.1.3).
 
-#### 3.2 标识碰撞缓解（Alleviating ID Collisions）
-论文分析多个物品获得相同 SID 的情况，并通过碰撞后处理、码本分配和质量指标评估标识可用性。相关指标包括碰撞、分布均衡、生成命中和代码升级收敛等。
+#### Dynamic Beam Search
 
-#### 3.3 生成式检索（Generative Retrieval）
-SID 被作为生成式检索的目标序列，推荐模型直接预测 SID。论文同时讨论训练阶段和动态推理阶段，考察大规模工业交互下生成结果的有效性与泛化。
+The beam size is 300 at the first step, 600 at the second, and 1,200 at the final step (Sec. 3.2).
 
-#### 3.4 评估与工业分析
-实验把 SID 直接指标和下游推荐指标结合，并分析数据规模、模态组合、代码本升级和线上可用性。FORGE 的重点也包括工业数据资源与评估基准。
+#### SID Quality Metrics
 
-### 实验结论
+Embedding HitRate and the Gini coefficient measure SID quality without GR training (Sec. 3.4).
 
-- FORGE 的工业数据规模和交互密度显著高于常见公开基准。
-- SID 质量指标与生成式检索效果存在关联，碰撞处理能改善可用性。
+> "The Gini coefficient measures the deviation between a uniform SID distribution and the actual item distribution, where a lower value indicates a more balanced assignment." (Sec. 3.4)
 
-### 局限性与研究定位
+### 3. Experimental Findings
 
-#### 局限性
-- 工业数据和线上结果的可复现程度受数据开放范围限制。
-- 具体下游模型与完整线上延迟比较未统一报告。
+- Metrics: both metrics are strongly correlated with HR (Sec. 3.4, Sec. 4.2, Fig. 3).
 
-#### 研究定位
-FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程与评估。它适合放在“工业生成式检索与语义标识质量”章节。
+  > "Our experiments show that both metrics are strongly correlated with HR, thus enabling efficient SID evaluation without additional GR training." (Sec. 3.4)
 
-### 相关资源
+- Deployment: the strategies are deployed at full scale on Taobao (Abstract).
+- Dataset: AL-GR contains 14 billion interactions and 250 million items with multimodal features (Abstract).
 
-- [项目与数据资源](https://huggingface.co/AL-GR)
+### 4. Limitations & Critical Analysis
 
-### 标签
+**Our analysis.**
 
-`工业数据` · `多模态` · `SID优化` · `生成式检索`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：提供工业SID构建与评估流程。
-- 使用场景：工业生成式检索。
+- The metric-HR correlation is shown on the benchmark's data. This suggests that it should be re-checked before the metrics replace GR training on other catalogs.
+- A final beam of 1,200 suggests a high decoding cost.
+- OneRec uses `R-KM` codes and OneRec-V2 uses `R-KM†` codes; FORGE's base configuration uses `RQ-VAE` codes.

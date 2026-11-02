@@ -47,12 +47,6 @@ DAS optimizes quantization and collaborative alignment in one stage, with multi-
 - **Results from**: Table 1 (offline CTR AUC/UAUC/GAUC with SID feature variants); Table 2 (generative HR/NDCG for TIGER, TIGER+, TIGER++); Table 3 (dual-alignment ablation); Section 4.4 (online A/B: eCPM +3.48% overall, +8.98% in cold-start scenarios).
   - Source: CTR table: https://arxiv.org/html/2508.10584v2#S4.T1; generative table: https://arxiv.org/html/2508.10584v2#S4.T2; ablation: https://arxiv.org/html/2508.10584v2#S4.T3; online: https://arxiv.org/html/2508.10584v2#S4.SS4.p1 and https://arxiv.org/html/2508.10584v2#S4.SS4.p2.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-单阶段同时优化量化和协同对齐，让用户侧与广告侧的 SID 互相对齐。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [LETTER](letter.md): LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly in one stage and aligns user and ad SIDs dually.

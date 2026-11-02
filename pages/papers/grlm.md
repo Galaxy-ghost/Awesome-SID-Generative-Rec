@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2601.06798) · [Code](https://github.com/ZY0025/GRLM) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,10 +27,44 @@ GRLM identifies items by Term IDs, standardized textual keywords generated from 
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them, avoiding free-text hallucination and the vocabulary expansion of Semantic IDs. |
 | Modified Stage | Tokenization |
+| Limitation | A generated Term ID that matches no item is grounded by structural matching, so part of the final ranking comes from the grounding step, not from the generator (Sec. 3.3). |
+
+### 1. Why This Paper Matters
+
+Text-based item identifiers expose the large output space of an LLM, while Semantic IDs (SIDs) need costly vocabulary expansion and alignment training (Abstract). GRLM takes a middle path with standardized keywords.
+
+> "Text-based methods introduce LLMs' vast output space, leading to hallucination, while methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring costly vocabulary expansion and alignment training." (Abstract)
+
+Based on arXiv v1.
 
 ### 2. How It Works
 
 ![GRLM architecture diagram](../../architectures/grlm.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Item metadata] --> B[Term generation]
+    B --> C[Term IDs]
+    C --> D[Instruction fine-tuning]
+    D --> E[Generated Term ID]
+    E --> F[Grounding]
+```
+
+#### Context-Aware Term Generation
+
+Context-aware Term Generation converts item metadata into standardized Term IDs (TIDs) (Abstract).
+
+#### Integrative Instruction Fine-Tuning
+
+Integrative Instruction Fine-tuning optimizes term internalization and sequential recommendation together (Abstract).
+
+#### Elastic Identifier Grounding
+
+If no exact match exists, Elastic Identifier Grounding (EIG) scores items by structural matching, where the $`j`$-th generated term has weight $`w_j = \frac{1}{j+1}`$ (Sec. 3.3).
+
+> "By exploiting the decompositional nature of TIDs, EIG combines direct mapping with structural mapping to ground TIDs into actual items efficiently." (Sec. 1)
 
 ### 3. Experimental Findings
 
@@ -51,84 +85,17 @@ GRLM identifies items by Term IDs, standardized textual keywords generated from 
 - **Results from**: Table 2 (in-domain), Table 3 (cross-domain), Table 4 (ablations), Table 5 (Term ID validity), Appendix Tables 7-9 (ten-dataset results, Term ID length, vocabulary compression).
   - Source: Results: https://arxiv.org/html/2601.06798v1#S5.T2, https://arxiv.org/html/2601.06798v1#S5.T3, https://arxiv.org/html/2601.06798v1#S5.T4, https://arxiv.org/html/2601.06798v1#S5.T5, https://arxiv.org/html/2601.06798v1#A1.T7, https://arxiv.org/html/2601.06798v1#A2.T8, https://arxiv.org/html/2601.06798v1#A4.T9.
 
-## 旧卡片说明
+- Main comparison: GRLM reports better performance than the baselines in multiple scenarios (Abstract).
+- Scaling and hallucination: the authors state that TIDs scale well and reduce hallucination (Sec. 1).
 
-迁自 `d61aa6c:papers/grlm.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+  > "Moreover, through detailed analytical experiments, we provide evidence that our TID-based method exhibits robust scaling properties while significantly mitigating hallucination." (Sec. 1)
 
-### GRLM：基于结构化术语标识的原生 LLM 生成推荐
+### 4. Limitations & Critical Analysis
 
-> GRLM 用原生语言词表构造结构化 Term IDs，使 LLM 直接生成语义丰富的物品术语标识。
+**Our analysis.**
 
-### 研究动机与问题定义
-
-数值 SID 通常需要扩展词表和额外对齐，文本标识又容易出现同义词分裂和幻觉。GRLM 以原生 LLM token 构造 Term IDs，并通过邻域上下文提升一致性与区分性。
-
-### TL;DR（核心摘要）
-
-`物品元信息与相似邻域 → 上下文术语生成 → IIFT → Term ID生成 → EIG落地物品`
-
-上下文术语生成从相似物品邻域中抽取标准化且有区分度的关键词。IIFT 联合训练术语内化和用户行为预测；推理时生成 Term ID。若无法精确匹配，EIG 会对候选库进行结构化匹配评分，因此最终物品仍依赖外部标识落地机制。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品元信息、相似邻域和用户交互 |
-| 信息融入位置 | 术语生成、LLM 训练和候选落地 |
-| 语义标识结构 | 变长术语序列 |
-| 适用场景 | 跨域、长尾和文本信息丰富的推荐 |
-
-### 方法设计
-
-#### 3.1 上下文术语生成（CTG）
-GRLM 先用嵌入模型检索与目标物品相似的邻域，再把目标元信息和邻域元信息一起交给 LLM。提示要求共享属性使用一致术语，同时保留能区分相似物品的细粒度关键词，得到 Term ID。
-
-#### 3.2 综合指令微调（IIFT）
-IIFT 联合训练术语内化和用户行为序列预测。术语内化要求模型从元信息恢复标准 Term ID，行为任务则使用历史 Term ID 与标题预测后续物品，从而让 LLM 同时理解标识结构和用户偏好。
-
-#### 3.3 弹性标识落地（EIG）
-推理时先尝试 Term ID 的精确字符串匹配；若失败，再按术语位置和衰减权重对候选库进行结构化匹配评分。该后置步骤负责将生成的术语标识落到候选物品。
-
-#### 3.4 实验分析
-论文分别评估域内、跨域、消融、规模扩展和术语幻觉，分析上下文邻域对一致性、区分性和可落地性的影响。
-
-### 实验结论
-
-- GRLM 在域内和跨域设置中报告了较强推荐效果。
-- 上下文术语生成降低了标识碎片化与幻觉。
-- 论文报告了随模型规模扩大而提升的趋势。
-
-### 局限性与研究定位
-
-#### 局限性
-- EIG 的结构化匹配依赖候选库和后置评分，不是纯 SID 直达。
-- 术语生成、候选库更新和多级匹配增加工程复杂度。
-- 代码公开状态未报告。
-
-#### 研究定位
-GRLM 的主要贡献是利用 LLM 原生词表构造可解释 Term ID；它适合放在“文本标识与生成推荐”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2601.06798)
-
-### 标签
-
-`术语标识` · `上下文术语生成` · `LLM推荐` · `标识落地`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 检索方式补充
-
-迁自 `d61aa6c:tables/boundary-and-excluded-methods.md` 的机制说明。
-
-Term ID 无法精确匹配时，仍通过候选库结构化评分完成物品落地。
-
-旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
+- TIGER adds `RQ-VAE` codes as new tokens; GRLM uses `Term-ID` words already in the vocabulary.
+- IDGenRec also uses vocabulary words (`LLM-Vocab`) but updates its ID generator during training (`Altern.`); GRLM generates its TIDs once.
 
 ### 5. Connections to Related Work
 

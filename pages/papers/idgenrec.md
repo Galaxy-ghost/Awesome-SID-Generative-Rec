@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,10 +28,48 @@ IDGenRec trains a textual ID generator alongside an LLM recommender, so each ite
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language tokens, and tests zero-shot transfer to unseen platforms. |
 | Modified Stage | Tokenization |
+| Limitation | Item IDs change whenever the ID generator is updated, so the prefix tree of valid IDs must be rebuilt during training (Sec. 2.4). |
+
+### 1. Why This Paper Matters
+
+The authors state that generative recommendation struggles to encode items in the text-to-text framework with concise yet meaningful IDs (Abstract). Because IDGenRec's IDs are plain words, user histories become platform-agnostic text, which opens zero-shot transfer (Abstract).
+
+> "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![IDGenRec architecture diagram](../../architectures/idgenrec.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Item metadata] --> B[ID generator]
+    B --> C[Textual IDs]
+    C --> D[Base recommender]
+    D --> E[Prefix tree]
+    E --> F[Item]
+```
+
+#### ID Generator
+
+The generator reads plain-text item information, such as title, category, price, description, creation time, popularity, and location (Sec. 2.2). T5 is the backbone of both models (Sec. 2.6).
+
+#### Unique ID Generation
+
+The generator keeps generating until each item has a unique ID (Sec. 2.3).
+
+> "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search." (Sec. 2.3)
+
+The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
+
+#### Base Recommender
+
+The base recommender decodes the target ID under a prefix-tree constraint (Sec. 2.4).
+
+> "To ensure that the decoded ID corresponds to an actual existing item, we adopt a constrained sequence decoding strategy (De Cao et al., 2020). More specifically, a prefix tree is used to store all generated candidate IDs." (Sec. 2.4)
 
 ### 3. Experimental Findings
 
@@ -52,82 +90,15 @@ IDGenRec trains a textual ID generator alongside an LLM recommender, so each ite
 - **Results from**: Table 4 (standard evaluation versus traditional and P5-variant baselines); Table 5 (training strategies); Table 6 (user and item IDs); Table 7 (zero-shot intra- and inter-platform).
   - Source: Standard: https://arxiv.org/html/2403.19021v2#S3.T4; training strategies: https://arxiv.org/html/2403.19021v2#S3.T5; user/item IDs: https://arxiv.org/html/2403.19021v2#S3.T6; zero-shot: https://arxiv.org/html/2403.19021v2#S3.T7.
 
-## 旧卡片说明
+- Standard setting: IDGenRec reports better performance than existing models in sequential recommendation (Abstract).
+- Zero-shot setting: a model trained on 19 datasets and tested on 6 unseen datasets from other platforms performs comparably to or better than some supervised traditional recommenders (Abstract).
 
-迁自 `d61aa6c:papers/idgenrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### IDGenRec：文本 ID 学习的 LLM-推荐系统对齐
+**Our analysis.**
 
-> IDGenRec 同时学习物品文本 ID 和推荐生成器，使 LLM 能直接生成可识别的目标物品 ID。
-
-### 研究动机与问题定义
-
-随机 ID 难以利用 LLM 的语言知识，直接使用长文本又会造成冗余和幻觉。IDGenRec 将物品元信息压缩为文本 ID，并让这些 ID 与推荐器共同适配。
-
-### TL;DR（核心摘要）
-
-`物品元信息 → ID生成器 → 文本ID → 推荐提示 → 基础推荐器 → 目标ID`
-
-ID 生成器从标题、类别、价格等元信息生成简短 token 序列，并用多样束搜索减少重复。基础推荐器接收用户历史中的文本 ID，通过前缀树约束直接生成目标 ID；两者交替训练，生成结果可映射到物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品元信息、用户交互和推荐目标 |
-| 信息融入位置 | ID 生成、提示输入和交替训练目标 |
-| 语义标识结构 | 变长文本 token 序列 |
-| 适用场景 | 序列推荐和零样本扩展 |
-
-### 方法设计
-
-#### 2.1 生成过程
-旧卡片的速览将 ID 生成器和基础推荐器都记为 T5 编码器-解码器。IDGenRec 把物品元信息转成简短文本 ID，再将用户历史中的物品替换为这些 ID，填入推荐提示。基础推荐器以提示和历史 ID 为条件，逐 token 生成目标物品 ID。
-
-#### 2.2 ID 生成器
-ID 生成器读取标题、类别、价格、描述等 plain text，输出短而具有区分性的 token 序列。它使用语言模型的文本知识进行压缩，不要求扩展为独立数值词表。
-
-#### 2.3 多样 ID 生成
-为减少不同物品获得相同 ID，论文使用多样束搜索，逐步提高多样性惩罚；必要时增加 ID 长度。生成过程维护已分配 ID 集合，直到获得可区分标识。
-
-#### 2.4 基础推荐器与交替训练
-基础推荐器使用前缀树进行约束解码，确保目标 ID 对应真实物品。ID 生成器和推荐器交替更新：前者学习可被推荐器使用的 ID，后者学习根据当前 ID 预测下一物品。
-
-### 实验结论
-
-- IDGenRec 在标准序列推荐和零样本设置中均展示了生成能力。
-- 交替训练改善了文本 ID 与推荐器之间的可用性。
-
-### 局限性与研究定位
-
-#### 局限性
-- ID 生成器和基础推荐器构成双模型流程，训练成本更高。
-- 前缀树与多样束搜索需要维护候选 ID 库。
-- 最终泛化受元信息质量影响。
-
-#### 研究定位
-IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，适合放在“文本化物品标识与 LLM 对齐”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2403.19021)
-
-### 标签
-
-`文本ID` · `交替训练` · `LLM对齐` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：以文本ID对齐LLM与推荐器。
-- 使用场景：序列推荐。
+- Unique IDs come from raising the diversity penalty and the length limit. This suggests that IDs of similar items can be pushed apart by arbitrary words.
+- CID builds `Spectral Clus.` IDs from `CF` signals and keeps them fixed; IDGenRec builds `LLM-Vocab` IDs from text and updates them.
 
 ### 5. Connections to Related Work
 
