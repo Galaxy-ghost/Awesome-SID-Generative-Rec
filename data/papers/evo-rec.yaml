@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: CoT+C-Beam
 poi: false
 summary: 提出推理效用筛选和基于 SID 排名的 GRPO，完整约束 SID 解码。
+tldr: Evo-Rec aligns Semantic IDs with text and behavior, fine-tunes on sampled reasoning traces that improve target prediction,
+  and then refines reasoning with catalog-constrained reinforcement learning.
 setup:
   datasets: Amazon Video Games, Office Products, Industrial and Scientific; 5-core filtering.
   split: Per-user chronological 80%/10%/10% training/validation/test; sliding histories capped at 10.

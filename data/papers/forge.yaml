@@ -17,6 +17,8 @@ objective: NTP
 inference: Dyn. Beam
 poi: false
 summary: 'Abstract: "their SID assessment typically relies on costly GR training".'
+tldr: 'FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies,
+  adds metrics that assess IDs without generator training, and releases Taobao data.'
 evidence:
 - field: problem
   where: https://arxiv.org/html/2509.20904v3#abstract1

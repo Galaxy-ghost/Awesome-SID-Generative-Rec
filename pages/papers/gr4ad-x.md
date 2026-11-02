@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.38378) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,11 +19,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP + PV-RSPO + Rank + Aux.`: Next-token prediction jointly optimized with prefix-value RSPO, ranking, and auxiliary objectives.
 - `PV-Beam+Rerank`: Prefix-value-guided beam search followed by reranking.
 
+### TL;DR
+
+GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Key Contribution | GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking. |
 | Modified Stage | Tokenization |
 
 ### 3. Experimental Findings

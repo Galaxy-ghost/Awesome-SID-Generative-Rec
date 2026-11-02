@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2602.11719) · [Code](https://github.com/cxfann/UGR) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -16,11 +16,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → (RL + Rank)`: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
 
+### TL;DR
+
+UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization, and explicit confidence alignment, instead of rewards based only on binary outcome correctness.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Key Contribution | UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization, and explicit confidence alignment, instead of rewards based only on binary outcome correctness. |
 | Modified Stage | Training |
 
 ### 3. Experimental Findings

@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2512.02474) · [Matrix](../../README.md#i--representation)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -15,11 +15,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
 
+### TL;DR
+
+Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies. |
 | Modified Stage | Representation |
 
 ### 3. Experimental Findings

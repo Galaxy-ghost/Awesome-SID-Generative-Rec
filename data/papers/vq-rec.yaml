@@ -17,6 +17,8 @@ objective: Discrim.
 inference: Scoring
 poi: false
 summary: 'Abstract: "exaggerating the negative impact of domain gap".'
+tldr: VQ-Rec maps item text to discrete codes and looks up code embeddings as item representations, with contrastive pre-training
+  and cross-domain fine-tuning, to loosen the binding between text and representation.
 evidence:
 - field: problem
   where: 'https://arxiv.org/html/2210.12316v2#S1.p3 (Introduction: text representations and domain gap)'

@@ -17,6 +17,8 @@ objective: NTP† / NTP → RL
 inference: CF-Guided C-Beam
 poi: false
 summary: 提出不重训生成器的 SID 推理新算法，属于方法设计。
+tldr: TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds
+  them, gated by confidence, to path scores before beam pruning, without retraining.
 setup:
   datasets: 'Amazon Reviews 2023 Industrial and Scientific, Musical Instruments, Office Products: official 5-core, no extra
     rating thresholds/deduplication. Yelp Kaggle v2, 2019 window, all ratings implicit, iterative 5-core.'

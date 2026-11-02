@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2605.05249) · [Matrix](../../README.md#i--representation)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Multi-task NTP`: The same NTP loss over several tasks.
 - `C-Beam`: Constrained beam search.
 
+### TL;DR
+
+TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss. |
 | Modified Stage | Representation |
 
 ### 3. Experimental Findings

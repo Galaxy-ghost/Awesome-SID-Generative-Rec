@@ -25,6 +25,8 @@ summary: 'LLM-based generative recommendation reads long, text-rich interaction 
   processing the shared history once and propagating gradients from every branch for end-to-end training. A tree-structured
   key/value cache extends history sharing to constrained decoding. Experiments on public benchmarks show that M&B outperforms
   strong recommendation baselines while substantially improving training and decoding efficiency.'
+tldr: Merge-and-Branch compresses each history item's Semantic ID and text into few learned tokens and predicts several target
+  IDs from one shared history in a tree layout, reducing fine-tuning cost.
 setup:
   datasets: Amazon 2014 5-core Beauty, Sports and Outdoors, Toys and Games.
   split: Per-user chronological last/penultimate interactions test/validation; earlier interactions training. Main M&B result

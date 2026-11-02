@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 明确完整端到端工业系统且多组件共同构成贡献；SID 为语义簇，再由 materialization 映射具体视频。
+tldr: SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them
+  by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.
 setup:
   datasets: Internal Snapchat short-video engagement logs and multimodal video corpus; dataset size and filtering rules not
     reported. Up to 10 future items/request supply evaluation targets.

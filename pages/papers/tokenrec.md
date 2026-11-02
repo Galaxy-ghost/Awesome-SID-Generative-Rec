@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -16,11 +16,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
 
+### TL;DR
+
+TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items. |
 | Modified Stage | Tokenization |
 
 ### 2. How It Works

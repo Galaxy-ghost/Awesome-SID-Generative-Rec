@@ -31,6 +31,8 @@ summary: Semantic-ID-based generative recommendation unifies retrieval and ranki
   industrial behavior histories, it introduces gated convolutional denoising to suppress noise and adapts the pyramid memory
   funnel to reduce inference cost. Offline experiments on a large-scale Lazada dataset show significant gains over OneRec,
   UniRec, and UniSGR. Online A/B testing improves IPV, Order, and GMV by 0.79%, 5.55%, and 3.09%, respectively.
+tldr: UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic
+  prefix and user behavior inside the decoder, using it for generation and ranking.
 setup:
   datasets: 'Lazada recommendation logs with impression, click, add-to-cart and pay behaviors; training: 2.42 billion samples,
     6.46 million users, 7.53 million items.'

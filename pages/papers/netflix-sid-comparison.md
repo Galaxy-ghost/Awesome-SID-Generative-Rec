@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.15864) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -18,11 +18,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT`: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task reinforcement learning follows supervised fine-tuning.
 - `C-Beam / Scoring`: Constrained beam search or direct item scoring, depending on the configuration.
 
+### TL;DR
+
+Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Key Contribution | Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost. |
 | Modified Stage | No single stage |
 
 ### 3. Experimental Findings

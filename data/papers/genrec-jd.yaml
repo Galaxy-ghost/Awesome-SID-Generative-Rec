@@ -18,6 +18,8 @@ inference: Beam
 poi: false
 summary: 'Abstract: "aligning the generative policy with nuanced user preference signals". Candidates: IV / V (rule: IV threshold:
   a flawed training objective counts).'
+tldr: GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with
+  a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.14878v1#abstract1

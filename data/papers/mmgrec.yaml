@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "this paradigm suffers from inference cost, interaction modeling, and false-negative issues". Candidates:
   I / V (rule: complaint fits none of the six classes; judged by the new design).'
+tldr: MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer
+  with relation-aware self-attention to generate it, instead of embed-and-retrieve.
 evidence:
 - field: problem
   where: 'Abstract, arXiv v4: https://arxiv.org/html/2404.16555v4#abstract1.1'

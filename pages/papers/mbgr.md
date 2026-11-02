@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2604.02684) · [Matrix](../../README.md#vi--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `C-Beam`: Constrained beam search.
 
+### TL;DR
+
+MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Key Contribution | MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space. |
 | Modified Stage | Tokenization |
 
 ### 3. Experimental Findings

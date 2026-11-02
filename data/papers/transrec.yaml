@@ -17,6 +17,8 @@ objective: NTP
 inference: FM-Index+Agg.
 poi: false
 summary: 'Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".'
+tldr: TransRec indexes items with multi-facet identifiers combining ID, title, and attributes, constrains generation with
+  FM-index substring indexing, and aggregates generated identifiers to rank catalog items.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2310.06491v2#abstract1 (Abstract; first limitation excerpt)

@@ -30,6 +30,8 @@ summary: 'Generative recommendation (GR) reformulates item retrieval as autoregr
   beam pruning, and discriminative reranking within a unified model. Large-scale online A/B tests on the Kuaishou advertising
   platform demonstrate that GR4AD-X achieves a cumulative revenue improvement of 3.07% over the deployed GR4AD baseline while
   satisfying strict latency and throughput constraints.'
+tldr: GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper
+  backbones, and value-guided generation with beam pruning and discriminative reranking.
 setup:
   datasets: Kuaishou production advertising; 7.556M advertisement embeddings in the SID analysis. Dates and filtering rules
     not reported.

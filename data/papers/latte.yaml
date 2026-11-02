@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "making it difficult to distinguish among them based on user-specific preferences".'
+tldr: Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees,
+  to relax the probability coupling between items that are close in the tree.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2605.06331v1#abstract1

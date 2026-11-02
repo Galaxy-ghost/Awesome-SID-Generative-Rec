@@ -17,6 +17,8 @@ objective: NTP + Ctr.
 inference: Beam
 poi: false
 summary: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
+tldr: ETEGRec trains the item tokenizer and the generator in alternation with sequence-item and preference-semantic alignment
+  losses, instead of building the tokenizer separately before generator training.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2409.05546v3#abstract1

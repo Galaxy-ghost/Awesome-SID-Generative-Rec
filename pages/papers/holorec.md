@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2606.15331) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -18,11 +18,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 
+### TL;DR
+
+HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Key Contribution | HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales. |
 | Modified Stage | Tokenization |
 
 ### 3. Experimental Findings

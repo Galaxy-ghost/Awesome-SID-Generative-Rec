@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.17368) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -18,11 +18,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `–`: Not reported in the paper.
 
+### TL;DR
+
+HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Key Contribution | HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective. |
 | Modified Stage | Training |
 
 ### 3. Experimental Findings

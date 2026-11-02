@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "their lack of collaborative signals results in a misalignment"; "inevitable information loss during alignment".'
+tldr: DAS optimizes quantization and collaborative alignment in one stage, with multi-view contrastive alignment and dual
+  quantization of users and ads, instead of two-stage alignment that loses information.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2508.10584v2#abstract1

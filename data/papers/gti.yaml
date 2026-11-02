@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: –
 poi: false
 summary: 提出明确可复用的词嵌入 grounding 训练阶段，并在真实离散 RQ-VAE SID 推荐中验证。
+tldr: GTI maps new Semantic ID tokens to distinct locations in the pretrained embedding space with paired linguistic supervision
+  before fine-tuning, instead of initializing them as the mean of existing embeddings.
 setup:
   datasets: Industrial recruitment pairs (good matches for SFT; profiles require at least one listed attribute); Vibrent rentals;
     other filtering not reported.

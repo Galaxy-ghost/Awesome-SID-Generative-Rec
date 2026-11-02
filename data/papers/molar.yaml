@@ -18,6 +18,8 @@ inference: Scoring
 poi: false
 summary: 'Abstract: "inherently lack collaborative filtering information, relying primarily on textual content data neglecting
   other modalities".'
+tldr: Molar builds item representations from text and images with a multimodal LLM and aligns its user representations with
+  an ID-based model, to add collaborative signals that LLM recommenders lack.
 evidence:
 - field: problem
   where: 'Abstract, CF and modality limitations (fragment), arXiv v2: https://arxiv.org/html/2412.18176v2#abstract1.1'

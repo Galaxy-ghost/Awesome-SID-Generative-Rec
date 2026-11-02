@@ -17,6 +17,8 @@ objective: Discrim.
 inference: Scoring
 poi: false
 summary: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
+tldr: PSRQ generates modality-specific and modality-joint Semantic IDs that preserve prefix semantic features and models music
+  interests with multi-codebook cross-attention, to reduce semantic drift in residual quantization.
 evidence:
 - field: problem
   where: 'PSRQ v1, Abstract, first limitation, quoted phrase: https://arxiv.org/html/2508.20359v1#abstract1'

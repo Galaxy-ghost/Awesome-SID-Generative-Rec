@@ -18,6 +18,8 @@ inference: Diff.
 poi: false
 summary: 'Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early
   tokens to propagate".'
+tldr: LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level
+  masking, and an adapted beam search, instead of left-to-right autoregressive decoding.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.06254v1#abstract1

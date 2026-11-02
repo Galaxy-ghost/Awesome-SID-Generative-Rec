@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2503.02453) · [Matrix](../../README.md#i--backbone)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Dense`: NTP plus dense-vector prediction.
 
+### TL;DR
+
+COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores. |
 | Modified Stage | Backbone |
 
 ### 3. Experimental Findings

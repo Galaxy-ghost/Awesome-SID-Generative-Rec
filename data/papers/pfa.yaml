@@ -32,6 +32,8 @@ summary: 'Long user behavioral sequences improve the performance of generative r
   outperforms state-of-the-art baselines. A 7-day online A/B test on a large-scale e-commerce advertising platform further
   confirms that PFA delivers substantial business gains while maintaining low inference latency. Our code is publicly available
   at https://anonymous.4open.science/r/PFA-review-088D.'
+tldr: PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink
+  the attended history at later steps, accelerating long-sequence generative decoding.
 setup:
   datasets: Amazon 2023 Kindle Store (rating>=4, users>=128 positives); Tmall IJCAI-15 clicks; industrial advertising clicks.
     Click data retain earliest repeated user-item event; public items require >=5 training-instance occurrences, removing

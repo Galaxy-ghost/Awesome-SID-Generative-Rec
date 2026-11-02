@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: C-Beam
 poi: true
 summary: 四 token 位置编号是 next-location 生成目标，语义构码与文本双向对齐有明确全文证据。
+tldr: QT-Mob tokenizes locations into compact semantic tokens and fine-tunes an LLM with complementary objectives that align
+  the tokens with its representations, for next-location prediction and mobility recovery.
 setup:
   datasets: Foursquare NYC/SG, April 2012-February 2013; Singapore cellular trajectories, November 2022, using 400m grids.
     Remove locations with <5 visits; group records into 24h trajectories and discard trajectories with <3 records.

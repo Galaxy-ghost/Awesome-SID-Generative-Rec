@@ -17,6 +17,8 @@ objective: MTP + Aux.
 inference: Scoring
 poi: false
 summary: 提出离散 SimHash SID 的完整生成推荐新设计。
+tldr: FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the
+  weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
 setup:
   datasets: Amazon Beauty, Toys and Games, Sports and Outdoors, CDs and Vinyl; users/items with fewer than 5 interactions
     removed.

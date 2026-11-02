@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam†
 poi: false
 summary: 'Abstract: "require training separate models for each item domain, limiting generalization".'
+tldr: UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks,
+  calibrating mutual information across domains, instead of one tokenizer per domain.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.12922v1#abstract1 (Abstract)

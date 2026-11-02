@@ -17,6 +17,8 @@ objective: NTP
 inference: Div. Beam
 poi: false
 summary: 生成关系路径及终端 SID，逆 SID lookup 确定物品。
+tldr: SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding
+  with shared item tokens instead of opaque tokens tied to embedding tables.
 setup:
   datasets: 'KG-enriched MovieLens-1M from RecBole (2984 items); Onion (18415 tracks): LFM-2B March-May 2018 interactions
     plus music content and artist/genre/album/tag KG, iteratively filtered to 20-core. Additional ML-1M filtering: not reported.'

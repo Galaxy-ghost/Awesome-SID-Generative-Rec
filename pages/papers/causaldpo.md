@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) · [Matrix](../../README.md#vi--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -16,11 +16,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
 
+### TL;DR
+
+CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Key Contribution | CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift. |
 | Modified Stage | Training |
 
 ### 3. Experimental Findings

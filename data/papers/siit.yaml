@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "may not align with the LLM''s internal pretrained tokenization schema".'
+tldr: SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns
+  during training, so tokenization matches the LLM's internal item understanding.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2412.17171v1#abstract1 (Abstract; excerpt)

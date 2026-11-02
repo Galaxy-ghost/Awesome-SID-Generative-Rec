@@ -18,6 +18,8 @@ objective: NTP†
 inference: Beam†
 poi: false
 summary: 有 SID 生成推荐下游和线上验证，区别于 MERGE 只做传统检索。
+tldr: Dynamic-Single-Codebook replaces multi-level residual codes with one token from a large single-level codebook plus a
+  collaborative disambiguation token, and updates the codebook as exposure changes.
 setup:
   datasets: Amazon Beauty 2014; KuaiRec 2.0 Big Matrix, watch_ratio>=1 and users with >=5 retained events; industrial data.
     Other filters not reported.

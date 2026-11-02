@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "token-item misalignment"; "semantic-collaborative signal entanglement". Candidates: I / III (rule: tie
   broken by the title).'
+tldr: DiscRec adds item-level position embeddings and splits semantic and collaborative signals into two gated branches, one
+  with attention inside each item, instead of fusing them in one embedding space.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2506.15576v2#abstract1

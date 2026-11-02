@@ -19,6 +19,8 @@ poi: true
 summary: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships";
   "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new
   designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
+tldr: GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and
+  iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning.
 evidence:
 - field: problem
   where: arXiv:2602.10411v2, title and abstract

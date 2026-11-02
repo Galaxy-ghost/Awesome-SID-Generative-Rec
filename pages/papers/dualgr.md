@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2511.12518) · [Matrix](../../README.md#vi--backbone)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,11 +19,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP + Rank`: NTP plus a ranking loss.
 - `Dual Beam`: Beam-search decoding in two branches with merged candidates.
 
+### TL;DR
+
+DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Key Contribution | DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training. |
 | Modified Stage | Backbone |
 
 ### 3. Experimental Findings

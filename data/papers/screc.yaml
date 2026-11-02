@@ -18,6 +18,8 @@ inference: Scoring / Beam†
 poi: false
 summary: 'Abstract: "item tokenization is largely dominated by textual semantics with limited incorporation of collaborative
   signals"; "the generation stage tends to overlook the original semantic information".'
+tldr: SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable
+  code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2609.13678v1#abstract1 (Abstract)

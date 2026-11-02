@@ -28,6 +28,8 @@ summary: Semantic ID (SID)-based generative recommendation retrieves items throu
   across SID levels. In a 7-day online A/B test, SPAR serves 10% of Youku's production traffic and improves average watch
   time per user by 3.95% and play conversion rate by 3.38%. These results demonstrate more reliable hierarchical decoding,
   balanced SID branches, and improved user engagement in industrial recommendation.
+tldr: SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence from compressed user memory and balances
+  interaction loads among sibling branches with RQ-PIB, to reduce branch errors and popularity bias.
 setup:
   datasets: Youku homepage production playback logs spanning several months; daily DPO uses recent request contexts. Dataset
     size, dates and filtering not reported.

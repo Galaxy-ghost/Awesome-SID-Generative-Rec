@@ -18,6 +18,8 @@ inference: Scoring
 poi: false
 summary: 'Abstract: "significantly undermining the generalization capability of LLM-based generative recommendation methods
   in out of distribution (OOD) scenarios".'
+tldr: CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments,
+  and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
 evidence:
 - field: problem
   where: arXiv:2603.22335v2, abstract

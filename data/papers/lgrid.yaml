@@ -19,6 +19,8 @@ poi: true
 summary: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization,
   degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes
   (I). The interpretability complaint fits none of the six problems.'
+tldr: LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes
+  the two streams separately, instead of quantizing one entangled representation.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2607.27944v1#abstract1

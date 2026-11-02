@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: PRM-Beam
 poi: false
 summary: 'Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".'
+tldr: PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches
+  with it, to correct early-token semantic drift and scale with inference compute.
 evidence:
 - field: problem
   where: 'PROMISE v1, Abstract, quoted clause: https://arxiv.org/html/2601.04674v1#abstract1'

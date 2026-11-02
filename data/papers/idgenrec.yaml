@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".'
+tldr: IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language
+  tokens, and tests zero-shot transfer to unseen platforms.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2403.19021v2#abstract1

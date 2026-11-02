@@ -28,6 +28,8 @@ summary: Semantic ID-based recommendation represents each item as a sequence of 
   separate encoders for different semantic-level histories with the same total parameter count to reduce encoder computation.
   Extensive experiments across three public datasets and three tokenizers demonstrate the recommendation effectiveness of
   LESSRec and LESSRec+, with efficiency analyses highlighting the computational benefits of LESSRec+.
+tldr: LESSRec encodes the history separately at each Semantic ID level and restricts attention to the target token's level,
+  adding an item-level semantic sequence, instead of attending to all levels.
 setup:
   datasets: Amazon Reviews 2023 Games/Software and earlier Amazon Beauty; iterative user/item 5-core filtering; histories
     capped at 20 items.

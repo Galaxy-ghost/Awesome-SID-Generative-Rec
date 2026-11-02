@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: C-Beam
 poi: false
 summary: End-to-end paradigm or benchmark using R-KM tokenization and Dec-Only backbone.
+tldr: NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained
+  decoding, to unify search, recommendation, and reasoning without tools.
 setup:
   datasets: 'Industrial media logs: >10M episodes, shows, audiobooks and artists; about 15M users; 5M grounding examples,
     10M instruction-training examples, 100K test examples. Filtering not reported.'

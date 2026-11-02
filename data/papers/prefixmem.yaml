@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 给固定SID码位加入前缀条件记忆表示，让生成器识别同一码在不同前缀下的含义。
+tldr: PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets
+  a prefix-conditioned representation instead of a plain vocabulary embedding.
 setup:
   datasets: 'Pinterest: about 10M engagement subsequences (<=32 events), 240M item occurrences, tens of millions of unique
     items. Filtering rules not reported.'

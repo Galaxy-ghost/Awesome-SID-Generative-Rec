@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: Beam
 poi: false
 summary: 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。
+tldr: LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation
+  loss, instead of updating all shared parameters on streaming interactions.
 setup:
   datasets: Amazon Games, CDs, and Toys; next-item samples with at most 10 previous interactions. Filtering rules not reported.
   split: Target timestamps define five equal-count chronological periods P0-P4; adapt through each period and evaluate the

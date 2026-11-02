@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "provides insufficient supervision for heterogeneous fusion"; "non-uniform embeddings lead to codeword
   imbalance and generation bias". Candidates: I / II (rule: tie broken by the title).'
+tldr: CARD fuses text, image, and collaborative signals into a visual semantic unit before encoding and quantizes it with
+  NU-RQ-VAE, whose learnable non-uniform transformation balances skewed embeddings.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.26427v1#abstract1

@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: Beam
 poi: false
 summary: 'Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".'
+tldr: GREAM adapts an LLM into a reasoning recommender with collaborative-semantic item indices, a chain-of-thought curriculum,
+  and SRPO post-training, and supports direct and reasoning-first inference modes.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2510.20815v1#abstract1

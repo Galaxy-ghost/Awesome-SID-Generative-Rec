@@ -17,6 +17,8 @@ objective: NTP → DPO
 inference: C-Beam
 poi: false
 summary: 'Abstract: "GR decodes over compact SID tokens without item-side signal".'
+tldr: UniRec prefixes each Semantic ID with category, seller, and brand tokens through Chain-of-Attribute, to recover the
+  item-side feature crossing of discriminative models, and adds capacity-constrained quantization.
 evidence:
 - field: problem
   where: 'https://arxiv.org/html/2604.12234v1#S1.p2 (Introduction: expressive gap and missing item-side signals)'

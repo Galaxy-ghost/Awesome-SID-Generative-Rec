@@ -17,6 +17,8 @@ objective: NTP → (RL + Rank)
 inference: Beam
 poi: false
 summary: 提出 SID 推荐专属不确定性对齐目标，完整生成 SID 并以置信度支持风险应用。
+tldr: UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization,
+  and explicit confidence alignment, instead of rewards based only on binary outcome correctness.
 setup:
   datasets: Amazon Office (2016.10-2018.11), Industrial and Scientific (1996.10-2018.11), Yelp (2018.05-2018.11); user/item
     5-core filtering, histories capped at 10.

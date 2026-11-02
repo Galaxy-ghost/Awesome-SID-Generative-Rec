@@ -19,6 +19,8 @@ poi: true
 summary: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep
   understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing
   reasoning does not form a problem of its own.'
+tldr: Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages
+  by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2607.28997v1#abstract1 (Abstract; author excerpt and organizer classification)

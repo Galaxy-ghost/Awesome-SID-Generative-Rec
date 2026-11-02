@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".'
+tldr: PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training
+  on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.
 evidence:
 - field: problem
   where: 'PLUM v1, Abstract, quoted clause: https://arxiv.org/html/2510.07784v1#abstract1'

@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".'
+tldr: UTGRec builds a universal item tokenizer from a multimodal LLM with tree-structured codebooks, text and image reconstruction,
+  and co-occurrence alignment, and pre-trains a generator that transfers across domains.
 evidence:
 - field: problem
   where: 'https://arxiv.org/html/2504.04405v3#S1.p3 (Introduction: domain-specific tokenizers and transfer)'

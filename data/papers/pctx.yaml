@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam+Agg.
 poi: false
 summary: 提出上下文感知 SID 编号器及多面概率聚合。
+tldr: Pctx tokenizes each item with the user's interaction history as context, so the same item can receive different Semantic
+  IDs for different users, instead of one static item-only mapping.
 setup:
   datasets: 'Amazon Reviews 2023: Musical Instruments, Industrial & Scientific, Video Games; exclude users/items with fewer
     than five interactions; chronological histories capped at 20 items.'

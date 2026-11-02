@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "neglecting the value of integrating the target behavior type into the learning objective".'
+tldr: MBGen interleaves behavior tokens and item tokens in one sequence, predicts the next behavior type and then the next
+  item, and scales with a position-routed sparse architecture.
 evidence:
 - field: problem
   where: 'Abstract, arXiv v1: https://arxiv.org/html/2405.16871v1#abstract1.1'

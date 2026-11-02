@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,11 +19,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `Div. Beam`: Beam search with an explicit diversity mechanism.
 
+### TL;DR
+
+SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables. |
 | Modified Stage | Tokenization |
 
 ### 3. Experimental Findings

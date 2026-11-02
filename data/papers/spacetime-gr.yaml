@@ -17,6 +17,8 @@ objective: NTP → DPO
 inference: Beam
 poi: true
 summary: 工业版本以二元地理标识生成完整POI，映射原文明确一一对应；表值限生成推荐分支。
+tldr: Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal context into action sequences, adds multimodal
+  POI embeddings, and post-trains for embeddings, ranking scores, and candidates.
 setup:
   datasets: One year of sampled Amap actions; predict interest-based actions, discard sequences with distinct-POI/action ratio
     <0.3. Public Foursquare-NYC/TKY and Gowalla-CA follow STHGCN preprocessing, not detailed here.

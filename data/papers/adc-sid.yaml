@@ -18,6 +18,8 @@ inference: –
 poi: false
 summary: 'Abstract: "leading to the loss of critical multimodal information". The arXiv API abstract is truncated; judged
   on the visible part.'
+tldr: ADC-SID adds collaborative information to Semantic ID quantization with alignment strength that adapts to collaborative
+  noise and learned weights for behavioral IDs, instead of uniform alignment and equal weights.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2510.25622v3#abstract1

@@ -17,6 +17,8 @@ objective: NTP → DPO
 inference: Beam† / –
 poi: false
 summary: 评论 SID 作为上下文与生成监督，目标仍是物品 SID，属于新推荐训练设计。
+tldr: RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in the user sequence and uses DPO to favor
+  item tokens at prediction positions, instead of modeling item-only sequences.
 setup:
   datasets: Amazon Beauty, Sports and Outdoors, Toys and Games, with historical review text; remove users/items with fewer
     than five interactions; maximum history 20, truncating oldest interactions.

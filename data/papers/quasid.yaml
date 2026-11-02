@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam†
 poi: false
 summary: 'Abstract: "Collision problem".'
+tldr: QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds
+  a dual-tower contrastive objective, instead of treating all collisions equally.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.00632v1#abstract1 (Abstract)

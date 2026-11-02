@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unified SID space causes". Candidates: VI / II (rule:
   judged by the abstract''s complaint first).'
+tldr: MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation,
+  to avoid a seesaw between businesses that share one ID space.
 evidence:
 - field: problem
   where: 'Abstract, first listed challenge (fragment), arXiv v1: https://arxiv.org/html/2604.02684v1#abstract1.1'

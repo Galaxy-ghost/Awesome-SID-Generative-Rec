@@ -28,6 +28,8 @@ summary: Generative recommendation formulates item recommendation as autoregress
   a representative encoder-decoder baseline, LoopGR achieves superior performance while reducing model size by up to 52%.
   These results establish recurrent depth as a new scaling dimension, offering a flexible and resource-efficient scaling path
   for generative recommendation.
+tldr: LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills
+  a low-budget student, to scale computation without proportionally growing model size.
 setup:
   datasets: Amazon Reviews 2014 Beauty, Sports and Outdoors, CDs and Vinyl; Tencent industrial data. Filtering and industrial
     dataset statistics not reported.

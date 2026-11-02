@@ -18,6 +18,8 @@ inference: CoT
 poi: false
 summary: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule:
   lack of reasoning is not a class of its own).'
+tldr: OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding,
+  and a recommendation reward for multiple valid targets, instead of implicit prediction alone.
 evidence:
 - field: problem
   where: 'OneRec-Think v2, Abstract, quoted clause: https://arxiv.org/html/2510.11639v2#abstract1'

@@ -17,6 +17,8 @@ objective: Discrim.
 inference: Scoring
 poi: false
 summary: 'CITE (Electronics’26): Inference-stage method using Par. OPQ tokenization and Non-AR backbone.'
+tldr: CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic
+  ID generator, modeling the directed relation between the latest item and each candidate.
 setup:
   datasets: 'Amazon Reviews 2014 Sports and Outdoors, Beauty, Toys and Games, CDs and Vinyl; RPG preprocessing, filtering
     threshold not reported. Additional Yelp 2019 review subset: iterative user/item 5-core, 30,431 users, 20,033 businesses,

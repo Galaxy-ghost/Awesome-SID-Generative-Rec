@@ -19,6 +19,7 @@
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP + Ctr. + Aux.; Inference: Scoring
+- TL;DR: ACERec compresses long Semantic IDs into compact latent tokens with an Attentive Token Merger and adds an Intent Token with a dual-granularity objective, to keep long-ID expressiveness at short-ID cost.
 - Setup card: yes
 - Relations: 5
 
@@ -54,6 +55,7 @@
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text; Tokenization: OPQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Ensemble
+- TL;DR: ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens, so identical actions get context-dependent tokens instead of fixed independent ones.
 - [Code](https://github.com/google-deepmind/action_piece)
 - Setup card: yes
 - Relations: 4
@@ -168,6 +170,7 @@ ActionPiece 更适合放在“生成式推荐的行为序列建模与分词”�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text+Img; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repulsion for semantically compatible items and scaling the rest by local collision load, instead of fixed overlap regularization.
 - Setup card: yes
 - Relations: 4
 
@@ -210,6 +213,7 @@ ActionPiece 更适合放在“生成式推荐的行为序列建模与分词”�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: MoE-VQ; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP; Inference: –
+- TL;DR: ADC-SID adds collaborative information to Semantic ID quantization with alignment strength that adapts to collaborative noise and learned weights for behavioral IDs, instead of uniform alignment and equal weights.
 - Setup card: yes
 - Relations: 5
 
@@ -321,6 +325,7 @@ MMQ-v2 的核心贡献是让行为信号以自适应方式参与 SID 学习，�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Dual RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Beam
+- TL;DR: Align3GR aligns an LLM recommender at three levels, with dual semantic and collaborative tokenization, bidirectional semantic alignment in behavior modeling, and progressive DPO from self-play and real-world feedback.
 - Setup card: yes
 - Relations: 4
 
@@ -433,6 +438,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: R-KM; Backbone: Enc-Dec / Dec-Only; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Beam
+- TL;DR: APAO adds prefix-level losses and an adaptive worst-prefix strategy to training, so correct items survive beam-search pruning, closing the gap between token-level cross-entropy training and beam-search inference.
 - [Code](https://github.com/yuyq18/APAO)
 - Setup card: yes
 - Relations: 3
@@ -467,6 +473,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: PID (P-SAE); Backbone: Enc-Dec / Dec-Only (AR); Non-AR (PR); Tokenizer: Fixed; Objective: NTP + Rank + Aux. / MTP + Rank + Aux.; Inference: C-Beam / Scoring
+- TL;DR: API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains an adapter to predict indices and strengths, instead of fitting a new vocabulary.
 - [Code](https://anonymous.4open.science/r/API-C1F9/)
 - Setup card: yes
 - Relations: 4
@@ -502,6 +509,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Spec. Dec.
+- TL;DR: AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to speed up beam-search generation of top-K items in LLM-based generative recommendation.
 - [Code](https://github.com/Linxyhaha/AtSpeed)
 - Setup card: yes
 - Relations: 3
@@ -536,6 +544,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: VI. Generalization
 - Stage: Training
 - Representation: Text+Geo; Tokenization: Geo-Prefix+HClus; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: –
+- TL;DR: AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior, to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training.
 - Setup card: yes
 - Relations: 3
 
@@ -569,6 +578,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Inference
 - Representation: Text†; Tokenization: RQ-VAE†; Backbone: Dec-Only / Enc-Dec; Tokenizer: Fixed; Objective: Multi-task NTP† / NTP†; Inference: Hybrid
+- TL;DR: CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
 - Setup card: yes
 - Relations: 3
 
@@ -602,6 +612,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Soft-RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends its Semantic ID once confidence is high, so ID length varies per item.
 - Setup card: yes
 - Relations: 5
 
@@ -645,6 +656,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: NU-RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: CARD fuses text, image, and collaborative signals into a visual semantic unit before encoding and quantizes it with NU-RQ-VAE, whose learnable non-uniform transformation balances skewed embeddings.
 - [Code](https://github.com/HAI-UESTC/CARD)
 - Setup card: yes
 - Relations: 5
@@ -689,6 +701,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: VI. Generalization
 - Stage: Training
 - Representation: Text; Tokenization: LLM-Vocab; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Scoring
+- TL;DR: CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
 - [Code](https://github.com/user683/CausalDPO)
 - Setup card: yes
 - Relations: 1
@@ -729,6 +742,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Time; Tokenization: RQ-VAE / Par. VQ; Backbone: Dec-Only†; Tokenizer: Fixed; Objective: NTP; Inference: Beam†
+- TL;DR: ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals enter the IDs, unlike existing time-agnostic Semantic ID learning.
 - Setup card: yes
 - Relations: 4
 
@@ -763,6 +777,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: CF; Tokenization: Spectral Clus.; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing, replacing random, title, and independent IDs that cause long outputs or hallucinated items.
 - [Code](https://github.com/Wenyueh/LLM-RecSys-ID)
 - Setup card: yes
 - Relations: 1
@@ -795,6 +810,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Inference
 - Representation: Text; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.
 - Setup card: yes
 - Relations: 3
 
@@ -828,6 +844,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: VI. Generalization
 - Stage: Training
 - Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Dec-Only†; Tokenizer: –; Objective: NTP; Inference: –
+- TL;DR: CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters.
 - Setup card: yes
 - Relations: 3
 
@@ -861,6 +878,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: Text+SID; Tokenization: Casc. RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Dense; Inference: BeamFusion
+- TL;DR: COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores.
 - Setup card: yes
 - Relations: 3
 
@@ -902,6 +920,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: R-KM+Graph; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: CoT+C-Beam
+- TL;DR: CogRec grounds reasoning in Semantic ID structure through intra-layer graphs, item neighborhoods, and Match, LateralJump, and Explore routing steps, instead of a natural-language rationale weakly tied to the IDs.
 - [Code](https://github.com/caskcsg/CogRec)
 - Setup card: yes
 - Relations: 4
@@ -937,6 +956,7 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: H-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: C-Beam
+- TL;DR: ColaRec builds generative identifiers from a pretrained collaborative filtering model and generates them from interacted-item content, with an item indexing task and a contrastive loss aligning both spaces.
 - [Code](https://github.com/Junewang0614/ColaRec)
 - Setup card: yes
 - Relations: 4
@@ -1046,6 +1066,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text; Tokenization: C-RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: CoST trains the item tokenizer with a contrastive quantization objective that captures neighborhood relationships between items, instead of the reconstruction loss used by RQ-VAE.
 - Setup card: yes
 - Relations: 4
 
@@ -1088,6 +1109,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: RQ-VAE; Backbone: Enc-Dec / Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: –
+- TL;DR: DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict code reassignment, to update Semantic IDs without full retraining or mass ID changes.
 - [Code](https://github.com/HomesAmaranta/DACT)
 - Setup card: yes
 - Relations: 3
@@ -1122,6 +1144,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Dual RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: DAS optimizes quantization and collaborative alignment in one stage, with multi-view contrastive alignment and dual quantization of users and ads, instead of two-stage alignment that loses information.
 - Setup card: yes
 - Relations: 3
 
@@ -1163,6 +1186,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: C-Beam
+- TL;DR: DASO reallocates part of each GRPO rollout group to prefix-guided completions at Semantic ID levels where candidates leave the target path and adds a graded prefix reward, unlike vanilla GRPO.
 - [Code](https://github.com/LucasXinYu/DASO)
 - Setup card: yes
 - Relations: 2
@@ -1196,6 +1220,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text / –; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: Deco reads each history item as one fused token, condenses the history into a next-item concept, and runs beam search in a light KV-cached decoder instead of the full backbone.
 - Setup card: yes
 - Relations: 4
 
@@ -1230,6 +1255,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: DECOR refines Semantic ID token embeddings by interaction context and fuses pretrained codebook embeddings with learned collaborative embeddings, instead of static token assignments that overwrite pretrained semantics.
 - [Code](https://github.com/yliuaa/DECOR.git)
 - Setup card: yes
 - Relations: 4
@@ -1265,6 +1291,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: Learn. RQ; Backbone: Enc-Dec; Tokenizer: Joint; Objective: NTP; Inference: Beam†
+- TL;DR: DIGER makes Semantic IDs differentiable so recommendation gradients update the tokenizer, and adds decaying Gumbel noise against codebook collapse, instead of a tokenizer trained only for reconstruction.
 - [Code](https://github.com/junchen-fu/DIGER)
 - Setup card: yes
 - Relations: 3
@@ -1299,6 +1326,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: IV. Utility
 - Stage: Backbone
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: DiGR uses Semantic ID tokens as item representations and scores items with one item-level function, instead of generating tokens, after showing that token decoding adds no ranking expressiveness.
 - [Code](https://anonymous.4open.science/r/SimGR-C408/)
 - Setup card: yes
 - Relations: 3
@@ -1333,6 +1361,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: RQ-VAE / Learn. RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: DiscRec adds item-level position embeddings and splits semantic and collaborative signals into two gated branches, one with attention inside each item, instead of fusing them in one embedding space.
 - [Code](https://github.com/Ten-Mao/DiscRec)
 - Setup card: yes
 - Relations: 3
@@ -1367,6 +1396,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Orth. RQ; Backbone: Dec-Only†; Tokenizer: Fixed†; Objective: NTP; Inference: –
+- TL;DR: DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization.
 - Setup card: yes
 - Relations: 2
 
@@ -1399,6 +1429,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: IV. Utility
 - Stage: Training
 - Representation: – / Text+Img; Tokenization: RQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Masked → RL (→ Masked KD for Fast); Inference: Diff.+Legalize
+- TL;DR: DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and pseudo-trajectory distillation to reveal more tokens per denoising step.
 - Setup card: yes
 - Relations: 1
 
@@ -1430,6 +1461,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: CART; Backbone: Dec-Only; Tokenizer: Altern.; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates, the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses.
 - Setup card: yes
 - Relations: 3
 
@@ -1463,6 +1495,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: VI. Generalization
 - Stage: Backbone
 - Representation: –; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Dual Beam
+- TL;DR: DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training.
 - Setup card: yes
 - Relations: 1
 
@@ -1494,6 +1527,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: V. Efficiency
 - Stage: Tokenization
 - Representation: –; Tokenization: Dyn. KM+Disamb.; Backbone: Enc-Dec / Lazy Dec-Only; Tokenizer: Fixed; Objective: NTP†; Inference: Beam†
+- TL;DR: Dynamic-Single-Codebook replaces multi-level residual codes with one token from a large single-level codebook plus a collaborative disambiguation token, and updates the codebook as exposure changes.
 - Setup card: yes
 - Relations: 3
 
@@ -1527,6 +1561,7 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: Dual H-KM; Backbone: Dual Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: Fusion
+- TL;DR: EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided transfer tasks, instead of using only one type of item information.
 - [Code](https://github.com/yewzz/EAGER)
 - Setup card: yes
 - Relations: 4
@@ -1643,6 +1678,7 @@ EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Dual H-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignment reconstruction tasks, and an annealing adapter to a decoder-only LLM, instead of learning collaborative semantics from scratch.
 - Setup card: yes
 - Relations: 3
 
@@ -1676,6 +1712,7 @@ EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: CF; Tokenization: Learn. RQ; Backbone: Enc-Dec; Tokenizer: Altern.; Objective: NTP + Ctr.; Inference: Beam
+- TL;DR: ETEGRec trains the item tokenizer and the generator in alternation with sequence-item and preference-semantic alignment losses, instead of building the tokenizer separately before generator training.
 - [Code](https://github.com/RUCAIBox/ETEGRec)
 - Setup card: yes
 - Relations: 4
@@ -1789,6 +1826,7 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+C-Beam
+- TL;DR: Evo-Rec aligns Semantic IDs with text and behavior, fine-tunes on sampled reasoning traces that improve target prediction, and then refines reasoning with catalog-constrained reinforcement learning.
 - [Code](https://github.com/mengdanzhu/evo-rec)
 - Setup card: yes
 - Relations: 3
@@ -1823,6 +1861,7 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - Problem: VI. Generalization
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: FedCGR performs federated cross-domain recommendation over shared Semantic IDs from public metadata, injects local collaborative evidence, and aggregates parameters by domain relatedness, without exchanging private interactions.
 - [Code](https://github.com/ZhuodLiu/FedCGR)
 - Setup card: yes
 - Relations: 3
@@ -1857,6 +1896,7 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text; Tokenization: SimHash; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP + Aux.; Inference: Scoring
+- TL;DR: FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
 - [Code](https://github.com/KevinC2015/Flash)
 - Setup card: yes
 - Relations: 4
@@ -1892,6 +1932,7 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Dual RQ-VAE; Backbone: –; Tokenizer: Joint; Objective: NTP; Inference: –
+- TL;DR: FlexCode splits a fixed token budget between a collaborative codebook and a semantic codebook according to item popularity through a lightweight MoE, instead of one uniform codebook for all items.
 - Setup card: yes
 - Relations: 3
 
@@ -1925,6 +1966,7 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text+Img; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Dyn. Beam
+- TL;DR: FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies, adds metrics that assess IDs without generator training, and releases Taobao data.
 - [Code](https://github.com/selous123/al_sid)
 - Setup card: yes
 - Relations: 3
@@ -2037,6 +2079,7 @@ FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Bid-Aware Beam
+- TL;DR: GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue.
 - Setup card: yes
 - Relations: 2
 
@@ -2077,6 +2120,7 @@ FORGE 的价值在于把 SID 学习从小规模基准推进到工业数据工程
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Cross-Dom; Tokenization: RQ+LoRA; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes over a domain-aware prefix tree, instead of relying on shared user or item IDs.
 - [Code](https://github.com/hupeiyu21/GenCDR)
 - Setup card: yes
 - Relations: 3
@@ -2189,6 +2233,7 @@ GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards.
 - Setup card: yes
 - Relations: 3
 
@@ -2230,6 +2275,7 @@ GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Shared/Spec. RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: C-Beam
+- TL;DR: GenSAR unifies search and recommendation in one generator with dual-purpose identifiers carrying semantic and collaborative signals and task-specific training, to reduce the trade-off between the two tasks.
 - Setup card: yes
 - Relations: 3
 
@@ -2263,6 +2309,7 @@ GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由�
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Geo+CF; Tokenization: R-KM+EM; Backbone: Dec-Only; Tokenizer: Altern.†; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning.
 - Setup card: yes
 - Relations: 4
 
@@ -2381,6 +2428,7 @@ GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text / Text+CF; Tokenization: RQ-VAE / Learn. RQ; Backbone: Enc-Dec†; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: Beam† / C-Beam†
+- TL;DR: GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNets, using a collaborative trajectory sampler and reward model to explore unobserved positives, instead of next-token or DPO fine-tuning.
 - [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR)
 - Setup card: yes
 - Relations: 3
@@ -2489,6 +2537,7 @@ GFlowGR 的贡献是把生成式推荐的偏好微调改写为生成流学习问
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: Skeleton R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
+- TL;DR: Ghost reduces popularity bias in generative recommenders with an asymmetric unlikelihood loss and skeleton-founded tokenization, addressing token-level optimization and undifferentiated item tokenization as its causes.
 - [Code](https://github.com/Esperanto-mega/Ghost)
 - Setup card: yes
 - Relations: 2
@@ -2522,6 +2571,7 @@ GFlowGR 的贡献是把生成式推荐的偏好微调改写为生成流学习问
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Cross-Dom; Tokenization: Unified RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: GMC assigns domain-shared Semantic IDs with a domain-aware contrastive loss and trains one sequence-to-sequence generator across domains, instead of relying on users or items shared between domains.
 - Setup card: yes
 - Relations: 4
 
@@ -2634,6 +2684,7 @@ GMC 的核心贡献是用共享 SID 作为多目标跨域知识桥梁，适合�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Attr+Geo+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: –
+- TL;DR: GNPR-SID replaces random numeric POI IDs with RQ-VAE Semantic IDs built from semantic and collaborative features under a diversity loss, and fine-tunes an LLM to generate the next POI.
 - [Code](https://github.com/wds1996/GNPR-SID)
 - Setup card: yes
 - Relations: 3
@@ -2753,6 +2804,7 @@ GNPR-SID 是较早将 Semantic ID 直接用于下一 POI 生成的工作，适�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text+SID; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP†; Inference: Hybrid
+- TL;DR: GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.
 - [Code](https://github.com/Jamesding000/MemGen-GR)
 - Setup card: yes
 - Relations: 4
@@ -2796,6 +2848,7 @@ GNPR-SID 是较早将 Semantic ID 直接用于下一 POI 生成的工作，适�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: –; Tokenization: Multi-Path R-KM+Hash; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + PV-RSPO + Rank + Aux.; Inference: PV-Beam+Rerank
+- TL;DR: GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking.
 - Setup card: yes
 - Relations: 3
 
@@ -2829,6 +2882,7 @@ GNPR-SID 是较早将 Semantic ID 直接用于下一 POI 生成的工作，适�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: H-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular prompts separately, fusing them only at decoding, to use lengthy item text efficiently.
 - [Code](https://github.com/skleee/GRAM)
 - Setup card: yes
 - Relations: 5
@@ -2944,6 +2998,7 @@ GRAM 的关键贡献是将多粒度语义融合位置推迟到解码阶段，适
 - Problem: III. SID–Model Alignment
 - Stage: Inference
 - Representation: –; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → RL; Inference: GRC+Beam
+- TL;DR: GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search.
 - Setup card: yes
 - Relations: 2
 
@@ -2976,6 +3031,7 @@ GRAM 的关键贡献是将多粒度语义融合位置推迟到解码阶段，适
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text+CF; Tokenization: RQ-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: GREAM adapts an LLM into a reasoning recommender with collaborative-semantic item indices, a chain-of-thought curriculum, and SRPO post-training, and supports direct and reasoning-first inference modes.
 - [Code](https://github.com/Indolent-Kawhi/GRRM)
 - Setup card: yes
 - Relations: 4
@@ -3091,6 +3147,7 @@ GREAM 的贡献是把显式推理与直接 SID 生成放进同一推荐模型，
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks.
 - [Code](https://github.com/snap-research/GRID)
 - Setup card: yes
 - Relations: 2
@@ -3195,6 +3252,7 @@ GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: RecDMoN / RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: –; Inference: –
+- TL;DR: GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partition of an item graph with collaborative edges, recovering RQ-VAE and RQ-KMeans as the empty-graph case.
 - [Code](https://github.com/hirc-airecs/graph-informed-sids)
 - Setup card: yes
 - Relations: 3
@@ -3229,6 +3287,7 @@ GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: Term-ID; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them, avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
 - [Code](https://github.com/ZY0025/GRLM)
 - Setup card: yes
 - Relations: 4
@@ -3345,6 +3404,7 @@ Term ID 无法精确匹配时，仍通过候选库结构化评分完成物品落
 - Problem: IV. Utility
 - Stage: Backbone
 - Representation: –; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Hybrid
+- TL;DR: Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated Semantic ID to its items and re-scoring them, instead of ranking by token likelihood.
 - Setup card: yes
 - Relations: 3
 
@@ -3378,6 +3438,7 @@ Term ID 无法精确匹配时，仍通过候选库结构化评分完成物品落
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text+CF / Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: –
+- TL;DR: GTI maps new Semantic ID tokens to distinct locations in the pretrained embedding space with paired linguistic supervision before fine-tuning, instead of initializing them as the mean of existing embeddings.
 - Setup card: yes
 - Relations: 2
 
@@ -3410,6 +3471,7 @@ Term ID 无法精确匹配时，仍通过候选库结构化评分完成物品落
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text+Img+Geo+CF; Tokenization: Contr. RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: –
+- TL;DR: Gwhere learns POI Semantic IDs with a contrastive residual-quantization tokenizer over text, image, spatial, and collaborative signals, then adapts an LLM through continued pretraining, fine-tuning, and exposure-aware KTO.
 - [Code](https://github.com/alibaba/SimCIT)
 - Setup card: yes
 - Relations: 2
@@ -3525,6 +3587,7 @@ Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text / MM; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
+- TL;DR: HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective.
 - Setup card: yes
 - Relations: 3
 
@@ -3558,6 +3621,7 @@ Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: –; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
 - [Code](https://github.com/WncFht/GRec)
 - Setup card: yes
 - Relations: 3
@@ -3592,6 +3656,7 @@ Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节�
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Attr+Geo; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: HF-SID restores geographic, numerical, and structural detail in POI representations before quantization, through Cartesian coordinates, unit-encoded numbers, and residual contrastive learning, instead of lengthening the Semantic ID.
 - Setup card: yes
 - Relations: 3
 
@@ -3625,6 +3690,7 @@ Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: Hier. RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
 - [Code](https://anonymous.4open.science/r/HiD-VAE-84B2)
 - Setup card: yes
 - Relations: 4
@@ -3740,6 +3806,7 @@ HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: –; Tokenization: Nested RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
+- TL;DR: HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales.
 - Setup card: yes
 - Relations: 3
 
@@ -3773,6 +3840,7 @@ HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → (NTP + Aux.); Inference: C-Beam
+- TL;DR: IBA allocates latent reasoning steps across Semantic ID positions by information gain, giving more refinement to the informative early positions, instead of a fixed number of steps per token.
 - Setup card: yes
 - Relations: 3
 
@@ -3806,6 +3874,7 @@ HiD-VAE 将“可解释层次”和“低碰撞”作为 SID 的联合目标，�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: LLM-Vocab; Backbone: Enc-Dec; Tokenizer: Altern.; Objective: NTP; Inference: C-Beam
+- TL;DR: IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language tokens, and tests zero-shot transfer to unseen platforms.
 - [Code](https://github.com/agiresearch/IDGenRec)
 - Setup card: yes
 - Relations: 4
@@ -3920,6 +3989,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: Subspace RQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP + Aux.; Inference: Scoring
+- TL;DR: IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution or per-position code marginals, instead of training on hard next-item labels alone.
 - Setup card: yes
 - Relations: 3
 
@@ -3953,6 +4023,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: CoT+Fuzzy Match
+- TL;DR: Intent-Driven-News trains an LLM to map implicit conversational intents to hierarchical Semantic ID prefixes and fuzzy-matches them to the current news pool, instead of retrieving articles first.
 - Setup card: yes
 - Relations: 3
 
@@ -3986,6 +4057,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: IV. Utility
 - Stage: Inference
 - Representation: Text†; Tokenization: RQ-VAE†; Backbone: Enc-Dec†; Tokenizer: Fixed; Objective: NTP†; Inference: ISD Beam
+- TL;DR: ISD lets a user-specific item ranking support Semantic ID prefixes before beam search discards them, at inference time and without retraining, after showing that Semantic IDs lose local item structure.
 - [Code](https://anonymous.4open.science/r/ISD-CF7C)
 - Setup card: yes
 - Relations: 3
@@ -4020,6 +4092,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: V. Efficiency
 - Stage: Tokenization
 - Representation: Text; Tokenization: Freq. R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: Length-Quota Beam
+- TL;DR: JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones, and predicts length and content with separate heads, instead of one ID length for all items.
 - Setup card: yes
 - Relations: 4
 
@@ -4054,6 +4127,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Attr+Geo+CF; Tokenization: KG-RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: –
+- TL;DR: KGTB organizes POI data as a knowledge graph, quantizes each node into a structural ID under graph supervision, and fine-tunes an LLM on POI, category, and region visit tasks.
 - Setup card: yes
 - Relations: 1
 
@@ -4085,6 +4159,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: CF; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: (NTP† / (NTP + Aux.)†) → KL-weighted OPD; Inference: C-Beam
+- TL;DR: KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its initial KL divergence from the student, instead of vanilla on-policy distillation.
 - [Code](https://github.com/Yandorn/KL-MOPD)
 - Setup card: yes
 - Relations: 1
@@ -4117,6 +4192,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees, to relax the probability coupling between items that are close in the tree.
 - [Code](https://github.com/hyp1231/Latte)
 - Setup card: yes
 - Relations: 5
@@ -4161,6 +4237,7 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists.
 - [Code](https://github.com/RUCAIBox/LC-Rec/)
 - Setup card: yes
 - Relations: 4
@@ -4274,6 +4351,7 @@ LC-Rec 的核心价值是把协同语义显式注入 LLM 的物品索引体系�
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text / Text+CF; Tokenization: RQ-VAE / R-KM / LETTER; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: LESSRec encodes the history separately at each Semantic ID level and restricts attention to the target token's level, adding an item-level semantic sequence, instead of attending to all levels.
 - Setup card: yes
 - Relations: 4
 
@@ -4411,6 +4489,7 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Geo; Tokenization: DSRQ; Backbone: Disc.; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes the two streams separately, instead of quantizing one entangled representation.
 - Setup card: yes
 - Relations: 4
 
@@ -4529,6 +4608,7 @@ LGRID 适合放在“可解释与解耦语义标识”章节，代表通过生�
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Geo+CF; Tokenization: Geo-Idx+RQ; Backbone: Disc. / Enc-Dec; Tokenizer: Fixed; Objective: Discrim. / NTP; Inference: Scoring / Beam†
+- TL;DR: LGSID aligns an LLM to spatial relationships with a reward model and G-DPO, then builds Semantic IDs from spatial and content attributes plus residual tokens from the aligned LLM representation.
 - [Code](https://github.com/JiangHaoPG11/LGSID)
 - Setup card: yes
 - Relations: 4
@@ -4645,6 +4725,7 @@ LGSID 位于“LLM 对齐驱动的地理 SID 构建”方向，突出先获得�
 - Problem: VI. Generalization
 - Stage: Inference
 - Representation: Text+SID; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Dense; Inference: Hybrid
+- TL;DR: LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of both approaches, to narrow their performance gap and improve cold-start recommendation.
 - Setup card: yes
 - Relations: 4
 
@@ -4754,6 +4835,7 @@ LIGER 适合放在“生成式推荐与稠密检索融合”章节。
 - Problem: VI. Generalization
 - Stage: Backbone
 - Representation: Text†; Tokenization: RQ-VAE†; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP + Aux.; Inference: Beam
+- TL;DR: LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions.
 - [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 - Setup card: yes
 - Relations: 1
@@ -4786,6 +4868,7 @@ LIGER 适合放在“生成式推荐与稠密检索融合”章节。
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text; Tokenization: Par. VQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Masked; Inference: Diff.
+- TL;DR: LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level masking, and an adapted beam search, instead of left-to-right autoregressive decoding.
 - [Code](https://github.com/TengShi-RUC/LLaDA-Rec)
 - Setup card: yes
 - Relations: 5
@@ -4896,6 +4979,7 @@ LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text; Tokenization: Self-Sup. ID; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: LMIndexer learns sequential Semantic IDs with a generative language model through progressive training, contrastive learning, and self-supervised reconstruction, instead of quantizing embeddings from an off-the-shelf encoder.
 - [Code](https://github.com/PeterGriffinJin/LMIndexer)
 - Setup card: yes
 - Relations: 2
@@ -4929,6 +5013,7 @@ LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP / NTP + Aux.; Inference: –
+- TL;DR: LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills a low-budget student, to scale computation without proportionally growing model size.
 - Setup card: yes
 - Relations: 3
 
@@ -4962,6 +5047,7 @@ LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img; Tokenization: Cross RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: C-Beam
+- TL;DR: MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and adds implicit and explicit cross-modal alignment to generator training.
 - [Code](https://github.com/zhangfw123/MACRec)
 - Setup card: yes
 - Relations: 4
@@ -5075,6 +5161,7 @@ MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在�
 - Problem: I. Informativeness
 - Stage: Training
 - Representation: CF; Tokenization: Bal. VQ+KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: MBGen interleaves behavior tokens and item tokens in one sequence, predicts the next behavior type and then the next item, and scales with a position-routed sparse architecture.
 - [Code](https://github.com/anananan116/MBGen)
 - Setup card: yes
 - Relations: 3
@@ -5109,6 +5196,7 @@ MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在�
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed†; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space.
 - Setup card: yes
 - Relations: 2
 
@@ -5149,6 +5237,7 @@ MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在�
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: –; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Masked; Inference: Diff.+Beam
+- TL;DR: MDGR uses a parallel codebook, adaptive masking along time and samples, and warm-up two-stage parallel decoding for masked diffusion recommendation, instead of fixed-order autoregressive Semantic ID decoding.
 - Setup card: yes
 - Relations: 3
 
@@ -5182,6 +5271,7 @@ MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: Merge-and-Branch compresses each history item's Semantic ID and text into few learned tokens and predicts several target IDs from one shared history in a tree layout, reducing fine-tuning cost.
 - Setup card: yes
 - Relations: 3
 
@@ -5215,6 +5305,7 @@ MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: MiniOneRec is an open-source framework for RQ-VAE Semantic ID construction, supervised fine-tuning of Qwen backbones, and reinforcement learning with constrained decoding, to test generative scaling on public benchmarks.
 - [Code](https://github.com/AkaliKong/MiniOneRec)
 - Setup card: yes
 - Relations: 3
@@ -5330,6 +5421,7 @@ MiniOneRec 的主要贡献是把 SID 对齐、语言模型扩展和推荐偏好�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: MM-RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Scoring
+- TL;DR: MME-SID feeds an LLM multimodal embeddings together with Semantic ID embeddings from MM-RQ-VAE, trained with maximum mean discrepancy and contrastive alignment, to reduce embedding collapse and forgetting.
 - [Code](https://github.com/Applied-Machine-Learning-Lab/MME-SID)
 - Setup card: yes
 - Relations: 4
@@ -5373,6 +5465,7 @@ SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: Graph RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer with relation-aware self-attention to generate it, instead of embed-and-retrieve.
 - [Code](https://github.com/hanliu95/MMGRec)
 - Setup card: yes
 - Relations: 1
@@ -5405,6 +5498,7 @@ SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img; Tokenization: MoE-VQ; Backbone: HeterRec; Tokenizer: Joint; Objective: MTP; Inference: –
+- TL;DR: MMQ trains a multimodal tokenizer with modality-shared and modality-specific experts under orthogonal regularization, then fine-tunes its Semantic IDs on behavior objectives with a multimodal reconstruction loss.
 - Setup card: yes
 - Relations: 3
 
@@ -5438,6 +5532,7 @@ SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Img+CF; Tokenization: n/a; Backbone: Dec-Only; Tokenizer: n/a; Objective: Discrim.; Inference: Scoring
+- TL;DR: Molar builds item representations from text and images with a multimodal LLM and aligns its user representations with an ID-based model, to add collaborative signals that LLM recommenders lack.
 - [Code](https://anonymous.4open.science/r/Molar-8B06/)
 - Setup card: yes
 - Relations: 0
@@ -5474,6 +5569,7 @@ SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img; Tokenization: Dual RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: MQL4GRec translates item text and images from several domains into a shared quantitative language and pre-trains generation tasks over it, to transfer recommendation knowledge across domains and modalities.
 - [Code](https://github.com/zhaijianyang/MQL4GRec)
 - Setup card: yes
 - Relations: 5
@@ -5585,6 +5681,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: RQ-VAE+DINO; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP; Inference: Trie/C-Beam
+- TL;DR: MSCGRec quantizes images with self-supervised DINO-based learning, adds collaborative features as a separate modality, and restricts training outputs to permissible tokens, to scale generative recommendation to large catalogs.
 - Setup card: yes
 - Relations: 5
 
@@ -5628,6 +5725,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: –; Tokenization: RQ-VAE; Backbone: Enc-MLP; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: MuSID-KD distills a generative teacher into lightweight students by aligning candidate distributions at successive Semantic ID prefix levels and weighting supervision by ranking impact, instead of uniform alignment.
 - [Code](https://anonymous.4open.science/r/m7k2-review-83f9/)
 - Setup card: yes
 - Relations: 2
@@ -5661,6 +5759,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: –; Tokenization: R-KM; Backbone: Enc-Dec†; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
+- TL;DR: NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items.
 - [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning)
 - Setup card: yes
 - Relations: 3
@@ -5695,6 +5794,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text / Audio; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: C-Beam
+- TL;DR: NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained decoding, to unify search, recommendation, and reasoning without tools.
 - Setup card: yes
 - Relations: 3
 
@@ -5728,6 +5828,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only / Non-AR; Tokenizer: Fixed; Objective: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT; Inference: C-Beam / Scoring
+- TL;DR: Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost.
 - Setup card: yes
 - Relations: 4
 
@@ -5762,6 +5863,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Self-Draft+Hash
+- TL;DR: NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set of valid IDs, instead of separate draft models and model-based verifiers.
 - Setup card: yes
 - Relations: 3
 
@@ -5795,6 +5897,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: –; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Next-item CE + Cons. KD + Rank KD; Inference: Scoring
+- TL;DR: OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-matching scores for supervision, distillation, and inference in a parallel decoder, so training targets the ranking used in serving.
 - [Code](https://anonymous.4open.science/r/OneChord-D1A2/)
 - Setup card: yes
 - Relations: 3
@@ -5829,6 +5932,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: V. Efficiency
 - Stage: Training
 - Representation: MM; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged alignment, and curriculum post-training, instead of generating long reasoning traces at inference.
 - Setup card: yes
 - Relations: 2
 
@@ -5861,6 +5965,7 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Text+Img+Audio+CF; Tokenization: R-KM; Backbone: Lazy Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment.
 - Setup card: yes
 - Relations: 3
 
@@ -6090,6 +6195,7 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text+Img+CF; Tokenization: R-KM+FSQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: (NTP + Ctr.) → RL; Inference: Beam
+- TL;DR: OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.
 - Setup card: yes
 - Relations: 2
 
@@ -6122,6 +6228,7 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text+CF; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Sess. Beam
+- TL;DR: OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions of videos, and aligns preferences by iterative DPO with a reward model.
 - Setup card: yes
 - Relations: 3
 
@@ -6229,6 +6336,7 @@ OneRec 的主要贡献是以生成列表统一召回与排序，适合放在“�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text+Img+CF†; Tokenization: R-KM†; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT
+- TL;DR: OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding, and a recommendation reward for multiple valid targets, instead of implicit prediction alone.
 - [Code](https://github.com/wangshy31/OneRec-Think)
 - Setup card: yes
 - Relations: 3
@@ -6343,6 +6451,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text+Img+CF†; Tokenization: R-KM†; Backbone: Lazy Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
+- TL;DR: OneRec-V2 replaces the OneRec encoder-decoder with a lazy decoder-only architecture that cuts sequence-encoding compute, and aligns with real user feedback through duration-aware reward shaping and adaptive ratio clipping.
 - Setup card: yes
 - Relations: 2
 
@@ -6375,6 +6484,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: Text+Img+CF†; Tokenization: R-KM†; Backbone: Lazy Dec-Only†; Tokenizer: Fixed†; Objective: NTP → RL†; Inference: FP8+RecoGEM
+- TL;DR: OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders.
 - Setup card: yes
 - Relations: 1
 
@@ -6406,6 +6516,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: Text+SID; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP†; Inference: Spec. Dec.
+- TL;DR: PAD-Rec adds gated item-slot and draft-step position embeddings to the draft model of speculative decoding, instead of treating all Semantic ID draft tokens uniformly.
 - [Code](https://github.com/Jiaju-Chen/PAD-Rec)
 - Setup card: yes
 - Relations: 4
@@ -6449,6 +6560,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: PC-AE; Backbone: Disc.; Tokenizer: Joint; Objective: Discrim.; Inference: Scoring
+- TL;DR: PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps.
 - Setup card: yes
 - Relations: 1
 
@@ -6480,6 +6592,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam+Agg.
+- TL;DR: Pctx tokenizes each item with the user's interaction history as context, so the same item can receive different Semantic IDs for different users, instead of one static item-only mapping.
 - [Code](https://github.com/YoungZ365/Pctx)
 - Setup card: yes
 - Relations: 4
@@ -6515,6 +6628,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: –; Tokenization: –; Backbone: Enc-Dec; Tokenizer: –; Objective: –; Inference: Beam
+- TL;DR: PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink the attended history at later steps, accelerating long-sequence generative decoding.
 - [Code](https://anonymous.4open.science/r/PFA-review-088D)
 - Setup card: yes
 - Relations: 2
@@ -6548,6 +6662,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: –; Objective: NTP → DPO; Inference: Div. C-Beam
+- TL;DR: PinGER interleaves Semantic ID and dense tokens with an asymmetric attention mask so serving uses one token per item, and steers retrieval by goal conditioning, reinforcement learning, and diversity penalties.
 - Setup card: yes
 - Relations: 3
 
@@ -6581,6 +6696,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.
 - Setup card: yes
 - Relations: 3
 
@@ -6614,6 +6730,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: MM; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets a prefix-conditioned representation instead of a plain vocabulary embedding.
 - Setup card: yes
 - Relations: 3
 
@@ -6647,6 +6764,7 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Geo; Tokenization: R-KM+Geo-CB; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Beam+Geo-Filter
+- TL;DR: ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding, so Semantic IDs model semantics and geography jointly.
 - Setup card: yes
 - Relations: 5
 
@@ -6763,6 +6881,7 @@ ProGEO 适合放在“地理结构化语义标识”章节，代表通过专用�
 - Problem: III. SID–Model Alignment
 - Stage: Inference
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP + Aux.; Inference: PRM-Beam
+- TL;DR: PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.
 - Setup card: yes
 - Relations: 3
 
@@ -6804,6 +6923,7 @@ ProGEO 适合放在“地理结构化语义标识”章节，代表通过专用�
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: Post-hoc RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: PSI assigns unique, semantic-preserving IDs by relaxing nearest-centroid selection with exhaustive candidate matching or recursive residual searching, instead of appending a non-semantic token to resolve conflicts.
 - [Code](https://github.com/wangshanyw/PurelySemanticIndexing)
 - Setup card: yes
 - Relations: 4
@@ -6847,6 +6967,7 @@ ProGEO 适合放在“地理结构化语义标识”章节，代表通过专用�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img; Tokenization: Prog. RQ; Backbone: Encoder; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: PSRQ generates modality-specific and modality-joint Semantic IDs that preserve prefix semantic features and models music interests with multi-codebook cross-attention, to reduce semantic drift in residual quantization.
 - Setup card: yes
 - Relations: 3
 
@@ -6888,6 +7009,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Encoder (Non-AR); Tokenizer: Fixed; Objective: Masked; Inference: Non-AR
+- TL;DR: Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
 - Setup card: yes
 - Relations: 4
 
@@ -6930,6 +7052,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Geo; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: C-Beam
+- TL;DR: QT-Mob tokenizes locations into compact semantic tokens and fine-tunes an LLM with complementary objectives that align the tokens with its representations, for next-location prediction and mobility recovery.
 - [Code](https://github.com/shadowfall09/QT-Mob)
 - Setup card: yes
 - Relations: 1
@@ -6962,6 +7085,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: QA-RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam†
+- TL;DR: QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds a dual-tower contrastive objective, instead of treating all collisions equally.
 - Setup card: yes
 - Relations: 3
 
@@ -6995,6 +7119,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: Ref.-RQ; Backbone: –; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: R3-VAE stabilizes residual quantization with a reference vector as semantic anchor and a dot-product rating mechanism, and uses two Semantic ID quality metrics as training regularizers.
 - [Code](https://github.com/wwqq/R3-VAE)
 - Setup card: yes
 - Relations: 4
@@ -7038,6 +7163,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Beam† / –
+- TL;DR: RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in the user sequence and uses DPO to favor item tokens at prediction positions, instead of modeling item-only sequences.
 - [Code](https://github.com/Zhang-Yingyi/TKDE_RAGR)
 - Setup card: yes
 - Relations: 2
@@ -7071,6 +7197,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: VI. Generalization
 - Stage: Training
 - Representation: Text; Tokenization: Curr. RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical concept identifiers, for zero-shot recommendation instead of language-centric pretraining.
 - [Code](https://github.com/reczoo/RecBase)
 - Setup card: yes
 - Relations: 2
@@ -7112,6 +7239,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: IV. Utility
 - Stage: Backbone
 - Representation: Text+Img; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Hybrid
+- TL;DR: RecoChain generates candidates by hierarchical Semantic ID prediction and then ranks them with SIM-based click estimation in the same Transformer, to close the gap between generation and ranking.
 - Setup card: yes
 - Relations: 2
 
@@ -7152,6 +7280,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → (NTP + Aux.); Inference: Beam
+- TL;DR: REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combines global and ID-boundary local attention, and distills a discriminative teacher's next-token distributions along the target prefix path.
 - Setup card: yes
 - Relations: 4
 
@@ -7186,6 +7315,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Representation: Text; Tokenization: R-KM†; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+Greedy
+- TL;DR: ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.
 - [Code](https://github.com/lilv98/ReRankID)
 - Setup card: yes
 - Relations: 2
@@ -7219,6 +7349,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Attr+CF; Tokenization: GAOQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: ReSID learns item representations from structured features with field-aware masked autoencoding and quantizes them with globally aligned orthogonal quantization, instead of LLM embeddings and generic quantizers.
 - [Code](https://github.com/FuCongResearchSquad/ReSID)
 - Setup card: yes
 - Relations: 3
@@ -7253,6 +7384,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text†; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+C-Beam
+- TL;DR: Retrieval-Grounded-Credit splits each reasoning trace into interest hypotheses, runs each as a query through a frozen retriever, and rewards hypotheses that hit the target, not only the decoded Semantic ID.
 - [Code](https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation)
 - Setup card: yes
 - Relations: 3
@@ -7287,6 +7419,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: CF-Aligned MM RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: RoFiGR aligns coarse Semantic ID code vectors with collaborative embeddings and distills a sequential teacher over legal branches with level-adaptive weights, to reduce early routing errors.
 - Setup card: yes
 - Relations: 3
 
@@ -7320,6 +7453,7 @@ SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Geo; Tokenization: Geo-Prefix+RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+C-Beam
+- TL;DR: ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided reinforcement learning to LLM-based next-POI generation.
 - [Code](https://github.com/amap-cvlab/Reasoning-Over-Space)
 - Setup card: yes
 - Relations: 4
@@ -7630,6 +7764,7 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text+CF; Tokenization: CoBa RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: Beam
+- TL;DR: S2GR inserts a thinking token before each Semantic ID step, supervised contrastively with codebook cluster distributions, and builds the codebook with co-occurrence, load-balancing, and uniformity objectives.
 - Setup card: yes
 - Relations: 3
 
@@ -7735,6 +7870,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text+Img†; Tokenization: R-KM†; Backbone: Dec-Only†; Tokenizer: Fixed†; Objective: NTP → RL; Inference: –
+- TL;DR: SAGE-SID optimizes list-wise generators with a geometric-mean sequence ratio, decoupled multi-objective advantages, asymmetric adaptive bounds, and an entropy-aware penalty, replacing the symmetric bounds of GBPO.
 - Setup card: yes
 - Relations: 3
 
@@ -7768,6 +7904,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: SRBQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: (MTP + Masked Rec.) → MTP; Inference: Graph
+- TL;DR: SAHL quantizes items with SRBQ into a balanced token-subspace-item hierarchy and reconstructs user history at those granularities, moving by curriculum to next-item prediction, instead of next-item prediction alone.
 - [Code](https://github.com/CQU-MM-Intelligent-Lab/SAHL)
 - Setup card: yes
 - Relations: 3
@@ -7802,6 +7939,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+C-Beam
+- TL;DR: SAPO computes a separate group-relative advantage for each reasoning step, one thinking block plus one Semantic ID token, instead of broadcasting one exact-match advantage to the whole response.
 - [Code](https://github.com/zhengzaiyi/SAPO)
 - Setup card: yes
 - Relations: 3
@@ -7836,6 +7974,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+CF; Tokenization: RQ-VAE; Backbone: Non-AR / Enc-Dec; Tokenizer: Fixed; Objective: MTP + Ctr.; Inference: Scoring / Beam†
+- TL;DR: SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages.
 - [Code](https://github.com/DanJiayi/SCRec)
 - Setup card: yes
 - Relations: 3
@@ -7870,6 +8009,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: V. Efficiency
 - Stage: Tokenization
 - Representation: CF; Tokenization: Tree-Clus.; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: C-Beam
+- TL;DR: SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items.
 - [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval)
 - Setup card: yes
 - Relations: 3
@@ -7912,6 +8052,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: Align. RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: SemConv converts item IDs into token sequences aligned with the LLM space through Alignment Tokenization, adds tasks linking collaborative signals and language, and pre-caches top-K results for serving.
 - Setup card: yes
 - Relations: 2
 
@@ -7944,6 +8085,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE†; Backbone: Enc-MLP; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: SID-MLP distills an autoregressive Transformer decoder into position-specific MLP heads over a single user-context computation, replacing repeated attention steps in Semantic ID decoding.
 - [Code](https://github.com/ztguo715/SID-MLP.git)
 - Setup card: yes
 - Relations: 4
@@ -7979,6 +8121,7 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: C-Beam
+- TL;DR: SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces.
 - [Code](https://github.com/HappyPointer/SIDReasoner)
 - Setup card: yes
 - Relations: 4
@@ -8125,6 +8268,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: Self-Imp.; Backbone: Enc-Dec; Tokenizer: Altern.; Objective: Multi-task NTP; Inference: C-Beam
+- TL;DR: SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding.
 - Setup card: yes
 - Relations: 4
 
@@ -8167,6 +8311,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: IV. Utility
 - Stage: Training
 - Representation: –; Tokenization: –; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Greedy
+- TL;DR: SLIDE concatenates a teacher's offline beam-search candidates into list-wise Semantic ID targets, so a student generates the whole top-K list in one greedy pass instead of item-level beam search.
 - Setup card: yes
 - Relations: 3
 
@@ -8200,6 +8345,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text+Img+CF; Tokenization: RQ-VAE+PPR; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- TL;DR: SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.
 - Setup card: yes
 - Relations: 2
 
@@ -8232,6 +8378,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: Geo; Tokenization: Geo-Idx; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Beam
+- TL;DR: Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal context into action sequences, adds multimodal POI embeddings, and post-trains for embeddings, ranking scores, and candidates.
 - Setup card: yes
 - Relations: 2
 
@@ -8264,6 +8411,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Geo; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: –
+- TL;DR: SPAR fuses sinusoidal coordinate embeddings into Semantic ID construction, continually pre-trains the LLM on geospatial data, and anchors that knowledge as a frozen task vector during behavioral fine-tuning.
 - Setup card: yes
 - Relations: 3
 
@@ -8297,6 +8445,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: –; Tokenization: RQ-PIB; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: C-Beam
+- TL;DR: SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence from compressed user memory and balances interaction loads among sibling branches with RQ-PIB, to reduce branch errors and popularity bias.
 - Setup card: yes
 - Relations: 3
 
@@ -8330,6 +8479,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: VI. Generalization
 - Stage: Inference
 - Representation: Text+SID; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Hybrid
+- TL;DR: SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training.
 - [Code](https://github.com/Jamesding000/SpecGR)
 - Setup card: yes
 - Relations: 3
@@ -8364,6 +8514,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text / Audio; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Div. Beam
+- TL;DR: SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables.
 - [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender)
 - Setup card: yes
 - Relations: 2
@@ -8397,6 +8548,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Dual-level Flow Ctr.; Inference: Scoring
+- TL;DR: SPRINT predicts all Semantic ID token probabilities in one forward pass of a bidirectional Transformer, based on average probability velocity, and restores token coherence with a dual-level flow contrastive objective.
 - [Code](https://github.com/iamZhuoCai/SPRINT)
 - Setup card: yes
 - Relations: 3
@@ -8431,6 +8583,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: RQ+IST; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: SST represents history items as variable-length subwords merged from stable adjacent Semantic ID tokens while keeping fixed-length target decoding, to reduce intra-item attention in the encoder.
 - [Code](https://github.com/mxrcandy/Semantic-Subword-Tokenization)
 - Setup card: yes
 - Relations: 2
@@ -8464,6 +8617,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: V. Efficiency
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec / Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and adds a multi-step auxiliary prediction objective, to cut training cost and densify supervision for long Semantic IDs.
 - Setup card: yes
 - Relations: 3
 
@@ -8505,6 +8659,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: V. Efficiency
 - Stage: Inference
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Vec. C-Beam
+- TL;DR: STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized operations for constrained decoding on TPUs and GPUs.
 - [Code](https://github.com/youtube/static-constraint-decoding)
 - Setup card: yes
 - Relations: 3
@@ -8539,6 +8694,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: I. Informativeness
 - Stage: Training
 - Representation: Text+Img; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: C-Beam
+- TL;DR: SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.
 - [Code](https://github.com/gxingyu/SynGR)
 - Setup card: yes
 - Relations: 4
@@ -8582,6 +8738,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: IV. Utility
 - Stage: Inference
 - Representation: Text; Tokenization: R-KM; Backbone: Enc-Dec† / Dec-Only†; Tokenizer: Fixed; Objective: NTP† / NTP → RL; Inference: CF-Guided C-Beam
+- TL;DR: TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds them, gated by confidence, to path scores before beam pruning, without retraining.
 - Setup card: yes
 - Relations: 3
 
@@ -8615,6 +8772,7 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Representation: Attr+Geo+CF†; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+Beam
+- TL;DR: Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.
 - [Code](https://doi.org/10.5281/zenodo.18206701)
 - Setup card: yes
 - Relations: 3
@@ -8933,6 +9091,7 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text; Tokenization: Flow+PQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP + Rel.MSE; Inference: Scoring
+- TL;DR: Tlow maps semantic embeddings with a normalizing flow into a standard normal latent space before independent quantization, and aligns codebook and token embedding spaces, unlike RQ-VAE or OPQ.
 - [Code](https://github.com/wjjln/Tlow)
 - Setup card: yes
 - Relations: 3
@@ -8967,6 +9126,7 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
+- TL;DR: Token-Weighted weights Semantic ID tokens by prefix ambiguity reduction and by token frequency, combining both with the standard likelihood under curriculum learning, instead of uniform token training.
 - [Code](https://github.com/CHIUWEINING/Token-Weighted-Multi-Target-Learning-for-Generative-Recommenders-with-Curriculum-Learning)
 - Setup card: yes
 - Relations: 2
@@ -9000,6 +9160,7 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: CF; Tokenization: Masked VQ; Backbone: Encoder; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items.
 - [Code](https://github.com/Quhaoh233/TokenRec)
 - Setup card: yes
 - Relations: 4
@@ -9109,6 +9270,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Representation: Text; Tokenization: BDQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP + Aux.; Inference: Scoring+Rerank
+- TL;DR: TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols.
 - Setup card: yes
 - Relations: 3
 
@@ -9142,6 +9304,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: IV. Utility
 - Stage: Tokenization
 - Representation: Text; Tokenization: Soft Reassign. RQ; Backbone: Dec-Only / Enc-Dec; Tokenizer: Joint; Objective: NTP + Aux.; Inference: Beam
+- TL;DR: TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
 - Setup card: yes
 - Relations: 4
 
@@ -9176,6 +9339,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: II. Uniqueness and Validity
 - Stage: Tokenization
 - Representation: Text; Tokenization: Multi-Facet ID; Backbone: Enc-Dec / Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: FM-Index+Agg.
+- TL;DR: TransRec indexes items with multi-facet identifiers combining ID, title, and attributes, constrains generation with FM-index substring indexing, and aggregates generated identifiers to rank catalog items.
 - [Code](https://github.com/Linxyhaha/TransRec/)
 - Setup card: yes
 - Relations: 2
@@ -9209,6 +9373,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+Img; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: C-Beam
+- TL;DR: TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss.
 - Setup card: yes
 - Relations: 5
 
@@ -9252,6 +9417,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed†; Objective: NTP†; Inference: C-Beam
+- TL;DR: TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.
 - Setup card: yes
 - Relations: 3
 
@@ -9285,6 +9451,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → (RL + Rank); Inference: Beam
+- TL;DR: UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization, and explicit confidence alignment, instead of rewards based only on binary outcome correctness.
 - [Code](https://github.com/cxfann/UGR)
 - Setup card: yes
 - Relations: 2
@@ -9318,6 +9485,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: I. Informativeness
 - Stage: Representation
 - Representation: Text+CF; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Ctr.; Inference: Beam
+- TL;DR: UNGER learns one integrated semantic-collaborative embedding through cross-modality alignment and next-item prediction, quantizes it into a unified code, and adds intra-modality distillation, instead of separate codes per modality.
 - Setup card: yes
 - Relations: 3
 
@@ -9351,6 +9519,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+CF; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: C-Beam
+- TL;DR: UniRec prefixes each Semantic ID with category, seller, and brand tokens through Chain-of-Attribute, to recover the item-side feature crossing of discriminative models, and adds capacity-constrained quantization.
 - Setup card: yes
 - Relations: 4
 
@@ -9393,6 +9562,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: I. Informativeness
 - Stage: Backbone
 - Representation: –; Tokenization: –; Backbone: Enc-Dec; Tokenizer: –; Objective: NTP + Rank; Inference: Beam
+- TL;DR: UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking.
 - Setup card: yes
 - Relations: 3
 
@@ -9426,6 +9596,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text+Img+Attr; Tokenization: Direct SID Heads; Backbone: –; Tokenizer: –; Objective: –; Inference: –
+- TL;DR: UniSID optimizes embeddings and Semantic IDs end to end from raw advertising data with multi-granularity contrastive learning and summary-based reconstruction, instead of embedding first and quantizing afterwards.
 - Setup card: yes
 - Relations: 2
 
@@ -9458,6 +9629,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Multi-Dom; Tokenization: TokenMoE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam†
+- TL;DR: UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks, calibrating mutual information across domains, instead of one tokenizer per domain.
 - [Code](https://github.com/jackfrost168/UniTok)
 - Setup card: yes
 - Relations: 4
@@ -9501,6 +9673,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Multi-Dom; Tokenization: Tree; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Beam
+- TL;DR: UTGRec builds a universal item tokenizer from a multimodal LLM with tree-structured codebooks, text and image reconstruction, and co-occurrence alignment, and pre-trains a generator that transfers across domains.
 - [Code](https://github.com/RUCAIBox/UTGRec)
 - Setup card: yes
 - Relations: 4
@@ -9544,6 +9717,7 @@ TokenRec 的贡献是把协同 ID 学习为可组合 token，适合放在“LLM 
 - Problem: IV. Utility
 - Stage: Training
 - Representation: Text†; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: C-Beam
+- TL;DR: V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search.
 - Setup card: yes
 - Relations: 4
 
@@ -9652,6 +9826,7 @@ V-STAR 的主要贡献是按候选价值分配生成搜索预算，适合放在�
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Representation: Text; Tokenization: HARQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
+- TL;DR: VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.
 - Setup card: yes
 - Relations: 3
 
@@ -9685,6 +9860,7 @@ V-STAR 的主要贡献是按候选价值分配生成搜索预算，适合放在�
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Representation: Multi-Dom; Tokenization: OPQ; Backbone: Encoder; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
+- TL;DR: VQ-Rec maps item text to discrete codes and looks up code embeddings as item representations, with contrastive pre-training and cross-domain fine-tuning, to loosen the binding between text and representation.
 - [Code](https://github.com/RUCAIBox/VQ-Rec)
 - Setup card: yes
 - Relations: 3

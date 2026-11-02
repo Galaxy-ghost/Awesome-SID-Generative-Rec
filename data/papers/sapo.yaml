@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: CoT+C-Beam
 poi: false
 summary: 把推理块与SID码位配对分配组内奖励，避免整条结果奖励同时惩罚匹配和不匹配的码位。
+tldr: SAPO computes a separate group-relative advantage for each reasoning step, one thinking block plus one Semantic ID token,
+  instead of broadcasting one exact-match advantage to the whole response.
 setup:
   datasets: Amazon Reviews Office Products, Video Games, Industrial & Scientific; October 2016-November 2018; 5-core users/items.
     Further history truncation not reported.

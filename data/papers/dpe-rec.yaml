@@ -30,6 +30,8 @@ summary: 'Generative bundle construction completes a partially observed bundle b
   accurate bundle construction with substantially fewer denoise steps. Experiments on multiple bundle construction benchmarks
   show that DPE-Rec improves recommendation performance by 63% on average, and its fast variant achieves 25.6$times$ faster
   inference on average than existing generative recommendation arts, with minimal loss in recommendation quality.'
+tldr: DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and
+  pseudo-trajectory distillation to reveal more tokens per denoising step.
 setup:
   datasets: Spotify playlists (K=30/60/90), POG outfits (K=4), IQON3000 outfits (K=8). Remove bundles shorter than K, truncate
     longer bundles; IQON3000 also drops outfits with missing images. User/item-frequency filtering not reported.

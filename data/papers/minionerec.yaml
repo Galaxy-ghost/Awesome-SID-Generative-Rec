@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: Beam
 poi: false
 summary: 'Abstract: "most industrial deployments remain proprietary".'
+tldr: MiniOneRec is an open-source framework for RQ-VAE Semantic ID construction, supervised fine-tuning of Qwen backbones,
+  and reinforcement learning with constrained decoding, to test generative scaling on public benchmarks.
 evidence:
 - field: problem
   where: 'Abstract, proprietary-deployment complaint (fragment), arXiv v1: https://arxiv.org/html/2510.24431v1#abstract1.1'

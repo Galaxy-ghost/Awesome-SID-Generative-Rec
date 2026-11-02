@@ -18,6 +18,8 @@ inference: –
 poi: true
 summary: 'Abstract: "employ random numeric IDs for POIs, limiting the ability to model semantic relationships between similar
   locations". The diversity loss only spreads SIDs evenly; the abstract does not blame prior work for collisions, so not II.'
+tldr: GNPR-SID replaces random numeric POI IDs with RQ-VAE Semantic IDs built from semantic and collaborative features under
+  a diversity loss, and fine-tunes an LLM to generate the next POI.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2506.01375v2#abstract1

@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: C-Beam
 poi: false
 summary: 'Abstract: "prohibitive training overhead due to sequence expansion".'
+tldr: STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and adds a multi-step auxiliary prediction
+  objective, to cut training cost and densify supervision for long Semantic IDs.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.05329v3#abstract1 (Abstract; excerpt)

@@ -17,6 +17,8 @@ objective: NTP
 inference: –
 poi: true
 summary: 沿用ROS的SID生成骨干，增量是有原文机制和实验支撑的世界知识获取及历史选择。
+tldr: AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior,
+  to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training.
 setup:
   datasets: Foursquare-NYC, Foursquare-TKY and Gowalla-CA; filter users/POIs with fewer than 10 check-ins; segment chronological
     trajectories at a 24-hour gap; reverse-geocode street addresses.

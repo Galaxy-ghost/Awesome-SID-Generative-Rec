@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2603.11486) · [Matrix](../../README.md#v--inference)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -15,11 +15,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
 - `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
 
+### TL;DR
+
+OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Key Contribution | OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders. |
 | Modified Stage | Inference |
 
 ### 3. Experimental Findings

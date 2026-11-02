@@ -18,6 +18,8 @@ inference: Beam
 poi: false
 summary: 'Abstract: "cross-domain generalization is hindered by a fundamental mismatch between language-centric pretraining
   and the recommendation task".'
+tldr: RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical
+  concept identifiers, for zero-shot recommendation instead of language-centric pretraining.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2509.03131v1#abstract1 (Abstract)

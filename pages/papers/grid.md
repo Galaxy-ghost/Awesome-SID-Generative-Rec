@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
+### TL;DR
+
+GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Key Contribution | GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks. |
 | Modified Stage | No single stage |
 
 ### 2. How It Works

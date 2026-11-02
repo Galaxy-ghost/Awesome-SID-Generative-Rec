@@ -18,6 +18,8 @@ inference: Hybrid
 poi: false
 summary: 'Abstract: "mitigating performance differences and enhancing cold-start item recommendation". Candidates: VI / none
   (rule: complaint fits none of the six classes; judged by the new design).'
+tldr: LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of
+  both approaches, to narrow their performance gap and improve cold-start recommendation.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2411.18814v2#abstract1

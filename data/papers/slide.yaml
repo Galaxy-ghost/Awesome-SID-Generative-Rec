@@ -29,6 +29,8 @@ summary: 'Generative retrieval (GR) typically relies on item-level beam search t
   the Top-$K$ list in a single greedy pass, also decoupling teacher scaling from online deployment. Experiments on FORGE and
   Taobao Search show that SLIDE substantially improves retrieval quality under single greedy decoding and, with stronger offline
   teachers, surpasses the beam-search reference. Supplementary RL experiments support the effectiveness of list-level generation.'
+tldr: SLIDE concatenates a teacher's offline beam-search candidates into list-wise Semantic ID targets, so a student generates
+  the whole top-K list in one greedy pass instead of item-level beam search.
 setup:
   datasets: FORGE Stage S3; industrial Taobao Search requests with about 12 training labels/request. Additional filtering
     rules not reported.

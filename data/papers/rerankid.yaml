@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: CoT+Greedy
 poi: false
 summary: End-to-end paradigm or benchmark using R-KM† tokenization and Dec-Only backbone.
+tldr: 'ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic
+  IDs, and the paper compares post-training methods for this task.'
 setup:
   datasets: Kuaishou OpenOneRec-RecIF short-video release, 162074 source users; evaluation requires a renderable positive
     and >=256 items with both SID/caption histories.

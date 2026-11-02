@@ -31,6 +31,8 @@ summary: Generative recommendation with semantic IDs represents each item as a s
   approaches. On average, IDM improves Recall@10 by 15.39%, while CMM improves NDCG@10 by 8.28%. These results demonstrate
   that distillation in either reconstructed item space or code-marginal space can substantially strengthen hard-label supervision
   for parallel generative recommendation.
+tldr: IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution
+  or per-position code marginals, instead of training on hard next-item labels alone.
 setup:
   datasets: Amazon Reviews 2014 Beauty, Toys and Games, Sports and Outdoors; existing 5-core data verified without further
     filtering or deduplication.

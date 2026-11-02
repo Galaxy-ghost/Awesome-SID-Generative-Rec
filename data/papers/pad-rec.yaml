@@ -17,6 +17,8 @@ objective: Multi-task NTP†
 inference: Spec. Dec.
 poi: false
 summary: 'Abstract: "decoding remains sequential and thus latency-prone".'
+tldr: PAD-Rec adds gated item-slot and draft-step position embeddings to the draft model of speculative decoding, instead
+  of treating all Semantic ID draft tokens uniformly.
 evidence:
 - field: problem
   where: 'PAD-Rec v1, Abstract, quoted clause: https://arxiv.org/html/2604.27747v1#abstract1'

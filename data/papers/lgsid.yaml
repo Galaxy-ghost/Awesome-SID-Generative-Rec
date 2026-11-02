@@ -18,6 +18,8 @@ inference: Scoring / Beam†
 poi: true
 summary: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics
   and real-world distance awareness among items".'
+tldr: LGSID aligns an LLM to spatial relationships with a reward model and G-DPO, then builds Semantic IDs from spatial and
+  content attributes plus residual tokens from the aligned LLM representation.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.14221v1#abstract1

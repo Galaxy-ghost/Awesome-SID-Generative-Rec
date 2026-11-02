@@ -18,6 +18,8 @@ inference: Trie/C-Beam
 poi: false
 summary: 'Abstract: "these methods have yet to surpass traditional sequential recommenders on large item sets". Candidates:
   I / none (rule: complaint fits none of the six classes; judged by the new design).'
+tldr: MSCGRec quantizes images with self-supervised DINO-based learning, adds collaborative features as a separate modality,
+  and restricts training outputs to permissible tokens, to scale generative recommendation to large catalogs.
 evidence:
 - field: problem
   where: 'Abstract, large-item-set limitation (fragment) and proposed semantic/collaborative quantization, arXiv v1: https://arxiv.org/html/2602.03713v1#abstract1.1'

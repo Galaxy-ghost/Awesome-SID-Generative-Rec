@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "poor integration of traditional RS features"; "补信息算 I".'
+tldr: EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignment reconstruction tasks, and an annealing
+  adapter to a decoder-only LLM, instead of learning collaborative semantics from scratch.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2502.14735v1#abstract1

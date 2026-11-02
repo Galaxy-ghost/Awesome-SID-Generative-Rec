@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: Beam
 poi: false
 summary: 提出有限 rollout 可达性诊断与 hint-aware 信用分配的 SID 推荐训练方法。
+tldr: HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised
+  loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
 setup:
   datasets: 'Amazon Musical Instruments, Arts/Crafts/Sewing, Video Games; maximum history 50. Filtering: not reported.'
   split: 'Per-user chronological leave-one-out: last item test, penultimate validation, remaining interactions training.'

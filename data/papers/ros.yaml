@@ -18,6 +18,8 @@ inference: CoT+C-Beam
 poi: true
 summary: 'Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the
   introduction narrows the gap to not reasoning over geography (p1).'
+tldr: ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided
+  reinforcement learning to LLM-based next-POI generation.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2601.04562v2#abstract1 (Abstract); https://arxiv.org/html/2601.04562v2#S1.p3 (§1)

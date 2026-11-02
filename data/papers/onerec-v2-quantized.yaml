@@ -17,6 +17,8 @@ objective: NTP → RL†
 inference: FP8+RecoGEM
 poi: false
 summary: 新增可区分的 FP8 PTQ 与执行栈/算子设计，适合单独 V × Inference 条目，而非只重复 OneRec-V2。
+tldr: OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack
+  to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders.
 setup:
   datasets: Production single-column short-video recommendation; online evaluation on Kuaishou and Kuaishou Lite. Dataset
     dates, sizes and filtering not reported.

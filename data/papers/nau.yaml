@@ -28,6 +28,8 @@ summary: 'Generative recommendation predicts items by autoregressively generatin
   recovers the neighborhood utility that forget-and-repair unlearning loses at no global cost. We identify local probability
   redistribution as an important failure mode of unlearning in SID-based generative recommenders and show that explicitly
   controlling this redistribution can mitigate its effects.'
+tldr: NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level
+  unlearning, because shared tokens let unlearning degrade neighboring items.
 setup:
   datasets: Amazon Beauty, Sports, Toys using released five-core preprocessing. Table 24 additionally lists Food k5 SID diagnostics;
     its source and preprocessing details not reported.

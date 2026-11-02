@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates:
   V / III (rule: judged by the abstract''s complaint first).'
+tldr: SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and
+  triplet losses, to learn token hierarchy with equal inference cost for all items.
 evidence:
 - field: problem
   where: https://arxiv.org/abs/2309.13375v2 (Abstract on the versioned abstract page)

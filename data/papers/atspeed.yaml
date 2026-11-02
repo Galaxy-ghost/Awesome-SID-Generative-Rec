@@ -17,6 +17,8 @@ objective: NTP
 inference: Spec. Dec.
 poi: false
 summary: 'Abstract: "excessive inference latency caused by autoregressive decoding".'
+tldr: AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to
+  speed up beam-search generation of top-K items in LLM-based generative recommendation.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2410.05165v3#abstract1

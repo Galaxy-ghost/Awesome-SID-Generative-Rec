@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: C-Beam
 poi: false
 summary: 提出可变长度离散 SID 并接入生成推荐器。
+tldr: VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization
+  and a soft length controller, instead of fixed-length tokenization.
 setup:
   datasets: Amazon Beauty, Sports and Outdoors, Toys and Games, and Yelp; exclude users/items with fewer than five interactions.
     Maximum history length not reported.

@@ -17,6 +17,8 @@ objective: NTP†
 inference: C-Beam
 poi: false
 summary: 将 SID 的 trie 深度、祖先路径和 token 对关系写入生成器位置编码与注意力，改善其读取和建模层次 SID 的能力。
+tldr: TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer
+  generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.
 setup:
   datasets: Amazon Beauty, Toys, Food; MovieLens-1M. Standard 5-core filtering, histories retain the most recent 20 interactions.
   split: Per-user most recent interaction test, penultimate validation, earlier interactions training.

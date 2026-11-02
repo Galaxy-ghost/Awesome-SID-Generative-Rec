@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".'
+tldr: GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular
+  prompts separately, fusing them only at decoding, to use lengthy item text efficiently.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2506.01673v1#abstract1

@@ -17,6 +17,8 @@ objective: NTP + Ctr.
 inference: C-Beam
 poi: false
 summary: 'Abstract: "underexplore synergistic information across modalities".'
+tldr: SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information
+  beyond shared or modality-specific signals, instead of alignment-centric fusion.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2605.18920v2#abstract1 (Abstract; excerpt)

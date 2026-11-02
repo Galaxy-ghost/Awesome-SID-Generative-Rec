@@ -17,6 +17,8 @@ objective: NTP + Rank
 inference: Beam
 poi: false
 summary: 提出固定 SID 上的前缀感知优化方法，两种骨干验证。
+tldr: APAO adds prefix-level losses and an adaptive worst-prefix strategy to training, so correct items survive beam-search
+  pruning, closing the gap between token-level cross-entropy training and beam-search inference.
 setup:
   datasets: Amazon Office (4,905 users / 2,420 items), Grocery (14,681 / 8,713), Beauty (22,363 / 12,101), and Yelp (30,431
     / 20,033), with 5-core filtering of users and items; histories truncated to the 20 most recent items.

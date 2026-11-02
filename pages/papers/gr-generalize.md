@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -15,11 +15,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Enc-Dec`: Encoder-decoder.
 
+### TL;DR
+
+GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Key Contribution | GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance. |
 | Modified Stage | No single stage |
 
 ### 3. Experimental Findings

@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: –
 poi: false
 summary: 既有诊断也提出 Ghost 新方法，不能按纯分析排除。
+tldr: Ghost reduces popularity bias in generative recommenders with an asymmetric unlikelihood loss and skeleton-founded tokenization,
+  addressing token-level optimization and undifferentiated item tokenization as its causes.
 setup:
   datasets: 'Amazon Product Review 2018: Musical Instruments; Arts, Crafts and Sewing; Video Games. Users/items with fewer
     than five interactions are filtered out.'

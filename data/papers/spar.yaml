@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: –
 poi: true
 summary: 完整四位 SI-SID 含显式消歧码，三项空间机制独立可定位。
+tldr: SPAR fuses sinusoidal coordinate embeddings into Semantic ID construction, continually pre-trains the LLM on geospatial
+  data, and anchors that knowledge as a frozen task vector during behavioral fine-tuning.
 setup:
   datasets: Public NYC/TKY; one month of AMAP logs from Beijing, Shanghai, Tianjin and Zhejiang. MG-CPT adds 25 geospatial
     datasets per city. Cleaning details not reported.

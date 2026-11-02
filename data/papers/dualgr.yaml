@@ -18,6 +18,8 @@ inference: Dual Beam
 poi: false
 summary: 'Abstract: "long-short interest interference, context-induced noise in hierarchical SID generation, and the lack
   of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).'
+tldr: DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket,
+  and treats unclicked exposures as coarse-level hard negatives in training.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.12518v3#abstract1

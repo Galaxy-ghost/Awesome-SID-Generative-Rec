@@ -17,6 +17,8 @@ objective: NTP + Rank
 inference: Hybrid
 poi: false
 summary: 有完整 SID 生成和 item-level scoring 新架构；放弃唯一 SID 并不使其成为非 SID。
+tldr: Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated
+  Semantic ID to its items and re-scoring them, instead of ranking by token likelihood.
 setup:
   datasets: One week of industrial music-platform logs; tens of millions of active users and items. Filtering not reported.
   split: not reported

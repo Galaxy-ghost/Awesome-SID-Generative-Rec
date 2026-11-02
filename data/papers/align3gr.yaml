@@ -18,6 +18,8 @@ inference: Beam
 poi: false
 summary: 'Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic
   and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
+tldr: Align3GR aligns an LLM recommender at three levels, with dual semantic and collaborative tokenization, bidirectional
+  semantic alignment in behavior modeling, and progressive DPO from self-play and real-world feedback.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.11255v2#abstract1

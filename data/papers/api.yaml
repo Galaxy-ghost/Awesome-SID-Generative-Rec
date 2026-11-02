@@ -31,6 +31,8 @@ summary: Generative recommendation (GR) predicts the next item through its seman
   paired with their pretrained semantic annotations. Extensive experiments show that API achieves competitive performance
   across backbones and decoding schemes, while preserving item distinctions under compact token budgets and enabling explainable
   retrieval.
+tldr: API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains
+  an adapter to predict indices and strengths, instead of fitting a new vocabulary.
 setup:
   datasets: 'Amazon Beauty, Sports, and Toys as preprocessed in prior work (P5, GRID), keeping their splits; item text from
     title, brand, category, and price. Sizes: Appendix A (not restated here).'

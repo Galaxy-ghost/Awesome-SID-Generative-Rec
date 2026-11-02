@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: –
 poi: true
 summary: 完整 POI StruID 是推荐输出，知识图谱编号和多行为监督提供独立设计。
+tldr: KGTB organizes POI data as a knowledge graph, quantizes each node into a structural ID under graph supervision, and
+  fine-tunes an LLM on POI, category, and region visit tasks.
 setup:
   datasets: Foursquare Boston/Paris; Gowalla Austin/San Francisco. No filtering strategies applied.
   split: Per-user chronological 70% training, 10% validation, 20% test.

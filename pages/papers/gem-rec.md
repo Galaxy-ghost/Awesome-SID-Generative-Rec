@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2603.22231) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `Bid-Aware Beam`: Beam search whose scores incorporate bid information.
 
+### TL;DR
+
+GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Key Contribution | GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue. |
 | Modified Stage | Training |
 
 ### 3. Experimental Findings

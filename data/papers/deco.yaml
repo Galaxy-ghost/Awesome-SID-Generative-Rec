@@ -30,6 +30,8 @@ summary: 'Generative recommenders retrieve items by writing their semantic IDs (
   budget in a production-style serving pipeline. Delegating beam search makes larger candidate pools and models practical:
   Deco generates 1000 candidates faster than its teacher generates 100, and with a 1.5B-parameter LLM backbone, it matches
   the 69M-parameter teacher''s throughput while achieving higher accuracy.'
+tldr: Deco reads each history item as one fused token, condenses the history into a next-item concept, and runs beam search
+  in a light KV-cached decoder instead of the full backbone.
 setup:
   datasets: Amazon-2014 Beauty/Sports/Toys and Amazon-2023 BPC-23/Books-23, published 5-core subsets; MovieLens-25M subset
     (filtering rules not reported); Yambda-500M last30 days, exact deduplication, consecutive track-repeat collapse and user/item

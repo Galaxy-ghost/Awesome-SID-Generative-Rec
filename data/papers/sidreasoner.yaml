@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: C-Beam
 poi: false
 summary: 本篇§3.1明确复用SIDReasoner的SID管线；另核2603.23183v2 §3.2.1 PDF p4明确item textual metadata构码，本文未重述的输入标Text†。
+tldr: SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then
+  improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.23183v2#abstract1 (Abstract; clause)

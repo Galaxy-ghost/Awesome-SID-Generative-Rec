@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "effective SID learning is hindered by collisions".'
+tldr: AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repulsion for semantically compatible items
+  and scaling the rest by local collision load, instead of fixed overlap regularization.
 evidence:
 - field: problem
   where: arXiv:2604.23522v1, abstract

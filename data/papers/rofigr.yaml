@@ -27,6 +27,8 @@ summary: Generative recommenders predict an item's semantic identifier (SID) one
   with Holm correction support the main NDCG@10 improvements. Comparisons with alternative collaborative supervision objectives
   and tokenizers support the proposed design. Matched task and decoding analyses distinguish the effects of training exposure,
   stream fusion, and candidate budgets.
+tldr: RoFiGR aligns coarse Semantic ID code vectors with collaborative embeddings and distills a sequential teacher over legal
+  branches with level-adaptive weights, to reduce early routing errors.
 setup:
   datasets: Amazon Instruments, Arts, Games; 5-core filtering, histories capped at 20; catalogs 6250/9416/13839 items, respectively.
   split: Per-user chronological last event test, penultimate validation, earlier events training; teacher fitting and student

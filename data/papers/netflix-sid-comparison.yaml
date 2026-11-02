@@ -17,6 +17,8 @@ objective: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT
 inference: C-Beam / Scoring
 poi: false
 summary: End-to-end paradigm or benchmark using RQ-VAE tokenization and Dec-Only / Non-AR backbone.
+tldr: 'Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam
+  search with multi-token prediction for LLM Semantic ID generation on quality and cost.'
 setup:
   datasets: Proprietary streaming-media member histories, synthetic content QA, and open instruction-following data; >=10M
     examples/task. Catalog size, exact corpus sizes and filtering not reported.

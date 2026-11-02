@@ -17,6 +17,8 @@ objective: Discrim.
 inference: Scoring
 poi: false
 summary: 保留真实离散 SID 并提出完整的新推荐模型，虽不逐码生成，可按已准许例外收录。
+tldr: DiGR uses Semantic ID tokens as item representations and scores items with one item-level function, instead of generating
+  tokens, after showing that token decoding adds no ranking expressiveness.
 setup:
   datasets: 'Amazon Reviews 2018: Musical Instruments, Arts/Crafts/Sewing, Video Games; user/item 5-core; chronological histories
     capped at 20.'

@@ -17,6 +17,8 @@ objective: NTP
 inference: Vec. C-Beam
 poi: false
 summary: 'Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".'
+tldr: STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized
+  operations for constrained decoding on TPUs and GPUs.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2602.22647v3#abstract1 (Abstract; excerpt)

@@ -18,6 +18,8 @@ inference: Scoring
 poi: false
 summary: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting
   of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
+tldr: MME-SID feeds an LLM multimodal embeddings together with Semantic ID embeddings from MM-RQ-VAE, trained with maximum
+  mean discrepancy and contrastive alignment, to reduce embedding collapse and forgetting.
 evidence:
 - field: problem
   where: 'Abstract, first challenge (fragment), arXiv v1: https://arxiv.org/html/2509.02017v1#abstract1.1'

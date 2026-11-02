@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "SID Content Degradation (SCD)"; "SID Semantic Opacity (SSO)". Candidates: I / III (rule: tie broken by
   the majority of new designs).'
+tldr: TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation
+  tasks linking Semantic IDs, text, and images under one autoregressive loss.
 evidence:
 - field: problem
   where: 'https://arxiv.org/html/2605.05249v1#abstract1 (Abstract: SCD, SSO, CMSA, MDIM and TMT)'

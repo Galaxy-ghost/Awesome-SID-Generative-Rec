@@ -17,6 +17,8 @@ objective: NTP
 inference: –
 poi: false
 summary: 给完整 SID 生成模型提供持续更新编号器的新设计，在 TIGER 与 LC-Rec 验证。
+tldr: DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict
+  code reassignment, to update Semantic IDs without full retraining or mass ID changes.
 setup:
   datasets: Amazon Beauty, Tools, Toys; users/items with <5 interactions removed. Amazon release year not reported.
   split: 'Chronological interaction stream: P0 is the first 60% for pretraining; P1-P4 equally divide the remaining 40%. Sliding-window

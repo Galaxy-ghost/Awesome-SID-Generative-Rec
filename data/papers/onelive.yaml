@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: Beam
 poi: false
 summary: 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。
+tldr: OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware
+  gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment.
 setup:
   datasets: 'Kuaishou live-streaming logs over nearly two months: 400M users, 3M authors, billions of long-view/click interactions.
     Filtering rules not reported.'

@@ -17,6 +17,8 @@ objective: MTP
 inference: –
 poi: false
 summary: 'Abstract: "balancing cross-modal synergy with modality-specific uniqueness"; "bridging the semantic-behavioral gap".'
+tldr: MMQ trains a multimodal tokenizer with modality-shared and modality-specific experts under orthogonal regularization,
+  then fine-tunes its Semantic IDs on behavior objectives with a multimodal reconstruction loss.
 evidence:
 - field: problem
   where: 'Abstract, first challenge (fragment), arXiv v1: https://arxiv.org/html/2508.15281v1#abstract1.1'

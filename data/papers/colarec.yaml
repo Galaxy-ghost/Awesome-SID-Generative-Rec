@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored
   for item recommendation is still an open research challenge".'
+tldr: ColaRec builds generative identifiers from a pretrained collaborative filtering model and generates them from interacted-item
+  content, with an item indexing task and a contrastive loss aligning both spaces.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2403.18480v2#abstract1

@@ -17,6 +17,8 @@ objective: NTP†
 inference: ISD Beam
 poi: false
 summary: 有明确推理解码新设计 ISD，不能只按标题认定纯分析。
+tldr: ISD lets a user-specific item ranking support Semantic ID prefixes before beam search discards them, at inference time
+  and without retraining, after showing that Semantic IDs lose local item structure.
 setup:
   datasets: 'Amazon Reviews: Baby, Office, Scientific; filtering rules not reported.'
   split: 'Per-user chronological leave-one-out: final interaction test, preceding interaction validation, remainder training.'

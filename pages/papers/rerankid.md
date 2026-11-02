@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 - `CoT+Greedy`: Reasoning with greedy decoding.
 
+### TL;DR
+
+ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Key Contribution | ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task. |
 | Modified Stage | No single stage |
 
 ### 3. Experimental Findings

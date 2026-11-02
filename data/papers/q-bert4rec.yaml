@@ -17,6 +17,8 @@ objective: Masked
 inference: Non-AR
 poi: false
 summary: 'Abstract: "rely on discrete item IDs that lack semantic meaning and ignore rich multimodal information".'
+tldr: Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by
+  residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2512.02474v2#abstract1 (Abstract)

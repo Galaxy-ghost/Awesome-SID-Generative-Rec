@@ -17,6 +17,8 @@ objective: NTP + Ctr.
 inference: C-Beam
 poi: false
 summary: 'Abstract: "remain limited in their ability to harness multimodal information".'
+tldr: MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and
+  adds implicit and explicit cross-modal alignment to generator training.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.15122v2#abstract1

@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie
   broken by the majority of new designs).'
+tldr: GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes
+  over a domain-aware prefix tree, instead of relying on shared user or item IDs.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.08006v2#abstract1

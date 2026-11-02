@@ -19,6 +19,8 @@ poi: true
 summary: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals".
   II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8)
   serves II. Both labelings were unsure (alternative I).'
+tldr: Gwhere learns POI Semantic IDs with a contrastive residual-quantization tokenizer over text, image, spatial, and collaborative
+  signals, then adapts an LLM through continued pretraining, fine-tuning, and exposure-aware KTO.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2607.26073v1#abstract1

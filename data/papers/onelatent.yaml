@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 明确生成Res-Kmeans三位SID；首次2026-10-22在补搜窗口，提出新的latent对齐训练与高效推荐方法。
+tldr: OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged
+  alignment, and curriculum post-training, instead of generating long reasoning traces at inference.
 setup:
   datasets: Kuaishou LLM-Rec advertising and seven-day industrial local-services logs. Deduplicate user-item interactions
     by strongest feedback; remove samples lacking profile/target SID and history items lacking SIDs.

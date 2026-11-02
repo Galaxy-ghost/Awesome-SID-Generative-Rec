@@ -17,6 +17,8 @@ objective: NTP
 inference: Bid-Aware Beam
 poi: false
 summary: 'Abstract: "do not address concerns such as monetization via ad revenue and incorporation of bids".'
+tldr: GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so
+  one generator serves both semantic relevance and ad revenue.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.22231v1#abstract1

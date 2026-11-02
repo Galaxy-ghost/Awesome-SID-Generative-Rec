@@ -17,6 +17,8 @@ objective: NTP
 inference: –
 poi: false
 summary: 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。
+tldr: CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution,
+  so knowledge transfers at the data level and not only through shared parameters.
 setup:
   datasets: 'Industrial e-commerce advertising: >1 billion interactions, 19 million users, 25 million ads across 6 countries;
     largest country has about 10x the smallest''s training interactions. Amazon M2/KDD Cup 2023: UK/DE/JP/IT/FR/ES; high-resource

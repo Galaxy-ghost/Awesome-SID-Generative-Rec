@@ -17,6 +17,8 @@ objective: Multi-task NTP
 inference: CoT+C-Beam
 poi: false
 summary: 用SID拓扑生成结构化推理轨迹，解决自然语言推理与标识空间脱节。
+tldr: CogRec grounds reasoning in Semantic ID structure through intra-layer graphs, item neighborhoods, and Match, LateralJump,
+  and Explore routing steps, instead of a natural-language rationale weakly tied to the IDs.
 setup:
   datasets: 'Amazon Reviews 2014: Beauty, Sports, Toys; user/item filtering not reported.'
   split: 'Chronological per-user leave-one-out: last interaction test, penultimate validation, remainder training. Direct

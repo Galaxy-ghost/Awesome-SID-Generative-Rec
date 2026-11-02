@@ -17,6 +17,8 @@ objective: NTP + Ctr.
 inference: Fusion
 poi: false
 summary: 'Abstract: "focus solely on either behavioral or semantic aspects of item information".'
+tldr: EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided
+  transfer tasks, instead of using only one type of item information.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2406.14017v2#abstract1

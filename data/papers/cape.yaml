@@ -28,6 +28,8 @@ summary: 'Generative recommenders replace the retrieve-then-rank cascade with a 
   evidence while keeping the generator''s first item. Experiments with two generative backbones on product and music domains
   show that CAPE significantly improves long-tail accuracy over the backbones and over re-ranking baselines that share its
   candidates, preserves or improves overall accuracy, and adds a small fraction of the latency.'
+tldr: CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence
+  evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
 setup:
   datasets: 'Amazon Industrial & Scientific, Office Products and Beauty (5-core), plus LastFM-1K (987 users, 40429 tracks).
     LastFM filtering thresholds: not reported. Histories contain the latest ten items.'

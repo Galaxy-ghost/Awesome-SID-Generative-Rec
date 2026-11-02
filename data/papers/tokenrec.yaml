@@ -19,6 +19,8 @@ poi: false
 summary: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens";
   "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the
   first new design).'
+tldr: TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items
+  without autoregressive decoding or beam search, to generalize to new users and items.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2406.10450v3#abstract1 (Abstract; verified excerpt) ; https://arxiv.org/html/2406.10450v3#S1.p4

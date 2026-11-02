@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "may be unavailable in non-overlapped recommendation scenarios".'
+tldr: GMC assigns domain-shared Semantic IDs with a domain-aware contrastive loss and trains one sequence-to-sequence generator
+  across domains, instead of relying on users or items shared between domains.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2507.12871v3#abstract1

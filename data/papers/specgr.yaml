@@ -17,6 +17,8 @@ objective: NTP + Rank
 inference: Hybrid
 poi: false
 summary: 'Abstract: "struggle to recommend unseen items".'
+tldr: SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the
+  model can recommend items unseen in training.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2410.02939v2#abstract1 (Abstract; excerpt)

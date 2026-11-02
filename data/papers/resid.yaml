@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 提出完整 SID 构造方法并在统一生成推荐器上验证。
+tldr: ReSID learns item representations from structured features with field-aware masked autoencoding and quantizes them with
+  globally aligned orthogonal quantization, instead of LLM embeddings and generic quantizers.
 setup:
   datasets: 'Amazon 2023: Musical Instruments, Video Games, Industrial/Scientific, Baby Products, Arts/Crafts/Sewing, Sports/Outdoors,
     Toys/Games, Health/Household, Beauty/Personal Care, Books. User/item 5-core; require store and three category-level fields.'

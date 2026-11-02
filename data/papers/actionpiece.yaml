@@ -17,6 +17,8 @@ objective: NTP
 inference: Ensemble
 poi: false
 summary: 'Abstract: "without considering contextual relationships".'
+tldr: ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens,
+  so identical actions get context-dependent tokens instead of fixed independent ones.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2502.13581v3#abstract1

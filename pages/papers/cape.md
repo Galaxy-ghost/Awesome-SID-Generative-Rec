@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.29298) · [Matrix](../../README.md#i--inference)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -16,11 +16,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP† / NTP†`: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
 
+### TL;DR
+
+CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks. |
 | Modified Stage | Inference |
 
 ### 3. Experimental Findings

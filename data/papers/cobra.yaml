@@ -17,6 +17,8 @@ objective: NTP + Dense
 inference: BeamFusion
 poi: false
 summary: 'Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".'
+tldr: COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes
+  with BeamFusion, which combines beam search with nearest-neighbor scores.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2503.02453v1#abstract1

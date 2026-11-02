@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible
   item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
+tldr: CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing,
+  replacing random, title, and independent IDs that cause long outputs or hallucinated items.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2305.06569v6#abstract1

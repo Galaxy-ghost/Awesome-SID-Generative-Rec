@@ -6,7 +6,7 @@
 
 [Paper](https://doi.org/10.3390/electronics15204749) · [Matrix](../../README.md#i--inference)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -16,11 +16,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
 
+### TL;DR
+
+CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate. |
 | Modified Stage | Inference |
 
 ### 3. Experimental Findings

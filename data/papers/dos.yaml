@@ -19,6 +19,8 @@ poi: true
 summary: The abstract identifies the codebook-generation gap (III) and semantic loss during quantization (I), addressed by
   DFI and ORQ respectively. The designs and title cover both equally; the first contribution, DFI, breaks the tie in favor
   of alignment.
+tldr: DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals
+  and rotates the semantic space with orthogonal residual quantization.
 evidence:
 - field: problem
   where: abstract, p1; contribution list, p2

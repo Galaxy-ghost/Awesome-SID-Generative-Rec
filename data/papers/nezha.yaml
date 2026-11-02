@@ -17,6 +17,8 @@ objective: NTP
 inference: Self-Draft+Hash
 poi: false
 summary: 'Abstract: "severely hindered by high inference latency".'
+tldr: NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set
+  of valid IDs, instead of separate draft models and model-based verifiers.
 evidence:
 - field: problem
   where: 'Abstract, inference-latency complaint (fragment), arXiv v2: https://arxiv.org/html/2511.18793v2#abstract1.1'

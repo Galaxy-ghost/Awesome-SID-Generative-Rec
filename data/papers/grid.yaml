@@ -17,6 +17,8 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
+tldr: 'GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders
+  swappable and ablates them on public benchmarks.'
 evidence:
 - field: problem
   where: https://arxiv.org/html/2507.22224v1#abstract1

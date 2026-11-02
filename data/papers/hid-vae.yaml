@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "semantically flat and uninterpretable, lacking a coherent hierarchy"; "prone to representation entanglement
   (i.e., ``ID collisions'''')". Candidates: I / II (rule: tie broken by the majority of new designs).'
+tldr: HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and
+  adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
 evidence:
 - field: problem
   where: arXiv:2508.04618v2, abstract

@@ -17,6 +17,8 @@ objective: NTP
 inference: C-Beam
 poi: false
 summary: 'Abstract: "collapses multi-faceted item semantics at cluster boundaries".'
+tldr: CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends
+  its Semantic ID once confidence is high, so ID length varies per item.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2605.05096v1#abstract1

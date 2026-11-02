@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) · [Matrix](../../README.md#iii--backbone)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -17,11 +17,16 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
 
+### TL;DR
+
+FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
+
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Key Contribution | FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself. |
 | Modified Stage | Backbone |
 
 ### 3. Experimental Findings

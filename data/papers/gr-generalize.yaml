@@ -17,6 +17,8 @@ objective: NTP†
 inference: Hybrid
 poi: false
 summary: 'Abstract: "there is few systematic way to verify this hypothesis".'
+tldr: 'GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares
+  generative and item ID models on each, and combines both per instance.'
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.19809v1#abstract1

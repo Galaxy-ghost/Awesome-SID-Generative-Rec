@@ -18,6 +18,8 @@ inference: Beam
 poi: false
 summary: 'Abstract: "Text-based methods introduce LLMs'' vast output space, leading to hallucination"; "encounter a semantic
   gap between SIDs and LLMs'' native vocabulary". Candidates: II / III (rule: tie broken by the majority of new designs).'
+tldr: GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them,
+  avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2601.06798v1#abstract1

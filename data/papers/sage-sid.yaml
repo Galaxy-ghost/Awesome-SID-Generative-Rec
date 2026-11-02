@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: –
 poi: false
 summary: 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。
+tldr: SAGE-SID optimizes list-wise generators with a geometric-mean sequence ratio, decoupled multi-objective advantages,
+  asymmetric adaptive bounds, and an entropy-aware penalty, replacing the symmetric bounds of GBPO.
 setup:
   datasets: 'Amazon Reviews 2014 Sports/Beauty/Toys; RecIF-Bench: about 120M interactions, 200K users, Short Video/Ad/Product.
     Filtering not reported.'

@@ -18,6 +18,8 @@ inference: Hybrid
 poi: false
 summary: 'Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold:
   a flawed training objective counts).'
+tldr: RecoChain generates candidates by hierarchical Semantic ID prediction and then ranks them with SIM-based click estimation
+  in the same Transformer, to close the gap between generation and ranking.
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.25787v1#abstract1 (Abstract); https://arxiv.org/html/2604.25787v1#S2.SS3.SSS2.p1 (§2.3.2);

@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: C-Beam
 poi: false
 summary: 提出冷物品 SID 重新分配及多路径生成新方法。
+tldr: DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates,
+  the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses.
 setup:
   datasets: Amazon Beauty, Sports and Outdoors, Toys and Games; iterative user-core-5 and item-core-3 filtering.
   split: 'Per-user leave-one-out: last interaction test, penultimate validation, earlier interactions training.'

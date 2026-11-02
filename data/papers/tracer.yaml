@@ -17,6 +17,8 @@ objective: NTP + Aux.
 inference: Beam
 poi: false
 summary: 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
+tldr: TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative
+  Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
 setup:
   datasets: 'Amazon Industrial & Scientific, Sports & Outdoors and Toys & Games; remove users/items with fewer than five interactions.
     Amazon release year: not reported. Randomly select 5% of brands for forgetting, covering approximately 10% of interactions.'

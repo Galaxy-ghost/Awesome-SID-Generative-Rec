@@ -17,6 +17,8 @@ objective: NTP → (NTP + Aux.)
 inference: C-Beam
 poi: false
 summary: 新增隐式精炼模块与预算预测器，并给出训练和约束解码。
+tldr: IBA allocates latent reasoning steps across Semantic ID positions by information gain, giving more refinement to the
+  informative early positions, instead of a fixed number of steps per token.
 setup:
   datasets: Amazon Instruments and Beauty; MicroLens. Users with fewer than 5 interactions removed; training histories capped
     at 20 items.

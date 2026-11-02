@@ -17,6 +17,8 @@ objective: NTP → RL
 inference: GRC+Beam
 poi: false
 summary: §5.1仅称Qwen3-8B encode item embeddings，未列构码原始输入模态；没有点名继承文本输入配置，不能把常见Qwen文本编码经验写Text†。
+tldr: GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the
+  trajectory with GRPO, and allocates correction budget by entropy during beam search.
 setup:
   datasets: Amazon Arts and Musical Instruments; industrial e-commerce advertising logs spanning March-August 2025 (over 1B
     interactions, 19M users, 25M advertisements). Filtering rules not reported.

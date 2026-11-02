@@ -31,6 +31,8 @@ summary: Personalized recommendation depends on learning semantic and collaborat
   prefixes along the target SID path, jointly optimizing this objective with cross-entropy. Extensive experiments on real-world
   datasets demonstrate consistent improvements over existing GR baselines and support the effectiveness of the proposed preference
   distillation.
+tldr: REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combines global and ID-boundary local attention,
+  and distills a discriminative teacher's next-token distributions along the target prefix path.
 setup:
   datasets: Amazon Reviews 2014 Beauty/Sports/Toys and 2023 Instruments/Scientific/Games; 5-core filtering and maximum history
     20 items.

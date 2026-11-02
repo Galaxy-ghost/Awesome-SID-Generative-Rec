@@ -28,6 +28,8 @@ summary: 'Accurate product discovery on the Web requires recommendation models t
   compared methods on every dataset, with average relative gains of 6.30\% and 7.12\% over the strongest baseline. It also
   achieves a 1.04--1.18$\times$ full-test generation speedup over the fastest baseline. OneChord makes the served ranking
   distribution the common object of recommendation learning and distillation.'
+tldr: OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-matching scores for supervision, distillation,
+  and inference in a parallel decoder, so training targets the ranking used in serving.
 setup:
   datasets: Amazon 2014 5-core Sports/Beauty/Toys; Amazon 2023 5core/last_out_w_his Scientific/Instruments/Games, reconstructing
     each user's longest chronological sequence.

@@ -18,6 +18,8 @@ inference: Beam†
 poi: false
 summary: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are
   used". Candidates: III / II (rule: tie broken by the majority of new designs).'
+tldr: DIGER makes Semantic IDs differentiable so recommendation gradients update the tokenizer, and adds decaying Gumbel noise
+  against codebook collapse, instead of a tokenizer trained only for reconstruction.
 evidence:
 - field: problem
   where: arXiv:2601.19711v3, abstract

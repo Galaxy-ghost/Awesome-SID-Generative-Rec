@@ -17,6 +17,8 @@ objective: NTP → DPO
 inference: Sess. Beam
 poi: false
 summary: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
+tldr: OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions
+  of videos, and aligns preferences by iterative DPO with a reward model.
 evidence:
 - field: problem
   where: 'OneRec v1 (2502.18965), Abstract, quoted clause: https://arxiv.org/html/2502.18965v1#abstract1'

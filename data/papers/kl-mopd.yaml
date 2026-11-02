@@ -32,6 +32,8 @@ summary: Coordinating multiple recommendation objectives (e.g., click and conver
   Extensive experiments on three public benchmarks, a billion-scale industrial dataset, and online A/B tests on our e-commerce
   advertising platform demonstrate that KL-MOPD significantly improves both individual and joint recommendation performance.
   The anonymous code is provided for peer review.
+tldr: KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its
+  initial KL divergence from the student, instead of vanilla on-policy distillation.
 setup:
   datasets: 'TencentGR (CTR/CVR), YooChoose (CTR/GMV), Taobao (CTR/CVR), industrial advertising (CTR/eCPM). Filtering: not
     reported.'

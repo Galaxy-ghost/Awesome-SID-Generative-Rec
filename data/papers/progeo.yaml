@@ -19,6 +19,8 @@ poi: true
 summary: 'Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are
   semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names
   no real item).'
+tldr: ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding,
+  so Semantic IDs model semantics and geography jointly.
 evidence:
 - field: problem
   where: 'ProGEO v1, Abstract: https://arxiv.org/html/2604.23156v1#abstract1'
