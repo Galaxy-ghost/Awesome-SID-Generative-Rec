@@ -1,16 +1,12 @@
 # HF-SID
 
-*High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services* — Lin et al., arXiv’26 · `POI`
+*High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services* — Lin et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2608.30479) · [Record](../../data/papers/hf-sid.yaml) · [← Catalog](../../README.md#i--representation)
+`I. Informativeness` · `Representation` · `POI`
 
-> 直接研究 POI SID 质量并用于下游 next-POI 生成，建议保留方法；完整码到多 POI 的物化仍须明确标未知。
+[Paper](https://arxiv.org/abs/2608.30479) · [Matrix](../../README.md#i--representation)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Representation** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -23,18 +19,13 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `C-Beam`: Constrained beam search.
 
-## Same cell: I × Representation (11 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
-| [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
-| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
-| [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |
-| [GeoGR](geogr.md) | arXiv’26 | **`Text+Geo+CF`** → `R-KM+EM` → `Dec-Only` → `Altern.† / Multi-task NTP` → `Beam` |
-| [LGRID](lgrid.md) | arXiv’26 | **`Text+Geo`** → `DSRQ` → `Disc.` → `Fixed / Discrim.` → `Scoring` |
-| [LGSID](lgsid.md) | AAAI’26 | **`Text+Geo+CF`** → `Geo-Idx+RQ` → `Disc. / Enc-Dec` → `Fixed / Discrim. / NTP` → `Scoring / Beam†` |
-| [ReSID](resid.md) | arXiv’26 | **`Attr+CF`** → `GAOQ` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [SCRec](screc.md) | RecSys’26 | **`Text+CF`** → `RQ-VAE` → `Non-AR / Enc-Dec` → `Fixed / MTP + Ctr.` → `Scoring / Beam†` |
-| [SPAR](spar.md) | arXiv’26 | **`Text+Geo`** → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
-| [TriAlignGR](trialigngr.md) | arXiv’26 | **`Text+Img`** → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Representation |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#i--representation)

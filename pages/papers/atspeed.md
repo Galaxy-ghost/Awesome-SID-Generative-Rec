@@ -1,16 +1,12 @@
 # AtSpeed
 
-*Efficient Inference for Large Language Model-based Generative Recommendation* — Lin et al., ICLR’25
+*Efficient Inference for Large Language Model-based Generative Recommendation* — Lin et al. · ICLR’25
 
-[arXiv](https://arxiv.org/abs/2410.05165) · [Record](../../data/papers/atspeed.yaml) · [← Catalog](../../README.md#v--inference)
+`V. Efficiency` · `Inference`
 
-> Abstract: "excessive inference latency caused by autoregressive decoding".
+[Paper](https://arxiv.org/abs/2410.05165) · [Matrix](../../README.md#v--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,18 +17,13 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `Spec. Dec.`: Speculative decoding.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "excessive inference latency caused by autoregressive decoding".
-- **`representation`** (§4.1 Implementation Details, p7; Appendix A.3.1, p21): Taken from the LC-Rec row of Table 1.
-- **`tokenizer`** (p7): Location from the 10-26 'Training split' table in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Inference |
 
-## Same cell: V × Inference (5 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [NEZHA](nezha.md) | WWW’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Self-Draft+Hash`** |
-| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` → `R-KM†` → `Lazy Dec-Only†` → `Fixed† / NTP → RL†` → **`FP8+RecoGEM`** |
-| [PAD-Rec](pad-rec.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP†` → **`Spec. Dec.`** |
-| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |
-| [STATIC](static.md) | KDD’26 ADS | `–` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Vec. C-Beam`** |
+[View all papers in this cell](../../README.md#v--inference)

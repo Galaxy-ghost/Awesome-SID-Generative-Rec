@@ -1,16 +1,12 @@
 # OneRec-Think
 
-*In-text reasoning for generative recommendation* — Liu et al., arXiv’25
+*In-text reasoning for generative recommendation* — Liu et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2510.11639) · [Record](../../data/papers/onerec-think.yaml) · [← Catalog](../../README.md#iii--training)
+`III. SID–Model Alignment` · `Training`
 
-> Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule: lack of reasoning is not a class of its own).
+[Paper](https://arxiv.org/abs/2510.11639) · [Matrix](../../README.md#iii--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 - `CoT`: Chain-of-thought before the SID.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Training |
+
+### 2. How It Works
 
 ![OneRec-Think architecture diagram](../../architectures/onerec-think.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule: lack of reasoning is not a class of its own).
-- **`representation`** (§3, p2; OneRec technical report §2.1.1): Paper says itemic tokens come from 'multi-modal and collaborative content' but does not name the visual inputs.
-- **`tokenization`** (§3, p2; OneRec technical report (arXiv 2506.13695v4) §2.1.2, Table 11; §5.4.1, p6): Paper only says 'Following OneRec'; R-KM inferred from the OneRec technical report (RQ-Kmeans).
 
 ## 旧卡片说明
 
@@ -109,15 +106,6 @@ OneRec-Think 将显式文本推理嵌入直接 itemic token 生成，适合放�
 - 核心贡献：在生成物品标识前加入文本内推理。
 - 使用场景：工业推荐。
 
-## Same cell: III × Training (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
-| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` → `Learn. RQ` → `Enc-Dec` → **`Altern. / NTP + Ctr.`** → `Beam` |
-| [GREAM](gream.md) | arXiv’25 | `Text+CF` → `RQ-KM` → `Dec-Only` → **`Fixed / NTP → RL`** → `Beam` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
-| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `C-Beam` |
-| [Think2Go](think2go.md) | KDD’26 | `Attr+Geo+CF†` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+Beam` |
+[View all papers in this cell](../../README.md#iii--training)

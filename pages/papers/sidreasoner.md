@@ -1,16 +1,12 @@
 # SIDReasoner
 
-*Reasoning over Semantic IDs Enhances Generative Recommendation* — He et al., KDD’26
+*Reasoning over Semantic IDs Enhances Generative Recommendation* — He et al. · KDD’26
 
-[arXiv](https://arxiv.org/abs/2603.23183) · [Record](../../data/papers/sidreasoner.yaml) · [← Catalog](../../README.md#iii--training)
+`III. SID–Model Alignment` · `Training`
 
-> 本篇§3.1明确复用SIDReasoner的SID管线；另核2603.23183v2 §3.2.1 PDF p4明确item textual metadata构码，本文未重述的输入标Text†。
+[Paper](https://arxiv.org/abs/2603.23183) · [Matrix](../../README.md#iii--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 - `C-Beam`: Constrained beam search.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Training |
+
+### 2. How It Works
 
 ![SIDReasoner architecture diagram](../../architectures/sidreasoner.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "Itemic tokens are not natively meaningful to LLMs".
-- **`objective`** (§3.2.2, §3.3.1, §3.3.2, p4–5): Location from the pre-10-26 Training evidence in the appendix.
-- **`inference`** (code: HappyPointer/SIDReasoner evaluate_Qwen3_think.py (commit 2575927, read statically)): Not stated in the text.
 
 ## 旧卡片说明
 
@@ -103,15 +100,6 @@ SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适
 - 核心贡献：在SID生成前进行偏好推理。
 - 使用场景：跨域与冷启动。
 
-## Same cell: III × Training (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
-| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` → `Learn. RQ` → `Enc-Dec` → **`Altern. / NTP + Ctr.`** → `Beam` |
-| [GREAM](gream.md) | arXiv’25 | `Text+CF` → `RQ-KM` → `Dec-Only` → **`Fixed / NTP → RL`** → `Beam` |
-| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
-| [Think2Go](think2go.md) | KDD’26 | `Attr+Geo+CF†` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+Beam` |
+[View all papers in this cell](../../README.md#iii--training)

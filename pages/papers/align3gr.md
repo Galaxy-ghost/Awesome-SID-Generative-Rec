@@ -1,16 +1,12 @@
 # Align3GR
 
-*Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* — Ye et al., AAAI’26
+*Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* — Ye et al. · AAAI’26
 
-[arXiv](https://arxiv.org/abs/2511.11255) · [Record](../../data/papers/align3gr.yaml) · [← Catalog](../../README.md#iii--tokenization)
+`III. SID–Model Alignment` · `Tokenization`
 
-> Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract's complaint first).
+[Paper](https://arxiv.org/abs/2511.11255) · [Matrix](../../README.md#iii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,15 +16,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Tokenization |
+
+### 2. How It Works
 
 ![Align3GR architecture diagram](../../architectures/align3gr.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral misalignment". Candidates: III / I (rule: judged by the abstract's complaint first).
-- **`objective`** (Multi-task SFT, p4; Progressive DPO, p4–5, Eq. 3): Location from the pre-10-26 Training evidence in the appendix.
-- **`inference`** (Implementation Details and Evaluation Metrics, p5): Beam width 20; no prefix constraint reported.
 
 ## 旧卡片说明
 
@@ -106,17 +103,6 @@ Align3GR 的贡献是把语义-协同对齐从单点扩展为多层训练协议�
 - 核心贡献：在三层面统一对齐。
 - 使用场景：公共与工业推荐。
 
-## Same cell: III × Tokenization (10 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [IDGenRec](idgenrec.md) | SIGIR’24 | `Text` → **`LLM-Vocab`** → `Enc-Dec` → `Altern. / NTP` → `C-Beam` |
-| [SIIT](siit.md) | arXiv’24 | `Text` → **`Self-Imp.`** → `Enc-Dec` → `Altern. / Multi-task NTP` → `C-Beam` |
-| [SemConv](semconv.md) | AAAI’25 | `Text+CF` → **`Align. RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [CogRec](cogrec.md) | arXiv’26 | `Text` → **`R-KM+Graph`** → `Dec-Only` → `Fixed / Multi-task NTP` → `CoT+C-Beam` |
-| [DOS](dos.md) | WWW’26 Short | `Text+CF` → **`Orth. RQ`** → `Dec-Only†` → `Fixed† / NTP` → `–` |
-| [GR4AD-X](gr4ad-x.md) | arXiv’26 | `–` → **`Multi-Path R-KM+Hash`** → `Enc-Dec` → `Fixed / NTP + PV-RSPO + Rank + Aux.` → `PV-Beam+Rerank` |
-| [GRLM](grlm.md) | arXiv’26 | `Text` → **`Term-ID`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [HoloRec](holorec.md) | arXiv’26 | `–` → **`Nested RQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `–` |
-| [SST](sst.md) | CIKM’26 | `Text` → **`RQ+IST`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TopoGR](topogr.md) | arXiv’26 | `Text` → **`BDQ`** → `Non-AR` → `Fixed / MTP + Aux.` → `Scoring+Rerank` |
+[View all papers in this cell](../../README.md#iii--tokenization)

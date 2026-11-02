@@ -1,16 +1,12 @@
 # IBA
 
-*Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* — Yang et al., arXiv’26
+*Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* — Yang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2607.12425) · [Record](../../data/papers/iba.yaml) · [← Catalog](../../README.md#v--backbone)
+`V. Efficiency` · `Backbone`
 
-> 新增隐式精炼模块与预算预测器，并给出训练和约束解码。
+[Paper](https://arxiv.org/abs/2607.12425) · [Matrix](../../README.md#v--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,17 +17,13 @@
 - `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
 - `C-Beam`: Constrained beam search.
 
-## Same cell: V × Backbone (10 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [OneRec-V2](onerec-v2.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → **`Lazy Dec-Only`** → `Fixed / NTP → RL` → `Beam` |
-| [RPG](rpg.md) | KDD’25 | `Text+Img` → `Par. OPQ` → **`Non-AR`** → `Fixed / MTP` → `Graph` |
-| [ACERec](acerec.md) | arXiv’26 | `Text` → `Par. OPQ` → **`Non-AR`** → `Fixed / MTP + Ctr. + Aux.` → `Scoring` |
-| [Deco](deco.md) | arXiv’26 | `Text / –` → `R-KM` → **`Dec-Only`** → `Fixed / NTP + Aux.` → `C-Beam` |
-| [LoopGR](loopgr.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP / NTP + Aux.` → `–` |
-| [Merge-and-Branch](merge-and-branch.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Dec-Only`** → `Fixed / NTP` → `C-Beam` |
-| [PinGER](pinger.md) | arXiv’26 | `Text+Img+CF` → `RQ-VAE` → **`Dec-Only`** → `– / NTP → DPO` → `Div. C-Beam` |
-| [SID-MLP](sid-mlp.md) | arXiv’26 | `Text` → `RQ-VAE†` → **`Enc-MLP`** → `Fixed / NTP + Aux.` → `C-Beam` |
-| [SPRINT](sprint.md) | arXiv’26 | `Text` → `Par. OPQ` → **`Non-AR`** → `Fixed / Dual-level Flow Ctr.` → `Scoring` |
-| [STAMP](stamp.md) | arXiv’26 | `Text` → `RQ-VAE` → **`Enc-Dec / Dec-Only`** → `Fixed / NTP + Aux.` → `C-Beam` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Backbone |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#v--backbone)

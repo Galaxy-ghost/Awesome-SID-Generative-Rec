@@ -1,16 +1,12 @@
 # AdaSID
 
-*Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale* — Pan et al., arXiv’26
+*Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale* — Pan et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2604.23522) · [Record](../../data/papers/adasid.yaml) · [← Catalog](../../README.md#ii--tokenization)
+`II. Uniqueness and Validity` · `Tokenization`
 
-> Abstract: "effective SID learning is hindered by collisions".
+[Paper](https://arxiv.org/abs/2604.23522) · [Matrix](../../README.md#ii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **II. Uniqueness and Validity**: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,9 +18,12 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `C-Beam`: Constrained beam search.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "effective SID learning is hindered by collisions".
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| Modified Stage | Tokenization |
 
 ## 旧目录说明
 
@@ -32,18 +31,6 @@
 
 按碰撞情况自适应地学习多模态 SID，替代静态的碰撞处理。
 
-## Same cell: II × Tokenization (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [CID](cid.md) | SIGIR-AP’23 | `CF` → **`Spectral Clus.`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TransRec](transrec.md) | KDD’24 | `Text` → **`Multi-Facet ID`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `FM-Index+Agg.` |
-| [HiD-VAE](hid-vae.md) | arXiv’25 | `Text` → **`Hier. RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [PSI](psi.md) | arXiv’25 | `Text` → **`Post-hoc RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [API](api.md) | arXiv’26 | `Text` → **`PID (P-SAE)`** → `Enc-Dec / Dec-Only (AR); Non-AR (PR)` → `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` → `C-Beam / Scoring` |
-| [CARD](card.md) | arXiv’26 | `Text+Img+CF` → **`NU-RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [DIGER](diger.md) | SIGIR’26 | `Text` → **`Learn. RQ`** → `Enc-Dec` → `Joint / NTP` → `Beam†` |
-| [Gwhere](gwhere.md) | RecSys’26 | `Text+Img+Geo+CF` → **`Contr. RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `–` |
-| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` → **`QA-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
-| [R3-VAE](r3-vae.md) | arXiv’26 | `Text` → **`Ref.-RQ`** → `–` → `Fixed / NTP` → `Beam` |
-| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+PPR`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+[View all papers in this cell](../../README.md#ii--tokenization)

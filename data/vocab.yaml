@@ -98,7 +98,7 @@ representation:
 - value: n/a
   description: Not applicable to this method.
 - value: –
-  description: Not reported in the paper, or not applicable.
+  description: Not reported in the paper.
 - value: – / Text+Img
   description: The representation source is unreported in one configuration; text and image representations are used in another.
 tokenization:
@@ -242,7 +242,7 @@ tokenization:
 - value: n/a
   description: Not applicable to this method.
 - value: –
-  description: No item SID is built, or not reported.
+  description: Not reported in the paper.
 backbone:
 - value: Dec-Only
   description: Decoder-only.
@@ -286,7 +286,7 @@ backbone:
 - value: n/a
   description: Not applicable to this method.
 - value: –
-  description: Not reported in the paper, or not applicable.
+  description: Not reported in the paper.
 tokenizer:
 - value: Altern.
   description: Tokenizer and generator are updated in turns.
@@ -299,7 +299,7 @@ tokenizer:
 - value: n/a
   description: Not applicable to this method.
 - value: –
-  description: No SID is built.
+  description: Not reported in the paper.
 objective:
 - value: (MTP + Masked Rec.) → MTP
   description: Joint multi-token prediction and masked reconstruction, followed by multi-token prediction alone.
@@ -376,6 +376,7 @@ objective:
 - value: n/a
   description: Not applicable to this method.
 - value: –
+  description: Not reported in the paper.
 inference:
 - value: Beam
 - value: Beam+Agg.

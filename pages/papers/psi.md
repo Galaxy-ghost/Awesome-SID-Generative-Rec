@@ -1,16 +1,12 @@
 # PSI
 
-*Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval* — Zhang et al., arXiv’25
+*Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval* — Zhang et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2509.16446) · [Record](../../data/papers/psi.yaml) · [← Catalog](../../README.md#ii--tokenization)
+`II. Uniqueness and Validity` · `Tokenization`
 
-> 已有不收判定，按任务书维持；原理由见Table1收录筛选对应行。
+[Paper](https://arxiv.org/abs/2509.16446) · [Matrix](../../README.md#ii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **II. Uniqueness and Validity**: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,9 +16,12 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "suffer from semantic ID conflicts".
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| Modified Stage | Tokenization |
 
 ## 旧目录说明
 
@@ -30,18 +29,6 @@
 
 放宽最近质心分配，不追加非语义 token 也能得到唯一 SID。
 
-## Same cell: II × Tokenization (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [CID](cid.md) | SIGIR-AP’23 | `CF` → **`Spectral Clus.`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TransRec](transrec.md) | KDD’24 | `Text` → **`Multi-Facet ID`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `FM-Index+Agg.` |
-| [HiD-VAE](hid-vae.md) | arXiv’25 | `Text` → **`Hier. RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [AdaSID](adasid.md) | arXiv’26 | `Text+Img` → **`RQ`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [API](api.md) | arXiv’26 | `Text` → **`PID (P-SAE)`** → `Enc-Dec / Dec-Only (AR); Non-AR (PR)` → `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` → `C-Beam / Scoring` |
-| [CARD](card.md) | arXiv’26 | `Text+Img+CF` → **`NU-RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [DIGER](diger.md) | SIGIR’26 | `Text` → **`Learn. RQ`** → `Enc-Dec` → `Joint / NTP` → `Beam†` |
-| [Gwhere](gwhere.md) | RecSys’26 | `Text+Img+Geo+CF` → **`Contr. RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `–` |
-| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` → **`QA-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
-| [R3-VAE](r3-vae.md) | arXiv’26 | `Text` → **`Ref.-RQ`** → `–` → `Fixed / NTP` → `Beam` |
-| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+PPR`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+[View all papers in this cell](../../README.md#ii--tokenization)

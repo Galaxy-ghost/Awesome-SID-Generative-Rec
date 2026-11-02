@@ -1,16 +1,12 @@
 # GMC
 
-*Generative Multi-Target Cross-Domain Recommendation* — Jin et al., arXiv’25
+*Generative Multi-Target Cross-Domain Recommendation* — Jin et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2507.12871) · [Record](../../data/papers/gmc.yaml) · [← Catalog](../../README.md#vi--tokenization)
+`VI. Generalization` · `Tokenization`
 
-> Abstract: "may be unavailable in non-overlapped recommendation scenarios".
+[Paper](https://arxiv.org/abs/2507.12871) · [Matrix](../../README.md#vi--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,13 +17,16 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `C-Beam`: Constrained beam search.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Tokenization |
+
+### 2. How It Works
 
 ![GMC architecture diagram](../../architectures/gmc.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "may be unavailable in non-overlapped recommendation scenarios".
 
 ## 旧卡片说明
 
@@ -105,15 +104,6 @@ GMC 的核心贡献是用共享 SID 作为多目标跨域知识桥梁，适合�
 - 核心贡献：以共享SID统一多目标跨域推荐。
 - 使用场景：多目标跨域。
 
-## Same cell: VI × Tokenization (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [VQ-Rec](vq-rec.md) | WWW’23 | `Multi-Dom` → **`OPQ`** → `Encoder` → `Fixed / Discrim.` → `Scoring` |
-| [UTGRec](utgrec.md) | arXiv’25 | `Multi-Dom` → **`Tree`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [DACT](dact.md) | SIGIR’26 | `Text+CF` → **`RQ-VAE`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `–` |
-| [DREAM](dream.md) | arXiv’26 | `Text+CF` → **`CART`** → `Dec-Only` → `Altern. / NTP + Aux.` → `C-Beam` |
-| [GenCDR](gencdr.md) | AAAI’26 | `Cross-Dom` → **`RQ+LoRA`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [MBGR](mbgr.md) | arXiv’26 | `Text+CF` → **`RQ`** → `Dec-Only` → `Fixed† / NTP + Aux.` → `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` → **`R-KM`** → `Lazy Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` → **`TokenMoE`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
+[View all papers in this cell](../../README.md#vi--tokenization)

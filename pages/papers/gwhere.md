@@ -1,16 +1,12 @@
 # Gwhere
 
-*Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap* — Zhai et al., RecSys’26 · `POI`
+*Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap* — Zhai et al. · RecSys’26
 
-[arXiv](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) · [Record](../../data/papers/gwhere.yaml) · [← Catalog](../../README.md#ii--tokenization)
+`II. Uniqueness and Validity` · `Tokenization` · `POI`
 
-> Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals". II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8) serves II. Both labelings were unsure (alternative I).
+[Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) · [Matrix](../../README.md#ii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **II. Uniqueness and Validity**: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,15 +18,16 @@
 - `NTP → DPO`: NTP, then preference optimization.
 - `–`: Not reported in the paper.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| Modified Stage | Tokenization |
+
+### 2. How It Works
 
 ![Gwhere architecture diagram](../../architectures/gwhere.png)
-
-## Evidence
-
-- **`problem`** (abstract, p1): Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals". II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8) serves II. Both labelings were unsure (alternative I).
-- **`stage`** (§3.2, p3): The designs for both complaints sit in the tokenizer.
-- **`tokenizer`** (p1; Fig. 1, p6): "Based on these SIDs, Gwhere adapts LLMs"; SIDs are built offline before LLM training.
 
 ## 旧卡片说明
 
@@ -112,18 +109,6 @@ Gwhere 适合放在“工业级 POI 生成推荐与行为偏好对齐”章节�
 - 核心贡献：融合多模态 SID 与暴露感知偏好优化实现工业部署。
 - 使用场景：高德下一 POI 推荐。
 
-## Same cell: II × Tokenization (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [CID](cid.md) | SIGIR-AP’23 | `CF` → **`Spectral Clus.`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TransRec](transrec.md) | KDD’24 | `Text` → **`Multi-Facet ID`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `FM-Index+Agg.` |
-| [HiD-VAE](hid-vae.md) | arXiv’25 | `Text` → **`Hier. RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [PSI](psi.md) | arXiv’25 | `Text` → **`Post-hoc RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [AdaSID](adasid.md) | arXiv’26 | `Text+Img` → **`RQ`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [API](api.md) | arXiv’26 | `Text` → **`PID (P-SAE)`** → `Enc-Dec / Dec-Only (AR); Non-AR (PR)` → `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` → `C-Beam / Scoring` |
-| [CARD](card.md) | arXiv’26 | `Text+Img+CF` → **`NU-RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [DIGER](diger.md) | SIGIR’26 | `Text` → **`Learn. RQ`** → `Enc-Dec` → `Joint / NTP` → `Beam†` |
-| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` → **`QA-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
-| [R3-VAE](r3-vae.md) | arXiv’26 | `Text` → **`Ref.-RQ`** → `–` → `Fixed / NTP` → `Beam` |
-| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+PPR`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+[View all papers in this cell](../../README.md#ii--tokenization)

@@ -1,16 +1,12 @@
 # GREAM
 
-*Generative Reasoning Recommendation via LLMs* — Hong et al., arXiv’25
+*Generative Reasoning Recommendation via LLMs* — Hong et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2510.20815) · [Record](../../data/papers/gream.yaml) · [← Catalog](../../README.md#iii--training)
+`III. SID–Model Alignment` · `Training`
 
-> Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".
+[Paper](https://arxiv.org/abs/2510.20815) · [Matrix](../../README.md#iii--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,13 +16,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Training |
+
+### 2. How It Works
 
 ![GREAM architecture diagram](../../architectures/gream.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".
 
 ## 旧卡片说明
 
@@ -106,15 +105,6 @@ GREAM 的贡献是把显式推理与直接 SID 生成放进同一推荐模型，
 - 核心贡献：将显式推理与可验证强化学习结合。
 - 使用场景：可解释推荐。
 
-## Same cell: III × Training (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
-| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` → `Learn. RQ` → `Enc-Dec` → **`Altern. / NTP + Ctr.`** → `Beam` |
-| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
-| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `C-Beam` |
-| [Think2Go](think2go.md) | KDD’26 | `Attr+Geo+CF†` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+Beam` |
+[View all papers in this cell](../../README.md#iii--training)

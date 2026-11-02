@@ -1,16 +1,12 @@
 # DACT
 
-*Drift-Aware Continual Tokenization for Generative Recommendation* — Feng et al., SIGIR’26
+*Drift-Aware Continual Tokenization for Generative Recommendation* — Feng et al. · SIGIR’26
 
-[arXiv](https://arxiv.org/abs/2603.29705) · [Record](../../data/papers/dact.yaml) · [← Catalog](../../README.md#vi--tokenization)
+`VI. Generalization` · `Tokenization`
 
-> 给完整 SID 生成模型提供持续更新编号器的新设计，在 TIGER 与 LC-Rec 验证。
+[Paper](https://arxiv.org/abs/2603.29705) · [Matrix](../../README.md#vi--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,13 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `–`: Not reported in the paper.
 
-## Same cell: VI × Tokenization (8 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [VQ-Rec](vq-rec.md) | WWW’23 | `Multi-Dom` → **`OPQ`** → `Encoder` → `Fixed / Discrim.` → `Scoring` |
-| [GMC](gmc.md) | arXiv’25 | `Cross-Dom` → **`Unified RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [UTGRec](utgrec.md) | arXiv’25 | `Multi-Dom` → **`Tree`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [DREAM](dream.md) | arXiv’26 | `Text+CF` → **`CART`** → `Dec-Only` → `Altern. / NTP + Aux.` → `C-Beam` |
-| [GenCDR](gencdr.md) | AAAI’26 | `Cross-Dom` → **`RQ+LoRA`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [MBGR](mbgr.md) | arXiv’26 | `Text+CF` → **`RQ`** → `Dec-Only` → `Fixed† / NTP + Aux.` → `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` → **`R-KM`** → `Lazy Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` → **`TokenMoE`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Tokenization |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#vi--tokenization)

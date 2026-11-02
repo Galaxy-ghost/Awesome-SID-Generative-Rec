@@ -1,16 +1,12 @@
 # ISD
 
-*Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* — Wang et al., arXiv’26
+*Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* — Wang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2607.24995) · [Record](../../data/papers/isd.yaml) · [← Catalog](../../README.md#iv--inference)
+`IV. Utility` · `Inference`
 
-> 有明确推理解码新设计 ISD，不能只按标题认定纯分析。
+[Paper](https://arxiv.org/abs/2607.24995) · [Matrix](../../README.md#iv--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,8 +15,13 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `ISD Beam`: Item-supported beam search.
 
-## Same cell: IV × Inference (1 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [TCBSA](tcbsa.md) | arXiv’26 | `Text` → `R-KM` → `Enc-Dec† / Dec-Only†` → `Fixed / NTP† / NTP → RL` → **`CF-Guided C-Beam`** |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Modified Stage | Inference |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#iv--inference)

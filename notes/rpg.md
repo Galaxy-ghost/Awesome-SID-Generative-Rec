@@ -1,183 +1,152 @@
-## Positioning in the Problem × Stage Matrix
+## At a Glance
 
-- **Matrix Cell**: **V. Efficiency** $`\times`$ **Backbone** (`problem: V`, `stage: Backbone`).
-- **Why Here**: Longer Semantic IDs ($`M \in \{16, 32, 64\}`$ sub-tokens) eliminate collisions and capture fine-grained item semantics, but autoregressive decoding over $`M`$ steps incurs prohibitive latency and cascading prefix errors. RPG replaces sequential token-by-token generation with a **non-autoregressive (`Non-AR`) parallel multi-token prediction (`MTP`) backbone** coupled with **Optimized Product Quantization (`Par. OPQ`)** and **graph-guided decoding (`Graph`)**.
+Key Findings: With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract).
+Limitation: The authors assume that the tokens of an SID are conditionally independent given the input sequence, and the decoding graph must be rebuilt when the model is retrained or items are re-tokenized (Sec. 2.2.1, Sec. 2.3.1).
+
+### 1. Why This Paper Matters
+
+Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). RPG instead predicts every token of a long, unordered SID in one forward pass and searches a graph of valid SIDs at inference. ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
+
+> "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
+
+### 2. How It Works
+
+#### Overview
 
 ```
-Dense Item Embedding x_i ∈ ℝ^d
+Item features → semantic encoder → item embedding
   │
-  ▼  [1. Tokenization: Par. OPQ (orthogonal rotation R + M parallel subspace codebooks)]
-Unordered Long Semantic ID c_i = (c_{i,1}, ..., c_{i,M})   (M up to 64)
+  ▼  OPQ: one codebook per subvector
+Unordered SID (c1, ..., cm), m up to 64
   │
-  ▼  [2. Backbone & 3. Training: Non-AR Transformer + M parallel heads trained with MTP]
-Independent per-subspace logits { P_θ^(m)(c_m | h_u) }_{m=1}^M in a single forward pass
+  ▼  token embeddings pooled per item; Transformer decoder over the history
+Sequence representation s
   │
-  ▼  [4. Inference: Graph-constrained iterative propagation over item similarity graph G]
-Top-K valid long-SID items
+  ▼  m MLP heads, one softmax per codebook (MTP loss in training)
+Cached token log-probabilities p(1), ..., p(m)
+  │
+  ▼  graph-constrained decoding: sample b items, add graph neighbors, keep the best b, repeat q times
+Top-K items
 ```
 
----
+#### Step 1: Long SIDs from OPQ
 
-## Core Mechanism & Annotated Walkthrough
+RPG replaces residual quantization with optimized product quantization (OPQ), so that the tokens can be predicted in parallel rather than one after another (Sec. 2.1.1).
 
-### Step 1: Parallel Subspace Tokenization via `Par. OPQ`
+> "To align with parallel decoding, we tokenize each item into an unordered long semantic ID (up to 64 tokens per item) using optimized product quantization (Jégou et al., 2011; Ge et al., 2014)." (Sec. 1)
 
-Whereas `RQ-VAE` quantizes residuals sequentially (creating strict order dependencies $`c_1 \rightarrow c_2 \rightarrow \dots \rightarrow c_M`$), RPG learns an orthogonal rotation matrix $`\mathbf{R} \in \mathbb{R}^{d \times d}`$ ($`\mathbf{R}^\top \mathbf{R} = \mathbf{I}`$) that decomposes the item representation $`\mathbf{x}_i \in \mathbb{R}^d`$ into $`M`$ orthogonal subspaces of dimension $`d/M`$:
+OPQ splits the item's semantic embedding into $`m`$ subvectors and quantizes each subvector with its own codebook of size $`M`$ (Sec. 2.1.1). The paper cites OPQ and does not restate its rotation or codebook training. The standard product-quantization assignment is:
 
 ```math
-\tilde{\mathbf{x}}_i = \mathbf{R}\mathbf{x}_i = \left[\tilde{\mathbf{x}}_i^{(1)} \,\|\, \tilde{\mathbf{x}}_i^{(2)} \,\|\, \dots \,\|\, \tilde{\mathbf{x}}_i^{(M)}\right], \qquad c_{i,m} = \arg\min_{k \in \{1,\dots,K\}} \left\| \tilde{\mathbf{x}}_i^{(m)} - \mathbf{e}_k^{(m)} \right\|_2^2
+\mathbf{x}_i = \left[\mathbf{x}_i^{(1)}; \dots; \mathbf{x}_i^{(m)}\right], \qquad c_{i,j} = \arg\min_{c \in \mathcal{C}^{(j)}} \left\| \mathbf{x}_i^{(j)} - \mathbf{a}_c^{(j)} \right\|_2^2
 ```
 
 where:
-- $`\tilde{\mathbf{x}}_i^{(m)} \in \mathbb{R}^{d/M}`$ is the $`m`$-th subspace projection of item $`i`$;
-- $`\mathcal{C}^{(m)} = \{\mathbf{e}_k^{(m)}\}_{k=1}^{K}`$ is the $`m`$-th subspace codebook;
-- $`c_{i,m} \in \{1, \dots, K\}`$ is the $`m`$-th token of item $`i`$'s unordered Semantic ID tuple $`\mathbf{c}_i = (c_{i,1}, \dots, c_{i,M})`$.
+- $`\mathbf{x}_i`$ is the semantic embedding of item $`i`$ after the OPQ rotation;
+- $`\mathbf{x}_i^{(j)}`$ is its $`j`$-th subvector;
+- $`\mathcal{C}^{(j)}`$ is the $`j`$-th codebook with $`M`$ codewords $`\mathbf{a}_c^{(j)}`$;
+- $`c_{i,j}`$ is the $`j`$-th token of the SID of item $`i`$.
 
-### Step 2: Non-Autoregressive Multi-Token Prediction (`Non-AR` + `MTP`)
+"Unordered" means that no token is predicted from the tokens before it. Position $`j`$ still belongs to codebook $`j`$ (Sec. 2.1.1). Different items can share the same token set. Each item keeps its own node in the decoding graph, and the authors describe such collisions as very unlikely with 64-token IDs (Appendix C).
 
-Given the user interaction sequence $`S_u = (i_1, \dots, i_{t-1})`$, RPG aggregates each history item's $`M`$ sub-token embeddings into a single item-level vector so the sequence length fed into the Transformer backbone remains $`t-1`$ rather than $`M(t-1)`$. From the final hidden state $`\mathbf{h}_u \in \mathbb{R}^d`$, $`M`$ parallel projection heads $`\mathbf{W}^{(1)}, \dots, \mathbf{W}^{(M)}`$ predict all $`M`$ target code positions in a single forward pass:
+#### Step 2: Item-Level Input
+
+A 64-token SID per history item would make the input sequence too long (Sec. 2.1.2). RPG gives each codebook a learnable token embedding table $`\mathbf{E}_j \in \mathbb{R}^{M \times d}`$ and pools the $`m`$ token embeddings of an item into one vector $`\mathbf{v}_i = \mathrm{Aggr}(\mathbf{e}_{1,c_{i,1}}, \dots, \mathbf{e}_{m,c_{i,m}})`$ with mean or max pooling (Sec. 2.1.2). A Transformer decoder reads the sequence $`\mathbf{v}_1, \dots, \mathbf{v}_{t-1}`$ and outputs a sequence representation $`\mathbf{s} \in \mathbb{R}^{d}`$ (Sec. 2.2.1).
+
+#### Step 3: Parallel Prediction with the MTP Loss
+
+RPG predicts each token of the next SID with its own head and trains all heads with a multi-token prediction (MTP) loss.
+
+> "Since each token produced by OPQ encodes a separate subvector of the target item's semantic representation, we assume that tokens in the tuple are conditionally independent given the input sequence s." (Sec. 2.2.1)
 
 ```math
-P_\theta^{(m)}(c_{t,m} = k \mid S_u) = \frac{\exp\!\left(\mathbf{e}_k^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}{\sum_{k'=1}^{K} \exp\!\left(\mathbf{e}_{k'}^{(m)\top} \mathbf{W}^{(m)} \mathbf{h}_u / \tau\right)}, \qquad \mathcal{L}_{\text{MTP}} = -\frac{1}{M}\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{t,m} \mid S_u)
+\mathcal{L} = -\sum_{j=1}^{m} \log \mathbb{P}^{(j)}(c_{t,j} \mid s) = -\sum_{j=1}^{m} \log \frac{\exp\left(\mathbf{e}_{c_{t,j}}^{\top} g_j(\mathbf{s}) / \tau\right)}{\sum_{c \in \mathcal{C}^{(j)}} \exp\left(\mathbf{e}_{c}^{\top} g_j(\mathbf{s}) / \tau\right)}
 ```
 
-where $`\tau \gt 0`$ is a temperature hyperparameter.
+where:
+- $`c_{t,j}`$ is the $`j`$-th token of the target item's SID;
+- $`g_j`$ is an MLP projection head for codebook $`j`$;
+- $`\mathbf{e}_c`$ is the token embedding of token $`c`$;
+- $`\tau`$ is a temperature (Eq. 1).
+
+#### Step 4: Cached Token Scores
+
+For one input sequence, RPG computes each codebook's token distribution once and caches it (Eq. 2). The score of any candidate SID is then a sum of cached values (Eq. 3):
+
+```math
+\mathbf{p}^{(j)} = \mathrm{softmax}\left(\mathbf{E}_j\, g_j(\mathbf{s}) / \tau\right) \in \mathbb{R}^{M}, \qquad \mathrm{score}(c_1, \dots, c_m) = \sum_{j=1}^{m} \log p^{(j)}_{c_j}
+```
+
+where $`p^{(j)}_{c_j}`$ is the entry of $`\mathbf{p}^{(j)}`$ for token $`c_j`$ (Sec. 2.2.2).
+
+#### Step 5: Graph-Constrained Decoding
+
+After training, RPG builds a graph whose nodes are the SIDs of catalog items (Sec. 2.3.1). The similarity of two SIDs is the sum of the inner products of their token embeddings:
+
+```math
+\mathrm{sim}(i, i') = \sum_{j=1}^{m} \mathbf{e}_{j,c_{i,j}}^{\top}\, \mathbf{e}_{j,c_{i',j}}
+```
+
+Each node keeps its $`k`$ most similar neighbors and an edge to itself. The graph is reused until the model is retrained or the items are re-tokenized (Sec. 2.3.1). Decoding then runs four steps (Sec. 2.3.2):
+
+1. Sample $`b`$ SIDs from the catalog as the initial beam.
+2. Add all $`b \times k`$ graph neighbors of the beam to a candidate set.
+3. Score the candidates with the cached values and keep the best $`b`$.
+4. Repeat steps 2 and 3 for $`q`$ iterations and return the final beam as the top-$`K`$ items.
+
+> "Since neighboring nodes in the graph tend to have similar logits, we expand the beam by propagating through the graph, including all b×k neighbors of the current beam into a temporary set." (Sec. 2.3.2)
 
 ```python
-# Annotated PyTorch walkthrough of RPG's Non-AR MTP forward + Graph propagation decoding
-# Reference: Hou et al. (KDD 2025), §2.2-2.3
-def rpg_mtp_and_graph_decode(h_u, heads, codebooks, item_codes, adj_neighbors, tau=0.07, steps=2, beam_size=50):
+import torch
+
+def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     """
-    h_u:           [B, d] user sequence representation from Transformer encoder
-    heads:         M linear projections, stacked as [M, d, d_sub]
-    codebooks:     [M, K, d_sub] OPQ subspace codebooks
-    item_codes:    [N_items, M] precomputed long OPQ SIDs for all catalog items
-    adj_neighbors: [N_items, deg] k-NN graph built over quantized item representations
+    s:          [d] sequence representation of one user
+    heads:      list of m projection heads g_j, each mapping [d] -> [d]
+    token_emb:  [m, M, d] token embedding tables E_j
+    item_codes: [N, m] SID of every catalog item; entry j indexes codebook j
+    neighbors:  [N, k] graph neighbors of every item, including the item itself
     """
-    # 1. Single-pass parallel multi-token log-probabilities across all M subspaces
-    proj = torch.einsum("bd,mde->bme", h_u, heads)                 # [B, M, d_sub]
-    logits = torch.einsum("bme,mke->bmk", proj, codebooks) / tau   # [B, M, K]
-    log_probs = logits.log_softmax(dim=-1)                         # [B, M, K]
-
-    # 2. Score initial seed items & propagate on the SID similarity graph G
-    # Gather per-item log-likelihoods sum_{m=1}^M log P^(m)(c_{i,m} | h_u)
-    seed_scores = log_probs[:, torch.arange( item_codes.size(1) ), item_codes].sum(dim=-1)  # [B, N_items]
-    _, frontier = torch.topk(seed_scores, k=beam_size, dim=-1)                              # [B, beam_size]
-
-    for _ in range(steps):
-        # Expand frontier along graph edges and retain top-scoring valid items
-        expanded = adj_neighbors[frontier].reshape(h_u.size(0), -1)
-        candidates = torch.cat([frontier, expanded], dim=-1)
-        cand_scores = seed_scores.gather(1, candidates)
-        _, top_idx = torch.topk(cand_scores, k=beam_size, dim=-1)
-        frontier = candidates.gather(1, top_idx)
-
-    return frontier
+    m = item_codes.size(1)
+    # Eq. 2: one softmax per codebook, cached for this user
+    proj = torch.stack([g(s) for g in heads])                                         # [m, d]
+    log_p = torch.log_softmax(torch.einsum("jcd,jd->jc", token_emb, proj) / tau, -1)  # [m, M]
+    # Eq. 3 for the whole catalog; the paper scores only the visited nodes (Sec. 2.3)
+    scores = log_p[torch.arange(m), item_codes].sum(dim=-1)                          # [N]
+    # step 1: random initial beam of b valid SIDs
+    beam = torch.randperm(item_codes.size(0))[:b]                                     # [b]
+    for _ in range(q):
+        # step 2: beam plus graph neighbors, without duplicates
+        cand = torch.unique(neighbors[beam].reshape(-1))                              # [<= b*k]
+        # step 3: keep the b best candidates
+        beam = cand[torch.topk(scores[cand], k=min(b, cand.numel())).indices]
+    return beam                                                                       # item indices
 ```
 
-### Step 3: Graph-Guided Decoding (`Graph`)
+Simplifications: The code scores every item in the catalog (`scores` covers the whole catalog) before the graph search. It therefore does not implement the Sec. 2.3 path that starts from a few sampled seeds and scores only the items reached along graph edges, and it does not reproduce the paper's inference efficiency. It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
 
-Because the $`M`$ heads predict marginal distributions independently, naively picking $`\arg\max_k P_\theta^{(m)}(k \mid S_u)`$ for each $`m`$ rarely lands on a valid catalog item when $`K^M \gg |\mathcal{I}|`$, while scoring all $`|\mathcal{I}|`$ items scales linearly with catalog size. RPG constructs a sparse $`k`$-NN graph $`\mathcal{G} = (\mathcal{I}, \mathcal{E})`$ over the catalog items based on their quantized OPQ representations, scores a small seed set using $`\sum_{m=1}^{M} \log P_\theta^{(m)}(c_{i,m} \mid S_u)`$, and iteratively expands neighbors on $`\mathcal{G}`$ to retrieve the highest-scoring valid items in sub-linear time.
+> "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
----
+### 3. Experimental Findings
 
-## Verbatim Quotes from the Paper
+- Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison (Table 2).
+- Efficiency: on Sports, RPG uses less runtime memory and less inference time than TIGER (Sec. 3.3, Fig. 3).
 
-- **Motivation for parallel long SIDs** (§1, p.1): *"We propose a paradigm that generates long Semantic IDs in parallel for recommendation (RPG)."*
-- **Order-agnostic subspace tokenization** (§2.1, p.3): *"Instead of residual quantization that enforces a coarse-to-fine sequential dependency, we adopt product quantization over orthogonal subspaces so that tokens at different positions can be predicted in parallel."*
-- **Graph-guided decoding** (§2.3, p.4): *"During inference, we leverage a semantic similarity graph over item IDs to iteratively propagate and refine candidate IDs using the parallelly predicted token distributions."*
+  > "Moreover, RPG reduces runtime memory consumption by nearly 25× and achieves an inference speedup of almost 15× compared to TIGER." (Sec. 3.3)
 
----
+- ID length: performance does not rise with every increase in length. The best lengths are 16 on Sports, 32 on Beauty, 16 on Toys, and 64 on CDs (Sec. 3.5.1, Fig. 4).
 
-## Experimental Protocol & Key Results
+  > "From Figure 4, we observe that, in general, longer OPQ-based semantic IDs lead to better performance. However, for smaller datasets, they may converge earlier." (Sec. 3.5.1)
 
-- **Datasets & Split**: Amazon Reviews (`Beauty`, `Sports and Outdoors`, `Toys and Games`, `CDs and Vinyl`), 5-core leave-one-out split.
-- **Reported Findings** (§3, Tables 1–3 of the paper):
-  - **Scaling SID length $`M`$**: Increasing $`M`$ from $`4`$ to $`16`$–$`64`$ in RPG consistently improves Recall@10 and NDCG@10 while eliminating SID collisions without needing an arbitrary trailing collision token.
-  - **Inference Speedup**: Because all $`M`$ positions are predicted in one forward pass followed by lightweight graph propagation, RPG reduces decoding latency and GPU memory by an order of magnitude compared to autoregressive beam search over long SIDs.
+- Semantic encoder: the main runs use OpenAI text-embedding-3-large, and Table 4 repeats the comparison with sentence-t5-base for parity with benchmark results (Sec. 3.1, Sec. 3.5.2).
+- Long-tail items: on Sports, the authors report that RPG achieves the best overall performance across the training-frequency groups (Sec. 3.5.3, Fig. 5).
 
----
+### 4. Limitations & Critical Analysis
 
-## Limitations & Comparison with Peer Methods in `V. Efficiency`
+**Stated by the authors.** The parallel heads rest on an assumption: the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). The authors state that different items can share the same token set (Appendix C). They also state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
 
-1. **Marginal factorizability vs. intra-code dependencies**: Independent subspace heads assume conditional independence across the $`M`$ sub-tokens given $`\mathbf{h}_u`$. Within the same cell (`V. Efficiency` $`\times`$ `Backbone`), **`ACERec`** adds contrastive and auxiliary alignment regularizers to `Par. OPQ` + `Non-AR`, while **`SPRINT`** replaces independent token cross-entropy with a dual-level flow contrastive objective (`Dual-level Flow Ctr.`) that jointly optimizes token-product scores and whole-SID similarity.
-2. **Graph maintenance overhead**: Maintaining the item similarity graph $`\mathcal{G}`$ adds an index structure alongside the generator parameters, whereas **`SID-MLP`** (`Enc-MLP`) and **`OneRec-V2`** (`Lazy Dec-Only`) accelerate autoregressive decoding without an external graph.
+**Our analysis.**
 
----
-
-## 旧卡片说明
-
-迁自 `d61aa6c:papers/rpg.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
-
-### RPG：并行生成长语义标识
-
-> RPG 面向长语义标识的生成效率与质量问题，结合多 token 预测和标识图传播，实现更高效的推荐生成。
-
-### 研究动机与问题定义
-
-更长的 SID 能承载更细粒度语义，但自回归逐 token 生成会显著增加成本，且长序列误差更易累积。RPG 研究如何在保留长 SID 表达能力的同时进行并行预测和结构化解码。
-
-### TL;DR（核心摘要）
-
-`物品信息 → 长SID与相似图 → 多token训练 → 并行生成/图传播 → 推荐物品`
-
-RPG 为物品学习长语义标识，使用 multi-token prediction 同时学习多个位置，并根据 SID 相似关系构建图。推理时结合候选标识的图结构进行迭代传播，最后生成完整 SID 并映射物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 交互历史、物品语义和 SID 相似关系 |
-| 信息融入位置 | SID 构建、并行预测目标和解码图 |
-| 语义标识结构 | 长定长序列 |
-| 适用场景 | 长标识生成式推荐 |
-
-### 方法设计
-
-#### 2.1 长语义标识物品表示
-RPG 将物品表示为较长的层次化 SID，使不同 code 位置能够表达更细粒度的语义。长标识提升表达能力，但也带来序列长度、内存和自回归误差累积问题。
-
-#### 2.2 并行学习 SID 生成
-模型采用 multi-token prediction，同时预测多个 SID 位置，减少严格逐 token 训练的依赖。训练目标仍要求生成结果与目标 SID 一致，并通过语义表示和协同关系维持标识质量。
-
-#### 2.3 图结构辅助解码
-论文根据 SID 或物品相似关系构建图，在候选生成过程中传播相邻标识的信息。推理阶段先产生部分/并行候选，再利用图结构迭代补全和筛选，输出完整 SID。
-
-#### 2.4 讨论
-论文进一步讨论 SID 长度、运行内存、推理速度和冷启动。RPG 的核心是让长 SID 的表达收益不被自回归成本抵消。
-
-### 实验结论
-
-- RPG 在延长 SID 后仍能保持或提升推荐效果。
-- 并行生成降低了长标识带来的推理开销。
-- 冷启动分析显示语义标识对未见物品具有一定帮助。
-
-### 局限性与研究定位
-
-#### 局限性
-- 图构建和迭代传播增加了系统组件。
-- 长 SID 的词表、图规模与在线内存成本仍需更多工业验证。
-
-#### 研究定位
-RPG 的主要贡献是把长 SID 的表达能力与并行生成结合起来，适合放在“长语义标识与高效解码”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2506.05781)
-
-### 标签
-
-`长SID` · `并行生成` · `图传播` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图1。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：并行生成长语义标识。
-- 使用场景：长SID推荐。
+- The score of an SID is a sum of per-token scores (Eq. 3), so the model cannot express dependencies between tokens of one SID. In the same cell, ACERec adds contrastive and auxiliary objectives (`MTP + Ctr. + Aux.`), and SPRINT replaces the objective with `Dual-level Flow Ctr.`; both keep `Par. OPQ` and `Non-AR`.
+- The decoding graph is an index outside the model. It has one node per catalog item and must be rebuilt after retraining or re-tokenization (Sec. 2.3.1).
+- The evaluation covers four Amazon datasets. The paper reports no online or industrial test.

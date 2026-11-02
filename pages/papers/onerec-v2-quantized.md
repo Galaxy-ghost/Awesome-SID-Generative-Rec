@@ -1,16 +1,12 @@
 # OneRec-V2-Quantized
 
-*Quantized Inference for OneRec-V2* — Su et al., arXiv’26
+*Quantized Inference for OneRec-V2* — Su et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2603.11486) · [Record](../../data/papers/onerec-v2-quantized.yaml) · [← Catalog](../../README.md#v--inference)
+`V. Efficiency` · `Inference`
 
-> 新增可区分的 FP8 PTQ 与执行栈/算子设计，适合单独 V × Inference 条目，而非只重复 OneRec-V2。
+[Paper](https://arxiv.org/abs/2603.11486) · [Matrix](../../README.md#v--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,12 +15,13 @@
 - `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
 - `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
 
-## Same cell: V × Inference (5 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [AtSpeed](atspeed.md) | ICLR’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Spec. Dec.`** |
-| [NEZHA](nezha.md) | WWW’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Self-Draft+Hash`** |
-| [PAD-Rec](pad-rec.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP†` → **`Spec. Dec.`** |
-| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |
-| [STATIC](static.md) | KDD’26 ADS | `–` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Vec. C-Beam`** |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Inference |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#v--inference)

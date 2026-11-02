@@ -1,16 +1,12 @@
 # LIGER
 
-*Unifying generative and dense retrieval for sequential recommendation* — Yang et al., arXiv’24
+*Unifying generative and dense retrieval for sequential recommendation* — Yang et al. · arXiv’24
 
-[arXiv](https://arxiv.org/abs/2411.18814) · [Record](../../data/papers/liger.yaml) · [← Catalog](../../README.md#vi--inference)
+`VI. Generalization` · `Inference`
 
-> Abstract: "mitigating performance differences and enhancing cold-start item recommendation". Candidates: VI / none (rule: complaint fits none of the six classes; judged by the new design).
+[Paper](https://arxiv.org/abs/2411.18814) · [Matrix](../../README.md#vi--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,13 +17,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Dense`: NTP plus dense-vector prediction.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Inference |
+
+### 2. How It Works
 
 ![LIGER architecture diagram](../../architectures/liger.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "mitigating performance differences and enhancing cold-start item recommendation". Candidates: VI / none (rule: complaint fits none of the six classes; judged by the new design).
 
 ## 旧卡片说明
 
@@ -102,8 +101,6 @@ LIGER 适合放在“生成式推荐与稠密检索融合”章节。
 
 旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
 
-## Same cell: VI × Inference (1 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [SpecGR](specgr.md) | AAAI’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP + Rank` → **`Hybrid`** |
+[View all papers in this cell](../../README.md#vi--inference)

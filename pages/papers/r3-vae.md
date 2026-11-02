@@ -1,29 +1,28 @@
 # R3-VAE
 
-*Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation* — Wan et al., arXiv’26
+*Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation* — Wan et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2604.11440) · [Record](../../data/papers/r3-vae.yaml) · [← Catalog](../../README.md#ii--tokenization)
+`II. Uniqueness and Validity` · `Tokenization`
 
-> Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment, where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by the majority of new designs).
+[Paper](https://arxiv.org/abs/2604.11440) · [Matrix](../../README.md#ii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **II. Uniqueness and Validity**: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
 | `Text` | **`Ref.-RQ`** | `–` | `Fixed / NTP` | `Beam` |
 
 - `Ref.-RQ`: Reference-vector RQ variant.
-- `–`: Not reported in the paper, or not applicable.
+- `–`: Not reported in the paper.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment, where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by the majority of new designs).
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| Modified Stage | Tokenization |
 
 ## 旧目录说明
 
@@ -31,18 +30,6 @@
 
 用参考向量和点积评分稳定残差量化训练，并给出不用训练生成模型的 SID 评估指标。
 
-## Same cell: II × Tokenization (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [CID](cid.md) | SIGIR-AP’23 | `CF` → **`Spectral Clus.`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TransRec](transrec.md) | KDD’24 | `Text` → **`Multi-Facet ID`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `FM-Index+Agg.` |
-| [HiD-VAE](hid-vae.md) | arXiv’25 | `Text` → **`Hier. RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [PSI](psi.md) | arXiv’25 | `Text` → **`Post-hoc RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [AdaSID](adasid.md) | arXiv’26 | `Text+Img` → **`RQ`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [API](api.md) | arXiv’26 | `Text` → **`PID (P-SAE)`** → `Enc-Dec / Dec-Only (AR); Non-AR (PR)` → `Fixed / NTP + Rank + Aux. / MTP + Rank + Aux.` → `C-Beam / Scoring` |
-| [CARD](card.md) | arXiv’26 | `Text+Img+CF` → **`NU-RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [DIGER](diger.md) | SIGIR’26 | `Text` → **`Learn. RQ`** → `Enc-Dec` → `Joint / NTP` → `Beam†` |
-| [Gwhere](gwhere.md) | RecSys’26 | `Text+Img+Geo+CF` → **`Contr. RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `–` |
-| [QuaSID](quasid.md) | KDD’26 ADS | `Text+CF` → **`QA-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
-| [SnapLGR](snaplgr.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+PPR`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
+[View all papers in this cell](../../README.md#ii--tokenization)

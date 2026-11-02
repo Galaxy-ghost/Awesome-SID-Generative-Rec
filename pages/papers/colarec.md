@@ -1,16 +1,12 @@
 # ColaRec
 
-*Content-based collaborative generation for recommender systems* — Wang et al., CIKM’24
+*Content-based collaborative generation for recommender systems* — Wang et al. · CIKM’24
 
-[arXiv](https://arxiv.org/abs/2403.18480) · [Record](../../data/papers/colarec.yaml) · [← Catalog](../../README.md#i--backbone)
+`I. Informativeness` · `Backbone`
 
-> Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored for item recommendation is still an open research challenge".
+[Paper](https://arxiv.org/abs/2403.18480) · [Matrix](../../README.md#i--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,15 +18,16 @@
 - `NTP + Ctr.`: NTP plus a contrastive loss.
 - `C-Beam`: Constrained beam search.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Backbone |
+
+### 2. How It Works
 
 ![ColaRec architecture diagram](../../architectures/colarec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored for item recommendation is still an open research challenge".
-- **`tokenizer`** (p5): Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p5): Location from the 10-26 'Training split' table in the appendix.
 
 ## 旧卡片说明
 
@@ -104,13 +101,6 @@ ColaRec 展示了用协同图结构学习生成标识的一条路径，适合放
 - 核心贡献：用协同图结构学习GID。
 - 使用场景：内容增强推荐。
 
-## Same cell: I × Backbone (6 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [EAGER](eager.md) | KDD’24 | `Text+CF` → `Dual H-KM` → **`Dual Enc-Dec`** → `Fixed / NTP + Ctr.` → `Fusion` |
-| [COBRA](cobra.md) | NeurIPS’25 | `Text+SID` → `Casc. RQ` → **`Dec-Only`** → `Fixed / NTP + Dense` → `BeamFusion` |
-| [DiscRec](discrec.md) | arXiv’25 | `Text+CF` → `RQ-VAE / Learn. RQ` → **`Enc-Dec`** → `Fixed / NTP` → `C-Beam` |
-| [Spacetime-GR](spacetime-gr.md) | arXiv’25 | `Geo` → `Geo-Idx` → **`Dec-Only`** → `Fixed / NTP → DPO` → `Beam` |
-| [SPAR-Youku](spar-youku.md) | arXiv’26 | `–` → `RQ-PIB` → **`Dec-Only`** → `Fixed / NTP → DPO` → `C-Beam` |
-| [UniSGR-V2](unisgr-v2.md) | arXiv’26 | `–` → `–` → **`Enc-Dec`** → `– / NTP + Rank` → `Beam` |
+[View all papers in this cell](../../README.md#i--backbone)

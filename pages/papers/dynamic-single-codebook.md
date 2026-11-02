@@ -1,29 +1,29 @@
 # Dynamic-Single-Codebook
 
-*From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative Recommendation* — Xie et al., arXiv’26
+*From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative Recommendation* — Xie et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2608.21012) · [Record](../../data/papers/dynamic-single-codebook.yaml) · [← Catalog](../../README.md#v--tokenization)
+`V. Efficiency` · `Tokenization`
 
-> 有 SID 生成推荐下游和线上验证，区别于 MERGE 只做传统检索。
+[Paper](https://arxiv.org/abs/2608.21012) · [Matrix](../../README.md#v--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
 | `–` | **`Dyn. KM+Disamb.`** | `Enc-Dec / Lazy Dec-Only` | `Fixed / NTP†` | `Beam†` |
 
-- `–`: Not reported in the paper, or not applicable.
+- `–`: Not reported in the paper.
 - `Dyn. KM+Disamb.`: Dynamically updated k-means codes combined with disambiguation codes.
 - `Enc-Dec / Lazy Dec-Only`: Encoder–decoder and lazy decoder-only backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 
-## Same cell: V × Tokenization (2 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [SEATER](seater.md) | SIGIR-AP’24 | `CF` → **`Tree-Clus.`** → `Enc-Dec` → `Fixed / NTP + Ctr.` → `C-Beam` |
-| [JevRec](jevrec.md) | arXiv’26 | `Text` → **`Freq. R-KM`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `Length-Quota Beam` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Tokenization |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#v--tokenization)

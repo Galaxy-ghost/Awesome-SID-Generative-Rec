@@ -1,16 +1,12 @@
 # LGRID
 
-*Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* — Zhang et al., arXiv’26 · `POI`
+*Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* — Zhang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2607.27944) · [Record](../../data/papers/lgrid.yaml) · [← Catalog](../../README.md#i--representation)
+`I. Informativeness` · `Representation` · `POI`
 
-> Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization, degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes (I). The interpretability complaint fits none of the six problems.
+[Paper](https://arxiv.org/abs/2607.27944) · [Matrix](../../README.md#i--representation)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Representation** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Representation |
+
+### 2. How It Works
 
 ![LGRID architecture diagram](../../architectures/lgrid.png)
-
-## Evidence
-
-- **`problem`** (abstract, p1): Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization, degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes (I). The interpretability complaint fits none of the six problems.
-- **`stage`** (§3, Fig. 2, p3): SD-Block and Synergistic Alignment act on the LLM hidden states before quantization.
-- **`backbone`** (Table 1, p6; p8): SIDs only serve as features for discriminative models (DIN, DIEN, SIM, HSTU).
 
 ## 旧卡片说明
 
@@ -113,18 +110,6 @@ LGRID 适合放在“可解释与解耦语义标识”章节，代表通过生�
 - 核心贡献：将地理与语义属性解耦为可解释的双流 SID。
 - 使用场景：本地生活与可解释推荐。
 
-## Same cell: I × Representation (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
-| [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
-| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
-| [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |
-| [GeoGR](geogr.md) | arXiv’26 | **`Text+Geo+CF`** → `R-KM+EM` → `Dec-Only` → `Altern.† / Multi-task NTP` → `Beam` |
-| [HF-SID](hf-sid.md) | arXiv’26 | **`Text+Attr+Geo`** → `R-KM` → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [LGSID](lgsid.md) | AAAI’26 | **`Text+Geo+CF`** → `Geo-Idx+RQ` → `Disc. / Enc-Dec` → `Fixed / Discrim. / NTP` → `Scoring / Beam†` |
-| [ReSID](resid.md) | arXiv’26 | **`Attr+CF`** → `GAOQ` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [SCRec](screc.md) | RecSys’26 | **`Text+CF`** → `RQ-VAE` → `Non-AR / Enc-Dec` → `Fixed / MTP + Ctr.` → `Scoring / Beam†` |
-| [SPAR](spar.md) | arXiv’26 | **`Text+Geo`** → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
-| [TriAlignGR](trialigngr.md) | arXiv’26 | **`Text+Img`** → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+[View all papers in this cell](../../README.md#i--representation)

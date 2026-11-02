@@ -1,16 +1,12 @@
 # LGSID
 
-*LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* — Jiang et al., AAAI’26 · `POI`
+*LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* — Jiang et al. · AAAI’26
 
-[arXiv](https://arxiv.org/abs/2511.14221) · [Record](../../data/papers/lgsid.yaml) · [← Catalog](../../README.md#i--representation)
+`I. Informativeness` · `Representation` · `POI`
 
-> Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items".
+[Paper](https://arxiv.org/abs/2511.14221) · [Matrix](../../README.md#i--representation)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Representation** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,15 +18,16 @@
 - `Discrim. / NTP`: Discriminative scoring or next-token prediction in different configurations.
 - `Scoring / Beam†`: Discriminative candidate scoring vs. generative beam search.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Representation |
+
+### 2. How It Works
 
 ![LGSID architecture diagram](../../architectures/lgsid.png)
-
-## Evidence
-
-- **`problem`** (abstract, p1): Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items".
-- **`stage`** (contribution list, p2; p4): Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first contribution, aligning the item-encoding LLM (G-DPO), decides.
-- **`backbone`** (Table 1, Table 2, p5–6): Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table 2 of the paper), both Enc-Dec in Table 1.
 
 ## 旧卡片说明
 
@@ -111,18 +108,6 @@ LGSID 位于“LLM 对齐驱动的地理 SID 构建”方向，突出先获得�
 - 核心贡献：用地理对齐和层次化分词增强空间一致性。
 - 使用场景：本地生活推荐。
 
-## Same cell: I × Representation (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
-| [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
-| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
-| [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |
-| [GeoGR](geogr.md) | arXiv’26 | **`Text+Geo+CF`** → `R-KM+EM` → `Dec-Only` → `Altern.† / Multi-task NTP` → `Beam` |
-| [HF-SID](hf-sid.md) | arXiv’26 | **`Text+Attr+Geo`** → `R-KM` → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [LGRID](lgrid.md) | arXiv’26 | **`Text+Geo`** → `DSRQ` → `Disc.` → `Fixed / Discrim.` → `Scoring` |
-| [ReSID](resid.md) | arXiv’26 | **`Attr+CF`** → `GAOQ` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [SCRec](screc.md) | RecSys’26 | **`Text+CF`** → `RQ-VAE` → `Non-AR / Enc-Dec` → `Fixed / MTP + Ctr.` → `Scoring / Beam†` |
-| [SPAR](spar.md) | arXiv’26 | **`Text+Geo`** → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
-| [TriAlignGR](trialigngr.md) | arXiv’26 | **`Text+Img`** → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+[View all papers in this cell](../../README.md#i--representation)

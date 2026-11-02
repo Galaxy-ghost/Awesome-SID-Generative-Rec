@@ -1,16 +1,12 @@
 # RecoChain
 
-*Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* — Liu and Cao, arXiv’26
+*Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* — Liu and Cao · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2604.25787) · [Record](../../data/papers/recochain.yaml) · [← Catalog](../../README.md#iv--backbone)
+`IV. Utility` · `Backbone`
 
-> Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).
+[Paper](https://arxiv.org/abs/2604.25787) · [Matrix](../../README.md#iv--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,11 +17,12 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "leading to a gap between generation and ranking performance". Candidates: IV / III (rule: IV threshold: a flawed training objective counts).
-- **`tokenizer`** (p3): Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p3): Location from the 10-26 'Training split' table in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Modified Stage | Backbone |
 
 ## 旧目录说明
 
@@ -33,9 +30,6 @@
 
 束搜索生成候选 SID 后，再由排序头对候选打分重排。
 
-## Same cell: IV × Backbone (2 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [DiGR](digr.md) | arXiv’26 | `–` → `RQ-VAE` → **`Dec-Only`** → `Fixed / Discrim.` → `Scoring` |
-| [Gryphon](gryphon.md) | CIKM’26 Short | `–` → `R-KM` → **`Enc-Dec`** → `Fixed / NTP + Rank` → `Hybrid` |
+[View all papers in this cell](../../README.md#iv--backbone)

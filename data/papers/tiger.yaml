@@ -19,6 +19,8 @@ inference: Beam
 poi: false
 summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with
   a T5 encoder-decoder.
+tldr: TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's
+  ID, instead of retrieving items by approximate nearest neighbor search.
 setup:
   datasets: 'Amazon Product Reviews (May 1996-July 2014): Beauty, Sports and Outdoors, Toys and Games. Users with fewer than
     5 reviews are filtered; an item-frequency filter is not reported. Retained item counts: 12,101 / 18,357 / 11,924, respectively.'

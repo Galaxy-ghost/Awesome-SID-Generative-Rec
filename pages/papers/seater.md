@@ -1,16 +1,12 @@
 # SEATER
 
-*Generative retrieval with semantic tree-structured identifiers and contrastive learning* — Si et al., SIGIR-AP’24
+*Generative retrieval with semantic tree-structured identifiers and contrastive learning* — Si et al. · SIGIR-AP’24
 
-[arXiv](https://arxiv.org/abs/2309.13375) · [Record](../../data/papers/seater.yaml) · [← Catalog](../../README.md#v--tokenization)
+`V. Efficiency` · `Tokenization`
 
-> Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
+[Paper](https://arxiv.org/abs/2309.13375) · [Matrix](../../README.md#v--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,9 +18,12 @@
 - `NTP + Ctr.`: NTP plus a contrastive loss.
 - `C-Beam`: Constrained beam search.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "these methods fall short in efficiency and effectiveness for large-scale recommendations". Candidates: V / III (rule: judged by the abstract's complaint first).
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Tokenization |
 
 ## 旧目录说明
 
@@ -32,9 +31,6 @@
 
 构造等长的平衡树状标识，并用对比学习建模标识结构。
 
-## Same cell: V × Tokenization (2 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [Dynamic-Single-Codebook](dynamic-single-codebook.md) | arXiv’26 | `–` → **`Dyn. KM+Disamb.`** → `Enc-Dec / Lazy Dec-Only` → `Fixed / NTP†` → `Beam†` |
-| [JevRec](jevrec.md) | arXiv’26 | `Text` → **`Freq. R-KM`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `Length-Quota Beam` |
+[View all papers in this cell](../../README.md#v--tokenization)

@@ -3,7 +3,9 @@
 1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + 3 hard content rules)
 2. Global uniqueness (file stem, id, name, links.arxiv)
 3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
-4. Relative Markdown links and anchors across README.md, CONTRIBUTING.md, schema/README.md, notes/, pages/
+4. Relative Markdown links, reference definitions, and anchors across README.md, CONTRIBUTING.md, schema/README.md,
+   notes/, pages/papers/, pages/index/, guides/ (archive/ is not checked)
+5. data/updates.yaml entries (date, change, papers)
 """
 import argparse
 import json
@@ -12,10 +14,9 @@ import re
 import sys
 from pathlib import Path
 import yaml
-from build import ROOT, TECH_COLS, na_to_dash, parse_table1_tex, slugify_heading
+from build import ROOT, SETUP_KEYS, TECH_COLS, na_to_dash, parse_table1_tex, slugify_heading
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
-SETUP_KEYS = ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"]
 RELATIONS = {"predecessor", "successor", "competitor", "alternative"}
 
 
@@ -189,6 +190,8 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
         root / "schema/README.md",
         *sorted((root / "notes").glob("*.md")),
         *sorted((root / "pages/papers").glob("*.md")),
+        *sorted((root / "pages/index").glob("*.md")),
+        *sorted((root / "guides").glob("*.md")),
     ]
     if (root / "pack/constraint-1.md").exists() or (root / "pages/constraint-1.md").exists():
         errors.append("[content-rule-2] constraint-1 page must not exist")
@@ -219,13 +222,13 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
                 anchors.add(slugify_heading(h_clean))
         headings_cache[mf.resolve()] = anchors
 
-    link_pat = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+    link_pat = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)|^\[[^\]]+\]:\s*(\S+)", re.M)
     for mf in md_files:
         if not mf.exists():
             continue
         txt = mf.read_text(encoding="utf-8")
         for m in link_pat.finditer(txt):
-            target = m.group(1).strip()
+            target = (m.group(1) or m.group(2)).strip()
             if target.startswith(("http://", "https://", "mailto:")):
                 continue
             path_part, _, anchor = target.partition("#")
@@ -236,6 +239,24 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
             if anchor and target_file in headings_cache:
                 if anchor not in headings_cache[target_file]:
                     errors.append(f"[links] broken anchor in {mf.relative_to(root)}: #{anchor}")
+
+
+def check_updates(root: Path, records: dict, errors: list):
+    p = root / "data/updates.yaml"
+    ups = yaml.safe_load(p.read_text(encoding="utf-8")) if p.exists() else None
+    if not isinstance(ups, list):
+        errors.append("[updates] data/updates.yaml must exist and be a list")
+        return
+    for i, u in enumerate(ups):
+        if not isinstance(u, dict) or set(u) != {"date", "change", "papers"}:
+            errors.append(f"[updates] entry {i} must have exactly the keys date, change, papers")
+            continue
+        if not isinstance(u["date"], str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", u["date"]):
+            errors.append(f"[updates] entry {i}: date must be a 'YYYY-MM-DD' string")
+        if not isinstance(u["change"], str) or not u["change"].strip():
+            errors.append(f"[updates] entry {i}: change must be a non-empty string")
+        if not isinstance(u["papers"], list) or any(x not in records for x in u["papers"]):
+            errors.append(f"[updates] entry {i}: papers must be a list of existing record ids")
 
 
 def main():
@@ -256,6 +277,7 @@ def main():
     else:
         print("SKIP: external Table 1 round-trip (supply --table1 PATH... or TABLE1).")
     check_links_and_content_rules(args.root, vocab, errors)
+    check_updates(args.root, records, errors)
 
     if errors:
         for e in errors:
@@ -265,7 +287,7 @@ def main():
 
     print(
         f"OK: {len(records)} records passed schema, vocab, uniqueness, "
-        f"relative link checks."
+        f"relative link, and updates checks."
         + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if table1_paths else "")
     )
 

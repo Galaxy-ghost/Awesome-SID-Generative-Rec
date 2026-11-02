@@ -1,16 +1,12 @@
 # SIIT
 
-*Enhancing item tokenization for generative recommendation through self-improvement* — Chen et al., arXiv’24
+*Enhancing item tokenization for generative recommendation through self-improvement* — Chen et al. · arXiv’24
 
-[arXiv](https://arxiv.org/abs/2412.17171) · [Record](../../data/papers/siit.yaml) · [← Catalog](../../README.md#iii--tokenization)
+`III. SID–Model Alignment` · `Tokenization`
 
-> Abstract: "may not align with the LLM's internal pretrained tokenization schema".
+[Paper](https://arxiv.org/abs/2412.17171) · [Matrix](../../README.md#iii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,9 +17,12 @@
 - `Multi-task NTP`: The same NTP loss over several tasks.
 - `C-Beam`: Constrained beam search.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "may not align with the LLM's internal pretrained tokenization schema".
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Tokenization |
 
 ## 旧目录说明
 
@@ -31,17 +30,6 @@
 
 让 LLM 在训练中迭代修正自己的物品分词。
 
-## Same cell: III × Tokenization (10 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [IDGenRec](idgenrec.md) | SIGIR’24 | `Text` → **`LLM-Vocab`** → `Enc-Dec` → `Altern. / NTP` → `C-Beam` |
-| [SemConv](semconv.md) | AAAI’25 | `Text+CF` → **`Align. RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [Align3GR](align3gr.md) | AAAI’26 | `Text+CF` → **`Dual RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `Beam` |
-| [CogRec](cogrec.md) | arXiv’26 | `Text` → **`R-KM+Graph`** → `Dec-Only` → `Fixed / Multi-task NTP` → `CoT+C-Beam` |
-| [DOS](dos.md) | WWW’26 Short | `Text+CF` → **`Orth. RQ`** → `Dec-Only†` → `Fixed† / NTP` → `–` |
-| [GR4AD-X](gr4ad-x.md) | arXiv’26 | `–` → **`Multi-Path R-KM+Hash`** → `Enc-Dec` → `Fixed / NTP + PV-RSPO + Rank + Aux.` → `PV-Beam+Rerank` |
-| [GRLM](grlm.md) | arXiv’26 | `Text` → **`Term-ID`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [HoloRec](holorec.md) | arXiv’26 | `–` → **`Nested RQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `–` |
-| [SST](sst.md) | CIKM’26 | `Text` → **`RQ+IST`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TopoGR](topogr.md) | arXiv’26 | `Text` → **`BDQ`** → `Non-AR` → `Fixed / MTP + Aux.` → `Scoring+Rerank` |
+[View all papers in this cell](../../README.md#iii--tokenization)

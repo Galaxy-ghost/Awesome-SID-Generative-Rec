@@ -1,16 +1,12 @@
 # PAD-Rec
 
-*Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* — Chen et al., arXiv’26
+*Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* — Chen et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2604.27747) · [Record](../../data/papers/pad-rec.yaml) · [← Catalog](../../README.md#v--inference)
+`V. Efficiency` · `Inference`
 
-> Abstract: "decoding remains sequential and thus latency-prone".
+[Paper](https://arxiv.org/abs/2604.27747) · [Matrix](../../README.md#v--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,11 +17,12 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Spec. Dec.`: Speculative decoding.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "decoding remains sequential and thus latency-prone".
-- **`tokenizer`** (p6): Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p6): Target model follows LC-Rec; inferred from LC-Rec's multi-task training. Location from the 10-26 'Training split' table in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Inference |
 
 ## 旧目录说明
 
@@ -33,12 +30,6 @@
 
 在投机解码的草稿模型中加入 SID 位置信息，加速列表式生成。
 
-## Same cell: V × Inference (5 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [AtSpeed](atspeed.md) | ICLR’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Spec. Dec.`** |
-| [NEZHA](nezha.md) | WWW’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Self-Draft+Hash`** |
-| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` → `R-KM†` → `Lazy Dec-Only†` → `Fixed† / NTP → RL†` → **`FP8+RecoGEM`** |
-| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |
-| [STATIC](static.md) | KDD’26 ADS | `–` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Vec. C-Beam`** |
+[View all papers in this cell](../../README.md#v--inference)

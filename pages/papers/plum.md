@@ -1,16 +1,12 @@
 # PLUM
 
-*Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* — He et al., WWW’26
+*Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* — He et al. · WWW’26
 
-[arXiv](https://arxiv.org/abs/2510.07784) · [Record](../../data/papers/plum.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+`Paradigms, Systems and Benchmarks` · `No single stage`
 
-> Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".
+[Paper](https://arxiv.org/abs/2510.07784) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-| Group | Stage it changes |
-| :-- | :-- |
-| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,24 +16,13 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".
-- **`stage`** (arXiv abstract): Appendix tentatively places the new design in Training.
-- **`tokenizer`** (§2.2, p4; §2.3, p4–5): Location from the pre-10-26 Training evidence in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Modified Stage | No single stage |
 
-## Same cell: Paradigms, Systems and Benchmarks (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
-| [GRID](grid.md) | CIKM’25 | `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

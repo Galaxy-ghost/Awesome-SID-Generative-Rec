@@ -6,7 +6,7 @@ year: 2025
 venue: KDD’25
 links:
   arxiv: https://arxiv.org/abs/2506.05781
-  code: null
+  code: https://github.com/facebookresearch/RPG_KDD2025
 problem: V
 stage: Backbone
 representation: Text+Img
@@ -17,6 +17,8 @@ objective: MTP
 inference: Graph
 poi: false
 summary: 'Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".'
+tldr: RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph
+  of valid IDs, replacing autoregressive beam search over short IDs.
 evidence:
 - field: problem
   quote: 'Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".'

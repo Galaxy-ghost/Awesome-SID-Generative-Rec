@@ -1,16 +1,12 @@
 # FedCGR
 
-*Federated Cross-Domain Generative Recommendation* — Liu et al., CIKM’26
+*Federated Cross-Domain Generative Recommendation* — Liu et al. · CIKM’26
 
-[arXiv](https://arxiv.org/abs/2608.10929) · [Record](../../data/papers/fedcgr.yaml) · [← Catalog](../../README.md#vi--backbone)
+`VI. Generalization` · `Backbone`
 
-> BGE-base-en-v1.5 编码公共 title/category/description；本地 SASRec CF 是后加输入，不进入冻结 tokenizer。
+[Paper](https://arxiv.org/abs/2608.10929) · [Matrix](../../README.md#vi--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,9 +17,13 @@
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `C-Beam`: Constrained beam search.
 
-## Same cell: VI × Backbone (2 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [DualGR](dualgr.md) | WWW’26 Short | `–` → `R-KM` → **`Dec-Only`** → `Fixed / NTP + Rank` → `Dual Beam` |
-| [LION](lion.md) | CIKM’26 | `Text†` → `RQ-VAE†` → **`Enc-Dec`** → `Fixed† / NTP + Aux.` → `Beam` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Backbone |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#vi--backbone)

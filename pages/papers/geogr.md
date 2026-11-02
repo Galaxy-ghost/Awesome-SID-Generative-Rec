@@ -1,16 +1,12 @@
 # GeoGR
 
-*Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* — Wang et al., arXiv’26 · `POI`
+*Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* — Wang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2602.10411) · [Record](../../data/papers/geogr.yaml) · [← Catalog](../../README.md#i--representation)
+`I. Informativeness` · `Representation` · `POI`
 
-> Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships"; "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new designs; the title ("Enabling Spatio-Temporal Aware ...") names I.
+[Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Representation** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,15 +16,16 @@
 - `Dec-Only`: Decoder-only.
 - `Multi-task NTP`: The same NTP loss over several tasks.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Representation |
+
+### 2. How It Works
 
 ![GeoGR architecture diagram](../../architectures/geogr.png)
-
-## Evidence
-
-- **`problem`** (abstract, p1): Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships"; "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new designs; the title ("Enabling Spatio-Temporal Aware ...") names I.
-- **`stage`** (Eq. (4), p4): The fix for I is contrastive representation learning on geo-constrained co-visit pairs (L_P2P); the EM-style SID refinement and CPT lean to III.
-- **`tokenizer`** (§4.1.3, Algorithm 1, p5; §4.2.1, p5): The EM algorithm updates the LLM and the SIDs in turns for "mutual alignment between the LLM and the SIDs"; the final recommender is retrained from the base LLM on the fixed SIDs, hence inferred.
 
 ## 旧卡片说明
 
@@ -112,18 +109,6 @@ GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协�
 - 核心贡献：面向工业规模结合时空 SID 与多阶段 LLM 对齐。
 - 使用场景：导航与工业 POI 推荐。
 
-## Same cell: I × Representation (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [Molar](molar.md) | arXiv’24 | **`Text+Img+CF`** → `n/a` → `Dec-Only` → `n/a / Discrim.` → `Scoring` |
-| [OneLoc](oneloc.md) | arXiv’25 | **`Text+Img+Geo†`** → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Beam` |
-| [Q-BERT4Rec](q-bert4rec.md) | arXiv’25 | **`Text+Img+CF`** → `RQ-VAE` → `Encoder (Non-AR)` → `Fixed / Masked` → `Non-AR` |
-| [UNGER](unger.md) | TOIS’25 | **`Text+CF`** → `R-KM` → `Enc-Dec` → `Fixed / NTP + Ctr.` → `Beam` |
-| [HF-SID](hf-sid.md) | arXiv’26 | **`Text+Attr+Geo`** → `R-KM` → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [LGRID](lgrid.md) | arXiv’26 | **`Text+Geo`** → `DSRQ` → `Disc.` → `Fixed / Discrim.` → `Scoring` |
-| [LGSID](lgsid.md) | AAAI’26 | **`Text+Geo+CF`** → `Geo-Idx+RQ` → `Disc. / Enc-Dec` → `Fixed / Discrim. / NTP` → `Scoring / Beam†` |
-| [ReSID](resid.md) | arXiv’26 | **`Attr+CF`** → `GAOQ` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [SCRec](screc.md) | RecSys’26 | **`Text+CF`** → `RQ-VAE` → `Non-AR / Enc-Dec` → `Fixed / MTP + Ctr.` → `Scoring / Beam†` |
-| [SPAR](spar.md) | arXiv’26 | **`Text+Geo`** → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
-| [TriAlignGR](trialigngr.md) | arXiv’26 | **`Text+Img`** → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
+[View all papers in this cell](../../README.md#i--representation)

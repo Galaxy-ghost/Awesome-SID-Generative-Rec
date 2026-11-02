@@ -18,6 +18,8 @@ inference: C-Beam
 poi: false
 summary: 'Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code
   assignment bias".'
+tldr: LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry
+  collaborative signals and reduce code assignment bias found in earlier identifiers.
 evidence:
 - field: problem
   quote: 'Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code

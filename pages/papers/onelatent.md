@@ -1,16 +1,12 @@
 # OneLatent
 
-*Latent Reasoning for Efficient Foundation Recommendation Models* — Jiang et al., arXiv’26
+*Latent Reasoning for Efficient Foundation Recommendation Models* — Jiang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2610.30675) · [Record](../../data/papers/onelatent.yaml) · [← Catalog](../../README.md#v--training)
+`V. Efficiency` · `Training`
 
-> 明确生成Res-Kmeans三位SID；首次2026-10-22在补搜窗口，提出新的latent对齐训练与高效推荐方法。
+[Paper](https://arxiv.org/abs/2610.30675) · [Matrix](../../README.md#v--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,3 +17,14 @@
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Training |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#v--training)

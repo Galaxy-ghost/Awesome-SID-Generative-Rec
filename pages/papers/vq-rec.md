@@ -1,16 +1,12 @@
 # VQ-Rec
 
-*Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* — Hou et al., WWW’23
+*Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* — Hou et al. · WWW’23
 
-[arXiv](https://arxiv.org/abs/2210.12316) · [Record](../../data/papers/vq-rec.yaml) · [← Catalog](../../README.md#vi--tokenization)
+`VI. Generalization` · `Tokenization`
 
-> Abstract: "exaggerating the negative impact of domain gap".
+[Paper](https://arxiv.org/abs/2210.12316) · [Matrix](../../README.md#vi--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,15 +16,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Tokenization |
+
+### 2. How It Works
 
 ![VQ-Rec architecture diagram](../../architectures/vq-rec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "exaggerating the negative impact of domain gap".
-- **`tokenizer`** (§2.3.2, p4; §2.4, p4–5): Location from the pre-10-26 Training evidence in the appendix.
-- **`objective`** (§2.3.2, p4; §2.4, p4–5): Location from the pre-10-26 Training evidence in the appendix.
 
 ## 旧卡片说明
 
@@ -107,15 +104,6 @@ VQ-Rec 适合放在“语义标识生成式推荐的前置表示学习与相关�
 
 旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
 
-## Same cell: VI × Tokenization (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [GMC](gmc.md) | arXiv’25 | `Cross-Dom` → **`Unified RQ`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [UTGRec](utgrec.md) | arXiv’25 | `Multi-Dom` → **`Tree`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [DACT](dact.md) | SIGIR’26 | `Text+CF` → **`RQ-VAE`** → `Enc-Dec / Dec-Only` → `Fixed / NTP` → `–` |
-| [DREAM](dream.md) | arXiv’26 | `Text+CF` → **`CART`** → `Dec-Only` → `Altern. / NTP + Aux.` → `C-Beam` |
-| [GenCDR](gencdr.md) | AAAI’26 | `Cross-Dom` → **`RQ+LoRA`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [MBGR](mbgr.md) | arXiv’26 | `Text+CF` → **`RQ`** → `Dec-Only` → `Fixed† / NTP + Aux.` → `C-Beam` |
-| [OneLive](onelive.md) | KDD’26 ADS | `Text+Img+Audio+CF` → **`R-KM`** → `Lazy Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [UniTok](unitok.md) | AAAI’26 | `Multi-Dom` → **`TokenMoE`** → `Enc-Dec` → `Fixed / NTP` → `Beam†` |
+[View all papers in this cell](../../README.md#vi--tokenization)

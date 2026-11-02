@@ -1,190 +1,159 @@
-## Positioning in the Problem × Stage Matrix
+## At a Glance
 
-- **Matrix Cell**: **I. Informativeness** $`\times`$ **Representation** (`problem: I`, `stage: Representation`, `poi: true`).
-- **Why Here**: In local-life and point-of-interest (POI) recommendation, item semantics depend jointly on multimodal content and physical geography. OneLoc enriches the **Representation** stage (`Text+Img+Geo†`) before residual $`k`$-means (`R-KM`) tokenization, and couples it with geo-aware encoder self-attention, neighbor-aware decoder prompts, and two-stage `NTP → DPO` optimization with geographic distance and GMV rewards.
+Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
+Limitation: The main offline dataset (KuaiLLSR) and the online test are proprietary, and the paper does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2).
+
+### 1. Why This Paper Matters
+
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). OneLoc adds geographic information to the tokenizer, the encoder, and the decoder, and aligns the generator with a geographic reward and a GMV reward. LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+
+> "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
+
+### 2. How It Works
+
+#### Overview
 
 ```
-Short Video + Store Metadata + Location Context (lat/lon, geohash, district)
+Video content + location context (GeoHash block: coordinates, brand, category)
   │
-  ▼  [1. Representation: Multimodal LLM extracts fused Text+Img+Geo† embedding e_i]
-Geo-aware item representation e_i ∈ ℝ^d
+  ▼  multimodal LLM → one fused item embedding
+Geo-aware SID (q1, q2, q3) from 3-level residual k-means, 8,192 codes per level
   │
-  ▼  [2. Tokenization: L-level Residual K-Means (R-KM) with Fixed codebooks]
-Discrete Geo-Aware Semantic ID s_i = (s_{i,1}, ..., s_{i,L})
+  ▼  encoder: watch / click / pay sequences, geo-aware self-attention (GA-Attn)
+User representation
   │
-  ▼  [3. Backbone: Encoder (Geo-Aware Self-Attention) + Decoder (Neighbor-Aware Prompt)]
-Autoregressive policy π_θ(s_target | u, loc_u, H_u)
+  ▼  decoder: neighbor-aware prompt e^s, then the SID tokens; next-token prediction
+Pre-trained generator θ0
   │
-  ▼  [4. Training: Supervised NTP pre-training → DPO with Geo + GMV rewards]
-  │
-  ▼  [5. Inference: Beam Search]
-Top-K local-life stores / videos
+  ▼  beam search → geographic and GMV rewards → preference pairs → DPO
+Aligned generator
 ```
 
----
+#### Step 1: Geo-Aware Semantic IDs
 
-## Core Mechanism & Annotated Walkthrough
+Each video $`v`$ is assigned a location $`l`$. The location is a GeoHash block with context information such as coordinates, brand, and category (Sec. 2.1). OneLoc follows OneRec and builds SIDs with residual k-means. The input to the first level is one embedding that a multimodal large language model extracts from the video content and the location context.
 
-### Step 1: Geo-Aware Multimodal Representation & `R-KM` Tokenization
+> "To inject geographic information, each residual $`r^{0}_{i}`$ in the initial residual set $`\mathcal{R}^{0}`$ is represented as an embedding of video content and location context information, extracted by a multimodal large language model." (Sec. 2.2)
 
-For each local-life item $`i`$ (a short video linked to a physical store), OneLoc prompts a multimodal large language model (MLLM) with the video frames, textual description, and structured geographic context (city, business district, coordinates) to extract a unified dense representation $`\mathbf{e}_i \in \mathbb{R}^d`$ (`Text+Img+Geo†`).
-
-Following OneRec, OneLoc quantizes $`\mathbf{e}_i`$ into an $`L`$-level discrete Semantic ID $`\mathbf{s}_i = (s_{i,1}, \dots, s_{i,L})`$ via Residual K-Means (`R-KM`, §2.2, Eq. 1–3):
+At each level $`i`$, k-means on the residuals builds the codebook, and each residual moves to its nearest centroid (Eq. 1–3):
 
 ```math
-\mathbf{r}_i^{(1)} = \mathbf{e}_i, \qquad s_{i,l} = \arg\min_{k \in \{1,\dots,K\}} \left\| \mathbf{r}_i^{(l)} - \mathbf{c}_k^{(l)} \right\|_2^2, \qquad \mathbf{r}_i^{(l+1)} = \mathbf{r}_i^{(l)} - \mathbf{c}_{s_{i,l}}^{(l)}
+\mathcal{C}^{i} = \mathrm{KMeans}(\mathcal{R}^{i}, N_c), \qquad q^{i}_{j} = \arg\min_{k} \left\| c^{i}_{k} - r^{i}_{j} \right\|, \qquad r^{i+1}_{j} = r^{i}_{j} - c^{i}_{q^{i}_{j}}
 ```
 
-where $`\mathcal{C}^{(l)} = \{\mathbf{c}_k^{(l)}\}_{k=1}^{K}`$ is the level-$`l`$ centroid matrix trained offline and kept `Fixed` during recommender training.
+where:
+- $`\mathcal{R}^{i}`$ is the set of residuals at level $`i`$, and $`r^{i}_{j}`$ is the residual of item $`j`$;
+- $`\mathcal{C}^{i} = \{c^{i}_{k}\}`$ is the level-$`i`$ codebook of $`N_c`$ centroids;
+- $`q^{i}_{j}`$ is the $`i`$-th token of the SID of item $`j`$.
 
-### Step 2: Geo-Aware Self-Attention & Neighbor-Aware Decoder Prompt
+OneLoc uses 3 levels with 8,192 clusters each (Sec. 2.2, Sec. 4.1.4). Geographic information enters only through the fused embedding; there are no separate geographic tokens.
 
-In the encoder (§2.3), given user history items with locations $`\{(\mathbf{h}_j, \ell_j)\}_{j=1}^{T}`$ and the user's real-time location $`\ell_u`$, OneLoc modulates self-attention logits with a gated spatial bias $`\mathbf{B}^{\text{geo}} \in \mathbb{R}^{T \times T}`$ derived from pairwise Haversine distances $`d(\ell_j, \ell_{j'})`$ and user-to-store distances $`d(\ell_u, \ell_j)`$:
+#### Step 2: Geo-Aware Self-Attention in the Encoder
+
+The encoder reads the user's watch, click, and purchase sequences (Eq. 4). Each behavior $`i`$ has a fused embedding $`z_i`$, built by an MLP from its video ID, location ID, and location context embeddings, and a location context embedding $`e^{lc}_i`$ (Eq. 5–7).
+
+> "GA-Attn module is proposed to capture relevant behaviors from the user's interaction history according to the user's real-time location." (Sec. 2.3.3)
+
+GA-Attn adds a location context similarity to the attention scores (Eq. 11–12), then scales each output row with a gate computed from the user's real-time location (Eq. 13–14):
 
 ```math
-\mathrm{Attn}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}} + g_u \odot \mathbf{B}^{\text{geo}}\right)\mathbf{V}
+A = \mathrm{Softmax}\left( (Z W_q)(Z W_k)^{\top} / \sqrt{d} + E^{lc} (E^{lc})^{\top} \right), \qquad \widetilde{O} = A (Z W_v) W_o
 ```
-
-In the decoder (§2.4), a **Neighbor-Aware Prompt** injects the Semantic IDs of stores within the user's current geohash cell $`\mathcal{N}(\ell_u)`$ as prefix context so the decoder attends directly to physically reachable candidates.
-
-### Step 3: Two-Stage `NTP → DPO` with Geographic and Commercial Rewards
-
-After supervised next-token prediction (`NTP`) pre-training (§2.5, Eq. 20–21), OneLoc samples $`G`$ candidate Semantic IDs $`\{\mathbf{s}^{(1)}, \dots, \mathbf{s}^{(G)}\}`$ via beam search for each user request $`(u, \ell_u)`$ and scores each valid store using a composite reward combining spatial proximity $`R_{\text{geo}}`$ and expected Gross Merchandise Volume $`R_{\text{GMV}}`$:
 
 ```math
-R(\mathbf{s}, u, \ell_u) = \lambda_{\text{geo}}\, R_{\text{geo}}\!\left(d(\ell_u, \ell_{\mathbf{s}})\right) + \lambda_{\text{GMV}}\, R_{\text{GMV}}(\mathbf{s}, u)
+g_i = 2 \cdot \mathrm{Sigmoid}\left( \mathrm{MLP}\left( \mathrm{Concat}(e^{lc}_u, E^{lc}_{i*}) \right) \right), \qquad O_{i*} = g_i\, \widetilde{O}_{i*}
 ```
 
-Winning-losing pairs $`(\mathbf{s}_w, \mathbf{s}_l)`$ with $`R(\mathbf{s}_w) \gt R(\mathbf{s}_l)`$ optimize the Direct Preference Optimization (`DPO`, §2.5, Eq. 24) objective relative to the reference NTP policy $`\pi_{\text{ref}}`$:
+where:
+- $`Z`$ is the sequence of fused behavior embeddings $`z_i`$, and $`E^{lc}`$ is the sequence of location context embeddings;
+- $`W_q, W_k, W_v, W_o`$ are the query, key, value, and output matrices;
+- $`e^{lc}_u`$ is the context embedding of the user's real-time location $`l_u`$;
+- $`g_i \in (0, 2)`$ scales the $`i`$-th output row.
+
+Each encoder block applies GA-Attn and a feed-forward network, both with RMSNorm and residual connections (Eq. 8–10).
+
+#### Step 3: Neighbor-Aware Prompt and Next-Token Prediction
+
+The decoder starts from a prompt that summarizes the area around the user.
+
+> "In local life service, it is vital to model location contexts surrounding the user, such as surrounding brands, bestselling products, etc. Thus, we use cross-attention to capture the surrounding information." (Sec. 2.4.1)
+
+OneLoc takes the context embeddings of the 8 locations around $`l_u`$ as $`E^{s}`$ and computes one prompt embedding $`e^{s} = \mathrm{CrossAttn}(e^{lc}_u, E^{s})`$, with $`e^{lc}_u`$ as the query (Eq. 15). The decoder input is $`H^{0} = \{e^{s}, e_{q^1_t}, e_{q^2_t}, e_{q^3_t}\}`$ (Eq. 19). Each decoder block has causal self-attention, cross-attention to the encoder output, and a feed-forward network (Eq. 16–18). The output at the prompt predicts the first SID token, the output at the first token predicts the second, and so on:
 
 ```math
-\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(x, \mathbf{s}_w, \mathbf{s}_l)} \left[ \log \sigma\!\left( \beta \log \frac{\pi_\theta(\mathbf{s}_w \mid x)}{\pi_{\text{ref}}(\mathbf{s}_w \mid x)} - \beta \log \frac{\pi_\theta(\mathbf{s}_l \mid x)}{\pi_{\text{ref}}(\mathbf{s}_l \mid x)} \right) \right]
+\hat{y}^{j} = \mathrm{Softmax}\left( \mathrm{MLP}(H^{K}_{j-1}) \right) \in \mathbb{R}^{N_c}, \qquad \mathcal{L}_{ntp} = \sum_{j=1}^{3} -\log \hat{y}^{j}_{q^{j}_{t}}
 ```
+
+where $`H^{K}_{j-1}`$ is the last-layer decoder output at position $`j-1`$, and $`q^{j}_{t}`$ is the $`j`$-th token of the target SID (Eq. 20–21, Sec. 2.4.2).
+
+#### Step 4: Geographic and GMV Rewards with DPO
+
+Next-token prediction only fits the videos that the previous system exposed (Sec. 2.5). OneLoc therefore defines two rewards. The geographic reward is the inverse distance within a threshold (Eq. 22), and the GMV reward is the output of a GMV scoring model (Eq. 23):
+
+```math
+R^{geo}(v, l_u) = \begin{cases} 0 & \text{if } \mathrm{Dis}(v, l_u) \gt D, \\ 1 / \mathrm{Dis}(v, l_u) & \text{otherwise}, \end{cases} \qquad R^{gmv}(v, S, l_u) = \mathrm{GMV}(v, S, l_u)
+```
+
+> "The geographic reward signal is proposed to encourage generating videos nearby and thus a closer video would get a higher reward" (Sec. 2.5.1)
+
+For each training sample, the pre-trained model generates $`N`$ videos by beam search (Eq. 24). OneLoc computes both rewards for each video and pairs the video with the highest reward (positive) and the one with the lowest reward (negative) (Sec. 2.5.2). A new model $`\theta_{i+1}`$, initialized from $`\theta_i`$, is trained on these pairs together with next-token prediction:
+
+```math
+\mathcal{L}_{dpo} = -\log \sigma\left( \beta \log \frac{p_{\theta_{i+1}}(Q_p \mid S, l_u)}{p_{\theta_{i}}(Q_p \mid S, l_u)} - \beta \log \frac{p_{\theta_{i+1}}(Q_n \mid S, l_u)}{p_{\theta_{i}}(Q_n \mid S, l_u)} \right), \qquad \mathcal{L} = \mathcal{L}_{ntp} + \lambda \mathcal{L}_{dpo}
+```
+
+where:
+- $`Q_p`$ and $`Q_n`$ are the SIDs of the positive and negative videos;
+- the previous iterate $`\theta_i`$ serves as the reference model;
+- $`\sigma`$ is the sigmoid function, and $`\lambda = 0.05`$ (Sec. 4.1.4).
+
+Eq. 25 in v1 is printed without $`\sigma`$; the form above follows standard DPO.
 
 ```python
-# Annotated PyTorch walkthrough of OneLoc's Geo-Aware Attention + DPO loss
-# Reference: Wei et al. (arXiv:2508.14646), §2.3 & §2.5 Eq. (20)-(24)
-def oneloc_geo_dpo_step(q, k, v, dist_matrix, geo_bucket_emb, gate,
-                        logp_theta_w, logp_theta_l, logp_ref_w, logp_ref_l, beta=0.1):
-    """
-    q, k, v:       [B, H, T, d_k] encoder query/key/value tensors
-    dist_matrix:   [B, T, T] bucketed pairwise spatial distance indices
-    gate:          [B, H, 1, 1] learnable sigmoid gate g_u
-    logp_*:        [B] sequence log-probabilities sum_{l=1}^L log pi(s_l | s_<l, x)
-    """
-    # 1. Geo-aware self-attention with gated spatial distance bias (§2.3)
-    geo_bias = geo_bucket_emb(dist_matrix).permute(0, 3, 1, 2)  # [B, H, T, T]
-    scores = (q @ k.transpose(-2, -1)) / (q.size(-1) ** 0.5) + torch.sigmoid(gate) * geo_bias
-    attn_out = scores.softmax(dim=-1) @ v
+import torch
+import torch.nn.functional as F
 
-    # 2. DPO preference alignment over Geo + GMV ranked beam pairs (§2.5 Eq. 24)
-    delta_w = logp_theta_w - logp_ref_w
-    delta_l = logp_theta_l - logp_ref_l
-    dpo_loss = -torch.nn.functional.logsigmoid(beta * (delta_w - delta_l)).mean()
-    return attn_out, dpo_loss
+def ga_attn(Z, E_lc, e_u, Wq, Wk, Wv, Wo, gate_mlp):
+    """
+    Z:        [T, d] fused behavior embeddings z_i (Eq. 6)
+    E_lc:     [T, d] location context embeddings of the behaviors (Eq. 7)
+    e_u:      [d]    context embedding of the user's real-time location
+    gate_mlp: maps [T, 2d] -> [T, 1]
+    """
+    d = Z.size(-1)
+    A = torch.softmax((Z @ Wq) @ (Z @ Wk).T / d ** 0.5 + E_lc @ E_lc.T, dim=-1)        # Eq. 11, [T, T]
+    O = A @ (Z @ Wv) @ Wo                                                               # Eq. 12, [T, d]
+    g = 2 * torch.sigmoid(gate_mlp(torch.cat([e_u.expand_as(E_lc), E_lc], dim=-1)))     # Eq. 13, [T, 1]
+    return g * O                                                                        # Eq. 14
+
+def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg, beta, lam=0.05):
+    """Sequence log-probabilities of the positive and negative SIDs; old = previous iterate theta_i."""
+    margin = beta * ((logp_new_pos - logp_old_pos) - (logp_new_neg - logp_old_neg))
+    return ntp_loss + lam * (-F.logsigmoid(margin).mean())                             # Eq. 25-26
 ```
 
----
+Simplifications: The code shows one attention head and leaves out RMSNorm, the feed-forward network, and the residual connections of each block. It takes the projection matrices, the gate MLP, and the log-probabilities as inputs, and it does not build preference pairs or run beam search.
 
-## Verbatim Quotes from the Paper
+### 3. Experimental Findings
 
-- **Problem statement** (Abstract, p.1): *"Two critical challenges remain in local life service recommendation: (1) how to make full use of geographic information, and (2) how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives."*
-- **Multimodal + geographic representation** (§2.1–2.2, p.3): *"We first extract item representations from video content and location context information, extracted by a multimodal large language model ... Following OneRec, we use res-kmeans to quantize the item representations into discrete semantic IDs."*
-- **DPO alignment with dual rewards** (§2.5, p.5): *"We design a Geography Reward and a GMV Reward to construct preference pairs from beam search candidates, and apply Direct Preference Optimization (DPO) to align the generative model."*
+- Foursquare: OneLoc outperforms the baselines in Table 1, which include TIGER and GNPR-SID, on the NYC and Tokyo subsets (Table 1).
 
----
+  > "Similarly, on the Foursquare global dataset, it attains an average performance boost of 13.18% in Recall@5 and 16.34% in NDCG@5." (Sec. 4.2)
 
-## Experimental Protocol & Key Results
+- Online A/B test: OneLoc reports GMV +21.016%, order volume +17.891%, and new local-service buyers +23.027%, with p < 0.01 under two-tailed t-tests (Sec. 5, Table 4).
 
-- **Datasets & Deployment**: Evaluated on industrial Kuaishou local-life service logs and deployed in online A/B testing serving $`\sim 400\text{M}`$ daily active users.
-- **Reported Gains** (§3.2–3.4 of the paper):
-  - **Online A/B Test**: Reports **+21.016% GMV** and **+17.891% order volume** over the production multi-stage local-life ranking baseline.
-  - **Module Ablations**: Removing geo-aware SIDs, geo-aware self-attention, neighbor-aware prompts, or either DPO reward (`Geo` / `GMV`) degrades both offline hit rate and distance compliance.
+  > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
----
+- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards, measured by Recall and NDCG, with GMV added for the rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
 
-## Limitations & Comparison with Peer POI Methods in `I. Informativeness`
+### 4. Limitations & Critical Analysis
 
-1. **Implicit vs. explicit spatial prefix in SIDs**: OneLoc injects location context into the MLLM embedding before `R-KM` (`Text+Img+Geo†`), so spatial hierarchy is not guaranteed to align with individual code positions. Within the same cell (`I. Informativeness` $`\times`$ `Representation`), **`LGSID`** (`Geo-Idx+RQ`) and **`GeoGR`** (`R-KM+EM`) explicitly couple spatial/grid structure or EM-updated geographic alignment with collaborative signals (`Text+Geo+CF`), while **`LGRID`** (`DSRQ`) disentangles semantic and geographic latent spaces.
-2. **Closed industrial evaluation**: Evaluation relies on proprietary short-video local-life logs and business GMV estimators without a public reproducibility benchmark.
+**Stated by the authors.** The paper states no limitations of OneLoc. The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
 
----
+**Our analysis.**
 
-## 旧卡片说明
-
-迁自 `d61aa6c:papers/oneloc.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
-
-### OneLoc：面向本地生活服务的地理感知生成式推荐
-
-> OneLoc 将地理感知 SID、位置自注意力和邻域提示结合到端到端生成式推荐中，并用地理与 GMV 奖励平衡兴趣和距离目标。
-
-### 研究动机与问题定义
-
-本地生活推荐既要满足用户兴趣，也要考虑用户实时位置、商户距离和业务价值。传统模型通常将地理特征作为额外输入，难以在端到端生成中同时控制这些目标。OneLoc 直接生成本地生活 POI/商户的语义 token，并研究其在 Kuaishou 本地生活场景中的部署方式。
-
-### TL;DR（核心摘要）
-
-`用户行为/视频/位置 → 地理感知SID → 地理自注意力编码 → 邻域提示解码 → 商户推荐`
-
-OneLoc 用视频和地理信息构造语义 token，在编码器中利用历史商户位置与实时位置调节注意力，在解码器中加入周边商户提示。监督训练后，模型通过地理奖励和 GMV 奖励构造偏好对并进行 DPO 式强化学习，生成 token 直接对应推荐商户。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户行为、视频内容、历史位置、实时位置、邻域商户和 GMV |
-| 信息融入位置 | SID、编码器注意力、解码提示和强化学习奖励 |
-| 语义标识结构 | 多 token 离散序列 |
-| 适用场景 | 本地生活服务推荐和工业部署 |
-
-### 方法设计
-
-#### 2.2 地理感知语义标识
-OneLoc 将视频内容 token 与地理 token 共同用于商户/内容表示，使生成器看到的离散标识同时包含语义和位置线索。论文强调，位置并非简单拼接的连续特征，而是参与物品 token 化。
-
-#### 2.3 编码器
-编码器接收用户历史行为、历史商户位置和实时位置。Geo-aware Self-Attention 根据行为内容相似性、历史位置关系以及用户当前地点计算注意力，并以门控方式调节位置上下文的影响。
-
-#### 2.4 解码器与邻域提示
-解码器采用带因果自注意力和交叉注意力的生成结构。Neighbor-aware Prompt 将用户实时位置周围的地理网格、邻近商户和位置提示加入解码过程，使生成结果更符合本地可达性。
-
-#### 2.5 强化学习
-监督训练得到初始模型后，OneLoc 从模型分布采样多个视频/商户结果。地理奖励衡量距离约束，GMV 奖励反映业务价值，再按奖励排序构造偏好对，用 DPO 更新模型。
-
-### 实验结论
-
-- 离线实验和在线 A/B 测试均报告了相对生产基线的收益；论文报告日活约 4 亿用户场景下 GMV 和订单数分别提升 21.016% 与 17.891%。
-- 地理自注意力、邻域提示以及两类奖励的消融结果支持这些模块对效果的贡献。
-- 论文展示了系统部署框架，但稿件中的会议元数据仍为占位文本，正式发表信息未确认。
-
-### 局限性与研究定位
-
-#### 局限性
-
-- 多目标奖励权重和偏好数据构造依赖具体业务，跨平台复现难度较高。
-- POI 动态更新、生成非法商户以及候选覆盖率的处理细节未充分报告。
-
-#### 研究定位
-
-OneLoc 代表将 Semantic ID 生成式推荐推进到本地生活工业场景的路线，适合放在“地理约束与多目标生成推荐”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2508.14646)
-
-### 标签
-
-`本地生活` · `地理感知` · `邻域提示` · `强化学习`
-
-### 架构图来源
-
-*图源：原论文，图2。论文页面信息未完整报告，图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：用地理感知生成和偏好优化统一本地生活目标。
-- 使用场景：本地生活推荐。
+- Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
+- The paper does not state how the two rewards are combined when it ranks the candidates for a preference pair (Sec. 2.5.2).
+- The main offline dataset (KuaiLLSR), the GMV scoring model, and the online test are proprietary. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1).
+- The paper does not report SID collision handling, the beam width, or the evaluation candidate protocol (Sec. 2.2, Sec. 3, Sec. 4.1.3).
+- The v1 front matter still carries template placeholders for the DOI and the conference, so the publication venue is unconfirmed.

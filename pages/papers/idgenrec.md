@@ -1,16 +1,12 @@
 # IDGenRec
 
-*Llm-recsys alignment with textual id learning* — Tan et al., SIGIR’24
+*Llm-recsys alignment with textual id learning* — Tan et al. · SIGIR’24
 
-[arXiv](https://arxiv.org/abs/2403.19021) · [Record](../../data/papers/idgenrec.yaml) · [← Catalog](../../README.md#iii--tokenization)
+`III. SID–Model Alignment` · `Tokenization`
 
-> Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".
+[Paper](https://arxiv.org/abs/2403.19021) · [Matrix](../../README.md#iii--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `C-Beam`: Constrained beam search.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Tokenization |
+
+### 2. How It Works
 
 ![IDGenRec architecture diagram](../../architectures/idgenrec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".
-- **`tokenizer`** (p4): Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p4): Location from the 10-26 'Training split' table in the appendix.
 
 ## 旧卡片说明
 
@@ -108,17 +105,6 @@ IDGenRec 的贡献是以文本 ID 作为 LLM 与推荐系统之间的接口，�
 - 核心贡献：以文本ID对齐LLM与推荐器。
 - 使用场景：序列推荐。
 
-## Same cell: III × Tokenization (10 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [SIIT](siit.md) | arXiv’24 | `Text` → **`Self-Imp.`** → `Enc-Dec` → `Altern. / Multi-task NTP` → `C-Beam` |
-| [SemConv](semconv.md) | AAAI’25 | `Text+CF` → **`Align. RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [Align3GR](align3gr.md) | AAAI’26 | `Text+CF` → **`Dual RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `Beam` |
-| [CogRec](cogrec.md) | arXiv’26 | `Text` → **`R-KM+Graph`** → `Dec-Only` → `Fixed / Multi-task NTP` → `CoT+C-Beam` |
-| [DOS](dos.md) | WWW’26 Short | `Text+CF` → **`Orth. RQ`** → `Dec-Only†` → `Fixed† / NTP` → `–` |
-| [GR4AD-X](gr4ad-x.md) | arXiv’26 | `–` → **`Multi-Path R-KM+Hash`** → `Enc-Dec` → `Fixed / NTP + PV-RSPO + Rank + Aux.` → `PV-Beam+Rerank` |
-| [GRLM](grlm.md) | arXiv’26 | `Text` → **`Term-ID`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [HoloRec](holorec.md) | arXiv’26 | `–` → **`Nested RQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `–` |
-| [SST](sst.md) | CIKM’26 | `Text` → **`RQ+IST`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [TopoGR](topogr.md) | arXiv’26 | `Text` → **`BDQ`** → `Non-AR` → `Fixed / MTP + Aux.` → `Scoring+Rerank` |
+[View all papers in this cell](../../README.md#iii--tokenization)

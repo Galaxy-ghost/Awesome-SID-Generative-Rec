@@ -1,0 +1,14 @@
+# Substantive updates, newest first. Rendered into README.md ("Recent Updates") by scripts/build.py.
+# Each entry: date (YYYY-MM-DD string), change (one past-tense sentence), papers (list of record ids; may be empty).
+- date: '2026-11-01'
+  change: The paper pages gained a new template with reading levels, setup cards, and related-work links; five sample pages
+    were rewritten, and index pages and a glossary were added.
+  papers:
+  - tiger
+  - rpg
+  - oneloc
+  - letter
+  - sidscope
+- date: '2026-10-30'
+  change: Table 1 of the survey was frozen at 181 papers, and the records were synchronized with it.
+  papers: []

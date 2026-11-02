@@ -1,16 +1,12 @@
 # Think2Go
 
-*Generative Next POI Recommendation with LLM Reasoning* — Zhuang et al., KDD’26 · `POI`
+*Generative Next POI Recommendation with LLM Reasoning* — Zhuang et al. · KDD’26
 
-[arXiv](https://arxiv.org/abs/2607.28997) · [Record](../../data/papers/think2go.yaml) · [← Catalog](../../README.md#iii--training)
+`III. SID–Model Alignment` · `Training` · `POI`
 
-> Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.
+[Paper](https://arxiv.org/abs/2607.28997) · [Matrix](../../README.md#iii--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,15 +18,16 @@
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
 - `CoT+Beam`: Reasoning followed by beam-search decoding.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Training |
+
+### 2. How It Works
 
 ![Think2Go architecture diagram](../../architectures/think2go.png)
-
-## Evidence
-
-- **`problem`** (abstract, p1): Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing reasoning does not form a problem of its own.
-- **`stage`** (§4.1–4.2, p4–6): SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
-- **`representation`** (p7): Inferred from GNPR-SID, whose data processing the paper follows.
 
 ## 旧卡片说明
 
@@ -114,15 +111,6 @@ Think2Go 适合放在“推理增强的语义标识生成推荐”章节，重�
 - 核心贡献：统一 SFT、推理、自纠错与自适应强化学习。
 - 使用场景：下一 POI 推荐。
 
-## Same cell: III × Training (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
-| [ETEGRec](etegrec.md) | SIGIR’25 | `CF` → `Learn. RQ` → `Enc-Dec` → **`Altern. / NTP + Ctr.`** → `Beam` |
-| [GREAM](gream.md) | arXiv’25 | `Text+CF` → `RQ-KM` → `Dec-Only` → **`Fixed / NTP → RL`** → `Beam` |
-| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
-| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `C-Beam` |
+[View all papers in this cell](../../README.md#iii--training)

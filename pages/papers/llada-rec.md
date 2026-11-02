@@ -1,16 +1,12 @@
 # LLaDA-Rec
 
-*Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* — Shi et al., arXiv’25
+*Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* — Shi et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2511.06254) · [Record](../../data/papers/llada-rec.yaml) · [← Catalog](../../README.md#iii--backbone)
+`III. SID–Model Alignment` · `Backbone`
 
-> Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early tokens to propagate".
+[Paper](https://arxiv.org/abs/2511.06254) · [Matrix](../../README.md#iii--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,13 +17,16 @@
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
 - `Diff.`: Diffusion decoding.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Backbone |
+
+### 2. How It Works
 
 ![LLaDA-Rec architecture diagram](../../architectures/llada-rec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early tokens to propagate".
 
 ## 旧卡片说明
 
@@ -101,15 +100,6 @@ LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低�
 - 核心贡献：并行去噪生成SID。
 - 使用场景：低延迟推荐。
 
-## Same cell: III × Backbone (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [DECOR](decor.md) | SIGIR’26 | `Text+CF` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP` → `Beam` |
-| [FLASH](flash.md) | NeurIPS’26 | `Text` → `SimHash` → **`Non-AR`** → `Fixed / MTP + Aux.` → `Scoring` |
-| [Latte](latte.md) | arXiv’26 | `Text+CF` → `RQ-VAE` → **`Dec-Only`** → `Fixed / NTP` → `C-Beam` |
-| [LESSRec](lessrec.md) | arXiv’26 | `Text / Text+CF` → `RQ-VAE / R-KM / LETTER` → **`Enc-Dec`** → `Fixed / NTP` → `C-Beam` |
-| [MDGR](mdgr.md) | arXiv’26 | `–` → `Par. OPQ` → **`Non-AR`** → `Fixed / Masked` → `Diff.+Beam` |
-| [PrefixMem](prefixmem.md) | arXiv’26 | `MM` → `RQ-VAE` → **`Dec-Only`** → `Fixed / Multi-task NTP` → `Beam` |
-| [S2GR](s2gr.md) | KDD’26 | `Text+CF` → `CoBa RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP + Ctr.` → `Beam` |
-| [TrieRec](trierec.md) | NeurIPS’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed† / NTP†` → `C-Beam` |
+[View all papers in this cell](../../README.md#iii--backbone)

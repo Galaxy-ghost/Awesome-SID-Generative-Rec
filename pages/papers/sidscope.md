@@ -1,40 +1,61 @@
 # SIDScope
 
-*A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* — Ding et al., arXiv’26
+*A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* — Ding et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2608.18779) · [Record](../../data/papers/sidscope.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+`Paradigms, Systems and Benchmarks` · `No single stage`
 
-> End-to-end paradigm or benchmark using – tokenization and – backbone.
+[Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-| Group | Stage it changes |
-| :-- | :-- |
-| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
 | `n/a` | `n/a` | `n/a` | `n/a / n/a` | `n/a` |
 
 - `n/a`: Not applicable to this method.
-- `n/a`: Not applicable to this method.
-- `n/a`: Not applicable to this method.
-- `n/a`: Not applicable to this method.
-- `n/a`: Not applicable to this method.
-- `n/a`: Not applicable to this method.
 
-## Same cell: Paradigms, Systems and Benchmarks (11 more)
+### TL;DR
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
-| [GRID](grid.md) | CIKM’25 | `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
+SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.
+
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Key Contribution | SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh. |
+| Modified Stage | No single stage |
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Diagnostic resource with nine named exports from seven tokenizer families: Amazon Musical, Video Games, Beauty (P5), and Instruments, plus Yelp Business; eight exports enter the executable diagnostic matrix. A separate DACT Tools case studies mapping refresh. For the compact D3 graph, duplicate user-item pairs are removed and only users with 2-50 distinct mapped items are included; users above 50 are excluded, not truncated. Upstream dataset filtering is not reported uniformly across routes.
+  - Source: Table 2 defines named route coverage, Section 3.2 defines bounded-graph filtering, and Section 6 adds a separate Tools lifecycle case; https://arxiv.org/html/2608.18779v2#S3.T2, https://arxiv.org/html/2608.18779v2#S3.SS2.SSS0.Px2.p1, https://arxiv.org/html/2608.18779v2#S3.SS2.SSS0.Px2.p2, and https://arxiv.org/html/2608.18779v2#S6.SS1.p1.
+- **Split**: Protocol-dependent. Mapping profiles use declared training splits or supplied reference interactions when split labels are absent. Fixed-budget Beauty studies use explicit training/validation splits; ReSOT Instruments uses earlier events as history, the penultimate event for validation, and the final event as unused future holdout, with hashed users separating diagnostics from 2,000 validation users. GRID beam studies train outside each of two evaluation folds; DIGER uses a last-event case. DACT refresh uses the same 5,364 held-out users/targets across states, with test targets excluded from training and checkpoint selection.
+  - Source: Profile, fixed-budget, beam, and lifecycle studies use distinct splits, so none is promoted to a resource-wide train/test protocol; https://arxiv.org/html/2608.18779v2#S3.SS2.SSS0.Px2.p2, https://arxiv.org/html/2608.18779v2#S5.SS2.p1, https://arxiv.org/html/2608.18779v2#S5.SS5.p1, and https://arxiv.org/html/2608.18779v2#S6.SS1.p2.
+- **Candidates**: Protocol-dependent: fixed-budget prefix retrieval uses exactly 100 candidate items per user, with sensitivity budgets of 50 and 200; sampled-ranking tests use the target plus 100 catalog negatives after excluding history items, using popular or uniformly sampled negatives; frozen-beam resolver comparisons use the same top-50 generated paths, with top-20 sensitivity and no candidate-budget expansion.
+  - Source: Fixed-budget retrieval, sampled ranking, and beam accounting have different candidate meanings; https://arxiv.org/html/2608.18779v2#S5.SS2.p1, https://arxiv.org/html/2608.18779v2#A1.SS1.SSS0.Px1.p1, https://arxiv.org/html/2608.18779v2#A2.SS3.p1, and https://arxiv.org/html/2608.18779v2#A2.SS4.p2.
+- **Visibility**: No single warm/cold regime. Fixed-budget studies separate diagnostic and validation users, not the upstream tokenizer's training population. The DACT refresh case includes 584 new-item targets and compares the released checkpoint with adapted checkpoints; whether these items were unseen during tokenizer fitting is not reported.
+  - Source: Disjoint diagnostic users do not establish tokenizer-unseen items, and the DACT new-item handoff is not a declared tokenizer-cold-start protocol; https://arxiv.org/html/2608.18779v2#S5.SS2.p1 and https://arxiv.org/html/2608.18779v2#S6.SS1.p2.
+- **SID**: Named exports have 3 or 4 SID levels; a single layers-by-codebook-size configuration is n/a, and nominal per-level codebook capacities are not reported uniformly across routes. Table 3's D1 counts are occupied first-level symbols, not nominal capacities. Shared full codes are measured explicitly; frozen-beam comparisons use singleton credit, uniform within-leaf expected credit, or deterministic training-popularity resolution with item-ID tie-breaking.
+  - Source: Table 2 gives SID depths, Table 3 reports occupied symbols rather than codebook capacity, and Section 5.6 defines the collision-accounting/resolution alternatives; https://arxiv.org/html/2608.18779v2#S3.T2, https://arxiv.org/html/2608.18779v2#S4.T3, https://arxiv.org/html/2608.18779v2#S5.SS6.p1, and https://arxiv.org/html/2608.18779v2#S5.SS6.p2.
+- **Inference budget**: DACT TIGER/T5 constraint comparison: beam width 50 on 500 fixed targets. Controlled GRID/P5 GRU runs: beam width 50 on 500 targets per evaluation fold, with a DIGER portability case under the same accounting. Three GRU exports each contain 25,000 beam rows for 500 targets. Generator inference hardware, inference batch size, and latency not reported; the stated batch size 512 is for GRU training.
+  - Source: Sections 5.4-5.5 state the actual beam budgets, Appendix B.4's batch 512 is a training setting, and Section 3.2 distinguishes topology from runtime; https://arxiv.org/html/2608.18779v2#S5.SS4.p1, https://arxiv.org/html/2608.18779v2#S5.SS5.p1, https://arxiv.org/html/2608.18779v2#A2.SS4.p1, https://arxiv.org/html/2608.18779v2#A2.SS4.p2, and https://arxiv.org/html/2608.18779v2#S3.SS2.SSS0.Px3.p2.
+- **Results from**: Table 3: eight-route D1-D5 profiles. Table 4: D3 calibration checks. Table 5: fixed-budget prefix retrieval. Section 5.4: released TIGER/T5 constrained versus unconstrained decoding. Table 6: controlled beam accounting. Table 7: resolution policies on identical beams. Table 8: DACT mapping refresh and generator handoff. Appendix B, Tables 11-12: measurement checks and candidate-budget sensitivity.
+  - Source: The cited tables separate mapping diagnostics, candidate exposure, beam accounting, resolver outcomes, and lifecycle handoff; https://arxiv.org/html/2608.18779v2#S4.T3, https://arxiv.org/html/2608.18779v2#S5.T4, https://arxiv.org/html/2608.18779v2#S5.T5, https://arxiv.org/html/2608.18779v2#S5.T6, https://arxiv.org/html/2608.18779v2#S5.T7, https://arxiv.org/html/2608.18779v2#S6.T8, https://arxiv.org/html/2608.18779v2#S5.SS4.p1, https://arxiv.org/html/2608.18779v2#A2.T11, and https://arxiv.org/html/2608.18779v2#A2.T12.
+
+### 5. Connections to Related Work
+
+- **Predecessor** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
+  - Source: SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: https://arxiv.org/html/2608.18779v2#S3.T2; Table 3 gives its diagnostic profile: https://arxiv.org/html/2608.18779v2#S4.T3; Tables 5 and 7 report the fixed-budget and resolver tests: https://arxiv.org/html/2608.18779v2#S5.T5 and https://arxiv.org/html/2608.18779v2#S5.T7.
+- **Predecessor** · [CARD](card.md): CARD supplies an upstream Beauty/P5 SID mapping inspected by SIDScope through a code-derived export and budget-matched prefix retrieval controls on the same catalog as GRID.
+  - Source: SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: https://arxiv.org/html/2608.18779v2#S3.T2; Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: https://arxiv.org/html/2608.18779v2#S5.SS2.p1 and https://arxiv.org/html/2608.18779v2#S5.T5.
+- **Predecessor** · [DIGER](diger.md): DIGER supplies upstream checkpoint-derived SID mappings for Beauty and Yelp that SIDScope profiles separately and uses in a last-event beam-accounting portability case.
+  - Source: SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: https://arxiv.org/html/2608.18779v2#S3.T2 and https://arxiv.org/html/2608.18779v2#S4.T3; Section 5.5 and Table 6 identify the last-event sensitivity route: https://arxiv.org/html/2608.18779v2#S5.SS5.p1 and https://arxiv.org/html/2608.18779v2#S5.T6.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies a released Instruments SID index that SIDScope re-audits under its common bounded diagnostic protocol as an upstream mapping source.
+  - Source: SIDScope v2, Table 2 identifies LETTER's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 states that LETTER is recomputed under the common C3 protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports the resulting profile: https://arxiv.org/html/2608.18779v2#S4.T3.
+- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies a released Instruments SID index that SIDScope re-audits alongside LETTER to distinguish mapping addressability from prefix behavioral alignment.
+  - Source: SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p2 and https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports both profiles: https://arxiv.org/html/2608.18779v2#S4.T3.
+
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

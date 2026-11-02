@@ -1,16 +1,12 @@
 # RecBase
 
-*Generative foundation model pretraining for zero-shot recommendation* — Zhou et al., EMNLP’25
+*Generative foundation model pretraining for zero-shot recommendation* — Zhou et al. · EMNLP’25
 
-[arXiv](https://arxiv.org/abs/2509.03131) · [Record](../../data/papers/recbase.yaml) · [← Catalog](../../README.md#vi--training)
+`VI. Generalization` · `Training`
 
-> Abstract: "cross-domain generalization is hindered by a fundamental mismatch between language-centric pretraining and the recommendation task".
+[Paper](https://arxiv.org/abs/2509.03131) · [Matrix](../../README.md#vi--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,9 +16,12 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "cross-domain generalization is hindered by a fundamental mismatch between language-centric pretraining and the recommendation task".
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Training |
 
 ## 旧目录说明
 
@@ -30,10 +29,6 @@
 
 推理时可逐位生成概念 ID，但实验按 AUC 对候选物品打分排序。
 
-## Same cell: VI × Training (3 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [AWARE](aware.md) | arXiv’26 | `Text+Geo` → `Geo-Prefix+HClus` → `Dec-Only` → **`Fixed / NTP`** → `–` |
-| [CausalDPO](causaldpo.md) | ICML’26 | `Text` → `LLM-Vocab` → `Dec-Only` → **`Fixed / NTP → DPO`** → `Scoring` |
-| [CMRec](cmrec.md) | CIKM’26 Short | `Text+Img+CF` → `RQ-VAE` → `Dec-Only†` → **`– / NTP`** → `–` |
+[View all papers in this cell](../../README.md#vi--training)

@@ -1,16 +1,12 @@
 # NEZHA
 
-*A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* — Wang et al., WWW’26 Industry
+*A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* — Wang et al. · WWW’26 Industry
 
-[arXiv](https://arxiv.org/abs/2511.18793) · [Record](../../data/papers/nezha.yaml) · [← Catalog](../../README.md#v--inference)
+`V. Efficiency` · `Inference`
 
-> Abstract: "severely hindered by high inference latency".
+[Paper](https://arxiv.org/abs/2511.18793) · [Matrix](../../README.md#v--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **V. Efficiency**: Can it be trained and served within latency and cost budgets? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,18 +17,13 @@
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `Self-Draft+Hash`: Self-drafted candidate generation with hash-set validity checking.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "severely hindered by high inference latency".
-- **`tokenizer`** (§3.4, p6; Algorithm 3): Location from the pre-10-26 Training evidence in the appendix.
-- **`objective`** (§3.4, p6; Algorithm 3): Location from the pre-10-26 Training evidence in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
+| Modified Stage | Inference |
 
-## Same cell: V × Inference (5 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [AtSpeed](atspeed.md) | ICLR’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Spec. Dec.`** |
-| [OneRec-V2-Quantized](onerec-v2-quantized.md) | arXiv’26 | `Text+Img+CF†` → `R-KM†` → `Lazy Dec-Only†` → `Fixed† / NTP → RL†` → **`FP8+RecoGEM`** |
-| [PAD-Rec](pad-rec.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP†` → **`Spec. Dec.`** |
-| [PFA](pfa.md) | arXiv’26 | `–` → `–` → `Enc-Dec` → `– / –` → **`Beam`** |
-| [STATIC](static.md) | KDD’26 ADS | `–` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → **`Vec. C-Beam`** |
+[View all papers in this cell](../../README.md#v--inference)

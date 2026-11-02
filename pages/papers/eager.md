@@ -1,16 +1,12 @@
 # EAGER
 
-*Two-Stream Generative Recommender with Behavior-Semantic Collaboration* — Wang et al., KDD’24
+*Two-Stream Generative Recommender with Behavior-Semantic Collaboration* — Wang et al. · KDD’24
 
-[arXiv](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) · [Record](../../data/papers/eager.yaml) · [← Catalog](../../README.md#i--backbone)
+`I. Informativeness` · `Backbone`
 
-> Abstract: "focus solely on either behavioral or semantic aspects of item information".
+[Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) · [Matrix](../../README.md#i--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -19,15 +15,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Backbone |
+
+### 2. How It Works
 
 ![EAGER architecture diagram](../../architectures/eager.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "focus solely on either behavioral or semantic aspects of item information".
-- **`tokenizer`** (p5): Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p5): Location from the 10-26 'Training split' table in the appendix.
 
 ## 旧卡片说明
 
@@ -108,13 +105,6 @@ EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局�
 - 核心贡献：联合生成行为码与语义码。
 - 使用场景：多源序列推荐。
 
-## Same cell: I × Backbone (6 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [ColaRec](colarec.md) | CIKM’24 | `Text+CF` → `H-KM` → **`Enc-Dec`** → `Fixed / NTP + Ctr.` → `C-Beam` |
-| [COBRA](cobra.md) | NeurIPS’25 | `Text+SID` → `Casc. RQ` → **`Dec-Only`** → `Fixed / NTP + Dense` → `BeamFusion` |
-| [DiscRec](discrec.md) | arXiv’25 | `Text+CF` → `RQ-VAE / Learn. RQ` → **`Enc-Dec`** → `Fixed / NTP` → `C-Beam` |
-| [Spacetime-GR](spacetime-gr.md) | arXiv’25 | `Geo` → `Geo-Idx` → **`Dec-Only`** → `Fixed / NTP → DPO` → `Beam` |
-| [SPAR-Youku](spar-youku.md) | arXiv’26 | `–` → `RQ-PIB` → **`Dec-Only`** → `Fixed / NTP → DPO` → `C-Beam` |
-| [UniSGR-V2](unisgr-v2.md) | arXiv’26 | `–` → `–` → **`Enc-Dec`** → `– / NTP + Rank` → `Beam` |
+[View all papers in this cell](../../README.md#i--backbone)

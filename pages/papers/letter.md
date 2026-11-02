@@ -1,16 +1,12 @@
 # LETTER
 
-*Learnable item tokenization for generative recommendation* — Wang et al., CIKM’24
+*Learnable item tokenization for generative recommendation* — Wang et al. · CIKM’24
 
-[arXiv](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) · [Record](../../data/papers/letter.yaml) · [← Catalog](../../README.md#i--tokenization)
+`I. Informativeness` · `Tokenization`
 
-> Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code assignment bias".
+[Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) · [Matrix](../../README.md#i--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Tokenization** |
-
-## Pipeline
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,124 +17,103 @@
 - `NTP + Rank`: NTP plus a ranking loss.
 - `C-Beam`: Constrained beam search.
 
-## Architecture
+### TL;DR
+
+LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
+
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Key Contribution | LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry collaborative signals and reduce code assignment bias found in earlier identifiers. |
+| Modified Stage | Tokenization |
+| Key Findings | LETTER improves both backend models, TIGER and LC-Rec, on Instruments, Beauty, and Yelp, and adding either the collaborative or the diversity regularization alone improves TIGER (Tables 1 and 2). |
+| Limitation | The tokenizer is trained before the generator and then kept fixed, and the collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1, Sec. 3.2). |
+
+### 1. Why This Paper Matters
+
+Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER keeps an RQ-VAE tokenizer for the semantic part and adds a collaborative regularization and a diversity regularization to it. The learned Semantic IDs (SIDs) then serve two generators, TIGER and LC-Rec (Sec. 4.1.4).
+
+> "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
+
+### 2. How It Works
 
 ![LETTER architecture diagram](../../architectures/letter.png)
 
-## Evidence
+#### Semantic Regularization
 
-- **`problem`** (arXiv abstract): Abstract: "shortcomings in encoding semantic information, incorporating collaborative signals, or handling code assignment bias".
+An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1). The main configuration uses 4 levels with 256 codewords each (Sec. 4.1.4).
 
-## 旧卡片说明
+#### Collaborative Regularization
 
-迁自 `d61aa6c:papers/letter.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+A contrastive alignment loss pulls each item's quantized embedding toward its embedding from a trained collaborative filtering (CF) model (Sec. 3.1, Eq. 3). The paper names LightGCN as an example CF model (Sec. 1).
 
-### LETTER：生成式推荐的可学习物品分词
+> "Intuitively, collaborative regularization encourages items with similar collaborative interactions to exhibit similar code sequences." (Sec. 3.1)
 
-> LETTER 通过层次语义、协同信号和码分配多样性三个目标学习更适合生成推荐的物品标识。
+#### Diversity Regularization
 
-### 研究动机与问题定义
+A diversity loss spreads the code embeddings apart, using clusters from constrained k-means (Sec. 3.1, Eq. 4). It targets code assignment bias, where some codes receive more items than others, and item generation bias (Sec. 1).
 
-普通文本或码本 ID 可能缺乏层次语义、协同关系，且容易产生码分配偏置。LETTER 设计可学习 tokenizer，使 token 序列同时服务于语义表达和生成可辨识性。
+> "As illustrated in Figure 5(a), a biased code embedding distribution is more likely to cause biased code assignment in the latent space, where some codes are assigned to more items." (Sec. 3.1)
 
-### TL;DR（核心摘要）
+#### Training and Generation
 
-`物品语义与协同表示 → RQ-VAE/LETTER → 生成模型 → 物品标识 → 推荐物品`
+LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it to tokenize items for training and inference of the generator (Sec. 3.2). LETTER also adds a ranking-guided generation loss to the generator's training to improve its ranking ability (Abstract, Sec. 1). At inference, a trie restricts generation to valid identifiers.
 
-LETTER 在 RQ-VAE 基础上加入语义正则、协同正则和多样性正则：前两者约束码的内容与行为信息，后一项缓解高频码偏置。标识被用于生成模型的 next-item 预测，生成结果直接映射物品。
+> "To ensure generating valid identifiers, we follow (Hua et al., 2023) to employ constrained generation (De Cao et al., 2020) via Trie" (Sec. 3.2.2)
 
-### 输入与使用场景
+### 3. Experimental Findings
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品语义、用户交互和协同表示 |
-| 信息融入位置 | tokenizer 学习目标与生成输入 |
-| 语义标识结构 | 层次化离散序列 |
-| 适用场景 | 常规生成式推荐 |
+**Experimental setup**
 
-### 方法设计
+- **Datasets**: Amazon Instruments, Amazon Beauty, and Yelp; users and items with fewer than 5 interactions are discarded. Dataset release/date windows and retained corpus sizes are not reported.
+  - Source: Dataset names and explicit filtering of both users and items: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1.
+- **Split**: Chronological interaction histories with leave-one-out evaluation; training histories contain at most 20 items. The exact validation/test position allocation is not reported beyond the leave-one-out label.
+  - Source: Leave-one-out and the 20-item training-history cap: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1; chronological histories: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS1.p1. Methods/Experiments and Appendix 7 do not spell out the exact validation-versus-test position allocation beyond naming leave-one-out.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); generation is constrained to valid identifier continuations with a trie.
+  - Source: Inference defines trie-constrained generation, but not full-catalog versus sampled-negative evaluation: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS2.p1; evaluation states only metrics: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS3.p1; Methods/Experiments and Appendix 7 were checked.
+- **Visibility**: Standard leave-one-out evaluation; per-target generator/tokenizer training visibility is not reported. The tokenizer uses item content and SASRec collaborative embeddings before generator training, but inclusion of held-out-only items in tokenizer/CF training is not reported. A dedicated cold-start evaluation is not reported.
+  - Source: Tokenizer training precedes generator training: https://arxiv.org/html/2405.07314v1#S3.SS2.p1; LLaMA2 content embeddings and SASRec collaborative embeddings: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1; leave-one-out: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS1.p1. Methods/Experiments and Appendix 7 give no item-disjoint cold-start experiment or explicit tokenizer/CF visibility for held-out-only items.
+- **SID**: Main configuration: 4 residual-quantization levels x 256 codewords, with 32-dimensional code embeddings; the identifier contains 4 learned codes. Collision handling or an additional collision suffix: not reported.
+  - Source: Four levels, 256 entries each, and 32-dimensional embeddings: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p2; L is the identifier length: https://arxiv.org/html/2405.07314v1#S3.SS1.p4. Methods/Experiments and Appendix 7 do not specify collision resolution or an additional disambiguation suffix; the four learned levels must not be replaced by TIGER's three levels plus suffix.
+- **Inference budget**: Trie-constrained autoregressive generation; numerical beam width not reported. Recall and NDCG at K=5 and 10. All experiments use 4 NVIDIA RTX A5000 GPUs; allocation specifically for inference is not reported. Inference batch size and measured latency: not reported.
+  - Source: Trie-constrained autoregressive generation: https://arxiv.org/html/2405.07314v1#S3.SS2.SSS2.p1; metric cutoffs: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS3.p1; experiment hardware: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1. Methods/Experiments and Appendix 7 specify no beam width, inference batch, or measured latency; the 1,024 batch in https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p2 is tokenizer training, not inference.
+- **Results from**: Original paper Table 1, with separate LETTER-TIGER and LETTER-LC-Rec rows on Instruments, Beauty, and Yelp. The authors reimplement TIGER and instantiate LC-Rec with LoRA-tuned LLaMA2-7B; these are this paper's experimental configurations, not the original TIGER paper's results.
+  - Source: Original main table and model instantiations: https://arxiv.org/html/2405.07314v1#S4.T1 and https://arxiv.org/html/2405.07314v1#S4.SS2.p1; TIGER reimplementation and LC-Rec/LoRA setup: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1.
 
-#### 3.1 LETTER tokenizer
-LETTER 基于 RQ-VAE 学习层次化物品 token，并在码本训练中加入三类正则。语义正则使 token 保留内容层次，协同正则把交互结构引入 code assignment，多样性正则缓解高频码和生成偏置。
+- Main results: LETTER-TIGER and LETTER-LC-Rec outperform their backend models on Instruments, Beauty, and Yelp (Sec. 4.2, Table 1).
+- Ablation: adding either the collaborative or the diversity regularization to TIGER improves its performance (Sec. 4.3.1, Table 2).
+- Code usage: the collaborative regularization lowers the number of codes that TIGER uses, and the diversity regularization raises it again (Sec. 4.3.2, Fig. 6).
 
-#### 3.2 生成推荐实例化
-训练时，用户历史物品被替换为 LETTER 标识，生成器自回归预测下一物品标识。tokenizer 与生成推荐模型可以分别训练，再把学习到的标识用于不同生成骨干。
+  > "Although adding collaborative regularization decreases the code utilization of TIGER (from 148 to 76), integrating diversity regularization inversely compensates for the drop in code utilization." (Sec. 4.3.2)
 
-#### 3.3 标识偏置分析
-论文从层次语义、协同信号、码分配和生成分布分析 LETTER。实验还研究正则权重、码本规模、标识长度和不同生成模型，以验证标识质量不是单一性能数字造成的。
+- Collaborative signals: Tables 3 and 4 analyze how well the identifiers carry collaborative information (Sec. 4.3.4).
+- Hyperparameters: the paper varies the identifier length $`L`$, the codebook size $`N`$, the loss weights $`\alpha`$ and $`\beta`$, the cluster number $`K`$, and the temperature $`\tau`$ (Sec. 4.3.5).
 
-#### 3.4 相关扩展
-论文通过协同表示对齐、码使用率和误差案例分析 LETTER 相比普通文本/码本标识的差异。
+### 4. Limitations & Critical Analysis
 
-### 实验结论
+**Stated by the authors.** The authors report two settings where a larger value hurts performance (Sec. 4.3.5). Longer identifiers lower performance, which they attribute to error accumulation in autoregressive generation:
 
-- LETTER 在多个数据集上优于既有物品 tokenization 方法。
-- 三类正则分别改善语义、协同和码分配特性。
+> "Continuously increasing the identifier length from 4 to 8 will inversely degrade the performance. This is reasonable because autoregressive generation suffers from error accumulation (Ren et al., 2024b)." (Sec. 4.3.5)
 
-### 局限性与研究定位
+A larger codebook can also hurt:
 
-#### 局限性
-- tokenizer 需要离线更新，动态目录支持有限。
-- 正则权重与码本规模会影响稳定性和生成效率。
+> "However, 2) blindly expanding N might inversely hurt the performance, where larger codebook size might be more susceptible to noise in the item's semantic information, potentially leading to the over-fitting of some meaningless semantics." (Sec. 4.3.5)
 
-#### 研究定位
-LETTER 的贡献是明确提出面向生成推荐的三目标物品分词器，适合放在“可学习语义标识构建”章节。
+**Our analysis.**
 
-### 相关资源
+- The tokenizer is trained once and then fixed (`Fixed`), so a change in the catalog requires retraining the tokenizer and re-tokenizing items. ETEGRec updates the tokenizer and the generator in turns (`Altern.`), and DIGER lets the generator loss update the tokenizer directly (`Joint`).
+- The collaborative regularization needs a CF embedding for every item. This suggests that items without interactions receive no collaborative signal in their identifiers.
+- The collaborative and diversity terms pull code usage in opposite directions (Sec. 4.3.2), so their weights trade one property against the other.
 
-- [开源代码](https://github.com/Honghuibao2000/LETTER)
+### 5. Connections to Related Work
 
-### 标签
+- **Predecessor** · [TIGER](tiger.md): LETTER builds on TIGER's RQ-VAE semantic tokenization by adding collaborative and diversity regularization plus a ranking-guided generation loss.
+  - Source: LETTER, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1 defines the progression from TIGER to LETTER-TIGER: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.
+- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies an existing code-ID recommender with auxiliary language-alignment tasks; LETTER reuses it as a backend for its learnable tokenizer.
+  - Source: LETTER, Section 4.1.2 describes LC-Rec: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS2.p1; Section 4.1.4 explicitly instantiates LETTER on LC-Rec: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS4.p1; Table 1 includes LC-Rec and LETTER-LC-Rec: https://arxiv.org/html/2405.07314v1#S4.T1.
+- **Competitor** · [CID](cid.md): LETTER compares against P5-CID, which builds identifiers by spectral clustering of an item co-appearance graph instead of LETTER's regularized RQ-VAE tokenization.
+  - Source: LETTER, Section 4.1.2 identifies the P5-CID baseline from Hua et al.: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS2.p1; Table 1 compares P5-CID with LETTER: https://arxiv.org/html/2405.07314v1#S4.T1; Section 3.1 defines LETTER's RQ-VAE tokenizer: https://arxiv.org/html/2405.07314v1#S3.SS1.p2.
 
-`可学习分词` · `层次化语义` · `协同信号` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图1。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：联合语义、协同和码多样性。
-- 使用场景：生成式推荐。
-
-## Same cell: I × Tokenization (33 more)
-
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [CoST](cost.md) | RecSys’24 | `Text` → **`C-RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [LMIndexer](lmindexer.md) | ICML’24 | `Text` → **`Self-Sup. ID`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [ActionPiece](actionpiece.md) | ICML’25 | `Text` → **`OPQ`** → `Enc-Dec` → `Fixed / NTP` → `Ensemble` |
-| [ADC-SID](adc-sid.md) | arXiv’25 | `Text+Img+CF` → **`MoE-VQ`** → `Enc-Dec` → `Fixed† / NTP` → `–` |
-| [DAS](das.md) | CIKM’25 | `Text+CF` → **`Dual RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [EAGER-LLM](eager-llm.md) | WWW’25 | `Text+CF` → **`Dual H-KM`** → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [FlexCode](flexcode.md) | arXiv’25 | `Text+CF` → **`Dual RQ-VAE`** → `–` → `Joint / NTP` → `–` |
-| [GenSAR](gensar.md) | RecSys’25 | `Text+CF` → **`Shared/Spec. RQ`** → `Enc-Dec` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [GNPR-SID](gnpr-sid.md) | KDD’25 | `Attr+Geo+CF` → **`RQ-VAE`** → `Dec-Only` → `Fixed / NTP` → `–` |
-| [GRAM](gram.md) | ACL’25 | `Text+CF` → **`H-KM`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [KGTB](kgtb.md) | arXiv’25 | `Attr+Geo+CF` → **`KG-RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |
-| [MME-SID](mme-sid.md) | CIKM’25 | `Text+Img+CF` → **`MM-RQ`** → `Dec-Only` → `Fixed / NTP` → `Scoring` |
-| [MQL4GRec](mql4grec.md) | ICLR’25 | `Text+Img` → **`Dual RQ`** → `Enc-Dec` → `Fixed / Multi-task NTP` → `Beam` |
-| [PSRQ](psrq.md) | CIKM’25 | `Text+Img` → **`Prog. RQ`** → `Encoder` → `Fixed / Discrim.` → `Scoring` |
-| [QT-Mob](qt-mob.md) | KDD’25 | `Text+Geo` → **`RQ-VAE`** → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [TokenRec](tokenrec.md) | TKDE’25 | `CF` → **`Masked VQ`** → `Encoder` → `Fixed / Discrim.` → `Scoring` |
-| [CapsID](capsid.md) | arXiv’26 | `Text+CF` → **`Soft-RQ`** → `Dec-Only` → `Fixed / NTP` → `C-Beam` |
-| [ChronoID](chronoid.md) | arXiv’26 | `Text+Time` → **`RQ-VAE / Par. VQ`** → `Dec-Only†` → `Fixed / NTP` → `Beam†` |
-| [GrIS (RecDMoN / RQ-GAE)](gris-recdmon-rq-gae.md) | CIKM’26 | `Text+CF` → **`RecDMoN / RQ-VAE`** → `Enc-Dec` → `Fixed / –` → `–` |
-| [MACRec](macrec.md) | AAAI’26 | `Text+Img` → **`Cross RQ`** → `Enc-Dec` → `Fixed / NTP + Ctr.` → `C-Beam` |
-| [MMGRec](mmgrec.md) | TOMM’26 | `Text+Img+CF` → **`Graph RQ-VAE`** → `Enc-Dec` → `Fixed / NTP` → `C-Beam` |
-| [MMQ](mmq.md) | WSDM’26 | `Text+Img` → **`MoE-VQ`** → `HeterRec` → `Joint / MTP` → `–` |
-| [MSCGRec](mscgrec.md) | arXiv’26 | `Text+Img+CF` → **`RQ-VAE+DINO`** → `Enc-Dec` → `Fixed† / NTP` → `Trie/C-Beam` |
-| [PCR-CA](pcr-ca.md) | KDD’26 | `Text+CF` → **`PC-AE`** → `Disc.` → `Joint / Discrim.` → `Scoring` |
-| [Pctx](pctx.md) | CIKM’26 | `Text+CF` → **`RQ`** → `Enc-Dec` → `Fixed / NTP` → `Beam+Agg.` |
-| [ProGEO](progeo.md) | arXiv’26 | `Text+Geo` → **`R-KM+Geo-CB`** → `Dec-Only` → `Fixed / NTP` → `Beam+Geo-Filter` |
-| [RoFiGR](rofigr.md) | arXiv’26 | `Text+Img+CF` → **`CF-Aligned MM RQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `C-Beam` |
-| [ROS](ros.md) | ACL’26 | `Text+Geo` → **`Geo-Prefix+RQ-VAE`** → `Dec-Only` → `Fixed / NTP → RL` → `CoT+C-Beam` |
-| [SPRIG](sprig.md) | CIKM’26 Short | `Text / Audio` → **`R-KM`** → `Dec-Only` → `Fixed / NTP` → `Div. Beam` |
-| [Tlow](tlow.md) | CIKM’26 Applied | `Text` → **`Flow+PQ`** → `Non-AR` → `Fixed / MTP + Rel.MSE` → `Scoring` |
-| [UniRec](unirec.md) | arXiv’26 | `Text+CF` → **`RQ`** → `Dec-Only` → `Fixed / NTP → DPO` → `C-Beam` |
-| [UniSID](unisid.md) | arXiv’26 | `Text+Img+Attr` → **`Direct SID Heads`** → `–` → `– / –` → `–` |
-| [VarLenRec (TIGER)](varlenrec-tiger.md) | arXiv’26 | `Text` → **`HARQ`** → `Enc-Dec` → `Fixed / NTP + Aux.` → `C-Beam` |
+[View all papers in this cell](../../README.md#i--tokenization)

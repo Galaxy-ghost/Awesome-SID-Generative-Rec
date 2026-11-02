@@ -1,16 +1,12 @@
 # RAGR
 
-*Review-Augmented Generative Recommendation* — Zhang et al., arXiv’26
+*Review-Augmented Generative Recommendation* — Zhang et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2605.17267) · [Record](../../data/papers/ragr.yaml) · [← Catalog](../../README.md#i--training)
+`I. Informativeness` · `Training`
 
-> 评论 SID 作为上下文与生成监督，目标仍是物品 SID，属于新推荐训练设计。
+[Paper](https://arxiv.org/abs/2605.17267) · [Matrix](../../README.md#i--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,10 +17,13 @@
 - `NTP → DPO`: NTP, then preference optimization.
 - `Beam† / –`: Inherited beam search in one configuration; decoding not reported in the other.
 
-## Same cell: I × Training (3 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [MBGen](mbgen.md) | CIKM’24 | `CF` → `Bal. VQ+KM` → `Enc-Dec` → **`Fixed / NTP`** → `Beam` |
-| [REGER](reger.md) | arXiv’26 | `Text` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP → (NTP + Aux.)`** → `Beam` |
-| [SynGR](syngr.md) | ICML’26 | `Text+Img` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP + Ctr.`** → `C-Beam` |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Training |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#i--training)

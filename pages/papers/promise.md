@@ -1,16 +1,12 @@
 # PROMISE
 
-*Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* — Guo et al., arXiv’26
+*Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* — Guo et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2601.04674) · [Record](../../data/papers/promise.yaml) · [← Catalog](../../README.md#iii--inference)
+`III. SID–Model Alignment` · `Inference`
 
-> Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".
+[Paper](https://arxiv.org/abs/2601.04674) · [Matrix](../../README.md#iii--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,11 +16,12 @@
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `PRM-Beam`: Process-reward-model guided beam search.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".
-- **`tokenizer`** (p4): SID construction not described; Fixed inferred from the usual pipeline. Location from the 10-26 'Training split' table in the appendix.
-- **`objective`** (p4): Location from the 10-26 'Training split' table in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Inference |
 
 ## 旧目录说明
 
@@ -32,8 +29,6 @@
 
 用过程奖励模型给中间解码步打分，并据此剪枝束搜索。
 
-## Same cell: III × Inference (1 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [GRC](grc.md) | CIKM’26 | `–` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP → RL` → **`GRC+Beam`** |
+[View all papers in this cell](../../README.md#iii--inference)

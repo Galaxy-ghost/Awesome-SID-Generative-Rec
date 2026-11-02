@@ -20,6 +20,8 @@ summary: 'Abstract: "how to make full use of geographic information"; "how to ba
   interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID,
   geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the
   paper is not in the top block (unlike OneRec).'
+tldr: OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization,
+  encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 evidence:
 - field: problem
   quote: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user

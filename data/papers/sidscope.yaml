@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2608.18779
-  code: null
+  code: https://github.com/jdding/sidscope
 problem: psb
 stage: n/a
 representation: n/a
@@ -17,6 +17,8 @@ objective: n/a
 inference: n/a
 poi: false
 summary: End-to-end paradigm or benchmark using – tokenization and – backbone.
+tldr: 'SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization,
+  item resolution, and model compatibility after a refresh.'
 setup:
   datasets: 'Diagnostic resource with nine named exports from seven tokenizer families: Amazon Musical, Video Games, Beauty
     (P5), and Instruments, plus Yelp Business; eight exports enter the executable diagnostic matrix. A separate DACT Tools

@@ -1,16 +1,12 @@
 # TCBSA
 
-*From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation* — Shan et al., arXiv’26
+*From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation* — Shan et al. · arXiv’26
 
-[arXiv](https://arxiv.org/abs/2610.32098) · [Record](../../data/papers/tcbsa.yaml) · [← Catalog](../../README.md#iv--inference)
+`IV. Utility` · `Inference`
 
-> 提出不重训生成器的 SID 推理新算法，属于方法设计。
+[Paper](https://arxiv.org/abs/2610.32098) · [Matrix](../../README.md#iv--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,8 +18,13 @@
 - `NTP† / NTP → RL`: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning in another.
 - `CF-Guided C-Beam`: Constrained beam search guided by collaborative signals.
 
-## Same cell: IV × Inference (1 more)
+### At a Glance
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [ISD](isd.md) | arXiv’26 | `Text†` → `RQ-VAE†` → `Enc-Dec†` → `Fixed / NTP†` → **`ISD Beam`** |
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Modified Stage | Inference |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#iv--inference)

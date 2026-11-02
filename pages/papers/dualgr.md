@@ -1,37 +1,31 @@
 # DualGR
 
-*Generative Retrieval with Long and Short-Term Interests Modeling* — Yi et al., WWW’26 Short
+*Generative Retrieval with Long and Short-Term Interests Modeling* — Yi et al. · WWW’26 Short
 
-[arXiv](https://arxiv.org/abs/2511.12518) · [Record](../../data/papers/dualgr.yaml) · [← Catalog](../../README.md#vi--backbone)
+`VI. Generalization` · `Backbone`
 
-> Abstract: "long-short interest interference, context-induced noise in hierarchical SID generation, and the lack of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).
+[Paper](https://arxiv.org/abs/2511.12518) · [Matrix](../../README.md#vi--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
 | `–` | `R-KM` | **`Dec-Only`** | `Fixed / NTP + Rank` | `Dual Beam` |
 
-- `–`: Not reported in the paper, or not applicable.
+- `–`: Not reported in the paper.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
 - `Dual Beam`: Beam-search decoding in two branches with merged candidates.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "long-short interest interference, context-induced noise in hierarchical SID generation, and the lack of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).
-- **`tokenizer`** (§2.5, p3): Location from the pre-10-26 Training evidence in the appendix.
-- **`objective`** (§2.5, p3): Location from the pre-10-26 Training evidence in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Backbone |
 
-## Same cell: VI × Backbone (2 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [FedCGR](fedcgr.md) | CIKM’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP + Aux.` → `C-Beam` |
-| [LION](lion.md) | CIKM’26 | `Text†` → `RQ-VAE†` → **`Enc-Dec`** → `Fixed† / NTP + Aux.` → `Beam` |
+[View all papers in this cell](../../README.md#vi--backbone)

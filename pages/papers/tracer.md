@@ -1,16 +1,12 @@
 # TRACER
 
-*Token ReAssignment for Concept ERasure in Generative Recommendation* — Chen et al., NeurIPS’26
+*Token ReAssignment for Concept ERasure in Generative Recommendation* — Chen et al. · NeurIPS’26
 
-[arXiv](https://arxiv.org/abs/2606.07688) · [Record](../../data/papers/tracer.yaml) · [← Catalog](../../README.md#iv--tokenization)
+`IV. Utility` · `Tokenization`
 
-> 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
+[Paper](https://arxiv.org/abs/2606.07688) · [Matrix](../../README.md#iv--tokenization)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **IV. Utility**: Are training and search aimed at what users and the platform value, rather than at token likelihood? | **Tokenization** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,3 +16,14 @@
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
+
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| Modified Stage | Tokenization |
+
+### 5. Connections to Related Work
+
+[View all papers in this cell](../../README.md#iv--tokenization)

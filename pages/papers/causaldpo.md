@@ -1,16 +1,12 @@
 # CausalDPO
 
-*Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* — Zhao et al., ICML’26
+*Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* — Zhao et al. · ICML’26
 
-[arXiv](https://arxiv.org/abs/2603.22335) · [Record](../../data/papers/causaldpo.yaml) · [← Catalog](../../README.md#vi--training)
+`VI. Generalization` · `Training`
 
-> Abstract: "significantly undermining the generalization capability of LLM-based generative recommendation methods in out of distribution (OOD) scenarios".
+[Paper](https://arxiv.org/abs/2603.22335) · [Matrix](../../README.md#vi--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -20,9 +16,12 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "significantly undermining the generalization capability of LLM-based generative recommendation methods in out of distribution (OOD) scenarios".
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Training |
 
 ## 旧目录说明
 
@@ -30,10 +29,6 @@
 
 生成物品标题文本，再对全物品打分映射到物品；当前记录将标题标识归为 LLM-Vocab。
 
-## Same cell: VI × Training (3 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [RecBase](recbase.md) | EMNLP’25 | `Text` → `Curr. RQ` → `Dec-Only` → **`Fixed / NTP`** → `Beam` |
-| [AWARE](aware.md) | arXiv’26 | `Text+Geo` → `Geo-Prefix+HClus` → `Dec-Only` → **`Fixed / NTP`** → `–` |
-| [CMRec](cmrec.md) | CIKM’26 Short | `Text+Img+CF` → `RQ-VAE` → `Dec-Only†` → **`– / NTP`** → `–` |
+[View all papers in this cell](../../README.md#vi--training)

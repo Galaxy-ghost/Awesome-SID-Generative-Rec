@@ -1,16 +1,12 @@
 # ETEGRec
 
-*Generative recommender with end-to-end learnable item tokenization* — Liu et al., SIGIR’25
+*Generative recommender with end-to-end learnable item tokenization* — Liu et al. · SIGIR’25
 
-[arXiv](https://arxiv.org/abs/2409.05546) · [Record](../../data/papers/etegrec.yaml) · [← Catalog](../../README.md#iii--training)
+`III. SID–Model Alignment` · `Training`
 
-> Abstract: "treat item tokenization and generative recommendation training as separate processes".
+[Paper](https://arxiv.org/abs/2409.05546) · [Matrix](../../README.md#iii--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,13 +17,16 @@
 - `Altern.`: Tokenizer and generator are updated in turns.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Training |
+
+### 2. How It Works
 
 ![ETEGRec architecture diagram](../../architectures/etegrec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "treat item tokenization and generative recommendation training as separate processes".
 
 ## 旧卡片说明
 
@@ -105,15 +104,6 @@ ETEGRec 的关键贡献是让 SID 学习直接接受推荐目标的反馈，适�
 - 核心贡献：端到端对齐tokenizer与推荐器。
 - 使用场景：序列推荐。
 
-## Same cell: III × Training (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LC-Rec](lc-rec.md) | ICDE’24 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `Beam` |
-| [GREAM](gream.md) | arXiv’25 | `Text+CF` → `RQ-KM` → `Dec-Only` → **`Fixed / NTP → RL`** → `Beam` |
-| [OneRec-Think](onerec-think.md) | arXiv’25 | `Text+Img+CF†` → `R-KM†` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT` |
-| [Evo-Rec](evo-rec.md) | arXiv’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+C-Beam` |
-| [GTI](gti.md) | arXiv’26 | `Text+CF / Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `–` |
-| [Intent-Driven-News](intent-driven-news.md) | ACL’26 Industry | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / Multi-task NTP`** → `CoT+Fuzzy Match` |
-| [SIDReasoner](sidreasoner.md) | KDD’26 | `Text` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `C-Beam` |
-| [Think2Go](think2go.md) | KDD’26 | `Attr+Geo+CF†` → `RQ-VAE` → `Dec-Only` → **`Fixed / NTP → RL`** → `CoT+Beam` |
+[View all papers in this cell](../../README.md#iii--training)

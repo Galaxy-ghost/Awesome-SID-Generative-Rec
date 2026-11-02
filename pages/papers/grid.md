@@ -1,16 +1,12 @@
 # GRID
 
-*Generative Recommendation with Semantic IDs: A Practitioner's Handbook* — Ju et al., CIKM’25
+*Generative Recommendation with Semantic IDs: A Practitioner's Handbook* — Ju et al. · CIKM’25
 
-[arXiv](https://arxiv.org/abs/2507.22224) · [Record](../../data/papers/grid.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+`Paradigms, Systems and Benchmarks` · `No single stage`
 
-> Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
+[Paper](https://arxiv.org/abs/2507.22224) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-| Group | Stage it changes |
-| :-- | :-- |
-| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Modified Stage | No single stage |
+
+### 2. How It Works
 
 ![GRID architecture diagram](../../architectures/grid.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".
-- **`stage`** (arXiv abstract): Appendix tentatively places the new design in Backbone.
-- **`tokenization`** (§4.1, p3): R-KM is the paper's RK-Means, (L, W) = (3, 256).
 
 ## 旧卡片说明
 
@@ -100,18 +97,6 @@ GRID 适合放在“方法全景与工程实践”章节，作为理解 Semantic
 - 核心贡献：统一SID生成推荐实践流程。
 - 使用场景：研究与工程实践。
 
-## Same cell: Paradigms, Systems and Benchmarks (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [OneRec](onerec.md) | arXiv’25 | `Text+CF` → `R-KM` → `Enc-Dec` → `Fixed / NTP → DPO` → `Sess. Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

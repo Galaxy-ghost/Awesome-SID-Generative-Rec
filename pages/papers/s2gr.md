@@ -1,16 +1,12 @@
 # S2GR
 
-*Stepwise Semantic-Guided Reasoning in Latent Space for Generative Recommendation* — Guo et al., KDD’26
+*Stepwise Semantic-Guided Reasoning in Latent Space for Generative Recommendation* — Guo et al. · KDD’26
 
-[arXiv](https://arxiv.org/abs/2601.18664) · [Record](../../data/papers/s2gr.yaml) · [← Catalog](../../README.md#iii--backbone)
+`III. SID–Model Alignment` · `Backbone`
 
-> Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
+[Paper](https://arxiv.org/abs/2601.18664) · [Matrix](../../README.md#iii--backbone)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **III. SID–Model Alignment**: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? | **Backbone** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,15 +17,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| Modified Stage | Backbone |
+
+### 2. How It Works
 
 ![S2GR architecture diagram](../../architectures/s2gr.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract's complaint first).
-- **`representation`** (§5.1.3, p7; §4.2.1, p4, Eq. 3–5): Public-data (Beauty) setting; industrial data uses video frames.
-- **`tokenizer`** (§5.1.3, p7; §5.3, p7): Location from the pre-10-26 Training evidence in the appendix.
 
 ## 旧卡片说明
 
@@ -101,15 +98,6 @@ S2GR 的贡献是把 SID 的层次结构转化为逐步推理信号，适合放�
 - 核心贡献：逐步语义引导潜空间推理。
 - 使用场景：工业推荐。
 
-## Same cell: III × Backbone (8 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LLaDA-Rec](llada-rec.md) | arXiv’25 | `Text` → `Par. VQ` → **`Non-AR`** → `Fixed / Masked` → `Diff.` |
-| [DECOR](decor.md) | SIGIR’26 | `Text+CF` → `RQ-VAE` → **`Enc-Dec`** → `Fixed / NTP` → `Beam` |
-| [FLASH](flash.md) | NeurIPS’26 | `Text` → `SimHash` → **`Non-AR`** → `Fixed / MTP + Aux.` → `Scoring` |
-| [Latte](latte.md) | arXiv’26 | `Text+CF` → `RQ-VAE` → **`Dec-Only`** → `Fixed / NTP` → `C-Beam` |
-| [LESSRec](lessrec.md) | arXiv’26 | `Text / Text+CF` → `RQ-VAE / R-KM / LETTER` → **`Enc-Dec`** → `Fixed / NTP` → `C-Beam` |
-| [MDGR](mdgr.md) | arXiv’26 | `–` → `Par. OPQ` → **`Non-AR`** → `Fixed / Masked` → `Diff.+Beam` |
-| [PrefixMem](prefixmem.md) | arXiv’26 | `MM` → `RQ-VAE` → **`Dec-Only`** → `Fixed / Multi-task NTP` → `Beam` |
-| [TrieRec](trierec.md) | NeurIPS’26 | `Text` → `RQ-VAE` → **`Enc-Dec`** → `Fixed† / NTP†` → `C-Beam` |
+[View all papers in this cell](../../README.md#iii--backbone)

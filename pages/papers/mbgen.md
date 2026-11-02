@@ -1,16 +1,12 @@
 # MBGen
 
-*Multi-Behavior Generative Recommendation* — Liu et al., CIKM’24
+*Multi-Behavior Generative Recommendation* — Liu et al. · CIKM’24
 
-[arXiv](https://arxiv.org/abs/2405.16871) · [Record](../../data/papers/mbgen.yaml) · [← Catalog](../../README.md#i--training)
+`I. Informativeness` · `Training`
 
-> Abstract: "neglecting the value of integrating the target behavior type into the learning objective".
+[Paper](https://arxiv.org/abs/2405.16871) · [Matrix](../../README.md#i--training)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **I. Informativeness**: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? | **Training** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,16 +18,13 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "neglecting the value of integrating the target behavior type into the learning objective".
-- **`tokenizer`** (§3.1–3.3, p3–5): Location from the pre-10-26 Training evidence in the appendix.
-- **`objective`** (§3.1–3.3, p3–5): Location from the pre-10-26 Training evidence in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| Modified Stage | Training |
 
-## Same cell: I × Training (3 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [RAGR](ragr.md) | arXiv’26 | `Text` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP → DPO`** → `Beam† / –` |
-| [REGER](reger.md) | arXiv’26 | `Text` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP → (NTP + Aux.)`** → `Beam` |
-| [SynGR](syngr.md) | ICML’26 | `Text+Img` → `RQ-VAE` → `Enc-Dec` → **`Fixed / NTP + Ctr.`** → `C-Beam` |
+[View all papers in this cell](../../README.md#i--training)

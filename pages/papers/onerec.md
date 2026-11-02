@@ -1,16 +1,12 @@
 # OneRec
 
-*Unifying retrieve and rank with generative recommender and iterative preference alignment* — Deng et al., arXiv’25
+*Unifying retrieve and rank with generative recommender and iterative preference alignment* — Deng et al. · arXiv’25
 
-[arXiv](https://arxiv.org/abs/2502.18965) · [Record](../../data/papers/onerec.yaml) · [← Catalog](../../README.md#paradigms-systems-and-benchmarks)
+`Paradigms, Systems and Benchmarks` · `No single stage`
 
-> Abstract: "the generative model functions only as a selector during the retrieval stage".
+[Paper](https://arxiv.org/abs/2502.18965) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-| Group | Stage it changes |
-| :-- | :-- |
-| **Paradigms, Systems and Benchmarks**: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. | No single stage |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,13 +17,16 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
 
-## Architecture
+### At a Glance
+
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| Modified Stage | No single stage |
+
+### 2. How It Works
 
 ![OneRec architecture diagram](../../architectures/onerec.png)
-
-## Evidence
-
-- **`problem`** (arXiv abstract): Abstract: "the generative model functions only as a selector during the retrieval stage".
 
 ## 旧卡片说明
 
@@ -101,18 +100,6 @@ OneRec 的主要贡献是以生成列表统一召回与排序，适合放在“�
 - 核心贡献：统一召回与排序。
 - 使用场景：工业会话推荐。
 
-## Same cell: Paradigms, Systems and Benchmarks (11 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [TIGER](tiger.md) | NeurIPS’23 | `Text` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [FORGE](forge.md) | KDD’26 | `Text+Img` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP` → `Dyn. Beam` |
-| [GRID](grid.md) | CIKM’25 | `Text` → `R-KM` → `Enc-Dec` → `Fixed / NTP` → `Beam` |
-| [MiniOneRec](minionerec.md) | arXiv’25 | `Text` → `RQ-VAE` → `Dec-Only` → `Fixed / NTP → RL` → `Beam` |
-| [GR-Generalize](gr-generalize.md) | arXiv’26 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed† / NTP†` → `Hybrid` |
-| [NEO](neo.md) | arXiv’26 | `Text / Audio` → `R-KM` → `Dec-Only` → `Fixed / Multi-task NTP` → `C-Beam` |
-| [Netflix-SID-Comparison](netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | `–` → `RQ-VAE` → `Dec-Only / Non-AR` → `Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` → `C-Beam / Scoring` |
-| [OneMall](onemall.md) | CIKM’26 | `Text+Img+CF` → `R-KM+FSQ` → `Enc-Dec` → `Fixed / (NTP + Ctr.) → RL` → `Beam` |
-| [PLUM](plum.md) | WWW’26 | `Text+Img+CF` → `RQ-VAE` → `Dec-Only` → `Fixed / Multi-task NTP` → `Beam` |
-| [ReRankID](rerankid.md) | arXiv’26 | `Text` → `R-KM†` → `Dec-Only` → `Fixed / NTP → RL` → `CoT+Greedy` |
-| [SIDScope](sidscope.md) | arXiv’26 | `n/a` → `n/a` → `n/a` → `n/a / n/a` → `n/a` |
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

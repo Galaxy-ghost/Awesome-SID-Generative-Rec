@@ -1,16 +1,12 @@
 # SpecGR
 
-*Inductive Generative Recommendation via Retrieval-based Speculation* — Ding et al., AAAI’26
+*Inductive Generative Recommendation via Retrieval-based Speculation* — Ding et al. · AAAI’26
 
-[arXiv](https://arxiv.org/abs/2410.02939) · [Record](../../data/papers/specgr.yaml) · [← Catalog](../../README.md#vi--inference)
+`VI. Generalization` · `Inference`
 
-> Abstract: "struggle to recommend unseen items".
+[Paper](https://arxiv.org/abs/2410.02939) · [Matrix](../../README.md#vi--inference)
 
-| Problem it fixes | Stage it changes |
-| :-- | :-- |
-| **VI. Generalization**: Does it still work for new items, new domains, and shifting interests? | **Inference** |
-
-## Pipeline
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -21,14 +17,13 @@
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
 
-## Evidence
+### At a Glance
 
-- **`problem`** (arXiv abstract): Abstract: "struggle to recommend unseen items".
-- **`tokenizer`** (p5): Location from the pre-10-26 Training evidence in the appendix.
-- **`objective`** (p5): Location from the pre-10-26 Training evidence in the appendix.
+| Aspect | Summary |
+| :-- | :-- |
+| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
+| Modified Stage | Inference |
 
-## Same cell: VI × Inference (1 more)
+### 5. Connections to Related Work
 
-| Paper | Venue | Pipeline |
-| :-- | :-- | :-- |
-| [LIGER](liger.md) | arXiv’24 | `Text+SID` → `RQ-VAE` → `Enc-Dec` → `Fixed / NTP + Dense` → **`Hybrid`** |
+[View all papers in this cell](../../README.md#vi--inference)
