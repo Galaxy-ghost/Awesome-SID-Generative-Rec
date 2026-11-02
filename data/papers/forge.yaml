@@ -9,9 +9,9 @@ links:
   code: https://github.com/selous123/al_sid
 problem: psb
 stage: n/a
-representation: Text+Img
+representation: Text+Img+CF
 tokenization: RQ-VAE
-backbone: Dec-Only
+backbone: Dec-Only / Enc-Dec
 tokenizer: Fixed
 objective: NTP
 inference: Dyn. Beam

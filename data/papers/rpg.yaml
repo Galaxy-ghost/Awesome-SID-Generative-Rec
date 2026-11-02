@@ -9,7 +9,7 @@ links:
   code: https://github.com/facebookresearch/RPG_KDD2025
 problem: V
 stage: Backbone
-representation: Text+Img
+representation: Text
 tokenization: Par. OPQ
 backbone: Non-AR
 tokenizer: Fixed

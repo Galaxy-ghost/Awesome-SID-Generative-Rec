@@ -10,9 +10,10 @@ Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a 
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
+    R["Representation<br/>MM+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
 ```
 
+- `MM+CF`: Multimodal item representations aligned with collaborative signals.
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.

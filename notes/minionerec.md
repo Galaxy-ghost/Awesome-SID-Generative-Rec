@@ -52,4 +52,4 @@ The RL stage uses GRPO with constrained beam search as the sampler, so every gen
 **Our analysis.**
 
 - LC-Rec also aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with auxiliary tasks (`Multi-task NTP`); MiniOneRec keeps such tasks in a following RL stage (`NTP → RL`).
-- OneRec builds SIDs from text and collaborative signals (`Text+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.
+- OneRec builds SIDs from multimodal and collaborative signals (`MM+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.

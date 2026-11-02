@@ -10,7 +10,7 @@ Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a 
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
     classDef main fill:#eaf2fb,stroke:#6b8fc7
     class TR main
 ```
@@ -18,6 +18,7 @@ flowchart LR
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `C-Beam`: Constrained beam search.
 
 ### TL;DR
 

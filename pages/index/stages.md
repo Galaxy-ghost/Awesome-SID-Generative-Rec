@@ -67,7 +67,7 @@ Side-by-side tables: [Tokenizer](../../comparisons/tokenizer.md) · [Training](.
 | [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V. Efficiency | `Dyn. KM+Disamb.` |
 | [GenCDR](../papers/gencdr.md) | AAAI’26 | VI. Generalization | `RQ+LoRA` |
 | [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III. SID–Model Alignment | `Multi-Path R-KM+Hash` |
-| [GrIS (RecDMoN / RQ-GAE)](../papers/gris-recdmon-rq-gae.md) | CIKM’26 | I. Informativeness | `RecDMoN / RQ-VAE` |
+| [GrIS (RecDMoN / RQ-GAE)](../papers/gris-recdmon-rq-gae.md) | CIKM’26 | I. Informativeness | `RecDMoN / RQ-GAE` |
 | [GRLM](../papers/grlm.md) | arXiv’26 | III. SID–Model Alignment | `Term-ID` |
 | [Gwhere](../papers/gwhere.md) | RecSys’26 | II. Uniqueness and Validity | `Contr. RQ` |
 | [HoloRec](../papers/holorec.md) | arXiv’26 | III. SID–Model Alignment | `Nested RQ` |

@@ -9,7 +9,7 @@ links:
   code: null
 problem: psb
 stage: n/a
-representation: Text+CF
+representation: MM+CF
 tokenization: R-KM
 backbone: Enc-Dec
 tokenizer: Fixed

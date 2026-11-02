@@ -10,7 +10,7 @@ links:
 problem: I
 stage: Tokenization
 representation: Text+CF
-tokenization: RecDMoN / RQ-VAE
+tokenization: RecDMoN / RQ-GAE
 backbone: Enc-Dec
 tokenizer: Fixed
 objective: –

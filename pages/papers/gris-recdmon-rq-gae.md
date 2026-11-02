@@ -10,12 +10,12 @@ Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glanc
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RecDMoN / RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / –"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RecDMoN / RQ-GAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / –"] --> I["Inference<br/>–"]
     classDef main fill:#eaf2fb,stroke:#6b8fc7
     class T main
 ```
 
-- `RecDMoN / RQ-VAE`: Recursive DMoN graph partitioning or residual-quantized variational coding.
+- `RecDMoN / RQ-GAE`: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `–`: Not reported in the paper.

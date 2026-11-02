@@ -10,7 +10,7 @@ Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · 
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP"] --> I["Inference<br/>Graph"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP"] --> I["Inference<br/>Graph"]
     classDef main fill:#eaf2fb,stroke:#6b8fc7
     class B main
 ```

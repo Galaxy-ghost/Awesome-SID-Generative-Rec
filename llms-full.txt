@@ -1774,7 +1774,7 @@ In the tokenizer phase, the quantization loss and both alignment losses update t
 - Venue: KDD’26
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
-- Representation: Text+Img; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Dyn. Beam
+- Representation: Text+Img+CF; Tokenization: RQ-VAE; Backbone: Dec-Only / Enc-Dec; Tokenizer: Fixed; Objective: NTP; Inference: Dyn. Beam
 - TL;DR: FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies, adds metrics that assess IDs without generator training, and releases Taobao data.
 - [Code](https://github.com/selous123/al_sid)
 - Setup card: yes
@@ -2818,7 +2818,7 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 - Venue: CIKM’26
 - Problem: I. Informativeness
 - Stage: Tokenization
-- Representation: Text+CF; Tokenization: RecDMoN / RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: –; Inference: –
+- Representation: Text+CF; Tokenization: RecDMoN / RQ-GAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: –; Inference: –
 - TL;DR: GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partition of an item graph with collaborative edges, recovering RQ-VAE and RQ-KMeans as the empty-graph case.
 - [Code](https://github.com/hirc-airecs/graph-informed-sids)
 - Setup card: yes
@@ -3689,7 +3689,7 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 - Venue: ICDE’24
 - Problem: III. SID–Model Alignment
 - Stage: Training
-- Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: Beam
+- Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Multi-task NTP; Inference: C-Beam
 - TL;DR: LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists.
 - [Code](https://github.com/RUCAIBox/LC-Rec/)
 - Setup card: yes
@@ -4689,7 +4689,7 @@ The RL stage uses GRPO with constrained beam search as the sampler, so every gen
 **Our analysis.**
 
 - LC-Rec also aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with auxiliary tasks (`Multi-task NTP`); MiniOneRec keeps such tasks in a following RL stage (`NTP → RL`).
-- OneRec builds SIDs from text and collaborative signals (`Text+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.
+- OneRec builds SIDs from multimodal and collaborative signals (`MM+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.
 
 ## MME-SID
 
@@ -5451,7 +5451,7 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 - Venue: arXiv’25
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
-- Representation: Text+CF; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Sess. Beam
+- Representation: MM+CF; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP → DPO; Inference: Sess. Beam
 - TL;DR: OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions of videos, and aligns preferences by iterative DPO with a reward model.
 - Setup card: yes
 - Relations: 3
@@ -6649,7 +6649,7 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 - Venue: KDD’25
 - Problem: V. Efficiency
 - Stage: Backbone
-- Representation: Text+Img; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP; Inference: Graph
+- Representation: Text; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: MTP; Inference: Graph
 - TL;DR: RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs.
 - [Code](https://github.com/facebookresearch/RPG_KDD2025)
 - Setup card: yes

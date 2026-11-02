@@ -14,7 +14,7 @@ tokenization: RQ-VAE
 backbone: Dec-Only
 tokenizer: Fixed
 objective: Multi-task NTP
-inference: Beam
+inference: C-Beam
 poi: false
 summary: 'Abstract: "there exists a large semantic gap between LLMs and recommender systems".'
 tldr: LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with

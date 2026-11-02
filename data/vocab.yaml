@@ -57,6 +57,8 @@ representation:
   description: Geographic coordinates or spatial features.
 - value: MM
   description: Multimodal item representations.
+- value: MM+CF
+  description: Multimodal item representations aligned with collaborative signals.
 - value: Multi-Dom
 - value: Text
 - value: Text + CF
@@ -211,8 +213,8 @@ tokenization:
 - value: RQ-VAE+PPR
   description: Residual-quantized variational codes informed by Personalized PageRank signals.
 - value: RQ-VAE†
-- value: RecDMoN / RQ-VAE
-  description: Recursive DMoN graph partitioning or residual-quantized variational coding.
+- value: RecDMoN / RQ-GAE
+  description: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
 - value: Ref.-RQ
   description: Reference-vector RQ variant.
 - value: SRBQ

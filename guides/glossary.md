@@ -28,6 +28,7 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Cross-Dom`
 - `Geo`: Geographic coordinates or spatial features.
 - `MM`: Multimodal item representations.
+- `MM+CF`: Multimodal item representations aligned with collaborative signals.
 - `Multi-Dom`
 - `Text`
 - `Text + CF`: Text representations combined with collaborative signals.
@@ -124,7 +125,7 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `RQ-VAE+DINO`
 - `RQ-VAE+PPR`: Residual-quantized variational codes informed by Personalized PageRank signals.
 - `RQ-VAE†`
-- `RecDMoN / RQ-VAE`: Recursive DMoN graph partitioning or residual-quantized variational coding.
+- `RecDMoN / RQ-GAE`: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
 - `Ref.-RQ`: Reference-vector RQ variant.
 - `SRBQ`: Semantic Residual Balanced Quantization
 - `Self-Imp.`

@@ -10,10 +10,10 @@ Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a 
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Dyn. Beam"]
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Dyn. Beam"]
 ```
 
-- `Dec-Only`: Decoder-only.
+- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `Dyn. Beam`: Dynamic beam search.
