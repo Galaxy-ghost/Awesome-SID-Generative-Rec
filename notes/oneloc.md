@@ -1,7 +1,7 @@
 ## At a Glance
 
 Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
-Limitation: The main offline dataset (KuaiLLSR) and the online test are proprietary, and the paper does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2).
+Limitation: The paper does not state that KuaiLLSR is released, and it does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2).
 
 ### 1. Why This Paper Matters
 
@@ -144,7 +144,7 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
   > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
-- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards, measured by Recall and NDCG, with GMV added for the rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
+- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
 
 ### 4. Limitations & Critical Analysis
 
@@ -154,6 +154,6 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 - Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
 - The paper does not state how the two rewards are combined when it ranks the candidates for a preference pair (Sec. 2.5.2).
-- The main offline dataset (KuaiLLSR), the GMV scoring model, and the online test are proprietary. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1).
+- The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
 - The paper does not report SID collision handling, the beam width, or the evaluation candidate protocol (Sec. 2.2, Sec. 3, Sec. 4.1.3).
 - The v1 front matter still carries template placeholders for the DOI and the conference, so the publication venue is unconfirmed.

@@ -19,23 +19,25 @@ Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a 
 
 ### TL;DR
 
-LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
+LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
 
 ### At a Glance
 
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry collaborative signals and reduce code assignment bias found in earlier identifiers. |
+| Key Contribution | LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers. |
 | Modified Stage | Tokenization |
-| Key Findings | LETTER improves both backend models, TIGER and LC-Rec, on Instruments, Beauty, and Yelp, and adding either the collaborative or the diversity regularization alone improves TIGER (Tables 1 and 2). |
+| Key Findings | On Instruments, LETTER-TIGER reports Recall@10 of 0.1122 against 0.1058 for TIGER, and adding either regularization alone also improves TIGER (Table 2). |
 | Limitation | The tokenizer is trained before the generator and then kept fixed, and the collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1, Sec. 3.2). |
 
 ### 1. Why This Paper Matters
 
-Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER keeps an RQ-VAE tokenizer for the semantic part and adds a collaborative regularization and a diversity regularization to it. The learned Semantic IDs (SIDs) then serve two generators, TIGER and LC-Rec (Sec. 4.1.4).
+Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER keeps an RQ-VAE tokenizer for the semantic part and adds a collaborative regularization and a diversity regularization to it. The learned Semantic IDs (SIDs) then serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
+
+Section numbers and quotations in Sections 1–4 follow arXiv v3.
 
 ### 2. How It Works
 
@@ -43,17 +45,17 @@ Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short
 
 #### Semantic Regularization
 
-An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1). The main configuration uses 4 levels with 256 codewords each (Sec. 4.1.4).
+An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1). The main configuration uses 4 levels with 256 codewords each (Sec. 4.1.3).
 
 #### Collaborative Regularization
 
-A contrastive alignment loss pulls each item's quantized embedding toward its embedding from a trained collaborative filtering (CF) model (Sec. 3.1, Eq. 3). The paper names LightGCN as an example CF model (Sec. 1).
+A contrastive alignment loss pulls each item's quantized embedding toward its embedding from a trained collaborative filtering (CF) model (Sec. 3.1, Eq. 3). The paper names SASRec and LightGCN as example CF models, and the experiments use 32-dimensional SASRec embeddings (Sec. 3.1, Sec. 4.1.3).
 
 > "Intuitively, collaborative regularization encourages items with similar collaborative interactions to exhibit similar code sequences." (Sec. 3.1)
 
 #### Diversity Regularization
 
-A diversity loss spreads the code embeddings apart, using clusters from constrained k-means (Sec. 3.1, Eq. 4). It targets code assignment bias, where some codes receive more items than others, and item generation bias (Sec. 1).
+A diversity loss groups the code embeddings by constrained k-means, pulls embeddings in the same cluster together, and pushes different clusters apart (Sec. 3.1, Eq. 4). It targets code assignment bias, where some codes receive more items than others, and item generation bias (Sec. 1).
 
 > "As illustrated in Figure 5(a), a biased code embedding distribution is more likely to cause biased code assignment in the latent space, where some codes are assigned to more items." (Sec. 3.1)
 
@@ -91,21 +93,23 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 - Collaborative signals: Tables 3 and 4 analyze how well the identifiers carry collaborative information (Sec. 4.3.4).
 - Hyperparameters: the paper varies the identifier length $`L`$, the codebook size $`N`$, the loss weights $`\alpha`$ and $`\beta`$, the cluster number $`K`$, and the temperature $`\tau`$ (Sec. 4.3.5).
 
+  Longer identifiers lower performance beyond 4 tokens, which the authors attribute to error accumulation in autoregressive generation.
+
+  > "Continuously increasing the identifier length from 4 to 8 will inversely degrade the performance. This is reasonable because autoregressive generation suffers from error accumulation (Ren et al., 2024b)." (Sec. 4.3.5)
+
+  A codebook that is too large can also hurt.
+
+  > "However, 2) blindly expanding N might inversely hurt the performance, where larger codebook size might be more susceptible to noise in the item's semantic information, potentially leading to the over-fitting of some meaningless semantics." (Sec. 4.3.5)
+
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The authors report two settings where a larger value hurts performance (Sec. 4.3.5). Longer identifiers lower performance, which they attribute to error accumulation in autoregressive generation:
-
-> "Continuously increasing the identifier length from 4 to 8 will inversely degrade the performance. This is reasonable because autoregressive generation suffers from error accumulation (Ren et al., 2024b)." (Sec. 4.3.5)
-
-A larger codebook can also hurt:
-
-> "However, 2) blindly expanding N might inversely hurt the performance, where larger codebook size might be more susceptible to noise in the item's semantic information, potentially leading to the over-fitting of some meaningless semantics." (Sec. 4.3.5)
+**Stated by the authors.** The paper states no limitations of LETTER. The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
 
 **Our analysis.**
 
 - The tokenizer is trained once and then fixed (`Fixed`), so a change in the catalog requires retraining the tokenizer and re-tokenizing items. ETEGRec updates the tokenizer and the generator in turns (`Altern.`), and DIGER lets the generator loss update the tokenizer directly (`Joint`).
 - The collaborative regularization needs a CF embedding for every item. This suggests that items without interactions receive no collaborative signal in their identifiers.
-- The collaborative and diversity terms pull code usage in opposite directions (Sec. 4.3.2), so their weights trade one property against the other.
+- The collaborative and diversity terms pull code usage in opposite directions (Sec. 4.3.2). This suggests that their weights trade one property against the other.
 
 ### 5. Connections to Related Work
 

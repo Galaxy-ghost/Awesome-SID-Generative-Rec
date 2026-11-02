@@ -32,7 +32,7 @@ TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encode
 
 ### 1. Why This Paper Matters
 
-Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). TIGER instead trains a sequence-to-sequence model to decode the Semantic ID (SID) of the next item. The authors describe it as the first Semantic ID-based generative model for recommendation (Abstract). Many later papers in this list keep this pipeline and change one of its stages.
+Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). TIGER instead trains a sequence-to-sequence model to decode the Semantic ID (SID) of the next item. The authors describe it as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this pipeline and change one of its stages.
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
@@ -177,6 +177,8 @@ At inference, TIGER decodes SIDs with autoregressive beam search and maps each g
 - **Results from**: Original paper Table 1 (main sequential recommendation); Appendix E, Table 9 (three-seed means and standard errors); Fig. 5 (Beauty cold start). Table 1 combines the authors' TIGER results, previously published S3-Rec benchmark results for baselines other than P5, and P5 rerun with modified preprocessing.
   - Source: Original main comparison: https://arxiv.org/html/2305.05065v3#S4.T1; separate three-seed mean/standard-error table: https://arxiv.org/html/2305.05065v3#A5.T9; cold-start: https://arxiv.org/html/2305.05065v3#S4.F5. Baselines except P5 were taken from S3-Rec's published results; P5 was rerun with modified preprocessing: https://arxiv.org/html/2305.05065v3#S4.SS1.p2 and https://arxiv.org/html/2305.05065v3#A4.p2.
 
+The three entries below compare TIGER with SASRec. S3-Rec is the strongest baseline in all four Sports and Outdoors columns (Table 1). It is also the strongest in Recall@10 and NDCG@10 on Beauty and on Toys and Games.
+
 - Beauty: TIGER reports Recall@5 = 0.0454, NDCG@5 = 0.0321, Recall@10 = 0.0648, and NDCG@10 = 0.0384, against 0.0387, 0.0249, 0.0605, and 0.0318 for SASRec (Table 1).
 - Sports and Outdoors: TIGER reports Recall@5 = 0.0264, NDCG@5 = 0.0181, Recall@10 = 0.0400, and NDCG@10 = 0.0225, against 0.0233, 0.0154, 0.0350, and 0.0192 for SASRec (Table 1).
 - Toys and Games: TIGER reports Recall@5 = 0.0521, NDCG@5 = 0.0371, Recall@10 = 0.0712, and NDCG@10 = 0.0432, against 0.0463, 0.0306, 0.0675, and 0.0374 for SASRec (Table 1).
@@ -187,7 +189,7 @@ At inference, TIGER decodes SIDs with autoregressive beam search and maps each g
 - Invalid IDs: for top-10 predictions, 0.1%–1.6% of generated IDs map to no item across the three datasets (Sec. 4.5, Fig. 6).
 - Cold start: the authors state that SIDs improve retrieval of items with no prior interaction history (Abstract, Fig. 5).
 - Diversity: temperature-based sampling during decoding controls the diversity of predictions (Sec. 4.3).
-- ID length and codebook size: the authors also tried other settings, such as 6 codewords from codebooks of size 64.
+- ID length and codebook size: the authors also tried other settings, such as 6 codewords from codebooks of size 64 (Appendix E).
 
   > "We noticed that the recommendation metrics for TIGER were robust to these changes." (Appendix E)
 

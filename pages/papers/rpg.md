@@ -28,7 +28,7 @@ RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token pre
 | Key Contribution | RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs. |
 | Modified Stage | Backbone |
 | Key Findings | With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract). |
-| Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence, and the decoding graph must be rebuilt when the model is retrained or items are re-tokenized (Sec. 2.2.1, Sec. 2.3.1). |
+| Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence, and the decoding graph built after training serves only until the model is retrained or the items are re-tokenized (Sec. 2.2.1, Sec. 2.3.1). |
 
 ### 1. Why This Paper Matters
 
@@ -116,7 +116,7 @@ After training, RPG builds a graph whose nodes are the SIDs of catalog items (Se
 \mathrm{sim}(i, i') = \sum_{j=1}^{m} \mathbf{e}_{j,c_{i,j}}^{\top}\, \mathbf{e}_{j,c_{i',j}}
 ```
 
-Each node keeps its $`k`$ most similar neighbors and an edge to itself. The graph is reused until the model is retrained or the items are re-tokenized (Sec. 2.3.1). Decoding then runs four steps (Sec. 2.3.2):
+Each node keeps its $`k`$ most similar neighbors (Sec. 2.3.1), and each node has an edge to itself (Sec. 2.3.2). The graph is reused until the model is retrained or the items are re-tokenized (Sec. 2.3.1). Decoding then runs four steps (Sec. 2.3.2):
 
 1. Sample $`b`$ SIDs from the catalog as the initial beam.
 2. Add all $`b \times k`$ graph neighbors of the beam to a candidate set.
@@ -134,7 +134,8 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     heads:      list of m projection heads g_j, each mapping [d] -> [d]
     token_emb:  [m, M, d] token embedding tables E_j
     item_codes: [N, m] SID of every catalog item; entry j indexes codebook j
-    neighbors:  [N, k] graph neighbors of every item, including the item itself
+    neighbors:  [N, k] graph neighbors of every item; the item itself is included here,
+                although the paper does not state whether the self-edge counts toward k
     """
     m = item_codes.size(1)
     # Eq. 2: one softmax per codebook, cached for this user
@@ -152,7 +153,7 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     return beam                                                                       # item indices
 ```
 
-Simplifications: The code scores every item in the catalog (`scores` covers the whole catalog) before the graph search. It therefore does not implement the Sec. 2.3 path that starts from a few sampled seeds and scores only the items reached along graph edges, and it does not reproduce the paper's inference efficiency. It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
+Simplifications: The code scores every item in the catalog (`scores` covers the whole catalog) before the graph search. It therefore does not follow Sec. 2.3.3, which scores only the nodes visited along graph edges, and it does not reproduce the paper's inference efficiency. It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
@@ -175,7 +176,7 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
 - **Results from**: arXiv:2506.05781v1: Table 2 (main ranking results), Table 3 (ablations), Table 4 (semantic-encoder-controlled comparison), Figure 3 (Sports efficiency), Figure 5 (training-frequency analysis), and Tables 6 and 8 (best inference budgets and memory scope).
   - Source: Overall ranking metrics, graph/architecture ablations, encoder-matched comparisons, and the bounded efficiency study are separate result locations; https://arxiv.org/html/2506.05781v1#S2.T2, https://arxiv.org/html/2506.05781v1#S3.T3, https://arxiv.org/html/2506.05781v1#S3.T4, and https://arxiv.org/html/2506.05781v1#S3.F3.
 
-- Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison (Table 2).
+- Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison.
 - Efficiency: on Sports, RPG uses less runtime memory and less inference time than TIGER (Sec. 3.3, Fig. 3).
 
   > "Moreover, RPG reduces runtime memory consumption by nearly 25× and achieves an inference speedup of almost 15× compared to TIGER." (Sec. 3.3)
@@ -185,7 +186,7 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
   > "From Figure 4, we observe that, in general, longer OPQ-based semantic IDs lead to better performance. However, for smaller datasets, they may converge earlier." (Sec. 3.5.1)
 
 - Semantic encoder: the main runs use OpenAI text-embedding-3-large, and Table 4 repeats the comparison with sentence-t5-base for parity with benchmark results (Sec. 3.1, Sec. 3.5.2).
-- Long-tail items: on Sports, the authors report that RPG achieves the best overall performance across the training-frequency groups (Sec. 3.5.3, Fig. 5).
+- Long-tail items: on Sports, the authors state that RPG achieves the best overall performance across the training-frequency groups (Sec. 3.5.3, Fig. 5).
 
 ### 4. Limitations & Critical Analysis
 

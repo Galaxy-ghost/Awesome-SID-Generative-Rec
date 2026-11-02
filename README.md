@@ -128,7 +128,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [CoST][] - RecSys’24<br>
   [Paper](https://arxiv.org/abs/2404.14774)
 - [LETTER][] - CIKM’24<br>
-  LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item SIDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.<br>
+  LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.<br>
   [Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER)
 - [LMIndexer][] - ICML’24<br>
   [Paper](https://arxiv.org/abs/2310.07815)
