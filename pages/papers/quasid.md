@@ -34,19 +34,25 @@ QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled m
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018 Beauty and Toys & Games, user/item 5-core; Kuaishou e-commerce industrial logs with multimodal item features.
-  - Source: Section 5.1.1: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1
 - **Split**: Public: leave-one-out train/validation/test, exact held-out positions not reported. Online A/B: 5 days, about 5% randomized treatment traffic covering >20M users.
-  - Source: Sections 5.1.1/5.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1 and https://arxiv.org/html/2603.00632v1#S5.SS4.p1
 - **Candidates**: not reported
-  - Source: Sections 5.1.3/5.1.4 and Appendix A.2 do not specify candidate enumeration or sampling: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2603.00632v1#A1.SS2
 - **Visibility**: warm; no unseen-item protocol is defined. Industrial cold-start subsets have <100 or <600 video views within the first 48h; strict generator/tokenizer unseen status not reported.
-  - Source: Section 5.4: https://arxiv.org/html/2603.00632v1#S5.SS4.p1
 - **SID**: Public: 3 x 256; industrial: 4 x 1024. HaMR repels qualified full/partial collisions; additional inference-time collision resolution not reported.
-  - Source: Sections 4.2/5.1.4: https://arxiv.org/html/2603.00632v1#S4.SS2 and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1
 - **Inference budget**: Offline HitRate/NDCG@5/10; beam width, inference hardware, serving batch size and latency not reported. Appendix A.2 batches 256/1024 concern SID learning.
-  - Source: Section 5.1.3 and Appendix A.2: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2603.00632v1#A1.SS2
 - **Results from**: Original Table 2: matched-TIGER tokenizer comparison, five-seed means; Table 3: HaMR added to baselines; Table 4: online retrieval/ranking and low-view subsets.
-  - Source: Tables 2/3/4 and Section 5.1.4: https://arxiv.org/html/2603.00632v1#S4.T2 and https://arxiv.org/html/2603.00632v1#S4.T3 and https://arxiv.org/html/2603.00632v1#S5.T4 and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1.1: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1)
+- **Split**: Sections 5.1.1/5.4: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1) and [S5.SS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS4.p1)
+- **Candidates**: Sections 5.1.3/5.1.4 and Appendix A.2 do not specify candidate enumeration or sampling: [S5.SS1.SSS3.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1) and [A1.SS2](https://arxiv.org/html/2603.00632v1#A1.SS2)
+- **Visibility**: Section 5.4: [S5.SS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS4.p1)
+- **SID**: Sections 4.2/5.1.4: [S4.SS2](https://arxiv.org/html/2603.00632v1#S4.SS2) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1)
+- **Inference budget**: Section 5.1.3 and Appendix A.2: [S5.SS1.SSS3.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1) and [A1.SS2](https://arxiv.org/html/2603.00632v1#A1.SS2)
+- **Results from**: Tables 2/3/4 and Section 5.1.4: [S4.T2](https://arxiv.org/html/2603.00632v1#S4.T2) and [S4.T3](https://arxiv.org/html/2603.00632v1#S4.T3) and [S5.T4](https://arxiv.org/html/2603.00632v1#S5.T4) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

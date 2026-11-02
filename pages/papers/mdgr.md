@@ -35,19 +35,25 @@ MDGR uses a parallel codebook, adaptive masking along time and samples, and warm
 **Experimental setup**
 
 - **Datasets**: Amazon Electronics/Books: remove users with fewer than five interactions, maximum history 20. Industrial Southeast Asian e-commerce logs: May-December 2025, >1B interactions, 18M users, 25M items, mean history 128; industrial filtering not reported.
-  - Source: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1
 - **Split**: Sliding-window next-item training; chronological leave-one-out: latest interaction test, penultimate validation, remainder training. Online A/B: January 5-12, 2026, control/treatment each 20% uniformly sampled users.
-  - Source: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1 ; #S5.SS6.p1
 - **Candidates**: not reported
-  - Source: Section 5.1 gives metrics but no evaluation universe or negative-sampling protocol: https://arxiv.org/html/2601.19501v1#S5.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1 ; #S5.SS1.SSS3.p1
 - **SID**: OPQ-based parallel codebooks: 8 x 300, 256-dimensional code vectors, using Qwen3-8B content embeddings. Complete SIDs map to item sets through an offline index; collision disambiguation not reported.
-  - Source: https://arxiv.org/html/2601.19501v1#S4.SS2 ; #S5.SS1.SSS3.p1
 - **Inference budget**: Beam 50; four single-position warm-up steps, then two positions/step. Table 3 reports six total steps and 2.527 QPS versus 2.212 for eight serial steps; implementation text inconsistently says four subsequent parallel steps. Recall/NDCG@5/10; inference-specific hardware, batch size and latency not reported.
-  - Source: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS3.p1 ; #S5.T3 ; #S5.SS3.SSS2.p2
 - **Results from**: Original Table 2: offline three-dataset comparison; baseline-result reuse not stated. Table 3: industrial efficiency; Table 4: industrial ablations; Section 5.6: online A/B against production TIGER.
-  - Source: https://arxiv.org/html/2601.19501v1#S4.T2 ; #S5.T3 ; #S5.T4 ; #S5.SS6.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1)
+- **Split**: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1) ; #S5.SS6.p1
+- **Candidates**: Section 5.1 gives metrics but no evaluation universe or negative-sampling protocol: [S5.SS1](https://arxiv.org/html/2601.19501v1#S5.SS1)
+- **Visibility**: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS1.p1) ; #S5.SS1.SSS3.p1
+- **SID**: [S4.SS2](https://arxiv.org/html/2601.19501v1#S4.SS2) ; #S5.SS1.SSS3.p1
+- **Inference budget**: [S5.SS1.SSS3.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS3.p1) ; #S5.T3 ; #S5.SS3.SSS2.p2
+- **Results from**: [S4.T2](https://arxiv.org/html/2601.19501v1#S4.T2) ; #S5.T3 ; #S5.T4 ; #S5.SS6.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

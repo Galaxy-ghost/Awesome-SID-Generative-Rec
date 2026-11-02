@@ -35,19 +35,25 @@ ReSID learns item representations from structured features with field-aware mask
 **Experimental setup**
 
 - **Datasets**: Amazon 2023: Musical Instruments, Video Games, Industrial/Scientific, Baby Products, Arts/Crafts/Sewing, Sports/Outdoors, Toys/Games, Health/Household, Beauty/Personal Care, Books. User/item 5-core; require store and three category-level fields.
-  - Source: Section 4 and Appendix C: https://arxiv.org/html/2602.02338v1#S4.p3 and https://arxiv.org/html/2602.02338v1#A3.p1
 - **Split**: Chronological per-user last/penultimate interactions test/validation; sliding training windows, maximum length 32. Evaluation target items absent from training are added to the training set.
-  - Source: Section 4 and Appendix C: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A3.p1
 - **Candidates**: not reported
-  - Source: Section 4 and Appendix E specify ranking metrics but no candidate protocol; 128 sampled negatives are a training objective: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A5.p2
 - **Visibility**: warm; evaluation target items absent from training are added to the training set.
-  - Source: Appendix C explicitly inserts evaluation-only items into training: https://arxiv.org/html/2602.02338v1#A3.p1
 - **SID**: GAOQ, 3 levels. Branching tuples: MI(32,40,19),VG(32,64,13),IS(24,80,14),BP(32,64,18),ACS(64,96,16),SO(128,128,11),TG(192,192,5),HH(50,512,8),BPC(96,192,11),Books(256,256,8). Global anchor-vocabulary sizes and collision handling: not reported.
-  - Source: Table 7 and Algorithm 1: https://arxiv.org/html/2602.02338v1#A5.T7 and https://arxiv.org/html/2602.02338v1#alg1
 - **Inference budget**: Beam 50; Recall/NDCG@5/10. Inference hardware, batch size, latency: not reported; batch 2048 is training.
-  - Source: Section 4 and Appendix E: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A5.p4
 - **Results from**: Tables 1/4 aggregate/full main comparison; Tables 2/5 ablations; Table 3 quantization runtime, not inference latency. All SID methods use this study's common T5-style generator; tokenizer settings follow original methods.
-  - Source: Tables 1-5 and Appendix E: https://arxiv.org/html/2602.02338v1#S5.T1 and https://arxiv.org/html/2602.02338v1#S5.T2 and https://arxiv.org/html/2602.02338v1#S5.T3 and https://arxiv.org/html/2602.02338v1#A0.T4 and https://arxiv.org/html/2602.02338v1#A0.T5 and https://arxiv.org/html/2602.02338v1#A5.p4 and https://arxiv.org/html/2602.02338v1#A5.p3
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4 and Appendix C: [S4.p3](https://arxiv.org/html/2602.02338v1#S4.p3) and [A3.p1](https://arxiv.org/html/2602.02338v1#A3.p1)
+- **Split**: Section 4 and Appendix C: [S4.p6](https://arxiv.org/html/2602.02338v1#S4.p6) and [A3.p1](https://arxiv.org/html/2602.02338v1#A3.p1)
+- **Candidates**: Section 4 and Appendix E specify ranking metrics but no candidate protocol; 128 sampled negatives are a training objective: [S4.p6](https://arxiv.org/html/2602.02338v1#S4.p6) and [A5.p2](https://arxiv.org/html/2602.02338v1#A5.p2)
+- **Visibility**: Appendix C explicitly inserts evaluation-only items into training: [A3.p1](https://arxiv.org/html/2602.02338v1#A3.p1)
+- **SID**: Table 7 and Algorithm 1: [A5.T7](https://arxiv.org/html/2602.02338v1#A5.T7) and [alg1](https://arxiv.org/html/2602.02338v1#alg1)
+- **Inference budget**: Section 4 and Appendix E: [S4.p6](https://arxiv.org/html/2602.02338v1#S4.p6) and [A5.p4](https://arxiv.org/html/2602.02338v1#A5.p4)
+- **Results from**: Tables 1-5 and Appendix E: [S5.T1](https://arxiv.org/html/2602.02338v1#S5.T1) and [S5.T2](https://arxiv.org/html/2602.02338v1#S5.T2) and [S5.T3](https://arxiv.org/html/2602.02338v1#S5.T3) and [A0.T4](https://arxiv.org/html/2602.02338v1#A0.T4) and [A0.T5](https://arxiv.org/html/2602.02338v1#A0.T5) and [A5.p4](https://arxiv.org/html/2602.02338v1#A5.p4) and [A5.p3](https://arxiv.org/html/2602.02338v1#A5.p3)
+
+</details>
 
 ### 5. Connections to Related Work
 

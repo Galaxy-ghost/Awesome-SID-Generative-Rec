@@ -34,19 +34,25 @@ FedCGR performs federated cross-domain recommendation over shared Semantic IDs f
 **Experimental setup**
 
 - **Datasets**: Amazon Review: Grocery, Beauty, Sports, Food, Kitchen; six cross-domain scenarios FK/GB/GS/FKB/GBS/GKBS; per-domain 5-core filtering.
-  - Source: Section 4.1.1: https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p3
 - **Split**: Per-user leave-one-out: last item test, second-to-last validation, remaining interactions training.
-  - Source: Section 4.1.3: https://arxiv.org/html/2608.10929v1#S4.SS1.SSS3.p1
 - **Candidates**: full catalog; additionally sampled: 999 random negatives per user, fixed once and shared across methods (seed42). Negative-sampling distribution beyond random and history-item exclusion: not reported.
-  - Source: Section 4.1.3: https://arxiv.org/html/2608.10929v1#S4.SS1.SSS3.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Cold-start analysis groups users by training-history length (<=7, 8-15, >=16), not unseen items. SID metadata pretraining excludes private interactions; local CF uses client interaction sequences. Item-level generator/tokenizer/CF exposure: not reported.
-  - Source: Sections 3.1 and 4.4: https://arxiv.org/html/2608.10929v1#S3.SS1.p1 and https://arxiv.org/html/2608.10929v1#S4.SS4.p1
 - **SID**: Frozen metadata RQ-VAE: 3 levels x 256 codes; colliding items share SID scores, ties broken by validation-set item popularity.
-  - Source: Sections 3.2 and 4.1.4: https://arxiv.org/html/2608.10929v1#S3.SS2.p2 and https://arxiv.org/html/2608.10929v1#S4.SS1.SSS4.p1
 - **Inference budget**: Target-domain trie-constrained beam 50; H/NDCG@10; experiments on RTX 4090 GPUs. Inference batch size and latency: not reported.
-  - Source: Sections 3.4 and 4.1.4: https://arxiv.org/html/2608.10929v1#S3.SS4.p2 and https://arxiv.org/html/2608.10929v1#S4.SS1.SSS4.p1
 - **Results from**: Original Tables 3/4: full-ranking/sampled comparisons; Table 5: ablation; Table 6: diagnostics; Figures 3-5: user activity, sensitivity, communication efficiency.
-  - Source: Tables 3-6 and Figures 3-5: https://arxiv.org/html/2608.10929v1#S4.T3 and https://arxiv.org/html/2608.10929v1#S4.T4 and https://arxiv.org/html/2608.10929v1#S4.T5 and https://arxiv.org/html/2608.10929v1#S4.T6 and https://arxiv.org/html/2608.10929v1#S4.F3 and https://arxiv.org/html/2608.10929v1#S4.F4 and https://arxiv.org/html/2608.10929v1#S4.F5
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p1) and [S4.SS1.SSS1.p3](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p3)
+- **Split**: Section 4.1.3: [S4.SS1.SSS3.p1](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS3.p1)
+- **Candidates**: Section 4.1.3: [S4.SS1.SSS3.p1](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS3.p1)
+- **Visibility**: Sections 3.1 and 4.4: [S3.SS1.p1](https://arxiv.org/html/2608.10929v1#S3.SS1.p1) and [S4.SS4.p1](https://arxiv.org/html/2608.10929v1#S4.SS4.p1)
+- **SID**: Sections 3.2 and 4.1.4: [S3.SS2.p2](https://arxiv.org/html/2608.10929v1#S3.SS2.p2) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS4.p1)
+- **Inference budget**: Sections 3.4 and 4.1.4: [S3.SS4.p2](https://arxiv.org/html/2608.10929v1#S3.SS4.p2) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2608.10929v1#S4.SS1.SSS4.p1)
+- **Results from**: Tables 3-6 and Figures 3-5: [S4.T3](https://arxiv.org/html/2608.10929v1#S4.T3) and [S4.T4](https://arxiv.org/html/2608.10929v1#S4.T4) and [S4.T5](https://arxiv.org/html/2608.10929v1#S4.T5) and [S4.T6](https://arxiv.org/html/2608.10929v1#S4.T6) and [S4.F3](https://arxiv.org/html/2608.10929v1#S4.F3) and [S4.F4](https://arxiv.org/html/2608.10929v1#S4.F4) and [S4.F5](https://arxiv.org/html/2608.10929v1#S4.F5)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -28,11 +28,11 @@ TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encode
 | Key Contribution | TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search. |
 | Modified Stage | No single stage |
 | Key Findings | On Amazon Beauty, TIGER reports Recall@5 of 0.0454 against 0.0387 for SASRec, and RQ-VAE Semantic IDs outperform LSH and random IDs (Tables 1 and 2). |
-| Limitation | The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference, and the paper does not report a beam width or latency (Appendix E). |
+| Limitation | The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference (Appendix E). |
 
 ### 1. Why This Paper Matters
 
-Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). TIGER instead trains a sequence-to-sequence model to decode the Semantic ID (SID) of the next item. The authors describe it as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this pipeline and change one of its stages.
+Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). The authors describe TIGER as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this Semantic ID (SID) pipeline and change one of its stages.
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
@@ -44,20 +44,12 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 #### Overview
 
-```
-Item text (title, price, brand, category)
-  │
-  ▼  pre-trained Sentence-T5
-Content embedding x (768 dimensions)
-  │
-  ▼  DNN encoder, 3-level RQ-VAE, collision token
-SID (c1, c2, c3, c4): three codes from 256-entry codebooks plus one collision token
-  │
-  ▼  Transformer encoder-decoder (T5X), next-token prediction
-Next-item SID, decoded by beam search
-  │
-  ▼  frozen lookup table
-Recommended items
+```mermaid
+flowchart LR
+    A[Item text] -->|Sentence-T5| B[Embedding]
+    B -->|RQ-VAE| C[SID]
+    C -->|Enc-Dec| D[Next SID]
+    D -->|Lookup| E[Items]
 ```
 
 #### Step 1: Item Text to a Latent Vector
@@ -140,7 +132,7 @@ def append_collision_token(code_tuples):
     return sids
 ```
 
-The code assigns the fourth token in input order; the paper does not state how the order is chosen. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
+The code assigns the fourth token in input order. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
 
 #### Step 5: Sequence-to-Sequence Generation
 
@@ -165,19 +157,25 @@ At inference, TIGER decodes SIDs with autoregressive beam search and maps each g
 **Experimental setup**
 
 - **Datasets**: Amazon Product Reviews (May 1996-July 2014): Beauty, Sports and Outdoors, Toys and Games. Users with fewer than 5 reviews are filtered; an item-frequency filter is not reported. Retained item counts: 12,101 / 18,357 / 11,924, respectively.
-  - Source: Dataset/date range and user-only filtering: https://arxiv.org/html/2305.05065v3#A3.p1; corpus sizes: https://arxiv.org/html/2305.05065v3#A3.T6.
 - **Split**: Chronological per-user leave-one-out: last interaction for test, penultimate for validation, earlier interactions for training; training histories contain at most 20 items. Separate Beauty cold-start experiment: remove 5% of test items from the training split.
-  - Source: Chronological ordering, exact leave-one-out allocation, and training-history cap: https://arxiv.org/html/2305.05065v3#A3.p1. The separate Beauty cold-start manipulation removes 5% of test items from the training split: https://arxiv.org/html/2305.05065v3#S4.SS3.p3.
 - **Candidates**: Main evaluation: full catalog versus sampled candidates not reported. Cold-start retrieval adds unseen items sharing the first three codes with a generated SID to the matching seen item; epsilon caps the proportion of unseen items in the returned top-K list (epsilon=0.1 in Fig. 5a).
-  - Source: Full-catalog versus sampled-negative evaluation is not specified in Methods/Experiments or Appendices A-E; the evaluation description is https://arxiv.org/html/2305.05065v3#S4.p2 and https://arxiv.org/html/2305.05065v3#A3.p1. Cold-start candidate construction and unseen-item quota: https://arxiv.org/html/2305.05065v3#S4.SS3.p4; epsilon=0.1 comparison: https://arxiv.org/html/2305.05065v3#S4.SS3.p5.
 - **Visibility**: Main leave-one-out evaluation: per-target generator/tokenizer training visibility not reported. Beauty cold-start experiment: unseen by tokenizer too; the selected items are removed from the training split, both RQ-VAE and the generator are trained on that split, and unseen-item SIDs are produced afterward.
-  - Source: Main preprocessing defines interaction holdouts without explicitly enumerating item-level training visibility: https://arxiv.org/html/2305.05065v3#A3.p1 and https://arxiv.org/html/2305.05065v3#S4.p4. For the cold-start experiment both RQ-VAE and the sequence-to-sequence model are trained on the reduced training split; unseen items are encoded afterward: https://arxiv.org/html/2305.05065v3#S4.SS3.p3.
 - **SID**: Main configuration: 3 residual-quantization levels x 256 codewords (32-dimensional code embeddings), plus a fourth collision-disambiguation token, giving 4 tokens per item. Colliding three-code tuples receive different fourth tokens; non-colliding tuples receive 0. The generator uses 4 x 256 item-token entries.
-  - Source: Main RQ levels, codebook cardinality, latent dimension, and collision suffix including zero for a unique tuple: https://arxiv.org/html/2305.05065v3#S4.p4. Four position-specific 256-token vocabularies: https://arxiv.org/html/2305.05065v3#S4.p5; one-time collision lookup: https://arxiv.org/html/2305.05065v3#S3.SS1.p8.
 - **Inference budget**: Autoregressive beam search; numerical beam width not reported. Main evaluation: Recall and NDCG at K=5 and 10. Cold-start Fig. 5a varies K at epsilon=0.1; Fig. 5b evaluates Recall@10 while varying epsilon. Hardware, inference batch size, and measured latency: not reported.
-  - Source: Autoregressive beam search: https://arxiv.org/html/2305.05065v3#A5.p3; main metric cutoffs: https://arxiv.org/html/2305.05065v3#S4.p2; cold-start cutoffs/quota experiment: https://arxiv.org/html/2305.05065v3#S4.F5. No numerical beam width, inference hardware, inference batch size, or latency is specified after checking Methods/Experiments and Appendices A-E; https://arxiv.org/html/2305.05065v3#S4.p4 and https://arxiv.org/html/2305.05065v3#S4.p6 give training batches only.
 - **Results from**: Original paper Table 1 (main sequential recommendation); Appendix E, Table 9 (three-seed means and standard errors); Fig. 5 (Beauty cold start). Table 1 combines the authors' TIGER results, previously published S3-Rec benchmark results for baselines other than P5, and P5 rerun with modified preprocessing.
-  - Source: Original main comparison: https://arxiv.org/html/2305.05065v3#S4.T1; separate three-seed mean/standard-error table: https://arxiv.org/html/2305.05065v3#A5.T9; cold-start: https://arxiv.org/html/2305.05065v3#S4.F5. Baselines except P5 were taken from S3-Rec's published results; P5 was rerun with modified preprocessing: https://arxiv.org/html/2305.05065v3#S4.SS1.p2 and https://arxiv.org/html/2305.05065v3#A4.p2.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Dataset/date range and user-only filtering: [A3.p1](https://arxiv.org/html/2305.05065v3#A3.p1); corpus sizes: [A3.T6](https://arxiv.org/html/2305.05065v3#A3.T6).
+- **Split**: Chronological ordering, exact leave-one-out allocation, and training-history cap: [A3.p1](https://arxiv.org/html/2305.05065v3#A3.p1). The separate Beauty cold-start manipulation removes 5% of test items from the training split: [S4.SS3.p3](https://arxiv.org/html/2305.05065v3#S4.SS3.p3).
+- **Candidates**: Full-catalog versus sampled-negative evaluation is not specified in Methods/Experiments or Appendices A-E; the evaluation description is [S4.p2](https://arxiv.org/html/2305.05065v3#S4.p2) and [A3.p1](https://arxiv.org/html/2305.05065v3#A3.p1). Cold-start candidate construction and unseen-item quota: [S4.SS3.p4](https://arxiv.org/html/2305.05065v3#S4.SS3.p4); epsilon=0.1 comparison: [S4.SS3.p5](https://arxiv.org/html/2305.05065v3#S4.SS3.p5).
+- **Visibility**: Main preprocessing defines interaction holdouts without explicitly enumerating item-level training visibility: [A3.p1](https://arxiv.org/html/2305.05065v3#A3.p1) and [S4.p4](https://arxiv.org/html/2305.05065v3#S4.p4). For the cold-start experiment both RQ-VAE and the sequence-to-sequence model are trained on the reduced training split; unseen items are encoded afterward: [S4.SS3.p3](https://arxiv.org/html/2305.05065v3#S4.SS3.p3).
+- **SID**: Main RQ levels, codebook cardinality, latent dimension, and collision suffix including zero for a unique tuple: [S4.p4](https://arxiv.org/html/2305.05065v3#S4.p4). Four position-specific 256-token vocabularies: [S4.p5](https://arxiv.org/html/2305.05065v3#S4.p5); one-time collision lookup: [S3.SS1.p8](https://arxiv.org/html/2305.05065v3#S3.SS1.p8).
+- **Inference budget**: Autoregressive beam search: [A5.p3](https://arxiv.org/html/2305.05065v3#A5.p3); main metric cutoffs: [S4.p2](https://arxiv.org/html/2305.05065v3#S4.p2); cold-start cutoffs/quota experiment: [S4.F5](https://arxiv.org/html/2305.05065v3#S4.F5). No numerical beam width, inference hardware, inference batch size, or latency is specified after checking Methods/Experiments and Appendices A-E; [S4.p4](https://arxiv.org/html/2305.05065v3#S4.p4) and [S4.p6](https://arxiv.org/html/2305.05065v3#S4.p6) give training batches only.
+- **Results from**: Original main comparison: [S4.T1](https://arxiv.org/html/2305.05065v3#S4.T1); separate three-seed mean/standard-error table: [A5.T9](https://arxiv.org/html/2305.05065v3#A5.T9); cold-start: [S4.F5](https://arxiv.org/html/2305.05065v3#S4.F5). Baselines except P5 were taken from S3-Rec's published results; P5 was rerun with modified preprocessing: [S4.SS1.p2](https://arxiv.org/html/2305.05065v3#S4.SS1.p2) and [A4.p2](https://arxiv.org/html/2305.05065v3#A4.p2).
+
+</details>
 
 The three entries below compare TIGER with SASRec. S3-Rec is the strongest baseline in all four Sports and Outdoors columns (Table 1). It is also the strongest in Recall@10 and NDCG@10 on Beauty and on Toys and Games.
 
@@ -205,7 +203,6 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 
 - TIGER's representation uses item text only (`Text`). LETTER uses text and collaborative signals (`Text+CF`) with a learnable RQ tokenizer (`Learn. RQ`).
 - The tokenizer is fixed before the generator trains (`Fixed`). ETEGRec updates the tokenizer and the generator in turns (`Altern.`).
-- The fourth token only separates items that share three codes; the paper derives it from the collision, not from item content (Sec. 3.1).
 - Unconstrained beam search can produce IDs that map to no item (Sec. 4.5). LETTER decodes with constrained beam search (`C-Beam`).
 - Beam search runs one generator step per SID token. RPG predicts all tokens of an SID in parallel (`Non-AR`) and decodes over a graph of valid IDs (`Graph`).
 

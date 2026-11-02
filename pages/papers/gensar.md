@@ -35,19 +35,25 @@ GenSAR unifies search and recommendation in one generator with dual-purpose iden
 **Experimental setup**
 
 - **Datasets**: Semi-synthetic Amazon Electronics search/recommendation data; Commercial Chinese-app data, 10,000 users over two weeks. Filtering rules: not reported in paper.
-  - Source: Section 4.1.1: https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1
 - **Split**: not reported in paper; data-processing and train/validation/test details are delegated to code.
-  - Source: Section 4.1.1 directs split details to code: https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1
 - **Candidates**: Recommendation sampled: 99 random negatives excluding user-interacted items, plus the target. Search sampled: 99 BM25-retrieved hard negatives, plus the target; search history exclusion: not reported.
-  - Source: Tables 3 and 4 captions: https://arxiv.org/html/2504.05730v2#S4.T3 and https://arxiv.org/html/2504.05730v2#S4.T4
 - **Visibility**: warm; no unseen-item protocol is defined. Collaborative-encoder exposure to test items: not reported.
-  - Source: Sections 3.2.1 and 4.1 define no unseen-item protocol: https://arxiv.org/html/2504.05730v2#S3.SS2.SSS1.p1 and https://arxiv.org/html/2504.05730v2#S4.SS1
 - **SID**: Shared/task-specific RQ-VAE; sensitivity favors 2 shared + 2 task-specific codes. Numerical codebook size and collision handling: not reported; semantic/collaborative collision rates 0.18%/0.39%.
-  - Source: Sections 3.2.2 and 4.4.2-4.4.3: https://arxiv.org/html/2504.05730v2#S3.SS2.SSS2.p1 and https://arxiv.org/html/2504.05730v2#S4.SS4.SSS2.p1 and https://arxiv.org/html/2504.05730v2#S4.SS4.SSS3.p2
 - **Inference budget**: Constrained beam search; HR/NDCG@1/5/10. Beam width, hardware, inference batch size, latency: not reported in paper.
-  - Source: Sections 3.4.2 and 4.1.3: https://arxiv.org/html/2504.05730v2#S3.SS4.SSS2.p1 and https://arxiv.org/html/2504.05730v2#S4.SS1.SSS3.p1
 - **Results from**: Original Tables 3/4: recommendation/search; Table 5: task ablations; Figures 4-7: identifier analyses.
-  - Source: Tables 3-5 and Figures 4-7: https://arxiv.org/html/2504.05730v2#S4.T3 and https://arxiv.org/html/2504.05730v2#S4.T4 and https://arxiv.org/html/2504.05730v2#S4.T5 and https://arxiv.org/html/2504.05730v2#S4.F4 and https://arxiv.org/html/2504.05730v2#S4.F7
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1)
+- **Split**: Section 4.1.1 directs split details to code: [S4.SS1.SSS1.p1](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1)
+- **Candidates**: Tables 3 and 4 captions: [S4.T3](https://arxiv.org/html/2504.05730v2#S4.T3) and [S4.T4](https://arxiv.org/html/2504.05730v2#S4.T4)
+- **Visibility**: Sections 3.2.1 and 4.1 define no unseen-item protocol: [S3.SS2.SSS1.p1](https://arxiv.org/html/2504.05730v2#S3.SS2.SSS1.p1) and [S4.SS1](https://arxiv.org/html/2504.05730v2#S4.SS1)
+- **SID**: Sections 3.2.2 and 4.4.2-4.4.3: [S3.SS2.SSS2.p1](https://arxiv.org/html/2504.05730v2#S3.SS2.SSS2.p1) and [S4.SS4.SSS2.p1](https://arxiv.org/html/2504.05730v2#S4.SS4.SSS2.p1) and [S4.SS4.SSS3.p2](https://arxiv.org/html/2504.05730v2#S4.SS4.SSS3.p2)
+- **Inference budget**: Sections 3.4.2 and 4.1.3: [S3.SS4.SSS2.p1](https://arxiv.org/html/2504.05730v2#S3.SS4.SSS2.p1) and [S4.SS1.SSS3.p1](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS3.p1)
+- **Results from**: Tables 3-5 and Figures 4-7: [S4.T3](https://arxiv.org/html/2504.05730v2#S4.T3) and [S4.T4](https://arxiv.org/html/2504.05730v2#S4.T4) and [S4.T5](https://arxiv.org/html/2504.05730v2#S4.T5) and [S4.F4](https://arxiv.org/html/2504.05730v2#S4.F4) and [S4.F7](https://arxiv.org/html/2504.05730v2#S4.F7)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ ReRankID is a controlled testbed, not a new recommender: models reason over and 
 **Experimental setup**
 
 - **Datasets**: Kuaishou OpenOneRec-RecIF short-video release, 162074 source users; evaluation requires a renderable positive and >=256 items with both SID/caption histories.
-  - Source: Section 3 and Appendix A.2: https://arxiv.org/html/2610.22797v1#S3.SS0.SSS0.Px2.p1 and https://arxiv.org/html/2610.22797v1#A1.SS2.p1 and https://arxiv.org/html/2610.22797v1#A5.p1
 - **Split**: User-disjoint SFT/post-training/development/test partitions; 400 development and 400 test users, each balanced 200 explicit-engagement/200 long-view positives; histories precede targets.
-  - Source: Appendix A.2: https://arxiv.org/html/2610.22797v1#A1.SS2.p1
 - **Candidates**: sampled: 29 negatives plus one positive at anchor; slate sizes 10/20/30/50/100. Exposure-hard negatives plus uniform catalog fill; user-engaged items excluded. Exclusion of other historical exposures: not reported.
-  - Source: Appendix A.2-A.3: https://arxiv.org/html/2610.22797v1#A1.SS2.p2 and https://arxiv.org/html/2610.22797v1#A1.SS3.p1
 - **Visibility**: warm; evaluation release users/items were exposed during backbone pretraining, while post-training users are disjoint. Reranking supplied slates is a new task.
-  - Source: Appendix A.4: https://arxiv.org/html/2610.22797v1#A1.SS4.p1 and https://arxiv.org/html/2610.22797v1#A1.SS4.p3
 - **SID**: Released OpenOneRec three-code SIDs from quantized item-text embeddings; quantizer algorithm, codebook sizes and collision handling: not reported.
-  - Source: Section 3 and Appendix A.1: https://arxiv.org/html/2610.22797v1#S3.SS0.SSS0.Px2.p1 and https://arxiv.org/html/2610.22797v1#A1.SS1.p1
 - **Inference budget**: SID: greedy reasoning 2048 tokens, fallback structured extraction 256 tokens from <=1200 reasoning characters; top-10 indices; A100/BF16. Text APIs: 8192-32768 output-token caps. Inference batch and latency: not reported.
-  - Source: Appendix B.1, Table B.2 and Appendix E: https://arxiv.org/html/2610.22797v1#A2.SS1.p2 and https://arxiv.org/html/2610.22797v1#A2.T2 and https://arxiv.org/html/2610.22797v1#A5.p2
 - **Results from**: This testbed's paired evaluations: Table 1 initial models/references, Table 2 post-training, Table D.1 full metrics. Each post-training method compares its own initializer; invalid outputs score zero.
-  - Source: Tables 1/2/D.1 and Section 5.1: https://arxiv.org/html/2610.22797v1#S4.T1 and https://arxiv.org/html/2610.22797v1#S5.T2 and https://arxiv.org/html/2610.22797v1#A4.T1 and https://arxiv.org/html/2610.22797v1#S5.SS1.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 3 and Appendix A.2: [S3.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.22797v1#S3.SS0.SSS0.Px2.p1) and [A1.SS2.p1](https://arxiv.org/html/2610.22797v1#A1.SS2.p1) and [A5.p1](https://arxiv.org/html/2610.22797v1#A5.p1)
+- **Split**: Appendix A.2: [A1.SS2.p1](https://arxiv.org/html/2610.22797v1#A1.SS2.p1)
+- **Candidates**: Appendix A.2-A.3: [A1.SS2.p2](https://arxiv.org/html/2610.22797v1#A1.SS2.p2) and [A1.SS3.p1](https://arxiv.org/html/2610.22797v1#A1.SS3.p1)
+- **Visibility**: Appendix A.4: [A1.SS4.p1](https://arxiv.org/html/2610.22797v1#A1.SS4.p1) and [A1.SS4.p3](https://arxiv.org/html/2610.22797v1#A1.SS4.p3)
+- **SID**: Section 3 and Appendix A.1: [S3.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.22797v1#S3.SS0.SSS0.Px2.p1) and [A1.SS1.p1](https://arxiv.org/html/2610.22797v1#A1.SS1.p1)
+- **Inference budget**: Appendix B.1, Table B.2 and Appendix E: [A2.SS1.p2](https://arxiv.org/html/2610.22797v1#A2.SS1.p2) and [A2.T2](https://arxiv.org/html/2610.22797v1#A2.T2) and [A5.p2](https://arxiv.org/html/2610.22797v1#A5.p2)
+- **Results from**: Tables 1/2/D.1 and Section 5.1: [S4.T1](https://arxiv.org/html/2610.22797v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.22797v1#S5.T2) and [A4.T1](https://arxiv.org/html/2610.22797v1#A4.T1) and [S5.SS1.p1](https://arxiv.org/html/2610.22797v1#S5.SS1.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

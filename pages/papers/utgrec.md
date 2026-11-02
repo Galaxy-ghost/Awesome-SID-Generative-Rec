@@ -33,19 +33,25 @@ UTGRec builds a universal item tokenizer from a multimodal LLM with tree-structu
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023 with 5-core filtering. Pre-training on five domains (Arts Crafts and Sewing, Baby Products, CDs and Vinyl, Cell Phones and Accessories, Software; 999,334 users / 344,412 items in total); downstream on Musical Instruments (57,439 / 24,587), Industrial and Scientific (50,985 / 25,848), Video Games (94,762 / 25,612), Office Products (223,308 / 77,551).
-  - Source: Pre-training and downstream domains, 5-core: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1; statistics: https://arxiv.org/html/2504.04405v3#S3.T1.
 - **Split**: Per-user leave-one-out: latest item for test, second most recent for validation, the rest for training; the tokenizer and recommender are pre-trained on the five source domains and fine-tuned on each downstream domain.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1.
 - **Candidates**: full catalog (full-ranking evaluation over the entire item set).
-  - Source: Full ranking and beam 50: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1.
 - **Visibility**: warm; no unseen-item protocol is defined (downstream items are seen during fine-tuning of both tokenizer and recommender).
-  - Source: Downstream domains are fine-tuned on, no unseen-item protocol: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1 and https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.
 - **SID**: Universal item tokenizer on Qwen2-VL-2B (LoRA) with tree-structured codebooks: root codebook 256 and leaf codebook 512, identifier length 3, shared across domains. Conflicts are resolved by reassigning the last-level code to the second-nearest or a farther code instead of appending an extra code.
-  - Source: Tree-structured codebooks (root 256, leaf 512), L=3, last-level reassignment for conflicts: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1 and https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2; MLLM tokenizer: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.
 - **Inference budget**: Beam size 50 for all generative recommenders; tokenizer pre-training on 16 GPUs (batch 16 per GPU). Inference hardware, batch size, and latency: not reported.
-  - Source: Beam size 50: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1; GPUs for tokenizer pre-training: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.
 - **Results from**: Table 2 (four downstream domains versus traditional, content-based, and generative baselines including TIGER, LETTER, TIGER-M); Table 3 (ablations); later figures (analyses).
-  - Source: Main: https://arxiv.org/html/2504.04405v3#S3.T2; ablation: https://arxiv.org/html/2504.04405v3#S3.T3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Pre-training and downstream domains, 5-core: [S3.SS1.SSS1.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1); statistics: [S3.T1](https://arxiv.org/html/2504.04405v3#S3.T1).
+- **Split**: Leave-one-out allocation: [S3.SS1.SSS3.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1).
+- **Candidates**: Full ranking and beam 50: [S3.SS1.SSS3.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1).
+- **Visibility**: Downstream domains are fine-tuned on, no unseen-item protocol: [S3.SS1.SSS1.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1) and [S3.SS1.SSS4.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1).
+- **SID**: Tree-structured codebooks (root 256, leaf 512), L=3, last-level reassignment for conflicts: [S3.SS1.SSS4.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1) and [S2.SS4.SSS1.p2](https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2); MLLM tokenizer: [S3.SS1.SSS4.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1).
+- **Inference budget**: Beam size 50: [S3.SS1.SSS3.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1); GPUs for tokenizer pre-training: [S3.SS1.SSS4.p1](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1).
+- **Results from**: Main: [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2); ablation: [S3.T3](https://arxiv.org/html/2504.04405v3#S3.T3).
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -36,19 +36,25 @@ NEO adapts a decoder-only LLM to interleave natural language and typed item Sema
 **Experimental setup**
 
 - **Datasets**: Industrial media logs: >10M episodes, shows, audiobooks and artists; about 15M users; 5M grounding examples, 10M instruction-training examples, 100K test examples. Filtering not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2603.17533v1#S4.SS1.p1
 - **Split**: Global temporal protocol: context through t, labels at t+k, evaluation at t+2k; k=1 day for episodes/shows, 7 days for audiobooks. Baselines share train/test windows; dates and validation allocation not reported.
-  - Source: Section 4.1.5: https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1
 - **Candidates**: not reported; NEO and baselines use the same candidate universe.
-  - Source: Section 4.1.5 specifies a common candidate universe but not full-catalog versus sampled evaluation: https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1
 - **Visibility**: warm; no unseen-item protocol is defined. User cold-start simulated by removing listening history and retaining user metadata.
-  - Source: Section 4.1.5 and its cold-user experiment: https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1 and https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.Px1.p1
 - **SID**: Separate residual K-Means vocabularies by type: 4 x 256 for audiobooks/episodes/shows, 4 x 1024 for artists. Each collision bucket resolves to one popularity-selected item.
-  - Source: Section 4.1.2: https://arxiv.org/html/2603.17533v1#S4.SS1.SSS2.p2
 - **Inference budget**: Trie-constrained beam 30; HR/NDCG@10/30. Top-p alternative: temperature 0.6, top-k 20, top-p 0.95. Inference hardware, batch size and absolute latency not reported; Table 3 latency@10 decreases 2.92% without constraints and 7.91% with sampling.
-  - Source: Section 4.2.1 and Table 3: https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px5.p2 and https://arxiv.org/html/2603.17533v1#S4.T3
 - **Results from**: Original Tables 5/8/9: production-baseline comparisons, cold/warm users and search breakdowns. Recommendation baseline is GNN/two-tower; search baseline dense retrieval. NEO uses about half the production baseline's historical logs.
-  - Source: Original Tables 5/8/9 and Sections 4.1.1/4.2.3: https://arxiv.org/html/2603.17533v1#S4.T5 and https://arxiv.org/html/2603.17533v1#A2.T8 and https://arxiv.org/html/2603.17533v1#A2.T9 and https://arxiv.org/html/2603.17533v1#S4.SS1.SSS1 and https://arxiv.org/html/2603.17533v1#S4.SS2.SSS3.Px1.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2603.17533v1#S4.SS1.p1)
+- **Split**: Section 4.1.5: [S4.SS1.SSS5.p1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1)
+- **Candidates**: Section 4.1.5 specifies a common candidate universe but not full-catalog versus sampled evaluation: [S4.SS1.SSS5.p1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1)
+- **Visibility**: Section 4.1.5 and its cold-user experiment: [S4.SS1.SSS5.p1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.p1) and [S4.SS1.SSS5.Px1.p1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS5.Px1.p1)
+- **SID**: Section 4.1.2: [S4.SS1.SSS2.p2](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS2.p2)
+- **Inference budget**: Section 4.2.1 and Table 3: [S4.SS2.SSS1.Px5.p2](https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px5.p2) and [S4.T3](https://arxiv.org/html/2603.17533v1#S4.T3)
+- **Results from**: Original Tables 5/8/9 and Sections 4.1.1/4.2.3: [S4.T5](https://arxiv.org/html/2603.17533v1#S4.T5) and [A2.T8](https://arxiv.org/html/2603.17533v1#A2.T8) and [A2.T9](https://arxiv.org/html/2603.17533v1#A2.T9) and [S4.SS1.SSS1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS1) and [S4.SS2.SSS3.Px1.p1](https://arxiv.org/html/2603.17533v1#S4.SS2.SSS3.Px1.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

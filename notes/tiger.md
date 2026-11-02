@@ -1,11 +1,11 @@
 ## At a Glance
 
 Key Findings: On Amazon Beauty, TIGER reports Recall@5 of 0.0454 against 0.0387 for SASRec, and RQ-VAE Semantic IDs outperform LSH and random IDs (Tables 1 and 2).
-Limitation: The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference, and the paper does not report a beam width or latency (Appendix E).
+Limitation: The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference (Appendix E).
 
 ### 1. Why This Paper Matters
 
-Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). TIGER instead trains a sequence-to-sequence model to decode the Semantic ID (SID) of the next item. The authors describe it as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this pipeline and change one of its stages.
+Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). The authors describe TIGER as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this Semantic ID (SID) pipeline and change one of its stages.
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
@@ -15,20 +15,12 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 #### Overview
 
-```
-Item text (title, price, brand, category)
-  │
-  ▼  pre-trained Sentence-T5
-Content embedding x (768 dimensions)
-  │
-  ▼  DNN encoder, 3-level RQ-VAE, collision token
-SID (c1, c2, c3, c4): three codes from 256-entry codebooks plus one collision token
-  │
-  ▼  Transformer encoder-decoder (T5X), next-token prediction
-Next-item SID, decoded by beam search
-  │
-  ▼  frozen lookup table
-Recommended items
+```mermaid
+flowchart LR
+    A[Item text] -->|Sentence-T5| B[Embedding]
+    B -->|RQ-VAE| C[SID]
+    C -->|Enc-Dec| D[Next SID]
+    D -->|Lookup| E[Items]
 ```
 
 #### Step 1: Item Text to a Latent Vector
@@ -111,7 +103,7 @@ def append_collision_token(code_tuples):
     return sids
 ```
 
-The code assigns the fourth token in input order; the paper does not state how the order is chosen. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
+The code assigns the fourth token in input order. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
 
 #### Step 5: Sequence-to-Sequence Generation
 
@@ -159,6 +151,5 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 
 - TIGER's representation uses item text only (`Text`). LETTER uses text and collaborative signals (`Text+CF`) with a learnable RQ tokenizer (`Learn. RQ`).
 - The tokenizer is fixed before the generator trains (`Fixed`). ETEGRec updates the tokenizer and the generator in turns (`Altern.`).
-- The fourth token only separates items that share three codes; the paper derives it from the collision, not from item content (Sec. 3.1).
 - Unconstrained beam search can produce IDs that map to no item (Sec. 4.5). LETTER decodes with constrained beam search (`C-Beam`).
 - Beam search runs one generator step per SID token. RPG predicts all tokens of an SID in parallel (`Non-AR`) and decodes over a graph of valid IDs (`Graph`).

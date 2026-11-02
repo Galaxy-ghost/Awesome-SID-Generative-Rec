@@ -33,19 +33,25 @@ PROMISE adds a lightweight process reward model that scores intermediate Semanti
 **Experimental setup**
 
 - **Datasets**: Public: Amazon Beauty and Sports and Outdoors (May 1996-July 2014), following TIGER's preprocessing (users with fewer than 5 reviews removed). Industrial: Kuaishou online-learning logs (over 400 million daily active users, about 50 billion interactions per day, more than 100 million items).
-  - Source: Public datasets and TIGER protocol: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; industrial logs: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2.
 - **Split**: Public: chronological leave-one-out (last item for test, second-to-last for validation, rest for training). Industrial: online learning on real logs; the offline test construction is not reported. Online: 7-day A/B test on Kuaishou and Kuaishou Lite, with 5% of users (about 20 million) in the experimental group and another 5% in the control group for each app.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; industrial online learning: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2; online A/B groups and length: https://arxiv.org/html/2601.04674v1#S4.SS3.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); public Recall/NDCG at 5 and 10, industrial at 100, 500, 1000 from beam search.
-  - Source: Metrics only: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS4.p1 and https://arxiv.org/html/2601.04674v1#S4.SS2.SSS4.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1.
 - **SID**: Public: 3-level RQ-VAE x 256 codes. Industrial: residual K-means over multimodal representations, depth 3 x 8,192 codes. Collision handling: not reported.
-  - Source: Public 3 x 256 RQ-VAE: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS3.p1; industrial residual K-means d=3, M=8192: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2; no collision rule found.
 - **Inference budget**: PRM-guided beam search: expand to K+ candidate paths per step, score them with a lightweight path-level PRM, and keep K'. Industrial: K=K'=1000 with K+ of 4,000 or 6,000; 4 encoder and 4 decoder blocks plus 1 PRM block. Public beam settings, hardware, inference batch size, and latency: not reported.
-  - Source: PRM-guided beam: https://arxiv.org/html/2601.04674v1#S3.SS3.p3; industrial K=K'=1000 and K+ in {4000, 6000}: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS3.p1; public beam settings not found.
 - **Results from**: Table 1 (Beauty and Sports; baseline numbers taken from the original papers or identical settings); Table 2 (Kuaishou offline versus six deployed retrievers); Table 3 (online A/B); Table 4 (PRM step ablation with hierarchical recall); Figure 4 (test-time scaling of K+).
-  - Source: Public: https://arxiv.org/html/2601.04674v1#S4.T1; industrial: https://arxiv.org/html/2601.04674v1#S4.T2; online: https://arxiv.org/html/2601.04674v1#S4.T3; ablation: https://arxiv.org/html/2601.04674v1#S4.T4; test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS5.p1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Public datasets and TIGER protocol: [S4.SS1.SSS1.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1); industrial logs: [S4.SS2.SSS1.p2](https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2).
+- **Split**: Leave-one-out allocation: [S4.SS1.SSS1.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1); industrial online learning: [S4.SS2.SSS1.p2](https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2); online A/B groups and length: [S4.SS3.p1](https://arxiv.org/html/2601.04674v1#S4.SS3.p1).
+- **Candidates**: Metrics only: [S4.SS1.SSS4.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS4.p1) and [S4.SS2.SSS4.p1](https://arxiv.org/html/2601.04674v1#S4.SS2.SSS4.p1).
+- **Visibility**: No unseen-item protocol: [S4.SS1.SSS1.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1).
+- **SID**: Public 3 x 256 RQ-VAE: [S4.SS1.SSS3.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS3.p1); industrial residual K-means d=3, M=8192: [S4.SS2.SSS1.p2](https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2); no collision rule found.
+- **Inference budget**: PRM-guided beam: [S3.SS3.p3](https://arxiv.org/html/2601.04674v1#S3.SS3.p3); industrial K=K'=1000 and K+ in {4000, 6000}: [S4.SS2.SSS3.p1](https://arxiv.org/html/2601.04674v1#S4.SS2.SSS3.p1); public beam settings not found.
+- **Results from**: Public: [S4.T1](https://arxiv.org/html/2601.04674v1#S4.T1); industrial: [S4.T2](https://arxiv.org/html/2601.04674v1#S4.T2); online: [S4.T3](https://arxiv.org/html/2601.04674v1#S4.T3); ablation: [S4.T4](https://arxiv.org/html/2601.04674v1#S4.T4); test-time scaling: [S4.SS5.p1](https://arxiv.org/html/2601.04674v1#S4.SS5.p1).
+
+</details>
 
 ### 5. Connections to Related Work
 

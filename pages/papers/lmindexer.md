@@ -35,19 +35,25 @@ LMIndexer learns sequential Semantic IDs with a generative language model throug
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty/Sports/Toys: recommendation and product search, user/item >=5 interactions. Document retrieval: NQ, MS MARCO-1M, merged TREC-DL 2019/2020 restricted to that corpus.
-  - Source: Sections 5.1-5.3 and Appendix A.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p2 and https://arxiv.org/html/2310.07815v3#S5.SS2.p2 and https://arxiv.org/html/2310.07815v3#A1.SS1.p3
 - **Split**: Recommendation: per-user last/penultimate test/validation. Product search: original train/test, 1/8 training queries validation. NQ keeps original labels; MARCO uses original train/dev labels.
-  - Source: Appendix A.1: https://arxiv.org/html/2310.07815v3#A1.SS1.p1 and https://arxiv.org/html/2310.07815v3#A1.SS1.p3
 - **Candidates**: not reported
-  - Source: Downstream protocols in Sections 5.1-5.3 do not specify negative sampling or complete-catalog enumeration: https://arxiv.org/html/2310.07815v3#S5.SS1 and https://arxiv.org/html/2310.07815v3#S5.SS2 and https://arxiv.org/html/2310.07815v3#S5.SS3
 - **Visibility**: Recommendation: warm; no unseen-item protocol is defined. Zero-shot Beauty product search: unseen by tokenizer too, excluded from both SID self-supervision and downstream finetuning; holdout construction not reported.
-  - Source: Sections 4.1/5.1 and Appendix A.10: https://arxiv.org/html/2310.07815v3#S4.SS1.p1 and https://arxiv.org/html/2310.07815v3#S5.SS1.p2 and https://arxiv.org/html/2310.07815v3#A1.SS10.p1
 - **SID**: Reported ID length 3; codebook sizes 512 (Amazon), 5120 (NQ), 51200 (MARCO-1M). A final ID position distinguishes collisions; its assignment rule not reported.
-  - Source: Appendix A.3 Table 9 and Appendix A.5: https://arxiv.org/html/2310.07815v3#A1.T9 and https://arxiv.org/html/2310.07815v3#A1.SS3.p1 and https://arxiv.org/html/2310.07815v3#A1.SS5.p2
 - **Inference budget**: Prefix-tree constrained beam 20; recommendation Recall/NDCG@5; experiments on 8 A100-40G. Inference batch size not reported. Product-search whole-Beauty-test latency 12.21s, not per request.
-  - Source: Sections 3.3/5.1 and Appendix A.9/Table 14: https://arxiv.org/html/2310.07815v3#S3.SS3.p1 and https://arxiv.org/html/2310.07815v3#S5.SS1.p4 and https://arxiv.org/html/2310.07815v3#A1.SS9.p1 and https://arxiv.org/html/2310.07815v3#A1.T14
 - **Results from**: Original Tables 3/4/6: recommendation/product search/document retrieval; Table 15: zero-shot product search. Generative indexer baselines use matched T5-base finetuning.
-  - Source: Original Tables 3/4/6/15: https://arxiv.org/html/2310.07815v3#S5.T3 and https://arxiv.org/html/2310.07815v3#S5.T4 and https://arxiv.org/html/2310.07815v3#S5.T6 and https://arxiv.org/html/2310.07815v3#A1.T15
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Sections 5.1-5.3 and Appendix A.1: [S5.SS1.p2](https://arxiv.org/html/2310.07815v3#S5.SS1.p2) and [S5.SS2.p2](https://arxiv.org/html/2310.07815v3#S5.SS2.p2) and [A1.SS1.p3](https://arxiv.org/html/2310.07815v3#A1.SS1.p3)
+- **Split**: Appendix A.1: [A1.SS1.p1](https://arxiv.org/html/2310.07815v3#A1.SS1.p1) and [A1.SS1.p3](https://arxiv.org/html/2310.07815v3#A1.SS1.p3)
+- **Candidates**: Downstream protocols in Sections 5.1-5.3 do not specify negative sampling or complete-catalog enumeration: [S5.SS1](https://arxiv.org/html/2310.07815v3#S5.SS1) and [S5.SS2](https://arxiv.org/html/2310.07815v3#S5.SS2) and [S5.SS3](https://arxiv.org/html/2310.07815v3#S5.SS3)
+- **Visibility**: Sections 4.1/5.1 and Appendix A.10: [S4.SS1.p1](https://arxiv.org/html/2310.07815v3#S4.SS1.p1) and [S5.SS1.p2](https://arxiv.org/html/2310.07815v3#S5.SS1.p2) and [A1.SS10.p1](https://arxiv.org/html/2310.07815v3#A1.SS10.p1)
+- **SID**: Appendix A.3 Table 9 and Appendix A.5: [A1.T9](https://arxiv.org/html/2310.07815v3#A1.T9) and [A1.SS3.p1](https://arxiv.org/html/2310.07815v3#A1.SS3.p1) and [A1.SS5.p2](https://arxiv.org/html/2310.07815v3#A1.SS5.p2)
+- **Inference budget**: Sections 3.3/5.1 and Appendix A.9/Table 14: [S3.SS3.p1](https://arxiv.org/html/2310.07815v3#S3.SS3.p1) and [S5.SS1.p4](https://arxiv.org/html/2310.07815v3#S5.SS1.p4) and [A1.SS9.p1](https://arxiv.org/html/2310.07815v3#A1.SS9.p1) and [A1.T14](https://arxiv.org/html/2310.07815v3#A1.T14)
+- **Results from**: Original Tables 3/4/6/15: [S5.T3](https://arxiv.org/html/2310.07815v3#S5.T3) and [S5.T4](https://arxiv.org/html/2310.07815v3#S5.T4) and [S5.T6](https://arxiv.org/html/2310.07815v3#S5.T6) and [A1.T15](https://arxiv.org/html/2310.07815v3#A1.T15)
+
+</details>
 
 ### 5. Connections to Related Work
 

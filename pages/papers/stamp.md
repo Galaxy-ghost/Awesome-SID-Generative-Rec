@@ -34,19 +34,25 @@ STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and add
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty (22.4K users / 12.1K items), Sports (35.6K / 18.4K), Toys (19.4K / 11.9K) with 5-core filtering; and AL-GR-Tiny, a subset of the AL-GR benchmark from a Chinese e-commerce platform (the full AL-GR has 131M users / 251M items / 14B interactions).
-  - Source: Datasets: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1; statistics: https://arxiv.org/html/2604.05329v3#S5.T1.
 - **Split**: Amazon: per-user leave-one-out (final interaction for test, penultimate for validation). AL-GR-Tiny: the benchmark's Stage 1 split, four days of training behaviors and a test set from the following day. GRID results averaged over five seeds.
-  - Source: Leave-one-out on Amazon; AL-GR S1 split: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1.
 - **Candidates**: not reported (full catalog versus sampled); Recall/NDCG at 5 and 10 under GRID, HitRate at 20-1000 under FORGE, as defined by those frameworks.
-  - Source: Metrics inherited from GRID and FORGE: https://arxiv.org/html/2604.05329v3#S5.I4.i1.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1.
 - **SID**: Uses each framework's SIDs unchanged: GRID with RK-Means over Flan-T5-XL embeddings and three codebooks (codebook size not restated); FORGE's pre-processed AL-GR SIDs. Collision handling: not reported.
-  - Source: GRID RK-Means with three codebooks over Flan-T5-XL: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2; FORGE SIDs from AL-GR: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3.
 - **Inference budget**: STAMP accelerates training (token pruning plus an auxiliary loss that is discarded at inference, so no inference overhead is claimed); inference decoding settings follow GRID and FORGE and are not restated. Training speed and VRAM reported on one A100-40GB (GRID) and two A100-80GB (FORGE).
-  - Source: Training-time acceleration; MAP discarded at inference: https://arxiv.org/html/2604.05329v3#S4.SS4.p1; hardware: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2 and https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3.
 - **Results from**: Table 2 (GRID T5 on Beauty, Sports, Toys: accuracy, training time, VRAM versus EARN; five seeds); Table 3 (FORGE Qwen2.5-0.5B on AL-GR-Tiny); later analyses and ablations.
-  - Source: Results: https://arxiv.org/html/2604.05329v3#S5.T2 and https://arxiv.org/html/2604.05329v3#S5.T3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets: [S5.I2.i1.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1) and [S5.I2.i2.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1); statistics: [S5.T1](https://arxiv.org/html/2604.05329v3#S5.T1).
+- **Split**: Leave-one-out on Amazon; AL-GR S1 split: [S5.I2.i1.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1) and [S5.I2.i2.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1).
+- **Candidates**: Metrics inherited from GRID and FORGE: [S5.I4.i1.p1](https://arxiv.org/html/2604.05329v3#S5.I4.i1.p1).
+- **Visibility**: No unseen-item protocol: [S5.I2.i1.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1) and [S5.I2.i2.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1).
+- **SID**: GRID RK-Means with three codebooks over Flan-T5-XL: [S5.SS1.SSS4.p2](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2); FORGE SIDs from AL-GR: [S5.SS1.SSS4.p3](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3).
+- **Inference budget**: Training-time acceleration; MAP discarded at inference: [S4.SS4.p1](https://arxiv.org/html/2604.05329v3#S4.SS4.p1); hardware: [S5.SS1.SSS4.p2](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2) and [S5.SS1.SSS4.p3](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3).
+- **Results from**: Results: [S5.T2](https://arxiv.org/html/2604.05329v3#S5.T2) and [S5.T3](https://arxiv.org/html/2604.05329v3#S5.T3).
+
+</details>
 
 ### 5. Connections to Related Work
 

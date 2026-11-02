@@ -33,19 +33,25 @@ ACERec compresses long Semantic IDs into compact latent tokens with an Attentive
 **Experimental setup**
 
 - **Datasets**: Nine Amazon domains: Sports, Beauty, Toys, CDs, Office, Pets, Baby (2014 edition) and Science, Instruments (2023 edition); users with fewer than 5 interactions excluded; training histories truncated to the 50 most recent items. Sizes: Appendix Table 5 (not restated here).
-  - Source: Nine Amazon domains and preprocessing: https://arxiv.org/html/2602.13573v2#S4.SS1.p1, https://arxiv.org/html/2602.13573v2#A1.SS3.p1, https://arxiv.org/html/2602.13573v2#A1.SS3.p2.
 - **Split**: Chronological leave-last-out: last interaction for test, second-to-last for validation, the rest for training.
-  - Source: Leave-last-out allocation: https://arxiv.org/html/2602.13573v2#S4.SS1.p1.
 - **Candidates**: full catalog (exact scoring over the entire item pool).
-  - Source: Full candidate ranking: https://arxiv.org/html/2602.13573v2#S4.SS1.p3 and https://arxiv.org/html/2602.13573v2#S3.SS3.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. The cold-start analysis buckets test items by training frequency [0, 5] to [16, 20], mixing zero-frequency and low-frequency items; tokenizer exposure is not separated.
-  - Source: Frequency buckets of test items in training: https://arxiv.org/html/2602.13573v2#S4.SS5.p1.
 - **SID**: OPQ semantic IDs with m=32 orthogonal subspaces (8 to 64 tested), each with its own codebook of size M (value not restated); an Attentive Token Merger compresses the 32 tokens into 4 latent tokens for the sequence model. Collision handling: not reported.
-  - Source: OPQ long semantic IDs m=32 with subspace codebooks: https://arxiv.org/html/2602.13573v2#S3.SS1.SSSx1.p1 and https://arxiv.org/html/2602.13573v2#S4.SS3.p3; no collision rule found.
 - **Inference budget**: No beam search: per-subspace log-probabilities are computed once and every candidate is scored by gathering and summing its code log-probabilities (exact full-catalog scoring). Hardware, inference batch size, and measured latency: not reported in the main text.
-  - Source: Parallel subspace matching and score gathering: https://arxiv.org/html/2602.13573v2#S3.SS3.p1, https://arxiv.org/html/2602.13573v2#S3.SS3.p3, https://arxiv.org/html/2602.13573v2#S3.SS3.p5.
 - **Results from**: Tables 1-2 (six representative datasets versus ID-based and semantic-ID baselines; the other three in Appendix C.1; HGN, SASRec, S3-Rec, TIGER on Sports, Beauty, Toys copied from the TIGER paper, others reproduced); Figure 3 (semantic ID length); Figure 5 (cold-start buckets on Pets and Baby).
-  - Source: Main: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2, scope stated in https://arxiv.org/html/2602.13573v2#S4.SS2.p1; ID length: https://arxiv.org/html/2602.13573v2#S4.F3; cold start: https://arxiv.org/html/2602.13573v2#S4.F5; copied baselines: https://arxiv.org/html/2602.13573v2#A1.SS4.p1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Nine Amazon domains and preprocessing: [S4.SS1.p1](https://arxiv.org/html/2602.13573v2#S4.SS1.p1), [A1.SS3.p1](https://arxiv.org/html/2602.13573v2#A1.SS3.p1), [A1.SS3.p2](https://arxiv.org/html/2602.13573v2#A1.SS3.p2).
+- **Split**: Leave-last-out allocation: [S4.SS1.p1](https://arxiv.org/html/2602.13573v2#S4.SS1.p1).
+- **Candidates**: Full candidate ranking: [S4.SS1.p3](https://arxiv.org/html/2602.13573v2#S4.SS1.p3) and [S3.SS3.p1](https://arxiv.org/html/2602.13573v2#S3.SS3.p1).
+- **Visibility**: Frequency buckets of test items in training: [S4.SS5.p1](https://arxiv.org/html/2602.13573v2#S4.SS5.p1).
+- **SID**: OPQ long semantic IDs m=32 with subspace codebooks: [S3.SS1.SSSx1.p1](https://arxiv.org/html/2602.13573v2#S3.SS1.SSSx1.p1) and [S4.SS3.p3](https://arxiv.org/html/2602.13573v2#S4.SS3.p3); no collision rule found.
+- **Inference budget**: Parallel subspace matching and score gathering: [S3.SS3.p1](https://arxiv.org/html/2602.13573v2#S3.SS3.p1), [S3.SS3.p3](https://arxiv.org/html/2602.13573v2#S3.SS3.p3), [S3.SS3.p5](https://arxiv.org/html/2602.13573v2#S3.SS3.p5).
+- **Results from**: Main: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2), scope stated in [S4.SS2.p1](https://arxiv.org/html/2602.13573v2#S4.SS2.p1); ID length: [S4.F3](https://arxiv.org/html/2602.13573v2#S4.F3); cold start: [S4.F5](https://arxiv.org/html/2602.13573v2#S4.F5); copied baselines: [A1.SS4.p1](https://arxiv.org/html/2602.13573v2#A1.SS4.p1).
+
+</details>
 
 ### 5. Connections to Related Work
 

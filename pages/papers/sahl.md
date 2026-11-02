@@ -34,19 +34,25 @@ SAHL quantizes items with SRBQ into a balanced token-subspace-item hierarchy and
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014 Beauty, Toys and Games, Sports and Outdoors, CDs and Vinyl, in this order; user/item 5-core.
-  - Source: Section 5.1: https://arxiv.org/html/2610.25093v1#S5.SS1.p1
 - **Split**: Per-user chronological leave-one-out: last interaction test, penultimate validation, earlier interactions train.
-  - Source: Section 5.2: https://arxiv.org/html/2610.25093v1#S5.SS2.p1
 - **Candidates**: not reported
-  - Source: Sections 5.2/5.4 specify graph-constrained decoding but not full-catalog versus sampled-negative evaluation: https://arxiv.org/html/2610.25093v1#S5.SS2 and https://arxiv.org/html/2610.25093v1#S5.SS4.p2
 - **Visibility**: warm; no unseen-item protocol is defined. Low-frequency analysis is explicitly near-cold, not zero-interaction.
-  - Source: Section 6.11.4: https://arxiv.org/html/2610.25093v1#S6.SS11.SSS4.p1
 - **SID**: SRBQ: 4/8/8/16 subspaces x 4 residual levels x 256 codes, producing 16/32/32/64 tokens in dataset order. Colliding items remain separate, equal-scored candidates; fixed catalog indices break ties.
-  - Source: Sections 4.2.2/5.4: https://arxiv.org/html/2610.25093v1#S4.SS2.SSS2.p1 and https://arxiv.org/html/2610.25093v1#S5.SS4.p1 and https://arxiv.org/html/2610.25093v1#S5.SS4.p2
 - **Inference budget**: Dataset order: beam 100/200/100/50, graph neighbors 100/100/200/500, propagation depths 3/5/2/4; temperature 0.03; Recall/NDCG@5/10. Inference hardware, batch size and latency not reported; A6000 timings concern training.
-  - Source: Section 5.4 and Section 6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS4.p1 and https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p1 and https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3
 - **Results from**: Table 2: overall comparison. RPG*, MHL and SAHL use matched controlled experiments; Tlow follows its published matched protocol. Other baseline score provenance not reported.
-  - Source: Sections 5.3/6.1 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2 and https://arxiv.org/html/2610.25093v1#S6.SS1.p1 and https://arxiv.org/html/2610.25093v1#S5.T2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1: [S5.SS1.p1](https://arxiv.org/html/2610.25093v1#S5.SS1.p1)
+- **Split**: Section 5.2: [S5.SS2.p1](https://arxiv.org/html/2610.25093v1#S5.SS2.p1)
+- **Candidates**: Sections 5.2/5.4 specify graph-constrained decoding but not full-catalog versus sampled-negative evaluation: [S5.SS2](https://arxiv.org/html/2610.25093v1#S5.SS2) and [S5.SS4.p2](https://arxiv.org/html/2610.25093v1#S5.SS4.p2)
+- **Visibility**: Section 6.11.4: [S6.SS11.SSS4.p1](https://arxiv.org/html/2610.25093v1#S6.SS11.SSS4.p1)
+- **SID**: Sections 4.2.2/5.4: [S4.SS2.SSS2.p1](https://arxiv.org/html/2610.25093v1#S4.SS2.SSS2.p1) and [S5.SS4.p1](https://arxiv.org/html/2610.25093v1#S5.SS4.p1) and [S5.SS4.p2](https://arxiv.org/html/2610.25093v1#S5.SS4.p2)
+- **Inference budget**: Section 5.4 and Section 6.11.2: [S5.SS4.p1](https://arxiv.org/html/2610.25093v1#S5.SS4.p1) and [S6.SS11.SSS2.p1](https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p1) and [S6.SS11.SSS2.p3](https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3)
+- **Results from**: Sections 5.3/6.1 and Table 2: [S5.SS3.p2](https://arxiv.org/html/2610.25093v1#S5.SS3.p2) and [S6.SS1.p1](https://arxiv.org/html/2610.25093v1#S6.SS1.p1) and [S5.T2](https://arxiv.org/html/2610.25093v1#S5.T2)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic
 **Experimental setup**
 
 - **Datasets**: Meituan only. Generative training data: one year of click sequences from 38,258,649 users over 54,875,570 merchants in four businesses (A 61.47%, B 9.56%, C 12.31%, D 16.66%). Downstream data: 37,349,276 users and 783,946,360 interactions over a rolling 30-day window. Filtering rules: not reported.
-  - Source: Datasets: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p2, https://arxiv.org/html/2604.02684v1#S6.I1.i1.p1, https://arxiv.org/html/2604.02684v1#S6.I1.i2.p1, https://arxiv.org/html/2604.02684v1#S6.I2.i1.p1, https://arxiv.org/html/2604.02684v1#S6.I2.i2.p1.
 - **Split**: Offline: not reported (the paper mentions a validation set for hyperparameter search but not how train, validation, and test are formed). Online: one-week A/B test with 30% of Meituan production traffic against the baseline without MBP; CTCVR +3.98%.
-  - Source: No offline split rule stated; validation used for grid search: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1; online test: https://arxiv.org/html/2604.02684v1#S6.SS6.p4 and https://arxiv.org/html/2604.02684v1#S1.I1.i3.p1.
 - **Candidates**: not reported (full catalog versus sampled candidates for HR@10); downstream ranking uses business-wise GAUC.
-  - Source: Metrics only: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p2 and https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p3.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p1.
 - **SID**: Business-aware semantic IDs: each item's K token embeddings are re-encoded with its business type through a gated encoder and decoded per business; number of SID levels, codebook sizes, and collision handling: not reported.
-  - Source: Business-aware encoder/decoder over K input tokens: https://arxiv.org/html/2604.02684v1#S4.SS1.p3 and https://arxiv.org/html/2604.02684v1#S4.SS1.p6; no codebook settings found.
 - **Inference budget**: Decoding method and beam width: not reported. 16-layer Transformer (8 heads, 128-dimensional embeddings), sequences up to 1,500 items; trained and deployed on NVIDIA A100-80GB GPUs; inference batch size and latency: not reported.
-  - Source: Hardware and architecture: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1 and https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p2.
 - **Results from**: Table 1 (HR@10 per business versus SASRec, TIGER, HSTU); Table 2 (downstream CTCVR GAUC); Table 3 (ablations); Tables 4-7 (time decay, business weights, expert count).
-  - Source: Generative: https://arxiv.org/html/2604.02684v1#S6.T1; downstream: https://arxiv.org/html/2604.02684v1#S6.T2; ablation: https://arxiv.org/html/2604.02684v1#S6.T3; hyperparameters: https://arxiv.org/html/2604.02684v1#S6.T4, https://arxiv.org/html/2604.02684v1#S6.T6, https://arxiv.org/html/2604.02684v1#S6.T7.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets: [S6.SS1.SSS1.p2](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p2), [S6.I1.i1.p1](https://arxiv.org/html/2604.02684v1#S6.I1.i1.p1), [S6.I1.i2.p1](https://arxiv.org/html/2604.02684v1#S6.I1.i2.p1), [S6.I2.i1.p1](https://arxiv.org/html/2604.02684v1#S6.I2.i1.p1), [S6.I2.i2.p1](https://arxiv.org/html/2604.02684v1#S6.I2.i2.p1).
+- **Split**: No offline split rule stated; validation used for grid search: [S6.SS1.SSS4.p1](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1); online test: [S6.SS6.p4](https://arxiv.org/html/2604.02684v1#S6.SS6.p4) and [S1.I1.i3.p1](https://arxiv.org/html/2604.02684v1#S1.I1.i3.p1).
+- **Candidates**: Metrics only: [S6.SS1.SSS3.p2](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p2) and [S6.SS1.SSS3.p3](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p3).
+- **Visibility**: No unseen-item protocol: [S6.SS1.SSS1.p1](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p1).
+- **SID**: Business-aware encoder/decoder over K input tokens: [S4.SS1.p3](https://arxiv.org/html/2604.02684v1#S4.SS1.p3) and [S4.SS1.p6](https://arxiv.org/html/2604.02684v1#S4.SS1.p6); no codebook settings found.
+- **Inference budget**: Hardware and architecture: [S6.SS1.SSS4.p1](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1) and [S6.SS1.SSS4.p2](https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p2).
+- **Results from**: Generative: [S6.T1](https://arxiv.org/html/2604.02684v1#S6.T1); downstream: [S6.T2](https://arxiv.org/html/2604.02684v1#S6.T2); ablation: [S6.T3](https://arxiv.org/html/2604.02684v1#S6.T3); hyperparameters: [S6.T4](https://arxiv.org/html/2604.02684v1#S6.T4), [S6.T6](https://arxiv.org/html/2604.02684v1#S6.T6), [S6.T7](https://arxiv.org/html/2604.02684v1#S6.T7).
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -33,19 +33,25 @@ CITE adds an item-level transition score with separate source and destination em
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014 Sports and Outdoors, Beauty, Toys and Games, CDs and Vinyl; RPG preprocessing, filtering threshold not reported. Additional Yelp 2019 review subset: iterative user/item 5-core, 30,431 users, 20,033 businesses, 316,354 interactions.
-  - Source: Publisher version, 15 October 2026, DOI 10.3390/electronics15204749: §5.1 pp.8–9/Table 1; §5.11 pp.20–21. https://doi.org/10.3390/electronics15204749
 - **Split**: Per-user chronological: final item test, penultimate validation, earlier prefixes/next-item pairs training; histories capped at 50. Validation NDCG@10 selects CITE checkpoint and fusion weight; locked test evaluation. Yelp uses the same protocol.
-  - Source: Publisher version: §§5.1–5.2 p.9; §5.4 p.10; §5.11 pp.20–21. https://doi.org/10.3390/electronics15204749
 - **Candidates**: full catalog; identical full-sort item set for RPG and CITE; graph search is not used for reported ranking metrics; history exclusion not reported.
-  - Source: Publisher version: §3 pp.4–5; §4.6 pp.7–8/Algorithm 2; §5.4 p.10. https://doi.org/10.3390/electronics15204749
 - **Visibility**: Strict item-cold cohort has zero training-split occurrences (Sports/Beauty/Toys/CDs target counts 317/138/279/298); low-frequency means 1–5 occurrences. Tokenizer fitting exposure is not reported, so unseen by generator only versus unseen by tokenizer too is not established; CITE training scores every catalog destination.
-  - Source: Publisher version: §5.9 pp.18–19/Tables 8–9; §4.6 p.7. https://doi.org/10.3390/electronics15204749
 - **SID**: Fixed OPQ identifiers over text embeddings; 256 codes/position, lengths Sports 16, Beauty 32, Toys 16, CDs 64; collision handling and Yelp ID length not reported. Yelp text uses text-embedding-3-large. Default CITE freezes the reproduced RPG generator and learns only the transition module.
-  - Source: Publisher version: §3 p.4; §5.4 p.10/Table 2; §5.10 p.20; §5.11 p.20. https://doi.org/10.3390/electronics15204749
 - **Inference budget**: Parallel semantic scoring plus full-catalog transition matrix scoring, Recall/NDCG@5/10; no autoregressive beam or graph search in evaluation. Evaluation batch 512 (Sports/Beauty/Toys), 256 (CDs), NVIDIA A100 80GB/Intel Xeon Gold 5218. Inference latency not reported; Table 12 wall-clock includes loading, training, validation and testing.
-  - Source: Publisher version: §5.4 p.10; §5.12 pp.21–22/Table 12. https://doi.org/10.3390/electronics15204749
 - **Results from**: Own matched RPG reproductions and CITE experiments: main comparison/ablations and Yelp use means and sample SD over seeds 2024–2028; cold-start, learned-gating and joint-fine-tuning analyses use seed 2024. Table 3 also includes published reference baseline scores. RPG checkpoints are trained from scratch and frozen before default CITE fitting; Yelp separately tunes RPG by validation.
-  - Source: Publisher version: §5.4 p.10, §5.5 p.13/Table 3; §§5.8–5.11 pp.17–21/Tables 7–11; §6 p.22. https://doi.org/10.3390/electronics15204749
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Publisher version, 15 October 2026, DOI 10.3390/electronics15204749: §5.1 pp.8–9/Table 1; §5.11 pp.20–21. [link](https://doi.org/10.3390/electronics15204749)
+- **Split**: Publisher version: §§5.1–5.2 p.9; §5.4 p.10; §5.11 pp.20–21. [link](https://doi.org/10.3390/electronics15204749)
+- **Candidates**: Publisher version: §3 pp.4–5; §4.6 pp.7–8/Algorithm 2; §5.4 p.10. [link](https://doi.org/10.3390/electronics15204749)
+- **Visibility**: Publisher version: §5.9 pp.18–19/Tables 8–9; §4.6 p.7. [link](https://doi.org/10.3390/electronics15204749)
+- **SID**: Publisher version: §3 p.4; §5.4 p.10/Table 2; §5.10 p.20; §5.11 p.20. [link](https://doi.org/10.3390/electronics15204749)
+- **Inference budget**: Publisher version: §5.4 p.10; §5.12 pp.21–22/Table 12. [link](https://doi.org/10.3390/electronics15204749)
+- **Results from**: Publisher version: §5.4 p.10, §5.5 p.13/Table 3; §§5.8–5.11 pp.17–21/Tables 7–11; §6 p.22. [link](https://doi.org/10.3390/electronics15204749)
+
+</details>
 
 ### 5. Connections to Related Work
 

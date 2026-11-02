@@ -71,19 +71,25 @@ If no exact match exists, Elastic Identifier Grounding (EIG) scores items by str
 **Experimental setup**
 
 - **Datasets**: In-domain: Amazon Beauty, Sports, Toys (5-core, following TIGER and OneRec-Think; 22,363 / 12,101, 35,598 / 18,357, 19,412 / 11,924 users / items). Cross-domain pairs Sports-Clothing and Phones-Electronics, built per GenCDR by merging overlapping users' interactions chronologically. Appendix: ten Amazon 2014 categories merged.
-  - Source: In-domain and cross-domain datasets: https://arxiv.org/html/2601.06798v1#S4.p3 and https://arxiv.org/html/2601.06798v1#S4.p4; statistics: https://arxiv.org/html/2601.06798v1#S4.T1; ten-dataset appendix: https://arxiv.org/html/2601.06798v1#A1.T6.
 - **Split**: Leave-one-out (allocation not restated beyond the label); in the cross-domain setting the last interaction in each domain of the pair is predicted separately.
-  - Source: Leave-one-out and cross-domain evaluation: https://arxiv.org/html/2601.06798v1#S4.p3 and https://arxiv.org/html/2601.06798v1#S4.p4.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); validity of generated Term IDs is measured separately (Table 5).
-  - Source: Metrics only: https://arxiv.org/html/2601.06798v1#S4.p5.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2601.06798v1#S4.p3.
 - **SID**: Term IDs: 5 natural-language terms per item from Qwen3-4B's native vocabulary, produced by context-aware term generation (7 and 10 terms tested). Collision handling: not reported beyond relying on a large term space; an optional K-means compression maps 54,255 raw terms to K core terms (3,000-8,000).
-  - Source: Term IDs of length 5 from the LLM vocabulary: https://arxiv.org/html/2601.06798v1#S4.p5; length study: https://arxiv.org/html/2601.06798v1#A2.T8; collision discussion and compression: https://arxiv.org/html/2601.06798v1#A2.p1, https://arxiv.org/html/2601.06798v1#A4.p4, https://arxiv.org/html/2601.06798v1#A4.T9.
 - **Inference budget**: Beam search with generation max length 30 tokens; beam width not reported. Qwen3-4B backbone; hardware, inference batch size, and latency: not reported. Valid rate at 10 is 0.989-0.998 (Table 5).
-  - Source: Beam search, max length 30: https://arxiv.org/html/2601.06798v1#S4.p5; training batch: https://arxiv.org/html/2601.06798v1#A1.p2; validity: https://arxiv.org/html/2601.06798v1#S5.T5.
 - **Results from**: Table 2 (in-domain), Table 3 (cross-domain), Table 4 (ablations), Table 5 (Term ID validity), Appendix Tables 7-9 (ten-dataset results, Term ID length, vocabulary compression).
-  - Source: Results: https://arxiv.org/html/2601.06798v1#S5.T2, https://arxiv.org/html/2601.06798v1#S5.T3, https://arxiv.org/html/2601.06798v1#S5.T4, https://arxiv.org/html/2601.06798v1#S5.T5, https://arxiv.org/html/2601.06798v1#A1.T7, https://arxiv.org/html/2601.06798v1#A2.T8, https://arxiv.org/html/2601.06798v1#A4.T9.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: In-domain and cross-domain datasets: [S4.p3](https://arxiv.org/html/2601.06798v1#S4.p3) and [S4.p4](https://arxiv.org/html/2601.06798v1#S4.p4); statistics: [S4.T1](https://arxiv.org/html/2601.06798v1#S4.T1); ten-dataset appendix: [A1.T6](https://arxiv.org/html/2601.06798v1#A1.T6).
+- **Split**: Leave-one-out and cross-domain evaluation: [S4.p3](https://arxiv.org/html/2601.06798v1#S4.p3) and [S4.p4](https://arxiv.org/html/2601.06798v1#S4.p4).
+- **Candidates**: Metrics only: [S4.p5](https://arxiv.org/html/2601.06798v1#S4.p5).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.p3](https://arxiv.org/html/2601.06798v1#S4.p3).
+- **SID**: Term IDs of length 5 from the LLM vocabulary: [S4.p5](https://arxiv.org/html/2601.06798v1#S4.p5); length study: [A2.T8](https://arxiv.org/html/2601.06798v1#A2.T8); collision discussion and compression: [A2.p1](https://arxiv.org/html/2601.06798v1#A2.p1), [A4.p4](https://arxiv.org/html/2601.06798v1#A4.p4), [A4.T9](https://arxiv.org/html/2601.06798v1#A4.T9).
+- **Inference budget**: Beam search, max length 30: [S4.p5](https://arxiv.org/html/2601.06798v1#S4.p5); training batch: [A1.p2](https://arxiv.org/html/2601.06798v1#A1.p2); validity: [S5.T5](https://arxiv.org/html/2601.06798v1#S5.T5).
+- **Results from**: Results: [S5.T2](https://arxiv.org/html/2601.06798v1#S5.T2), [S5.T3](https://arxiv.org/html/2601.06798v1#S5.T3), [S5.T4](https://arxiv.org/html/2601.06798v1#S5.T4), [S5.T5](https://arxiv.org/html/2601.06798v1#S5.T5), [A1.T7](https://arxiv.org/html/2601.06798v1#A1.T7), [A2.T8](https://arxiv.org/html/2601.06798v1#A2.T8), [A4.T9](https://arxiv.org/html/2601.06798v1#A4.T9).
+
+</details>
 
 - Main comparison: GRLM reports better performance than the baselines in multiple scenarios (Abstract).
 - Scaling and hallucination: the authors state that TIDs scale well and reduce hallucination (Sec. 1).

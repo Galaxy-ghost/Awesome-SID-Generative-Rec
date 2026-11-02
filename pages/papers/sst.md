@@ -35,19 +35,25 @@ SST represents history items as variable-length subwords merged from stable adja
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty/Instruments and Yelp; user/item 5-core filtering, chronological histories capped at 20.
-  - Source: Section 3.1.1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS1.p1
 - **Split**: Per-user last interaction test, penultimate validation, earlier interactions training.
-  - Source: Section 3.1.3: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1
 - **Candidates**: full catalog; no sampled negatives.
-  - Source: Section 3.1.3: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer/collaborative encoder exposure to test items not reported.
-  - Source: Section 3.1 defines no unseen-item holdout: https://arxiv.org/html/2608.22734v1#S3.SS1
 - **SID**: Sentence-T5 text embeddings; TIGER-VAE, TIGER-KM or LETTER targets retain 4 levels x 256 codes. History-side IST adds semantic subwords (merge budget tuned 64-512). Collision handling not reported.
-  - Source: Section 3.1.4: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2
 - **Inference budget**: Full-trie beam 20; Recall/NDCG@5/10. Hardware, inference batch size and standalone latency not reported; Table 3 wall time combines training, checkpoint loading and test evaluation.
-  - Source: Sections 3.1.4/3.5: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p3 and https://arxiv.org/html/2608.22734v1#S3.SS5.p1
 - **Results from**: Original Table 1: SST on three backbones; SARQ/VSID re-adapted to history-only variable lengths while preserving fixed target decoding. Table 6 reports all tokenizer-criterion variants.
-  - Source: Table 1 and Section 3.1.2: https://arxiv.org/html/2608.22734v1#S3.T1 and https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p5 and https://arxiv.org/html/2608.22734v1#A1.T6
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 3.1.1: [S3.SS1.SSS1.p1](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS1.p1)
+- **Split**: Section 3.1.3: [S3.SS1.SSS3.p1](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1)
+- **Candidates**: Section 3.1.3: [S3.SS1.SSS3.p1](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1)
+- **Visibility**: Section 3.1 defines no unseen-item holdout: [S3.SS1](https://arxiv.org/html/2608.22734v1#S3.SS1)
+- **SID**: Section 3.1.4: [S3.SS1.SSS4.p2](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2)
+- **Inference budget**: Sections 3.1.4/3.5: [S3.SS1.SSS4.p3](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p3) and [S3.SS5.p1](https://arxiv.org/html/2608.22734v1#S3.SS5.p1)
+- **Results from**: Table 1 and Section 3.1.2: [S3.T1](https://arxiv.org/html/2608.22734v1#S3.T1) and [S3.SS1.SSS2.p5](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p5) and [A1.T6](https://arxiv.org/html/2608.22734v1#A1.T6)
+
+</details>
 
 ### 5. Connections to Related Work
 

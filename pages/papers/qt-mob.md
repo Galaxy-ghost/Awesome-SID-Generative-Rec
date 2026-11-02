@@ -34,19 +34,25 @@ QT-Mob tokenizes locations into compact semantic tokens and fine-tunes an LLM wi
 **Experimental setup**
 
 - **Datasets**: Foursquare NYC/SG, April 2012-February 2013; Singapore cellular trajectories, November 2022, using 400m grids. Remove locations with <5 visits; group records into 24h trajectories and discard trajectories with <3 records.
-  - Source: Section 5.1.1: https://arxiv.org/html/2506.11109v1#S5.SS1.SSS1.p1
 - **Split**: Per-user chronological trajectories: first 70% train, next 10% validation, last 20% test.
-  - Source: Section 5.1.1: https://arxiv.org/html/2506.11109v1#S5.SS1.SSS1.p1
 - **Candidates**: not reported; the unseen-location experiment follows LLM-Move's zero-shot ranking setting without detailing its candidate pool.
-  - Source: Section 5.1 and Appendix D.4 do not specify catalog enumeration or candidate sampling: https://arxiv.org/html/2506.11109v1#S5.SS1 and https://arxiv.org/html/2506.11109v1#A4.SS4.p1
 - **Visibility**: Unseen-location probe: sample 100 test locations and remove all training trajectories containing them. Unseen by generator; whether unseen by tokenizer too: not reported.
-  - Source: Appendix D.4: https://arxiv.org/html/2506.11109v1#A4.SS4.p1
 - **SID**: 4 RQ-VAE levels x 256 codes, code dimension 32; collision handling not reported.
-  - Source: Section 5.1.4: https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1
 - **Inference budget**: Constrained beam 15; Hit/NDCG@1/5/10. Inference hardware, batch size and latency not reported; four V100 GPUs are specified for training.
-  - Source: Sections 5.1.3/5.1.4: https://arxiv.org/html/2506.11109v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1
 - **Results from**: Original Tables 2/3: next-location prediction/mobility recovery; Table 10: unseen locations. Five-run averages; compared baselines use their papers' default parameter settings.
-  - Source: Section 5.1.3/5.1.4 and Tables 2/3/10: https://arxiv.org/html/2506.11109v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2506.11109v1#S5.T2 and https://arxiv.org/html/2506.11109v1#S5.T3 and https://arxiv.org/html/2506.11109v1#A4.T10
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1.1: [S5.SS1.SSS1.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS1.p1)
+- **Split**: Section 5.1.1: [S5.SS1.SSS1.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS1.p1)
+- **Candidates**: Section 5.1 and Appendix D.4 do not specify catalog enumeration or candidate sampling: [S5.SS1](https://arxiv.org/html/2506.11109v1#S5.SS1) and [A4.SS4.p1](https://arxiv.org/html/2506.11109v1#A4.SS4.p1)
+- **Visibility**: Appendix D.4: [A4.SS4.p1](https://arxiv.org/html/2506.11109v1#A4.SS4.p1)
+- **SID**: Section 5.1.4: [S5.SS1.SSS4.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1)
+- **Inference budget**: Sections 5.1.3/5.1.4: [S5.SS1.SSS3.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS3.p1) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1)
+- **Results from**: Section 5.1.3/5.1.4 and Tables 2/3/10: [S5.SS1.SSS3.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS3.p1) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2506.11109v1#S5.SS1.SSS4.p1) and [S5.T2](https://arxiv.org/html/2506.11109v1#S5.T2) and [S5.T3](https://arxiv.org/html/2506.11109v1#S5.T3) and [A4.T10](https://arxiv.org/html/2506.11109v1#A4.T10)
+
+</details>
 
 ### 5. Connections to Related Work
 

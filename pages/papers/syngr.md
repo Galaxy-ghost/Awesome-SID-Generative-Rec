@@ -34,19 +34,25 @@ SynGR constrains reliance on dominant modalities during generation, so the gener
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018 targets: Arts (22,171 users / 9,416 items), Games (42,259 / 13,839), Instruments (17,112 / 6,250), as in MQL4GRec; pre-training on six other categories (about 7.1M interactions, 884,918 users, 255,181 items). Filtering rules: not restated.
-  - Source: Target datasets: https://arxiv.org/html/2605.18920v2#S5.SS1.p1 and https://arxiv.org/html/2605.18920v2#S4.T2; pre-training corpus: https://arxiv.org/html/2605.18920v2#A3.p1.
 - **Split**: Leave-one-out (following MQL4GRec and MACRec; allocation not restated beyond the label).
-  - Source: Leave-one-out following MQL4GRec and MACRec: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.
 - **Candidates**: full catalog (full ranking over the entire item space).
-  - Source: Full ranking and beam 20: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.
 - **SID**: Separate text (LLaMA) and image (ViT-L/14) semantic IDs from RQ-VAEs with 4 levels x 256 codes, merged into a unified dictionary; collision handling: not reported.
-  - Source: 4 layers x 256 per modality RQ-VAE: https://arxiv.org/html/2605.18920v2#A3.p2 and https://arxiv.org/html/2605.18920v2#S4.SS1.p2; collision handling not found.
 - **Inference budget**: Beam search with beam size 20 for all generative models, following MQL4GRec's multimodal decoding; the synergy loss is training-only. Efficiency study on six NVIDIA RTX 4090 GPUs reports inference 6.0% (Arts) and 4.0% (Instruments) faster than MACRec; absolute latency and batch size: not reported.
-  - Source: Beam size 20 for all generative models: https://arxiv.org/html/2605.18920v2#S5.SS1.p3; inference follows MQL4GRec: https://arxiv.org/html/2605.18920v2#S4.SS3.p2; hardware: https://arxiv.org/html/2605.18920v2#S5.F3.
 - **Results from**: Table 1 (Arts, Games, Instruments versus sequential, multimodal, and generative baselines); Figure 3 (training time, inference speed, convergence versus MACRec); Figures 4-5 (parameters and ablations).
-  - Source: Main: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency: https://arxiv.org/html/2605.18920v2#S5.F3; parameters: https://arxiv.org/html/2605.18920v2#S5.F4; ablation: https://arxiv.org/html/2605.18920v2#S5.F5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Target datasets: [S5.SS1.p1](https://arxiv.org/html/2605.18920v2#S5.SS1.p1) and [S4.T2](https://arxiv.org/html/2605.18920v2#S4.T2); pre-training corpus: [A3.p1](https://arxiv.org/html/2605.18920v2#A3.p1).
+- **Split**: Leave-one-out following MQL4GRec and MACRec: [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3).
+- **Candidates**: Full ranking and beam 20: [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3).
+- **Visibility**: Standard split with no unseen-item protocol: [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3).
+- **SID**: 4 layers x 256 per modality RQ-VAE: [A3.p2](https://arxiv.org/html/2605.18920v2#A3.p2) and [S4.SS1.p2](https://arxiv.org/html/2605.18920v2#S4.SS1.p2); collision handling not found.
+- **Inference budget**: Beam size 20 for all generative models: [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3); inference follows MQL4GRec: [S4.SS3.p2](https://arxiv.org/html/2605.18920v2#S4.SS3.p2); hardware: [S5.F3](https://arxiv.org/html/2605.18920v2#S5.F3).
+- **Results from**: Main: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1); efficiency: [S5.F3](https://arxiv.org/html/2605.18920v2#S5.F3); parameters: [S5.F4](https://arxiv.org/html/2605.18920v2#S5.F4); ablation: [S5.F5](https://arxiv.org/html/2605.18920v2#S5.F5).
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -36,19 +36,25 @@ DualGR adds a long- and short-term interest router, decodes fine Semantic ID lev
 **Experimental setup**
 
 - **Datasets**: Kuaishou double-column Explore-feed logs; filtering rules and dataset dates not reported.
-  - Source: Section 3: https://arxiv.org/html/2511.12518v1#S3.p1
 - **Split**: Offline split not reported; online A/B test lasts one week with 6% traffic.
-  - Source: Sections 3 and 3.1: https://arxiv.org/html/2511.12518v1#S3.p1 and https://arxiv.org/html/2511.12518v1#S3.SS1.p1
 - **Candidates**: not reported
-  - Source: Section 3 describes online HR without specifying a full-catalog or sampled-negative protocol: https://arxiv.org/html/2511.12518v1#S3.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Item-level generator/tokenizer exposure: not reported.
-  - Source: Sections 2.1 and 3 do not specify generator/tokenizer item holdouts: https://arxiv.org/html/2511.12518v1#S2.SS1 and https://arxiv.org/html/2511.12518v1#S3
 - **SID**: Residual k-means: 3 levels x 8192 codes; collision handling not reported.
-  - Source: Sections 2.2 and 3: https://arxiv.org/html/2511.12518v1#S2.SS2.p1 and https://arxiv.org/html/2511.12518v1#S3.p1
 - **Inference budget**: Two branch-wise beam searches, followed by merging; HR@100/500/1000. Beam width, hardware, inference batch size, and numerical latency not reported; A/B test reports no measurable response-time increase.
-  - Source: Section 2.3, Table 1, and Section 3.1: https://arxiv.org/html/2511.12518v1#S2.SS3.p2 and https://arxiv.org/html/2511.12518v1#S3.T1 and https://arxiv.org/html/2511.12518v1#S3.SS1.p1
 - **Results from**: Original Table 1: online HR; Table 2: ablations; Section 3.1: A/B results.
-  - Source: Tables 1-2 and Section 3.1: https://arxiv.org/html/2511.12518v1#S3.T1 and https://arxiv.org/html/2511.12518v1#S3.T2 and https://arxiv.org/html/2511.12518v1#S3.SS1.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 3: [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1)
+- **Split**: Sections 3 and 3.1: [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1) and [S3.SS1.p1](https://arxiv.org/html/2511.12518v1#S3.SS1.p1)
+- **Candidates**: Section 3 describes online HR without specifying a full-catalog or sampled-negative protocol: [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1)
+- **Visibility**: Sections 2.1 and 3 do not specify generator/tokenizer item holdouts: [S2.SS1](https://arxiv.org/html/2511.12518v1#S2.SS1) and [S3](https://arxiv.org/html/2511.12518v1#S3)
+- **SID**: Sections 2.2 and 3: [S2.SS2.p1](https://arxiv.org/html/2511.12518v1#S2.SS2.p1) and [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1)
+- **Inference budget**: Section 2.3, Table 1, and Section 3.1: [S2.SS3.p2](https://arxiv.org/html/2511.12518v1#S2.SS3.p2) and [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1) and [S3.SS1.p1](https://arxiv.org/html/2511.12518v1#S3.SS1.p1)
+- **Results from**: Tables 1-2 and Section 3.1: [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1) and [S3.T2](https://arxiv.org/html/2511.12518v1#S3.T2) and [S3.SS1.p1](https://arxiv.org/html/2511.12518v1#S3.SS1.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

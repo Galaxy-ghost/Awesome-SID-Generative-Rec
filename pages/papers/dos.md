@@ -33,19 +33,25 @@ DOS aligns the Semantic ID codebook with the generation space through a user-ite
 **Experimental setup**
 
 - **Datasets**: Private Meituan production data only: past-year quantization data covering 24M unique items, and 60-day downstream data with 180M interactions. User/item filtering not reported.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p1 ; #S3.SS1.SSS1.p2
 - **Split**: Quantization data: train/validation/test 8:1:1, partition method not reported; 50-click histories predict the 51st item. Downstream data: first 57 days training, last 3 days validation; a generation test split is not separately reported.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1
 - **Candidates**: not reported for Hit@10 generation. Quantization classification uses randomly sampled negatives; negative count, sampling distribution and user-history exclusion not reported.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1 ; #S3.SS2.SSS2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. The quantization dataset covers past-year business items; validation/test-item exposure during SID learning is not separately reported.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1
 - **SID**: Qwen3-0.6B-embedding encodes restaurant name/categories, reservation status, prices and dishes into 1,024 dimensions. Dual user/item Transformer flows share an orthogonal residual quantizer: 3 layers x 1,024 codes, with salient-feature selection and residual propagation. Collision handling not reported.
-  - Source: https://arxiv.org/html/2602.04460v1#S2.SS1.p2 ; #S2.SS1.p3 ; #S2.SS1.p6 ; #S2.SS1.p8 ; #S2.SS2.p5 ; #S3.SS1.SSS2.p1
 - **Inference budget**: Downstream generation evaluated within HSTU. Model size, beam/decoding constraints, token budget, inference hardware/batch size and latency not reported; batch 1,024 is a training setting.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS2.SSS2.p1 ; #S3.SS1.SSS2.p1
 - **Results from**: Own offline quantization AUC/F1 and HSTU Hit@10 experiments; RQ-KMeans/RQ-VAE baselines are fine-tuned for application metrics. Own one-week A/B test on 30% of production traffic reports +1.15% revenue from adding DOS SIDs to the original baseline.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS2.p1 ; #S3.SS2.SSS2.p1 ; #S3.SS4.p1 ; #S3.SS4.p2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S3.SS1.SSS1.p1](https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p1) ; #S3.SS1.SSS1.p2
+- **Split**: [S3.SS1.SSS1.p2](https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2) ; #S3.SS1.SSS2.p1
+- **Candidates**: [S3.SS1.SSS1.p2](https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2) ; #S3.SS1.SSS2.p1 ; #S3.SS2.SSS2.p1
+- **Visibility**: [S3.SS1.SSS1.p2](https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2) ; #S3.SS1.SSS2.p1
+- **SID**: [S2.SS1.p2](https://arxiv.org/html/2602.04460v1#S2.SS1.p2) ; #S2.SS1.p3 ; #S2.SS1.p6 ; #S2.SS1.p8 ; #S2.SS2.p5 ; #S3.SS1.SSS2.p1
+- **Inference budget**: [S3.SS2.SSS2.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.SSS2.p1) ; #S3.SS1.SSS2.p1
+- **Results from**: [S3.SS2.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.p1) ; #S3.SS2.SSS2.p1 ; #S3.SS4.p1 ; #S3.SS4.p2
+
+</details>
 
 ### 5. Connections to Related Work
 

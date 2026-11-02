@@ -36,19 +36,25 @@ SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence f
 **Experimental setup**
 
 - **Datasets**: Youku homepage production playback logs spanning several months; daily DPO uses recent request contexts. Dataset size, dates and filtering not reported.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1
 - **Split**: User-disjoint train/validation/test split 90:5:5; randomization method not reported. Seven-day online A/B: control and treatment each approximately 10% of traffic.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1 ; #S3.SS6.p1 ; #S4.p2
 - **Candidates**: not reported; trie validity and HR cutoffs do not specify the evaluation universe.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px2.p1 ; #S3.SS5.SSS1.Px3.p1
 - **Visibility**: warm; no unseen-item protocol is defined. RQ-PIB branch weights use training-set interaction counts; tokenizer content-fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1 ; #S3.SS5.SSS1.Px3.p1
 - **SID**: Three-level RQ-PIB: residual K-means centers followed by prefix-local interaction-load balancing with frozen centers. Codebook sizes and collision handling not reported.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS3.p3 ; #S3.SS3.SSS0.Px2.p1 ; #S3.SS5.SSS1.Px3.p1
 - **Inference budget**: Qwen3-0.6B with trie-constrained beam search. Main HR@10/20/50/100; ablations also HR@1/5. Beam width, inference hardware, batch size and latency not reported.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px3.p1 ; #S3.T1 ; #S3.T3
 - **Results from**: Original Table 1: Youku retrieval comparisons; Table 2: backbone scaling; Table 3: module/SID/DPO ablations; Table 4: online A/B. Table 3 parts (a)-(c) use SFT only; part (d) adds DPO. Baseline-result reuse not stated.
-  - Source: https://arxiv.org/html/2610.27898v1#S3.T1 ; #S3.T2 ; #S3.T3 ; #S3.T4 ; #S3.SS5.SSS4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S3.SS5.SSS1.Px1.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1)
+- **Split**: [S3.SS5.SSS1.Px1.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1) ; #S3.SS6.p1 ; #S4.p2
+- **Candidates**: [S3.SS5.SSS1.Px2.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px2.p1) ; #S3.SS5.SSS1.Px3.p1
+- **Visibility**: [S3.SS5.SSS1.Px1.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px1.p1) ; #S3.SS5.SSS1.Px3.p1
+- **SID**: [S3.SS3.p3](https://arxiv.org/html/2610.27898v1#S3.SS3.p3) ; #S3.SS3.SSS0.Px2.p1 ; #S3.SS5.SSS1.Px3.p1
+- **Inference budget**: [S3.SS5.SSS1.Px3.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px3.p1) ; #S3.T1 ; #S3.T3
+- **Results from**: [S3.T1](https://arxiv.org/html/2610.27898v1#S3.T1) ; #S3.T2 ; #S3.T3 ; #S3.T4 ; #S3.SS5.SSS4.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

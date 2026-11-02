@@ -28,11 +28,11 @@ RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token pre
 | Key Contribution | RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs. |
 | Modified Stage | Backbone |
 | Key Findings | With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract). |
-| Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence, and the decoding graph built after training serves only until the model is retrained or the items are re-tokenized (Sec. 2.2.1, Sec. 2.3.1). |
+| Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). |
 
 ### 1. Why This Paper Matters
 
-Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). RPG instead predicts every token of a long, unordered SID in one forward pass and searches a graph of valid SIDs at inference. ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
+Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
 
@@ -44,20 +44,12 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 #### Overview
 
-```
-Item features → semantic encoder → item embedding
-  │
-  ▼  OPQ: one codebook per subvector
-Unordered SID (c1, ..., cm), m up to 64
-  │
-  ▼  token embeddings pooled per item; Transformer decoder over the history
-Sequence representation s
-  │
-  ▼  m MLP heads, one softmax per codebook (MTP loss in training)
-Cached token log-probabilities p(1), ..., p(m)
-  │
-  ▼  graph-constrained decoding: sample b items, add graph neighbors, keep the best b, repeat q times
-Top-K items
+```mermaid
+flowchart LR
+    A[Item embedding] -->|OPQ| B[Long SID]
+    B -->|Pooling, decoder| C[Sequence vector]
+    C -->|MTP heads| D[Token scores]
+    D -->|Graph search| E[Top-K items]
 ```
 
 #### Step 1: Long SIDs from OPQ
@@ -66,7 +58,7 @@ RPG replaces residual quantization with optimized product quantization (OPQ), so
 
 > "To align with parallel decoding, we tokenize each item into an unordered long semantic ID (up to 64 tokens per item) using optimized product quantization (Jégou et al., 2011; Ge et al., 2014)." (Sec. 1)
 
-OPQ splits the item's semantic embedding into $`m`$ subvectors and quantizes each subvector with its own codebook of size $`M`$ (Sec. 2.1.1). The paper cites OPQ and does not restate its rotation or codebook training. The standard product-quantization assignment is:
+OPQ splits the item's semantic embedding into $`m`$ subvectors and quantizes each subvector with its own codebook of size $`M`$ (Sec. 2.1.1). The standard product-quantization assignment is:
 
 ```math
 \mathbf{x}_i = \left[\mathbf{x}_i^{(1)}; \dots; \mathbf{x}_i^{(m)}\right], \qquad c_{i,j} = \arg\min_{c \in \mathcal{C}^{(j)}} \left\| \mathbf{x}_i^{(j)} - \mathbf{a}_c^{(j)} \right\|_2^2
@@ -78,7 +70,7 @@ where:
 - $`\mathcal{C}^{(j)}`$ is the $`j`$-th codebook with $`M`$ codewords $`\mathbf{a}_c^{(j)}`$;
 - $`c_{i,j}`$ is the $`j`$-th token of the SID of item $`i`$.
 
-"Unordered" means that no token is predicted from the tokens before it. Position $`j`$ still belongs to codebook $`j`$ (Sec. 2.1.1). Different items can share the same token set. Each item keeps its own node in the decoding graph, and the authors describe such collisions as very unlikely with 64-token IDs (Appendix C).
+"Unordered" means that no token is predicted from the tokens before it. Position $`j`$ still belongs to codebook $`j`$ (Sec. 2.1.1). Different items can share the same token set; the authors describe such collisions as very unlikely with 64-token IDs (Appendix C).
 
 #### Step 2: Item-Level Input
 
@@ -118,7 +110,7 @@ After training, RPG builds a graph whose nodes are the SIDs of catalog items (Se
 \mathrm{sim}(i, i') = \sum_{j=1}^{m} \mathbf{e}_{j,c_{i,j}}^{\top}\, \mathbf{e}_{j,c_{i',j}}
 ```
 
-Each node keeps its $`k`$ most similar neighbors (Sec. 2.3.1), and each node has an edge to itself (Sec. 2.3.2). The graph is reused until the model is retrained or the items are re-tokenized (Sec. 2.3.1). Decoding then runs four steps (Sec. 2.3.2):
+Each node keeps its $`k`$ most similar neighbors (Sec. 2.3.1), and each node has an edge to itself (Sec. 2.3.2). Decoding then runs four steps (Sec. 2.3.2):
 
 1. Sample $`b`$ SIDs from the catalog as the initial beam.
 2. Add all $`b \times k`$ graph neighbors of the beam to a candidate set.
@@ -136,14 +128,13 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     heads:      list of m projection heads g_j, each mapping [d] -> [d]
     token_emb:  [m, M, d] token embedding tables E_j
     item_codes: [N, m] SID of every catalog item; entry j indexes codebook j
-    neighbors:  [N, k] graph neighbors of every item; the item itself is included here,
-                although the paper does not state whether the self-edge counts toward k
+    neighbors:  [N, k] graph neighbors of every item; the item itself is included here
     """
     m = item_codes.size(1)
     # Eq. 2: one softmax per codebook, cached for this user
     proj = torch.stack([g(s) for g in heads])                                         # [m, d]
     log_p = torch.log_softmax(torch.einsum("jcd,jd->jc", token_emb, proj) / tau, -1)  # [m, M]
-    # Eq. 3 for the whole catalog; the paper scores only the visited nodes (Sec. 2.3)
+    # Eq. 3 for the whole catalog
     scores = log_p[torch.arange(m), item_codes].sum(dim=-1)                          # [N]
     # step 1: random initial beam of b valid SIDs
     beam = torch.randperm(item_codes.size(0))[:b]                                     # [b]
@@ -155,7 +146,7 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     return beam                                                                       # item indices
 ```
 
-Simplifications: The code scores every item in the catalog (`scores` covers the whole catalog) before the graph search. It therefore does not follow Sec. 2.3.3, which scores only the nodes visited along graph edges, and it does not reproduce the paper's inference efficiency. It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
+Simplifications: The code scores every item in the catalog before the graph search; the paper scores only the nodes visited along graph edges (Sec. 2.3.3). It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
@@ -164,19 +155,25 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews: Sports and Outdoors, Beauty, Toys and Games, and CDs and Vinyl; filtering rules: not reported.
-  - Source: The four Amazon categories and chronological protocol are stated, but 5-core or other filtering rules are not stated in the body or appendix; https://arxiv.org/html/2506.05781v1#S3.SS1.p1 and https://arxiv.org/html/2506.05781v1#S3.SS1.p2, dataset counts in https://arxiv.org/html/2506.05781v1#S2.T1.
 - **Split**: Per-user chronological leave-last-out: last item for test, second-last for validation, earlier items for training.
-  - Source: The last interaction is test, the second-last validation, and the remaining earlier interactions form the training history; https://arxiv.org/html/2506.05781v1#S3.SS1.p2.
 - **Candidates**: Evaluation candidate protocol: not reported (full catalog versus sampled-negative ranking). Inference searches a graph of valid catalog items and scores only visited nodes; per-user exclusion rules are not reported.
-  - Source: The evaluation description does not specify full-catalog versus sampled-negative ranking; https://arxiv.org/html/2506.05781v1#S3.SS1.p2. The separate inference description builds a graph over valid catalog items and starts with b random valid nodes; this does not by itself establish the evaluation candidate protocol; https://arxiv.org/html/2506.05781v1#S2.SS3.SSS1.p1 and https://arxiv.org/html/2506.05781v1#S2.SS3.SSS2.p2.
 - **Visibility**: Tokenizer exposure of test-only items: not reported. The long-tail analysis groups items by training frequency [0,5], [6,10], [11,15], and [16,20]; it does not isolate strictly unseen items from low-frequency items.
-  - Source: Figure 5 combines zero-frequency and low-frequency targets, so it cannot establish separate strictly unseen-item performance; tokenizer exposure of those targets is not specified; https://arxiv.org/html/2506.05781v1#S3.SS5.SSS3.p1.
 - **SID**: Parallel OPQ subspaces, with best lengths Sports 16, Beauty 32, Toys 16, and CDs 64; per-subspace codebook size: not reported as an experimental setting. Colliding items retain separate graph nodes; no guaranteed collision-free identifier is claimed.
-  - Source: Best SID lengths are in Table 6; the 256-entry codebook in the introduction is an example, not an explicit main-experiment setting; item-based graph nodes permit collisions; https://arxiv.org/html/2506.05781v1#A2.T6, https://arxiv.org/html/2506.05781v1#S1, and https://arxiv.org/html/2506.05781v1#A3.p2.
 - **Inference budget**: Initial random seeds and retained beam b=10; best (neighbors k, iterations q): Sports (100,2), Beauty (100,3), Toys (50,5), CDs (500,3). One NVIDIA RTX 3090 24GB; inference batch size: not reported (training batch size is 256). Sports-only fixed-configuration scaling experiment reports approximately 15x faster inference and 25x lower runtime memory than TIGER; these are not total-storage reductions or per-request latency claims.
-  - Source: Table 6 supplies b/k/q; Appendix B supplies hardware and separates checkpoint selection from graph-budget tuning; the batch size 256 in Section 3.1 is a training setting, not an inference setting; https://arxiv.org/html/2506.05781v1#A2.T6, https://arxiv.org/html/2506.05781v1#A2.p1, https://arxiv.org/html/2506.05781v1#S3.SS1.p6. Speed/memory scope: https://arxiv.org/html/2506.05781v1#S3.SS3.p1 and https://arxiv.org/html/2506.05781v1#S3.SS3.p2.
 - **Results from**: arXiv:2506.05781v1: Table 2 (main ranking results), Table 3 (ablations), Table 4 (semantic-encoder-controlled comparison), Figure 3 (Sports efficiency), Figure 5 (training-frequency analysis), and Tables 6 and 8 (best inference budgets and memory scope).
-  - Source: Overall ranking metrics, graph/architecture ablations, encoder-matched comparisons, and the bounded efficiency study are separate result locations; https://arxiv.org/html/2506.05781v1#S2.T2, https://arxiv.org/html/2506.05781v1#S3.T3, https://arxiv.org/html/2506.05781v1#S3.T4, and https://arxiv.org/html/2506.05781v1#S3.F3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: The four Amazon categories and chronological protocol are stated, but 5-core or other filtering rules are not stated in the body or appendix; [S3.SS1.p1](https://arxiv.org/html/2506.05781v1#S3.SS1.p1) and [S3.SS1.p2](https://arxiv.org/html/2506.05781v1#S3.SS1.p2), dataset counts in [S2.T1](https://arxiv.org/html/2506.05781v1#S2.T1).
+- **Split**: The last interaction is test, the second-last validation, and the remaining earlier interactions form the training history; [S3.SS1.p2](https://arxiv.org/html/2506.05781v1#S3.SS1.p2).
+- **Candidates**: The evaluation description does not specify full-catalog versus sampled-negative ranking; [S3.SS1.p2](https://arxiv.org/html/2506.05781v1#S3.SS1.p2). The separate inference description builds a graph over valid catalog items and starts with b random valid nodes; this does not by itself establish the evaluation candidate protocol; [S2.SS3.SSS1.p1](https://arxiv.org/html/2506.05781v1#S2.SS3.SSS1.p1) and [S2.SS3.SSS2.p2](https://arxiv.org/html/2506.05781v1#S2.SS3.SSS2.p2).
+- **Visibility**: Figure 5 combines zero-frequency and low-frequency targets, so it cannot establish separate strictly unseen-item performance; tokenizer exposure of those targets is not specified; [S3.SS5.SSS3.p1](https://arxiv.org/html/2506.05781v1#S3.SS5.SSS3.p1).
+- **SID**: Best SID lengths are in Table 6; the 256-entry codebook in the introduction is an example, not an explicit main-experiment setting; item-based graph nodes permit collisions; [A2.T6](https://arxiv.org/html/2506.05781v1#A2.T6), [S1](https://arxiv.org/html/2506.05781v1#S1), and [A3.p2](https://arxiv.org/html/2506.05781v1#A3.p2).
+- **Inference budget**: Table 6 supplies b/k/q; Appendix B supplies hardware and separates checkpoint selection from graph-budget tuning; the batch size 256 in Section 3.1 is a training setting, not an inference setting; [A2.T6](https://arxiv.org/html/2506.05781v1#A2.T6), [A2.p1](https://arxiv.org/html/2506.05781v1#A2.p1), [S3.SS1.p6](https://arxiv.org/html/2506.05781v1#S3.SS1.p6). Speed/memory scope: [S3.SS3.p1](https://arxiv.org/html/2506.05781v1#S3.SS3.p1) and [S3.SS3.p2](https://arxiv.org/html/2506.05781v1#S3.SS3.p2).
+- **Results from**: Overall ranking metrics, graph/architecture ablations, encoder-matched comparisons, and the bounded efficiency study are separate result locations; [S2.T2](https://arxiv.org/html/2506.05781v1#S2.T2), [S3.T3](https://arxiv.org/html/2506.05781v1#S3.T3), [S3.T4](https://arxiv.org/html/2506.05781v1#S3.T4), and [S3.F3](https://arxiv.org/html/2506.05781v1#S3.F3).
+
+</details>
 
 - Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison.
 - Efficiency: on Sports, RPG uses less runtime memory and less inference time than TIGER (Sec. 3.3, Fig. 3).
@@ -192,13 +189,12 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The parallel heads rest on an assumption: the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). The authors state that different items can share the same token set (Appendix C). They also state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
+**Stated by the authors.** The authors state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
 
 **Our analysis.**
 
 - The score of an SID is a sum of per-token scores (Eq. 3), so the model cannot express dependencies between tokens of one SID. In the same cell, ACERec adds contrastive and auxiliary objectives (`MTP + Ctr. + Aux.`), and SPRINT replaces the objective with `Dual-level Flow Ctr.`; both keep `Par. OPQ` and `Non-AR`.
 - The decoding graph is an index outside the model. It has one node per catalog item and must be rebuilt after retraining or re-tokenization (Sec. 2.3.1).
-- The evaluation covers four Amazon datasets. The paper reports no online or industrial test.
 
 ### 5. Connections to Related Work
 

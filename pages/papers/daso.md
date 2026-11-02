@@ -34,19 +34,25 @@ DASO reallocates part of each GRPO rollout group to prefix-guided completions at
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018 Industrial & Scientific and Office Products, 5-core; proprietary user-to-item task with 1.36M recommendation examples and 319K users. Internal filtering rules: not reported.
-  - Source: Experimental Setup and Appendix C: https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p1 and https://arxiv.org/html/2608.20611v1#A3.SSx1.p1
 - **Split**: Public: fixed chronological next-item prediction, earlier interactions as history and a held-out next item. Train/validation/test sequences: Office Products 38924/4866/4866; Industrial and Scientific 36259/4532/4533. Split assignment rule and history-item cap: not reported. Internal: SFT train/eval 1139832/60168, GRPO training prompts 100326, and about 36K disjoint constrained-generation evaluation prompts; allocation rules not reported.
-  - Source: Table 1, Appendix C and Table 4: https://arxiv.org/html/2608.20611v1#Sx5.T1 and https://arxiv.org/html/2608.20611v1#A3.SSx1.p1 and https://arxiv.org/html/2608.20611v1#A3.T4 and https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p1
 - **Candidates**: Valid-catalog SID trie and 50-beam generated ranking for public evaluation. Full-catalog versus sampled-negative evaluation and history-item exclusion: not reported.
-  - Source: Preliminaries, Appendix B and D: https://arxiv.org/html/2608.20611v1#Sx3.SSx1.p2 and https://arxiv.org/html/2608.20611v1#A2.SSx2.p2 and https://arxiv.org/html/2608.20611v1#A4.SSx4.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Easy/Medium/Hard diagnostics measure frozen-SFT prefix/target recovery, not item holdouts. Item-level exposure to the pretrained tokenizer: not reported.
-  - Source: Experimental Setup and Appendix F: https://arxiv.org/html/2608.20611v1#Sx5.SSx1 and https://arxiv.org/html/2608.20611v1#A6.p2
 - **SID**: Public: official frozen MiniOneRec RQ-VAE assignments from Qwen text embeddings, 3 levels x256 codes. Internal: 4 levels x2048 codes; SID construction details not reported. Collision handling: not reported for either setting.
-  - Source: SID construction and Appendix C: https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p2 and https://arxiv.org/html/2608.20611v1#A3.SSx1.p2 and https://arxiv.org/html/2608.20611v1#A3.SSx2.p1
 - **Inference budget**: Public: trie-constrained beam50, HR@5/10 and NDCG@5. Internal: level-wise Top1/20 recall; internal beam width not reported. Primary training/evaluation setup uses 8x A100 80GB; inference batch and latency not reported. G=16 rollouts, Bmax=9 guided replacements and batch128 are training settings.
-  - Source: Appendix D evaluation and H compute resources: https://arxiv.org/html/2608.20611v1#A4.SSx4.p1 and https://arxiv.org/html/2608.20611v1#A4.SSx4.p2 and https://arxiv.org/html/2608.20611v1#A8.p1 and https://arxiv.org/html/2608.20611v1#A4.T5
 - **Results from**: Paper's Table2 public and Table3 internal experiments plus appendix ablations/diagnostics. SFT-only, MiniOneRec-style GRPO, uniform GT injection, Sibling-GRPO and DASO share SFT initialization and fixed SID/trie per setting. One algorithm run per dataset/backbone/method; no multi-seed significance tests. No borrowed baseline scores are identified.
-  - Source: Experimental Setup, Tables2/3 and Appendix B: https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p3 and https://arxiv.org/html/2608.20611v1#Sx5.T2 and https://arxiv.org/html/2608.20611v1#Sx5.T3 and https://arxiv.org/html/2608.20611v1#A2.SSx2.p1 and https://arxiv.org/html/2608.20611v1#A2.SSx2.p2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Experimental Setup and Appendix C: [Sx5.SSx1.p1](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p1) and [A3.SSx1.p1](https://arxiv.org/html/2608.20611v1#A3.SSx1.p1)
+- **Split**: Table 1, Appendix C and Table 4: [Sx5.T1](https://arxiv.org/html/2608.20611v1#Sx5.T1) and [A3.SSx1.p1](https://arxiv.org/html/2608.20611v1#A3.SSx1.p1) and [A3.T4](https://arxiv.org/html/2608.20611v1#A3.T4) and [Sx5.SSx1.p1](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p1)
+- **Candidates**: Preliminaries, Appendix B and D: [Sx3.SSx1.p2](https://arxiv.org/html/2608.20611v1#Sx3.SSx1.p2) and [A2.SSx2.p2](https://arxiv.org/html/2608.20611v1#A2.SSx2.p2) and [A4.SSx4.p1](https://arxiv.org/html/2608.20611v1#A4.SSx4.p1)
+- **Visibility**: Experimental Setup and Appendix F: [Sx5.SSx1](https://arxiv.org/html/2608.20611v1#Sx5.SSx1) and [A6.p2](https://arxiv.org/html/2608.20611v1#A6.p2)
+- **SID**: SID construction and Appendix C: [Sx5.SSx1.p2](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p2) and [A3.SSx1.p2](https://arxiv.org/html/2608.20611v1#A3.SSx1.p2) and [A3.SSx2.p1](https://arxiv.org/html/2608.20611v1#A3.SSx2.p1)
+- **Inference budget**: Appendix D evaluation and H compute resources: [A4.SSx4.p1](https://arxiv.org/html/2608.20611v1#A4.SSx4.p1) and [A4.SSx4.p2](https://arxiv.org/html/2608.20611v1#A4.SSx4.p2) and [A8.p1](https://arxiv.org/html/2608.20611v1#A8.p1) and [A4.T5](https://arxiv.org/html/2608.20611v1#A4.T5)
+- **Results from**: Experimental Setup, Tables2/3 and Appendix B: [Sx5.SSx1.p3](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p3) and [Sx5.T2](https://arxiv.org/html/2608.20611v1#Sx5.T2) and [Sx5.T3](https://arxiv.org/html/2608.20611v1#Sx5.T3) and [A2.SSx2.p1](https://arxiv.org/html/2608.20611v1#A2.SSx2.p1) and [A2.SSx2.p2](https://arxiv.org/html/2608.20611v1#A2.SSx2.p2)
+
+</details>
 
 ### 5. Connections to Related Work
 

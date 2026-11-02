@@ -1,11 +1,11 @@
 ## At a Glance
 
 Key Findings: On Instruments, LETTER-TIGER reports Recall@10 of 0.1122 against 0.1058 for TIGER, and adding either regularization alone also improves TIGER (Table 2).
-Limitation: The tokenizer is trained before the generator and then kept fixed, and the collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1, Sec. 3.2).
+Limitation: The collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1).
 
 ### 1. Why This Paper Matters
 
-Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER keeps an RQ-VAE tokenizer for the semantic part and adds a collaborative regularization and a diversity regularization to it. The learned Semantic IDs (SIDs) then serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
+Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER's Semantic IDs (SIDs) serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
 
@@ -17,7 +17,7 @@ Based on arXiv v3.
 
 #### Semantic Regularization
 
-An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1). The main configuration uses 4 levels with 256 codewords each (Sec. 4.1.3).
+An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).
 
 #### Collaborative Regularization
 
@@ -58,10 +58,10 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The paper states no limitations of LETTER. The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
+**Stated by the authors.** The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
 
 **Our analysis.**
 
 - The tokenizer is trained once and then fixed (`Fixed`), so a change in the catalog requires retraining the tokenizer and re-tokenizing items. ETEGRec updates the tokenizer and the generator in turns (`Altern.`), and DIGER lets the generator loss update the tokenizer directly (`Joint`).
 - The collaborative regularization needs a CF embedding for every item. This suggests that items without interactions receive no collaborative signal in their identifiers.
-- The collaborative and diversity terms pull code usage in opposite directions (Sec. 4.3.2). This suggests that their weights trade one property against the other.
+- The opposite effects of the two terms on code usage (Sec. 4.3.2) suggest that their weights trade one property against the other.

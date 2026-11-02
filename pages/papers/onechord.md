@@ -34,19 +34,25 @@ OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-mat
 **Experimental setup**
 
 - **Datasets**: Amazon 2014 5-core Sports/Beauty/Toys; Amazon 2023 5core/last_out_w_his Scientific/Instruments/Games, reconstructing each user's longest chronological sequence.
-  - Source: Section 4.1 and Appendix B.1: https://arxiv.org/html/2610.25805v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS1.p1
 - **Split**: Last two interactions validation/test; sliding training windows over earlier interactions, history cap 20; one validation/test target per user.
-  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p1
 - **Candidates**: full catalog of distinct legal SIDs; identical SIDs share one entry; exact four-code match determines hits.
-  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p2
 - **Visibility**: warm; no unseen-item protocol is defined. Fixed OPQ mapping covers every processed item.
-  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS1.p2
 - **SID**: Four-code OPQ, 256 codes/position; collisions remain merged as one catalog entry.
-  - Source: Appendix A.5: https://arxiv.org/html/2610.25805v1#A1.SS5.SSS0.Px1.p1
 - **Inference budget**: One encoder/parallel-decoder pass plus catalog scoring; no beam. Recall/NDCG@5; full-test Top-10 generation 0.23-1.24 s; test batch 256. Hardware and per-request latency: not reported.
-  - Source: Section 3.6, Section 4.2 and Appendix B.3: https://arxiv.org/html/2610.25805v1#S3.SS6.SSS0.Px3.p1 and https://arxiv.org/html/2610.25805v1#S4.SS2.SSS0.Px1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px2.p1
 - **Results from**: Reported Tables 1/2/3/4: accuracy, full-test cost, ablations, sparsity groups. OneChord accuracy is five-run mean/SD; baselines use common splits, but borrowed-versus-rerun provenance is not reported.
-  - Source: Tables 1-4 and Appendix B.2-B.3: https://arxiv.org/html/2610.25805v1#S3.T1 and https://arxiv.org/html/2610.25805v1#S3.T2 and https://arxiv.org/html/2610.25805v1#S4.T3 and https://arxiv.org/html/2610.25805v1#S4.T4 and https://arxiv.org/html/2610.25805v1#A2.SS2.p1 and https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px3.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1 and Appendix B.1: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.25805v1#S4.SS1.SSS0.Px1.p1) and [A2.SS1.p1](https://arxiv.org/html/2610.25805v1#A2.SS1.p1)
+- **Split**: Appendix B.1: [A2.SS1.p1](https://arxiv.org/html/2610.25805v1#A2.SS1.p1)
+- **Candidates**: Appendix B.1: [A2.SS1.p2](https://arxiv.org/html/2610.25805v1#A2.SS1.p2)
+- **Visibility**: Appendix B.1: [A2.SS1.p1](https://arxiv.org/html/2610.25805v1#A2.SS1.p1) and [A2.SS1.p2](https://arxiv.org/html/2610.25805v1#A2.SS1.p2)
+- **SID**: Appendix A.5: [A1.SS5.SSS0.Px1.p1](https://arxiv.org/html/2610.25805v1#A1.SS5.SSS0.Px1.p1)
+- **Inference budget**: Section 3.6, Section 4.2 and Appendix B.3: [S3.SS6.SSS0.Px3.p1](https://arxiv.org/html/2610.25805v1#S3.SS6.SSS0.Px3.p1) and [S4.SS2.SSS0.Px1.p1](https://arxiv.org/html/2610.25805v1#S4.SS2.SSS0.Px1.p1) and [A2.SS3.SSS0.Px2.p1](https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px2.p1)
+- **Results from**: Tables 1-4 and Appendix B.2-B.3: [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1) and [S3.T2](https://arxiv.org/html/2610.25805v1#S3.T2) and [S4.T3](https://arxiv.org/html/2610.25805v1#S4.T3) and [S4.T4](https://arxiv.org/html/2610.25805v1#S4.T4) and [A2.SS2.p1](https://arxiv.org/html/2610.25805v1#A2.SS2.p1) and [A2.SS3.SSS0.Px3.p1](https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px3.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

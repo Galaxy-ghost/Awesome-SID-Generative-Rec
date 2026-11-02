@@ -73,19 +73,25 @@ Self-play DPO (SP-DPO) runs in Easy, Medium, and Hard stages defined by prefix n
 **Experimental setup**
 
 - **Datasets**: Amazon Instruments, Amazon Beauty, and Yelp; users and items with fewer than 5 interactions are filtered. Retained corpus sizes: not reported in the body. Industrial: internal data from a large-scale advertising recommendation platform; filtering not reported.
-  - Source: Datasets, 5-interaction filter, leave-one-out, history cap: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1; industrial platform: https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1.
 - **Split**: Leave-one-out into training, validation, and test; histories capped at the 20 most recent items. The exact position allocation is not reported beyond the leave-one-out label. Online: 10% of traffic (about 40+ million users) over multiple weeks.
-  - Source: Leave-one-out and 20-item cap: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1 and https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; online traffic: https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); industrial retrieval reports Recall@100.
-  - Source: Metrics and beam width only: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1.
 - **SID**: Item SCID: 3-level RQ-VAE x 256 codewords (dimension 32) over concatenated semantic (T5) and collaborative (DIN) embeddings; users receive their own SCIDs from a separate user RQ-VAE. Both are added to the LLM vocabulary. Collision handling: not reported.
-  - Source: 3-level RQ-VAE x 256 codes of dimension 32, user and item SCIDs added to the vocabulary: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4; dual user/item tokenizer: https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p2 and https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p4.
 - **Inference budget**: Beam search with beam width 20 for generative methods (following EAGER-LLM); Recall and NDCG at K=5 and 10. All experiments use 4 NVIDIA GPUs (model not stated); inference batch size and latency: not reported. Backbone: Llama2-7B with LoRA.
-  - Source: Beam width 20 following EAGER-LLM: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; 4 GPUs for all experiments: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4.
 - **Results from**: Table 1 (Instruments, Beauty, Yelp; averages over five seeds); Table 2 (industrial Recall@100 and online revenue versus a two-tower baseline and TIGER); Tables 3-5 and Figure 4 (tokenization, SFT-task, and DPO ablations).
-  - Source: Main table: https://arxiv.org/html/2511.11255v2#Sx3.T1; industrial: https://arxiv.org/html/2511.11255v2#Sx4.T2; ablations: https://arxiv.org/html/2511.11255v2#Sx4.T3, https://arxiv.org/html/2511.11255v2#Sx4.T4, https://arxiv.org/html/2511.11255v2#Sx4.T5; five seeds: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets, 5-interaction filter, leave-one-out, history cap: [Sx4.SSx1.p1](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1); industrial platform: [Sx4.SSx3.p1](https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1).
+- **Split**: Leave-one-out and 20-item cap: [Sx4.SSx1.p1](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1) and [Sx4.SSx1.p3](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3); online traffic: [Sx4.SSx3.p1](https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1).
+- **Candidates**: Metrics and beam width only: [Sx4.SSx1.p3](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3).
+- **Visibility**: Standard leave-one-out with no cold-start experiment: [Sx4.SSx1.p1](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1).
+- **SID**: 3-level RQ-VAE x 256 codes of dimension 32, user and item SCIDs added to the vocabulary: [Sx4.SSx1.p4](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4); dual user/item tokenizer: [Sx3.SSx2.p2](https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p2) and [Sx3.SSx2.p4](https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p4).
+- **Inference budget**: Beam width 20 following EAGER-LLM: [Sx4.SSx1.p3](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3); 4 GPUs for all experiments: [Sx4.SSx1.p4](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4).
+- **Results from**: Main table: [Sx3.T1](https://arxiv.org/html/2511.11255v2#Sx3.T1); industrial: [Sx4.T2](https://arxiv.org/html/2511.11255v2#Sx4.T2); ablations: [Sx4.T3](https://arxiv.org/html/2511.11255v2#Sx4.T3), [Sx4.T4](https://arxiv.org/html/2511.11255v2#Sx4.T4), [Sx4.T5](https://arxiv.org/html/2511.11255v2#Sx4.T5); five seeds: [Sx4.SSx1.p4](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4).
+
+</details>
 
 - Industrial deployment: the authors report gains in online A/B tests and full-scale deployment on an industrial recommendation platform (Abstract).
 

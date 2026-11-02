@@ -34,19 +34,25 @@ Tlow maps semantic embeddings with a normalizing flow into a standard normal lat
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews Sports/Beauty/Toys/CDs; processed Cloth-Sports cross-domain data. WeChat picture/article logs for online multimodal retrieval. Filtering not reported.
-  - Source: Sections 3.1.1/3.6.1: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1
 - **Split**: Public: chronological last item test, penultimate validation, earlier interactions train. Online holdout protocol and A/B duration not reported; two weeks refers to model training.
-  - Source: Sections 3.1.1/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p2 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1
 - **Candidates**: full catalog for offline ranking; historical-item exclusion not reported
-  - Source: Section 3.1.3: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS3.p1
 - **Visibility**: Offline: warm; no unseen-item protocol is defined. Cold analysis bins targets by training frequency. Online cold pictures are exposed on publication day; generator/tokenizer exclusion not reported. Tokenizer fits about 1M items, then encodes additional unseen items.
-  - Source: Sections 3.5/3.6.2/3.6.3: https://arxiv.org/html/2608.24176v1#S3.SS5.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS3.p1
 - **SID**: Flow plus independent PQ: C in {16,32,64,96,128}, 256 codes each; selected C per offline dataset not reported. Online: 16 x 256. Collision handling not reported.
-  - Source: Sections 3.1.4/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1
 - **Inference budget**: Single-forward parallel token scoring, Recall/NDCG@5/10; temperature searched over 0.03/0.05/0.07. Recommendation hardware, batch size and latency not reported. Online tokenization of tens of millions of new items takes minutes on one unspecified GPU, not per-request serving time.
-  - Source: Sections 3.1.4/3.6.1/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1
 - **Results from**: Tables 2/4/5/6: general/cross-domain/multimodal/online results. General comparison reuses RPG-paper baseline scores and reruns RPG; main semantic embeddings are sentence-t5-base.
-  - Source: Section 3.1.4 and Tables 2/4/5/6: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.T2 and https://arxiv.org/html/2608.24176v1#S3.T4 and https://arxiv.org/html/2608.24176v1#S3.T5 and https://arxiv.org/html/2608.24176v1#S3.T6
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Sections 3.1.1/3.6.1: [S3.SS1.SSS1.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p1) and [S3.SS6.SSS1.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1)
+- **Split**: Sections 3.1.1/3.6.2: [S3.SS1.SSS1.p2](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p2) and [S3.SS6.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1)
+- **Candidates**: Section 3.1.3: [S3.SS1.SSS3.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS3.p1)
+- **Visibility**: Sections 3.5/3.6.2/3.6.3: [S3.SS5.p1](https://arxiv.org/html/2608.24176v1#S3.SS5.p1) and [S3.SS6.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1) and [S3.SS6.SSS3.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS3.p1)
+- **SID**: Sections 3.1.4/3.6.2: [S3.SS1.SSS4.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1) and [S3.SS6.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1)
+- **Inference budget**: Sections 3.1.4/3.6.1/3.6.2: [S3.SS1.SSS4.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1) and [S3.SS6.SSS1.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1) and [S3.SS6.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1)
+- **Results from**: Section 3.1.4 and Tables 2/4/5/6: [S3.SS1.SSS4.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1) and [S3.T2](https://arxiv.org/html/2608.24176v1#S3.T2) and [S3.T4](https://arxiv.org/html/2608.24176v1#S3.T4) and [S3.T5](https://arxiv.org/html/2608.24176v1#S3.T5) and [S3.T6](https://arxiv.org/html/2608.24176v1#S3.T6)
+
+</details>
 
 ### 5. Connections to Related Work
 

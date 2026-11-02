@@ -35,19 +35,25 @@ TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geomet
 **Experimental setup**
 
 - **Datasets**: Amazon Review Sports & Outdoors, Beauty, Toys & Games, CDs & Vinyl; reviews treated as chronological interactions. Filtering and maximum history length not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#S5.SS1.p1 ; #A1.T3
 - **Split**: Leave-one-out with checkpoint selection by validation performance; exact train/validation/test holdout allocation not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#S5.SS1.p3
 - **Candidates**: full catalog scored through vectorized SID-probability gathering, followed by top-1000 reranking; consumed-item exclusion not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#S4.SS5.p1 ; #A1.SS4.p4
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#S5.SS1.p1 ; #S5.SS1.p3 ; #S4.SS1.p8
 - **SID**: BDQ/LFQ: 64 positions x 8 bits, each position mapping to 256 integer codes; implicit fixed binary vertices, not learned centroid codebooks. Reported full-SID collapse ratio <0.003; collision disambiguation not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#A1.T4 ; #A1.SS3.p2 ; #A1.SS2.p1
 - **Inference budget**: Parallel prediction of all 64 SID positions, full-corpus gather scoring and Hamming reranking of 1000 items; no beam search; Recall/NDCG@5/10. One H20 96GB is used for experiments; Figure 8 plots approximately 9 ms inference time on Beauty. Inference batch size and timing aggregation not reported.
-  - Source: https://arxiv.org/html/2607.25216v1#S4.SS3.p3 ; #S4.SS5 ; #S5.SS1.p4 ; #A1.F8
 - **Results from**: Table 1: four-dataset comparison; some baseline numbers adopted from Rajput et al. (2023), remaining datasets/models reproduced with official implementations or RecBole; exact reused rows not specified. Table 6: ablations; Figure 8: inference efficiency.
-  - Source: https://arxiv.org/html/2607.25216v1#S5.T1 ; #S5.SS1.p4 ; #A2.T6 ; #A1.F8
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S5.SS1.p1](https://arxiv.org/html/2607.25216v1#S5.SS1.p1) ; #A1.T3
+- **Split**: [S5.SS1.p3](https://arxiv.org/html/2607.25216v1#S5.SS1.p3)
+- **Candidates**: [S4.SS5.p1](https://arxiv.org/html/2607.25216v1#S4.SS5.p1) ; #A1.SS4.p4
+- **Visibility**: [S5.SS1.p1](https://arxiv.org/html/2607.25216v1#S5.SS1.p1) ; #S5.SS1.p3 ; #S4.SS1.p8
+- **SID**: [A1.T4](https://arxiv.org/html/2607.25216v1#A1.T4) ; #A1.SS3.p2 ; #A1.SS2.p1
+- **Inference budget**: [S4.SS3.p3](https://arxiv.org/html/2607.25216v1#S4.SS3.p3) ; #S4.SS5 ; #S5.SS1.p4 ; #A1.F8
+- **Results from**: [S5.T1](https://arxiv.org/html/2607.25216v1#S5.T1) ; #S5.SS1.p4 ; #A2.T6 ; #A1.F8
+
+</details>
 
 ### 5. Connections to Related Work
 

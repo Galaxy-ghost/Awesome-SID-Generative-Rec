@@ -35,19 +35,25 @@ CARD fuses text, image, and collaborative signals into a visual semantic unit be
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews: Grocery and Gourmet Food (Food), Cell Phones and Accessories (Phones), and Clothing, Shoes and Jewelry (Clothing), with 5-core filtering of users and items. Sizes (users / items / interactions): Food 14,681 / 8,713 / 151,254; Phones 27,879 / 10,429 / 194,439; Clothing 39,387 / 23,033 / 278,677.
-  - Source: Categories, 5-core filtering, truncation: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1; statistics: https://arxiv.org/html/2604.26427v1#S4.T1.
 - **Split**: Per-user leave-one-out: most recent interaction for test, second most recent for validation, the rest for training; histories truncated or padded to the 20 most recent items.
-  - Source: Leave-one-out allocation and history length: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1.
 - **Candidates**: full catalog
-  - Source: Full ranking over the entire item set: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS2.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1.
 - **SID**: 4 non-uniform RQ-VAE levels x 256 codewords (dimension 32), quantizing a vision-language embedding of a 512 x 512 rendered card (item image, title, collaborative-neighbor thumbnails). Collision handling: not reported.
-  - Source: K=4 codebooks x 256 vectors of dimension 32: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1; non-uniform RQ-VAE over a vision-language encoding of a rendered item card: https://arxiv.org/html/2604.26427v1#S3.SS2.SSS1.p1 and https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p2; no collision rule found in Sections 3-4.
 - **Inference budget**: Beam search over the code vocabulary; numerical beam width not reported. T5-style encoder-decoder with 4 layers each and 6 heads. Recall and NDCG at K=5, 10, and 20. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam search with top-B partial sequences, no numerical B: https://arxiv.org/html/2604.26427v1#S3.SS3.p2; backbone: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1.
 - **Results from**: Table 2 (Food, Phones, Clothing; paired t-tests against the best baseline); Tables 3-4 (ablations of the two CARD variants); Table 5 (non-uniform quantization with different quantizers); Table 6 (text-only encoding).
-  - Source: Main table: https://arxiv.org/html/2604.26427v1#S4.T2; ablations: https://arxiv.org/html/2604.26427v1#S4.T3 and https://arxiv.org/html/2604.26427v1#S4.T4; plug-in quantizers: https://arxiv.org/html/2604.26427v1#S4.T5; text-only variants: https://arxiv.org/html/2604.26427v1#S4.T6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Categories, 5-core filtering, truncation: [S4.SS1.SSS1.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1); statistics: [S4.T1](https://arxiv.org/html/2604.26427v1#S4.T1).
+- **Split**: Leave-one-out allocation and history length: [S4.SS1.SSS1.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1).
+- **Candidates**: Full ranking over the entire item set: [S4.SS1.SSS2.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS2.p1).
+- **Visibility**: Standard leave-one-out with no cold-start experiment: [S4.SS1.SSS1.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS1.p1).
+- **SID**: K=4 codebooks x 256 vectors of dimension 32: [S4.SS1.SSS3.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1); non-uniform RQ-VAE over a vision-language encoding of a rendered item card: [S3.SS2.SSS1.p1](https://arxiv.org/html/2604.26427v1#S3.SS2.SSS1.p1) and [S4.SS1.SSS3.p2](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p2); no collision rule found in Sections 3-4.
+- **Inference budget**: Beam search with top-B partial sequences, no numerical B: [S3.SS3.p2](https://arxiv.org/html/2604.26427v1#S3.SS3.p2); backbone: [S4.SS1.SSS3.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1).
+- **Results from**: Main table: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2); ablations: [S4.T3](https://arxiv.org/html/2604.26427v1#S4.T3) and [S4.T4](https://arxiv.org/html/2604.26427v1#S4.T4); plug-in quantizers: [S4.T5](https://arxiv.org/html/2604.26427v1#S4.T5); text-only variants: [S4.T6](https://arxiv.org/html/2604.26427v1#S4.T6).
+
+</details>
 
 ### 5. Connections to Related Work
 

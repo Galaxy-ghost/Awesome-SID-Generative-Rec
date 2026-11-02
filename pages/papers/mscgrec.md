@@ -32,19 +32,25 @@ MSCGRec quantizes images with self-supervised DINO-based learning, adds collabor
 **Experimental setup**
 
 - **Datasets**: Amazon 2023 Beauty and Personal Care (724,796 users / 203,843 items), Sports and Outdoors (408,287 / 151,632), and PixelRec (8,886,078 / 407,082). 5-core filtering of users and items; for Amazon, samples with empty or placeholder images are removed and items with identical images are merged into one ID; sequences capped at 20 items.
-  - Source: Datasets and preprocessing: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1; statistics: https://arxiv.org/html/2602.03713v1#S4.T1.
 - **Split**: Chronological leave-one-out into training, validation, and test; for Amazon every item in a training sequence is a separate target, for PixelRec only the last item.
-  - Source: Chronological leave-one-out and target construction: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists from constrained beam search.
-  - Source: Metrics only: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. The collaborative modality uses SASRec item embeddings trained on the interaction data.
-  - Source: Standard split with no unseen-item protocol; SASRec embeddings as the collaborative modality: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1.
 - **SID**: Per-modality residual quantizers (image via DINO self-supervised quantization, LLAMA text, SASRec collaborative) with 3 levels x 256 entries each, applied directly in embedding space; an extra collision level per modality makes each item's code unique (TIGER style). The collaborative codes serve as generation targets.
-  - Source: 3 levels x 256 per modality plus a collision level: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2 and https://arxiv.org/html/2602.03713v1#S3.SS1.p2; DINO-based image quantization: https://arxiv.org/html/2602.03713v1#S3.SS2.p2.
 - **Inference budget**: Constrained beam search with 20 beams; T5 encoder-decoder; training and evaluation on four NVIDIA A100 GPUs. Inference batch size and latency: not reported.
-  - Source: Constrained beam search with 20 beams and hardware: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p3; constrained training softmax: https://arxiv.org/html/2602.03713v1#S3.SS3.p2.
 - **Results from**: Table 2 (Beauty, Sports, PixelRec versus sequential and generative baselines); Table 3 (component ablations, modality Shapley values, image-only).
-  - Source: Main: https://arxiv.org/html/2602.03713v1#S4.T2; ablations and Shapley values: https://arxiv.org/html/2602.03713v1#S4.T3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and preprocessing: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1); statistics: [S4.T1](https://arxiv.org/html/2602.03713v1#S4.T1).
+- **Split**: Chronological leave-one-out and target construction: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1).
+- **Candidates**: Metrics only: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1).
+- **Visibility**: Standard split with no unseen-item protocol; SASRec embeddings as the collaborative modality: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px1.p1) and [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1).
+- **SID**: 3 levels x 256 per modality plus a collision level: [S4.SS1.SSS0.Px3.p2](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2) and [S3.SS1.p2](https://arxiv.org/html/2602.03713v1#S3.SS1.p2); DINO-based image quantization: [S3.SS2.p2](https://arxiv.org/html/2602.03713v1#S3.SS2.p2).
+- **Inference budget**: Constrained beam search with 20 beams and hardware: [S4.SS1.SSS0.Px3.p3](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p3); constrained training softmax: [S3.SS3.p2](https://arxiv.org/html/2602.03713v1#S3.SS3.p2).
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2); ablations and Shapley values: [S4.T3](https://arxiv.org/html/2602.03713v1#S4.T3).
+
+</details>
 
 ### 5. Connections to Related Work
 

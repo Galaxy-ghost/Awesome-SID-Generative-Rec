@@ -33,19 +33,25 @@ DIGER makes Semantic IDs differentiable so recommendation gradients update the t
 **Experimental setup**
 
 - **Datasets**: B-Shop (cosmetic products), I-Shop (music-related products), Yelp (restaurants); remove users/items with fewer than five interactions. LLaMA-7B-generated item content; review text supplies interactions only. History cap not reported.
-  - Source: Section 5, Datasets: https://arxiv.org/html/2601.19711v3#S5.p1
 - **Split**: Leave-one-out; exact validation/test allocation not reported. All reported results use the test set.
-  - Source: Section 5, Evaluation: https://arxiv.org/html/2601.19711v3#S5.p2
 - **Candidates**: full catalog; predicted item ranked against the full item set.
-  - Source: Section 5, Evaluation: https://arxiv.org/html/2601.19711v3#S5.p2
 - **Visibility**: warm; no unseen-item protocol is defined. Pretrained RQ-VAE/content-encoder exposure to test items not reported.
-  - Source: Sections 4.3/5 define no item holdout: https://arxiv.org/html/2601.19711v3#S4.SS3.p2 ; https://arxiv.org/html/2601.19711v3#S5.p1 ; https://arxiv.org/html/2601.19711v3#S5.p2
 - **SID**: Pretrained RQ-VAE initialization, then jointly optimized differentiable IDs: 3 code positions x 256 entries plus one conflict code. Conflict-code assignment details not reported. Training uses Gumbel exploration with uncertainty decay; validation/inference tokenizer assignments are deterministic.
-  - Source: Sections 4.2/4.3/5: https://arxiv.org/html/2601.19711v3#S4.SS2.p1 ; https://arxiv.org/html/2601.19711v3#S4.SS3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p4
 - **Inference budget**: Autoregressive next-SID generation; Recall/NDCG@10. Decoder search/beam, prefix constraints, inference batch and latency not reported. Experiments use two H100 GPUs; tokenizer argmax is reported separately from generation.
-  - Source: Sections 3/4.2/5: https://arxiv.org/html/2601.19711v3#S3.p3 ; https://arxiv.org/html/2601.19711v3#S4.SS2.p1 ; https://arxiv.org/html/2601.19711v3#S5.p2 ; https://arxiv.org/html/2601.19711v3#S5.p4
 - **Results from**: Original Tables 2/3 compare DIGER variants and baselines; main DIGER uses FrqUD. Most baseline results are quoted from LETTER (Wang et al., 2024); implemented methods are validation-tuned. Original Tables 4/5 give component and capacity/length ablations.
-  - Source: Sections 5/6.2 and Tables 2/3/4/5: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S5.T2 ; https://arxiv.org/html/2601.19711v3#S6.T3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p1 ; https://arxiv.org/html/2601.19711v3#S7.T4 ; https://arxiv.org/html/2601.19711v3#S7.T5
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5, Datasets: [S5.p1](https://arxiv.org/html/2601.19711v3#S5.p1)
+- **Split**: Section 5, Evaluation: [S5.p2](https://arxiv.org/html/2601.19711v3#S5.p2)
+- **Candidates**: Section 5, Evaluation: [S5.p2](https://arxiv.org/html/2601.19711v3#S5.p2)
+- **Visibility**: Sections 4.3/5 define no item holdout: [S4.SS3.p2](https://arxiv.org/html/2601.19711v3#S4.SS3.p2) ; [S5.p1](https://arxiv.org/html/2601.19711v3#S5.p1) ; [S5.p2](https://arxiv.org/html/2601.19711v3#S5.p2)
+- **SID**: Sections 4.2/4.3/5: [S4.SS2.p1](https://arxiv.org/html/2601.19711v3#S4.SS2.p1) ; [S4.SS3.p1](https://arxiv.org/html/2601.19711v3#S4.SS3.p1) ; [S5.p4](https://arxiv.org/html/2601.19711v3#S5.p4)
+- **Inference budget**: Sections 3/4.2/5: [S3.p3](https://arxiv.org/html/2601.19711v3#S3.p3) ; [S4.SS2.p1](https://arxiv.org/html/2601.19711v3#S4.SS2.p1) ; [S5.p2](https://arxiv.org/html/2601.19711v3#S5.p2) ; [S5.p4](https://arxiv.org/html/2601.19711v3#S5.p4)
+- **Results from**: Sections 5/6.2 and Tables 2/3/4/5: [S5.p3](https://arxiv.org/html/2601.19711v3#S5.p3) ; [S5.T2](https://arxiv.org/html/2601.19711v3#S5.T2) ; [S6.T3](https://arxiv.org/html/2601.19711v3#S6.T3) ; [S6.SS2.p1](https://arxiv.org/html/2601.19711v3#S6.SS2.p1) ; [S7.T4](https://arxiv.org/html/2601.19711v3#S7.T4) ; [S7.T5](https://arxiv.org/html/2601.19711v3#S7.T5)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ SAPO computes a separate group-relative advantage for each reasoning step, one t
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews Office Products, Video Games, Industrial & Scientific; October 2016-November 2018; 5-core users/items. Further history truncation not reported.
-  - Source: https://arxiv.org/html/2605.17648v1#S5.SS1.p1 ; #A8.p1
 - **Split**: Per-user chronological leave-one-out: last item test, second last validation, remaining prefix training; all valid sliding-window history/target pairs used for training.
-  - Source: https://arxiv.org/html/2605.17648v1#A8.p1
 - **Candidates**: not reported
-  - Source: https://arxiv.org/html/2605.17648v1#S5.SS1 ; #S5.SS2.p1 ; #A8
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not explicitly separated.
-  - Source: https://arxiv.org/html/2605.17648v1#A8.p1 ; #A8.p3
 - **SID**: RQ-VAE: 3 x 256 over title/category/brand/description embeddings. Paper reports training until every item has a unique tuple, with no extra collision suffix; a separate collision-assignment rule is not reported.
-  - Source: https://arxiv.org/html/2605.17648v1#A8.p3
 - **Inference budget**: Qwen3-1.7B generates three thinking blocks followed by three contiguous SID tokens, enabling trie-constrained beam decoding and KV reuse; Recall/NDCG@5/10. Test beam width, reasoning cap, hardware allocation, batch size and latency not reported. The 16 rollouts/prompt, 1024-token cap and 4 H100s are training settings.
-  - Source: https://arxiv.org/html/2605.17648v1#A6.p2 ; #A9.SS2.p1 ; #A10.p1 ; #A11.p2
 - **Results from**: Original Table 1: main comparison; SIDReasoner uses author checkpoints evaluated by this paper, all other baselines reimplemented. Table 2: SAPO component ablations; Table 7: training overhead, not inference latency.
-  - Source: https://arxiv.org/html/2605.17648v1#S5.T1 ; #S5.T2 ; #S5.SS1.p2 ; #A12.T7
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S5.SS1.p1](https://arxiv.org/html/2605.17648v1#S5.SS1.p1) ; #A8.p1
+- **Split**: [A8.p1](https://arxiv.org/html/2605.17648v1#A8.p1)
+- **Candidates**: [S5.SS1](https://arxiv.org/html/2605.17648v1#S5.SS1) ; #S5.SS2.p1 ; #A8
+- **Visibility**: [A8.p1](https://arxiv.org/html/2605.17648v1#A8.p1) ; #A8.p3
+- **SID**: [A8.p3](https://arxiv.org/html/2605.17648v1#A8.p3)
+- **Inference budget**: [A6.p2](https://arxiv.org/html/2605.17648v1#A6.p2) ; #A9.SS2.p1 ; #A10.p1 ; #A11.p2
+- **Results from**: [S5.T1](https://arxiv.org/html/2605.17648v1#S5.T1) ; #S5.T2 ; #S5.SS1.p2 ; #A12.T7
+
+</details>
 
 ### 5. Connections to Related Work
 

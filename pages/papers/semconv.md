@@ -34,19 +34,25 @@ SemConv converts item IDs into token sequences aligned with the LLM space throug
 **Experimental setup**
 
 - **Datasets**: Amazon Games, Arts and Instruments; history cap 20; exclude samples whose concatenated prompt exceeds 2048 tokens. Other filtering: not reported.
-  - Source: Experiment Setup, Datasets: https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx1.p1
 - **Split**: Evaluation uses each user's last interaction as target and preceding interactions as context. First S-1 actions form training examples; exact validation allocation: not reported.
-  - Source: Experiment Setup, Baselines: https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p2
 - **Candidates**: not reported
-  - Source: Experiment Setup does not specify evaluation candidate sampling; negative sampling in Alignment Task is training: https://arxiv.org/html/2412.13771v1#Sx4.SSx1 and https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p4
 - **Visibility**: warm; no unseen-item protocol is defined. DCCF embedding exposure to test items/interactions: not reported.
-  - Source: Experiment Setup and Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx4.SSx1 and https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p3
 - **SID**: Aligned residual codebooks: 4 levels x 256 codes; Games reports 0% collisions at four levels. Explicit collision handling: not reported.
-  - Source: Alignment Tokenization and Table 5: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p10 and https://arxiv.org/html/2412.13771v1#Sx4.T5
 - **Inference budget**: Beam-generated valid item codes are cached per user; online serving reads cache. HR/NDCG@1/5/10. Beam width, cache K, hardware, inference batch, numerical latency: not reported.
-  - Source: Inference and Metrics: https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1 and https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx3.p1
 - **Results from**: Reported Table 1 main comparison and Tables 3-8 Games ablations. P5 uses the cited external implementation; other baseline borrowed-versus-rerun provenance: not reported.
-  - Source: Tables 1/3-8: https://arxiv.org/html/2412.13771v1#Sx3.T1 and https://arxiv.org/html/2412.13771v1#Sx4.T3 and https://arxiv.org/html/2412.13771v1#Sx4.T8 and https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Experiment Setup, Datasets: [Sx4.SSx1.SSSx1.p1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx1.p1)
+- **Split**: Experiment Setup, Baselines: [Sx4.SSx1.SSSx2.p2](https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p2)
+- **Candidates**: Experiment Setup does not specify evaluation candidate sampling; negative sampling in Alignment Task is training: [Sx4.SSx1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1) and [Sx3.SSx2.p4](https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p4)
+- **Visibility**: Experiment Setup and Alignment Tokenization: [Sx4.SSx1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1) and [Sx3.SSx1.p3](https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p3)
+- **SID**: Alignment Tokenization and Table 5: [Sx3.SSx1.p10](https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p10) and [Sx4.T5](https://arxiv.org/html/2412.13771v1#Sx4.T5)
+- **Inference budget**: Inference and Metrics: [Sx3.SSx3.p1](https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1) and [Sx4.SSx1.SSSx3.p1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx3.p1)
+- **Results from**: Tables 1/3-8: [Sx3.T1](https://arxiv.org/html/2412.13771v1#Sx3.T1) and [Sx4.T3](https://arxiv.org/html/2412.13771v1#Sx4.T3) and [Sx4.T8](https://arxiv.org/html/2412.13771v1#Sx4.T8) and [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

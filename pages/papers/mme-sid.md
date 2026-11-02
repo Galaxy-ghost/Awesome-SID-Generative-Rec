@@ -33,19 +33,25 @@ MME-SID feeds an LLM multimodal embeddings together with Semantic ID embeddings 
 **Experimental setup**
 
 - **Datasets**: Amazon 2014 5-core: Beauty (22,332 users / 12,086 items), Toys and Games (19,121 / 11,757), Sports and Outdoors (35,092 / 18,090); items lacking a title or image are removed. Positives are ratings above 3.
-  - Source: 5-core Amazon 2014 and item removal: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1 and https://arxiv.org/html/2509.02017v1#A2.p1; statistics: https://arxiv.org/html/2509.02017v1#S5.T1.
 - **Split**: Per user, the N-th (last) item is the test target and the (N-1)-th item the training target; a validation split is not reported. Results averaged over 3 runs.
-  - Source: Last and second-last item as test and training targets: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1; three runs: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1.
 - **Candidates**: not reported (full catalog versus sampled); items are scored by dot products between the LLM output and multimodal item embeddings, with HR and nDCG at 5, 10, 20.
-  - Source: Scores over target item embeddings: https://arxiv.org/html/2509.02017v1#S4.SS3.p3 and https://arxiv.org/html/2509.02017v1#S6.SS2.p1; metrics: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS2.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. A frequency-aware fusion module reweights modalities by each item's training-set frequency.
-  - Source: Standard split; frequency-aware fusion for cold versus warm items without an unseen-item protocol: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1 and https://arxiv.org/html/2509.02017v1#S4.SS3.p3.
 - **SID**: Separate collaborative, textual, and visual SIDs from RQ-VAEs with 4 levels x 256 codes (300 for Sports), used as LLM input embeddings alongside projected modality embeddings. The paper states that MME-SID does not need to tackle collisions because multimodal data discriminate between items; no resolution rule is described.
-  - Source: 4 levels x 256 (300 for Sports) per modality: https://arxiv.org/html/2509.02017v1#A1.T4; no collision handling needed by design: https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1.
 - **Inference budget**: No autoregressive decoding: one forward pass of Llama3-8B-instruct, then scoring against item embeddings. All experiments on A100 GPUs; inference batch size and latency: not reported.
-  - Source: Scoring instead of autoregressive decoding: https://arxiv.org/html/2509.02017v1#S6.SS2.p1; hardware: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1.
 - **Results from**: Table 3 (Beauty, Toys, Sports versus ID, multimodal, and SID-based baselines; t-tests); Figure 3 (embedding collapse and SR performance); Appendix Table 4 (hyperparameters).
-  - Source: Main: https://arxiv.org/html/2509.02017v1#S5.T3; collapse analysis: https://arxiv.org/html/2509.02017v1#S5.SS3.p1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: 5-core Amazon 2014 and item removal: [S5.SS1.SSS1.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1) and [A2.p1](https://arxiv.org/html/2509.02017v1#A2.p1); statistics: [S5.T1](https://arxiv.org/html/2509.02017v1#S5.T1).
+- **Split**: Last and second-last item as test and training targets: [S5.SS1.SSS1.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1); three runs: [S5.SS1.SSS4.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1).
+- **Candidates**: Scores over target item embeddings: [S4.SS3.p3](https://arxiv.org/html/2509.02017v1#S4.SS3.p3) and [S6.SS2.p1](https://arxiv.org/html/2509.02017v1#S6.SS2.p1); metrics: [S5.SS1.SSS2.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS2.p1).
+- **Visibility**: Standard split; frequency-aware fusion for cold versus warm items without an unseen-item protocol: [S5.SS1.SSS1.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1) and [S4.SS3.p3](https://arxiv.org/html/2509.02017v1#S4.SS3.p3).
+- **SID**: 4 levels x 256 (300 for Sports) per modality: [A1.T4](https://arxiv.org/html/2509.02017v1#A1.T4); no collision handling needed by design: [S4.I1.i2.p1](https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1).
+- **Inference budget**: Scoring instead of autoregressive decoding: [S6.SS2.p1](https://arxiv.org/html/2509.02017v1#S6.SS2.p1); hardware: [S5.SS1.SSS4.p1](https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1).
+- **Results from**: Main: [S5.T3](https://arxiv.org/html/2509.02017v1#S5.T3); collapse analysis: [S5.SS3.p1](https://arxiv.org/html/2509.02017v1#S5.SS3.p1).
+
+</details>
 
 ### 5. Connections to Related Work
 

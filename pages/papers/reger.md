@@ -33,19 +33,25 @@ REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combine
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014 Beauty/Sports/Toys and 2023 Instruments/Scientific/Games; 5-core filtering and maximum history 20 items.
-  - Source: https://arxiv.org/html/2610.37584v1#S5.SS1.p1 ; #A1.T6
 - **Split**: Per-user chronological leave-one-out: latest interaction test, second latest validation, all earlier interactions training.
-  - Source: https://arxiv.org/html/2610.37584v1#A1.SS1.p1
 - **Candidates**: not reported
-  - Source: Evaluation settings give metrics and seeds but no evaluation universe: https://arxiv.org/html/2610.37584v1#S5.SS1 ; #A1.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. GSR semantic neighbors are drawn from the item catalog; tokenizer and frozen DuoRec teacher exposure to test items/interactions not explicitly separated.
-  - Source: https://arxiv.org/html/2610.37584v1#S5.SS1.p1 ; #S4.SS1.p3 ; #S4.SS3.SSS2.p1 ; #A1.SS3.p1
 - **SID**: RQ-VAE on Sentence-T5 embeddings reduced to 128 dimensions by PCA/whitening; semantic level count and codebook sizes not reported in paper. Extra token distinguishes identical semantic codes; suffix vocabulary size/assignment not reported. Dataset-specific SID mapping shared across recommender seeds.
-  - Source: https://arxiv.org/html/2610.37584v1#S3.SS1.p1 ; #A1.SS3.p1
 - **Inference budget**: Unconstrained beam 20 for validation/test, without teacher; teacher ablation uses beam 50. Recall/NDCG@5/10. Table 4 efficiency probe on TIGER+HCPD: one L40, FP32, test batch 256, KV cache off, 16 s for full Beauty test set. REGER-specific absolute inference time and general inference batch/hardware not reported.
-  - Source: https://arxiv.org/html/2610.37584v1#A1.SS3.p2 ; #A1.SS3.p4 ; #A1.T7 ; #S5.T4 ; #S5.SS4.p3
 - **Results from**: Table 1: 2014 comparisons with reproduced baselines, three seeds 2024/2025/2026; Table 2: training objectives on TIGER; Table 3: REGER ablations. Table 6: 2023 results, with published baseline rows from Latte, OMEGA, DECOR and TopoTok papers.
-  - Source: https://arxiv.org/html/2610.37584v1#S4.T1 ; #S5.T2 ; #S5.T3 ; #A1.T6 ; #A1.SS3.p2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S5.SS1.p1](https://arxiv.org/html/2610.37584v1#S5.SS1.p1) ; #A1.T6
+- **Split**: [A1.SS1.p1](https://arxiv.org/html/2610.37584v1#A1.SS1.p1)
+- **Candidates**: Evaluation settings give metrics and seeds but no evaluation universe: [S5.SS1](https://arxiv.org/html/2610.37584v1#S5.SS1) ; #A1.SS1
+- **Visibility**: [S5.SS1.p1](https://arxiv.org/html/2610.37584v1#S5.SS1.p1) ; #S4.SS1.p3 ; #S4.SS3.SSS2.p1 ; #A1.SS3.p1
+- **SID**: [S3.SS1.p1](https://arxiv.org/html/2610.37584v1#S3.SS1.p1) ; #A1.SS3.p1
+- **Inference budget**: [A1.SS3.p2](https://arxiv.org/html/2610.37584v1#A1.SS3.p2) ; #A1.SS3.p4 ; #A1.T7 ; #S5.T4 ; #S5.SS4.p3
+- **Results from**: [S4.T1](https://arxiv.org/html/2610.37584v1#S4.T1) ; #S5.T2 ; #S5.T3 ; #A1.T6 ; #A1.SS3.p2
+
+</details>
 
 ### 5. Connections to Related Work
 

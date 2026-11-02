@@ -34,19 +34,25 @@ Evo-Rec aligns Semantic IDs with text and behavior, fine-tunes on sampled reason
 **Experimental setup**
 
 - **Datasets**: Amazon Video Games, Office Products, Industrial and Scientific; 5-core filtering.
-  - Source: Section 4.1.1: https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1
 - **Split**: Per-user chronological 80%/10%/10% training/validation/test; sliding histories capped at 10.
-  - Source: Section 4.1.1: https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1
 - **Candidates**: full catalog
-  - Source: Section 4.1.1 explicitly ranks against the entire item catalog: https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p2
 - **Visibility**: warm; no unseen-item protocol is defined. Item-level visibility to RQ-VAE and SID-language alignment: not reported.
-  - Source: Sections 3.2 and 4.1: https://arxiv.org/html/2609.29973v1#S3.SS2 and https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1
 - **SID**: Three RQ-VAE semantic tokens; codebook sizes and collision handling not reported.
-  - Source: Sections 3.2 and 4.1.3: https://arxiv.org/html/2609.29973v1#S3.SS2.p1 and https://arxiv.org/html/2609.29973v1#S4.SS1.SSS3.p1
 - **Inference budget**: Reasoning followed by catalog-trie beam search, beam 10; inference hardware, batch size, reasoning cap, and latency not reported.
-  - Source: Section 4.1.3 separates training rollout settings from inference: https://arxiv.org/html/2609.29973v1#S4.SS1.SSS3.p1
 - **Results from**: Original Table 2; baseline numbers quoted from SIDReasoner, with Evo-Rec evaluated on the same split/protocol.
-  - Source: Section 4.1.2 and Table 2: https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1 and https://arxiv.org/html/2609.29973v1#S4.T2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1)
+- **Split**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1)
+- **Candidates**: Section 4.1.1 explicitly ranks against the entire item catalog: [S4.SS1.SSS1.p2](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p2)
+- **Visibility**: Sections 3.2 and 4.1: [S3.SS2](https://arxiv.org/html/2609.29973v1#S3.SS2) and [S4.SS1.SSS1.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS1.p1)
+- **SID**: Sections 3.2 and 4.1.3: [S3.SS2.p1](https://arxiv.org/html/2609.29973v1#S3.SS2.p1) and [S4.SS1.SSS3.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS3.p1)
+- **Inference budget**: Section 4.1.3 separates training rollout settings from inference: [S4.SS1.SSS3.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS3.p1)
+- **Results from**: Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1) and [S4.T2](https://arxiv.org/html/2609.29973v1#S4.T2)
+
+</details>
 
 ### 5. Connections to Related Work
 

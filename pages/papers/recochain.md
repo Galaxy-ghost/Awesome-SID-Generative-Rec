@@ -34,19 +34,25 @@ RecoChain generates candidates by hierarchical Semantic ID prediction and then r
 **Experimental setup**
 
 - **Datasets**: TAOBAO-MM: 8.79M users, 35.4M items, 99M interactions, histories up to 1,000 interactions, with 128-dimensional multimodal item embeddings; adapted from CTR to sequential recommendation by keeping interaction histories and discarding exposure labels. Further filtering: not reported.
-  - Source: TAOBAO-MM and adaptation: https://arxiv.org/html/2604.25787v1#S3.p1.
 - **Split**: The official TAOBAO-MM train/validation/test split, without further sequence-level partitioning.
-  - Source: Official split: https://arxiv.org/html/2604.25787v1#S3.p1.
 - **Candidates**: not reported (full catalog versus sampled); top-K comes from C beam candidates (beam size 20 by default) that are re-ranked by a click-probability head.
-  - Source: Beam candidates re-ranked; metrics: https://arxiv.org/html/2604.25787v1#S3.p4 and https://arxiv.org/html/2604.25787v1#S2.SS4.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Official split with no unseen-item protocol: https://arxiv.org/html/2604.25787v1#S3.p1.
 - **SID**: 3-level RQ-Kmeans over the pretrained multimodal embeddings, plus a random fourth token s4 that makes the item-SID mapping one-to-one; codebook size per level: not reported.
-  - Source: 3-level RQ-Kmeans plus a random fourth token: https://arxiv.org/html/2604.25787v1#S2.SS2.p1.
 - **Inference budget**: Hierarchical beam search (default beam 20; 10 to 40 in Table 1) with KV cache, then for each candidate the top-10 most similar history items are appended and a rank head scores the candidate by continuing decoding. 2-layer decoder (hidden 1,024). Hardware, inference batch size, and latency: not reported.
-  - Source: Generate-retrieve-rerank with KV reuse: https://arxiv.org/html/2604.25787v1#S2.SS3.SSS2.p2, https://arxiv.org/html/2604.25787v1#S2.SS3.SSS2.p4, https://arxiv.org/html/2604.25787v1#S2.SS4.p2; defaults: https://arxiv.org/html/2604.25787v1#S3.p4; model: https://arxiv.org/html/2604.25787v1#S3.p2.
 - **Results from**: Tables 1-3 (Recall and NDCG at 5 and 10 before and after re-ranking, varying beam size, input sequence length, and retrieval length on TAOBAO-MM).
-  - Source: Results: https://arxiv.org/html/2604.25787v1#S2.T1, https://arxiv.org/html/2604.25787v1#S2.T2, https://arxiv.org/html/2604.25787v1#S2.T3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: TAOBAO-MM and adaptation: [S3.p1](https://arxiv.org/html/2604.25787v1#S3.p1).
+- **Split**: Official split: [S3.p1](https://arxiv.org/html/2604.25787v1#S3.p1).
+- **Candidates**: Beam candidates re-ranked; metrics: [S3.p4](https://arxiv.org/html/2604.25787v1#S3.p4) and [S2.SS4.p1](https://arxiv.org/html/2604.25787v1#S2.SS4.p1).
+- **Visibility**: Official split with no unseen-item protocol: [S3.p1](https://arxiv.org/html/2604.25787v1#S3.p1).
+- **SID**: 3-level RQ-Kmeans plus a random fourth token: [S2.SS2.p1](https://arxiv.org/html/2604.25787v1#S2.SS2.p1).
+- **Inference budget**: Generate-retrieve-rerank with KV reuse: [S2.SS3.SSS2.p2](https://arxiv.org/html/2604.25787v1#S2.SS3.SSS2.p2), [S2.SS3.SSS2.p4](https://arxiv.org/html/2604.25787v1#S2.SS3.SSS2.p4), [S2.SS4.p2](https://arxiv.org/html/2604.25787v1#S2.SS4.p2); defaults: [S3.p4](https://arxiv.org/html/2604.25787v1#S3.p4); model: [S3.p2](https://arxiv.org/html/2604.25787v1#S3.p2).
+- **Results from**: Results: [S2.T1](https://arxiv.org/html/2604.25787v1#S2.T1), [S2.T2](https://arxiv.org/html/2604.25787v1#S2.T2), [S2.T3](https://arxiv.org/html/2604.25787v1#S2.T3).
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -35,19 +35,25 @@ SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-de
 **Experimental setup**
 
 - **Datasets**: Yelp 2018 (31,668 users / 38,048 items), Amazon Books (459,133 / 313,966), MIND-small News (50,000 / 39,865), and an industrial Micro-Video dataset of 0.75 million randomly selected users over two weeks in 2023 (6.1 million items, 85 million interactions, unfiltered). Public-dataset filtering: not reported.
-  - Source: Datasets: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS1.p1 and https://arxiv.org/html/2309.13375v2#S5.SS1.SSS1.p2; statistics: https://arxiv.org/html/2309.13375v2#S5.T2.
 - **Split**: Users are partitioned 8:1:1 into training, validation, and test; for each evaluated user the first 80% of behaviors are context and the remaining 20% are ground truth (ComiRec protocol).
-  - Source: User-level 8:1:1 split with 80/20 context/target: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p1.
 - **Candidates**: full catalog (top-n items from the entire candidate set via constrained beam search); NDCG uses all positive items for the ideal DCG.
-  - Source: Top-n from the entire candidate set: https://arxiv.org/html/2309.13375v2#S3.SS4.p1; NDCG computed against all positives: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p2.
 - **Visibility**: warm; no unseen-item protocol is defined. Test users are held out from training (user-level split); the SASRec embeddings used to build identifiers are trained on interaction data whose user split is not restated.
-  - Source: Test users disjoint from training users; items shared: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p1.
 - **SID**: Balanced k-ary tree identifiers from recursive constrained k-means over trained SASRec item embeddings; leaf-layer tokens correspond one-to-one with items and share the item's embedding. The branch count k is searched over 2, 4, 8, 16, and 32, and the paper states that k is set to 8 or 16 in the experiments; the value per dataset: not reported.
-  - Source: Balanced k-ary tree from constrained k-means over SASRec embeddings; https://arxiv.org/html/2309.13375v2#algorithm1.6; leaf tokens one-to-one with items: https://arxiv.org/html/2309.13375v2#S3.SS2.SSS2.p3; k search range: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS3.p4; k set to 8 or 16: https://arxiv.org/html/2309.13375v2#S4.SS2.p2.
 - **Inference budget**: Constrained beam search over the prefix tree with beam size 50 (also for TDM and RecForest); Table 1 gives asymptotic inference cost. Main SEATER uses a single encoder-decoder layer. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam size 50 for tree-based and generative methods: https://arxiv.org/html/2309.13375v2#S5.SS1.SSS3.p4; complexity: https://arxiv.org/html/2309.13375v2#S3.T1.
 - **Results from**: Table 3 (Yelp, News, Books, Micro-Video versus dual-encoder, tree-based, and generative baselines including GPTRec and TIGER); Table 1 (time and space complexity); Section 5.5 (more encoder-decoder layers).
-  - Source: Main: https://arxiv.org/html/2309.13375v2#S5.T3; complexity: https://arxiv.org/html/2309.13375v2#S3.T1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets: [S5.SS1.SSS1.p1](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS1.p1) and [S5.SS1.SSS1.p2](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS1.p2); statistics: [S5.T2](https://arxiv.org/html/2309.13375v2#S5.T2).
+- **Split**: User-level 8:1:1 split with 80/20 context/target: [S5.SS1.SSS2.p1](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p1).
+- **Candidates**: Top-n from the entire candidate set: [S3.SS4.p1](https://arxiv.org/html/2309.13375v2#S3.SS4.p1); NDCG computed against all positives: [S5.SS1.SSS2.p2](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p2).
+- **Visibility**: Test users disjoint from training users; items shared: [S5.SS1.SSS2.p1](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS2.p1).
+- **SID**: Balanced k-ary tree from constrained k-means over SASRec embeddings; [algorithm1.6](https://arxiv.org/html/2309.13375v2#algorithm1.6); leaf tokens one-to-one with items: [S3.SS2.SSS2.p3](https://arxiv.org/html/2309.13375v2#S3.SS2.SSS2.p3); k search range: [S5.SS1.SSS3.p4](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS3.p4); k set to 8 or 16: [S4.SS2.p2](https://arxiv.org/html/2309.13375v2#S4.SS2.p2).
+- **Inference budget**: Beam size 50 for tree-based and generative methods: [S5.SS1.SSS3.p4](https://arxiv.org/html/2309.13375v2#S5.SS1.SSS3.p4); complexity: [S3.T1](https://arxiv.org/html/2309.13375v2#S3.T1).
+- **Results from**: Main: [S5.T3](https://arxiv.org/html/2309.13375v2#S5.T3); complexity: [S3.T1](https://arxiv.org/html/2309.13375v2#S3.T1).
+
+</details>
 
 ### 5. Connections to Related Work
 

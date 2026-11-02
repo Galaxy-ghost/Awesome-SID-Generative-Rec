@@ -33,15 +33,23 @@ This list collects 181 papers on generative recommendation with Semantic IDs (SI
 
 Click a count to jump to its papers; darker means more papers.
 
-| Mark       | Meaning                                                                                           |
-| :--------- | :------------------------------------------------------------------------------------------------ |
-| `†`        | Inferred: the paper does not restate the setting; it is inferred from the configuration it names. |
-| `A / B`    | Different branches or configurations of the method.                                               |
-| `–`        | Not reported.                                                                                     |
-| `n/a`      | Not applicable.                                                                                   |
-| **Bold**   | The stage the paper mainly changes.                                                               |
-| Empty cell | No paper has that cell as its main label yet. It does not mean a research gap.                    |
-| `warm`     | A protocol label in a setup card. It does not prove that every test item appeared in training.    |
+| Mark       | Meaning                                          |
+| :--------- | :----------------------------------------------- |
+| `†`        | Inferred from the configuration the paper names. |
+| `A / B`    | Two branches or configurations.                  |
+| `–`        | Not reported.                                    |
+| `n/a`      | Not applicable.                                  |
+| **Bold**   | The stage the paper mainly changes.              |
+| Empty cell | No paper yet.                                    |
+| `warm`     | Protocol label in setup cards.                   |
+
+```mermaid
+xychart-beta
+    title "Papers per year"
+    x-axis ["2023", "2024", "2025", "2026"]
+    y-axis "Papers"
+    bar [3, 13, 37, 128]
+```
 
 The [glossary](guides/glossary.md) defines every value in the paper pages.
 

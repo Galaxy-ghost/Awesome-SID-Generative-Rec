@@ -32,19 +32,25 @@ Q-BERT4Rec fuses text, image, and structural features into item embeddings, quan
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018: pre-training on six source domains (Pet, Cell, Automotive, Tools, Toys, Sports) and fine-tuning on Musical Instruments, Arts Crafts and Sewing, Video Games (same statistics table as MQL4GRec). Filtering rules: not restated.
-  - Source: Source and target domains: https://arxiv.org/html/2512.02474v2#S4.SS1.p1, https://arxiv.org/html/2512.02474v2#S4.SS1.p2, https://arxiv.org/html/2512.02474v2#S4.SS1.p3; statistics: https://arxiv.org/html/2512.02474v2#S3.T1.
 - **Split**: Leave-one-out: most recent interaction for test, second most recent for validation, the rest for training.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2512.02474v2#S4.SS1.p4.
 - **Candidates**: not reported explicitly; at inference the masked last position is filled with the most probable semantic ID over the item set (HR and NDCG at 1, 5, 10).
-  - Source: Argmax over item semantic IDs: https://arxiv.org/html/2512.02474v2#S3.SS6.p2; metrics: https://arxiv.org/html/2512.02474v2#S4.SS1.p4.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2512.02474v2#S4.SS1.p4.
 - **SID**: 4-level RQ-VAE x 256 codewords (dimension 32) over LLaMA text and CLIP-ViT image features fused by a cross-modal semantic injection module. Collisions are resolved by MQL4GRec's distance-based token reallocation.
-  - Source: 4 levels x 256 x 32, MQL4GRec reallocation for collisions: https://arxiv.org/html/2512.02474v2#S4.SS1.p6 and https://arxiv.org/html/2512.02474v2#S3.SS4.p7.
 - **Inference budget**: Bidirectional masked prediction of the last position (no beam search); 4-layer Transformer encoder. NVIDIA RTX 4090 GPUs (four for pre-training, one for fine-tuning). Table 6 reports per-sample inference latency of about 2.66-2.67 ms with under 6M parameters.
-  - Source: Masked prediction at inference: https://arxiv.org/html/2512.02474v2#S3.SS6.p2; hardware: https://arxiv.org/html/2512.02474v2#S4.SS1.p8; latency: https://arxiv.org/html/2512.02474v2#A2.T6.
 - **Results from**: Table 2 (Instruments, Arts, Games versus traditional, Transformer, multimodal, prompt-LLM, and semantic-ID baselines); Tables 3-4 (modalities and pre-training strategies); Figures 3-5 (layers, mask ratio, dropout); Table 6 (complexity and latency).
-  - Source: Main: https://arxiv.org/html/2512.02474v2#S3.T2; ablations: https://arxiv.org/html/2512.02474v2#S3.T3 and https://arxiv.org/html/2512.02474v2#S4.T4; sensitivity: https://arxiv.org/html/2512.02474v2#S4.SS4.p1; complexity: https://arxiv.org/html/2512.02474v2#A2.T6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Source and target domains: [S4.SS1.p1](https://arxiv.org/html/2512.02474v2#S4.SS1.p1), [S4.SS1.p2](https://arxiv.org/html/2512.02474v2#S4.SS1.p2), [S4.SS1.p3](https://arxiv.org/html/2512.02474v2#S4.SS1.p3); statistics: [S3.T1](https://arxiv.org/html/2512.02474v2#S3.T1).
+- **Split**: Leave-one-out allocation: [S4.SS1.p4](https://arxiv.org/html/2512.02474v2#S4.SS1.p4).
+- **Candidates**: Argmax over item semantic IDs: [S3.SS6.p2](https://arxiv.org/html/2512.02474v2#S3.SS6.p2); metrics: [S4.SS1.p4](https://arxiv.org/html/2512.02474v2#S4.SS1.p4).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.SS1.p4](https://arxiv.org/html/2512.02474v2#S4.SS1.p4).
+- **SID**: 4 levels x 256 x 32, MQL4GRec reallocation for collisions: [S4.SS1.p6](https://arxiv.org/html/2512.02474v2#S4.SS1.p6) and [S3.SS4.p7](https://arxiv.org/html/2512.02474v2#S3.SS4.p7).
+- **Inference budget**: Masked prediction at inference: [S3.SS6.p2](https://arxiv.org/html/2512.02474v2#S3.SS6.p2); hardware: [S4.SS1.p8](https://arxiv.org/html/2512.02474v2#S4.SS1.p8); latency: [A2.T6](https://arxiv.org/html/2512.02474v2#A2.T6).
+- **Results from**: Main: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2); ablations: [S3.T3](https://arxiv.org/html/2512.02474v2#S3.T3) and [S4.T4](https://arxiv.org/html/2512.02474v2#S4.T4); sensitivity: [S4.SS4.p1](https://arxiv.org/html/2512.02474v2#S4.SS4.p1); complexity: [A2.T6](https://arxiv.org/html/2512.02474v2#A2.T6).
+
+</details>
 
 ### 5. Connections to Related Work
 

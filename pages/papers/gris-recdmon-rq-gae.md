@@ -34,19 +34,25 @@ GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partitio
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014 Beauty, Toys, Sports, Books; MIND-Small; Yelp 2018. Iterative 5-core filtering on all datasets.
-  - Source: Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1
 - **Split**: Per-user leave-one-out: last interaction test, second-to-last validation; maximum sequence length 20.
-  - Source: Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1
 - **Candidates**: not reported
-  - Source: Evaluation protocol in Section 5.1 does not specify candidate enumeration or negative sampling: https://arxiv.org/html/2610.01533v1#S5.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. RQ-GAE item-graph edges use adjacent co-occurrences from training sequences.
-  - Source: Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p3
 - **SID**: RQ-GAE: 4 x 256 codebooks; collision handling not reported. RecDMoN: four recursive levels with branching factor 6 in Table 6, plus a fifth deduplication codebook; Appendix A reports five levels. Deduplication assignment rule not reported.
-  - Source: Section 5.1, Section 5.2.4, Table 6, and Appendix A Table 8: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2 and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS4.p1 and https://arxiv.org/html/2610.01533v1#S5.T6 and https://arxiv.org/html/2610.01533v1#A1.T8
 - **Inference budget**: Hit/NDCG@5/10; decoding beam, hardware, inference batch size, latency not reported.
-  - Source: Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2
 - **Results from**: Original Table 3: six-dataset comparison, averages over three seeds. RecDMoN Books unavailable due to GPU memory limits.
-  - Source: Table 3 and Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.T3 and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1 and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px1.p1) and [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1)
+- **Split**: Section 5.1: [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1)
+- **Candidates**: Evaluation protocol in Section 5.1 does not specify candidate enumeration or negative sampling: [S5.SS1](https://arxiv.org/html/2610.01533v1#S5.SS1)
+- **Visibility**: Section 5.1: [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1) and [S5.SS1.SSS0.Px3.p3](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p3)
+- **SID**: Section 5.1, Section 5.2.4, Table 6, and Appendix A Table 8: [S5.SS1.SSS0.Px3.p2](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2) and [S5.SS2.SSS4.p1](https://arxiv.org/html/2610.01533v1#S5.SS2.SSS4.p1) and [S5.T6](https://arxiv.org/html/2610.01533v1#S5.T6) and [A1.T8](https://arxiv.org/html/2610.01533v1#A1.T8)
+- **Inference budget**: Section 5.1: [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1) and [S5.SS1.SSS0.Px3.p2](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2)
+- **Results from**: Table 3 and Section 5.2.1: [S5.T3](https://arxiv.org/html/2610.01533v1#S5.T3) and [S5.SS2.SSS1.p1](https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1) and [S5.SS2.SSS1.p2](https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p2)
+
+</details>
 
 ### 5. Connections to Related Work
 

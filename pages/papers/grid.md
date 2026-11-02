@@ -70,19 +70,25 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 **Experimental setup**
 
 - **Datasets**: 5-core filtered Amazon Beauty, Sports, and Toys; item text from Title, Categories, Description, and Price. Retained corpus sizes: not reported in the body.
-  - Source: 5-core Amazon datasets and text features: https://arxiv.org/html/2507.22224v1#S4.p2.
 - **Split**: Per-user leave-last-out: last item for test, second-to-last for validation, the rest for training; sliding-window training samples; averages over 5 seeds.
-  - Source: Leave-last-out allocation and 5 seeds: https://arxiv.org/html/2507.22224v1#S4.p2.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search.
-  - Source: Metrics only: https://arxiv.org/html/2507.22224v1#S4.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2507.22224v1#S4.p2.
 - **SID**: Benchmark default: RK-Means with 3 levels x 256 tokens over mean-pooled Flan-T5-XL embeddings; also R-VQ and RQ-VAE, and L x W variants (e.g. 3 x 128, 3 x 512, 2 x 256). Collisions: Table 7 compares TIGER-style appended-digit de-duplication with randomly selecting one item when SIDs conflict; which one is the default setting is not stated.
-  - Source: Default RK-Means (3, 256) with Flan-T5-XL: https://arxiv.org/html/2507.22224v1#S4.SS1.p1; dimension study: https://arxiv.org/html/2507.22224v1#S3.T3; de-duplication strategies: https://arxiv.org/html/2507.22224v1#S4.SS2.p5 and https://arxiv.org/html/2507.22224v1#S4.T7.
 - **Inference budget**: Beam search with KV cache; constrained and unconstrained beam compared (Table 8), with unconstrained stated to be cheaper; numerical beam width not reported. Tokenizers trained on 8 GPUs (per-device batch 2,048); generator training batch 256; inference hardware, batch size, and latency: not reported.
-  - Source: Beam search with KV cache: https://arxiv.org/html/2507.22224v1#S3.SS1.p3; constrained versus free-form beam: https://arxiv.org/html/2507.22224v1#S4.SS2.p6 and https://arxiv.org/html/2507.22224v1#S4.T8; tokenizer GPUs: https://arxiv.org/html/2507.22224v1#S4.p2.
 - **Results from**: Tables 1-3 (tokenizer algorithm, encoder size, codebook dimensions); Tables 4-8 (user tokens, encoder-decoder versus decoder-only, augmentation, SID de-duplication, constrained versus free-form beam). Tables 3 and 4 cover Beauty only; the other tables cover Beauty, Sports, and Toys; results average 5 seeds.
-  - Source: Tables 1-8: https://arxiv.org/html/2507.22224v1#S3.T1, https://arxiv.org/html/2507.22224v1#S3.T2, https://arxiv.org/html/2507.22224v1#S3.T3, https://arxiv.org/html/2507.22224v1#S4.T4, https://arxiv.org/html/2507.22224v1#S4.T5, https://arxiv.org/html/2507.22224v1#S4.T6, https://arxiv.org/html/2507.22224v1#S4.T7, https://arxiv.org/html/2507.22224v1#S4.T8.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: 5-core Amazon datasets and text features: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2).
+- **Split**: Leave-last-out allocation and 5 seeds: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2).
+- **Candidates**: Metrics only: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2).
+- **SID**: Default RK-Means (3, 256) with Flan-T5-XL: [S4.SS1.p1](https://arxiv.org/html/2507.22224v1#S4.SS1.p1); dimension study: [S3.T3](https://arxiv.org/html/2507.22224v1#S3.T3); de-duplication strategies: [S4.SS2.p5](https://arxiv.org/html/2507.22224v1#S4.SS2.p5) and [S4.T7](https://arxiv.org/html/2507.22224v1#S4.T7).
+- **Inference budget**: Beam search with KV cache: [S3.SS1.p3](https://arxiv.org/html/2507.22224v1#S3.SS1.p3); constrained versus free-form beam: [S4.SS2.p6](https://arxiv.org/html/2507.22224v1#S4.SS2.p6) and [S4.T8](https://arxiv.org/html/2507.22224v1#S4.T8); tokenizer GPUs: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2).
+- **Results from**: Tables 1-8: [S3.T1](https://arxiv.org/html/2507.22224v1#S3.T1), [S3.T2](https://arxiv.org/html/2507.22224v1#S3.T2), [S3.T3](https://arxiv.org/html/2507.22224v1#S3.T3), [S4.T4](https://arxiv.org/html/2507.22224v1#S4.T4), [S4.T5](https://arxiv.org/html/2507.22224v1#S4.T5), [S4.T6](https://arxiv.org/html/2507.22224v1#S4.T6), [S4.T7](https://arxiv.org/html/2507.22224v1#S4.T7), [S4.T8](https://arxiv.org/html/2507.22224v1#S4.T8).
+
+</details>
 
 - Main finding: several components assumed essential, which often cost compute or engineering, can be replaced with more efficient alternatives without losing performance (Sec. 5).
 

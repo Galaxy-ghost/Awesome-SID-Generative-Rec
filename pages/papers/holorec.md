@@ -35,19 +35,25 @@ HoloRec builds hierarchical Semantic IDs by nested residual quantization with a 
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty and Instruments; user/item five-core filtering.
-  - Source: Section 4.1.1: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS1.p1
 - **Split**: Leave-one-out; exact validation/test allocation not reported.
-  - Source: Section 4.1.1: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS1.p1
 - **Candidates**: not reported
-  - Source: Section 4.1 gives metrics but no evaluation candidate protocol: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS2.p1
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Section 4 defines no item holdout: https://arxiv.org/html/2606.15331v1#S4.SS1
 - **SID**: Three nested granularities (8/16/32 dimensions), each with 4 residual levels x 256 codes; codebooks shared across granularities. Collision handling not reported.
-  - Source: Sections 3.1 and 4.1.4: https://arxiv.org/html/2606.15331v1#S3.SS1.SSS1.p1 and https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1
 - **Inference budget**: K=5/10; non-thinking and interleaved-thinking modes. Beam width, inference hardware/batch size, and measured latency not reported; A100 and batch 1024 describe training.
-  - Source: Sections 4.1.2/4.1.4 and 4.7: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS2.p1 and https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1 and https://arxiv.org/html/2606.15331v1#S4.SS7.p1
 - **Results from**: Original Table 2: overall comparisons; Table 3: ablations.
-  - Source: Tables 2-3: https://arxiv.org/html/2606.15331v1#S4.T2 and https://arxiv.org/html/2606.15331v1#S4.T3
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS1.p1)
+- **Split**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS1.p1)
+- **Candidates**: Section 4.1 gives metrics but no evaluation candidate protocol: [S4.SS1.SSS2.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS2.p1)
+- **Visibility**: Section 4 defines no item holdout: [S4.SS1](https://arxiv.org/html/2606.15331v1#S4.SS1)
+- **SID**: Sections 3.1 and 4.1.4: [S3.SS1.SSS1.p1](https://arxiv.org/html/2606.15331v1#S3.SS1.SSS1.p1) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1)
+- **Inference budget**: Sections 4.1.2/4.1.4 and 4.7: [S4.SS1.SSS2.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS2.p1) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1) and [S4.SS7.p1](https://arxiv.org/html/2606.15331v1#S4.SS7.p1)
+- **Results from**: Tables 2-3: [S4.T2](https://arxiv.org/html/2606.15331v1#S4.T2) and [S4.T3](https://arxiv.org/html/2606.15331v1#S4.T3)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -35,19 +35,25 @@ SPAR fuses sinusoidal coordinate embeddings into Semantic ID construction, conti
 **Experimental setup**
 
 - **Datasets**: Public NYC/TKY; one month of AMAP logs from Beijing, Shanghai, Tianjin and Zhejiang. MG-CPT adds 25 geospatial datasets per city. Cleaning details not reported.
-  - Source: Section 5.1, Table 1 and Appendix B: https://arxiv.org/html/2609.02062v2#S5.SS1.p1 and https://arxiv.org/html/2609.02062v2#S5.T1 and https://arxiv.org/html/2609.02062v2#A2.p1
 - **Split**: Public: chronological 80%/10%/10% train/validation/test. Industrial: last day test, earlier interactions train; industrial validation allocation not reported. Each interaction uses its preceding history.
-  - Source: Section 5.1: https://arxiv.org/html/2609.02062v2#S5.SS1.p1
 - **Candidates**: not reported
-  - Source: Section 5.1 reports metrics and splits without candidate enumeration or negative sampling: https://arxiv.org/html/2609.02062v2#S5.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. Cold/warm users have <8/>=16 historical interactions; queries and real-time location remain available. Quantizer fits training POIs; test-POI exclusion not detailed.
-  - Source: Sections 4.1.2/5.5: https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2 and https://arxiv.org/html/2609.02062v2#S5.SS5.p1
 - **SID**: SI-SID: 3 residual K-Means codebooks x 32 codes for NYC/TKY or x 512 for AMAP, plus a fourth disambiguation index guaranteeing unique POI IDs.
-  - Source: Sections 4.1.2/5.1: https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4
 - **Inference budget**: Default Qwen3-4B; Recall/NDCG/MRR@5/10/20. Experiment environment: 64 A100 GPUs; beam width, inference batch size and latency not reported. Reported batch 32 is training.
-  - Source: Section 5.1: https://arxiv.org/html/2609.02062v2#S5.SS1.p2 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4
 - **Results from**: Original Tables 2/3: public/industrial recommendation comparisons; Table 5: sparse-history users. Generative baselines are standardized to four-level SIDs with final disambiguation indices.
-  - Source: Original Tables 2/3/5 and Section 5.1: https://arxiv.org/html/2609.02062v2#S5.T2 and https://arxiv.org/html/2609.02062v2#S5.T3 and https://arxiv.org/html/2609.02062v2#S5.T5 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1, Table 1 and Appendix B: [S5.SS1.p1](https://arxiv.org/html/2609.02062v2#S5.SS1.p1) and [S5.T1](https://arxiv.org/html/2609.02062v2#S5.T1) and [A2.p1](https://arxiv.org/html/2609.02062v2#A2.p1)
+- **Split**: Section 5.1: [S5.SS1.p1](https://arxiv.org/html/2609.02062v2#S5.SS1.p1)
+- **Candidates**: Section 5.1 reports metrics and splits without candidate enumeration or negative sampling: [S5.SS1](https://arxiv.org/html/2609.02062v2#S5.SS1)
+- **Visibility**: Sections 4.1.2/5.5: [S4.SS1.SSS2.p2](https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2) and [S5.SS5.p1](https://arxiv.org/html/2609.02062v2#S5.SS5.p1)
+- **SID**: Sections 4.1.2/5.1: [S4.SS1.SSS2.p2](https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2) and [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4)
+- **Inference budget**: Section 5.1: [S5.SS1.p2](https://arxiv.org/html/2609.02062v2#S5.SS1.p2) and [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4)
+- **Results from**: Original Tables 2/3/5 and Section 5.1: [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2) and [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3) and [S5.T5](https://arxiv.org/html/2609.02062v2#S5.T5) and [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4)
+
+</details>
 
 ### 5. Connections to Related Work
 

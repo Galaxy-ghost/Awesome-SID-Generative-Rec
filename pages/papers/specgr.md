@@ -34,19 +34,25 @@ SpecGR uses an inductive drafter to propose existing and new items and the gener
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023 Video Games, Office Products, Cell Phones and Accessories; timestamp_w_his 5-core benchmark excludes users/items with fewer than five interactions; maximum input history 20 items.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx1.p1 ; #Sx4.SSx1.SSSx4.p1
 - **Split**: Global predefined timestamp cutoffs create train/validation/test sets; exact dates not reported in paper. Test divided into In-Sample and Unseen according to target-item occurrence in training.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx1.p1 ; #Sx4.SSx1.SSSx3.p1
 - **Candidates**: not reported; full-catalog and subset-ranking capabilities are discussed, but the main evaluation universe and negative-sampling protocol are not explicitly specified.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx3.p1 ; #A6.SSx1.p1
 - **Visibility**: Unseen targets have no training interactions and are unseen by the generator. New items are assigned SIDs for inference; tokenizer fitting exposure is not reported, so whether they are unseen by tokenizer too is not established.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx3.SSx1.p1 ; #Sx3.SSx1.p2 ; #Sx4.SSx1.SSSx3.p1
 - **SID**: TIGER RQ-VAE tokenization; standard experiments use four-digit SIDs, including a final collision-identification token. Codebook sizes and suffix-assignment rule not reported. Verification excludes the identification token for unseen items.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1 ; #Sx3.SSx2.SSSx2.p3 ; #A5.SSx2.p1
 - **Inference budget**: Beam beta and draft size delta are 50 or output K (10/50); verification threshold tuned -1.1 to -1.8. Draft/verify with guided redrafting and early exit, then beam fallback if needed. Table A6 at draft size 50: SpecGR++ drafting/verifying 0.0003/0.0249 s versus TIGER 0.0403 s. Inference hardware, batch size and timing aggregation not reported.
-  - Source: https://arxiv.org/html/2410.02939v2#A2.SSx1.p1 ; #Sx3.SSx2.SSSx4.p1 ; #A5.T6
 - **Results from**: Original Table 1: overall comparison; Table 2: seen/unseen breakdown; Table 3: ablations; Table A6: latency. Baselines reproduced/tuned; Recformer starts from a third-party reproduction checkpoint and is fine-tuned on these datasets.
-  - Source: https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p1 ; #Sx4.SSx2.p2 ; #Sx4.T3 ; #A2.SSx3.p1 ; #A5.T6
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [Sx4.SSx1.SSSx1.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx1.p1) ; #Sx4.SSx1.SSSx4.p1
+- **Split**: [Sx4.SSx1.SSSx1.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx1.p1) ; #Sx4.SSx1.SSSx3.p1
+- **Candidates**: [Sx4.SSx1.SSSx3.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx3.p1) ; #A6.SSx1.p1
+- **Visibility**: [Sx3.SSx1.p1](https://arxiv.org/html/2410.02939v2#Sx3.SSx1.p1) ; #Sx3.SSx1.p2 ; #Sx4.SSx1.SSSx3.p1
+- **SID**: [Sx4.SSx1.SSSx4.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1) ; #Sx3.SSx2.SSSx2.p3 ; #A5.SSx2.p1
+- **Inference budget**: [A2.SSx1.p1](https://arxiv.org/html/2410.02939v2#A2.SSx1.p1) ; #Sx3.SSx2.SSSx4.p1 ; #A5.T6
+- **Results from**: [Sx4.SSx2.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p1) ; #Sx4.SSx2.p2 ; #Sx4.T3 ; #A2.SSx3.p1 ; #A5.T6
+
+</details>
 
 ### 5. Connections to Related Work
 

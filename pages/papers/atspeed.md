@@ -34,19 +34,25 @@ AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes 
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty and Games (main), plus MovieLens-1M and Goodreads in Appendix Table 6. Filtering rules: not restated; statistics in Appendix Table 2.
-  - Source: Datasets: https://arxiv.org/html/2410.05165v3#S4.SS1.p1; split and identifier length: https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1.
 - **Split**: All interactions sorted by global timestamp and split 8:1:1 into training, validation, and test.
-  - Source: Global-timestamp 8:1:1 split: https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1.
 - **Candidates**: not reported (full catalog versus sampled); top-K (K = 1, 3, 5, 10, 20) from beam search of the target LLM, evaluated by Recall and NDCG plus walltime speedup.
-  - Source: Metrics: https://arxiv.org/html/2410.05165v3#S4.SS1.p3.
 - **Visibility**: warm; no unseen-item protocol is defined (global temporal split, so test items may include items not seen in training, but this is not analyzed).
-  - Source: Global temporal split with no unseen-item protocol: https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1.
 - **SID**: RQ-VAE item identifiers following LC-Rec, length L=4; codebook size and collision handling: not reported.
-  - Source: RQ-VAE identifiers following LC-Rec, length 4: https://arxiv.org/html/2410.05165v3#S4.SS1.p1 and https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1.
 - **Inference budget**: Speculative beam decoding: LLaMA-68M draft model with draft length 4 and draft beam size N=40 verifying top-K beams (K up to 20) of a LLaMA-7B LC-Rec target with tree-based attention. Figure 1 measures LC-Rec inference time on one NVIDIA A5000; draft training on 4 A5000 GPUs; speedup reported as walltime ratio (WS@K).
-  - Source: Draft settings and hardware: https://arxiv.org/html/2410.05165v3#S4.SS1.p4 and https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p2; target inference cost figure: https://arxiv.org/html/2410.05165v3#S1.F1.
 - **Results from**: Table 1 (walltime speedup and accepted steps versus SFT, WordKD, SeqKD, TVDKD, DARE drafts); Appendix Table 5 (Recall and NDCG on Beauty and Games for the target LLM, the baselines, and AtSpeed instantiated on LC-Rec with LLaMA-7B); Appendix Tables 6-7 (MovieLens-1M, Goodreads, alignment-data cost).
-  - Source: Main: https://arxiv.org/html/2410.05165v3#S4.T1; ranking results: https://arxiv.org/html/2410.05165v3#A1.T5; appendix datasets and cost: https://arxiv.org/html/2410.05165v3#A1.T6 and https://arxiv.org/html/2410.05165v3#A1.T7.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets: [S4.SS1.p1](https://arxiv.org/html/2410.05165v3#S4.SS1.p1); split and identifier length: [A1.SS3.SSS1.p1](https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1).
+- **Split**: Global-timestamp 8:1:1 split: [A1.SS3.SSS1.p1](https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1).
+- **Candidates**: Metrics: [S4.SS1.p3](https://arxiv.org/html/2410.05165v3#S4.SS1.p3).
+- **Visibility**: Global temporal split with no unseen-item protocol: [A1.SS3.SSS1.p1](https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1).
+- **SID**: RQ-VAE identifiers following LC-Rec, length 4: [S4.SS1.p1](https://arxiv.org/html/2410.05165v3#S4.SS1.p1) and [A1.SS3.SSS1.p1](https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p1).
+- **Inference budget**: Draft settings and hardware: [S4.SS1.p4](https://arxiv.org/html/2410.05165v3#S4.SS1.p4) and [A1.SS3.SSS1.p2](https://arxiv.org/html/2410.05165v3#A1.SS3.SSS1.p2); target inference cost figure: [S1.F1](https://arxiv.org/html/2410.05165v3#S1.F1).
+- **Results from**: Main: [S4.T1](https://arxiv.org/html/2410.05165v3#S4.T1); ranking results: [A1.T5](https://arxiv.org/html/2410.05165v3#A1.T5); appendix datasets and cost: [A1.T6](https://arxiv.org/html/2410.05165v3#A1.T6) and [A1.T7](https://arxiv.org/html/2410.05165v3#A1.T7).
+
+</details>
 
 ### 5. Connections to Related Work
 

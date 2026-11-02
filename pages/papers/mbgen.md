@@ -35,19 +35,25 @@ MBGen interleaves behavior tokens and item tokens in one sequence, predicts the 
 **Experimental setup**
 
 - **Datasets**: Retail (Taobao/Tmall) and IJCAI; purchase/cart/favorite/click behaviors, with purchase as target. Remove items occurring fewer than five times in training sequences; maximum history 50 items.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.SS1.SSS1.p2 ; #S4.SS1.SSS1.p3 ; #S4.SS1.SSS1.p4 ; #S4.SS1.SSS3.p1
 - **Split**: Per-user leave-one-out: latest interaction test, penultimate validation; remaining interactions training.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1
 - **Candidates**: full catalog; target ranked against all other items rather than sampled negatives.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1
 - **Visibility**: warm; retained items have at least five training occurrences. SID features come from pretrained MB-STR embeddings; pretraining exposure to test interactions not reported.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.SS1.SSS1.p4 ; #S4.SS1.SSS4.p2
 - **SID**: Three item tokens with per-position size K=64 Retail/96 IJCAI. Balanced SID: K-entry VQ codebook, K-cluster residual K-means per first-token bucket, then random collision-disambiguation token. Balanced CID: random item-number remapping and base-K digits, without features. Behavior token precedes each item.
-  - Source: https://arxiv.org/html/2405.16871v1#S3.SS2.p3 ; #S3.SS2.p4 ; #S3.SS2.p5 ; #S4.SS1.SSS4.p2
 - **Inference budget**: Beam 50; top-10 outputs; Recall/NDCG@5/10. Hardware, inference batch size and latency not reported.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1 ; #S4.SS1.SSS4
 - **Results from**: Original Tables 3/4/5: target-behavior, behavior-specific, joint behavior-item prediction. Most baselines reproduced in RecBole; MB-GMN excepted, with result provenance not specified. Table 6: ablations; Table 7: token distribution.
-  - Source: https://arxiv.org/html/2405.16871v1#S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.T6 ; #S4.T7 ; #S4.SS1.SSS4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S4.SS1.SSS1.p2](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS1.p2) ; #S4.SS1.SSS1.p3 ; #S4.SS1.SSS1.p4 ; #S4.SS1.SSS3.p1
+- **Split**: [S4.SS1.SSS3.p1](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1)
+- **Candidates**: [S4.SS1.SSS3.p1](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1)
+- **Visibility**: [S4.SS1.SSS1.p4](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS1.p4) ; #S4.SS1.SSS4.p2
+- **SID**: [S3.SS2.p3](https://arxiv.org/html/2405.16871v1#S3.SS2.p3) ; #S3.SS2.p4 ; #S3.SS2.p5 ; #S4.SS1.SSS4.p2
+- **Inference budget**: [S4.SS1.SSS3.p1](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS3.p1) ; #S4.SS1.SSS4
+- **Results from**: [S4.T3](https://arxiv.org/html/2405.16871v1#S4.T3) ; #S4.T4 ; #S4.T5 ; #S4.T6 ; #S4.T7 ; #S4.SS1.SSS4.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

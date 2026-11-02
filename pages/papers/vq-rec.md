@@ -77,19 +77,25 @@ A new item in a known domain needs no retraining.
 **Experimental setup**
 
 - **Datasets**: Pre-training on five Amazon domains (Food, Home, CDs, Kindle, Movies; 1,361,408 users / 446,975 items); downstream on Amazon Scientific, Pantry, Instruments, Arts, Office and the cross-platform Online Retail dataset. Users and items with fewer than 5 interactions are filtered (following UniSRec); item text truncated to 512 tokens.
-  - Source: Pre-training and downstream domains: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS1.p1; filtering: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS1.p2; statistics: https://arxiv.org/html/2210.12316v2#S2.T1.
 - **Split**: Leave-one-out: latest item for test, the one before for validation, the rest for training; pre-train on source domains, then fine-tune per downstream dataset.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS3.p1.
 - **Candidates**: full catalog (the ground-truth item is ranked among all other items).
-  - Source: Ranked among all other items: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS3.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. Figure 4 groups test items by popularity (e.g. [0, 5) interactions on Office), which are low-frequency rather than strictly unseen; the inductive no-retraining claim is not separately tested.
-  - Source: Cold-start groups by popularity, inductive capability without a dedicated unseen-item test: https://arxiv.org/html/2210.12316v2#S3.SS4.SSS3.p1 and https://arxiv.org/html/2210.12316v2#S3.SS2.p3.
 - **SID**: OPQ codes over item text embeddings, written as (M=32) x (D=256) PQ indices in the implementation; the method section uses D for the number of code sets and M for the centroids per set, so the two notations do not state the same split unambiguously. The paper argues that K-means-trained OPQ tends to give near-uniform code distributions, which keeps collisions low; a rule for items sharing a code: not reported. Downstream domains re-train PQ centroids with a permutation-based code-embedding alignment.
-  - Source: (M=32) x (D=256) PQ indices: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS4.p1; D sets of M centroids in the method: https://arxiv.org/html/2210.12316v2#S2.SS2.SSS1.p3; uniform code distribution argument: https://arxiv.org/html/2210.12316v2#S2.SS2.SSS3.p1; domain re-training of centroids: https://arxiv.org/html/2210.12316v2#S2.SS4.SSS1.p2.
 - **Inference budget**: n/a for generation (a Transformer sequence encoder scores items through pooled code embeddings; implemented with Faiss and RecBole). Hardware, inference batch size, and latency: not reported.
-  - Source: Discriminative ranking with Faiss and RecBole: https://arxiv.org/html/2210.12316v2#S3.SS1.SSS4.p1.
 - **Results from**: Table 2 (cross-domain and cross-platform comparison with ID, text, and transferable baselines); Table 3 (ablations); Figure 4 (popularity groups).
-  - Source: Main: https://arxiv.org/html/2210.12316v2#S3.T2; ablation: https://arxiv.org/html/2210.12316v2#S3.T3; cold-start groups: https://arxiv.org/html/2210.12316v2#S3.F4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Pre-training and downstream domains: [S3.SS1.SSS1.p1](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS1.p1); filtering: [S3.SS1.SSS1.p2](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS1.p2); statistics: [S2.T1](https://arxiv.org/html/2210.12316v2#S2.T1).
+- **Split**: Leave-one-out allocation: [S3.SS1.SSS3.p1](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS3.p1).
+- **Candidates**: Ranked among all other items: [S3.SS1.SSS3.p1](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS3.p1).
+- **Visibility**: Cold-start groups by popularity, inductive capability without a dedicated unseen-item test: [S3.SS4.SSS3.p1](https://arxiv.org/html/2210.12316v2#S3.SS4.SSS3.p1) and [S3.SS2.p3](https://arxiv.org/html/2210.12316v2#S3.SS2.p3).
+- **SID**: (M=32) x (D=256) PQ indices: [S3.SS1.SSS4.p1](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS4.p1); D sets of M centroids in the method: [S2.SS2.SSS1.p3](https://arxiv.org/html/2210.12316v2#S2.SS2.SSS1.p3); uniform code distribution argument: [S2.SS2.SSS3.p1](https://arxiv.org/html/2210.12316v2#S2.SS2.SSS3.p1); domain re-training of centroids: [S2.SS4.SSS1.p2](https://arxiv.org/html/2210.12316v2#S2.SS4.SSS1.p2).
+- **Inference budget**: Discriminative ranking with Faiss and RecBole: [S3.SS1.SSS4.p1](https://arxiv.org/html/2210.12316v2#S3.SS1.SSS4.p1).
+- **Results from**: Main: [S3.T2](https://arxiv.org/html/2210.12316v2#S3.T2); ablation: [S3.T3](https://arxiv.org/html/2210.12316v2#S3.T3); cold-start groups: [S3.F4](https://arxiv.org/html/2210.12316v2#S3.F4).
+
+</details>
 
 - Main comparison: VQ-Rec is the best or second-best method on each of the six downstream datasets in the cross-domain and cross-platform settings (Table 2).
 - Ablation: without fine-tuning the pre-trained model, performance drops sharply, and removing pre-training also lowers results on all tested datasets (Sec. 3.3, Table 3).

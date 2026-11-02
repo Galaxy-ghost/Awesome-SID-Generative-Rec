@@ -74,19 +74,25 @@ A gate learns an importance score for each behavioral SID from the L2 magnitude 
 **Experimental setup**
 
 - **Datasets**: Industrial: Southeast Asian e-commerce advertising platform, October 2024 to May 2025, about 30 million users and 40 million ads (Table 1: 35,154,135 users, 48,106,880 items), average sequence length 128; filtering rules not reported. Public: Amazon Product Reviews Beauty (May 1996-September 2014); generative retrieval uses 5-core filtering of users and items, 22,363 users and 12,101 items; ranking uses the rating data with ratings above 3 as positives.
-  - Source: Industrial data: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p2; Beauty filtering and sequence construction: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p3; sizes: https://arxiv.org/html/2510.25622v3#S4.T1.
 - **Split**: Beauty generative retrieval: chronological sequences capped at 20 items; the train/validation/test allocation is not reported. Beauty ranking: chronological 90%/10% train/test split. Industrial offline split: not reported. Online: 5-day A/B test with 10% random user traffic.
-  - Source: Beauty ranking split and retrieval sequence construction: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p3; online test: https://arxiv.org/html/2510.25622v3#S5.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); retrieval uses Recall and NDCG at N=50 and 100.
-  - Source: Retrieval metrics only: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS2.p3.
 - **Visibility**: warm; no unseen-item protocol is defined. The long-tail analysis stratifies items by 30-day impression counts (top 25% versus bottom 25%).
-  - Source: No cold-start protocol; the popularity analysis groups items by 30-day impressions: https://arxiv.org/html/2510.25622v3#S4.SS5.p1.
 - **SID**: Industrial: SID length 10 with codebook size printed as "3,00" (shared 2, text 2, visual 2, behavioral 4 codes for ADC-SID). Public: SID length 6 with codebook size 100 (shared 1, text 1, visual 1, behavioral 3). The online system uses an 8-token SID. Collision handling: not reported.
-  - Source: Codebook settings: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS3.p3; online SID length: https://arxiv.org/html/2510.25622v3#S5.p1; no collision rule found in Sections 3-5.
 - **Inference budget**: Generative retrieval uses the REG4REC encoder-decoder; ranking uses PPNet. Beam width, hardware, inference batch size, and latency: not reported.
-  - Source: Downstream backbones only: https://arxiv.org/html/2510.25622v3#S4.SS1.SSS3.p2.
 - **Results from**: Table 2 (generative retrieval and discriminative ranking on industrial data and Beauty, with quantization metrics); Table 3 (industrial ablation); Table 4 and Figure 5 (hyperparameters); Figure 6 (popular versus long-tail AUC); Table 5 (5-day online A/B test).
-  - Source: Main table: https://arxiv.org/html/2510.25622v3#S4.T2; ablation: https://arxiv.org/html/2510.25622v3#S4.T3; hyperparameters: https://arxiv.org/html/2510.25622v3#S4.T4; popularity: https://arxiv.org/html/2510.25622v3#S4.F6; online: https://arxiv.org/html/2510.25622v3#S5.T5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Industrial data: [S4.SS1.SSS1.p2](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p2); Beauty filtering and sequence construction: [S4.SS1.SSS1.p3](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p3); sizes: [S4.T1](https://arxiv.org/html/2510.25622v3#S4.T1).
+- **Split**: Beauty ranking split and retrieval sequence construction: [S4.SS1.SSS1.p3](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS1.p3); online test: [S5.p1](https://arxiv.org/html/2510.25622v3#S5.p1).
+- **Candidates**: Retrieval metrics only: [S4.SS1.SSS2.p3](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS2.p3).
+- **Visibility**: No cold-start protocol; the popularity analysis groups items by 30-day impressions: [S4.SS5.p1](https://arxiv.org/html/2510.25622v3#S4.SS5.p1).
+- **SID**: Codebook settings: [S4.SS1.SSS3.p3](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS3.p3); online SID length: [S5.p1](https://arxiv.org/html/2510.25622v3#S5.p1); no collision rule found in Sections 3-5.
+- **Inference budget**: Downstream backbones only: [S4.SS1.SSS3.p2](https://arxiv.org/html/2510.25622v3#S4.SS1.SSS3.p2).
+- **Results from**: Main table: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2); ablation: [S4.T3](https://arxiv.org/html/2510.25622v3#S4.T3); hyperparameters: [S4.T4](https://arxiv.org/html/2510.25622v3#S4.T4); popularity: [S4.F6](https://arxiv.org/html/2510.25622v3#S4.F6); online: [S5.T5](https://arxiv.org/html/2510.25622v3#S5.T5).
+
+</details>
 
 - Baseline families: behavior-content aligned SIDs such as RQ-Kmeans and LETTER outperform content-only SIDs such as RQ-VAE and OPQ on R@100, N@100, and AUC (Sec. 4.2, Table 2).
 - Tasks: the SIDs are evaluated in both generative and discriminative tasks (Abstract).

@@ -34,19 +34,25 @@ COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, 
 **Experimental setup**
 
 - **Datasets**: Amazon Product Reviews (May 1996-September 2014): Beauty, Sports and Outdoors, Toys and Games, with 5-core filtering of users and items (users / items: 22,363 / 12,101; 35,598 / 18,357; 19,412 / 11,924). Industrial: Baidu advertising logs across list-page, dual-column, and short-video scenarios, about 5 million users and 2 million ads; filtering not reported.
-  - Source: Public categories, date range, 5-core filtering: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1; statistics: https://arxiv.org/html/2503.02453v1#S4.T1; industrial data: https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1.
 - **Split**: Public datasets: train/validation/test allocation not reported. Industrial: first 60 days of logs for training and the following day for testing. Online: A/B test in January 2025 with 10% of user traffic.
-  - Source: Public split not stated: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1; industrial 60-day train and next-day test: https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1; online A/B: https://arxiv.org/html/2503.02453v1#S4.SS4.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists are formed by ANN retrieval among items under the top-M generated sparse IDs, fused by BeamFusion. Public K=5 and 10; industrial K=50 to 800.
-  - Source: Retrieval combines beam search over sparse IDs with ANN over items under each ID: https://arxiv.org/html/2503.02453v1#S3.SS4.p2 and https://arxiv.org/html/2503.02453v1#S3.SS4.p5; evaluation metrics: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard public protocol and next-day industrial test, with no cold-start experiment: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1.
 - **SID**: Public: 3-level semantic IDs with codebook size 32 per level, generated from T5 embeddings following TIGER's method. Industrial: 2-level 32 x 32 sparse IDs (the w/o Dense variant uses 3 levels of 256). Items under the same sparse ID are distinguished by a generated dense vector and ANN search within that ID's candidate set; a collision-resolution rule for the sparse IDs is not reported.
-  - Source: Public SID: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1; industrial SID and the w/o Dense variant: https://arxiv.org/html/2503.02453v1#S4.SS2.SSS3.p1; items sharing a sparse ID are separated by the dense vector: https://arxiv.org/html/2503.02453v1#S3.SS4.p5.
 - **Inference budget**: Beam search returns the top M sparse IDs, then ANN retrieves the top N items per ID and BeamFusion combines beam and cosine scores; numerical M and N are not reported. The recall-diversity analysis selects tau=0.9 with the second coefficient fixed at 16. Public model: 1-layer encoder and 2-layer decoder. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam search top-M, ANN top-N, BeamFusion coefficients: https://arxiv.org/html/2503.02453v1#S3.SS4.p2, https://arxiv.org/html/2503.02453v1#S3.SS4.p5, https://arxiv.org/html/2503.02453v1#S3.SS4.p6; tau setting: https://arxiv.org/html/2503.02453v1#S4.SS3.SSS2.p1; architecture: https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1.
 - **Results from**: Table 2 (Beauty, Sports, Toys); Table 3 (Baidu industrial Recall@50-800 with ablated variants); Section 4.4 (online A/B: +3.60% conversion, +4.15% ARPU); Figures 4-6 (embedding analysis and recall-diversity curves).
-  - Source: Public table: https://arxiv.org/html/2503.02453v1#S4.T2; industrial variants: https://arxiv.org/html/2503.02453v1#S4.T3; online: https://arxiv.org/html/2503.02453v1#S4.SS4.p1; diversity curves: https://arxiv.org/html/2503.02453v1#S4.F6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Public categories, date range, 5-core filtering: [S4.SS1.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1); statistics: [S4.T1](https://arxiv.org/html/2503.02453v1#S4.T1); industrial data: [S4.SS2.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1).
+- **Split**: Public split not stated: [S4.SS1.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1); industrial 60-day train and next-day test: [S4.SS2.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1); online A/B: [S4.SS4.p1](https://arxiv.org/html/2503.02453v1#S4.SS4.p1).
+- **Candidates**: Retrieval combines beam search over sparse IDs with ANN over items under each ID: [S3.SS4.p2](https://arxiv.org/html/2503.02453v1#S3.SS4.p2) and [S3.SS4.p5](https://arxiv.org/html/2503.02453v1#S3.SS4.p5); evaluation metrics: [S4.SS1.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1).
+- **Visibility**: Standard public protocol and next-day industrial test, with no cold-start experiment: [S4.SS1.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS1.p1) and [S4.SS2.SSS1.p1](https://arxiv.org/html/2503.02453v1#S4.SS2.SSS1.p1).
+- **SID**: Public SID: [S4.SS1.SSS3.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1); industrial SID and the w/o Dense variant: [S4.SS2.SSS3.p1](https://arxiv.org/html/2503.02453v1#S4.SS2.SSS3.p1); items sharing a sparse ID are separated by the dense vector: [S3.SS4.p5](https://arxiv.org/html/2503.02453v1#S3.SS4.p5).
+- **Inference budget**: Beam search top-M, ANN top-N, BeamFusion coefficients: [S3.SS4.p2](https://arxiv.org/html/2503.02453v1#S3.SS4.p2), [S3.SS4.p5](https://arxiv.org/html/2503.02453v1#S3.SS4.p5), [S3.SS4.p6](https://arxiv.org/html/2503.02453v1#S3.SS4.p6); tau setting: [S4.SS3.SSS2.p1](https://arxiv.org/html/2503.02453v1#S4.SS3.SSS2.p1); architecture: [S4.SS1.SSS3.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1).
+- **Results from**: Public table: [S4.T2](https://arxiv.org/html/2503.02453v1#S4.T2); industrial variants: [S4.T3](https://arxiv.org/html/2503.02453v1#S4.T3); online: [S4.SS4.p1](https://arxiv.org/html/2503.02453v1#S4.SS4.p1); diversity curves: [S4.F6](https://arxiv.org/html/2503.02453v1#S4.F6).
+
+</details>
 
 ### 5. Connections to Related Work
 

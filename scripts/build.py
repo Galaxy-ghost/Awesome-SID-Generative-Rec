@@ -114,14 +114,15 @@ RELATED_TITLE = "5. Connections to Related Work"
 LEVELS = ["Overview", "Reading Notes", "Annotated Deep Dive"]
 GLANCE_KEYS = ["Key Findings", "Limitation"]
 LEGEND = [  # (mark, meaning); the first four are the cell symbols listed in the glossary
-    ("`†`", "Inferred: the paper does not restate the setting; it is inferred from the configuration it names."),
-    ("`A / B`", "Different branches or configurations of the method."),
+    ("`†`", "Inferred from the configuration the paper names."),
+    ("`A / B`", "Two branches or configurations."),
     ("`–`", "Not reported."),
     ("`n/a`", "Not applicable."),
     ("**Bold**", "The stage the paper mainly changes."),
-    ("Empty cell", "No paper has that cell as its main label yet. It does not mean a research gap."),
-    ("`warm`", "A protocol label in a setup card. It does not prove that every test item appeared in training."),
+    ("Empty cell", "No paper yet."),
+    ("`warm`", "Protocol label in setup cards."),
 ]
+CHART_TOP = 8
 
 
 def title_of(rec: dict) -> str:
@@ -205,13 +206,40 @@ def reading_level(n) -> int:
     return 2 if has((0, 2, 3)) else 1
 
 
-def setup_card(rec: dict) -> str:
+def short_links(text: str) -> str:
+    """Show each URL as a short link: its #anchor as the label, or "link" without one."""
+    def sub(m):
+        url, tail = re.match(r"(.*?)([.,;:)]*)$", m.group(0)).groups()
+        return f"[{url.partition('#')[2] or 'link'}]({url}){tail}"
+    return re.sub(r"https?://\S+", sub, text)
+
+
+def setup_card(rec: dict, folded: bool = False) -> str:
+    """Setup card; folded puts the sources in one collapsible block with short links, otherwise one Source line per key."""
     st, sw = rec.get("setup"), rec.get("setup_where", {})
     if not st:
         return ""
-    items = [f"- **{lab}**: {st[k]}" + (f"\n  - Source: {sw[k]}" if sw.get(k) else "")
-             for k, lab in zip(SETUP_KEYS, SETUP_LABELS)]
-    return "**Experimental setup**\n\n" + "\n".join(items)
+    pairs = list(zip(SETUP_KEYS, SETUP_LABELS))
+    if not folded:
+        return "**Experimental setup**\n\n" + "\n".join(
+            f"- **{lab}**: {st[k]}" + (f"\n  - Source: {sw[k]}" if sw.get(k) else "") for k, lab in pairs)
+    card = "**Experimental setup**\n\n" + "\n".join(f"- **{lab}**: {st[k]}" for k, lab in pairs)
+    src = [f"- **{lab}**: {short_links(sw[k])}" for k, lab in pairs if sw.get(k)]
+    return card + ("\n\n<details>\n<summary>Sources</summary>\n\n" + "\n".join(src) + "\n\n</details>" if src else "")
+
+
+def bar_chart(title: str, counts: list) -> list:
+    """Mermaid bar chart lines from (label, count) pairs."""
+    labels = ", ".join('"' + str(l).replace('"', "'") + '"' for l, _ in counts)
+    return ["```mermaid", "xychart-beta", f'    title "{title}"', f"    x-axis [{labels}]",
+            '    y-axis "Papers"', f"    bar [{', '.join(str(n) for _, n in counts)}]", "```"]
+
+
+def top_counts(papers: list, key: str, top: int = CHART_TOP) -> list:
+    counts = {}
+    for r in papers:
+        counts[r[key]] = counts.get(r[key], 0) + 1
+    return sorted(counts.items(), key=lambda x: (-x[1], x[0]))[:top]
 
 
 def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
@@ -227,7 +255,7 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
     blocks += [("At a Glance", ["\n".join(["| Aspect | Summary |", "| :-- | :-- |", *rows])])] if rows else []
     image = root / "architectures" / f"{rec['id']}.png"
     inserts = {SECTIONS[1]: f"![{rec['name']} architecture diagram](../../architectures/{image.name})" if image.is_file() else "",
-               SECTIONS[2]: setup_card(rec)}
+               SECTIONS[2]: setup_card(rec, folded=True)}
     for t in SECTIONS:
         parts = [p for p in (inserts.get(t), (n or {}).get("sections", {}).get(t)) if p]
         blocks += [(t, parts)] if parts else []
@@ -309,6 +337,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
         *align(table), "",
         "Click a count to jump to its papers; darker means more papers.", "",
         *align(["| Mark | Meaning |", "| :-- | :-- |", *[f"| {m} | {t} |" for m, t in LEGEND]]), "",
+        *bar_chart("Papers per year", [(y, sum(r["year"] == y for r in papers)) for y in sorted({r["year"] for r in papers})]), "",
         "The [glossary](guides/glossary.md) defines every value in the paper pages.", "",
         "## Recent Updates", "",
         *[f"- {u['date']}: {u['change'].strip()}" + (f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}." if u["papers"] else "")
@@ -355,15 +384,12 @@ def build_indexes(vocab: dict, papers: list) -> dict:
     return {"stages.md": "\n".join(stages), "code.md": "\n".join(code), "poi.md": "\n".join(poi_page)}
 
 
-COMPARISONS = [  # (file, title, intro, sort keys, [(header, record key or setup.<key>)])
-    ("tokenizer", "Tokenizer", "This table lists how each paper builds its SIDs. Information Source, Quantization, and Tokenizer Update "
-     "are Table 1 values; SID Length, Codebook, Collisions is quoted from the setup card.", ["tokenization"],
+COMPARISONS = [  # (file, title, intro, charted key, sort keys, [(header, record key or setup.<key>)])
+    ("tokenizer", "Tokenizer", "How each paper builds its Semantic IDs.", "tokenization", ["tokenization"],
      [("Information Source", "representation"), ("Quantization", "tokenization"),
       ("SID Length, Codebook, Collisions", "setup.sid"), ("Tokenizer Update", "tokenizer")]),
-    ("training", "Training", "This table lists how each paper trains its tokenizer and generator. Tokenizer Update and Objective are Table 1 values.",
-     ["tokenizer", "objective"], [("Tokenizer Update", "tokenizer"), ("Objective", "objective")]),
-    ("inference", "Inference", "This table lists how each paper generates SIDs at inference. Backbone and Decoding are Table 1 values; "
-     "Search Budget and Visibility are quoted from the setup card.", ["inference"],
+    ("training", "Training", "How each paper trains its tokenizer and generator.", "objective", ["tokenizer", "objective"], [("Tokenizer Update", "tokenizer"), ("Objective", "objective")]),
+    ("inference", "Inference", "How each paper generates Semantic IDs at inference.", "inference", ["inference"],
      [("Backbone", "backbone"), ("Decoding", "inference"), ("Search Budget", "setup.inference_budget"),
       ("Visibility", "setup.visibility")]),
 ]
@@ -378,14 +404,15 @@ def build_comparisons(papers: list, by_id: dict) -> dict:
     val = lambda r, k: cell_text((r.get("setup") or {}).get(k[6:], "no card yet")) if k.startswith("setup.") else f"`{cell_text(r[k])}`"
     rel = lambda r: "; ".join(f"{x['relation'].capitalize()}: {link(by_id[x['id']])}" for x in r.get("related", [])) or "–"
     out = {}
-    for f, title, intro, keys, cols in COMPARISONS:
+    for f, title, intro, ck, keys, cols in COMPARISONS:
         rows = sorted(papers, key=lambda r: [r[k].lower() for k in keys] + [r["name"].lower()])
         head = ["Paper", *(h for h, _ in cols), "Related"]
         table = [f"| {' | '.join(head)} |", "|" + " :-- |" * len(head),
                  *[f"| {' | '.join([link(r), *(val(r, k) for _, k in cols), rel(r)])} |" for r in rows]]
-        out[f"{f}.md"] = "\n".join([f"# {title} Comparison", "", f"{intro} Related lists the relations recorded in each record.", "",
-                                    "Values are defined in the [glossary](../guides/glossary.md). "
-                                    "Setup text is quoted from each paper's setup card.", "", *align(table), ""])
+        chart = bar_chart(f"{ck.capitalize()} values (top {CHART_TOP})", top_counts(papers, ck))
+        out[f"{f}.md"] = "\n".join([f"# {title} Comparison", "", f"{intro} Values are Table 1 entries defined in the "
+                                    "[glossary](../guides/glossary.md); setup text is quoted from each paper's setup card.", "",
+                                    *chart, "", *table, ""])
     return out
 
 

@@ -35,19 +35,25 @@ TCBSA converts a discriminative recommender's score margins into potentials on s
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023 Industrial and Scientific, Musical Instruments, Office Products: official 5-core, no extra rating thresholds/deduplication. Yelp Kaggle v2, 2019 window, all ratings implicit, iterative 5-core.
-  - Source: Section 5.1 and Appendix B.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.32098v1#A2.SS1.p1
 - **Split**: Per-user chronological last/penultimate interactions are test/validation; earlier interactions train. Input histories capped at 20.
-  - Source: Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1
 - **Candidates**: full catalog; previously interacted items remain eligible, padding masked
-  - Source: Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Generator and discriminative checkpoints remain frozen during adaptation.
-  - Source: Section 5.1 defines no unseen-item holdout: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1
 - **SID**: Sentence-T5 text embeddings; 3 RQ-K-means levels plus fourth collision-resolution token for unique IDs. Codebook sizes not reported. Shared mapping across semantic-ID models.
-  - Source: Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1
 - **Inference budget**: Default beam 20, retrieval width 500; beam sweep 10/20/30/40/50. RTX 5880 Ada, inference batch 32. Synchronized per-user latency includes discriminative scoring/adaptation; default TCBSA costs 1.43-1.63x same-beam TIGER.
-  - Source: Sections 5.1/5.6 and Appendix B.2: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1 and https://arxiv.org/html/2610.32098v1#S5.SS6.p1 and https://arxiv.org/html/2610.32098v1#S5.SS6.p3 and https://arxiv.org/html/2610.32098v1#A2.SS2.p1
 - **Results from**: Original Table 1: full-catalog comparisons; Figure 5: accuracy/latency. Baselines instantiated using specified implementations; MiniOneRec evaluated at its final RL checkpoint.
-  - Source: Original Table 1 and Figure 5, implementation details: https://arxiv.org/html/2610.32098v1#S5.T1 and https://arxiv.org/html/2610.32098v1#S5.F5 and https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 5.1 and Appendix B.1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1) and [A2.SS1.p1](https://arxiv.org/html/2610.32098v1#A2.SS1.p1)
+- **Split**: Section 5.1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1)
+- **Candidates**: Section 5.1: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px2.p1)
+- **Visibility**: Section 5.1 defines no unseen-item holdout: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px1.p1) and [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1)
+- **SID**: Section 5.1: [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1)
+- **Inference budget**: Sections 5.1/5.6 and Appendix B.2: [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1) and [S5.SS6.p1](https://arxiv.org/html/2610.32098v1#S5.SS6.p1) and [S5.SS6.p3](https://arxiv.org/html/2610.32098v1#S5.SS6.p3) and [A2.SS2.p1](https://arxiv.org/html/2610.32098v1#A2.SS2.p1)
+- **Results from**: Original Table 1 and Figure 5, implementation details: [S5.T1](https://arxiv.org/html/2610.32098v1#S5.T1) and [S5.F5](https://arxiv.org/html/2610.32098v1#S5.F5) and [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

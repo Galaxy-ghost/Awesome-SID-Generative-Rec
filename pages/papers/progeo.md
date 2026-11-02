@@ -80,19 +80,25 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 **Experimental setup**
 
 - **Datasets**: Industrial: two months of transaction records from a Chinese local-life service platform (search query, user location, merchant exposure sequence, interactions); size and filtering not reported. Public: Foursquare NYC (1,083 users / 5,135 POIs) and TKY (2,293 / 7,873), filtered as in GNPR-SID (POIs with fewer than 10 interactions, users with fewer than 10 check-ins removed), and Yelp (150,346 POIs; clustering analysis only).
-  - Source: Industrial and public data: https://arxiv.org/html/2604.23156v1#A2.SS1.p1; public statistics: https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1.
 - **Split**: Industrial: two months of records for training and additional daily data reserved for validation; the test construction is not reported. Public: preprocessing follows GNPR-SID; the split is not restated.
-  - Source: Two-month training with extra daily validation data: https://arxiv.org/html/2604.23156v1#A2.SS1.p1; public split follows GNPR-SID but is not restated.
 - **Candidates**: Industrial inference: for each generated semantic ID, the 10 POIs closest to the user's location form the candidate set, with beam width 20. Evaluation reports Hit@1, Hit@50, Hit@100 and NDCG@50, @100; full catalog versus sampled not otherwise stated.
-  - Source: Ten location-nearest POIs per semantic ID as candidates, then beam search: https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1; metrics: https://arxiv.org/html/2604.23156v1#A2.SS3.p3.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2604.23156v1#A2.SS1.p1.
 - **SID**: Residual quantization with geographic rotary encoding (Geo-RoPE) at the third layer over 128-dimensional Qwen3-Embedding-8B text embeddings. Codebooks: [512, 512, 512] industrial; [32, 32, 32] NYC/TKY; [64, 64, 64] Yelp. Conflicts: industrial uses closest-location matching among POIs sharing a SID (best in Table 3); public datasets use a TIGER-style fourth-layer code because user location is unavailable.
-  - Source: Codebooks [512,512,512] industrial, [32,32,32] NYC/TKY, [64,64,64] Yelp, Geo-RoPE at layer 3: https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1 and https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1; conflict strategies: https://arxiv.org/html/2604.23156v1#S4.T3.
 - **Inference budget**: Beam search with width 20 on Qwen2.5-1.5B; all experiments on 8 GPUs with 80GB memory. Inference batch size and latency: not reported.
-  - Source: Beam width 20 and hardware: https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1 and https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1.
 - **Results from**: Table 1 (industrial quantization and recommendation metrics versus RQ-VAE, RQ-Kmeans, HyMiRec-style RQ-Kmeans, RQ-OPQ); Table 2 (geographic attributes); Table 3 (conflict-resolution strategies); Table 6 (public datasets versus RQ-Kmeans); Figures 7-10 (sensitivity and case studies).
-  - Source: Main: https://arxiv.org/html/2604.23156v1#S4.T1; geographic attributes: https://arxiv.org/html/2604.23156v1#S4.T2; conflicts: https://arxiv.org/html/2604.23156v1#S4.T3; public: https://arxiv.org/html/2604.23156v1#A2.T6; sensitivity: https://arxiv.org/html/2604.23156v1#S4.F7.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Industrial and public data: [A2.SS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS1.p1); public statistics: [A2.SS2.SSS2.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1).
+- **Split**: Two-month training with extra daily validation data: [A2.SS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS1.p1); public split follows GNPR-SID but is not restated.
+- **Candidates**: Ten location-nearest POIs per semantic ID as candidates, then beam search: [A2.SS2.SSS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1); metrics: [A2.SS3.p3](https://arxiv.org/html/2604.23156v1#A2.SS3.p3).
+- **Visibility**: No unseen-item protocol: [A2.SS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS1.p1).
+- **SID**: Codebooks [512,512,512] industrial, [32,32,32] NYC/TKY, [64,64,64] Yelp, Geo-RoPE at layer 3: [A2.SS2.SSS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1) and [A2.SS2.SSS2.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1); conflict strategies: [S4.T3](https://arxiv.org/html/2604.23156v1#S4.T3).
+- **Inference budget**: Beam width 20 and hardware: [A2.SS2.SSS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS1.p1) and [A2.SS2.SSS2.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1).
+- **Results from**: Main: [S4.T1](https://arxiv.org/html/2604.23156v1#S4.T1); geographic attributes: [S4.T2](https://arxiv.org/html/2604.23156v1#S4.T2); conflicts: [S4.T3](https://arxiv.org/html/2604.23156v1#S4.T3); public: [A2.T6](https://arxiv.org/html/2604.23156v1#A2.T6); sensitivity: [S4.F7](https://arxiv.org/html/2604.23156v1#S4.F7).
+
+</details>
 
 - Geo-RoPE layer: applying Geo-RoPE only at the third clustering layer gives the highest CUR (7.67%) and ICR (57.08%) among the tested placements (Sec. 4.3.2, Fig. 5).
 - Case study: with Geo-RoPE, the recommended POIs lie close to the user, while the variant without it returns a POI in another city (Sec. 4.5.2).

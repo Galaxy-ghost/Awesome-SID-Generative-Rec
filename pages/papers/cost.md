@@ -33,19 +33,25 @@ CoST trains the item tokenizer with a contrastive quantization objective that ca
 **Experimental setup**
 
 - **Datasets**: MIND news (preprocessing following Feng et al. 2022: interactions with at least 15 users kept, sequences capped at 70; 29,207 users / 12,251 items) and Amazon Office (users with fewer than 5 interactions removed), split by item count into Office (S) (2,868 users / 14,618 items) and Office (L) (16,696 users / 37,347 items).
-  - Source: Datasets and filters: https://arxiv.org/html/2404.14774v2#S4.SS1.p1; statistics: https://arxiv.org/html/2404.14774v2#S3.T1.
 - **Split**: Leave-one-out: last item for test, penultimate for validation, the remaining items for training.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2404.14774v2#S4.SS1.p3.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates).
-  - Source: Metrics only: https://arxiv.org/html/2404.14774v2#S4.SS1.p3.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2404.14774v2#S4.SS1.p3.
 - **SID**: 3 residual-quantization levels with a codebook of size 64 shared across levels, 96-dimensional latent; Sentence-T5 768-dimensional input. The paper states each item receives a unique 3-tuple, but the mechanism that guarantees uniqueness is not reported.
-  - Source: 3 shared codebooks of size 64, 96-dimensional latent, unique 3-tuples: https://arxiv.org/html/2404.14774v2#S4.SS1.p2; sensitivity: https://arxiv.org/html/2404.14774v2#S4.F4.
 - **Inference budget**: TIGER-style encoder-decoder; decoding method and beam width not reported. Recall and NDCG at K=5, 10, 20, 40 (MIND) and 10, 20 (Office). Hardware, inference batch size, and latency: not reported.
-  - Source: Generator follows TIGER's structure, no decoding settings: https://arxiv.org/html/2404.14774v2#S4.SS1.p2 and https://arxiv.org/html/2404.14774v2#S3.SS2.p1.
 - **Results from**: Table 2 (MIND) and Table 3 (Office (S) and Office (L)), comparing random hashing, reconstruction-only RQ-VAE, contrastive-only, and combined losses; Figures 3-4 (temperature, epochs, codebook size, number of codebooks, embedding dimension).
-  - Source: MIND: https://arxiv.org/html/2404.14774v2#S4.T2; Office: https://arxiv.org/html/2404.14774v2#S4.T3; sensitivity: https://arxiv.org/html/2404.14774v2#S4.F3 and https://arxiv.org/html/2404.14774v2#S4.F4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and filters: [S4.SS1.p1](https://arxiv.org/html/2404.14774v2#S4.SS1.p1); statistics: [S3.T1](https://arxiv.org/html/2404.14774v2#S3.T1).
+- **Split**: Leave-one-out allocation: [S4.SS1.p3](https://arxiv.org/html/2404.14774v2#S4.SS1.p3).
+- **Candidates**: Metrics only: [S4.SS1.p3](https://arxiv.org/html/2404.14774v2#S4.SS1.p3).
+- **Visibility**: Standard leave-one-out with no cold-start experiment: [S4.SS1.p3](https://arxiv.org/html/2404.14774v2#S4.SS1.p3).
+- **SID**: 3 shared codebooks of size 64, 96-dimensional latent, unique 3-tuples: [S4.SS1.p2](https://arxiv.org/html/2404.14774v2#S4.SS1.p2); sensitivity: [S4.F4](https://arxiv.org/html/2404.14774v2#S4.F4).
+- **Inference budget**: Generator follows TIGER's structure, no decoding settings: [S4.SS1.p2](https://arxiv.org/html/2404.14774v2#S4.SS1.p2) and [S3.SS2.p1](https://arxiv.org/html/2404.14774v2#S3.SS2.p1).
+- **Results from**: MIND: [S4.T2](https://arxiv.org/html/2404.14774v2#S4.T2); Office: [S4.T3](https://arxiv.org/html/2404.14774v2#S4.T3); sensitivity: [S4.F3](https://arxiv.org/html/2404.14774v2#S4.F3) and [S4.F4](https://arxiv.org/html/2404.14774v2#S4.F4).
+
+</details>
 
 ### 5. Connections to Related Work
 

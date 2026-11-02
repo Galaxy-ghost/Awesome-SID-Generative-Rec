@@ -35,19 +35,25 @@ Netflix-SID-Comparison is an industry comparison, not a new recommender: it comp
 **Experimental setup**
 
 - **Datasets**: Proprietary streaming-media member histories, synthetic content QA, and open instruction-following data; >=10M examples/task. Catalog size, exact corpus sizes and filtering not reported.
-  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px3.p1
 - **Split**: Histories snapshotted at a fixed date-hour; internal ranking test averages future-interaction offsets +1 through +7 days. Exact cutoff and train/validation/test sizes not reported; content QA uses a stratified test set.
-  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px4.p1
 - **Candidates**: not reported; trie/request-eligible catalog constraints define serving validity, but the ranking test universe and evaluation negative sampling are not specified.
-  - Source: https://arxiv.org/html/2610.15864v1#S3.SS3.SSS1.p1 ; #S3.SS3.SSS2.p1 ; #S4.SS1.SSS0.Px4.p1
 - **Visibility**: Cold-start cohort: titles launched after training cutoff, without training engagement. Generator exposure through content QA and tokenizer fitting exposure not reported; unseen by generator only versus unseen by tokenizer too is not established.
-  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px4.p1 ; #S4.SS3.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px3.p1
 - **SID**: Frozen snapshot of RQ-VAE identifiers: 4 x 1024. For collisions (<=1% example rate), return the first entity in the SID bucket.
-  - Source: https://arxiv.org/html/2610.15864v1#S3.SS1.p1 ; #S4.SS1.SSS0.Px1.p1
 - **Inference budget**: Single-head: vLLM constrained beam search with prefix caching; MTP: one-pass per-code distributions and eligible-entity scoring. Beam width, output K, inference batch size and latency not reported. Shared training/inference pool: up to 256 H200/A100-80GB GPUs; inference allocation not reported. MTP throughput is 75% higher on 8B.
-  - Source: https://arxiv.org/html/2610.15864v1#S3.SS3 ; #S4.SS1.SSS0.Px2.p1 ; #S4.T2 ; #S4.SS2.SSS0.Px2.p1
 - **Results from**: Original Tables 1-2: controlled single-head versus MTP quality/system comparison. Tables 3-4: SID recipe versus previous non-SID auxiliary-head baseline; Tables 5-7: ablations. Proprietary scores/costs reported relatively; no imported baseline result table identified.
-  - Source: https://arxiv.org/html/2610.15864v1#S4.T1 ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.SS2.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1) ; #S4.SS1.SSS0.Px3.p1
+- **Split**: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1) ; #S4.SS1.SSS0.Px4.p1
+- **Candidates**: [S3.SS3.SSS1.p1](https://arxiv.org/html/2610.15864v1#S3.SS3.SSS1.p1) ; #S3.SS3.SSS2.p1 ; #S4.SS1.SSS0.Px4.p1
+- **Visibility**: [S4.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px4.p1) ; #S4.SS3.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px3.p1
+- **SID**: [S3.SS1.p1](https://arxiv.org/html/2610.15864v1#S3.SS1.p1) ; #S4.SS1.SSS0.Px1.p1
+- **Inference budget**: [S3.SS3](https://arxiv.org/html/2610.15864v1#S3.SS3) ; #S4.SS1.SSS0.Px2.p1 ; #S4.T2 ; #S4.SS2.SSS0.Px2.p1
+- **Results from**: [S4.T1](https://arxiv.org/html/2610.15864v1#S4.T1) ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.SS2.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ DiGR uses Semantic ID tokens as item representations and scores items with one i
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018: Musical Instruments, Arts/Crafts/Sewing, Video Games; user/item 5-core; chronological histories capped at 20.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx1.p1
 - **Split**: Per-user leave-one-out: last interaction test, penultimate validation, all earlier interactions training; learning rate and training epochs selected by validation grid search.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p1
 - **Candidates**: full catalog for DiGR and other scoring-based methods; autoregressive baselines use prefix-constrained beam 20; history exclusion not reported.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer exposure to test items is not reported.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1 ; inductive capability is discussed, not evaluated as an item-holdout protocol.
 - **SID**: RQ-VAE SIDs composed by mean-pooling shared position-specific SID-token embeddings; SID length, codebook sizes, tokenizer input encoder and collision handling not reported. Appendix D additionally compares R-KMeans and OPQ on Instruments.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2 ; https://arxiv.org/html/2602.07847v2#Sx4.SSx2.SSS0.Px2.p1 ; https://arxiv.org/html/2602.07847v2#A4.p1
 - **Inference budget**: Precomputed item vectors and direct item-level scoring; no SID decoding. HR@1/5/10 and NDCG@5/10. Instruments timing: 0.074 s/user on one NVIDIA A100; inference batch size not reported. Beam 20 belongs to main autoregressive baselines, with 50/100 in the separate timing study.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx4.SSx2.SSS0.Px3.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T3 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1
 - **Results from**: Own recommendation comparison and controlled ranking/efficiency studies; ID baselines use RecBole, generative baselines follow official designs, LC-Rec shares Qwen3-4B/LoRA settings. Ranking-overlap reference is exhaustive LC-Rec scoring, not observed ground-truth preference order. Appendix D uses GPT-2 controls; no imported baseline scores stated; run counts/variance not reported.
-  - Source: https://arxiv.org/html/2602.07847v2#Sx5.T2 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1 ; https://arxiv.org/html/2602.07847v2#A4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [Sx5.SSx1.SSSx1.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx1.p1)
+- **Split**: [Sx5.SSx1.SSSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1) ; [Sx5.SSx1.SSSx4.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p1)
+- **Candidates**: [Sx5.SSx1.SSSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1)
+- **Visibility**: [Sx5.SSx1.SSSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1) ; inductive capability is discussed, not evaluated as an item-holdout protocol.
+- **SID**: [Sx5.SSx1.SSSx4.p2](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2) ; [Sx4.SSx2.SSS0.Px2.p1](https://arxiv.org/html/2602.07847v2#Sx4.SSx2.SSS0.Px2.p1) ; [A4.p1](https://arxiv.org/html/2602.07847v2#A4.p1)
+- **Inference budget**: [Sx4.SSx2.SSS0.Px3.p1](https://arxiv.org/html/2602.07847v2#Sx4.SSx2.SSS0.Px3.p1) ; [Sx5.T3](https://arxiv.org/html/2602.07847v2#Sx5.T3) ; [Sx5.SSx1.SSSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx3.p1)
+- **Results from**: [Sx5.T2](https://arxiv.org/html/2602.07847v2#Sx5.T2) ; [Sx5.SSx1.SSSx4.p2](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2) ; [Sx5.SSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1) ; [A4.p1](https://arxiv.org/html/2602.07847v2#A4.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

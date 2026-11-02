@@ -34,19 +34,25 @@ PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-g
 **Experimental setup**
 
 - **Datasets**: Pinterest: about 10M engagement subsequences (<=32 events), 240M item occurrences, tens of millions of unique items. Filtering rules not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2606.00324v1#S4.SS1.p1
 - **Split**: Evaluation uses later dates and disjoint users; exact dates/fractions not reported. On 100K held-out examples, a random engagement position is the target and preceding events are history.
-  - Source: Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p2 and https://arxiv.org/html/2606.00324v1#S4.SS3.p1
 - **Candidates**: not reported; retrieval evaluates exact ground-truth SID membership in generated beams.
-  - Source: Section 4.3 defines beam SID matching, not sampled item negatives: https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. RQ-VAE codebook trained on the full billion-item catalog; evaluation users are disjoint, not explicitly evaluation items.
-  - Source: Section 4.1 has user/time holdout but no unseen-item holdout: https://arxiv.org/html/2606.00324v1#S4.SS1.p1 and https://arxiv.org/html/2606.00324v1#S4.SS1.p2
 - **SID**: RQ-VAE on PinCLIP multimodal embeddings: 5 levels x 2048 codes. Collisions acknowledged; full-SID recall matches codes without resolving item collisions.
-  - Source: Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p1 and https://arxiv.org/html/2606.00324v1#S4.SS3.p2
 - **Inference budget**: Qwen3-1.7B default; five-step SID beam search with K=20/30/50/100; TIGER extension uses beam 10. PrefixMem: 4 hash heads, 2M rows, dimension 256, active at levels 4/5. Hardware, inference batch size, measured latency not reported.
-  - Source: Sections 4.2/4.3 and Table 10: https://arxiv.org/html/2606.00324v1#S4.SS2.p1 and https://arxiv.org/html/2606.00324v1#S4.SS2.p2 and https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1 and https://arxiv.org/html/2606.00324v1#S5.T10
 - **Results from**: Original Tables 2/3: teacher-forcing/initialization; Table 4: full-SID recall; Tables 9/10: LLM/TIGER transfer; Table 11: SID-Transformer comparison. Same-corpus with/without-encoder experiments.
-  - Source: Tables 2-4/9-11: https://arxiv.org/html/2606.00324v1#S5.T2 and https://arxiv.org/html/2606.00324v1#S5.T3 and https://arxiv.org/html/2606.00324v1#S5.T4 and https://arxiv.org/html/2606.00324v1#S5.T9 and https://arxiv.org/html/2606.00324v1#S5.T10 and https://arxiv.org/html/2606.00324v1#S5.T11
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2606.00324v1#S4.SS1.p1)
+- **Split**: Sections 4.1/4.3: [S4.SS1.p2](https://arxiv.org/html/2606.00324v1#S4.SS1.p2) and [S4.SS3.p1](https://arxiv.org/html/2606.00324v1#S4.SS3.p1)
+- **Candidates**: Section 4.3 defines beam SID matching, not sampled item negatives: [S4.SS3.SSS0.Px2.p1](https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1)
+- **Visibility**: Section 4.1 has user/time holdout but no unseen-item holdout: [S4.SS1.p1](https://arxiv.org/html/2606.00324v1#S4.SS1.p1) and [S4.SS1.p2](https://arxiv.org/html/2606.00324v1#S4.SS1.p2)
+- **SID**: Sections 4.1/4.3: [S4.SS1.p1](https://arxiv.org/html/2606.00324v1#S4.SS1.p1) and [S4.SS3.p2](https://arxiv.org/html/2606.00324v1#S4.SS3.p2)
+- **Inference budget**: Sections 4.2/4.3 and Table 10: [S4.SS2.p1](https://arxiv.org/html/2606.00324v1#S4.SS2.p1) and [S4.SS2.p2](https://arxiv.org/html/2606.00324v1#S4.SS2.p2) and [S4.SS3.SSS0.Px2.p1](https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1) and [S5.T10](https://arxiv.org/html/2606.00324v1#S5.T10)
+- **Results from**: Tables 2-4/9-11: [S5.T2](https://arxiv.org/html/2606.00324v1#S5.T2) and [S5.T3](https://arxiv.org/html/2606.00324v1#S5.T3) and [S5.T4](https://arxiv.org/html/2606.00324v1#S5.T4) and [S5.T9](https://arxiv.org/html/2606.00324v1#S5.T9) and [S5.T10](https://arxiv.org/html/2606.00324v1#S5.T10) and [S5.T11](https://arxiv.org/html/2606.00324v1#S5.T11)
+
+</details>
 
 ### 5. Connections to Related Work
 

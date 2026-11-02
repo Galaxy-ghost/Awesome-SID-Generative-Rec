@@ -78,19 +78,25 @@ For each domain, an offline prefix tree holds all valid ID sequences from the to
 **Experimental setup**
 
 - **Datasets**: Three cross-domain pairs: Amazon Sports-Clothing (35,598 / 39,387 users; 18,357 / 23,033 items; item overlap 1.73%, 704), Amazon Phones-Electronics (27,879 / 192,403 users; 10,429 / 63,001 items; overlap 0.55%, 404), and Douban Books-Movies (1,713 / 2,628 users; 8,601 / 20,964 items; overlap 7.48%, 2,058). Filtering rules: not reported.
-  - Source: Domain pairs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p1; statistics and overlap after merging: https://arxiv.org/html/2511.08006v2#Sx5.T1; no filtering rule found in Section 5.1.
 - **Split**: Chronological leave-last-out per user: last item for test, second-to-last for validation; checkpoint chosen by validation Recall@10.
-  - Source: Chronological leave-last-out allocation: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; checkpoint selection: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); generation is restricted to the target domain's prefix tree.
-  - Source: Metrics only: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.
 - **Visibility**: warm; no unseen-item protocol is defined. The RQ-VAE is pre-trained on the textual features of all items.
-  - Source: Standard split with no cold-start experiment: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; RQ-VAE is pre-trained on all items: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1.
 - **SID**: Universal RQ-VAE with M codebooks over item text embeddings, plus domain-specific LoRA adapters and an item-level router; numerical M and codebook size: not reported. Collision handling: not reported.
-  - Source: M codebooks, no numerical M or codebook size: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1; adapters and router: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7.
 - **Inference budget**: Qwen2.5-7B with LoRA experts; decoding constrained by a per-domain prefix tree with masked softmax; beam width not reported. Training on NVIDIA H200 GPUs; inference batch size not reported. Figure 6 (Qwen2.5-0.5B) reports runtime memory and inference time versus item-pool size against TriCDR and TIGER, stating constant cost; numerical latencies are only in the figure.
-  - Source: Domain-aware prefix tree: https://arxiv.org/html/2511.08006v2#Sx4.SSx2.SSSx4.p1; backbone and GPUs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7; scalability figure: https://arxiv.org/html/2511.08006v2#Sx5.SSx6.p2 and https://arxiv.org/html/2511.08006v2#Sx5.F6.
 - **Results from**: Table 2 (six domains across three pairs versus single-domain, generative, and cross-domain baselines); Table 3 (ablations); Figures 3-6 (t-SNE, sensitivity, training efficiency, inference scalability).
-  - Source: Main: https://arxiv.org/html/2511.08006v2#Sx5.T2; ablation: https://arxiv.org/html/2511.08006v2#Sx5.T3; efficiency: https://arxiv.org/html/2511.08006v2#Sx5.F5 and https://arxiv.org/html/2511.08006v2#Sx5.F6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Domain pairs: [Sx5.SSx1.p1](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p1); statistics and overlap after merging: [Sx5.T1](https://arxiv.org/html/2511.08006v2#Sx5.T1); no filtering rule found in Section 5.1.
+- **Split**: Chronological leave-last-out allocation: [Sx5.SSx1.p2](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2); checkpoint selection: [Sx5.SSx1.p6](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6).
+- **Candidates**: Metrics only: [Sx5.SSx1.p6](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6).
+- **Visibility**: Standard split with no cold-start experiment: [Sx5.SSx1.p2](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2); RQ-VAE is pre-trained on all items: [Sx4.SSx1.SSSx1.p1](https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1).
+- **SID**: M codebooks, no numerical M or codebook size: [Sx4.SSx1.SSSx1.p1](https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1); adapters and router: [Sx5.SSx1.p7](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7).
+- **Inference budget**: Domain-aware prefix tree: [Sx4.SSx2.SSSx4.p1](https://arxiv.org/html/2511.08006v2#Sx4.SSx2.SSSx4.p1); backbone and GPUs: [Sx5.SSx1.p7](https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7); scalability figure: [Sx5.SSx6.p2](https://arxiv.org/html/2511.08006v2#Sx5.SSx6.p2) and [Sx5.F6](https://arxiv.org/html/2511.08006v2#Sx5.F6).
+- **Results from**: Main: [Sx5.T2](https://arxiv.org/html/2511.08006v2#Sx5.T2); ablation: [Sx5.T3](https://arxiv.org/html/2511.08006v2#Sx5.T3); efficiency: [Sx5.F5](https://arxiv.org/html/2511.08006v2#Sx5.F5) and [Sx5.F6](https://arxiv.org/html/2511.08006v2#Sx5.F6).
+
+</details>
 
 - Main comparison: GenCDR reports better performance than the baselines on multiple real-world datasets (Abstract).
 - Ablation: Table 3 removes the MTM component, the adapter, the specific expert, the universal experts, the MoE gate, and the prefix tree (Table 3).

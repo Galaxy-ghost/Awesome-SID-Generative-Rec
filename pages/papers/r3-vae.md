@@ -34,19 +34,25 @@ R3-VAE stabilizes residual quantization with a reference vector as semantic anch
 **Experimental setup**
 
 - **Datasets**: Public: Amazon Beauty, Sports, Toys, Clothing, plus LastFM and ML1M. Industrial: Toutiao interaction logs. Filtering rules and corpus sizes: not reported in the body.
-  - Source: Public datasets: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS1.p1; industrial Toutiao data: https://arxiv.org/html/2604.11440v3#S4.SS3.p1; no filtering rules or statistics found in the body.
 - **Split**: not reported for the public datasets. Industrial: offline MRR plus online A/B tests for both the generative (OneRec framework) and CTR settings; test periods and traffic not reported.
-  - Source: No split rule found; online tests: https://arxiv.org/html/2604.11440v3#S4.T3 and https://arxiv.org/html/2604.11440v3#S4.SS4.SSS3.p1.
 - **Candidates**: not reported (full catalog versus sampled); Recall and NDCG at 10, 20, 30 on the generated top-K sequence; industrial generative MRR and CTR UAUC.
-  - Source: Generated top-K sequences: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS3.Px1.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. The online CTR test reports cold-start click volume for existing and new users without defining item visibility.
-  - Source: Online cold-start click volume for new users, no unseen-item protocol: https://arxiv.org/html/2604.11440v3#S4.SS4.SSS3.p1.
 - **SID**: Reference-vector-guided residual quantization VAE: inputs are projected on a learned reference vector, each layer assigns soft top-K weights over codewords, and the SID takes the top-weighted index per layer; a metric loss maximizes semantic cohesion and preference discrimination. Industrial: 3 levels x 8,192. Public: the Beauty sensitivity study fixes L=3 and K=256; codebook sizes for the other public runs: not reported. Collision handling: not reported (collision rates are measured, e.g. Table 6).
-  - Source: Reference-vector projection and weighted rating residual quantization: https://arxiv.org/html/2604.11440v3#S3.SS3.SSS3.p1 and https://arxiv.org/html/2604.11440v3#S3.SS5.SSS1.p1; industrial codebooks 8192^3: https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1; Beauty sensitivity study with L=3, K=256 fixed: https://arxiv.org/html/2604.11440v3#S4.SS6.SSS2.p1.
 - **Inference budget**: Industrial generative setting follows OneRec: beam search generating 512 responses for DPO, on 64 NVIDIA A100 GPUs. CTR setting: SIDs replace item-ID embeddings in DIN, SIM, RankMixer (batch 2,048). Public decoding settings, inference batch size, and latency: not reported.
-  - Source: OneRec framework with beam 512 responses and hardware: https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1; CTR setting: https://arxiv.org/html/2604.11440v3#S4.SS4.SSS1.p1.
 - **Results from**: Table 1 (Beauty, Sports, Toys) and Table 2 (LastFM, ML1M, Clothing) with SC/PD metrics; Table 3 (industrial generative MRR and online A/B); Tables 4-5 (CTR UAUC and online A/B); Table 6 (Beauty SID quality including collision rate and Gini).
-  - Source: Results: https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T2, https://arxiv.org/html/2604.11440v3#S4.T3, https://arxiv.org/html/2604.11440v3#S4.T4, https://arxiv.org/html/2604.11440v3#S4.T5, https://arxiv.org/html/2604.11440v3#S4.T6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Public datasets: [S4.SS1.SSS1.p1](https://arxiv.org/html/2604.11440v3#S4.SS1.SSS1.p1); industrial Toutiao data: [S4.SS3.p1](https://arxiv.org/html/2604.11440v3#S4.SS3.p1); no filtering rules or statistics found in the body.
+- **Split**: No split rule found; online tests: [S4.T3](https://arxiv.org/html/2604.11440v3#S4.T3) and [S4.SS4.SSS3.p1](https://arxiv.org/html/2604.11440v3#S4.SS4.SSS3.p1).
+- **Candidates**: Generated top-K sequences: [S4.SS1.SSS3.Px1.p1](https://arxiv.org/html/2604.11440v3#S4.SS1.SSS3.Px1.p1).
+- **Visibility**: Online cold-start click volume for new users, no unseen-item protocol: [S4.SS4.SSS3.p1](https://arxiv.org/html/2604.11440v3#S4.SS4.SSS3.p1).
+- **SID**: Reference-vector projection and weighted rating residual quantization: [S3.SS3.SSS3.p1](https://arxiv.org/html/2604.11440v3#S3.SS3.SSS3.p1) and [S3.SS5.SSS1.p1](https://arxiv.org/html/2604.11440v3#S3.SS5.SSS1.p1); industrial codebooks 8192^3: [S4.SS3.SSS1.p1](https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1); Beauty sensitivity study with L=3, K=256 fixed: [S4.SS6.SSS2.p1](https://arxiv.org/html/2604.11440v3#S4.SS6.SSS2.p1).
+- **Inference budget**: OneRec framework with beam 512 responses and hardware: [S4.SS3.SSS1.p1](https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1); CTR setting: [S4.SS4.SSS1.p1](https://arxiv.org/html/2604.11440v3#S4.SS4.SSS1.p1).
+- **Results from**: Results: [S3.T1](https://arxiv.org/html/2604.11440v3#S3.T1), [S4.T2](https://arxiv.org/html/2604.11440v3#S4.T2), [S4.T3](https://arxiv.org/html/2604.11440v3#S4.T3), [S4.T4](https://arxiv.org/html/2604.11440v3#S4.T4), [S4.T5](https://arxiv.org/html/2604.11440v3#S4.T5), [S4.T6](https://arxiv.org/html/2604.11440v3#S4.T6).
+
+</details>
 
 ### 5. Connections to Related Work
 

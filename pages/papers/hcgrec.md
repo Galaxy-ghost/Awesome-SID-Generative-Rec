@@ -35,19 +35,25 @@ HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct it
 **Experimental setup**
 
 - **Datasets**: Amazon Musical Instruments, Arts/Crafts/Sewing, Video Games; maximum history 50. Filtering: not reported.
-  - Source: Section 4.1.1: https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1
 - **Split**: Per-user chronological leave-one-out: last item test, penultimate validation, remaining interactions training.
-  - Source: Section 4.1.2: https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1
 - **Candidates**: full catalog
-  - Source: Section 4.1.2: https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Section 4.1 defines no unseen-item evaluation: https://arxiv.org/html/2608.11980v2#S4.SS1
 - **SID**: Four-token residual-quantization SIDs, shared across variants; codebook sizes and collision handling: not reported.
-  - Source: Sections 3.1 and 4.1.1: https://arxiv.org/html/2608.11980v2#S3.SS1.p1 and https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1
 - **Inference budget**: Beam 50; HR/NDCG@5/10/50; no target-prefix hints at inference. Inference hardware, batch size, latency: not reported.
-  - Source: Sections 3.5 and 4.1.2: https://arxiv.org/html/2608.11980v2#S3.SS5.p1 and https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1
 - **Results from**: Original Table 2: main comparison; Figures 2-6 and Sections 4.3-4.5: reachability, hint policy, task/loss ablations, credit weight.
-  - Source: Table 2 and Figures 2-6: https://arxiv.org/html/2608.11980v2#S4.T2 and https://arxiv.org/html/2608.11980v2#S4.F2 and https://arxiv.org/html/2608.11980v2#S4.F6
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
+- **Split**: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
+- **Candidates**: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
+- **Visibility**: Section 4.1 defines no unseen-item evaluation: [S4.SS1](https://arxiv.org/html/2608.11980v2#S4.SS1)
+- **SID**: Sections 3.1 and 4.1.1: [S3.SS1.p1](https://arxiv.org/html/2608.11980v2#S3.SS1.p1) and [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
+- **Inference budget**: Sections 3.5 and 4.1.2: [S3.SS5.p1](https://arxiv.org/html/2608.11980v2#S3.SS5.p1) and [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
+- **Results from**: Table 2 and Figures 2-6: [S4.T2](https://arxiv.org/html/2608.11980v2#S4.T2) and [S4.F2](https://arxiv.org/html/2608.11980v2#S4.F2) and [S4.F6](https://arxiv.org/html/2608.11980v2#S4.F6)
+
+</details>
 
 ### 5. Connections to Related Work
 

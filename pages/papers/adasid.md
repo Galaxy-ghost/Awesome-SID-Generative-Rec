@@ -35,19 +35,25 @@ AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repu
 **Experimental setup**
 
 - **Datasets**: Offline: Amazon 2018 Reviews, Beauty and Toys and Games, with 5-core filtering of users and items. Sizes (users / items / interactions): Toys 19,412 / 11,924 / 905,253; Beauty 22,363 / 12,101 / 1,048,296. Industrial: Kuaishou e-commerce short-video items with multimodal features (images, text, keyframes, audio transcripts); filtering rules not reported.
-  - Source: Amazon 2018 categories, 5-core filtering, leave-one-out: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1; sizes: https://arxiv.org/html/2604.23522v1#S5.T1; industrial setting: https://arxiv.org/html/2604.23522v1#S5.SS3.p1.
 - **Split**: Offline: leave-one-out into training, validation, and test; the exact validation/test position allocation is not reported beyond the leave-one-out label. Industrial: 4-day online A/B test on the retrieval model and a 4-day offline study on the ranking model.
-  - Source: Leave-one-out named without position allocation: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1; industrial test periods: https://arxiv.org/html/2604.23522v1#S5.SS3.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates).
-  - Source: Metrics and backbone only: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1.
 - **Visibility**: Offline: warm; no unseen-item protocol is defined. Industrial ranking reports a cold-start CVR subset; generator/tokenizer visibility for those items is not reported.
-  - Source: Offline protocol: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1; industrial cold-start CVR subset without a visibility definition: https://arxiv.org/html/2604.23522v1#S5.T3 and https://arxiv.org/html/2604.23522v1#S5.I2.i2.p1.
 - **SID**: 3 residual-quantization levels x 256 codes, 32-dimensional code embeddings, 768-dimensional input features. Collisions are reduced during tokenizer training by an adaptive overlap-repulsion loss; a post-hoc disambiguation suffix or other collision-resolution rule is not reported.
-  - Source: SID length 3, 256 codes, 32-dimensional code embeddings: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1; collision handled by a training-time adaptive overlap loss, with no added suffix described: https://arxiv.org/html/2604.23522v1#S4.SS4.p1 and https://arxiv.org/html/2604.23522v1#S4.SS4.p2.
 - **Inference budget**: Downstream generation uses the same TIGER configuration for all tokenizers; beam width, hardware, inference batch size, and latency: not reported. Recall and NDCG at K=3 and 5.
-  - Source: Downstream TIGER configuration only: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1 and https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1; no extra online cost claim: https://arxiv.org/html/2604.23522v1#S4.SS4.p2.
 - **Results from**: Table 2 (tokenizer comparison on Toys and Beauty under a shared TIGER backbone); Table 3 (Kuaishou online retrieval A/B and offline ranking AUC); Table 4 (ablations); Figure 3 (codebook statistics); Figure 4 (hyperparameter sensitivity on Beauty).
-  - Source: Main offline table: https://arxiv.org/html/2604.23522v1#S5.T2; industrial table: https://arxiv.org/html/2604.23522v1#S5.T3; ablation: https://arxiv.org/html/2604.23522v1#S5.T4; codebook statistics: https://arxiv.org/html/2604.23522v1#S5.F3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Amazon 2018 categories, 5-core filtering, leave-one-out: [S5.SS1.SSS1.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1); sizes: [S5.T1](https://arxiv.org/html/2604.23522v1#S5.T1); industrial setting: [S5.SS3.p1](https://arxiv.org/html/2604.23522v1#S5.SS3.p1).
+- **Split**: Leave-one-out named without position allocation: [S5.SS1.SSS1.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1); industrial test periods: [S5.SS3.p1](https://arxiv.org/html/2604.23522v1#S5.SS3.p1).
+- **Candidates**: Metrics and backbone only: [S5.SS1.SSS2.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1).
+- **Visibility**: Offline protocol: [S5.SS1.SSS1.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS1.p1); industrial cold-start CVR subset without a visibility definition: [S5.T3](https://arxiv.org/html/2604.23522v1#S5.T3) and [S5.I2.i2.p1](https://arxiv.org/html/2604.23522v1#S5.I2.i2.p1).
+- **SID**: SID length 3, 256 codes, 32-dimensional code embeddings: [S5.SS1.SSS4.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1); collision handled by a training-time adaptive overlap loss, with no added suffix described: [S4.SS4.p1](https://arxiv.org/html/2604.23522v1#S4.SS4.p1) and [S4.SS4.p2](https://arxiv.org/html/2604.23522v1#S4.SS4.p2).
+- **Inference budget**: Downstream TIGER configuration only: [S5.SS1.SSS2.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1); no extra online cost claim: [S4.SS4.p2](https://arxiv.org/html/2604.23522v1#S4.SS4.p2).
+- **Results from**: Main offline table: [S5.T2](https://arxiv.org/html/2604.23522v1#S5.T2); industrial table: [S5.T3](https://arxiv.org/html/2604.23522v1#S5.T3); ablation: [S5.T4](https://arxiv.org/html/2604.23522v1#S5.T4); codebook statistics: [S5.F3](https://arxiv.org/html/2604.23522v1#S5.F3).
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in th
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Sports and Outdoors, Toys and Games, with historical review text; remove users/items with fewer than five interactions; maximum history 20, truncating oldest interactions.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1 ; #S4.SS1.SSS4.p3
 - **Split**: Per-user chronological leave-one-out: last interaction test, second last validation, remaining interactions training.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1
 - **Candidates**: not reported
-  - Source: Experimental settings report top-K metrics but no candidate universe: https://arxiv.org/html/2605.17267v1#S4.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. Historical reviews are retained; tokenizer fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1 ; #S4.SS4.p4
 - **SID**: RQ-VAE: 4 x 256, 32-dimensional codewords, shared item/review token space. Default tokenizer fits item text only; collision handling not reported.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p2 ; #S4.SS4.p4 ; #S4.SS5.p4
 - **Inference budget**: Autoregressive item-SID prediction; HIT/NDCG@5/10/20. Decoding algorithm/beam width, inference batch size and latency not reported. General experiment server: 8 RTX PRO 6000 96GB GPUs; inference-specific allocation not reported.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS3.p1 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5
 - **Results from**: Original Table II: TIGER/LETTER with and without RAGR, means over seeds 42/43/44; all baselines trained/evaluated with the common split/protocol. Table III: ablations; Tables IV-V: tokenizer efficiency/collisions. No baseline-result reuse stated.
-  - Source: https://arxiv.org/html/2605.17267v1#S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S4.SS1.SSS1.p1](https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1) ; #S4.SS1.SSS4.p3
+- **Split**: [S4.SS1.SSS1.p1](https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1)
+- **Candidates**: Experimental settings report top-K metrics but no candidate universe: [S4.SS1](https://arxiv.org/html/2605.17267v1#S4.SS1)
+- **Visibility**: [S4.SS1.SSS1.p1](https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1) ; #S4.SS4.p4
+- **SID**: [S4.SS1.SSS4.p2](https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p2) ; #S4.SS4.p4 ; #S4.SS5.p4
+- **Inference budget**: [S4.SS1.SSS3.p1](https://arxiv.org/html/2605.17267v1#S4.SS1.SSS3.p1) ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5
+- **Results from**: [S4.T2](https://arxiv.org/html/2605.17267v1#S4.T2) ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5
+
+</details>
 
 ### 5. Connections to Related Work
 

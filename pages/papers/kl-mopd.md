@@ -35,19 +35,25 @@ KL-MOPD distills click and conversion teachers into a student generator token by
 **Experimental setup**
 
 - **Datasets**: TencentGR (CTR/CVR), YooChoose (CTR/GMV), Taobao (CTR/CVR), industrial advertising (CTR/eCPM). Filtering: not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p1
 - **Split**: Public: chronological 70% student pretraining, 20% teacher tuning/student distillation, 10% evaluation. Industry: penultimate day tuning, final day evaluation, >11M requests/day; pretraining allocation not reported. Sliding windows; history caps 100 public/128 Industry.
-  - Source: Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p1 and https://arxiv.org/html/2610.36973v1#S4.SS1.p4
 - **Candidates**: not reported
-  - Source: Section 4.1 states decoding and cutoffs without specifying candidate sampling: https://arxiv.org/html/2610.36973v1#S4.SS1.p5
 - **Visibility**: warm; no unseen-item protocol is defined. Two-tower CF embedding exposure to test items: not reported.
-  - Source: Section 4.1 defines no unseen-item evaluation: https://arxiv.org/html/2610.36973v1#S4.SS1.p1 and https://arxiv.org/html/2610.36973v1#S4.SS1.p2
 - **SID**: RQ-KMeans of two-tower CF embeddings: TencentGR 5x64, YooChoose 5x128, Taobao 8x64, Industry 8x310. Collision handling: not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p2
 - **Inference budget**: Constrained beam 50, K=10/20 public; beam 200, K=100/200 Industry. Inference hardware, batch size, latency: not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p5
 - **Results from**: This study's adapted/tuned baselines: Table 3 public TIGER/REG4Rec, Table 4 ablations, Table 5 industrial TIGER, Table 6 five-day online A/B (10% control, 10% treatment).
-  - Source: Tables 3-6 and baseline setup: https://arxiv.org/html/2610.36973v1#S2.T3 and https://arxiv.org/html/2610.36973v1#S4.T4 and https://arxiv.org/html/2610.36973v1#S4.T5 and https://arxiv.org/html/2610.36973v1#S4.T6 and https://arxiv.org/html/2610.36973v1#S4.SS1.p3
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2610.36973v1#S4.SS1.p1)
+- **Split**: Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2610.36973v1#S4.SS1.p1) and [S4.SS1.p4](https://arxiv.org/html/2610.36973v1#S4.SS1.p4)
+- **Candidates**: Section 4.1 states decoding and cutoffs without specifying candidate sampling: [S4.SS1.p5](https://arxiv.org/html/2610.36973v1#S4.SS1.p5)
+- **Visibility**: Section 4.1 defines no unseen-item evaluation: [S4.SS1.p1](https://arxiv.org/html/2610.36973v1#S4.SS1.p1) and [S4.SS1.p2](https://arxiv.org/html/2610.36973v1#S4.SS1.p2)
+- **SID**: Section 4.1: [S4.SS1.p2](https://arxiv.org/html/2610.36973v1#S4.SS1.p2)
+- **Inference budget**: Section 4.1: [S4.SS1.p5](https://arxiv.org/html/2610.36973v1#S4.SS1.p5)
+- **Results from**: Tables 3-6 and baseline setup: [S2.T3](https://arxiv.org/html/2610.36973v1#S2.T3) and [S4.T4](https://arxiv.org/html/2610.36973v1#S4.T4) and [S4.T5](https://arxiv.org/html/2610.36973v1#S4.T5) and [S4.T6](https://arxiv.org/html/2610.36973v1#S4.T6) and [S4.SS1.p3](https://arxiv.org/html/2610.36973v1#S4.SS1.p3)
+
+</details>
 
 ### 5. Connections to Related Work
 

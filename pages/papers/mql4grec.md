@@ -74,19 +74,25 @@ At inference, the generator returns one recommendation list per modality, and a 
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2018 (May 1996-October 2018). Pre-training on six categories (Pet, Cell, Automotive, Tools, Toys, Sports); target tasks on Instruments (17,112 users / 6,250 items), Arts (22,171 / 9,416), Games (42,259 / 13,839). Users and items with fewer than 5 interactions are filtered; sequences capped at 20 items.
-  - Source: Pre-training and target categories: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#A1.p1; filtering and length: https://arxiv.org/html/2504.05314v1#A1.p2; statistics: https://arxiv.org/html/2504.05314v1#A1.T6.
 - **Split**: Leave-one-out (allocation not restated beyond the label). Separate zero-shot study: models pre-trained on source categories are tested on the targets without fine-tuning.
-  - Source: Leave-one-out named only: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1; zero-shot study: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.
 - **Candidates**: full catalog (full ranking over the entire item set instead of sample-based evaluation).
-  - Source: Full ranking over the entire item set: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1.
 - **Visibility**: Main: warm; no unseen-item protocol is defined. Zero-shot: target-domain items are unseen by the pre-trained generator; whether the RQ-VAE translators saw them: not reported.
-  - Source: Standard split; zero-shot uses target-domain items absent from pre-training: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.
 - **SID**: Separate text (LLaMA) and image (ViT-L/14) quantitative languages from RQ-VAEs with 4 levels x 256 codewords (dimension 32). Colliding items have tokens reassigned by the distances between their residuals and code vectors, instead of an appended identifier.
-  - Source: 4 levels x 256 x 32 per modality: https://arxiv.org/html/2504.05314v1#A3.p1; distance-based reassignment for collisions: https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p2.
 - **Inference budget**: Beam search with beam size 20 in each modality; the two recommendation lists are re-ranked so items in both rank higher. T5 encoder-decoder with 4 layers each. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam size 20 and dual-list re-ranking: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2504.05314v1#S3.SS3.SSS0.Px2.p1; T5 backbone: https://arxiv.org/html/2504.05314v1#A3.p2.
 - **Results from**: Table 1 (Instruments, Arts, Games versus sequential, multimodal, and generative baselines); Table 2 (collision handling versus TIGER's appended index); Tables 3-4 (generation tasks and pre-training); Figures 3-4 (pre-training data and epochs); Table 5 (zero-shot).
-  - Source: Main: https://arxiv.org/html/2504.05314v1#S4.T1; collisions: https://arxiv.org/html/2504.05314v1#S4.T2; tasks and pre-training: https://arxiv.org/html/2504.05314v1#S4.T3, https://arxiv.org/html/2504.05314v1#S4.T4; zero-shot: https://arxiv.org/html/2504.05314v1#S4.T5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Pre-training and target categories: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px1.p1) and [A1.p1](https://arxiv.org/html/2504.05314v1#A1.p1); filtering and length: [A1.p2](https://arxiv.org/html/2504.05314v1#A1.p2); statistics: [A1.T6](https://arxiv.org/html/2504.05314v1#A1.T6).
+- **Split**: Leave-one-out named only: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1); zero-shot study: [S4.SS5.p1](https://arxiv.org/html/2504.05314v1#S4.SS5.p1).
+- **Candidates**: Full ranking over the entire item set: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1).
+- **Visibility**: Standard split; zero-shot uses target-domain items absent from pre-training: [S4.SS5.p1](https://arxiv.org/html/2504.05314v1#S4.SS5.p1).
+- **SID**: 4 levels x 256 x 32 per modality: [A3.p1](https://arxiv.org/html/2504.05314v1#A3.p1); distance-based reassignment for collisions: [S3.SS1.SSS0.Px2.p2](https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p2).
+- **Inference budget**: Beam size 20 and dual-list re-ranking: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1) and [S3.SS3.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S3.SS3.SSS0.Px2.p1); T5 backbone: [A3.p2](https://arxiv.org/html/2504.05314v1#A3.p2).
+- **Results from**: Main: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1); collisions: [S4.T2](https://arxiv.org/html/2504.05314v1#S4.T2); tasks and pre-training: [S4.T3](https://arxiv.org/html/2504.05314v1#S4.T3), [S4.T4](https://arxiv.org/html/2504.05314v1#S4.T4); zero-shot: [S4.T5](https://arxiv.org/html/2504.05314v1#S4.T5).
+
+</details>
 
 - Main comparison: MQL4GRec performs best in most cases across Instruments, Arts, and Games, especially on NDCG (Sec. 4.2, Table 1).
 - Pre-training: with both modalities, pre-training improves results on Instruments and Arts but not on Games.

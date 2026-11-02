@@ -70,19 +70,25 @@ Because feature sets are unordered, set permutation regularization produces mult
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews: Sports and Outdoors, Beauty, and CDs and Vinyl. Users with fewer than 5 reviews are filtered; an item-frequency filter is not reported. Processed sizes (users / items / actions): Sports 35,598 / 18,357 / 260,739; Beauty 22,363 / 12,101 / 176,139; CDs 75,258 / 64,443 / 1,022,334.
-  - Source: Dataset categories: https://arxiv.org/html/2502.13581v3#S4.SS1.p1; user filter and truncation: https://arxiv.org/html/2502.13581v3#A6.p2; processed sizes: https://arxiv.org/html/2502.13581v3#S3.T3.
 - **Split**: Per-user chronological leave-last-out: last item for test, second-to-last for validation, earlier items for training. Histories are truncated to 20 items for generative methods and 50 items for ID-based and feature-enhanced baselines.
-  - Source: Leave-last-out allocation: https://arxiv.org/html/2502.13581v3#S4.SS1.p1; history truncation: https://arxiv.org/html/2502.13581v3#A6.p2.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists are produced by beam search.
-  - Source: Evaluation settings name metrics only: https://arxiv.org/html/2502.13581v3#S4.SS1.p3; top-K lists come from beam search: https://arxiv.org/html/2502.13581v3#A8.p4.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard leave-last-out protocol with no cold-start experiment: https://arxiv.org/html/2502.13581v3#S4.SS1.p1.
 - **SID**: Each item is an unordered set of 4 OPQ codes x 256 codewords (sentence-t5-base text embeddings) plus 1 extra identification code to prevent conflicts. ActionPiece then merges co-occurring feature sets into a context-dependent vocabulary of 40,000 tokens (tuned over 5k-40k), so the same item can map to different tokens in different sequences.
-  - Source: OPQ features, 256 codewords per digit, extra identification code: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; vocabulary size 40,000 and tuning range: https://arxiv.org/html/2502.13581v3#A7.T7 and https://arxiv.org/html/2502.13581v3#A8.p2.
 - **Inference budget**: Beam search with beam size 50; inference-time ensemble over q=5 set-permutation segmentations, with item scores averaged across the 5 ranking lists. Recall and NDCG at K=5 and 10. Inference hardware, inference batch size, and measured latency: not reported (each model is trained on one 40GB NVIDIA A100; the paper states only that latency stays comparable when segments run in parallel).
-  - Source: Beam size 50 and q=5 segmentations: https://arxiv.org/html/2502.13581v3#A8.p2 and https://arxiv.org/html/2502.13581v3#A7.T7; score averaging: https://arxiv.org/html/2502.13581v3#S3.SS3.SSS2.p1; GPU statement is for training: https://arxiv.org/html/2502.13581v3#A8.p3; qualitative latency statement: https://arxiv.org/html/2502.13581v3#S3.SS4.p3.
 - **Results from**: Table 4 (main comparison on Sports, Beauty, and CDs; averages over five seeds); Table 5 (ablations, including TIGER with varied vocabulary sizes); Figures 4-6 (vocabulary size, token utilization, and ensemble size). BERT4Rec, SASRec, FDSA, S3-Rec, TIGER, and LMIndexer numbers on Sports and Beauty are copied from earlier papers; other results are the authors' reimplementations.
-  - Source: Main table: https://arxiv.org/html/2502.13581v3#S3.T4 and https://arxiv.org/html/2502.13581v3#S4.SS2.p1; ablation: https://arxiv.org/html/2502.13581v3#S4.T5; five seeds: https://arxiv.org/html/2502.13581v3#S4.SS1.p3; copied baseline numbers: https://arxiv.org/html/2502.13581v3#A8.p1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Dataset categories: [S4.SS1.p1](https://arxiv.org/html/2502.13581v3#S4.SS1.p1); user filter and truncation: [A6.p2](https://arxiv.org/html/2502.13581v3#A6.p2); processed sizes: [S3.T3](https://arxiv.org/html/2502.13581v3#S3.T3).
+- **Split**: Leave-last-out allocation: [S4.SS1.p1](https://arxiv.org/html/2502.13581v3#S4.SS1.p1); history truncation: [A6.p2](https://arxiv.org/html/2502.13581v3#A6.p2).
+- **Candidates**: Evaluation settings name metrics only: [S4.SS1.p3](https://arxiv.org/html/2502.13581v3#S4.SS1.p3); top-K lists come from beam search: [A8.p4](https://arxiv.org/html/2502.13581v3#A8.p4).
+- **Visibility**: Standard leave-last-out protocol with no cold-start experiment: [S4.SS1.p1](https://arxiv.org/html/2502.13581v3#S4.SS1.p1).
+- **SID**: OPQ features, 256 codewords per digit, extra identification code: [A6.I1.i3.p1](https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1); vocabulary size 40,000 and tuning range: [A7.T7](https://arxiv.org/html/2502.13581v3#A7.T7) and [A8.p2](https://arxiv.org/html/2502.13581v3#A8.p2).
+- **Inference budget**: Beam size 50 and q=5 segmentations: [A8.p2](https://arxiv.org/html/2502.13581v3#A8.p2) and [A7.T7](https://arxiv.org/html/2502.13581v3#A7.T7); score averaging: [S3.SS3.SSS2.p1](https://arxiv.org/html/2502.13581v3#S3.SS3.SSS2.p1); GPU statement is for training: [A8.p3](https://arxiv.org/html/2502.13581v3#A8.p3); qualitative latency statement: [S3.SS4.p3](https://arxiv.org/html/2502.13581v3#S3.SS4.p3).
+- **Results from**: Main table: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4) and [S4.SS2.p1](https://arxiv.org/html/2502.13581v3#S4.SS2.p1); ablation: [S4.T5](https://arxiv.org/html/2502.13581v3#S4.T5); five seeds: [S4.SS1.p3](https://arxiv.org/html/2502.13581v3#S4.SS1.p3); copied baseline numbers: [A8.p1](https://arxiv.org/html/2502.13581v3#A8.p1).
+
+</details>
 
 - Vocabulary size: a larger vocabulary improves recommendation performance and reduces the normalized sequence length (NSL) (Sec. 4.4.1, Fig. 4). The authors describe vocabulary size as a trade-off between performance, sequence length, and memory efficiency (Sec. 4.4.1).
 - Ablation: the gain does not come from vocabulary size alone (Sec. 4.3, Table 5).

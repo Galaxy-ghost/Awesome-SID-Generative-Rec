@@ -75,19 +75,25 @@ Each beam produces the thinking token and its following SID code in one continuo
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty (May 1996-September 2014; 22,363 users / 12,101 items / 198,502 interactions) and an industrial short-video dataset of long-play records from sampled active users over 2 consecutive days (37,500 users / 1,086,872 items / 3,778,562 interactions). Dataset filtering rules: not reported; a table footnote states that user sequences shorter than 10 are filtered out during testing.
-  - Source: Datasets and statistics: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1 and https://arxiv.org/html/2601.18664v3#S5.T1; test-time length filter: footnote 1 of https://arxiv.org/html/2601.18664v3#S5.T2.
 - **Split**: not reported (the train/validation/test rule is not described). The co-occurrence graph for codebook optimization uses history sequences that precede those used for training and evaluation. Online: 7-day A/B test with 5.25% of users per group, TIGER as control.
-  - Source: No split rule stated; leakage control for co-occurrence: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1; online test: https://arxiv.org/html/2601.18664v3#S5.SS4.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); HR and NDCG at 5 and 10 (Beauty) and at 10 and 100 (industrial).
-  - Source: Metrics only: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1.
 - **SID**: 3 levels x 256 codes from a codebook-balanced RQ-VAE (CoBa RQ-VAE) over Qwen3-Embedding-4B embeddings smoothed by multi-hop co-occurrence propagation; collision handling: not reported (independent coding rate 99.30% on Beauty, 76.25% industrial).
-  - Source: 3 levels x 256, behavior-aligned embeddings and balanced RQ-VAE: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1, https://arxiv.org/html/2601.18664v3#S4.SS2.SSS1.p3, https://arxiv.org/html/2601.18664v3#S4.SS2.SSS2.p1; utilization and ICR: https://arxiv.org/html/2601.18664v3#S5.T3.
 - **Inference budget**: Thinking tokens are generated before each SID level; T5 with 4 encoder and 4 decoder layers (same as the TIGER baseline). Beam width, hardware, inference batch size, and latency: not reported.
-  - Source: T5 4+4 layers matching TIGER: https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1; decoding settings not found.
 - **Results from**: Table 2 (Beauty and industrial versus sequential, reasoning, and TIGER baselines); Table 3 (tokenizer CUR and ICR); Table 4 and Section 5.4 (7-day online A/B against TIGER).
-  - Source: Main: https://arxiv.org/html/2601.18664v3#S5.T2; tokenizers: https://arxiv.org/html/2601.18664v3#S5.T3; online: https://arxiv.org/html/2601.18664v3#S5.SS4.p1.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and statistics: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1) and [S5.T1](https://arxiv.org/html/2601.18664v3#S5.T1); test-time length filter: footnote 1 of [S5.T2](https://arxiv.org/html/2601.18664v3#S5.T2).
+- **Split**: No split rule stated; leakage control for co-occurrence: [S5.SS1.SSS3.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1); online test: [S5.SS4.p1](https://arxiv.org/html/2601.18664v3#S5.SS4.p1).
+- **Candidates**: Metrics only: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1).
+- **Visibility**: No unseen-item protocol: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS1.p1).
+- **SID**: 3 levels x 256, behavior-aligned embeddings and balanced RQ-VAE: [S5.SS1.SSS3.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1), [S4.SS2.SSS1.p3](https://arxiv.org/html/2601.18664v3#S4.SS2.SSS1.p3), [S4.SS2.SSS2.p1](https://arxiv.org/html/2601.18664v3#S4.SS2.SSS2.p1); utilization and ICR: [S5.T3](https://arxiv.org/html/2601.18664v3#S5.T3).
+- **Inference budget**: T5 4+4 layers matching TIGER: [S5.SS1.SSS3.p1](https://arxiv.org/html/2601.18664v3#S5.SS1.SSS3.p1); decoding settings not found.
+- **Results from**: Main: [S5.T2](https://arxiv.org/html/2601.18664v3#S5.T2); tokenizers: [S5.T3](https://arxiv.org/html/2601.18664v3#S5.T3); online: [S5.SS4.p1](https://arxiv.org/html/2601.18664v3#S5.SS4.p1).
+
+</details>
 
 - Ablation: removing the stepwise reasoning tokens or the thinking loss degrades performance on Beauty and on the industrial dataset (Sec. 5.3, Table 2).
 - Online A/B test: the authors report that the test on a large-scale short-video platform, with TIGER as the control, confirms the efficacy of S2GR (Abstract, Sec. 5.4, Table 4).

@@ -34,19 +34,25 @@ Intent-Driven-News trains an LLM to map implicit conversational intents to hiera
 **Experimental setup**
 
 - **Datasets**: Industrial Chinese news: 163560 articles, 50000 profiles, 9982 test samples across six tasks. Filtering not reported.
-  - Source: Section 4.1 and Table 2: https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#S4.T2
 - **Split**: Temporal: training articles before cutoff, test articles after; zero item overlap. Matching tolerance selected on 1000 validation samples without test temporal overlap; cutoff date not reported.
-  - Source: Section 4.1 and Appendix A.2: https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#A1.SS2.SSS0.Px1.p1
 - **Candidates**: Open generation (76%): full 152K SID space, grounded to current news pool. Selection (24%): sampled: 5 including target; Rand has 4 random negatives, Align has 2 same-category + 2 random negatives. Historical-item exclusion not reported.
-  - Source: Section 4.1 and Appendix I: https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2605.07613v1#A9.p1
 - **Visibility**: Items unseen by generator; whether unseen by tokenizer too: not reported. Cold users have zero recent clicks but may retain pre-cutoff behavioral profile summaries.
-  - Source: Section 4.1 and Appendices L/T: https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#A12.SS0.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#A20.p2
 - **SID**: RQ-VAE codebooks [32,64,128,1024]; generate first 3 layers only. Exact L1/L2, L3 tolerance 5; full-SID collision handling not reported.
-  - Source: Section 3.2 and Appendix A.1: https://arxiv.org/html/2605.07613v1#S3.SS2.SSS0.Px2.p1 and https://arxiv.org/html/2605.07613v1#S3.SS2.SSS0.Px3.p1 and https://arxiv.org/html/2605.07613v1#A1.SS1.p3
 - **Inference budget**: Caches 10 SID prefixes; beam width, inference hardware and batch size not reported. Warm cached response: mean 85ms, P95 150ms; cold initial delay 3.7s.
-  - Source: Section 4.3 and Appendix C.4: https://arxiv.org/html/2605.07613v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2605.07613v1#A3.SS4.p1
 - **Results from**: Original Tables 3/5/6: overall, task/user-cold-start and generative-baseline comparisons; Figure 2: latency.
-  - Source: Tables 3/5/6 and Figure 2: https://arxiv.org/html/2605.07613v1#S4.T3 and https://arxiv.org/html/2605.07613v1#S4.T5 and https://arxiv.org/html/2605.07613v1#S4.T6 and https://arxiv.org/html/2605.07613v1#S4.F2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1 and Table 2: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1) and [S4.T2](https://arxiv.org/html/2605.07613v1#S4.T2)
+- **Split**: Section 4.1 and Appendix A.2: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1) and [A1.SS2.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#A1.SS2.SSS0.Px1.p1)
+- **Candidates**: Section 4.1 and Appendix I: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1) and [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px3.p1) and [A9.p1](https://arxiv.org/html/2605.07613v1#A9.p1)
+- **Visibility**: Section 4.1 and Appendices L/T: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#S4.SS1.SSS0.Px1.p1) and [A12.SS0.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#A12.SS0.SSS0.Px1.p1) and [A20.p2](https://arxiv.org/html/2605.07613v1#A20.p2)
+- **SID**: Section 3.2 and Appendix A.1: [S3.SS2.SSS0.Px2.p1](https://arxiv.org/html/2605.07613v1#S3.SS2.SSS0.Px2.p1) and [S3.SS2.SSS0.Px3.p1](https://arxiv.org/html/2605.07613v1#S3.SS2.SSS0.Px3.p1) and [A1.SS1.p3](https://arxiv.org/html/2605.07613v1#A1.SS1.p3)
+- **Inference budget**: Section 4.3 and Appendix C.4: [S4.SS3.SSS0.Px1.p1](https://arxiv.org/html/2605.07613v1#S4.SS3.SSS0.Px1.p1) and [A3.SS4.p1](https://arxiv.org/html/2605.07613v1#A3.SS4.p1)
+- **Results from**: Tables 3/5/6 and Figure 2: [S4.T3](https://arxiv.org/html/2605.07613v1#S4.T3) and [S4.T5](https://arxiv.org/html/2605.07613v1#S4.T5) and [S4.T6](https://arxiv.org/html/2605.07613v1#S4.T6) and [S4.F2](https://arxiv.org/html/2605.07613v1#S4.F2)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -35,19 +35,25 @@ Ghost reduces popularity bias in generative recommenders with an asymmetric unli
 **Experimental setup**
 
 - **Datasets**: Amazon Product Review 2018: Musical Instruments; Arts, Crafts and Sewing; Video Games. Users/items with fewer than five interactions are filtered out.
-  - Source: Appendix C-A: https://arxiv.org/html/2605.16825v3#A3.SS1.p1
 - **Split**: User interactions are ordered chronologically; train/validation/test allocation: not reported.
-  - Source: Appendix C-A reports chronological sequences but no holdout allocation: https://arxiv.org/html/2605.16825v3#A3.SS1.p1
 - **Candidates**: not reported
-  - Source: Section V and Appendix C describe metrics/baselines but not Ghost's candidate protocol: https://arxiv.org/html/2605.16825v3#S5 and https://arxiv.org/html/2605.16825v3#A3
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Section V and Appendix C define no unseen-item evaluation: https://arxiv.org/html/2605.16825v3#S5 and https://arxiv.org/html/2605.16825v3#A3
 - **SID**: Skeleton RQ-KMeans, 256 centers/level; head length Lh, tail length Lh+Lt with inherited head prefix. Sweeps Lh=3/4/5 and Lt=1/2/3; main numerical lengths and collision handling: not reported.
-  - Source: Section IV-A, Section V-C, Appendix C-D: https://arxiv.org/html/2605.16825v3#S4.SS1.p2 and https://arxiv.org/html/2605.16825v3#S5.SS3.p1 and https://arxiv.org/html/2605.16825v3#A3.SS4.p2
 - **Inference budget**: Metrics at K=5/10; decoding algorithm, beam width, inference batch size, latency: not reported. General experimental machine: 8 NVIDIA A100 80GB GPUs; inference-specific allocation: not reported.
-  - Source: Table I and Appendix C-D: https://arxiv.org/html/2605.16825v3#S5.T1 and https://arxiv.org/html/2605.16825v3#A3.SS4.p2
 - **Results from**: Original Table I: main comparison; Table II: ablations; Table III: backbone scaling. Main and ablation experiments use Qwen2.5-3B; scaling uses Qwen3 0.6B-8B.
-  - Source: Tables I-III and Appendix C-D: https://arxiv.org/html/2605.16825v3#S5.T1 and https://arxiv.org/html/2605.16825v3#S5.T2 and https://arxiv.org/html/2605.16825v3#S5.T3 and https://arxiv.org/html/2605.16825v3#A3.SS4.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Appendix C-A: [A3.SS1.p1](https://arxiv.org/html/2605.16825v3#A3.SS1.p1)
+- **Split**: Appendix C-A reports chronological sequences but no holdout allocation: [A3.SS1.p1](https://arxiv.org/html/2605.16825v3#A3.SS1.p1)
+- **Candidates**: Section V and Appendix C describe metrics/baselines but not Ghost's candidate protocol: [S5](https://arxiv.org/html/2605.16825v3#S5) and [A3](https://arxiv.org/html/2605.16825v3#A3)
+- **Visibility**: Section V and Appendix C define no unseen-item evaluation: [S5](https://arxiv.org/html/2605.16825v3#S5) and [A3](https://arxiv.org/html/2605.16825v3#A3)
+- **SID**: Section IV-A, Section V-C, Appendix C-D: [S4.SS1.p2](https://arxiv.org/html/2605.16825v3#S4.SS1.p2) and [S5.SS3.p1](https://arxiv.org/html/2605.16825v3#S5.SS3.p1) and [A3.SS4.p2](https://arxiv.org/html/2605.16825v3#A3.SS4.p2)
+- **Inference budget**: Table I and Appendix C-D: [S5.T1](https://arxiv.org/html/2605.16825v3#S5.T1) and [A3.SS4.p2](https://arxiv.org/html/2605.16825v3#A3.SS4.p2)
+- **Results from**: Tables I-III and Appendix C-D: [S5.T1](https://arxiv.org/html/2605.16825v3#S5.T1) and [S5.T2](https://arxiv.org/html/2605.16825v3#S5.T2) and [S5.T3](https://arxiv.org/html/2605.16825v3#S5.T3) and [A3.SS4.p1](https://arxiv.org/html/2605.16825v3#A3.SS4.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

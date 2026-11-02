@@ -34,19 +34,25 @@ MMQ trains a multimodal tokenizer with modality-shared and modality-specific exp
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty; retrieval uses user/item 5-core filtering and histories capped at 20. Southeast Asian advertising logs, October 2024-May 2025 (30M users, 40M ads); industrial filters not reported.
-  - Source: Section 4.1.1: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p2 and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3
 - **Split**: Beauty ranking: chronological 90% train/10% test; ratings >3 positive, <=3 negative. Retrieval and industrial offline splits not reported. Online A/B: July 6-August 6, 2025; treatment 10% random user traffic.
-  - Source: Sections 4.1.1 and 5: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3 and https://arxiv.org/html/2508.15281v1#S5.p1
 - **Candidates**: Retrieval: not reported; ranking evaluates labeled ratings, candidate retrieval n/a.
-  - Source: Section 4.1.1/4.1.2 gives labels and metrics, not retrieval candidates: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3 and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Section 4.1 defines no item holdout: https://arxiv.org/html/2508.15281v1#S4.SS1
 - **SID**: 6 positions: 2 shared, 2 text-specific, 2 visual-specific; codebook size 100 (Beauty), 3000 (industrial). Collision handling not reported.
-  - Source: Section 4.1.4: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p2
 - **Inference budget**: Retrieval K=5/10 using HeterRec; ranking uses PPNet. Decoding budget, hardware, inference batch size, and latency not reported.
-  - Source: Sections 4.1.2/4.1.4: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3 and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p1
 - **Results from**: Original Table 1: tokenizer comparisons under HeterRec retrieval/PPNet ranking; Section 5: online A/B versus deployed ItemID system.
-  - Source: Table 1 and Section 5: https://arxiv.org/html/2508.15281v1#S4.T1 and https://arxiv.org/html/2508.15281v1#S5.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p2](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p2) and [S4.SS1.SSS1.p3](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3)
+- **Split**: Sections 4.1.1 and 5: [S4.SS1.SSS1.p3](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3) and [S5.p1](https://arxiv.org/html/2508.15281v1#S5.p1)
+- **Candidates**: Section 4.1.1/4.1.2 gives labels and metrics, not retrieval candidates: [S4.SS1.SSS1.p3](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3) and [S4.SS1.SSS2.p3](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3)
+- **Visibility**: Section 4.1 defines no item holdout: [S4.SS1](https://arxiv.org/html/2508.15281v1#S4.SS1)
+- **SID**: Section 4.1.4: [S4.SS1.SSS4.p2](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p2)
+- **Inference budget**: Sections 4.1.2/4.1.4: [S4.SS1.SSS2.p3](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p1)
+- **Results from**: Table 1 and Section 5: [S4.T1](https://arxiv.org/html/2508.15281v1#S4.T1) and [S5.p1](https://arxiv.org/html/2508.15281v1#S5.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -32,19 +32,25 @@ ISD lets a user-specific item ranking support Semantic ID prefixes before beam s
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews: Baby, Office, Scientific; filtering rules not reported.
-  - Source: https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1 ; #A1.T6
 - **Split**: Per-user chronological leave-one-out: final interaction test, preceding interaction validation, remainder training.
-  - Source: https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1 ; #A1.SS4.SSS1.p1
 - **Candidates**: full catalog of eligible items, with the same consumed-item mask for all methods.
-  - Source: https://arxiv.org/html/2607.24995v1#S6.SS1.SSS3.p1 ; #A1.SS4.SSS1.p1 ; #A1.SS4.SSS2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Separate item scorer and transition/co-consumption statistics use training interactions; tokenizer exposure to test items not reported.
-  - Source: https://arxiv.org/html/2607.24995v1#S6.SS1 ; #A1.SS2.SSS1.p1 ; #S5.SS1.SSS1.p1
 - **SID**: TIGER/LIGER assignments remain fixed: three semantic positions plus a collision-resolution suffix. Codebook sizes and suffix-assignment rule not reported; primary filtering diagnostic uses RQ-VAE.
-  - Source: https://arxiv.org/html/2607.24995v1#S3.SS3.p1 ; #A1.SS2.p1 ; #A1.SS3.SSS1.p1 ; #S6.SS4.p1
 - **Inference budget**: Beam 50; one decoder pass; top-50 item-support ranking constructed once per history; reciprocal-rank fusion kappa=60; at most 50 output items, evaluated at K=10/20. Ranker construction is excluded from decoding complexity. Hardware, inference batch size and latency not reported.
-  - Source: https://arxiv.org/html/2607.24995v1#A1.SS3.SSS1.p1 ; #S5.SS2.SSS2.p1 ; #S5.SS3.p1 ; #A1.SS4.SSS2.p1
 - **Results from**: Original Table 3: matched recommendation comparisons, means across three seeds; Table 4: SID reassignment; Table 5: filtering/ordering ablations. Tables 1-2: encoder/SID representation diagnostics.
-  - Source: https://arxiv.org/html/2607.24995v1#S5.T3 ; #S6.T4 ; #S6.T5 ; #A1.SS4.SSS2.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S6.SS1.SSS1.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1) ; #A1.T6
+- **Split**: [S6.SS1.SSS1.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1) ; #A1.SS4.SSS1.p1
+- **Candidates**: [S6.SS1.SSS3.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS3.p1) ; #A1.SS4.SSS1.p1 ; #A1.SS4.SSS2.p1
+- **Visibility**: [S6.SS1](https://arxiv.org/html/2607.24995v1#S6.SS1) ; #A1.SS2.SSS1.p1 ; #S5.SS1.SSS1.p1
+- **SID**: [S3.SS3.p1](https://arxiv.org/html/2607.24995v1#S3.SS3.p1) ; #A1.SS2.p1 ; #A1.SS3.SSS1.p1 ; #S6.SS4.p1
+- **Inference budget**: [A1.SS3.SSS1.p1](https://arxiv.org/html/2607.24995v1#A1.SS3.SSS1.p1) ; #S5.SS2.SSS2.p1 ; #S5.SS3.p1 ; #A1.SS4.SSS2.p1
+- **Results from**: [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3) ; #S6.T4 ; #S6.T5 ; #A1.SS4.SSS2.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

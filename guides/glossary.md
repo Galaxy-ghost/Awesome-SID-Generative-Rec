@@ -4,8 +4,8 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 
 ## Symbols
 
-- `†`: Inferred: the paper does not restate the setting; it is inferred from the configuration it names.
-- `A / B`: Different branches or configurations of the method.
+- `†`: Inferred from the configuration the paper names.
+- `A / B`: Two branches or configurations.
 - `–`: Not reported.
 - `n/a`: Not applicable.
 

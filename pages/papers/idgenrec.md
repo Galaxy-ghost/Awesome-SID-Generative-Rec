@@ -76,19 +76,25 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 **Experimental setup**
 
 - **Datasets**: Standard: Amazon Sports, Beauty, Toys and Yelp, filtering users and items with fewer than 5 interactions (following P5 and Hua et al. 2023). Zero-shot: a Fusion pre-training corpus from 19 other Amazon categories, each downsampled to at most 30,000 users (183,918 users / 233,323 items), tested on Sports, Beauty, Toys, Music, Instruments, and Yelp.
-  - Source: Standard datasets and 5-interaction filter: https://arxiv.org/html/2403.19021v2#S3.SS1.p1; zero-shot data rules: https://arxiv.org/html/2403.19021v2#S3.SS1.p3 and https://arxiv.org/html/2403.19021v2#S3.SS1.p4; statistics: https://arxiv.org/html/2403.19021v2#S3.T3.
 - **Split**: Leave-one-out for testing (validation allocation not restated). Zero-shot: train once on Fusion and test directly on held-out datasets.
-  - Source: Leave-one-out: https://arxiv.org/html/2403.19021v2#S3.SS3.p1; zero-shot setting: https://arxiv.org/html/2403.19021v2#S3.SS5.p1.
 - **Candidates**: full catalog (no negative sampling; ranking over all items).
-  - Source: Ranking over all items without negative sampling: https://arxiv.org/html/2403.19021v2#S3.SS3.p1.
 - **Visibility**: Standard: warm; no unseen-item protocol is defined. Zero-shot: users and items of the test datasets are not seen in training; the ID generator is also trained only on the Fusion corpus, so test items are unseen by tokenizer too and receive IDs generated from their text.
-  - Source: Zero-shot: users and items unseen in training: https://arxiv.org/html/2403.19021v2#S3.SS5.p1; the ID generator is trained with the recommender on the training data: https://arxiv.org/html/2403.19021v2#S3.SS2.p3.
 - **SID**: Textual IDs generated from item text by a T5-small ID generator with diverse beam search (k=10 groups, diversity penalty raised from 1 to 10), length initially in [1, 10) tokens and extended to [10, 20) when needed; uniqueness is enforced at generation time by rejecting duplicates. SentencePiece vocabulary of 32,128.
-  - Source: Diverse beam search for unique textual IDs, length ranges: https://arxiv.org/html/2403.19021v2#S2.SS3.p2 and https://arxiv.org/html/2403.19021v2#S3.SS2.p2; T5-small ID generator: from Section 2.
 - **Inference budget**: Constrained decoding over a prefix tree of all generated item IDs; beam width, hardware, inference batch size, and latency: not reported. HR and NDCG at 5 and 10.
-  - Source: Constrained decoding with a prefix tree over generated IDs: Section 2 inference; no beam width or hardware found.
 - **Results from**: Table 4 (standard evaluation versus traditional and P5-variant baselines); Table 5 (training strategies); Table 6 (user and item IDs); Table 7 (zero-shot intra- and inter-platform).
-  - Source: Standard: https://arxiv.org/html/2403.19021v2#S3.T4; training strategies: https://arxiv.org/html/2403.19021v2#S3.T5; user/item IDs: https://arxiv.org/html/2403.19021v2#S3.T6; zero-shot: https://arxiv.org/html/2403.19021v2#S3.T7.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Standard datasets and 5-interaction filter: [S3.SS1.p1](https://arxiv.org/html/2403.19021v2#S3.SS1.p1); zero-shot data rules: [S3.SS1.p3](https://arxiv.org/html/2403.19021v2#S3.SS1.p3) and [S3.SS1.p4](https://arxiv.org/html/2403.19021v2#S3.SS1.p4); statistics: [S3.T3](https://arxiv.org/html/2403.19021v2#S3.T3).
+- **Split**: Leave-one-out: [S3.SS3.p1](https://arxiv.org/html/2403.19021v2#S3.SS3.p1); zero-shot setting: [S3.SS5.p1](https://arxiv.org/html/2403.19021v2#S3.SS5.p1).
+- **Candidates**: Ranking over all items without negative sampling: [S3.SS3.p1](https://arxiv.org/html/2403.19021v2#S3.SS3.p1).
+- **Visibility**: Zero-shot: users and items unseen in training: [S3.SS5.p1](https://arxiv.org/html/2403.19021v2#S3.SS5.p1); the ID generator is trained with the recommender on the training data: [S3.SS2.p3](https://arxiv.org/html/2403.19021v2#S3.SS2.p3).
+- **SID**: Diverse beam search for unique textual IDs, length ranges: [S2.SS3.p2](https://arxiv.org/html/2403.19021v2#S2.SS3.p2) and [S3.SS2.p2](https://arxiv.org/html/2403.19021v2#S3.SS2.p2); T5-small ID generator: from Section 2.
+- **Inference budget**: Constrained decoding with a prefix tree over generated IDs: Section 2 inference; no beam width or hardware found.
+- **Results from**: Standard: [S3.T4](https://arxiv.org/html/2403.19021v2#S3.T4); training strategies: [S3.T5](https://arxiv.org/html/2403.19021v2#S3.T5); user/item IDs: [S3.T6](https://arxiv.org/html/2403.19021v2#S3.T6); zero-shot: [S3.T7](https://arxiv.org/html/2403.19021v2#S3.T7).
+
+</details>
 
 - Standard setting: IDGenRec reports better performance than existing models in sequential recommendation (Abstract).
 - Zero-shot setting: a model trained on 19 datasets and tested on 6 unseen datasets from other platforms performs comparably to or better than some supervised traditional recommenders (Abstract).

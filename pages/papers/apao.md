@@ -34,19 +34,25 @@ APAO adds prefix-level losses and an adaptive worst-prefix strategy to training,
 **Experimental setup**
 
 - **Datasets**: Amazon Office (4,905 users / 2,420 items), Grocery (14,681 / 8,713), Beauty (22,363 / 12,101), and Yelp (30,431 / 20,033), with 5-core filtering of users and items; histories truncated to the 20 most recent items.
-  - Source: Datasets, 5-core, leave-one-out: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1; statistics: https://arxiv.org/html/2603.02730v4#S5.T2.
 - **Split**: Leave-one-out (following LETTER and LC-Rec; allocation not restated beyond the label).
-  - Source: Leave-one-out named: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K from beam search with Recall and NDCG at 10 and 20. Training losses use 100 uniformly sampled negatives; exclusion of history items for these negatives: not reported.
-  - Source: Metrics; training negatives fixed at 100 uniform: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1 and https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1.
 - **SID**: 4-level RQ-K-means codes over Llama-3.1-8B-Instruct item embeddings; codebook size and collision handling: not reported.
-  - Source: 4-level RQ-K-means over Llama-3.1-8B embeddings: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1; codebook size and collision rule not found.
 - **Inference budget**: Beam search with beam size 20 (scalability over K in Figure 6); TIGER encoder-decoder and Llama decoder backbones of about 0.01B parameters, trained on one NVIDIA A100-40GB. Inference batch size and latency: not reported (Table 4 reports training efficiency).
-  - Source: Beam size 20 and hardware: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1; beam scalability: https://arxiv.org/html/2603.02730v4#S5.F6; training efficiency: https://arxiv.org/html/2603.02730v4#S5.T4.
 - **Results from**: Table 1 (four datasets, TIGER and Llama backbones, versus CE, MSL, DPO, DMPO, S-DPO losses); Table 3 (one-stage versus two-stage training); Table 4 (training efficiency); Figures 2-6 (ablations, prefix-level analysis, hyperparameters, beam size).
-  - Source: Main: https://arxiv.org/html/2603.02730v4#S5.T1; paradigms: https://arxiv.org/html/2603.02730v4#S5.T3; efficiency: https://arxiv.org/html/2603.02730v4#S5.T4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets, 5-core, leave-one-out: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1); statistics: [S5.T2](https://arxiv.org/html/2603.02730v4#S5.T2).
+- **Split**: Leave-one-out named: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1).
+- **Candidates**: Metrics; training negatives fixed at 100 uniform: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1) and [S5.SS1.SSS3.p2](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [S5.SS1.SSS1.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1).
+- **SID**: 4-level RQ-K-means over Llama-3.1-8B embeddings: [S5.SS1.SSS3.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1); codebook size and collision rule not found.
+- **Inference budget**: Beam size 20 and hardware: [S5.SS1.SSS3.p1](https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1); beam scalability: [S5.F6](https://arxiv.org/html/2603.02730v4#S5.F6); training efficiency: [S5.T4](https://arxiv.org/html/2603.02730v4#S5.T4).
+- **Results from**: Main: [S5.T1](https://arxiv.org/html/2603.02730v4#S5.T1); paradigms: [S5.T3](https://arxiv.org/html/2603.02730v4#S5.T3); efficiency: [S5.T4](https://arxiv.org/html/2603.02730v4#S5.T4).
+
+</details>
 
 ### 5. Connections to Related Work
 

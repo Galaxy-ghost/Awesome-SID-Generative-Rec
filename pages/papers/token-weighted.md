@@ -34,19 +34,25 @@ Token-Weighted weights Semantic ID tokens by prefix ambiguity reduction and by t
 **Experimental setup**
 
 - **Datasets**: Amazon Musical Instruments and Industrial & Scientific, Yelp, MovieLens 1M; 5-core users/items. Maximum history length not reported.
-  - Source: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p1 ; #S5.SS1.SSS1.p2
 - **Split**: Per-user leave-one-out: last interaction test, penultimate validation, others training. Additional head/tail analysis divides test items equally by interaction frequency; it does not redefine the training split.
-  - Source: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2 ; #S5.SS2.SSS5.p1
 - **Candidates**: not reported
-  - Source: https://arxiv.org/html/2601.17787v2#S5.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2 ; #S5.SS1.SSS3.p2
 - **SID**: RQ-VAE: 4 x 256 using LLaMA2-7B item embeddings; duplicate IDs resolved by random reassignment of the final token. PQ extension uses four independently quantized embedding segments; PQ codebook sizes not reported.
-  - Source: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS3.p2 ; #S5.SS2.SSS3.p1
 - **Inference budget**: Constrained beam search; Hit/NDCG@5/10. Main backbone TIGER/T5; LLaMA3.2-3B extension uses 8-bit LoRA at training and inference. Beam width, inference batch size and latency not reported. General experiment pool: two RTX 3090s and one RTX A6000; inference allocation not reported.
-  - Source: https://arxiv.org/html/2601.17787v2#S3.SS2.p2 ; #S5.SS1.SSS3.p1 ; #S5.SS2.SSS3.p2
 - **Results from**: Original Table 3: main comparison, five-run means; token-level baselines implemented on TIGER. Table 4: ablations; Table 5: PQ IDs; Table 6: larger backbone. Baseline-result reuse not stated.
-  - Source: https://arxiv.org/html/2601.17787v2#S4.T3 ; #S5.T4 ; #S5.T5 ; #S5.T6 ; #S5.SS1.SSS2.p1 ; #S5.SS1.SSS3.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S5.SS1.SSS1.p1](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p1) ; #S5.SS1.SSS1.p2
+- **Split**: [S5.SS1.SSS1.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2) ; #S5.SS2.SSS5.p1
+- **Candidates**: [S5.SS1](https://arxiv.org/html/2601.17787v2#S5.SS1)
+- **Visibility**: [S5.SS1.SSS1.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2) ; #S5.SS1.SSS3.p2
+- **SID**: [S5.SS1.SSS3.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS3.p2) ; #S5.SS2.SSS3.p1
+- **Inference budget**: [S3.SS2.p2](https://arxiv.org/html/2601.17787v2#S3.SS2.p2) ; #S5.SS1.SSS3.p1 ; #S5.SS2.SSS3.p2
+- **Results from**: [S4.T3](https://arxiv.org/html/2601.17787v2#S4.T3) ; #S5.T4 ; #S5.T5 ; #S5.T6 ; #S5.SS1.SSS2.p1 ; #S5.SS1.SSS3.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

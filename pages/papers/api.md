@@ -35,19 +35,25 @@ API reuses feature indices of a pretrained sparse autoencoder as an interpretabl
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Sports, and Toys as preprocessed in prior work (P5, GRID), keeping their splits; item text from title, brand, category, and price. Sizes: Appendix A (not restated here).
-  - Source: Benchmark aligned with P5 and GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.
 - **Split**: The prior-work (P5 / GRID) splits and evaluation protocol are retained (allocation not restated); checkpoints selected by validation Recall@5.
-  - Source: Inherited splits; PID statistics from training items only: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.
 - **Candidates**: full catalog (complete test split, full catalog without sampled negatives).
-  - Source: Full catalog without sampled negatives: https://arxiv.org/html/2610.36763v1#S5.SS1.p4.
 - **Visibility**: warm; no unseen-item protocol is defined. PID selection statistics and activation calibration are estimated from training-item contents.
-  - Source: PID statistics estimated from training-item contents; no unseen-item protocol: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.
 - **SID**: Pretrained Interpretable IDs: K in {4, 8, 16} feature indices selected by a priority rule from the 32 strongest of 24,576 labeled sparse-autoencoder features of a frozen GPT-2-small, plus their relative activation strengths, which separate items whose index sequences coincide. Collision-affected items at K=4: 15.16% on Beauty (77.37% with native SAE selection).
-  - Source: PID from frozen GPT-2 SAE features with K tokens and activation strengths: https://arxiv.org/html/2610.36763v1#S5.SS1.p3, https://arxiv.org/html/2610.36763v1#S4.SS1.p3; collisions: https://arxiv.org/html/2610.36763v1#S5.T3.
 - **Inference budget**: Two decoders: parallel prediction (PR) with exact catalog scoring, and autoregressive (AR) with catalog-constrained beam search of width 50; T5- and GPT-2-style backbones trained from scratch. Hardware, inference batch size, and latency: not reported.
-  - Source: Decoding settings: https://arxiv.org/html/2610.36763v1#S5.SS1.p4.
 - **Results from**: Table 1 (full API versus sequential and generative recommenders); Table 2 (tokenizers under T5 and GPT-2 backbones with AR and PR decoding); Table 3 (collision rates by token budget); Table 4 (content alignment); Table 5 (preference and strength ablation); Figure 3 (cross-domain vocabulary reuse).
-  - Source: Results: https://arxiv.org/html/2610.36763v1#S4.T1, https://arxiv.org/html/2610.36763v1#S5.T2, https://arxiv.org/html/2610.36763v1#S5.T3, https://arxiv.org/html/2610.36763v1#S5.T4, https://arxiv.org/html/2610.36763v1#S5.F3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Benchmark aligned with P5 and GRID: [S5.SS1.p1](https://arxiv.org/html/2610.36763v1#S5.SS1.p1).
+- **Split**: Inherited splits; PID statistics from training items only: [S5.SS1.p1](https://arxiv.org/html/2610.36763v1#S5.SS1.p1).
+- **Candidates**: Full catalog without sampled negatives: [S5.SS1.p4](https://arxiv.org/html/2610.36763v1#S5.SS1.p4).
+- **Visibility**: PID statistics estimated from training-item contents; no unseen-item protocol: [S5.SS1.p1](https://arxiv.org/html/2610.36763v1#S5.SS1.p1).
+- **SID**: PID from frozen GPT-2 SAE features with K tokens and activation strengths: [S5.SS1.p3](https://arxiv.org/html/2610.36763v1#S5.SS1.p3), [S4.SS1.p3](https://arxiv.org/html/2610.36763v1#S4.SS1.p3); collisions: [S5.T3](https://arxiv.org/html/2610.36763v1#S5.T3).
+- **Inference budget**: Decoding settings: [S5.SS1.p4](https://arxiv.org/html/2610.36763v1#S5.SS1.p4).
+- **Results from**: Results: [S4.T1](https://arxiv.org/html/2610.36763v1#S4.T1), [S5.T2](https://arxiv.org/html/2610.36763v1#S5.T2), [S5.T3](https://arxiv.org/html/2610.36763v1#S5.T3), [S5.T4](https://arxiv.org/html/2610.36763v1#S5.T4), [S5.F3](https://arxiv.org/html/2610.36763v1#S5.F3).
+
+</details>
 
 ### 5. Connections to Related Work
 

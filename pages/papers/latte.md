@@ -34,19 +34,25 @@ Latte inserts a latent token before each Semantic ID, turning one decoding tree 
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023: Instruments, Scientific, Games (57,439 / 24,587, 50,985 / 25,848, 94,762 / 25,612 users / items; filtering not restated beyond following ETEGRec and Zheng et al. 2025). Separate modality-order study on the Million Playlist Dataset: songs without tags or metadata and playlists with fewer than six songs removed.
-  - Source: Amazon 2023 categories and split: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1; statistics: https://arxiv.org/html/2605.06331v1#A1.T7; MPD: https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1.
 - **Split**: Amazon: chronological leave-one-out, most recent interaction for test, second most recent for validation, the rest for training. MPD: 8:1:1 split.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1; MPD 8:1:1: https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search with beam size 500.
-  - Source: Metrics only: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1.
 - **SID**: Base PSID semantic IDs from RQ K-Means: 3 positions x 256 tokens, with PSID's ESM algorithm to prevent SID conflicts; Latte prepends one of M' learned latent tokens (2, 4, or 8; best 4 or 8) chosen freely at inference. RQ-VAE and OPQ tokenizers are also tested (Table 3).
-  - Source: RQ K-Means m=3 x 256 with ESM conflict resolution, latent tokens: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2; tokenizer variants: https://arxiv.org/html/2605.06331v1#S5.T3.
 - **Inference budget**: Beam size 500 for PSID and Latte; generation starts with an unconstrained latent token followed by SID tokens, and item scores are aggregated over latent tokens with max. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam size 500: https://arxiv.org/html/2605.06331v1#A3.T8 and https://arxiv.org/html/2605.06331v1#A3.T9; aggregation over latent tokens: https://arxiv.org/html/2605.06331v1#S4.SS2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.
 - **Results from**: Table 1 (Instruments, Scientific, Games; most baseline numbers copied from prior work, PSID rerun from its released code); Table 2 (tree-distance correlations); Tables 3-4 and Figure 4 (tokenizers, aggregation, number of latent tokens); Table 5 (MPD modality order).
-  - Source: Main: https://arxiv.org/html/2605.06331v1#S5.T1; constraint analysis: https://arxiv.org/html/2605.06331v1#S5.T2; tokenizers: https://arxiv.org/html/2605.06331v1#S5.T3; aggregation: https://arxiv.org/html/2605.06331v1#S5.T4; latent count: https://arxiv.org/html/2605.06331v1#S5.F4; MPD: https://arxiv.org/html/2605.06331v1#S6.T5; copied baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p2.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Amazon 2023 categories and split: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1); statistics: [A1.T7](https://arxiv.org/html/2605.06331v1#A1.T7); MPD: [S6.SS2.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1).
+- **Split**: Leave-one-out allocation: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1); MPD 8:1:1: [S6.SS2.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1).
+- **Candidates**: Metrics only: [A4.SS0.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p1).
+- **Visibility**: Standard split with no unseen-item protocol: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1).
+- **SID**: RQ K-Means m=3 x 256 with ESM conflict resolution, latent tokens: [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2); tokenizer variants: [S5.T3](https://arxiv.org/html/2605.06331v1#S5.T3).
+- **Inference budget**: Beam size 500: [A3.T8](https://arxiv.org/html/2605.06331v1#A3.T8) and [A3.T9](https://arxiv.org/html/2605.06331v1#A3.T9); aggregation over latent tokens: [S4.SS2.p1](https://arxiv.org/html/2605.06331v1#S4.SS2.p1) and [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2).
+- **Results from**: Main: [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1); constraint analysis: [S5.T2](https://arxiv.org/html/2605.06331v1#S5.T2); tokenizers: [S5.T3](https://arxiv.org/html/2605.06331v1#S5.T3); aggregation: [S5.T4](https://arxiv.org/html/2605.06331v1#S5.T4); latent count: [S5.F4](https://arxiv.org/html/2605.06331v1#S5.F4); MPD: [S6.T5](https://arxiv.org/html/2605.06331v1#S6.T5); copied baselines: [A4.SS0.SSS0.Px1.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p2).
+
+</details>
 
 ### 5. Connections to Related Work
 

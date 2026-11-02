@@ -34,19 +34,25 @@ FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explic
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Toys and Games, Sports and Outdoors, CDs and Vinyl; users/items with fewer than 5 interactions removed.
-  - Source: Sections 3.1 and A.1: https://arxiv.org/html/2610.07402v1#S3.SS1.p1 and https://arxiv.org/html/2610.07402v1#A1.SS1.p1
 - **Split**: Per-user chronological leave-last-out: last item test, penultimate validation, earlier interactions training.
-  - Source: Appendix A.1: https://arxiv.org/html/2610.07402v1#A1.SS1.p1
 - **Candidates**: not reported
-  - Source: Section 2.3 ranks all candidate items but evaluation sampling is unspecified: https://arxiv.org/html/2610.07402v1#S2.SS3.p1 and https://arxiv.org/html/2610.07402v1#S3.SS1.p3
 - **Visibility**: Warm main protocol; cold-start targets unseen by generator only: randomly select 5% of test-target items and remove all their training interactions. Tokenizer fitting n/a: fixed SimHash on precomputed text embeddings.
-  - Source: Sections 2.1, 3.5 and A.4: https://arxiv.org/html/2610.07402v1#S2.SS1.p1 and https://arxiv.org/html/2610.07402v1#S3.SS5.p1 and https://arxiv.org/html/2610.07402v1#A1.SS4.p1
 - **SID**: SimHash: Beauty 32x256, Toys/Sports 64x256, CDs 64x512; collision counts analyzed, collision disambiguation not reported.
-  - Source: Section 2.1, Table 4 and collision analysis: https://arxiv.org/html/2610.07402v1#S2.SS1.p2 and https://arxiv.org/html/2610.07402v1#A1.T4 and https://arxiv.org/html/2610.07402v1#S3.SS3.SSS1.p3
 - **Inference budget**: Parallel per-position probabilities cached, then candidate scores gathered/summed; K=5/10; beam n/a. Single NVIDIA A100 80GB for experiments; inference batch size and latency not reported.
-  - Source: Sections 2.3, 3.1 and A.3: https://arxiv.org/html/2610.07402v1#S2.SS3.p2 and https://arxiv.org/html/2610.07402v1#S3.SS1.p3 and https://arxiv.org/html/2610.07402v1#A1.SS3.p4
 - **Results from**: Original Table 1 overall results; Figure 6 cold-start. Most baseline results copied from TIGER/RPG; remaining baselines implemented from public code.
-  - Source: Sections 3.1/3.2 and Figure 6: https://arxiv.org/html/2610.07402v1#S3.SS1.p4 and https://arxiv.org/html/2610.07402v1#S3.T1 and https://arxiv.org/html/2610.07402v1#S3.F6
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Sections 3.1 and A.1: [S3.SS1.p1](https://arxiv.org/html/2610.07402v1#S3.SS1.p1) and [A1.SS1.p1](https://arxiv.org/html/2610.07402v1#A1.SS1.p1)
+- **Split**: Appendix A.1: [A1.SS1.p1](https://arxiv.org/html/2610.07402v1#A1.SS1.p1)
+- **Candidates**: Section 2.3 ranks all candidate items but evaluation sampling is unspecified: [S2.SS3.p1](https://arxiv.org/html/2610.07402v1#S2.SS3.p1) and [S3.SS1.p3](https://arxiv.org/html/2610.07402v1#S3.SS1.p3)
+- **Visibility**: Sections 2.1, 3.5 and A.4: [S2.SS1.p1](https://arxiv.org/html/2610.07402v1#S2.SS1.p1) and [S3.SS5.p1](https://arxiv.org/html/2610.07402v1#S3.SS5.p1) and [A1.SS4.p1](https://arxiv.org/html/2610.07402v1#A1.SS4.p1)
+- **SID**: Section 2.1, Table 4 and collision analysis: [S2.SS1.p2](https://arxiv.org/html/2610.07402v1#S2.SS1.p2) and [A1.T4](https://arxiv.org/html/2610.07402v1#A1.T4) and [S3.SS3.SSS1.p3](https://arxiv.org/html/2610.07402v1#S3.SS3.SSS1.p3)
+- **Inference budget**: Sections 2.3, 3.1 and A.3: [S2.SS3.p2](https://arxiv.org/html/2610.07402v1#S2.SS3.p2) and [S3.SS1.p3](https://arxiv.org/html/2610.07402v1#S3.SS1.p3) and [A1.SS3.p4](https://arxiv.org/html/2610.07402v1#A1.SS3.p4)
+- **Results from**: Sections 3.1/3.2 and Figure 6: [S3.SS1.p4](https://arxiv.org/html/2610.07402v1#S3.SS1.p4) and [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1) and [S3.F6](https://arxiv.org/html/2610.07402v1#S3.F6)
+
+</details>
 
 ### 5. Connections to Related Work
 

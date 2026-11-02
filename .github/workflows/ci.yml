@@ -20,5 +20,5 @@ jobs:
         with:
           node-version: "lts/*"
       - run: make build
-      - run: git diff --exit-code
+      - run: git add -N . && git diff --exit-code
       - run: make check

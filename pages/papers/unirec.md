@@ -35,19 +35,25 @@ UniRec prefixes each Semantic ID with category, seller, and brand tokens through
 **Experimental setup**
 
 - **Datasets**: Shopee main-feed production logs over 9 consecutive days, billions of interactions (impressions, clicks, add-to-cart, purchases). Filtering and catalog size: not reported.
-  - Source: Shopee production logs: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1.
 - **Split**: not reported (the 9-day window is described, but not how training and test are divided). Online A/B test in feed and landing scenarios (Table 5); duration and traffic: not reported.
-  - Source: No train/test division stated; online A/B: https://arxiv.org/html/2604.12234v5#S4.T5.
 - **Candidates**: not reported (full catalog versus sampled); Hit Ratio at 50, 100, 200 on all samples and on purchase samples.
-  - Source: Hit Ratio on all and order samples: https://arxiv.org/html/2604.12234v5#S4.T1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: No unseen-item protocol: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1.
 - **SID**: Capacity-constrained residual K-means SIDs with 3 layers x 4,000 codes, using exposure-weighted capacity penalties (tolerance 1.05) instead of equal item counts; Chain-of-Attribute prefixes each SID with category tokens (L2, L3) decoded first. Collision handling: not reported.
-  - Source: Capacity-constrained SIDs, 3 layers x 4000, tau=1.05; CoA attribute prefix: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1 and https://arxiv.org/html/2604.12234v5#S3.SS3.SSS0.Px2.p2.
 - **Inference budget**: Autoregressive decoding of attribute tokens then SID tokens; beam width not reported. Online end-to-end latency 110 ms versus 266 ms for the traditional pipeline; hardware and batch size: not reported. Decoder-only model with cross-attention (d_model 256, 3 layers).
-  - Source: End-to-end latency: https://arxiv.org/html/2604.12234v5#S4.SS2.SSS0.Px3.p1; model size: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1.
 - **Results from**: Table 1 (HR on all and order samples versus SASRec, TIGER, OneRec-V2); Table 2 (CoA configurations); Table 3 (SID construction, ablation, scaling); Table 4 (multi-scene task-conditioned BOS); Table 5 (online A/B: orders +4.76%, GMV +5.60%).
-  - Source: Results: https://arxiv.org/html/2604.12234v5#S4.T1, https://arxiv.org/html/2604.12234v5#S4.T2, https://arxiv.org/html/2604.12234v5#S4.T3, https://arxiv.org/html/2604.12234v5#S4.T4, https://arxiv.org/html/2604.12234v5#S4.T5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Shopee production logs: [S4.SS1.SSS1.Px1.p1](https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1).
+- **Split**: No train/test division stated; online A/B: [S4.T5](https://arxiv.org/html/2604.12234v5#S4.T5).
+- **Candidates**: Hit Ratio on all and order samples: [S4.T1](https://arxiv.org/html/2604.12234v5#S4.T1).
+- **Visibility**: No unseen-item protocol: [S4.SS1.SSS1.Px1.p1](https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1).
+- **SID**: Capacity-constrained SIDs, 3 layers x 4000, tau=1.05; CoA attribute prefix: [S4.SS1.SSS1.Px3.p1](https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1) and [S3.SS3.SSS0.Px2.p2](https://arxiv.org/html/2604.12234v5#S3.SS3.SSS0.Px2.p2).
+- **Inference budget**: End-to-end latency: [S4.SS2.SSS0.Px3.p1](https://arxiv.org/html/2604.12234v5#S4.SS2.SSS0.Px3.p1); model size: [S4.SS1.SSS1.Px3.p1](https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1).
+- **Results from**: Results: [S4.T1](https://arxiv.org/html/2604.12234v5#S4.T1), [S4.T2](https://arxiv.org/html/2604.12234v5#S4.T2), [S4.T3](https://arxiv.org/html/2604.12234v5#S4.T3), [S4.T4](https://arxiv.org/html/2604.12234v5#S4.T4), [S4.T5](https://arxiv.org/html/2604.12234v5#S4.T5).
+
+</details>
 
 ### 5. Connections to Related Work
 

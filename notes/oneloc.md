@@ -1,11 +1,11 @@
 ## At a Glance
 
 Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
-Limitation: The paper does not state that KuaiLLSR is released, and it does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2).
+Limitation: The paper does not state that KuaiLLSR is released (Sec. 4.1.1).
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). OneLoc adds geographic information to the tokenizer, the encoder, and the decoder, and aligns the generator with a geographic reward and a GMV reward. LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -15,20 +15,13 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 #### Overview
 
-```
-Video content + location context (GeoHash block: coordinates, brand, category)
-  │
-  ▼  multimodal LLM → one fused item embedding
-Geo-aware SID (q1, q2, q3) from 3-level residual k-means, 8,192 codes per level
-  │
-  ▼  encoder: watch / click / pay sequences, geo-aware self-attention (GA-Attn)
-User representation
-  │
-  ▼  decoder: neighbor-aware prompt e^s, then the SID tokens; next-token prediction
-Pre-trained generator θ0
-  │
-  ▼  beam search → geographic and GMV rewards → preference pairs → DPO
-Aligned generator
+```mermaid
+flowchart LR
+    A[Video and location] -->|Multimodal LLM| B[Embedding]
+    B -->|Residual k-means| C[Geo-aware SID]
+    C -->|GA-Attn encoder| D[User vector]
+    D -->|Prompted decoder, NTP| E[Generator]
+    E -->|Rewards, DPO| F[Aligned generator]
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -47,8 +40,6 @@ where:
 - $`\mathcal{R}^{i}`$ is the set of residuals at level $`i`$, and $`r^{i}_{j}`$ is the residual of item $`j`$;
 - $`\mathcal{C}^{i} = \{c^{i}_{k}\}`$ is the level-$`i`$ codebook of $`N_c`$ centroids;
 - $`q^{i}_{j}`$ is the $`i`$-th token of the SID of item $`j`$.
-
-OneLoc uses 3 levels with 8,192 clusters each (Sec. 2.2, Sec. 4.1.4). Geographic information enters only through the fused embedding; there are no separate geographic tokens.
 
 #### Step 2: Geo-Aware Self-Attention in the Encoder
 
@@ -146,16 +137,13 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
   > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
-- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
+- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model.
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The paper states no limitations of OneLoc. The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
+**Stated by the authors.** The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
 
 **Our analysis.**
 
 - Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
-- The paper does not state how the two rewards are combined when it ranks the candidates for a preference pair (Sec. 2.5.2).
 - The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
-- The paper does not report SID collision handling, the beam width, or the evaluation candidate protocol (Sec. 2.2, Sec. 3, Sec. 4.1.3).
-- The v1 front matter still carries template placeholders for the DOI and the conference, so the publication venue is unconfirmed.

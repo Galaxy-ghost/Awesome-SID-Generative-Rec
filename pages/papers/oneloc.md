@@ -29,11 +29,11 @@ OneLoc extends end-to-end generative recommendation to local-life videos by addi
 | Key Contribution | OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards. |
 | Modified Stage | Representation |
 | Key Findings | In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4). |
-| Limitation | The paper does not state that KuaiLLSR is released, and it does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2). |
+| Limitation | The paper does not state that KuaiLLSR is released (Sec. 4.1.1). |
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). OneLoc adds geographic information to the tokenizer, the encoder, and the decoder, and aligns the generator with a geographic reward and a GMV reward. LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -45,20 +45,13 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 #### Overview
 
-```
-Video content + location context (GeoHash block: coordinates, brand, category)
-  │
-  ▼  multimodal LLM → one fused item embedding
-Geo-aware SID (q1, q2, q3) from 3-level residual k-means, 8,192 codes per level
-  │
-  ▼  encoder: watch / click / pay sequences, geo-aware self-attention (GA-Attn)
-User representation
-  │
-  ▼  decoder: neighbor-aware prompt e^s, then the SID tokens; next-token prediction
-Pre-trained generator θ0
-  │
-  ▼  beam search → geographic and GMV rewards → preference pairs → DPO
-Aligned generator
+```mermaid
+flowchart LR
+    A[Video and location] -->|Multimodal LLM| B[Embedding]
+    B -->|Residual k-means| C[Geo-aware SID]
+    C -->|GA-Attn encoder| D[User vector]
+    D -->|Prompted decoder, NTP| E[Generator]
+    E -->|Rewards, DPO| F[Aligned generator]
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -77,8 +70,6 @@ where:
 - $`\mathcal{R}^{i}`$ is the set of residuals at level $`i`$, and $`r^{i}_{j}`$ is the residual of item $`j`$;
 - $`\mathcal{C}^{i} = \{c^{i}_{k}\}`$ is the level-$`i`$ codebook of $`N_c`$ centroids;
 - $`q^{i}_{j}`$ is the $`i`$-th token of the SID of item $`j`$.
-
-OneLoc uses 3 levels with 8,192 clusters each (Sec. 2.2, Sec. 4.1.4). Geographic information enters only through the fused embedding; there are no separate geographic tokens.
 
 #### Step 2: Geo-Aware Self-Attention in the Encoder
 
@@ -171,19 +162,25 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 **Experimental setup**
 
 - **Datasets**: KuaiLLSR: eight days of uniformly sampled Kuaishou local-life-service short-video interactions, with 60 million users, 900,000 videos, and 440 million interactions; additional filtering rules not reported. Foursquare NYC: 1,042 users, 36,359 POIs, 212,347 interactions; Tokyo: 2,187 users, 59,472 POIs, 545,301 interactions. The public subsets use LibCity preprocessing to filter users and POIs; numerical filtering thresholds not reported.
-  - Source: Section 4.1.1 and Table 2 identify the original industrial/public datasets and preprocessing, without numerical LibCity filter thresholds; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2508.14646v1#S4.T2.
 - **Split**: KuaiLLSR: streaming training on the first seven days and evaluation on the final day. NYC and Tokyo: each user's check-ins are sorted chronologically, with interaction sequences split 80%/10%/10% for training/validation/testing.
-  - Source: Section 4.1.1 states streaming seven-day training plus next-day evaluation and the public 80/10/10 sequence split; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1.
 - **Candidates**: not reported
-  - Source: Offline metrics do not disclose full-catalog versus sampled evaluation, and the online statement of identical candidate pools does not determine their size; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS3.p1 and https://arxiv.org/html/2508.14646v1#S5.p1.
 - **Visibility**: not reported
-  - Source: The paper claims cold-start benefits but does not define generator/tokenizer visibility for a cold-start evaluation; https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2508.14646v1#S5.p2.
 - **SID**: 3 layers x 8,192 codes per layer, using geo-aware residual K-means; collision handling not reported.
-  - Source: Sections 2.2 and 4.1.4 specify three residual-K-means layers of 8,192 codes, but no SID collision-resolution rule; https://arxiv.org/html/2508.14646v1#S2.SS2.p1, https://arxiv.org/html/2508.14646v1#S2.SS2.p3, and https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1.
 - **Inference budget**: Production serving uses beam search on NVIDIA A10 GPUs, followed by SID-to-video mapping, GMV scoring, rule-based filtering, and top-K output. Beam width and output K not reported. Dynamic batching, mixed precision, KV caching, and TensorRT are used; numerical inference batch size and latency not reported.
-  - Source: Section 3 gives serving hardware and optimizations but no numerical beam width, output K, batch size, or latency; the A800 hardware in Section 4.1.4 is for training; https://arxiv.org/html/2508.14646v1#S3.p1 and https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1.
 - **Results from**: Table 1: offline Recall/NDCG at K=5, 10, and 20 on KuaiLLSR, NYC, and Tokyo. Table 3 and Figures 4-5: module/reward ablations. Table 4 and Section 5: one-week online A/B test with 10% treatment traffic, compared with the production multi-stage system.
-  - Source: Main offline comparisons and online outcomes are in Tables 1 and 4, with module ablations in Table 3 and Figures 4-5; https://arxiv.org/html/2508.14646v1#S2.T1, https://arxiv.org/html/2508.14646v1#S4.T3, https://arxiv.org/html/2508.14646v1#S4.F4, https://arxiv.org/html/2508.14646v1#S4.F5, https://arxiv.org/html/2508.14646v1#S5.p1, and https://arxiv.org/html/2508.14646v1#S5.T4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1 and Table 2 identify the original industrial/public datasets and preprocessing, without numerical LibCity filter thresholds; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S4.T2](https://arxiv.org/html/2508.14646v1#S4.T2).
+- **Split**: Section 4.1.1 states streaming seven-day training plus next-day evaluation and the public 80/10/10 sequence split; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1).
+- **Candidates**: Offline metrics do not disclose full-catalog versus sampled evaluation, and the online statement of identical candidate pools does not determine their size; [S4.SS1.SSS3.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS3.p1) and [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1).
+- **Visibility**: The paper claims cold-start benefits but does not define generator/tokenizer visibility for a cold-start evaluation; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S5.p2](https://arxiv.org/html/2508.14646v1#S5.p2).
+- **SID**: Sections 2.2 and 4.1.4 specify three residual-K-means layers of 8,192 codes, but no SID collision-resolution rule; [S2.SS2.p1](https://arxiv.org/html/2508.14646v1#S2.SS2.p1), [S2.SS2.p3](https://arxiv.org/html/2508.14646v1#S2.SS2.p3), and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
+- **Inference budget**: Section 3 gives serving hardware and optimizations but no numerical beam width, output K, batch size, or latency; the A800 hardware in Section 4.1.4 is for training; [S3.p1](https://arxiv.org/html/2508.14646v1#S3.p1) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
+- **Results from**: Main offline comparisons and online outcomes are in Tables 1 and 4, with module ablations in Table 3 and Figures 4-5; [S2.T1](https://arxiv.org/html/2508.14646v1#S2.T1), [S4.T3](https://arxiv.org/html/2508.14646v1#S4.T3), [S4.F4](https://arxiv.org/html/2508.14646v1#S4.F4), [S4.F5](https://arxiv.org/html/2508.14646v1#S4.F5), [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1), and [S5.T4](https://arxiv.org/html/2508.14646v1#S5.T4).
+
+</details>
 
 - Foursquare: OneLoc outperforms the baselines in Table 1, which include TIGER and GNPR-SID, on the NYC and Tokyo subsets (Table 1).
 
@@ -193,19 +190,16 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
   > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
-- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
+- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model.
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The paper states no limitations of OneLoc. The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
+**Stated by the authors.** The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
 
 **Our analysis.**
 
 - Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
-- The paper does not state how the two rewards are combined when it ranks the candidates for a preference pair (Sec. 2.5.2).
 - The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
-- The paper does not report SID collision handling, the beam width, or the evaluation candidate protocol (Sec. 2.2, Sec. 3, Sec. 4.1.3).
-- The v1 front matter still carries template placeholders for the DOI and the conference, so the publication venue is unconfirmed.
 
 ### 5. Connections to Related Work
 

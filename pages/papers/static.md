@@ -35,19 +35,25 @@ STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, 
 **Experimental setup**
 
 - **Datasets**: YouTube corpus (100M-1B items); Amazon Beauty, Sports and Outdoors, Toys and Games (10K-20K items/domain). Filtering rules not reported.
-  - Source: Sections 5.1/6.1 and Table 3: https://arxiv.org/html/2602.22647v3#S5.SS1.p1 and https://arxiv.org/html/2602.22647v3#S6.SS1.p1 and https://arxiv.org/html/2602.22647v3#S6.T3
 - **Split**: Amazon cold targets: newest 2% or 5% of items by oldest-review date. Training-sequence exclusion wording is internally contradictory; exact temporal/validation split not reported. YouTube training split not reported.
-  - Source: Section 6.2 and Appendix F: https://arxiv.org/html/2602.22647v3#S6.SS2.p1 and https://arxiv.org/html/2602.22647v3#A6.p2
 - **Candidates**: Restricted catalog: YouTube about 20M high-quality videos uploaded within 7 days; Amazon only the selected cold-item set. Unconstrained baselines can access the full catalog.
-  - Source: Sections 5.2/6.2: https://arxiv.org/html/2602.22647v3#S5.SS2.p1 and https://arxiv.org/html/2602.22647v3#S6.SS2.p1
 - **Visibility**: Amazon generator exclusion is ambiguous; tokenizer cold-item exposure is not reported. Section 6.2 calls training sequences no-cold-start but says to remove sequences without cold items. Unseen by generator only versus unseen by tokenizer too cannot be established.
-  - Source: Sections 6.1/6.2: https://arxiv.org/html/2602.22647v3#S6.SS1.p1 and https://arxiv.org/html/2602.22647v3#S6.SS2.p1
 - **SID**: YouTube: 8 levels x 2048 codes; Amazon: separate RQ-VAE per domain, 4 levels x 256. Collision handling not reported.
-  - Source: Sections 5.1/6.1: https://arxiv.org/html/2602.22647v3#S5.SS1.p1 and https://arxiv.org/html/2602.22647v3#S6.SS1.p1
 - **Inference budget**: TPU v6e. YouTube: Gemini-based dense 3B, batch 2/chip, beam 70; added constraint overhead 0.033 ms/step, 0.25% of inference time. Amazon: Gemma-based dense 1B, batch 16, beam 20, Recall@1.
-  - Source: Sections 5.1/5.2/6.1: https://arxiv.org/html/2602.22647v3#S5.SS1.p2 and https://arxiv.org/html/2602.22647v3#S5.SS2.p3 and https://arxiv.org/html/2602.22647v3#S6.SS1.p2
 - **Results from**: Original Table 1: constraint-enforcement latency (100 trials); Table 2: STATIC-enabled PLUM deployment A/B; Table 3: Amazon cold-start Recall@1, reported as peak over 70 training epochs.
-  - Source: Tables 1-3 and Appendix F: https://arxiv.org/html/2602.22647v3#S5.T1 and https://arxiv.org/html/2602.22647v3#S5.T2 and https://arxiv.org/html/2602.22647v3#S6.T3 and https://arxiv.org/html/2602.22647v3#A6.p2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Sections 5.1/6.1 and Table 3: [S5.SS1.p1](https://arxiv.org/html/2602.22647v3#S5.SS1.p1) and [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1) and [S6.T3](https://arxiv.org/html/2602.22647v3#S6.T3)
+- **Split**: Section 6.2 and Appendix F: [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1) and [A6.p2](https://arxiv.org/html/2602.22647v3#A6.p2)
+- **Candidates**: Sections 5.2/6.2: [S5.SS2.p1](https://arxiv.org/html/2602.22647v3#S5.SS2.p1) and [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1)
+- **Visibility**: Sections 6.1/6.2: [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1) and [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1)
+- **SID**: Sections 5.1/6.1: [S5.SS1.p1](https://arxiv.org/html/2602.22647v3#S5.SS1.p1) and [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1)
+- **Inference budget**: Sections 5.1/5.2/6.1: [S5.SS1.p2](https://arxiv.org/html/2602.22647v3#S5.SS1.p2) and [S5.SS2.p3](https://arxiv.org/html/2602.22647v3#S5.SS2.p3) and [S6.SS1.p2](https://arxiv.org/html/2602.22647v3#S6.SS1.p2)
+- **Results from**: Tables 1-3 and Appendix F: [S5.T1](https://arxiv.org/html/2602.22647v3#S5.T1) and [S5.T2](https://arxiv.org/html/2602.22647v3#S5.T2) and [S6.T3](https://arxiv.org/html/2602.22647v3#S6.T3) and [A6.p2](https://arxiv.org/html/2602.22647v3#A6.p2)
+
+</details>
 
 ### 5. Connections to Related Work
 

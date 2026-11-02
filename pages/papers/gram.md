@@ -75,19 +75,25 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Toys and Games, Sports and Outdoors, and Yelp, with 5-core filtering of users and items (following Hua et al. 2023). Sizes (users / items / interactions): Beauty 22,363 / 12,101 / 198,502; Toys 19,412 / 11,924 / 167,597; Sports 35,598 / 18,357 / 296,337; Yelp 30,431 / 20,033 / 316,354.
-  - Source: Datasets and 5-core: https://arxiv.org/html/2506.01673v1#S4.p1; statistics: https://arxiv.org/html/2506.01673v1#A7.T10.
 - **Split**: Per-user leave-one-out: last item for test, second last for validation, the rest for training; sequences capped at 20 items. Three seeds.
-  - Source: Leave-one-out allocation and history cap: https://arxiv.org/html/2506.01673v1#S4.p2 and https://arxiv.org/html/2506.01673v1#S4.p4.
 - **Candidates**: full catalog (full-ranking evaluation on all items rather than sampled items).
-  - Source: Full ranking on all items: https://arxiv.org/html/2506.01673v1#S4.p2.
 - **Visibility**: warm; no unseen-item protocol is defined. A head/tail analysis splits test users by target-item popularity (top 20% versus bottom 80%).
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2506.01673v1#S4.p2; head/tail by target popularity: https://arxiv.org/html/2506.01673v1#S5.SS3.p2.
 - **SID**: Hierarchical textual IDs: recursive k-means over item text embeddings, stopping when a cluster has fewer than c items or depth reaches l; each cluster index is mapped to an existing LLM vocabulary token chosen by TF-IDF. Final (l, k, c): Beauty (7, 128, 128); Toys (5, 32, 32); Sports and Yelp (7 or 9, 32, 32). Duplicate IDs receive an appended digit for uniqueness.
-  - Source: Hierarchical k-means textual IDs: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p2 and https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; final settings: https://arxiv.org/html/2506.01673v1#A7.T12; duplicate-ID digit: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3.
 - **Inference budget**: Constrained beam search with beam size 50 and a Trie over valid IDs; T5-small on OpenP5. Table 7: average inference time per user sequence with all user sequences in a single batch on one NVIDIA A6000 GPU (Beauty 0.2008 s, Toys 0.1605 s; LC-Rec 1.8312 s and 1.8125 s).
-  - Source: Constrained beam 50 with Trie: https://arxiv.org/html/2506.01673v1#S4.p4 and https://arxiv.org/html/2506.01673v1#S3.SS4.p2; timing: https://arxiv.org/html/2506.01673v1#A3.T7.
 - **Results from**: Table 2 (four datasets versus six sequential and eight generative baselines; three seeds); Table 3 (ablations); Table 4 (ID types); Figures 6-8 (head/tail, ID length, similar items); Tables 6-7 (preprocessing and inference time); Tables 8-9 (baseline reproduction fixes for ELMRec and IDGenRec).
-  - Source: Main: https://arxiv.org/html/2506.01673v1#S4.T2; ablation: https://arxiv.org/html/2506.01673v1#S5.T3; ID types: https://arxiv.org/html/2506.01673v1#S5.T4; reproducibility: https://arxiv.org/html/2506.01673v1#A3.T8 and https://arxiv.org/html/2506.01673v1#A4.T9.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and 5-core: [S4.p1](https://arxiv.org/html/2506.01673v1#S4.p1); statistics: [A7.T10](https://arxiv.org/html/2506.01673v1#A7.T10).
+- **Split**: Leave-one-out allocation and history cap: [S4.p2](https://arxiv.org/html/2506.01673v1#S4.p2) and [S4.p4](https://arxiv.org/html/2506.01673v1#S4.p4).
+- **Candidates**: Full ranking on all items: [S4.p2](https://arxiv.org/html/2506.01673v1#S4.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.p2](https://arxiv.org/html/2506.01673v1#S4.p2); head/tail by target popularity: [S5.SS3.p2](https://arxiv.org/html/2506.01673v1#S5.SS3.p2).
+- **SID**: Hierarchical k-means textual IDs: [S3.SS2.SSS1.p2](https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p2) and [S3.SS2.SSS1.p3](https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3); final settings: [A7.T12](https://arxiv.org/html/2506.01673v1#A7.T12); duplicate-ID digit: [S3.SS2.SSS1.p3](https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3).
+- **Inference budget**: Constrained beam 50 with Trie: [S4.p4](https://arxiv.org/html/2506.01673v1#S4.p4) and [S3.SS4.p2](https://arxiv.org/html/2506.01673v1#S3.SS4.p2); timing: [A3.T7](https://arxiv.org/html/2506.01673v1#A3.T7).
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); ablation: [S5.T3](https://arxiv.org/html/2506.01673v1#S5.T3); ID types: [S5.T4](https://arxiv.org/html/2506.01673v1#S5.T4); reproducibility: [A3.T8](https://arxiv.org/html/2506.01673v1#A3.T8) and [A4.T9](https://arxiv.org/html/2506.01673v1#A4.T9).
+
+</details>
 
 - Efficiency: the authors analyze preprocessing and inference time in Appendix C.
 

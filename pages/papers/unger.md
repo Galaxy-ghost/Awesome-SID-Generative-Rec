@@ -34,19 +34,25 @@ UNGER learns one integrated semantic-collaborative embedding through cross-modal
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014: Beauty, Sports and Outdoors, Toys and Games; user/item 5-core.
-  - Source: https://arxiv.org/html/2502.06269v3#S4.SS1.SSS1.p1 ; Table 2.
 - **Split**: Per-user chronological leave-one-out: last item test, penultimate validation, earlier items training; training history capped at 20 items.
-  - Source: https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2.p3
 - **Candidates**: not reported; full-catalog versus sampled evaluation and history exclusion are unspecified.
-  - Source: https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2 ; evaluation reports Recall/NDCG@10/20 but no candidate-pool protocol.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2.p3
 - **SID**: DIN collaborative and Llama2-7b textual representations are integrated before fixed hierarchical k-means residual quantization; 4 levels, 256 clusters per level; item-code lookup table; main-tokenizer collision handling not reported.
-  - Source: https://arxiv.org/html/2502.06269v3#S3.SS3.SSS5 ; Algorithm 1; https://arxiv.org/html/2502.06269v3#S4.T4
 - **Inference budget**: Autoregressive beam search, width 100; lookup and confidence ranking for top-k. Beauty speed comparison separately uses top-5 and beam 100; inference hardware and batch size not reported.
-  - Source: https://arxiv.org/html/2502.06269v3#S3.SS5.SSS2.p1 ; https://arxiv.org/html/2502.06269v3#S4.T4 ; https://arxiv.org/html/2502.06269v3#S1.F4.fig1
 - **Results from**: UNGER experiments averaged over 5 runs (seeds 2020–2024), with standard errors in Table 3; unstarred baseline scores copied from Zhou et al. (2020) and Wang et al. (2024c), starred TIGER and ColaRec scores reimplemented for missing statistics.
-  - Source: https://arxiv.org/html/2502.06269v3#S4.SS2.SSS2.p1 ; https://arxiv.org/html/2502.06269v3#S4.T3
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S4.SS1.SSS1.p1](https://arxiv.org/html/2502.06269v3#S4.SS1.SSS1.p1) ; Table 2.
+- **Split**: [S4.SS1.SSS2.p3](https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2.p3)
+- **Candidates**: [S4.SS1.SSS2](https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2) ; evaluation reports Recall/NDCG@10/20 but no candidate-pool protocol.
+- **Visibility**: [S4.SS1.SSS2.p3](https://arxiv.org/html/2502.06269v3#S4.SS1.SSS2.p3)
+- **SID**: [S3.SS3.SSS5](https://arxiv.org/html/2502.06269v3#S3.SS3.SSS5) ; Algorithm 1; [S4.T4](https://arxiv.org/html/2502.06269v3#S4.T4)
+- **Inference budget**: [S3.SS5.SSS2.p1](https://arxiv.org/html/2502.06269v3#S3.SS5.SSS2.p1) ; [S4.T4](https://arxiv.org/html/2502.06269v3#S4.T4) ; [S1.F4.fig1](https://arxiv.org/html/2502.06269v3#S1.F4.fig1)
+- **Results from**: [S4.SS2.SSS2.p1](https://arxiv.org/html/2502.06269v3#S4.SS2.SSS2.p1) ; [S4.T3](https://arxiv.org/html/2502.06269v3#S4.T3)
+
+</details>
 
 ### 5. Connections to Related Work
 

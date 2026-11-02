@@ -72,19 +72,25 @@ GRPO samples groups of reasoning-and-prediction trajectories and optimizes them 
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023: Video Games (3,858 items / 61,417 interactions), Office Products (3,459 / 48,656), Industrial and Scientific (3,686 / 45,325); 5-core filtering of users and items; histories truncated by a sliding window of length 10.
-  - Source: Datasets, 5-core, sliding window 10: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1; statistics: https://arxiv.org/html/2603.23183v2#S3.T1.
 - **Split**: Per user, interactions sorted chronologically and split 8:1:1 into training, validation, and test, with the most recent interactions for validation and test.
-  - Source: Temporal 8:1:1 per user: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1.
 - **Candidates**: full catalog (ranking metrics over the entire item set rather than sampled negatives).
-  - Source: Full-item ranking: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Temporal split with no unseen-item protocol: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1.
 - **SID**: RQ-VAE semantic IDs with L codebooks of K codes over text-encoder embeddings, added to the Qwen3-1.7B vocabulary as new tokens; numerical L and K and collision handling: not reported.
-  - Source: RQ-VAE with L codebooks of K codes over text embeddings: https://arxiv.org/html/2603.23183v2#S3.SS2.SSS1.p1; numerical L, K not found.
 - **Inference budget**: Reason-then-recommend generation: the model writes a reasoning sequence and then the target SID; evaluation decoding method and width: not reported (GRPO training uses 16 rollouts). Hardware, inference batch size, and latency: not reported.
-  - Source: Rollout and training settings: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS3.p1 and https://arxiv.org/html/2603.23183v2#S4.SS1.SSS3.p3; decoding for evaluation not found.
 - **Results from**: Table 2 (Games, Office, Industrial versus discriminative, generative, and reasoning baselines); Table 3 (alignment strategies before and after RL); Table 4 (general-ability benchmarks); Table 5 (teacher models for corpus enrichment).
-  - Source: Main: https://arxiv.org/html/2603.23183v2#S4.T2; alignment ablation: https://arxiv.org/html/2603.23183v2#S4.T3; general abilities: https://arxiv.org/html/2603.23183v2#S4.T4; teachers: https://arxiv.org/html/2603.23183v2#S4.T5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets, 5-core, sliding window 10: [S4.SS1.SSS1.p1](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1); statistics: [S3.T1](https://arxiv.org/html/2603.23183v2#S3.T1).
+- **Split**: Temporal 8:1:1 per user: [S4.SS1.SSS1.p1](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1).
+- **Candidates**: Full-item ranking: [S4.SS1.SSS1.p2](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p2).
+- **Visibility**: Temporal split with no unseen-item protocol: [S4.SS1.SSS1.p1](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS1.p1).
+- **SID**: RQ-VAE with L codebooks of K codes over text embeddings: [S3.SS2.SSS1.p1](https://arxiv.org/html/2603.23183v2#S3.SS2.SSS1.p1); numerical L, K not found.
+- **Inference budget**: Rollout and training settings: [S4.SS1.SSS3.p1](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS3.p1) and [S4.SS1.SSS3.p3](https://arxiv.org/html/2603.23183v2#S4.SS1.SSS3.p3); decoding for evaluation not found.
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2603.23183v2#S4.T2); alignment ablation: [S4.T3](https://arxiv.org/html/2603.23183v2#S4.T3); general abilities: [S4.T4](https://arxiv.org/html/2603.23183v2#S4.T4); teachers: [S4.T5](https://arxiv.org/html/2603.23183v2#S4.T5).
+
+</details>
 
 - Alignment strategies: adding the enriched corpus to multi-task alignment improves results, and each variant is reported before and after RL (Table 3).
 - Cross-domain: after joint SID-language alignment on all domains, the paper compares RL on a single domain with RL on all domains (Sec. 4.2.2, Fig. 3).

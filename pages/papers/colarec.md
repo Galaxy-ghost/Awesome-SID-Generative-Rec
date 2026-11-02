@@ -80,19 +80,25 @@ Constrained beam search limits each token to those valid under the prefix (Sec. 
 **Experimental setup**
 
 - **Datasets**: Amazon Product Reviews: Beauty, Sports and Outdoors, Cell Phones and Accessories (Phone); Food.com Recipe. Users and items with fewer than 5 interactions are filtered. Sizes (users / items / interactions): Beauty 22,363 / 12,101 / 198,502; Sports 35,598 / 18,357 / 296,337; Phone 27,879 / 10,429 / 194,439; Recipe 17,813 / 41,240 / 555,618.
-  - Source: Datasets and 5-interaction filter: https://arxiv.org/html/2403.18480v2#S5.SS1.p1; statistics: https://arxiv.org/html/2403.18480v2#S4.T1.
 - **Split**: General recommendation, not sequential: each user's interactions are randomly split 8:1:1 into training, validation, and test. Three runs are averaged.
-  - Source: Random 8:1:1 per-user split for general (non-sequential) recommendation: https://arxiv.org/html/2403.18480v2#S5.SS2.p1.
 - **Candidates**: full catalog
-  - Source: Candidate set is the whole item set: https://arxiv.org/html/2403.18480v2#S5.SS2.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Random interaction split with no cold-start experiment: https://arxiv.org/html/2403.18480v2#S5.SS2.p1; long-tail users are analyzed separately: https://arxiv.org/html/2403.18480v2#S5.T3.
 - **SID**: GID length l=3 from hierarchical constrained K-means over pretrained LightGCN item embeddings, K=32 clusters per level (48 for Recipe). Collisions are avoided by construction: clusters hold at most K^(l-t) items and leaf positions are assigned randomly, so each item has a unique GID.
-  - Source: Constrained hierarchical K-means over LightGCN embeddings, random leaf assignment, one unique GID per item: https://arxiv.org/html/2403.18480v2#S4.SS2.p1 and https://arxiv.org/html/2403.18480v2#S4.SS2.p2; l=3, K=32 (Recipe 48): https://arxiv.org/html/2403.18480v2#S5.SS4.p1.
 - **Inference budget**: Constrained beam search over valid GID prefixes; numerical beam width not reported. T5-small backbone. Recall and NDCG at n=5 and 10 (Table 2). Hardware, inference batch size, and latency: not reported.
-  - Source: Constrained beam search: https://arxiv.org/html/2403.18480v2#S4.SS5.p5; no numerical width found in Section 5.
 - **Results from**: Table 2 (four datasets; mean of three runs); Table 3 (long-tail users); Table 4 (multi-task ablation and GID types); Figures 4-5 (GID length and cluster number).
-  - Source: Main: https://arxiv.org/html/2403.18480v2#S4.T2; long-tail users: https://arxiv.org/html/2403.18480v2#S5.T3; ablation and GID types: https://arxiv.org/html/2403.18480v2#S5.T4; GID length and K: https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p1 and https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p2.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and 5-interaction filter: [S5.SS1.p1](https://arxiv.org/html/2403.18480v2#S5.SS1.p1); statistics: [S4.T1](https://arxiv.org/html/2403.18480v2#S4.T1).
+- **Split**: Random 8:1:1 per-user split for general (non-sequential) recommendation: [S5.SS2.p1](https://arxiv.org/html/2403.18480v2#S5.SS2.p1).
+- **Candidates**: Candidate set is the whole item set: [S5.SS2.p1](https://arxiv.org/html/2403.18480v2#S5.SS2.p1).
+- **Visibility**: Random interaction split with no cold-start experiment: [S5.SS2.p1](https://arxiv.org/html/2403.18480v2#S5.SS2.p1); long-tail users are analyzed separately: [S5.T3](https://arxiv.org/html/2403.18480v2#S5.T3).
+- **SID**: Constrained hierarchical K-means over LightGCN embeddings, random leaf assignment, one unique GID per item: [S4.SS2.p1](https://arxiv.org/html/2403.18480v2#S4.SS2.p1) and [S4.SS2.p2](https://arxiv.org/html/2403.18480v2#S4.SS2.p2); l=3, K=32 (Recipe 48): [S5.SS4.p1](https://arxiv.org/html/2403.18480v2#S5.SS4.p1).
+- **Inference budget**: Constrained beam search: [S4.SS5.p5](https://arxiv.org/html/2403.18480v2#S4.SS5.p5); no numerical width found in Section 5.
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2403.18480v2#S4.T2); long-tail users: [S5.T3](https://arxiv.org/html/2403.18480v2#S5.T3); ablation and GID types: [S5.T4](https://arxiv.org/html/2403.18480v2#S5.T4); GID length and K: [S5.SS7.SSS2.p1](https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p1) and [S5.SS7.SSS2.p2](https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p2).
+
+</details>
 
 - Main comparison: ColaRec reports better performance than the baselines on four benchmark datasets (Abstract, Table 2).
 - Ablation: Table 4 removes the textual content, the indexing task, the BPR loss, or the contrastive loss, and replaces the GIDs with three other identifier types (Table 4).

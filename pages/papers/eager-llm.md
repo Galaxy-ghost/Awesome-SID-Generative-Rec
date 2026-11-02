@@ -33,19 +33,25 @@ EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignm
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Sports and Outdoors, Musical Instruments; user/item 5-core filtering.
-  - Source: Section 4.1.1: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS1.p1
 - **Split**: Leave-one-out; exact validation allocation not reported; training histories capped at 20 items.
-  - Source: Section 4.1.2: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1
 - **Candidates**: not reported
-  - Source: Sections 4.1-4.4 do not state full-catalog versus sampled-negative evaluation: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Item-level tokenizer and DIN behavior-encoder training exposure: not reported.
-  - Source: Sections 3.2 and 4.1 define no unseen-item protocol; DIN supplies behavioral embeddings: https://arxiv.org/html/2502.14735v1#S3.SS2.p3 and https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1
 - **SID**: Separate semantic/behavioral hierarchical k-means until singleton clusters; four layers discussed. 256 values/token is a theoretical capacity example; explicit main codebook sizes not reported.
-  - Source: Section 3.2 and Figure 6 discussion: https://arxiv.org/html/2502.14735v1#S3.SS2.p5 and https://arxiv.org/html/2502.14735v1#S4.SS4.p3
 - **Inference budget**: Beam 20; Recall/NDCG@5/10; hardware, inference batch size, latency not reported.
-  - Source: Section 4.1.2; Section 4.1.3's batch 128 is training, not inference: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1 and https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1
 - **Results from**: Original Tables 2-4; Table 3 compares LETTER on Instruments using Llama2-7B.
-  - Source: Tables 2-4: https://arxiv.org/html/2502.14735v1#S4.T2 and https://arxiv.org/html/2502.14735v1#S4.T3 and https://arxiv.org/html/2502.14735v1#S4.T4
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS1.p1)
+- **Split**: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1)
+- **Candidates**: Sections 4.1-4.4 do not state full-catalog versus sampled-negative evaluation: [S4.SS1.SSS2.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1)
+- **Visibility**: Sections 3.2 and 4.1 define no unseen-item protocol; DIN supplies behavioral embeddings: [S3.SS2.p3](https://arxiv.org/html/2502.14735v1#S3.SS2.p3) and [S4.SS1.SSS3.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1)
+- **SID**: Section 3.2 and Figure 6 discussion: [S3.SS2.p5](https://arxiv.org/html/2502.14735v1#S3.SS2.p5) and [S4.SS4.p3](https://arxiv.org/html/2502.14735v1#S4.SS4.p3)
+- **Inference budget**: Section 4.1.2; Section 4.1.3's batch 128 is training, not inference: [S4.SS1.SSS2.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1) and [S4.SS1.SSS3.p1](https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1)
+- **Results from**: Tables 2-4: [S4.T2](https://arxiv.org/html/2502.14735v1#S4.T2) and [S4.T3](https://arxiv.org/html/2502.14735v1#S4.T3) and [S4.T4](https://arxiv.org/html/2502.14735v1#S4.T4)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -33,19 +33,25 @@ CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, sof
 **Experimental setup**
 
 - **Datasets**: Yelp2018, MovieLens-10M, and Book-Crossing. Users with at least 40 interactions (Yelp2018) or 20 interactions (ML-10M, Book-Crossing) are kept; ratings above 4 (ML-10M, Yelp2018) or above 7 (Book-Crossing) are positives. Sizes (sequences / items / interactions): ML-10M 71,567 / 10,681 / 10,000,054; Yelp2018 31,668 / 38,048 / 1,561,406; Book-Crossing 278,858 / 271,379 / 1,149,780.
-  - Source: Dataset list: https://arxiv.org/html/2603.22335v2#S3.SS6.p1; user thresholds and positive-rating rules: https://arxiv.org/html/2603.22335v2#A2.SS1.p1; statistics: https://arxiv.org/html/2603.22335v2#A2.T2.
 - **Split**: Distribution-shift splits: popularity shift (Yelp2018) samples 20% of interactions as a popularity-balanced OOD test set; temporal shift (ML-10M) takes each user's latest 20% of interactions; exposure shift (Book-Crossing) takes the most recent 20% and imputes a fully exposed test set by matrix factorization; mixed shift (Yelp2018) samples 80% popularity-shift and 20% temporal-shift test interactions. The remainder is split 7:1:2 into training, validation, and IID test.
-  - Source: Shift constructions: https://arxiv.org/html/2603.22335v2#A2.I2.i1.p1, https://arxiv.org/html/2603.22335v2#A2.I2.i2.p1, https://arxiv.org/html/2603.22335v2#A2.I2.i3.p1, and https://arxiv.org/html/2603.22335v2#A2.I2.i4.p1.
 - **Candidates**: full catalog (generated items are scored and ranked over the entire item space and mapped to dataset items).
-  - Source: Scoring and ranking over the entire item space: https://arxiv.org/html/2603.22335v2#S3.SS6.p1.
 - **Visibility**: warm; no unseen-item protocol is defined. The distribution shifts concern popularity, time, and exposure of user-item interactions, not unseen items; tokenizer n/a.
-  - Source: OOD shifts concern popularity, time, and exposure, not unseen items: https://arxiv.org/html/2603.22335v2#S3.SS6.p1 and https://arxiv.org/html/2603.22335v2#A2.I2.i1.p1.
 - **SID**: n/a (items are generated as text by the LLM and mapped to dataset items; no semantic IDs).
-  - Source: Prompts generate items as text: https://arxiv.org/html/2603.22335v2#S3.SS6.p1; the item is represented through text in the prompt formulation: https://arxiv.org/html/2603.22335v2#S2.p1.
 - **Inference budget**: Llama-3.1-8B; decoding strategy and width: not reported. Experiments run on one node with 8 NVIDIA A800 80GB GPUs; inference batch size and latency: not reported. Table 6 reports training time per epoch (CausalDPO 2,971 s versus DPO 2,482 s). HR and NDCG at K=10 and 20.
-  - Source: Hardware: https://arxiv.org/html/2603.22335v2#A2.SS3.p1; training time per epoch: https://arxiv.org/html/2603.22335v2#A2.T6.
 - **Results from**: Table 1 (popularity, temporal, and exposure shifts on Yelp2018, ML-10M, Book-Crossing); Table 4 (mixed shift); Table 3 (IID test sets); Table 5 (causal regularizer added to other DPO variants); Table 8 (ablations); Table 9 (model sizes).
-  - Source: OOD table: https://arxiv.org/html/2603.22335v2#S3.T1; IID: https://arxiv.org/html/2603.22335v2#A2.T3; mixed shift: https://arxiv.org/html/2603.22335v2#A2.T4; regularizer transfer: https://arxiv.org/html/2603.22335v2#A2.T5; ablation: https://arxiv.org/html/2603.22335v2#A2.T8; model sizes: https://arxiv.org/html/2603.22335v2#A2.T9.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Dataset list: [S3.SS6.p1](https://arxiv.org/html/2603.22335v2#S3.SS6.p1); user thresholds and positive-rating rules: [A2.SS1.p1](https://arxiv.org/html/2603.22335v2#A2.SS1.p1); statistics: [A2.T2](https://arxiv.org/html/2603.22335v2#A2.T2).
+- **Split**: Shift constructions: [A2.I2.i1.p1](https://arxiv.org/html/2603.22335v2#A2.I2.i1.p1), [A2.I2.i2.p1](https://arxiv.org/html/2603.22335v2#A2.I2.i2.p1), [A2.I2.i3.p1](https://arxiv.org/html/2603.22335v2#A2.I2.i3.p1), and [A2.I2.i4.p1](https://arxiv.org/html/2603.22335v2#A2.I2.i4.p1).
+- **Candidates**: Scoring and ranking over the entire item space: [S3.SS6.p1](https://arxiv.org/html/2603.22335v2#S3.SS6.p1).
+- **Visibility**: OOD shifts concern popularity, time, and exposure, not unseen items: [S3.SS6.p1](https://arxiv.org/html/2603.22335v2#S3.SS6.p1) and [A2.I2.i1.p1](https://arxiv.org/html/2603.22335v2#A2.I2.i1.p1).
+- **SID**: Prompts generate items as text: [S3.SS6.p1](https://arxiv.org/html/2603.22335v2#S3.SS6.p1); the item is represented through text in the prompt formulation: [S2.p1](https://arxiv.org/html/2603.22335v2#S2.p1).
+- **Inference budget**: Hardware: [A2.SS3.p1](https://arxiv.org/html/2603.22335v2#A2.SS3.p1); training time per epoch: [A2.T6](https://arxiv.org/html/2603.22335v2#A2.T6).
+- **Results from**: OOD table: [S3.T1](https://arxiv.org/html/2603.22335v2#S3.T1); IID: [A2.T3](https://arxiv.org/html/2603.22335v2#A2.T3); mixed shift: [A2.T4](https://arxiv.org/html/2603.22335v2#A2.T4); regularizer transfer: [A2.T5](https://arxiv.org/html/2603.22335v2#A2.T5); ablation: [A2.T8](https://arxiv.org/html/2603.22335v2#A2.T8); model sizes: [A2.T9](https://arxiv.org/html/2603.22335v2#A2.T9).
+
+</details>
 
 ### 5. Connections to Related Work
 

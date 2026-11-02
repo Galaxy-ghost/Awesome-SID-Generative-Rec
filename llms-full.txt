@@ -3885,11 +3885,11 @@ All tasks are formatted as conditional language generation for one instruction-t
 ## At a Glance
 
 Key Findings: On Instruments, LETTER-TIGER reports Recall@10 of 0.1122 against 0.1058 for TIGER, and adding either regularization alone also improves TIGER (Table 2).
-Limitation: The tokenizer is trained before the generator and then kept fixed, and the collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1, Sec. 3.2).
+Limitation: The collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1).
 
 ### 1. Why This Paper Matters
 
-Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER keeps an RQ-VAE tokenizer for the semantic part and adds a collaborative regularization and a diversity regularization to it. The learned Semantic IDs (SIDs) then serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
+Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER's Semantic IDs (SIDs) serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
 
@@ -3901,7 +3901,7 @@ Based on arXiv v3.
 
 #### Semantic Regularization
 
-An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1). The main configuration uses 4 levels with 256 codewords each (Sec. 4.1.3).
+An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).
 
 #### Collaborative Regularization
 
@@ -3942,13 +3942,13 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The paper states no limitations of LETTER. The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
+**Stated by the authors.** The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
 
 **Our analysis.**
 
 - The tokenizer is trained once and then fixed (`Fixed`), so a change in the catalog requires retraining the tokenizer and re-tokenizing items. ETEGRec updates the tokenizer and the generator in turns (`Altern.`), and DIGER lets the generator loss update the tokenizer directly (`Joint`).
 - The collaborative regularization needs a CF embedding for every item. This suggests that items without interactions receive no collaborative signal in their identifiers.
-- The collaborative and diversity terms pull code usage in opposite directions (Sec. 4.3.2). This suggests that their weights trade one property against the other.
+- The opposite effects of the two terms on code usage (Sec. 4.3.2) suggest that their weights trade one property against the other.
 
 ## LGRID
 
@@ -5323,11 +5323,11 @@ At inference, the generator returns one recommendation list per modality, and a 
 ## At a Glance
 
 Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
-Limitation: The paper does not state that KuaiLLSR is released, and it does not report how SID collisions are handled (Sec. 4.1.1, Sec. 2.2).
+Limitation: The paper does not state that KuaiLLSR is released (Sec. 4.1.1).
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). OneLoc adds geographic information to the tokenizer, the encoder, and the decoder, and aligns the generator with a geographic reward and a GMV reward. LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -5337,20 +5337,13 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 #### Overview
 
-```
-Video content + location context (GeoHash block: coordinates, brand, category)
-  │
-  ▼  multimodal LLM → one fused item embedding
-Geo-aware SID (q1, q2, q3) from 3-level residual k-means, 8,192 codes per level
-  │
-  ▼  encoder: watch / click / pay sequences, geo-aware self-attention (GA-Attn)
-User representation
-  │
-  ▼  decoder: neighbor-aware prompt e^s, then the SID tokens; next-token prediction
-Pre-trained generator θ0
-  │
-  ▼  beam search → geographic and GMV rewards → preference pairs → DPO
-Aligned generator
+```mermaid
+flowchart LR
+    A[Video and location] -->|Multimodal LLM| B[Embedding]
+    B -->|Residual k-means| C[Geo-aware SID]
+    C -->|GA-Attn encoder| D[User vector]
+    D -->|Prompted decoder, NTP| E[Generator]
+    E -->|Rewards, DPO| F[Aligned generator]
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -5369,8 +5362,6 @@ where:
 - $`\mathcal{R}^{i}`$ is the set of residuals at level $`i`$, and $`r^{i}_{j}`$ is the residual of item $`j`$;
 - $`\mathcal{C}^{i} = \{c^{i}_{k}\}`$ is the level-$`i`$ codebook of $`N_c`$ centroids;
 - $`q^{i}_{j}`$ is the $`i`$-th token of the SID of item $`j`$.
-
-OneLoc uses 3 levels with 8,192 clusters each (Sec. 2.2, Sec. 4.1.4). Geographic information enters only through the fused embedding; there are no separate geographic tokens.
 
 #### Step 2: Geo-Aware Self-Attention in the Encoder
 
@@ -5468,19 +5459,16 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
   > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
-- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model. The paper has no ablation of the geo-aware SID.
+- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model.
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The paper states no limitations of OneLoc. The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
+**Stated by the authors.** The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
 
 **Our analysis.**
 
 - Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
-- The paper does not state how the two rewards are combined when it ranks the candidates for a preference pair (Sec. 2.5.2).
 - The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
-- The paper does not report SID collision handling, the beam width, or the evaluation candidate protocol (Sec. 2.2, Sec. 3, Sec. 4.1.3).
-- The v1 front matter still carries template placeholders for the DOI and the conference, so the publication venue is unconfirmed.
 
 ## OneMall
 
@@ -6761,11 +6749,11 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 ## At a Glance
 
 Key Findings: With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract).
-Limitation: The authors assume that the tokens of an SID are conditionally independent given the input sequence, and the decoding graph built after training serves only until the model is retrained or the items are re-tokenized (Sec. 2.2.1, Sec. 2.3.1).
+Limitation: The authors assume that the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1).
 
 ### 1. Why This Paper Matters
 
-Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). RPG instead predicts every token of a long, unordered SID in one forward pass and searches a graph of valid SIDs at inference. ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
+Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
 
@@ -6775,20 +6763,12 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 #### Overview
 
-```
-Item features → semantic encoder → item embedding
-  │
-  ▼  OPQ: one codebook per subvector
-Unordered SID (c1, ..., cm), m up to 64
-  │
-  ▼  token embeddings pooled per item; Transformer decoder over the history
-Sequence representation s
-  │
-  ▼  m MLP heads, one softmax per codebook (MTP loss in training)
-Cached token log-probabilities p(1), ..., p(m)
-  │
-  ▼  graph-constrained decoding: sample b items, add graph neighbors, keep the best b, repeat q times
-Top-K items
+```mermaid
+flowchart LR
+    A[Item embedding] -->|OPQ| B[Long SID]
+    B -->|Pooling, decoder| C[Sequence vector]
+    C -->|MTP heads| D[Token scores]
+    D -->|Graph search| E[Top-K items]
 ```
 
 #### Step 1: Long SIDs from OPQ
@@ -6797,7 +6777,7 @@ RPG replaces residual quantization with optimized product quantization (OPQ), so
 
 > "To align with parallel decoding, we tokenize each item into an unordered long semantic ID (up to 64 tokens per item) using optimized product quantization (Jégou et al., 2011; Ge et al., 2014)." (Sec. 1)
 
-OPQ splits the item's semantic embedding into $`m`$ subvectors and quantizes each subvector with its own codebook of size $`M`$ (Sec. 2.1.1). The paper cites OPQ and does not restate its rotation or codebook training. The standard product-quantization assignment is:
+OPQ splits the item's semantic embedding into $`m`$ subvectors and quantizes each subvector with its own codebook of size $`M`$ (Sec. 2.1.1). The standard product-quantization assignment is:
 
 ```math
 \mathbf{x}_i = \left[\mathbf{x}_i^{(1)}; \dots; \mathbf{x}_i^{(m)}\right], \qquad c_{i,j} = \arg\min_{c \in \mathcal{C}^{(j)}} \left\| \mathbf{x}_i^{(j)} - \mathbf{a}_c^{(j)} \right\|_2^2
@@ -6809,7 +6789,7 @@ where:
 - $`\mathcal{C}^{(j)}`$ is the $`j`$-th codebook with $`M`$ codewords $`\mathbf{a}_c^{(j)}`$;
 - $`c_{i,j}`$ is the $`j`$-th token of the SID of item $`i`$.
 
-"Unordered" means that no token is predicted from the tokens before it. Position $`j`$ still belongs to codebook $`j`$ (Sec. 2.1.1). Different items can share the same token set. Each item keeps its own node in the decoding graph, and the authors describe such collisions as very unlikely with 64-token IDs (Appendix C).
+"Unordered" means that no token is predicted from the tokens before it. Position $`j`$ still belongs to codebook $`j`$ (Sec. 2.1.1). Different items can share the same token set; the authors describe such collisions as very unlikely with 64-token IDs (Appendix C).
 
 #### Step 2: Item-Level Input
 
@@ -6849,7 +6829,7 @@ After training, RPG builds a graph whose nodes are the SIDs of catalog items (Se
 \mathrm{sim}(i, i') = \sum_{j=1}^{m} \mathbf{e}_{j,c_{i,j}}^{\top}\, \mathbf{e}_{j,c_{i',j}}
 ```
 
-Each node keeps its $`k`$ most similar neighbors (Sec. 2.3.1), and each node has an edge to itself (Sec. 2.3.2). The graph is reused until the model is retrained or the items are re-tokenized (Sec. 2.3.1). Decoding then runs four steps (Sec. 2.3.2):
+Each node keeps its $`k`$ most similar neighbors (Sec. 2.3.1), and each node has an edge to itself (Sec. 2.3.2). Decoding then runs four steps (Sec. 2.3.2):
 
 1. Sample $`b`$ SIDs from the catalog as the initial beam.
 2. Add all $`b \times k`$ graph neighbors of the beam to a candidate set.
@@ -6867,14 +6847,13 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     heads:      list of m projection heads g_j, each mapping [d] -> [d]
     token_emb:  [m, M, d] token embedding tables E_j
     item_codes: [N, m] SID of every catalog item; entry j indexes codebook j
-    neighbors:  [N, k] graph neighbors of every item; the item itself is included here,
-                although the paper does not state whether the self-edge counts toward k
+    neighbors:  [N, k] graph neighbors of every item; the item itself is included here
     """
     m = item_codes.size(1)
     # Eq. 2: one softmax per codebook, cached for this user
     proj = torch.stack([g(s) for g in heads])                                         # [m, d]
     log_p = torch.log_softmax(torch.einsum("jcd,jd->jc", token_emb, proj) / tau, -1)  # [m, M]
-    # Eq. 3 for the whole catalog; the paper scores only the visited nodes (Sec. 2.3)
+    # Eq. 3 for the whole catalog
     scores = log_p[torch.arange(m), item_codes].sum(dim=-1)                          # [N]
     # step 1: random initial beam of b valid SIDs
     beam = torch.randperm(item_codes.size(0))[:b]                                     # [b]
@@ -6886,7 +6865,7 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
     return beam                                                                       # item indices
 ```
 
-Simplifications: The code scores every item in the catalog (`scores` covers the whole catalog) before the graph search. It therefore does not follow Sec. 2.3.3, which scores only the nodes visited along graph edges, and it does not reproduce the paper's inference efficiency. It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
+Simplifications: The code scores every item in the catalog before the graph search; the paper scores only the nodes visited along graph edges (Sec. 2.3.3). It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
@@ -6906,13 +6885,12 @@ Simplifications: The code scores every item in the catalog (`scores` covers the 
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The parallel heads rest on an assumption: the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). The authors state that different items can share the same token set (Appendix C). They also state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
+**Stated by the authors.** The authors state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
 
 **Our analysis.**
 
 - The score of an SID is a sum of per-token scores (Eq. 3), so the model cannot express dependencies between tokens of one SID. In the same cell, ACERec adds contrastive and auxiliary objectives (`MTP + Ctr. + Aux.`), and SPRINT replaces the objective with `Dual-level Flow Ctr.`; both keep `Par. OPQ` and `Non-AR`.
 - The decoding graph is an index outside the model. It has one node per catalog item and must be rebuilt after retraining or re-tokenization (Sec. 2.3.1).
-- The evaluation covers four Amazon datasets. The paper reports no online or industrial test.
 
 ## S2GR
 
@@ -7990,11 +7968,11 @@ The second weight rescales the group advantage by the reward relative to the max
 ## At a Glance
 
 Key Findings: On Amazon Beauty, TIGER reports Recall@5 of 0.0454 against 0.0387 for SASRec, and RQ-VAE Semantic IDs outperform LSH and random IDs (Tables 1 and 2).
-Limitation: The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference, and the paper does not report a beam width or latency (Appendix E).
+Limitation: The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference (Appendix E).
 
 ### 1. Why This Paper Matters
 
-Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). TIGER instead trains a sequence-to-sequence model to decode the Semantic ID (SID) of the next item. The authors describe it as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this pipeline and change one of its stages.
+Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). The authors describe TIGER as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this Semantic ID (SID) pipeline and change one of its stages.
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
@@ -8004,20 +7982,12 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 #### Overview
 
-```
-Item text (title, price, brand, category)
-  │
-  ▼  pre-trained Sentence-T5
-Content embedding x (768 dimensions)
-  │
-  ▼  DNN encoder, 3-level RQ-VAE, collision token
-SID (c1, c2, c3, c4): three codes from 256-entry codebooks plus one collision token
-  │
-  ▼  Transformer encoder-decoder (T5X), next-token prediction
-Next-item SID, decoded by beam search
-  │
-  ▼  frozen lookup table
-Recommended items
+```mermaid
+flowchart LR
+    A[Item text] -->|Sentence-T5| B[Embedding]
+    B -->|RQ-VAE| C[SID]
+    C -->|Enc-Dec| D[Next SID]
+    D -->|Lookup| E[Items]
 ```
 
 #### Step 1: Item Text to a Latent Vector
@@ -8100,7 +8070,7 @@ def append_collision_token(code_tuples):
     return sids
 ```
 
-The code assigns the fourth token in input order; the paper does not state how the order is chosen. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
+The code assigns the fourth token in input order. The table that maps SIDs to items is built once after the tokenizer is trained and then frozen (Appendix E).
 
 #### Step 5: Sequence-to-Sequence Generation
 
@@ -8148,7 +8118,6 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 
 - TIGER's representation uses item text only (`Text`). LETTER uses text and collaborative signals (`Text+CF`) with a learnable RQ tokenizer (`Learn. RQ`).
 - The tokenizer is fixed before the generator trains (`Fixed`). ETEGRec updates the tokenizer and the generator in turns (`Altern.`).
-- The fourth token only separates items that share three codes; the paper derives it from the collision, not from item content (Sec. 3.1).
 - Unconstrained beam search can produce IDs that map to no item (Sec. 4.5). LETTER decodes with constrained beam search (`C-Beam`).
 - Beam search runs one generator step per SID token. RPG predicts all tokens of an SID in parallel (`Non-AR`) and decodes over a graph of valid IDs (`Graph`).
 

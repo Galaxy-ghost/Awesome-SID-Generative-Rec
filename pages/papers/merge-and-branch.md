@@ -34,19 +34,25 @@ Merge-and-Branch compresses each history item's Semantic ID and text into few le
 **Experimental setup**
 
 - **Datasets**: Amazon 2014 5-core Beauty, Sports and Outdoors, Toys and Games.
-  - Source: Section 4.1 Datasets: https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px1.p1
 - **Split**: Per-user chronological last/penultimate interactions test/validation; earlier interactions training. Main M&B result selects the best of five seeds by validation NDCG@10.
-  - Source: Section 4.1 Metrics and protocol: https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px2.p1
 - **Candidates**: full catalog; invalid or unresolved predictions count as misses.
-  - Source: Section 4.1 Metrics and protocol: https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px2.p1
 - **Visibility**: warm; no unseen-item protocol is defined. Held-out items do not fill missing future branches; tokenizer/CF-teacher item exposure: not reported.
-  - Source: Section 4.4 and Appendix B.2: https://arxiv.org/html/2610.37973v1#S4.SS4.SSS0.Px1.p3 and https://arxiv.org/html/2610.37973v1#A2.SS2.p1
 - **SID**: Sentence-T5-XXL plus 3-level RQ-VAE, 256 codes/level, deterministic collision suffix: four-token SID.
-  - Source: Appendix B.2: https://arxiv.org/html/2610.37973v1#A2.SS2.p1
 - **Inference budget**: Main: beam 50, Recall/NDCG@5/10; inference batch/hardware not reported. Efficiency: H200, batch 1, beam 100, synthetic contexts 64-2048, four merged tokens/item; Tree latency 76.33-83.85 ms/request including prefill/search.
-  - Source: Section 4.1, Appendix B.3 and Table 4: https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2610.37973v1#A2.SS3.p2 and https://arxiv.org/html/2610.37973v1#S4.T4
 - **Results from**: Table 3 mixes authors' runs with original-paper scores (TIGER, LETTER-Beauty, EAGER, EAGER-LLM-Beauty/Sports, GRAM) and GRAM reproductions (P5-CID, LC-Rec). M&B and Table 4 decoding measurements are this paper's experiments.
-  - Source: Table 3, Table 4 and Appendix B.1: https://arxiv.org/html/2610.37973v1#S4.T3 and https://arxiv.org/html/2610.37973v1#S4.T4 and https://arxiv.org/html/2610.37973v1#A2.SS1.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1 Datasets: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px1.p1)
+- **Split**: Section 4.1 Metrics and protocol: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px2.p1)
+- **Candidates**: Section 4.1 Metrics and protocol: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px2.p1)
+- **Visibility**: Section 4.4 and Appendix B.2: [S4.SS4.SSS0.Px1.p3](https://arxiv.org/html/2610.37973v1#S4.SS4.SSS0.Px1.p3) and [A2.SS2.p1](https://arxiv.org/html/2610.37973v1#A2.SS2.p1)
+- **SID**: Appendix B.2: [A2.SS2.p1](https://arxiv.org/html/2610.37973v1#A2.SS2.p1)
+- **Inference budget**: Section 4.1, Appendix B.3 and Table 4: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.37973v1#S4.SS1.SSS0.Px3.p1) and [A2.SS3.p2](https://arxiv.org/html/2610.37973v1#A2.SS3.p2) and [S4.T4](https://arxiv.org/html/2610.37973v1#S4.T4)
+- **Results from**: Table 3, Table 4 and Appendix B.1: [S4.T3](https://arxiv.org/html/2610.37973v1#S4.T3) and [S4.T4](https://arxiv.org/html/2610.37973v1#S4.T4) and [A2.SS1.p1](https://arxiv.org/html/2610.37973v1#A2.SS1.p1)
+
+</details>
 
 ### 5. Connections to Related Work
 

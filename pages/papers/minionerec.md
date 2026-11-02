@@ -76,19 +76,25 @@ The RL stage uses GRPO with constrained beam search as the sampler, so every gen
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023: Industrial and Scientific, Office Products. Trimming follows Bao et al. (2024): users and items with fewer than 5 interactions removed; events limited to October 1996-November 2018 for Industrial; histories truncated to at most 10 items. Retained sizes: in Appendix B (not restated here).
-  - Source: Datasets and trimming: https://arxiv.org/html/2510.24431v1#S5.SS1.p1 and https://arxiv.org/html/2510.24431v1#A2.p1.
 - **Split**: Chronological 8:1:1 split into training, validation, and test. OOD study: train only on Industrial and evaluate on Office without tuning.
-  - Source: Chronological 8:1:1: https://arxiv.org/html/2510.24431v1#A2.p1; OOD transfer: https://arxiv.org/html/2510.24431v1#S5.SS4.p1.
 - **Candidates**: not reported explicitly (the policy predicts among all catalog candidates and returns the top-k beams; whether metrics are full-catalog is not stated).
-  - Source: Ranking among all catalog items via beam search: https://arxiv.org/html/2510.24431v1#S3.SS1.p2.
 - **Visibility**: In-domain: warm; no unseen-item protocol is defined. OOD: Office items are unseen by the generator (trained only on Industrial); whether the RQ-VAE was fit on Office items: not reported.
-  - Source: In-domain chronological split; OOD on a never-seen domain: https://arxiv.org/html/2510.24431v1#S5.SS4.p1 and https://arxiv.org/html/2510.24431v1#S5.SS4.p2.
 - **SID**: 3-level RQ-VAE x 256 codewords over Qwen3-Embedding-4B text embeddings; the three layers of 256 SID tokens are appended to the Qwen2.5-Instruct tokenizer vocabulary. Collision handling: not reported.
-  - Source: L=3 x K=256 RQ-VAE over Qwen3-Embedding-4B, SID tokens added to vocabulary: https://arxiv.org/html/2510.24431v1#S3.I1.i3.p1, https://arxiv.org/html/2510.24431v1#S4.p1, https://arxiv.org/html/2510.24431v1#A1.SS1.p2; no collision rule found.
 - **Inference budget**: Constrained beam search returns the top-k list; the numerical width at evaluation is not reported (RL rollouts use beam width 16). SFT on 8 NVIDIA H100 GPUs; inference batch size and latency: not reported.
-  - Source: Beam search for recommendation lists and RL rollouts (width 16): https://arxiv.org/html/2510.24431v1#S3.SS1.p2, https://arxiv.org/html/2510.24431v1#S3.SS4.SSS1.p4, https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p1; hardware: https://arxiv.org/html/2510.24431v1#S4.p1.
 - **Results from**: Table 1 (Industrial and Office versus traditional, generative, and LLM-based baselines); Table 2 (unseen Office domain); Table 3 (pre-trained versus random initialization); Figures 1 and 4 (scaling and rollout strategies).
-  - Source: Main: https://arxiv.org/html/2510.24431v1#S5.T1; OOD: https://arxiv.org/html/2510.24431v1#S5.T2; pre-training effect: https://arxiv.org/html/2510.24431v1#S5.T3; rollout strategies: https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p2.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and trimming: [S5.SS1.p1](https://arxiv.org/html/2510.24431v1#S5.SS1.p1) and [A2.p1](https://arxiv.org/html/2510.24431v1#A2.p1).
+- **Split**: Chronological 8:1:1: [A2.p1](https://arxiv.org/html/2510.24431v1#A2.p1); OOD transfer: [S5.SS4.p1](https://arxiv.org/html/2510.24431v1#S5.SS4.p1).
+- **Candidates**: Ranking among all catalog items via beam search: [S3.SS1.p2](https://arxiv.org/html/2510.24431v1#S3.SS1.p2).
+- **Visibility**: In-domain chronological split; OOD on a never-seen domain: [S5.SS4.p1](https://arxiv.org/html/2510.24431v1#S5.SS4.p1) and [S5.SS4.p2](https://arxiv.org/html/2510.24431v1#S5.SS4.p2).
+- **SID**: L=3 x K=256 RQ-VAE over Qwen3-Embedding-4B, SID tokens added to vocabulary: [S3.I1.i3.p1](https://arxiv.org/html/2510.24431v1#S3.I1.i3.p1), [S4.p1](https://arxiv.org/html/2510.24431v1#S4.p1), [A1.SS1.p2](https://arxiv.org/html/2510.24431v1#A1.SS1.p2); no collision rule found.
+- **Inference budget**: Beam search for recommendation lists and RL rollouts (width 16): [S3.SS1.p2](https://arxiv.org/html/2510.24431v1#S3.SS1.p2), [S3.SS4.SSS1.p4](https://arxiv.org/html/2510.24431v1#S3.SS4.SSS1.p4), [S5.SS5.SSS2.p1](https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p1); hardware: [S4.p1](https://arxiv.org/html/2510.24431v1#S4.p1).
+- **Results from**: Main: [S5.T1](https://arxiv.org/html/2510.24431v1#S5.T1); OOD: [S5.T2](https://arxiv.org/html/2510.24431v1#S5.T2); pre-training effect: [S5.T3](https://arxiv.org/html/2510.24431v1#S5.T3); rollout strategies: [S5.SS5.SSS2.p2](https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p2).
+
+</details>
 
 - Scaling: training and evaluation losses decrease as the Qwen backbone grows from 0.5B to 7B parameters (Abstract, Sec. 5.2).
 - Alignment: the variant that keeps SID alignment through the whole pipeline scores highest on every metric among the alignment variants (Sec. 5.5.1, Fig. 4a).

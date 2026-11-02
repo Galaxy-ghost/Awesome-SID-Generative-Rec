@@ -70,19 +70,25 @@ After unified training, each domain gets its own LoRA module (Sec. 1, Sec. 3.5).
 **Experimental setup**
 
 - **Datasets**: Multi-target cross-domain task on five Amazon 2018 Reviews subsets: Scientific, Pantry, Instruments, Arts, Office. Items without titles are removed and 5-core filtering is applied to users and items; sequences capped at 20 items. Sizes (users / items): 8,317 / 4,344; 13,073 / 4,897; 24,772 / 9,922; 45,141 / 20,956; 86,554 / 25,847.
-  - Source: Five Amazon subsets, title filter, 5-core, length 20: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS1.p1; statistics: https://arxiv.org/html/2507.12871v3#S5.T2.
 - **Split**: Per-user leave-one-out: last item for test, second latest for validation, the rest for training; results reported per domain and as a user-weighted average.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1.
 - **Candidates**: full catalog (the target item is ranked over the entire item set).
-  - Source: Ranking over the entire item set: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1.
 - **SID**: 4-level RQ-VAE x 256 codewords (dimension 32) over LLaMA-3.1-8B text embeddings (D=4,096), with a codebook shared across domains and a domain-aware contrastive loss; first-level codes separate domains and deeper levels are shared. Collision handling: not reported.
-  - Source: L=4 x N=256, d=32, LLaMA-3.1 4,096-dimensional embeddings, shared codebook across domains: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p1 and https://arxiv.org/html/2507.12871v3#S5.SS4.SSS1.p2; no collision rule found.
 - **Inference budget**: Beam size 20 for item generation; T5-small backbone with domain-specific LoRA. Recall and NDCG at K=5 and 10. Hardware, inference batch size, and latency: not reported.
-  - Source: Beam size 20: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p2; T5-small backbone: https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p2.
 - **Results from**: Table 3 (five domains and user-weighted average versus ID, ID-text, pre-training, and generative baselines); Table 4 (ablations); Figures 3-5 (code sharing, code similarity, multi-domain settings).
-  - Source: Main: https://arxiv.org/html/2507.12871v3#S5.T3; ablation: https://arxiv.org/html/2507.12871v3#S5.T4; code analysis: https://arxiv.org/html/2507.12871v3#S5.F3 and https://arxiv.org/html/2507.12871v3#S5.F4; domain settings: https://arxiv.org/html/2507.12871v3#S5.F5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Five Amazon subsets, title filter, 5-core, length 20: [S5.SS1.SSS1.p1](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS1.p1); statistics: [S5.T2](https://arxiv.org/html/2507.12871v3#S5.T2).
+- **Split**: Leave-one-out allocation: [S5.SS1.SSS3.p1](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1).
+- **Candidates**: Ranking over the entire item set: [S5.SS1.SSS3.p1](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1).
+- **Visibility**: Standard split with no unseen-item protocol: [S5.SS1.SSS3.p1](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS3.p1).
+- **SID**: L=4 x N=256, d=32, LLaMA-3.1 4,096-dimensional embeddings, shared codebook across domains: [S5.SS1.SSS4.p1](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p1) and [S5.SS4.SSS1.p2](https://arxiv.org/html/2507.12871v3#S5.SS4.SSS1.p2); no collision rule found.
+- **Inference budget**: Beam size 20: [S5.SS1.SSS4.p2](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p2); T5-small backbone: [S5.SS1.SSS4.p2](https://arxiv.org/html/2507.12871v3#S5.SS1.SSS4.p2).
+- **Results from**: Main: [S5.T3](https://arxiv.org/html/2507.12871v3#S5.T3); ablation: [S5.T4](https://arxiv.org/html/2507.12871v3#S5.T4); code analysis: [S5.F3](https://arxiv.org/html/2507.12871v3#S5.F3) and [S5.F4](https://arxiv.org/html/2507.12871v3#S5.F4); domain settings: [S5.F5](https://arxiv.org/html/2507.12871v3#S5.F5).
+
+</details>
 
 - Main comparison: on five public datasets, GMC reports better performance than a range of baselines (Abstract).
 

@@ -35,19 +35,25 @@ JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2023: Musical Instruments, Industrial & Scientific, Video Games; exclude users/items with fewer than five interactions; maximum history 20 items.
-  - Source: https://arxiv.org/html/2610.36937v1#S4.SS1.p1
 - **Split**: Per-user chronological leave-one-out: latest interaction test, penultimate validation, earlier interactions training.
-  - Source: https://arxiv.org/html/2610.36937v1#S4.SS1.p2
 - **Candidates**: full catalog; no negative sampling.
-  - Source: https://arxiv.org/html/2610.36937v1#S4.SS1.p2
 - **Visibility**: warm; no unseen-item protocol is defined. Frequency-based length assignment uses training interactions only; tokenizer fitting exposure to test items not reported.
-  - Source: https://arxiv.org/html/2610.36937v1#S4.SS1.p1 ; #A2.p1 ; #S3.SS3.p2
 - **SID**: Shared residual quantizer: 4 x 256; retain 2/3/4 semantic codes by training-frequency group and append one collision token, giving complete SID lengths 3/4/5. Within each group/prefix bucket collision tokens distinguish items; collision vocabulary capacity not reported.
-  - Source: https://arxiv.org/html/2610.36937v1#S3.SS3.p2 ; #S3.SS3.p3 ; #S3.SS3.p4 ; #A3.SS1.p1
 - **Inference budget**: Beam 10 per length branch; total recommendation budget 10, with K=5 from the same ranked list; length-probability quotas and joint-score merging, without a catalog-prefix trie. Baseline beam 50. Figure 4 reports total test-set inference speedups over TIGER of 1.05x/1.16x/1.04x on Instrument/Scientific/Game. Inference hardware, batch size and per-request latency not reported.
-  - Source: https://arxiv.org/html/2610.36937v1#S3.SS6 ; #A3.SS1.p1 ; #S4.F4 ; #S4.SS5.p1
 - **Results from**: Table 2: main three-dataset comparison; most baseline results adopted from Zhong et al. (2025a), as stated in Appendix C. Table 3: JevRec ablations; Figure 4: runtime/convergence.
-  - Source: https://arxiv.org/html/2610.36937v1#S4.T2 ; #S4.T3 ; #S4.F4 ; #A3.p1
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: [S4.SS1.p1](https://arxiv.org/html/2610.36937v1#S4.SS1.p1)
+- **Split**: [S4.SS1.p2](https://arxiv.org/html/2610.36937v1#S4.SS1.p2)
+- **Candidates**: [S4.SS1.p2](https://arxiv.org/html/2610.36937v1#S4.SS1.p2)
+- **Visibility**: [S4.SS1.p1](https://arxiv.org/html/2610.36937v1#S4.SS1.p1) ; #A2.p1 ; #S3.SS3.p2
+- **SID**: [S3.SS3.p2](https://arxiv.org/html/2610.36937v1#S3.SS3.p2) ; #S3.SS3.p3 ; #S3.SS3.p4 ; #A3.SS1.p1
+- **Inference budget**: [S3.SS6](https://arxiv.org/html/2610.36937v1#S3.SS6) ; #A3.SS1.p1 ; #S4.F4 ; #S4.SS5.p1
+- **Results from**: [S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2) ; #S4.T3 ; #S4.F4 ; #A3.p1
+
+</details>
 
 ### 5. Connections to Related Work
 

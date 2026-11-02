@@ -74,19 +74,25 @@ The paper derives detailed balance (DB) and trajectory balance (TB) objectives f
 **Experimental setup**
 
 - **Datasets**: Yelp, Amazon Beauty, and Amazon Instruments, preprocessed following LETTER (filter thresholds not restated); 30,431 / 20,032, 22,362 / 12,101, and 24,772 / 9,922 users / items. Production: Taobao search advertising data with hundreds of millions of daily requests; filtering not reported.
-  - Source: Datasets and LETTER preprocessing: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; statistics: https://arxiv.org/html/2506.16114v3#S4.T1; production data: https://arxiv.org/html/2506.16114v3#S5.p2.
 - **Split**: Per-user leave-one-out: last item for test, second-to-last for validation, the rest for training. Three random seeds. Online: 15-day A/B test on 10% of traffic (50/50).
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; three seeds: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; online test: https://arxiv.org/html/2506.16114v3#S5.p3.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-5 and top-10 lists. Training negatives for the flow objective come from a collaborative-model sampler or beam search, which is a training choice, not the evaluation candidate set.
-  - Source: Metrics only: https://arxiv.org/html/2506.16114v3#S4.SS1.p2.
 - **Visibility**: warm; no unseen-item protocol is defined. Online, newly listed items gain 4.0% revenue, but their tokenizer and generator visibility is not reported.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; online newly listed items without visibility definition: https://arxiv.org/html/2506.16114v3#S5.p3.
 - **SID**: Uses the TIGER and LETTER tokenizers as backbones; layer count and codebook size for the experiments: not reported (Figure 1 illustrates L=3). Collision handling: not reported; the paper notes that intermediate states do not uniquely identify items.
-  - Source: Backbones TIGER and LETTER, no own SID settings: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; L=3 appears in the overview figure: https://arxiv.org/html/2506.16114v3#S1.F1.
 - **Inference budget**: Decoding method and beam width for evaluation: not reported. All experiments run on the same GPU (model not stated). Table 7 reports training cost on production data (GFlowGR 2.1x SFT with 80x samples); inference latency and batch size: not reported.
-  - Source: Hardware statement and cost: https://arxiv.org/html/2506.16114v3#S4.SS1.p3 and https://arxiv.org/html/2506.16114v3#S4.T7.
 - **Results from**: Table 2 (Beauty, Instruments, Yelp; SFT, GRPO, DPO-family baselines on TIGER and LETTER backbones); Tables 3-6 (rewards, combination, sample selection, LLM reward); Figures 3-4 (parameter study); Table 7 and Section 5 (production offline and 15-day online A/B).
-  - Source: Main: https://arxiv.org/html/2506.16114v3#S4.T2; ablations and strategies: https://arxiv.org/html/2506.16114v3#S4.T3, https://arxiv.org/html/2506.16114v3#S4.T4, https://arxiv.org/html/2506.16114v3#S4.T5, https://arxiv.org/html/2506.16114v3#S4.T6; production: https://arxiv.org/html/2506.16114v3#S4.T7 and https://arxiv.org/html/2506.16114v3#S5.p3.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and LETTER preprocessing: [S4.SS1.p1](https://arxiv.org/html/2506.16114v3#S4.SS1.p1); statistics: [S4.T1](https://arxiv.org/html/2506.16114v3#S4.T1); production data: [S5.p2](https://arxiv.org/html/2506.16114v3#S5.p2).
+- **Split**: Leave-one-out allocation: [S4.SS1.p1](https://arxiv.org/html/2506.16114v3#S4.SS1.p1); three seeds: [S4.SS1.p2](https://arxiv.org/html/2506.16114v3#S4.SS1.p2); online test: [S5.p3](https://arxiv.org/html/2506.16114v3#S5.p3).
+- **Candidates**: Metrics only: [S4.SS1.p2](https://arxiv.org/html/2506.16114v3#S4.SS1.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.SS1.p1](https://arxiv.org/html/2506.16114v3#S4.SS1.p1); online newly listed items without visibility definition: [S5.p3](https://arxiv.org/html/2506.16114v3#S5.p3).
+- **SID**: Backbones TIGER and LETTER, no own SID settings: [S4.SS1.p2](https://arxiv.org/html/2506.16114v3#S4.SS1.p2); L=3 appears in the overview figure: [S1.F1](https://arxiv.org/html/2506.16114v3#S1.F1).
+- **Inference budget**: Hardware statement and cost: [S4.SS1.p3](https://arxiv.org/html/2506.16114v3#S4.SS1.p3) and [S4.T7](https://arxiv.org/html/2506.16114v3#S4.T7).
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2506.16114v3#S4.T2); ablations and strategies: [S4.T3](https://arxiv.org/html/2506.16114v3#S4.T3), [S4.T4](https://arxiv.org/html/2506.16114v3#S4.T4), [S4.T5](https://arxiv.org/html/2506.16114v3#S4.T5), [S4.T6](https://arxiv.org/html/2506.16114v3#S4.T6); production: [S4.T7](https://arxiv.org/html/2506.16114v3#S4.T7) and [S5.p3](https://arxiv.org/html/2506.16114v3#S5.p3).
+
+</details>
 
 - Public data: the paper evaluates GFlowGR with two different GR backbones (Abstract).
 - Production data: GRPO reaches H@20 = 0.427 and N@20 = 0.408 (Sec. 5, Table 7).

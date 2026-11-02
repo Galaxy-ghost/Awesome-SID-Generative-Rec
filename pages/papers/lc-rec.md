@@ -73,19 +73,25 @@ All tasks are formatted as conditional language generation for one instruction-t
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews (May 1996-October 2018): Musical Instruments, Arts Crafts and Sewing, Video Games; users and items with fewer than 5 interactions are filtered; sequences capped at 20 items. Sizes (users / items / interactions): Instruments 24,773 / 9,923 / 206,153; Arts 45,142 / 20,957 / 390,832; Games 50,547 / 16,860 / 452,989.
-  - Source: Amazon 2018 subsets, 5-interaction filter, length 20: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS1.p1; statistics: https://arxiv.org/html/2311.09049v4#S4.T2.
 - **Split**: Per-user leave-one-out: most recent item for test, second most recent for validation, the rest for training.
-  - Source: Leave-one-out allocation: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1.
 - **Candidates**: full catalog (full ranking over the entire item set instead of sampled evaluation). Separate analysis (Table 5): choose between the target and one negative that is language-similar, collaborative-similar (by SASRec embeddings), or random; history exclusion for these negatives not reported.
-  - Source: Full ranking over the entire item set: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1; separate pairwise test with one negative: https://arxiv.org/html/2311.09049v4#S4.SS4.SSS0.Px3.p1.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1.
 - **SID**: 4-level RQ-VAE x 256 codewords (dimension 32) over mean-pooled LLaMA embeddings of title and description, added to the LLaMA tokenizer as new tokens. Conflicts are resolved without an extra suffix level: the last-level codewords of each conflicting group are redistributed under a uniform-distribution constraint.
-  - Source: 4 levels x 256 x 32 over LLaMA text embeddings: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS4.p1; uniform last-level redistribution for conflicts: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p2 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p3.
 - **Inference budget**: Beam search with beam size 20 for all generative methods; tokens leading to invalid item indices get zero probability. LLaMA backbone with DeepSpeed; hardware, inference batch size, and latency: not reported. HR and NDCG at 1, 5, 10.
-  - Source: Beam size 20 and invalid-token masking: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1 and https://arxiv.org/html/2311.09049v4#S3.SS4.SSS2.p1.
 - **Results from**: Table 3 (Instruments, Arts, Games; LC-Rec averaged over instruction templates); Table 4 (alignment-task ablation); Table 5 (similar-negative ranking accuracy).
-  - Source: Main: https://arxiv.org/html/2311.09049v4#S4.T3; ablation: https://arxiv.org/html/2311.09049v4#S4.T4; negative-item analysis: https://arxiv.org/html/2311.09049v4#S4.T5.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Amazon 2018 subsets, 5-interaction filter, length 20: [S4.SS1.SSS1.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS1.p1); statistics: [S4.T2](https://arxiv.org/html/2311.09049v4#S4.T2).
+- **Split**: Leave-one-out allocation: [S4.SS1.SSS3.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1).
+- **Candidates**: Full ranking over the entire item set: [S4.SS1.SSS3.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1); separate pairwise test with one negative: [S4.SS4.SSS0.Px3.p1](https://arxiv.org/html/2311.09049v4#S4.SS4.SSS0.Px3.p1).
+- **Visibility**: Standard split with no unseen-item protocol: [S4.SS1.SSS3.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1).
+- **SID**: 4 levels x 256 x 32 over LLaMA text embeddings: [S4.SS1.SSS4.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS4.p1); uniform last-level redistribution for conflicts: [S3.SS2.SSS2.p2](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p2) and [S3.SS2.SSS2.p3](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p3).
+- **Inference budget**: Beam size 20 and invalid-token masking: [S4.SS1.SSS3.p1](https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1) and [S3.SS4.SSS2.p1](https://arxiv.org/html/2311.09049v4#S3.SS4.SSS2.p1).
+- **Results from**: Main: [S4.T3](https://arxiv.org/html/2311.09049v4#S4.T3); ablation: [S4.T4](https://arxiv.org/html/2311.09049v4#S4.T4); negative-item analysis: [S4.T5](https://arxiv.org/html/2311.09049v4#S4.T5).
+
+</details>
 
 - Main comparison: LC-Rec outperforms traditional recommenders and existing LLM-based recommenders (Abstract).
 

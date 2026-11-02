@@ -34,19 +34,25 @@ IDM/CMM distills a sequential recommender into a parallel Semantic ID generator 
 **Experimental setup**
 
 - **Datasets**: Amazon Reviews 2014 Beauty, Toys and Games, Sports and Outdoors; existing 5-core data verified without further filtering or deduplication.
-  - Source: Section 4.1 and Appendix A.1: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.32943v1#A1.SS1.p1
 - **Split**: Per-user chronological last/penultimate interactions are test/validation; earlier events train. Histories capped at 50; test histories include validation interaction.
-  - Source: Appendix A.1: https://arxiv.org/html/2610.32943v1#A1.SS1.p1 and https://arxiv.org/html/2610.32943v1#A1.SS1.p2
 - **Candidates**: full catalog; no historical-item masking
-  - Source: Section 4.1: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px3.p1
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Section 4.1 and Appendix A.1 define standard chronological holdouts, without an unseen-item experiment: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.32943v1#A1.SS1
 - **SID**: 16 subspaces x 3 residual levels x 256 codes; 48 fixed heads. Collisions retained with identical scores; each item remains a distinct catalog entry.
-  - Source: Section 4.1 and Appendix A.1: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2 and https://arxiv.org/html/2610.32943v1#A1.SS1.p3
 - **Inference budget**: Single parallel student, no teacher; Recall/NDCG@5/10; evaluation batch 32, FP32. Beam n/a; evaluation hardware and latency not reported. RTX 5880 Ada is specified for training.
-  - Source: Figure 1 and Appendix A.2: https://arxiv.org/html/2610.32943v1#S3.F1 and https://arxiv.org/html/2610.32943v1#A1.SS2.SSS0.Px1.p2
 - **Results from**: Table 2: IDM/CMM, AsymRec and RPG reproduced, averaged over three runs; other baseline scores copied from RPG Table 2.
-  - Source: Table 2: https://arxiv.org/html/2610.32943v1#S4.T2
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1 and Appendix A.1: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px1.p1) and [A1.SS1.p1](https://arxiv.org/html/2610.32943v1#A1.SS1.p1)
+- **Split**: Appendix A.1: [A1.SS1.p1](https://arxiv.org/html/2610.32943v1#A1.SS1.p1) and [A1.SS1.p2](https://arxiv.org/html/2610.32943v1#A1.SS1.p2)
+- **Candidates**: Section 4.1: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px3.p1)
+- **Visibility**: Section 4.1 and Appendix A.1 define standard chronological holdouts, without an unseen-item experiment: [S4.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px1.p1) and [A1.SS1](https://arxiv.org/html/2610.32943v1#A1.SS1)
+- **SID**: Section 4.1 and Appendix A.1: [S4.SS1.SSS0.Px2.p2](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2) and [A1.SS1.p3](https://arxiv.org/html/2610.32943v1#A1.SS1.p3)
+- **Inference budget**: Figure 1 and Appendix A.2: [S3.F1](https://arxiv.org/html/2610.32943v1#S3.F1) and [A1.SS2.SSS0.Px1.p2](https://arxiv.org/html/2610.32943v1#A1.SS2.SSS0.Px1.p2)
+- **Results from**: Table 2: [S4.T2](https://arxiv.org/html/2610.32943v1#S4.T2)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -34,19 +34,25 @@ Dynamic-Single-Codebook replaces multi-level residual codes with one token from 
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty 2014; KuaiRec 2.0 Big Matrix, watch_ratio>=1 and users with >=5 retained events; industrial data. Other filters not reported.
-  - Source: Section 4.1: https://arxiv.org/html/2608.21012v1#S4.SS1.p1 and https://arxiv.org/html/2608.21012v1#S4.SS1.p2
 - **Split**: Per-user chronological last/penultimate holdouts; separate KuaiRec experiment trains through September 3, validates September 4, tests September 5.
-  - Source: Section 4.1 and fixed-date protocol: https://arxiv.org/html/2608.21012v1#S4.SS1.p2 and https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1
 - **Candidates**: not reported
-  - Source: Candidate protocol absent from Sections 4.1-4.5 and Appendices B-E: https://arxiv.org/html/2608.21012v1#S4.SS1
 - **Visibility**: warm; no unseen-item protocol is defined. Fixed-date validation/test days are excluded from codebook fitting; leave-two-out PV weights use all viewing events. Item-level holdouts: not reported.
-  - Source: Section 4.1 and fixed-date protocol: https://arxiv.org/html/2608.21012v1#S4.SS1.p2 and https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1
 - **SID**: Public data: [1024,512], semantic plus balanced disambiguation code; baseline [256,256,256].
-  - Source: Section 4.1: https://arxiv.org/html/2608.21012v1#S4.SS1.p3
 - **Inference budget**: K=5/10; beam width, hardware model, inference batch size, absolute latency/QPS not reported. Single-card QPS gains: 28.57%-47.0%.
-  - Source: Sections 4.1 and 4.5: https://arxiv.org/html/2608.21012v1#S4.SS1.p5 and https://arxiv.org/html/2608.21012v1#S4.SS5.p1
 - **Results from**: Original Table 2, Figures 3/4/6, Tables 9-14; Section 4.5 online A/B.
-  - Source: Section 4 and Appendices C-E: https://arxiv.org/html/2608.21012v1#S4 and https://arxiv.org/html/2608.21012v1#A3 and https://arxiv.org/html/2608.21012v1#A4 and https://arxiv.org/html/2608.21012v1#A5
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2608.21012v1#S4.SS1.p1) and [S4.SS1.p2](https://arxiv.org/html/2608.21012v1#S4.SS1.p2)
+- **Split**: Section 4.1 and fixed-date protocol: [S4.SS1.p2](https://arxiv.org/html/2608.21012v1#S4.SS1.p2) and [S4.SS3.SSS2.p1](https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1)
+- **Candidates**: Candidate protocol absent from Sections 4.1-4.5 and Appendices B-E: [S4.SS1](https://arxiv.org/html/2608.21012v1#S4.SS1)
+- **Visibility**: Section 4.1 and fixed-date protocol: [S4.SS1.p2](https://arxiv.org/html/2608.21012v1#S4.SS1.p2) and [S4.SS3.SSS2.p1](https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1)
+- **SID**: Section 4.1: [S4.SS1.p3](https://arxiv.org/html/2608.21012v1#S4.SS1.p3)
+- **Inference budget**: Sections 4.1 and 4.5: [S4.SS1.p5](https://arxiv.org/html/2608.21012v1#S4.SS1.p5) and [S4.SS5.p1](https://arxiv.org/html/2608.21012v1#S4.SS5.p1)
+- **Results from**: Section 4 and Appendices C-E: [S4](https://arxiv.org/html/2608.21012v1#S4) and [A3](https://arxiv.org/html/2608.21012v1#A3) and [A4](https://arxiv.org/html/2608.21012v1#A4) and [A5](https://arxiv.org/html/2608.21012v1#A5)
+
+</details>
 
 ### 5. Connections to Related Work
 

@@ -78,19 +78,25 @@ The full OneRec-Think model generates the reasoning path and the first two itemi
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Toys, and Sports; users and items with fewer than 5 interactions are discarded. Industrial: Kuaishou short-video data with daily incremental training on about 20B tokens per day. Retained corpus sizes: not reported.
-  - Source: Public datasets: https://arxiv.org/html/2510.11639v2#S5.SS1.p2; filtering and split: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; industrial deployment: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1.
 - **Split**: Public: leave-one-out (allocation not restated beyond the label); training histories capped at 50 items. Online: one-week A/B test with a 1.29% traffic group.
-  - Source: Leave-one-out and history cap: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; online test: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search with width 10.
-  - Source: Metrics only: https://arxiv.org/html/2510.11639v2#S5.SS1.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1.
 - **SID**: Public: four-level hierarchical semantic IDs with 256 tokens per level (1,024 new tokens). Industrial: three levels x 8,192 itemic tokens (24,576 new tokens), plus item boundary tokens. The tokenizer algorithm is not restated; collision handling: not reported.
-  - Source: Public 4 levels x 256; industrial 3 levels x 8,192: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1; no collision rule found.
 - **Inference budget**: Public: beam search with width 10 after the reasoning text (Qwen3-1.7B). Industrial: Think-Ahead serving generates the reasoning and the first two itemic tokens offline with Qwen-8B, then a real-time OneRec model completes the last token online; latency numbers: not reported. Daily training on a cluster of 80 GPUs.
-  - Source: Beam width 10 for public evaluation: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; Rollout-Beam reward with width K: https://arxiv.org/html/2510.11639v2#S4.SS3.p2; two-stage serving: https://arxiv.org/html/2510.11639v2#S4.SS4.p2; training cluster: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1.
 - **Results from**: Table 1 (Beauty, Toys, Sports versus sequential and generative baselines); Table 2 (alignment and reasoning ablation on Beauty); Table 3 (online A/B); Table 4 (user and video understanding BertScore).
-  - Source: Public: https://arxiv.org/html/2510.11639v2#S4.T1; ablation: https://arxiv.org/html/2510.11639v2#S5.T2; online: https://arxiv.org/html/2510.11639v2#S5.T3; understanding benchmarks: https://arxiv.org/html/2510.11639v2#S5.T4.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Public datasets: [S5.SS1.p2](https://arxiv.org/html/2510.11639v2#S5.SS1.p2); filtering and split: [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1); industrial deployment: [S5.SS4.SSS2.Px1.p1](https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1).
+- **Split**: Leave-one-out and history cap: [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1); online test: [S5.SS4.SSS2.Px1.p1](https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1).
+- **Candidates**: Metrics only: [S5.SS1.p2](https://arxiv.org/html/2510.11639v2#S5.SS1.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1).
+- **SID**: Public 4 levels x 256; industrial 3 levels x 8,192: [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1) and [S5.SS4.SSS1.p1](https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1); no collision rule found.
+- **Inference budget**: Beam width 10 for public evaluation: [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1); Rollout-Beam reward with width K: [S4.SS3.p2](https://arxiv.org/html/2510.11639v2#S4.SS3.p2); two-stage serving: [S4.SS4.p2](https://arxiv.org/html/2510.11639v2#S4.SS4.p2); training cluster: [S5.SS4.SSS1.p1](https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1).
+- **Results from**: Public: [S4.T1](https://arxiv.org/html/2510.11639v2#S4.T1); ablation: [S5.T2](https://arxiv.org/html/2510.11639v2#S5.T2); online: [S5.T3](https://arxiv.org/html/2510.11639v2#S5.T3); understanding benchmarks: [S5.T4](https://arxiv.org/html/2510.11639v2#S5.T4).
+
+</details>
 
 - Public benchmarks: OneRec-Think performs best on Amazon Beauty, Toys, and Sports against the baselines in Table 1 (Sec. 5.2).
 - Ablation: on Beauty, adding itemic alignment to the base model and then the reasoning mechanism both improve the recommendation metrics (Sec. 5.3, Table 2).

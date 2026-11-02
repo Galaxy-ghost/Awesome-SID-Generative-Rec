@@ -34,19 +34,25 @@ TriAlignGR adds visual content and LLM-mined user intents to Semantic ID constru
 **Experimental setup**
 
 - **Datasets**: Amazon Beauty, Sports and Outdoors, Musical Instruments with 5-core filtering (22K-36K users, 10K-18K items, 198K-296K interactions in total ranges; per-dataset counts not separated in the text).
-  - Source: Datasets and protocol: https://arxiv.org/html/2605.05249v3#A1.p1.
 - **Split**: Leave-last-out protocol (allocation not restated beyond the label); results averaged over three seeds.
-  - Source: Leave-last-out: https://arxiv.org/html/2605.05249v3#A1.p1; three seeds: https://arxiv.org/html/2605.05249v3#S4.SS1.p1.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K from beam search with beam size 20.
-  - Source: Metrics and beam: https://arxiv.org/html/2605.05249v3#A1.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2605.05249v3#A1.p1.
 - **SID**: 3-level RQ-VAE with codebook sizes 4,096, 2,048, and 1,024 over gme-Qwen2-VL multimodal embeddings enriched with image captions (CMSA) and mined user interests (MDIM). Collision rates are reported: 3.1% of Beauty items share a full SID (5.1% for text-only RQ-VAE); a resolution rule is not reported.
-  - Source: 3-level RQ-VAE with 4096/2048/1024 over gme-Qwen2-VL embeddings: https://arxiv.org/html/2605.05249v3#A1.p3; collision diagnostics: https://arxiv.org/html/2605.05249v3#A3.T6.
 - **Inference budget**: Beam size 20; Qwen2.5-7B-Instruct backbone; experiments on NVIDIA A100 GPUs; inference batch size and latency: not reported.
-  - Source: Beam 20, backbone, GPUs: https://arxiv.org/html/2605.05249v3#A1.p2 and https://arxiv.org/html/2605.05249v3#A1.p3.
 - **Results from**: Table 2 (Beauty, Sports, Instruments versus sequential, generative, LLM, and reasoning baselines; three seeds); Tables 3-5 (component, SID-versus-task, and task-combination ablations); Appendix Tables 6-8 (SID diagnostics, semantic probing, SID construction versus MiniOneRec).
-  - Source: Main: https://arxiv.org/html/2605.05249v3#S4.T2; ablations: https://arxiv.org/html/2605.05249v3#S4.T3, https://arxiv.org/html/2605.05249v3#S4.T4, https://arxiv.org/html/2605.05249v3#S4.T5; SID diagnostics: https://arxiv.org/html/2605.05249v3#A3.T6; probing: https://arxiv.org/html/2605.05249v3#A4.T7; vs MiniOneRec: https://arxiv.org/html/2605.05249v3#A5.T8.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: Datasets and protocol: [A1.p1](https://arxiv.org/html/2605.05249v3#A1.p1).
+- **Split**: Leave-last-out: [A1.p1](https://arxiv.org/html/2605.05249v3#A1.p1); three seeds: [S4.SS1.p1](https://arxiv.org/html/2605.05249v3#S4.SS1.p1).
+- **Candidates**: Metrics and beam: [A1.p2](https://arxiv.org/html/2605.05249v3#A1.p2).
+- **Visibility**: Standard split with no unseen-item protocol: [A1.p1](https://arxiv.org/html/2605.05249v3#A1.p1).
+- **SID**: 3-level RQ-VAE with 4096/2048/1024 over gme-Qwen2-VL embeddings: [A1.p3](https://arxiv.org/html/2605.05249v3#A1.p3); collision diagnostics: [A3.T6](https://arxiv.org/html/2605.05249v3#A3.T6).
+- **Inference budget**: Beam 20, backbone, GPUs: [A1.p2](https://arxiv.org/html/2605.05249v3#A1.p2) and [A1.p3](https://arxiv.org/html/2605.05249v3#A1.p3).
+- **Results from**: Main: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2); ablations: [S4.T3](https://arxiv.org/html/2605.05249v3#S4.T3), [S4.T4](https://arxiv.org/html/2605.05249v3#S4.T4), [S4.T5](https://arxiv.org/html/2605.05249v3#S4.T5); SID diagnostics: [A3.T6](https://arxiv.org/html/2605.05249v3#A3.T6); probing: [A4.T7](https://arxiv.org/html/2605.05249v3#A4.T7); vs MiniOneRec: [A5.T8](https://arxiv.org/html/2605.05249v3#A5.T8).
+
+</details>
 
 ### 5. Connections to Related Work
 

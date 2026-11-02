@@ -76,19 +76,25 @@ Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log p
 **Experimental setup**
 
 - **Datasets**: Amazon Product Reviews (May 1996-July 2018): Beauty, Sports and Outdoors, Toys and Games; Yelp 2019 transactions (January-December 2019). 5-core filtering of users and items. Sizes (users / items / interactions): Beauty 22,363 / 12,101 / 198,360; Sports 35,598 / 18,357 / 296,175; Toys 19,412 / 11,924 / 167,526; Yelp 30,431 / 20,033 / 316,354.
-  - Source: 5-core filtering and timestamp ordering: https://arxiv.org/html/2406.14017v2#S4.SS1.p1; Amazon and Yelp scope: https://arxiv.org/html/2406.14017v2#S4.I2.i1.p1 and https://arxiv.org/html/2406.14017v2#S4.I2.i2.p1; statistics: https://arxiv.org/html/2406.14017v2#S3.T1.
 - **Split**: Chronological leave-one-out: last item for test, second-to-last for validation, the rest for training; training histories limited to 20 items.
-  - Source: Leave-one-out allocation and history cap: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
 - **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-k lists come from beam search in two streams.
-  - Source: Metrics only: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
 - **Visibility**: warm; no unseen-item protocol is defined.
-  - Source: Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
 - **SID**: Two codes per item: behavior codes from DIN embeddings and semantic codes from Sentence-T5 embeddings, each built by hierarchical k-means with k=256 branches, splitting until each child cluster contains a single item; code length l follows from the item count and k.
-  - Source: Dual hierarchical k-means codes until each leaf holds one item: https://arxiv.org/html/2406.14017v2#S3.SS3.p3; k=256: https://arxiv.org/html/2406.14017v2#S4.SS1.p3; length varies with k: https://arxiv.org/html/2406.14017v2#S4.SS5.p2.
 - **Inference budget**: Beam search in each of the behavior and semantic decoders returns top-k codes; the 2k predictions are merged by log-probability confidence. Table 6 (Beauty, top-k=5, beam size 100): 0.0325 s per sample for EAGER versus 0.0281 s for TIGER; hardware and inference batch size not reported. Recall and NDCG at 5, 10, and 20.
-  - Source: Two-stream beam search and confidence ranking: https://arxiv.org/html/2406.14017v2#S3.SS6.p2; speed table: https://arxiv.org/html/2406.14017v2#S4.T6.
 - **Results from**: Table 2 (Beauty, Sports, Toys, Yelp versus sequential, tree-based, and generative baselines); Table 3 (TSG/GCT/STT ablations); Tables 4, 5, 7 and Figures 4-6 (modalities, summary token, contrastive metric, layers, cluster number); Table 6 (inference speed).
-  - Source: Main: https://arxiv.org/html/2406.14017v2#S3.T2; ablations: https://arxiv.org/html/2406.14017v2#S4.T3; analyses: https://arxiv.org/html/2406.14017v2#S4.T4, https://arxiv.org/html/2406.14017v2#S4.T5, https://arxiv.org/html/2406.14017v2#S4.T7; speed: https://arxiv.org/html/2406.14017v2#S4.T6.
+
+<details>
+<summary>Sources</summary>
+
+- **Datasets**: 5-core filtering and timestamp ordering: [S4.SS1.p1](https://arxiv.org/html/2406.14017v2#S4.SS1.p1); Amazon and Yelp scope: [S4.I2.i1.p1](https://arxiv.org/html/2406.14017v2#S4.I2.i1.p1) and [S4.I2.i2.p1](https://arxiv.org/html/2406.14017v2#S4.I2.i2.p1); statistics: [S3.T1](https://arxiv.org/html/2406.14017v2#S3.T1).
+- **Split**: Leave-one-out allocation and history cap: [S4.SS1.p2](https://arxiv.org/html/2406.14017v2#S4.SS1.p2).
+- **Candidates**: Metrics only: [S4.SS1.p2](https://arxiv.org/html/2406.14017v2#S4.SS1.p2).
+- **Visibility**: Standard leave-one-out with no cold-start experiment: [S4.SS1.p2](https://arxiv.org/html/2406.14017v2#S4.SS1.p2).
+- **SID**: Dual hierarchical k-means codes until each leaf holds one item: [S3.SS3.p3](https://arxiv.org/html/2406.14017v2#S3.SS3.p3); k=256: [S4.SS1.p3](https://arxiv.org/html/2406.14017v2#S4.SS1.p3); length varies with k: [S4.SS5.p2](https://arxiv.org/html/2406.14017v2#S4.SS5.p2).
+- **Inference budget**: Two-stream beam search and confidence ranking: [S3.SS6.p2](https://arxiv.org/html/2406.14017v2#S3.SS6.p2); speed table: [S4.T6](https://arxiv.org/html/2406.14017v2#S4.T6).
+- **Results from**: Main: [S3.T2](https://arxiv.org/html/2406.14017v2#S3.T2); ablations: [S4.T3](https://arxiv.org/html/2406.14017v2#S4.T3); analyses: [S4.T4](https://arxiv.org/html/2406.14017v2#S4.T4), [S4.T5](https://arxiv.org/html/2406.14017v2#S4.T5), [S4.T7](https://arxiv.org/html/2406.14017v2#S4.T7); speed: [S4.T6](https://arxiv.org/html/2406.14017v2#S4.T6).
+
+</details>
 
 - Main comparison: EAGER reports better performance than existing methods on four public benchmarks (Abstract).
 - Ablation: removing the global contrastive task (GCT) costs more than removing the semantic-guided transfer task (STT) (Sec. 4.3, Table 3).
