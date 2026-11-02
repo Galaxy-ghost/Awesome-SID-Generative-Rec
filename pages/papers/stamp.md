@@ -48,12 +48,6 @@ STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and add
 - **Results from**: Table 2 (GRID T5 on Beauty, Sports, Toys: accuracy, training time, VRAM versus EARN; five seeds); Table 3 (FORGE Qwen2.5-0.5B on AL-GR-Tiny); later analyses and ablations.
   - Source: Results: https://arxiv.org/html/2604.05329v3#S5.T2 and https://arxiv.org/html/2604.05329v3#S5.T3.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-输入侧裁掉冗余 SID token，输出侧加多步预测，提高训练效率。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [GRID](grid.md): STAMP is implemented inside the GRID framework and keeps its tokenizer and T5 backbone, adding training-time token pruning and multi-step auxiliary prediction.

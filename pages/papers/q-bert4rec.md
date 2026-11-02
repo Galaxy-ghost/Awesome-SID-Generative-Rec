@@ -46,12 +46,6 @@ Q-BERT4Rec fuses text, image, and structural features into item embeddings, quan
 - **Results from**: Table 2 (Instruments, Arts, Games versus traditional, Transformer, multimodal, prompt-LLM, and semantic-ID baselines); Tables 3-4 (modalities and pre-training strategies); Figures 3-5 (layers, mask ratio, dropout); Table 6 (complexity and latency).
   - Source: Main: https://arxiv.org/html/2512.02474v2#S3.T2; ablations: https://arxiv.org/html/2512.02474v2#S3.T3 and https://arxiv.org/html/2512.02474v2#S4.T4; sensitivity: https://arxiv.org/html/2512.02474v2#S4.SS4.p1; complexity: https://arxiv.org/html/2512.02474v2#A2.T6.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-掩码预测下一物品的 SID，推理时在物品集合上取概率最大者，原文没有给出生成或解码 SID 的过程。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.

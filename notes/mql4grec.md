@@ -1,72 +1,57 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/mql4grec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Limitation: With both modalities, pre-training does not improve results on Games, and zero-shot ability on the target domains is weak (Sec. 4.3, Sec. 4.5).
 
-### MQL4GRec：生成式推荐的多模态量化语言
+### 1. Why This Paper Matters
 
-> MQL4GRec 将不同领域和模态的物品内容翻译为统一的离散量化语言，并以生成任务迁移推荐知识。
+Generative recommenders that build on pre-trained language models carry general linguistic knowledge that does not match recommendation needs, and they rarely use the complementary knowledge in item text and images (Abstract). MQL4GRec turns the content of items from many domains and modalities into one discrete vocabulary, so that a generator trained on source domains can transfer to a target domain.
 
-### 研究动机与问题定义
+> "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge." (Abstract)
 
-文本和图像内容形式复杂，跨域推荐中的表示难以共享。MQL4GRec 把量化器视为翻译器，将多模态内容映射到共享 codebook 语言，降低跨域迁移的表示差异。
+Based on arXiv v1.
 
-### TL;DR（核心摘要）
+### 2. How It Works
 
-`文本/图像 → RQ-VAE量化语言 → 预训练生成任务 → 目标域微调 → 推荐物品`
+*Figure source: Fig. 2, original paper.*
 
-冻结模态编码器提取文本或图像表示，RQ-VAE 将其转为带模态前缀的离散 token；通过下一物品生成、非对称生成和量化语言对齐任务进行预训练，再在目标推荐数据上微调。论文在生成候选后进行模态结果重排，重排仍属于模型内部流程。
+```mermaid
+flowchart LR
+    A[Text and image] --> B[Quantitative translators]
+    B --> C[Quantitative language]
+    C --> D[Source-domain pre-training]
+    D --> E[Target-domain fine-tuning]
+    E --> F[Two-list re-ranking]
+    F --> G[Next item]
+```
 
-### 输入与使用场景
+#### Quantitative Translators
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 文本、图像、用户交互和多域数据 |
-| 信息融入位置 | 量化语言、预训练任务和目标域生成 |
-| 语义标识结构 | 带模态前缀的多级序列 |
-| 适用场景 | 多模态、跨域推荐 |
+A frozen modal encoder, LLaMA for text or ViT for images, encodes item content (Sec. 3.1). An RQ-VAE per modality quantizes the representation, and each modality has its own codebooks.
 
-### 方法设计
+> "We train a quantitative translator for each modality, then add prefixes to the codewords from each of the two codebooks to form a dictionary." (Sec. 3.1)
 
-#### 3.1 量化语言
-MQL4GRec 将量化器视为翻译器。冻结的 LLaMA/ViT 编码器提取文本或图像表示，RQ-VAE 为每种模态学习多级 codebook，并通过模态前缀组成统一量化语言。碰撞物品再依据残差距离重新分配 code。
+#### Generation Tasks
 
-#### 3.2 量化语言生成任务
-除同模态下一物品生成外，论文加入非对称生成：用文本历史预测图像量化语言，或反向预测；同时加入 text-to-image 和 image-to-text 的显式量化语言对齐任务。
+Next-item generation predicts the next item's quantitative language in the same modality. Asymmetric item generation predicts the image language from a text history, or the reverse (Sec. 3.2). Quantitative language alignment tasks map an item's text language to its image language and back.
 
-#### 3.3 训练与推荐
-模型先在多域、多模态数据上预训练，再在目标推荐任务上微调。生成器预测目标模态的量化 token，推理阶段综合不同模态生成列表，并依据模型分数进行内部重排。
+#### Pre-Training and Fine-Tuning
 
-#### 3.4 零样本与分析
-实验考察跨域迁移、模态组合、消融和零样本能力，重点验证量化语言是否能把模态知识和推荐知识传递到新领域。
+Pre-training on the source domains uses only the two next-item generation sub-tasks. Fine-tuning on the target domain uses all generation tasks (Sec. 3.3).
 
-### 实验结论
+At inference, the generator returns one recommendation list per modality, and a re-ranking step merges the two lists by their item scores (Sec. 3.3, Eq. 7).
 
-- MQL4GRec 在 ICLR 2025 论文报告的跨域设置中优于比较方法。
-- 量化语言预训练和跨模态对齐带来迁移收益。
+### 3. Experimental Findings
 
-### 局限性与研究定位
+- Main comparison: MQL4GRec performs best in most cases across Instruments, Arts, and Games, especially on NDCG (Sec. 4.2, Table 1).
+- Pre-training: with both modalities, pre-training improves results on Instruments and Arts but not on Games.
 
-#### 局限性
-- 模态候选重排增加了推理链路。
-- 量化语言依赖模态编码器和离线 codebook。
-- 开放物品和动态领域更新仍需验证。
+  > "Under dual modalities, pre-training significantly improves performance on the Instruments and Arts datasets; however, it does not yield a notable improvement for the Games dataset, potentially due to overfitting." (Sec. 4.3)
 
-#### 研究定位
-MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言生成，适合放在“跨域与多模态生成推荐”章节。
+- Zero-shot: pre-trained models without fine-tuning show preliminary but weak zero-shot ability on Instruments and Arts, and none on Games (Sec. 4.5, Table 5).
 
-### 标签
+### 4. Limitations & Critical Analysis
 
-`量化语言` · `多模态` · `跨域迁移` · `生成式推荐`
+**Our analysis.**
 
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：以量化语言促进跨域迁移。
-- 使用场景：多模态跨域。
+- The two quantizers are trained separately (`Dual RQ`), so the text and image codes are linked only by the generation tasks. MACRec replaces them with `Cross RQ`, which adds cross-modal contrastive learning inside quantization.
+- TIGER quantizes text only (`Text`); MQL4GRec adds images (`Text+Img`) and keeps the same `Enc-Dec` generator with `Beam` decoding.

@@ -48,12 +48,6 @@ MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic
 - **Results from**: Table 1 (HR@10 per business versus SASRec, TIGER, HSTU); Table 2 (downstream CTCVR GAUC); Table 3 (ablations); Tables 4-7 (time decay, business weights, expert count).
   - Source: Generative: https://arxiv.org/html/2604.02684v1#S6.T1; downstream: https://arxiv.org/html/2604.02684v1#S6.T2; ablation: https://arxiv.org/html/2604.02684v1#S6.T3; hyperparameters: https://arxiv.org/html/2604.02684v1#S6.T4, https://arxiv.org/html/2604.02684v1#S6.T6, https://arxiv.org/html/2604.02684v1#S6.T7.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用业务感知 SID 和多业务预测结构缓解多业务场景的跷跷板问题。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.

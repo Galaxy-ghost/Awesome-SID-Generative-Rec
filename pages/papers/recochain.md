@@ -48,12 +48,6 @@ RecoChain generates candidates by hierarchical Semantic ID prediction and then r
 - **Results from**: Tables 1-3 (Recall and NDCG at 5 and 10 before and after re-ranking, varying beam size, input sequence length, and retrieval length on TAOBAO-MM).
   - Source: Results: https://arxiv.org/html/2604.25787v1#S2.T1, https://arxiv.org/html/2604.25787v1#S2.T2, https://arxiv.org/html/2604.25787v1#S2.T3.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-束搜索生成候选 SID 后，再由排序头对候选打分重排。
-
 ### 5. Connections to Related Work
 
 - **Alternative** · [TIGER](tiger.md): TIGER stops at beam-search retrieval; RecoChain appends retrieved history items to each beam candidate and re-ranks them in the same decoder.

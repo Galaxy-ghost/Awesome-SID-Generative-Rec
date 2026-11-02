@@ -47,12 +47,6 @@ UniTok tokenizes items from multiple domains with a shared encoder, domain-speci
 - **Results from**: Table 1 (ten datasets versus CF and tokenization-aided baselines); Table 2 (trainable parameters); Table 3 (competitors trained jointly across domains); Table 4 (zero-shot on unseen domains); Table 5 and later (ablations).
   - Source: Main: https://arxiv.org/html/2511.12922v1#Sx3.T1; parameters: https://arxiv.org/html/2511.12922v1#Sx4.T2; unified training: https://arxiv.org/html/2511.12922v1#Sx4.T3; zero-shot and ablation in later tables.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用共享专家和领域专家码本，把多个领域的物品统一分词。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [LETTER](letter.md): LETTER trains one regularized RQ-VAE tokenizer per dataset; UniTok shares one tokenizer across ten domains with a mixture of quantization experts.

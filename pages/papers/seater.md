@@ -49,12 +49,6 @@ SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-de
 - **Results from**: Table 3 (Yelp, News, Books, Micro-Video versus dual-encoder, tree-based, and generative baselines including GPTRec and TIGER); Table 1 (time and space complexity); Section 5.5 (more encoder-decoder layers).
   - Source: Main: https://arxiv.org/html/2309.13375v2#S5.T3; complexity: https://arxiv.org/html/2309.13375v2#S3.T1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-构造等长的平衡树状标识，并用对比学习建模标识结构。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER builds identifiers by RQ-VAE over text embeddings; SEATER builds balanced tree identifiers from collaborative SASRec embeddings and adds alignment and ranking losses over the tree.

@@ -1,81 +1,59 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/ros.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Key Findings: On NYC, ROS reports HR@1 of 0.4478 against 0.4027 for CoAST (+11.2%), and the paper reports gains of +11.0% on TKY and +15.7% on Gowalla-CA over the strongest LLM-based baselines (Table 1).
+Limitation: A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro or highway (Limitations).
 
-### ROS：空间推理增强的生成式下一兴趣点推荐
+### 1. Why This Paper Matters
 
-> ROS 将地理关系显式纳入下一 POI 推理过程，通过层次化空间 SID、移动思维链和空间引导强化学习生成可行地点。
+LLM-based generative recommenders make limited use of geographic signals, which matter in mobility and local-service scenarios (Abstract). ROS models the next visit as a sequence of constrained decisions driven by time, intent, and geography (Sec. 2.3). It represents each POI with a hierarchical spatial Semantic ID (SID) that encodes locality and POI semantics (Abstract).
 
-### 研究动机与问题定义
+> "We present ROS, a generative next POI recommendation framework that treats geography as an explicit decision variable." (Sec. 5)
 
-下一 POI 不是普通的物品分类：用户兴趣、时间规律和空间可达性共同决定目的地。已有 LLM 推荐方法虽能生成 SID，却常把空间信息作为文本或单步条件，缺少显式的候选构造和可行性判断。ROS 将推荐建模为带空间约束的多阶段决策。
+Based on arXiv v2.
 
-### TL;DR（核心摘要）
+### 2. How It Works
 
-`坐标/网格/类别 → 空间SID → 用户画像与候选空间 → 移动CoT剪枝 → 生成POI SID`
+*Figure source: Fig. 2, original paper.*
 
-ROS 把 POI SID 分成地理前缀、语义锚点和区分性后缀。模型先通过双向对齐和序列预训练学习 SID 与地址/类别的对应关系，再用三步 Mobility CoT 建立用户画像、构造意图候选并进行局部性剪枝，最后用空间、SID 和格式奖励进行强化学习。
+```mermaid
+flowchart LR
+    A[Check-ins] --> B[Spatial SID]
+    B --> C[SID grounding]
+    C --> D[Mobility CoT]
+    D --> E[Spatial RL]
+    E --> F[Next POI]
+```
 
-### 输入与使用场景
+#### Hierarchical Spatial SID
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | GPS、S2 网格、POI 类别、地址、用户历史和时间 |
-| 信息融入位置 | SID 结构、预训练任务、思维链和强化学习奖励 |
-| 语义标识结构 | 层次化、定长离散序列 |
-| 适用场景 | 下一 POI、跨城市迁移和地理可行性推荐 |
+Each POI SID has a geospatial prefix, a semantic anchor, and a discriminative suffix (Sec. 2.2.1). The prefix takes the POI's S2 Cell ID, written as hexadecimal digits, removes the prefix shared by all POIs, and groups the remaining digits into tokens. The semantic anchor embeds the POI's category description with Qwen-0.6B and quantizes it with an RQ-VAE.
 
-### 方法设计
+#### SID Grounding
 
-#### 2.1 问题形式化
-给定用户历史轨迹、时间和上下文，模型需要生成下一 POI 的完整 SID。与只预测一个标签不同，ROS 将生成过程拆为画像分析、候选空间构造和局部性筛选等有顺序的决策。
+Bidirectional alignment trains the model to predict the SID from text and to generate text from the SID (Sec. 2.2.2).
 
-#### 2.2 空间语义标识
-地理前缀由 GPS 映射到 S2 网格，再转换为层次化六边形 token；语义锚点由 POI 类别等文本信息经过编码和 RQ-VAE 量化得到；后缀用于区分同一地理和语义区域内的不同 POI。三者拼接为 Hierarchical Spatial SID。
+> "This bidirectional alignment grounds SID tokens in functional semantics and fine-grained neighborhood cues." (Sec. 2.2.2)
 
-#### 2.2.2 SID 对齐预训练
-模型使用双向 SID-文本/地址对齐任务，使 SID 能预测 POI 的类别和地址，也使文本能恢复 SID。另一个序列预训练任务让模型学习移动轨迹中的时间、类别重复和邻域连续性。
+Sequence pretraining then trains next-POI prediction on SID sequences, where the model learns recency, category repetition, and neighborhood continuity.
 
-#### 2.3 Mobility CoT 推理
-第一步从历史轨迹提炼用户移动画像；第二步根据画像和当前上下文形成候选 POI 空间；第三步依据访问频率、时间和空间邻近性对候选进行局部性剪枝，再生成目标 SID。这种流程把地理可行性变成显式推理条件。
+#### Mobility Chain-of-Thought
 
-#### 2.4 空间引导强化学习
-训练时从策略模型采样推理轨迹，奖励由空间距离、SID 层次匹配和格式合法性组成，并通过 GRPO 优化。层级 SID 奖励使正确的地理前缀和语义部分获得分层反馈。
+The model reasons in three deterministic stages: it profiles the user, builds an intent-aligned candidate space, and prunes candidates (Sec. 2.3). Pruning uses temporal consistency, semantic fit, and spatial feasibility from street addresses and transition distances.
 
-### 实验结论
+#### Spatial-Guided RL
 
-- 在三个 LBSN 数据集上，ROS 相比 LLM 基线取得更高命中率，论文报告相对提升超过 10%。
-- 移动 CoT 和空间奖励的消融支持显式候选构造与地理剪枝的作用。
-- 跨城市实验显示模型具有较好的迁移能力，但论文指出短时间长距离移动的交通先验仍未充分建模。
+GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine distance between the predicted and true POI (Sec. 2.4.1), a hierarchical SID match with a bonus for an exact match (Sec. 2.4.2), and a format term.
 
-### 局限性与研究定位
+### 3. Experimental Findings
 
-#### 局限性
+- CoT stages: the best result needs all three stages together (Sec. 3.3, Table 3).
+- Cross-city transfer: trained on one city and applied to two unseen cities, ROS achieves the best transfer results against LLM4POI and GA-LLM (Sec. 3.4, Table 6).
 
-- 当前地理可行性主要采用短时间内长距离移动不太可能的单调先验，可能低估地铁、高速等交通支持的远距离移动。
-- 多阶段思维链会增加生成 token 和推理成本，在线延迟比较未充分展开。
+### 4. Limitations & Critical Analysis
 
-#### 研究定位
+**Stated by the authors.** ROS relies on a monotonic prior that long transitions are unlikely within short time intervals. The authors state that this prior can underweight fast long-range moves by metro rail or highway, especially near transit hubs (Limitations).
 
-ROS 代表把“空间推理”引入 Semantic ID 生成推荐的路线，适合放在“推理增强与地理约束生成推荐”章节。
+**Our analysis.**
 
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2601.04562)
-
-### 标签
-
-`空间推理` · `层次化SID` · `移动思维链` · `空间强化学习`
-
-### 架构图来源
-
-*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2601.04562)）。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：用移动思维链和空间奖励显式执行地理推理。
-- 使用场景：下一 POI、跨城市迁移。
+- GNPR-SID quantizes POI features with a plain `RQ-VAE`; ROS puts an explicit S2-cell prefix before the semantic codes (`Geo-Prefix+RQ-VAE`).
+- SpaceTime-GR uses geographic indices only (`Geo`, `Geo-Idx`); ROS adds category semantics to the SID and reasons before decoding (`CoT+C-Beam`).

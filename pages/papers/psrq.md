@@ -47,12 +47,6 @@ PSRQ generates modality-specific and modality-joint Semantic IDs that preserve p
 - **Results from**: Table 2 (All AUC, Cold AUC, Logloss versus multimodal and quantization-based rankers); Table 3 (quantizers added to DIN with text only); Table 4 (MCCA ablation); Section 5.3 (online A/B: collect +2.81%, full play +0.95%).
   - Source: Main: https://arxiv.org/html/2508.20359v1#S5.T2; quantizers in DIN: https://arxiv.org/html/2508.20359v1#S5.T3; ablation: https://arxiv.org/html/2508.20359v1#S5.T4; online: https://arxiv.org/html/2508.20359v1#S5.SS3.p1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-SID 只作音乐推荐排序模型的特征，按 AUC 评估，不生成 SID。
-
 ### 5. Connections to Related Work
 
 - **Alternative** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive semantic residual K-means and uses the IDs as ranking features for cold-start items.

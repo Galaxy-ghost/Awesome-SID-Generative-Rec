@@ -1,78 +1,57 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/minionerec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Limitation: The scaling study measures training and evaluation losses as the model grows, not ranking metrics (Sec. 5.2, Fig. 1).
 
-### MiniOneRec：可扩展生成式推荐框架
+### 1. Why This Paper Matters
 
-> MiniOneRec 将语义标识构建、语言模型对齐和偏好强化学习串成统一流程，探索从小模型到大模型的生成式推荐扩展。
+Industrial generative recommenders that replace embedding tables with Semantic ID (SID) sequences are mostly proprietary (Abstract). The authors ask whether scaling laws hold on public benchmarks and which post-training recipe is enough for competitive performance.
 
-### 研究动机与问题定义
+> "Yet most industrial deployments remain proprietary, leaving two fundamental questions open: (1) Do the expected scaling laws hold on public benchmarks? (2) What is the minimal post-training recipe that enables competitive performance?" (Abstract)
 
-现有生成式推荐在模型规模、语义对齐和推荐偏好之间缺少统一训练框架。MiniOneRec 研究如何让语言模型直接生成物品的完整语义标识，并保持规模扩展后的推荐效果。
+MiniOneRec answers with an open framework that covers SID construction, supervised fine-tuning (SFT), and reinforcement learning (RL), and releases code, training pipelines, and checkpoints (Sec. 1).
 
-### TL;DR（核心摘要）
+Based on arXiv v1.
 
-`用户历史 → RQ-VAE 物品标识 → 语言模型对齐 → SID 生成 → 推荐物品`
+### 2. How It Works
 
-论文使用标题和描述的文本表示，通过三级 RQ-VAE 构造定长 SID；随后对 Qwen 系列模型进行监督微调，并使用 GRPO/RLVR 类偏好优化。推理时采用束搜索，生成的 SID 查表得到物品；当前 Table 1 记录为 Beam。
+*Figure source: Fig. 2, original paper.*
 
-### 输入与使用场景
+```mermaid
+flowchart LR
+    A[Item text] --> B[RQ-VAE]
+    B --> C[SIDs in vocabulary]
+    C --> D[SFT]
+    D --> E[GRPO]
+    E --> F[Constrained beam]
+    F --> G[Next item]
+```
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 交互历史、物品文本和协同偏好信号 |
-| 信息融入位置 | 文本进入 SID 构建，历史进入语言模型，偏好信号进入奖励 |
-| 语义标识结构 | 定长层次化序列 |
-| 适用场景 | 常规序列推荐与跨领域扩展 |
+#### Item Tokenization
 
-### 方法设计
+A frozen text encoder embeds item titles and descriptions, and an RQ-VAE quantizes the embedding into a hierarchical SID (Sec. 3.2).
 
-#### 3.1 任务形式化与物品分词
-MiniOneRec 将下一物品预测写成完整 SID 序列生成。物品标题和描述经过冻结文本编码器后输入三级 RQ-VAE，得到层次化 codebook 和定长 SID。
+> "The codebooks, the encoder and the decoder are trained jointly, while the text encoder remains frozen." (Sec. 3.2)
 
-#### 3.2 与 LLM 对齐
-模型在 SFT 阶段把用户历史 SID、文本提示和目标 SID接入 Qwen 等语言模型。论文强调 full-process SID-language alignment，使语言模型不仅记住目标 token，还学习 SID 的层次和语义结构。
+#### Full-Process SID Alignment
 
-#### 3.3 推荐偏好优化
-RL 阶段采用推荐导向奖励，综合合法性、去重、协同/排序信号等因素，并用 GRPO 类策略优化调整生成分布。奖励主要用于训练，不改变在线直接生成 SID 的链路。
+The SID tokens are added to the LLM vocabulary. Next-item prediction and auxiliary alignment tasks, such as mapping between titles and SIDs, are optimized jointly in both the SFT stage and the RL stage (Sec. 3.3, Sec. 6).
 
-#### 3.4 训练与评估
-论文比较不同模型规模、世界知识、数据设置和生成配置，分析规模扩大对收敛、性能和泛化的影响。
+#### Reinforced Preference Optimization
 
-### 实验结论
+The RL stage uses GRPO with constrained beam search as the sampler, so every generated item is valid (Sec. 3.4.1). The default reward combines a binary correctness rule with a ranking term that penalizes hard negatives (Sec. 3.4.2).
 
-- 推荐性能随模型规模扩大而提升，并展示了语言模型世界知识对推荐的影响。
-- 端到端 SID 对齐和偏好优化均有独立贡献。
-- 论文提供了开源框架与多规模训练设置，便于复现实验。
+> "The mixed reward discussed combines binary correctness with a soft ranking term, helping the LLM tell hard negatives apart." (Sec. 3.4.2)
 
-### 局限性与研究定位
+### 3. Experimental Findings
 
-#### 局限性
-- 自回归束搜索仍带来服务成本。
-- 新物品的 SID 更新和动态目录维护未充分验证。
-- 真实线上收益与更大规模工业数据上的稳定性仍未报告。
+- Scaling: training and evaluation losses decrease as the Qwen backbone grows from 0.5B to 7B parameters (Abstract, Sec. 5.2).
+- Alignment: the variant that keeps SID alignment through the whole pipeline scores highest on every metric among the alignment variants (Sec. 5.5.1, Fig. 4a).
+- Cross-domain: a model trained only on Industrial is applied to the unseen Office domain without further tuning (Sec. 5.4, Table 2).
+- World knowledge: the paper compares pre-trained and randomly initialized backbones (Sec. 5.6, Table 3).
 
-#### 研究定位
-MiniOneRec 的主要贡献是把 SID 对齐、语言模型扩展和推荐偏好优化纳入一个可复用框架。它适合放在“规模扩展与训练对齐”章节；后续可关注动态物品和低延迟解码。
+### 4. Limitations & Critical Analysis
 
-### 相关资源
+**Our analysis.**
 
-- [论文原文](https://arxiv.org/abs/2510.24431)
-- [开源代码](https://github.com/AkaliKong/MiniOneRec)
-
-### 标签
-
-`RQ-VAE` · `生成式推荐` · `强化学习` · `可扩展性`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：统一规模扩展、对齐与偏好优化。
-- 使用场景：序列与跨域推荐。
+- LC-Rec also aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with auxiliary tasks (`Multi-task NTP`); MiniOneRec keeps such tasks in a following RL stage (`NTP → RL`).
+- OneRec builds SIDs from text and collaborative signals (`Text+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.

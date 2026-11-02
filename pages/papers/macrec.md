@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2511.15122) · [Code](https://github.com/zhangfw123/MACRec) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,10 +28,51 @@ MACRec applies cross-modal quantization over text and image features to build Se
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and adds implicit and explicit cross-modal alignment to generator training. |
 | Modified Stage | Tokenization |
+| Key Findings | MACRec leads all baselines on HR@10, NDCG@5, and NDCG@10 on all three datasets, while on Games HR@5 MISSRec reports 0.0674 against 0.0671 for MACRec (Table 2). |
+
+### 1. Why This Paper Matters
+
+Generative recommendation needs Semantic IDs (SIDs) that are hierarchical, have few conflicts, and support generator training (Abstract). Earlier multimodal generative recommenders quantize each modality on its own, so text and image do not inform each other's IDs.
+
+> "However, existing multimodal GR models typically encode each modality separately to obtain semantic IDs for different modalities." (Related Work)
+
+MACRec adds cross-modal interaction at two points: inside the quantizer and in the generator's training tasks (Methodology).
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![MACRec architecture diagram](../../architectures/macrec.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Text and image] --> B[Pseudo-labels]
+    B --> C[Cross-modal RQ]
+    C --> D[Text and image SIDs]
+    D --> E[Aligned generator]
+    E --> F[Score averaging]
+    F --> G[Next item]
+```
+
+#### Dual-Modality Pseudo-Labels
+
+MACRec clusters items separately by their text embeddings and by their image embeddings. The cluster labels define positive pairs for contrastive learning in the quantizer (Dual-modality Pseudo-label Generation).
+
+#### Cross-Modal Quantization
+
+Each modality passes through an MLP and a residual quantizer. A contrastive loss at the residual levels uses the labels of the other modality (Cross-modal Quantization with Contrastive Learning).
+
+> "More concretely, we use visual pseudo-labels to enhance the residual representations of the text modality, and conversely, use textual pseudo-labels to optimize those of the visual modality." (Cross-modal Quantization with Contrastive Learning)
+
+Reconstruction and quantization losses keep the codes able to recover the original embeddings (Cross-modal Reconstruction Alignment).
+
+#### Multi-Aspect Alignment
+
+The generator trains on next-item prediction within each modality, an implicit alignment of the two SID representations, and explicit item-level and sequence-level tasks across modalities (Generative Recommendation with Multi-aspect Alignment).
+
+> "For sequence-level alignment, we construct a prediction task where a historical sequence of textual semantic IDs is used to predict the visual semantic ID of the next recommended item." (Explicit Alignment with Different Generation Tasks)
 
 ### 3. Experimental Findings
 
@@ -52,81 +93,15 @@ MACRec applies cross-modal quantization over text and image features to build Se
 - **Results from**: Table 2 (Instruments, Arts, Games; MQL4GRec run without its extra-category pre-training); Table 3 (ablations); Table 4 (item collision rates); Figures 3-4 (hyperparameters and code assignment).
   - Source: Main: https://arxiv.org/html/2511.15122v2#Sx4.T2; ablation: https://arxiv.org/html/2511.15122v2#Sx4.T3; collisions: https://arxiv.org/html/2511.15122v2#Sx4.T4; code distribution: https://arxiv.org/html/2511.15122v2#Sx4.F4; hyperparameters: https://arxiv.org/html/2511.15122v2#Sx4.F3.
 
-## 旧卡片说明
+- Ablation: removing any module lowers HR@10 on all three datasets (Table 3).
+- Collisions: MACRec has lower item ID collision rates than MQL4GRec (Table 4).
 
-迁自 `d61aa6c:papers/macrec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### MACRec：多方面跨模态量化生成式推荐
+**Our analysis.**
 
-> MACRec 在 SID 量化和生成推荐训练中同时建模文本、图像及其交互，减少跨模态语义损失和标识碰撞。
-
-### 研究动机与问题定义
-
-已有多模态生成推荐常独立量化不同模态，难以利用互补信息。MACRec 将跨模态对比学习放入量化过程，并在生成阶段加入多方面对齐。
-
-### TL;DR（核心摘要）
-
-`文本/图像 → 跨模态量化 → 多模态SID → 生成模型 → 内部集成 → 推荐物品`
-
-模型分别编码文本和图像，通过伪标签、跨模态残差量化和重构对齐学习语义标识；生成推荐阶段包含隐式表示对齐、显式 item/sequence 对齐和 Seq2Seq 目标。推理时对两种模态进行约束束搜索并在模型内部平均分数，得到最终物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 物品文本、图像和用户交互 |
-| 信息融入位置 | 量化目标、对齐任务和生成输入 |
-| 语义标识结构 | 文本/视觉多级离散序列 |
-| 适用场景 | 多模态序列推荐 |
-
-### 方法设计
-
-#### 3.1 双模态伪标签
-MACRec 分别用文本编码器和视觉编码器获得物品表示，再在两种模态上聚类生成伪标签。伪标签用于构造跨模态正样本，使文本和图像在量化过程中能够相互提供监督。
-
-#### 3.2 跨模态量化与重构
-文本、视觉表示分别经过 MLP 和多级残差量化。跨模态对比损失让一类模态的残差表示吸收另一类模态的相似性；重构损失和量化损失保证离散 code 能恢复原始表示。
-
-#### 3.3 多方面生成对齐
-生成推荐阶段包含同模态 next-item 生成、跨模态 item/sequence 对齐，以及隐式表示对齐。模型由一种模态的历史 SID 预测另一种模态的目标 SID，促进两套标识的协同。
-
-#### 3.4 训练与推理
-训练目标联合推荐损失和对齐损失。推理时两种模态分别进行约束束搜索，最后在模型内部平均候选分数并去重，得到推荐结果。
-
-### 实验结论
-
-- MACRec 在三个 Amazon 数据集上优于比较方法。
-- 跨模态量化和多方面对齐均改善效果，并降低碰撞。
-
-### 局限性与研究定位
-
-#### 局限性
-- 双模态生成和结果集成增加推理成本。
-- 图像缺失、动态物品和线上服务效率仍需验证。
-
-#### 研究定位
-MACRec 的贡献是把跨模态交互前移到 SID 学习阶段，适合放在“多模态语义标识与生成推荐”章节。
-
-### 相关资源
-
-- [论文原文](https://arxiv.org/abs/2511.15122)
-
-### 标签
-
-`跨模态量化` · `多方面对齐` · `多模态推荐` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：在量化阶段建模跨模态交互。
-- 使用场景：多模态推荐。
+- MQL4GRec also builds separate text and image SIDs (`Dual RQ`); MACRec replaces this with `Cross RQ` and adds a contrastive term to the generator objective (`NTP + Ctr.`).
+- The representation uses text and image only (`Text+Img`). CARD adds collaborative signals (`Text+Img+CF`) and quantizes one combined input with `NU-RQ`.
 
 ### 5. Connections to Related Work
 

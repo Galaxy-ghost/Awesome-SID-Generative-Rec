@@ -1,71 +1,57 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/onerec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Limitation: In the online test, OneRec improves watch time but is weaker on interaction indicators such as likes (Sec. 6).
 
-### OneRec：检索排序一体化生成式推荐
+### 1. Why This Paper Matters
 
-> OneRec 用生成模型直接产生推荐列表，并通过迭代偏好对齐替代传统的召回-排序级联。
+Most recommenders run a retrieve-and-rank cascade, and a generative model, when present, only selects candidates in the retrieval stage (Abstract). The authors argue that each stage caps the stage after it.
 
-### 研究动机与问题定义
+> "existing methods typically treat each ranker independently, where the effectiveness of each isolated stage serves as the upper bound for the subsequent ranking stage, thereby limiting the performance of the overall ranking system." (Sec. 1)
 
-级联系统把召回和排序拆开，模块目标不一致且存在信息损失。OneRec 将会话建模、候选选择和排序统一为列表生成，并研究如何使生成结果贴近真实偏好。
+OneRec replaces the cascade with a single-stage generative model and was deployed in the main scene of Kuaishou (Abstract, Sec. 1).
 
-### TL;DR（核心摘要）
+Based on arXiv v1.
 
-`会话历史 → SID列表目标 → 生成模型 → 推荐列表 → 偏好对齐`
+### 2. How It Works
 
-模型以会话级物品列表作为训练目标，使用平衡聚类构造物品语义标识，并直接生成列表。训练后通过奖励反馈和迭代 DPO 逐步对齐列表质量；在线阶段生成的 SID 直接对应推荐物品。
+*Figure source: Fig. 2, original paper.*
 
-### 输入与使用场景
+```mermaid
+flowchart LR
+    A[Behavior history] --> B[Encoder]
+    B --> C[Session decoder]
+    C --> D[Session list]
+    D --> E[Reward model]
+    E --> F[Iterative DPO]
+    F --> C
+```
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 会话交互、物品标识和偏好反馈 |
-| 信息融入位置 | 列表目标、生成输入和偏好训练 |
-| 语义标识结构 | 列表中的多 token 序列 |
-| 适用场景 | 工业会话推荐 |
+#### Balanced Semantic IDs
 
-### 方法设计
+Each item receives a Semantic ID (SID) from balanced K-means, in which every cluster holds the same number of items (Sec. 3.1, Algorithm 1).
 
-#### 3.1 会话级列表生成
-OneRec 把单物品 next-item 目标扩展为 session-wise list generation。训练样本包含会话上下文和目标推荐列表，生成器按统一序列格式输出多个物品 SID，并在列表内部处理顺序与重复。
+#### Session-Wise List Generation
 
-#### 3.2 生成器训练
-模型采用编码器-解码器结构，以会话行为和物品标识作为条件。标识由平衡聚类构造，使不同物品在生成词表中具有较好的覆盖和可区分性。
+Instead of predicting one next item, OneRec generates the list of items for a whole session and considers the content and order of items within it (Sec. 1). An encoder models the user's history, and a decoder generates the session list (Sec. 3.2).
 
-#### 3.3 迭代偏好对齐
-训练后使用奖励模型产生偏好信号，构造列表级偏好样本并进行 DPO。迭代过程不断用更新后的模型生成新样本，使生成列表逐步靠近业务偏好。
+> "The decoder takes the semantic IDs of the target session as input and generates the target in an auto-regressive manner." (Sec. 3.2)
 
-#### 3.4 系统部署
-论文进一步设计线上生成、去重和服务流程，目标是用一个生成模型连接原本分离的召回与排序阶段。
+#### Iterative Preference Alignment
 
-### 实验结论
+A recommender shows each request only once, so true positive and negative lists for the same request are not available (Abstract). OneRec samples several responses with beam search, scores them with a pre-trained reward model, and pairs the highest-scoring and lowest-scoring responses for DPO (Sec. 3.3.2). The model then generates new samples in the next round.
 
-- OneRec 在论文报告的公开和工业设置中改善了生成式推荐效果。
-- 列表级训练和偏好对齐均带来额外收益。
+### 3. Experimental Findings
 
-### 局限性与研究定位
+- Session-wise generation: OneRec outperforms dot-product retrieval methods and point-wise generation such as TIGER on the reward-model metrics (Sec. 5.2, Table 1).
+- Preference alignment: adding IPA further improves the generated sessions (Sec. 5.2, Table 1).
 
-#### 局限性
-- 列表生成、去重和约束会增加推理工程复杂度。
-- 动态物品、极端长尾和跨场景迁移仍需更多验证。
+### 4. Limitations & Critical Analysis
 
-#### 研究定位
-OneRec 的主要贡献是以生成列表统一召回与排序，适合放在“端到端工业生成式推荐”章节。
+**Stated by the authors.** The authors report a weakness found in the online results.
 
-### 标签
+> "Additionally, our analysis of online results reveals that, besides user watch time, our model has limitations in interactive indicators, such as likes." (Sec. 6)
 
-`召回排序一体化` · `列表生成` · `偏好对齐` · `工业推荐`
+**Our analysis.**
 
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：统一召回与排序。
-- 使用场景：工业会话推荐。
+- The DPO pairs are ranked by the reward model, not by observed user feedback on both lists. This suggests that alignment quality is bounded by the reward model.
+- MiniOneRec reproduces the pipeline on public data with `RQ-VAE` SIDs over text only (`Text`), a `Dec-Only` generator, and RL in place of DPO (`NTP → RL`).

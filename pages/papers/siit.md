@@ -48,12 +48,6 @@ SIIT starts from item tokenizations of any external model and periodically adjus
 - **Results from**: Table 2 (Instruments, Beauty, Yelp versus traditional and LLM-based baselines with simple and advanced tokenization); Table 3 (diverse generation and collision avoidance ablation on Yelp); Table 4 (identifier similarity before and after refinement).
   - Source: Main: https://arxiv.org/html/2412.17171v1#S4.T2; ablation: https://arxiv.org/html/2412.17171v1#S4.T3; identifier similarity: https://arxiv.org/html/2412.17171v1#S4.T4.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-让 LLM 在训练中迭代修正自己的物品分词。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [LETTER](letter.md): LETTER fixes its regularized RQ-VAE identifiers before generator training; SIIT starts from such identifiers and lets the LLM regenerate them iteratively with alignment tasks.

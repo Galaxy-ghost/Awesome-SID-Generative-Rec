@@ -47,12 +47,6 @@ PROMISE adds a lightweight process reward model that scores intermediate Semanti
 - **Results from**: Table 1 (Beauty and Sports; baseline numbers taken from the original papers or identical settings); Table 2 (Kuaishou offline versus six deployed retrievers); Table 3 (online A/B); Table 4 (PRM step ablation with hierarchical recall); Figure 4 (test-time scaling of K+).
   - Source: Public: https://arxiv.org/html/2601.04674v1#S4.T1; industrial: https://arxiv.org/html/2601.04674v1#S4.T2; online: https://arxiv.org/html/2601.04674v1#S4.T3; ablation: https://arxiv.org/html/2601.04674v1#S4.T4; test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS5.p1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用过程奖励模型给中间解码步打分，并据此剪枝束搜索。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds a process reward model to steer beam search.

@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) · [Matrix](../../README.md#iii--backbone)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,10 +28,47 @@ LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirection
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level masking, and an adapted beam search, instead of left-to-right autoregressive decoding. |
 | Modified Stage | Backbone |
+| Limitation | Fewer diffusion steps improve generation efficiency but lower recommendation performance, and the authors leave a better trade-off as an open question (Sec. 5.4.3, Fig. 5). |
+
+### 1. Why This Paper Matters
+
+Autoregressive generative recommenders decode a Semantic ID (SID) one token at a time with causal attention. The authors name two limitations of this setup: each token attends only to its predecessors, and errors in early tokens propagate through the fixed left-to-right order (Abstract). LLaDA-Rec replaces left-to-right decoding with discrete diffusion over all SID positions.
+
+> "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation." (Abstract)
+
+Based on arXiv v1.
 
 ### 2. How It Works
 
 ![LLaDA-Rec architecture diagram](../../architectures/llada-rec.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[Item text] --> B[Multi-Head VQ-VAE]
+    B --> C[Parallel SIDs]
+    C --> D[Masked predictor]
+    E[User history] --> D
+    D --> F[Adapted beam search]
+    F --> G[Next item]
+```
+
+#### Parallel Tokenization
+
+A Multi-Head VQ-VAE splits the item's text embedding into sub-vectors and quantizes each sub-vector independently, one head per SID position (Sec. 4.1). The authors use this scheme because residual quantization does not match a bidirectional architecture (Abstract).
+
+#### Masked Training
+
+Training uses two masking mechanisms (Abstract). User-history masking captures sequential dependencies between items. Next-item masking masks tokens of the target item's SID while the user history stays visible, so the predictor learns relationships between tokens of the same item (Sec. 4.2.3).
+
+#### Adaptive-Order Decoding
+
+Inference starts from a fully masked SID and fills it over several steps (Sec. 4.3.4). At each step the model selects positions to keep and remasks the rest.
+
+> "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence." (Sec. 4.3.4)
+
+The number of steps is controllable, and each step can predict several tokens (Sec. 4.4.2). An adapted beam search keeps several candidates during this process, because standard beam search does not fit diffusion-based generation (Abstract).
 
 ### 3. Experimental Findings
 
@@ -52,77 +89,17 @@ LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirection
 - **Results from**: Table 3 (Scientific, Instrument, Game versus item-ID, diffusion, and semantic-ID baselines; paired t-tests); Table 4 (ablations including RQ-VAE tokenizer and greedy decoding); Figure 3 (attention mechanisms); Section 5.4 (hyperparameters).
   - Source: Main: https://arxiv.org/html/2511.06254v1#S4.T3; ablation: https://arxiv.org/html/2511.06254v1#S5.T4; attention study: https://arxiv.org/html/2511.06254v1#S5.F3.
 
-## 旧卡片说明
+- Main comparison: LLaDA-Rec outperforms ID-based and generative recommenders on three real-world datasets (Abstract).
+- Generation order: the adaptive order performs best, and left-to-right sometimes performs worst (Sec. 5.4.2, Fig. 4).
 
-迁自 `d61aa6c:papers/lladarec.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+  > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme." (Sec. 5.4.2)
 
-### LLaDA-Rec：离散扩散并行语义标识生成
+### 4. Limitations & Critical Analysis
 
-> LLaDA-Rec 用离散扩散模型并行生成完整 Semantic ID，以降低自回归推荐的延迟。
+**Our analysis.**
 
-### 研究动机与问题定义
-
-自回归 SID 生成需要逐 token 解码，长序列场景延迟较高。LLaDA-Rec 将推荐目标建模为离散序列去噪，让多个标识位置可以并行恢复。
-
-### TL;DR（核心摘要）
-
-`用户历史 → 多头物品分词 → 离散扩散去噪 → 完整SID → 推荐物品`
-
-方法用多头量化器产生物品 token，并训练扩散模型从掩码或噪声状态恢复目标 SID。推理阶段迭代选择待恢复位置，结合自适应位置策略和束式候选保留，最终将完整 SID 映射到物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户行为与物品语义 |
-| 信息融入位置 | SID 分词和扩散模型条件输入 |
-| 语义标识结构 | 定长多 token 序列 |
-| 适用场景 | 低延迟生成式推荐 |
-
-### 方法设计
-
-#### 4.1 多头 VQ-VAE 并行分词
-LLaDA-Rec 为物品学习多个离散 token 头，将语义表示映射为定长 SID。多头结构让不同位置能够分别承载语义信息，并为并行恢复提供独立预测单元。
-
-#### 4.2 离散扩散训练
-训练时随机掩码或扰动目标 SID，模型根据用户历史和剩余可见 token 预测被破坏位置。相比左到右目标，扩散训练让模型学习在不同噪声程度下共同恢复多个位置。
-
-#### 4.3 离散扩散推理
-推理从全掩码或部分掩码状态开始，迭代选择位置并恢复 token。论文设计自适应位置选择，使置信度高的位置优先确定，并结合候选保留与合法性约束输出完整 SID。
-
-#### 4.4 讨论与实验
-实验比较不同注意力、恢复顺序、去噪步数和并行程度，重点评估推荐质量与延迟之间的权衡。
-
-### 实验结论
-
-- 并行扩散生成在保持效果的同时减少解码步数。
-- 自适应位置选择优于固定恢复顺序。
-
-### 局限性与研究定位
-
-#### 局限性
-- 多轮去噪仍有迭代成本，实际收益取决于步数和硬件。
-- 动态新增物品与工业级服务评估仍未报告。
-
-#### 研究定位
-LLaDA-Rec 将离散扩散引入 SID 生成，适合放在“并行生成与低延迟解码”章节。
-
-### 标签
-
-`离散扩散` · `并行生成` · `Semantic ID` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：并行去噪生成SID。
-- 使用场景：低延迟推荐。
+- The tokenizer is trained once and kept fixed (`Fixed`), and it encodes item text only (`Text`). This suggests that collaborative signals enter only through the generator.
+- RPG also generates parallel codes with a `Non-AR` generator; RPG uses `Par. OPQ` codes and `Graph` decoding, while LLaDA-Rec uses `Par. VQ` codes and `Diff.` decoding.
 
 ### 5. Connections to Related Work
 

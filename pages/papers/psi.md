@@ -47,12 +47,6 @@ PSI assigns unique, semantic-preserving IDs by relaxing nearest-centroid selecti
 - **Results from**: Table 5 (sequential recommendation on Beauty, Sports, Toys with RQ-VAE and HC indexers, 3 trials); Table 6 (product search); document-retrieval tables; Table 9 (candidate ranking ablation); Figure 5 (cold-start subset).
   - Source: Recommendation: https://arxiv.org/html/2509.16446v1#Sx4.T5; search: https://arxiv.org/html/2509.16446v1#Sx4.T6; ablation: https://arxiv.org/html/2509.16446v1#Sx4.T9; cold start: Figure 5 via https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p2.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-放宽最近质心分配，不追加非语义 token 也能得到唯一 SID。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [LMIndexer](lmindexer.md): PSID follows LMIndexer's tasks, datasets, and setup, and replaces conflict tokens with conflict-free semantic assignment.

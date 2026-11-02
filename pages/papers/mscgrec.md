@@ -46,12 +46,6 @@ MSCGRec quantizes images with self-supervised DINO-based learning, adds collabor
 - **Results from**: Table 2 (Beauty, Sports, PixelRec versus sequential and generative baselines); Table 3 (component ablations, modality Shapley values, image-only).
   - Source: Main: https://arxiv.org/html/2602.03713v1#S4.T2; ablations and Shapley values: https://arxiv.org/html/2602.03713v1#S4.T3.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态语义码和协同码共同表示物品，以约束 softmax 训练，约束束搜索解码。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER quantizes one modality; MSCGRec concatenates codes from image, text, and collaborative modalities and trains with a softmax restricted to permissible next codes, keeping TIGER's collision level.

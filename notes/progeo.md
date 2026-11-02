@@ -1,78 +1,60 @@
-## 旧卡片说明
+## At a Glance
 
-迁自 `d61aa6c:papers/progeo.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+Key Findings: On the industrial dataset, ProGEO reports Hit@50 of 0.4243 against 0.4056 for RQ-Kmeans, and an average geographic clustering distance of 25.41 km against 46.71 km for RQ-OPQ (Table 1).
 
-### ProGEO：邻近 POI 聚类的距离感知地理码本
+### 1. Why This Paper Matters
 
-> ProGEO 在标准语义码本之外加入地理码本，用局部坐标和旋转位置编码把 POI 邻近关系直接写入 SID。
+Local service platforms need recommendations that are relevant and also geographically reachable (Abstract). Semantic codebooks cluster items by content alone.
 
-### 研究动机与问题定义
+> "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are semantically relevant yet geographically unreachable." (Abstract)
 
-本地生活推荐要求结果在地理上可达，但常规语义码本只按向量相似性聚类，可能生成语义相关却跨城不可配送的商户。ProGEO 研究如何将地理约束从辅助特征提升为 SID 结构的一部分，同时保留内容语义。
+ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes each POI's position relative to its semantic cluster, so geography becomes part of the Semantic ID (SID) instead of a weak auxiliary feature (Abstract, Sec. 1).
 
-### TL;DR（核心摘要）
+Based on arXiv v1.
 
-`商户内容/地理 → 标准码本量化 → 地理中心局部坐标 → Geo-RoPE地理码本 → 生成推荐`
+### 2. How It Works
 
-模型先用标准 RQ-KMeans 得到多级语义 code，再从残差表示中建立地理中心和局部坐标系。Geo-RoPE 将局部距离和方向转为高维旋转，形成特殊 geo-codebook；微调后的 LLM 生成包含地理 code 的 SID，并在结果层面排除跨城无效配送。
+*Figure source: Fig. 2, original paper.*
 
-### 输入与使用场景
+```mermaid
+flowchart LR
+    A[POI features] --> B[Two semantic layers]
+    B --> C[Geo-centroid coordinates]
+    C --> D[Geo-RoPE layer]
+    D --> E[SID]
+    E --> F[Fine-tuned LLM]
+    F --> G[Nearby POIs]
+```
 
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 商户文本、类别、价格、地理位置和用户意图 |
-| 信息融入位置 | 标准量化、特殊地理码本和生成约束 |
-| 语义标识结构 | 标准 code 加 geo code 的多级序列 |
-| 适用场景 | 本地生活、配送和地理可达推荐 |
+#### Semantic Layers
 
-### 方法设计
+The first two codebook layers cluster mixed feature vectors with cosine similarity as the metric and pass projection residuals to the next layer (Sec. 3.1). The SID has two standard codebook layers and one geo-codebook layer (Fig. 2).
 
-#### 3.1 语义码本聚类
-POI 文本和地理特征用于构建表示，标准码本使用残差 K-means 逐层聚类。每一层产生一个 code，前两层负责表达通用语义，剩余量化空间留给地理关系。
+#### Geo-Centroid Local Coordinates
 
-#### 3.2 地理中心局部坐标映射
-对于语义簇内的 POI，ProGEO 计算地理中心，并把全球经纬度转换为相对该中心的距离和方向。局部坐标避免直接在全球坐标上建模，使同一语义簇中的邻近关系更容易被量化。
+POIs that share the same two-layer SID form a subset. The actual latitudes and longitudes of these POIs define a geographic centroid, and each POI's global position becomes polar coordinates around it (Sec. 1, Sec. 3.2).
 
-#### 3.3 Geo-RoPE
-地理距离和方向被映射为正交旋转变换，作用于残差表示的不同维度。这样，表示内积会随相对空间关系变化，地理相近的 POI 更可能共享或接近特殊 geo code。
+#### Geo-RoPE
 
-#### 3.4 生成推荐与无效结果过滤
-用户意图和历史行为输入生成模型，模型输出 POI SID。由于 SID 中含有地理 code，系统可在生成后识别跨城配送等不可行结果；论文图示还展示了按用户位置返回可达商户的流程。
+Geo-RoPE encodes each POI's offset from the centroid as complex-valued rotations of the residual from the second layer (Sec. 1, Sec. 3.3). The similarity between two rotated vectors then depends on both their semantic factors and their spatial relation.
 
-### 实验结论
+> "We extend RoPE to the spatial domain, formalizing geographic proximity as rotary operations in high-dimensional feature space." (Sec. 3.3)
 
-- 在大规模工业数据集上，ProGEO 报告 Hit@50 提升 1.87%，平均地理聚类距离下降 45.60%。
-- 消融结果支持局部坐标、Geo-RoPE 和不同地理信息注入位置对推荐效果的贡献。
-- 案例和可视化显示，特殊地理码本能减少语义相关但跨城不可达的推荐。
+#### Generation
 
-### 局限性与研究定位
+In the industrial setting, the LLM prompt contains the search query, the city, and a GeoHash of the user's location (Table 4).
 
-#### 局限性
+### 3. Experimental Findings
 
-- 地理码本和跨城过滤依赖业务配送边界，跨平台和跨交通场景的通用性未验证。
-- 论文对动态地理边界、实时路网距离以及新增商户的 SID 更新机制报告有限。
+- Geo-RoPE layer: applying Geo-RoPE only at the third clustering layer gives the highest CUR (7.67%) and ICR (57.08%) among the tested placements (Sec. 4.3.2, Fig. 5).
+- Case study: with Geo-RoPE, the recommended POIs lie close to the user, while the variant without it returns a POI in another city (Sec. 4.5.2).
 
-#### 研究定位
+  > "when Geo-RoPE is introduced, the recommended POIs are concentrated much closer to the user, typically within a 6-kilometer radius." (Sec. 4.5.2)
 
-ProGEO 适合放在“地理结构化语义标识”章节，代表通过专用码本和几何变换增强 SID 空间可行性的路线。
+### 4. Limitations & Critical Analysis
 
-### 相关资源
+**Our analysis.**
 
-- [论文原文](https://arxiv.org/abs/2604.23156)
-
-### 标签
-
-`地理码本` · `局部坐标系` · `Geo-RoPE` · `本地生活`
-
-### 架构图来源
-
-*图源：原论文，图2（[论文原文](https://arxiv.org/abs/2604.23156)）。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：用局部坐标和 Geo-RoPE 将邻近关系写入 SID。
-- 使用场景：本地生活与配送推荐。
+- The geographic signal enters only the third SID token. This suggests that the generator still chooses the semantic cluster before it uses any spatial information.
+- OneLoc uses plain `R-KM` codes; ProGEO adds a geo-codebook layer to the same kind of tokenizer (`R-KM+Geo-CB`).
+- GNPR-SID also encodes geography in POI SIDs (`Attr+Geo+CF`) but uses a plain `RQ-VAE`, without a dedicated geo-codebook layer.

@@ -47,12 +47,6 @@ UTGRec builds a universal item tokenizer from a multimodal LLM with tree-structu
 - **Results from**: Table 2 (four downstream domains versus traditional, content-based, and generative baselines including TIGER, LETTER, TIGER-M); Table 3 (ablations); later figures (analyses).
   - Source: Main: https://arxiv.org/html/2504.04405v3#S3.T2; ablation: https://arxiv.org/html/2504.04405v3#S3.T3.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态大模型和树状码本构造跨领域通用的物品标识。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER trains a domain-specific RQ-VAE on text embeddings and appends an extra code for conflicts; UTGRec learns one MLLM-based tree tokenizer across domains and reassigns conflicting last-level codes.

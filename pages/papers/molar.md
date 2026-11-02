@@ -47,12 +47,6 @@ Molar builds item representations from text and images with a multimodal LLM and
 - **Results from**: Table 2 (Amazon, PixelRec, MovieLens versus traditional, content, and LLM-based baselines); Tables 3-5 (modalities, post-alignment model, ablations); Appendix Table 6 (MLLM backbones).
   - Source: Main: https://arxiv.org/html/2412.18176v2#S4.T2; modalities: https://arxiv.org/html/2412.18176v2#S4.T3; post-alignment: https://arxiv.org/html/2412.18176v2#S4.T4; ablation: https://arxiv.org/html/2412.18176v2#S4.T5; backbones: https://arxiv.org/html/2412.18176v2#A1.T6.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态 LLM 产出用户和物品嵌入，按相似度推荐，不使用 SID。
-
 ### 5. Connections to Related Work
 
 [View all papers in this cell](../../README.md#i--representation)

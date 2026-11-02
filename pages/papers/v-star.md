@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2602.10699) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -29,9 +29,45 @@ V-STAR deepens high-value prefixes with value-guided decoding during reinforceme
 | Key Contribution | V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search. |
 | Modified Stage | Training |
 
+### 1. Why This Paper Matters
+
+RL fine-tuning of generative recommenders samples candidates with likelihood-driven decoding such as beam search (Abstract). The authors name two failures of this setup. High-reward items in low-probability branches are pruned early, and candidates that share a high-probability prefix receive correlated rewards, which weakens the comparison signal for RL. A larger beam does not fix this, because it spends most extra compute on redundant high-probability candidates (Sec. 1). V-STAR changes how RL candidates are built and how their advantages are computed.
+
+> "Our V-STAR primarily focuses on training-time improvement." (Sec. 4.4)
+
+Based on arXiv v2.
+
 ### 2. How It Works
 
 ![V-STAR architecture diagram](../../architectures/v-star.png)
+
+*Figure source: Fig. 2, original paper.*
+
+```mermaid
+flowchart LR
+    A[User context] --> B[Policy]
+    B --> C[SID prefix tree]
+    C --> D[Value-guided expansion]
+    D --> E[Candidate set]
+    E --> F[Sibling-GRPO]
+    F --> B
+```
+
+#### Value Head
+
+A value head reads the policy's hidden state for each Semantic ID (SID) prefix and predicts its value (Sec. 4.1). Dense semantic returns for its training come from item embeddings computed by a frozen text encoder.
+
+#### Value-Guided Efficient Decoding
+
+VED treats SID decoding as building a candidate set on the prefix tree under a fixed compute budget (Sec. 4.2). A probability-guided beam initializes the tree. Each node's priority combines its predicted value with the policy entropy, and a node whose priority exceeds the average at its depth receives one new child (Eq. 11). The child is sampled from the unexpanded valid children by normalized policy probability.
+
+> "We develop Value-Guided Efficient Decoding (VED) for budgeted candidate construction by allocating decoding compute to high-value and high-ambiguity nodes." (Sec. 1)
+
+#### Sibling-GRPO
+
+Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's score is the mean reward of its descendant candidates, and advantages are normalized among siblings (Eq. 17).
+
+> "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates." (Sec. 1)
 
 ### 3. Experimental Findings
 
@@ -52,77 +88,14 @@ V-STAR deepens high-value prefixes with value-guided decoding during reinforceme
 - **Results from**: Table 1 (Industrial and Office versus sequential, generative, and RL baselines including MiniOneRec); Tables 2-4 (decoding, expansion rules, training objective); Table 6 (candidate diversity and max reward); Section 5.3 (online GMV +1.23%).
   - Source: Main: https://arxiv.org/html/2602.10699v2#S4.T1; ablations: https://arxiv.org/html/2602.10699v2#S5.T2, https://arxiv.org/html/2602.10699v2#S5.T3, https://arxiv.org/html/2602.10699v2#S5.T4; diversity: https://arxiv.org/html/2602.10699v2#S5.T6; online: https://arxiv.org/html/2602.10699v2#S5.SS3.p1.
 
-## 旧卡片说明
+- Decoding budget: under matched training-time decoding budgets, VED outperforms beam search on the tested metrics (Sec. 5.5, Fig. 4). The budget counts model-evaluated tokens during candidate construction, not end-to-end latency.
+- Training objective: combining GRPO with Sibling-GRPO gives the highest NDCG and HR among the tested objectives (Sec. 5.4, Table 4).
 
-迁自 `d61aa6c:papers/vstar.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+### 4. Limitations & Critical Analysis
 
-### V-STAR：价值引导结构化采样与优化
+**Our analysis.**
 
-> V-STAR 让生成式推荐把搜索预算集中到高价值分支，并联合学习价值模型与结构化解码策略。
-
-### 研究动机与问题定义
-
-束搜索会在大量低价值分支上浪费计算，单纯扩大搜索预算也未必改善推荐。V-STAR 研究如何使用价值估计选择值得继续探索的 SID 前缀。
-
-### TL;DR（核心摘要）
-
-`用户历史 → SID前缀搜索 → 价值模型 → 结构化采样 → 完整SID → 推荐物品`
-
-方法学习估计候选前缀价值的模型，提出 Value-Guided Efficient Decoding 选择搜索分支，并用 Sibling-GRPO 让策略从同层兄弟候选的相对价值中学习。生成完整 SID 后直接得到物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户历史、SID 前缀概率和候选价值 |
-| 信息融入位置 | 价值模型、解码选择和策略训练 |
-| 语义标识结构 | 层次化序列 |
-| 适用场景 | 搜索预算受限的生成式推荐 |
-
-### 方法设计
-
-#### 4.1 语义感知价值模型
-V-STAR 学习估计 SID 前缀在当前用户上下文下的推荐价值。价值模型同时参考生成概率、语义/协同表示和候选结果质量，为搜索过程提供比局部 token 概率更长程的判断。
-
-#### 4.2 价值引导高效解码
-VED 在树状 SID 空间中优先扩展高价值前缀，将有限搜索预算集中到更有希望的分支。它保留结构化约束，避免生成无法映射到物品的标识。
-
-#### 4.3 Sibling-GRPO
-Sibling-GRPO 将同一父节点下的兄弟候选组成相对比较组，用组内优势更新生成策略。这样模型能学习在局部结构中选择真正有价值的分支。
-
-#### 4.4 训练与测试
-V-STAR 形成解码-学习自演化闭环：解码器提供候选，价值模型评价候选，策略优化再改善解码。实验比较搜索预算、离线指标、线上效果和消融。
-
-### 实验结论
-
-- 价值引导解码在相同搜索预算下优于普通束搜索。
-- 价值模型与策略优化具有互补作用。
-
-### 局限性与研究定位
-
-#### 局限性
-- 额外价值模型和采样逻辑增加系统复杂度。
-- 价值估计误差可能导致高价值分支被错误剪枝。
-
-#### 研究定位
-V-STAR 的主要贡献是按候选价值分配生成搜索预算，适合放在“高效解码与搜索优化”章节。
-
-### 标签
-
-`价值引导解码` · `结构化采样` · `GRPO` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图2。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：按价值分配搜索预算。
-- 使用场景：高效解码。
+- MiniOneRec uses the same `RQ-VAE` SIDs, `Dec-Only` generator, and `NTP → RL` training; V-STAR changes only how RL candidates are sampled and how advantages are computed.
 
 ### 5. Connections to Related Work
 

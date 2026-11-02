@@ -47,12 +47,6 @@ MME-SID feeds an LLM multimodal embeddings together with Semantic ID embeddings 
 - **Results from**: Table 3 (Beauty, Toys, Sports versus ID, multimodal, and SID-based baselines; t-tests); Figure 3 (embedding collapse and SR performance); Appendix Table 4 (hyperparameters).
   - Source: Main: https://arxiv.org/html/2509.02017v1#S5.T3; collapse analysis: https://arxiv.org/html/2509.02017v1#S5.SS3.p1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-SID 只作 LLM 的输入，用输出嵌入对全物品打分，不生成 SID。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [TIGER](tiger.md): TIGER-MM generates per-modality RQ-VAE semantic IDs autoregressively and must resolve collisions; MME-SID feeds multimodal SIDs and embeddings to an LLM and scores items directly.

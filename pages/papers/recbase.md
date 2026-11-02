@@ -47,12 +47,6 @@ RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus wi
 - **Results from**: Table 1 (zero-shot AUC on 8 datasets versus P5, RecGPT, and LLM baselines); Table 3 (zero-shot versus fine-tuned); Table 4 (ablations of CL-VAE components); Figure 2 (codebook size and levels).
   - Source: Zero-shot: https://arxiv.org/html/2509.03131v1#S3.T1; fine-tuning: https://arxiv.org/html/2509.03131v1#S4.T3; ablation: https://arxiv.org/html/2509.03131v1#S5.T4; codebook study: https://arxiv.org/html/2509.03131v1#S5.SS2.p1.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-推理时可逐位生成概念 ID，但实验按 AUC 对候选物品打分排序。
-
 ### 5. Connections to Related Work
 
 - **Alternative** · [TIGER](tiger.md): TIGER builds RQ-VAE semantic IDs per dataset for next-item generation; RecBase pre-trains a recommendation foundation model over concept IDs shared across many domains.

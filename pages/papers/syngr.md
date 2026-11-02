@@ -48,12 +48,6 @@ SynGR constrains reliance on dominant modalities during generation, so the gener
 - **Results from**: Table 1 (Arts, Games, Instruments versus sequential, multimodal, and generative baselines); Figure 3 (training time, inference speed, convergence versus MACRec); Figures 4-5 (parameters and ablations).
   - Source: Main: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency: https://arxiv.org/html/2605.18920v2#S5.F3; parameters: https://arxiv.org/html/2605.18920v2#S5.F4; ablation: https://arxiv.org/html/2605.18920v2#S5.F5.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-在生成阶段显式利用文本和图像之间的协同信息。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [MACRec](macrec.md): MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts and adds a synergy-focused contrastive objective, with lower training cost.

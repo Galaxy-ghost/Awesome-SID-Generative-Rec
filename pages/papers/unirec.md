@@ -49,12 +49,6 @@ UniRec prefixes each Semantic ID with category, seller, and brand tokens through
 - **Results from**: Table 1 (HR on all and order samples versus SASRec, TIGER, OneRec-V2); Table 2 (CoA configurations); Table 3 (SID construction, ablation, scaling); Table 4 (multi-scene task-conditioned BOS); Table 5 (online A/B: orders +4.76%, GMV +5.60%).
   - Source: Results: https://arxiv.org/html/2604.12234v5#S4.T1, https://arxiv.org/html/2604.12234v5#S4.T2, https://arxiv.org/html/2604.12234v5#S4.T3, https://arxiv.org/html/2604.12234v5#S4.T4, https://arxiv.org/html/2604.12234v5#S4.T5.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-解码 SID 前先生成类目、商家、品牌等属性 token，补上物品侧的特征交叉。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [OneRec-V2](onerec-v2.md): OneRec-V2 decodes SIDs with a decoder-only model over user context; UniRec first decodes coarse item attributes, uses exposure-capacity-constrained SIDs, and aligns to GMV with RFT and DPO.

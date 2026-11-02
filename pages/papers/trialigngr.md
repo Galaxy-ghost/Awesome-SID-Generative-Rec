@@ -48,12 +48,6 @@ TriAlignGR adds visual content and LLM-mined user intents to Semantic ID constru
 - **Results from**: Table 2 (Beauty, Sports, Instruments versus sequential, generative, LLM, and reasoning baselines; three seeds); Tables 3-5 (component, SID-versus-task, and task-combination ablations); Appendix Tables 6-8 (SID diagnostics, semantic probing, SID construction versus MiniOneRec).
   - Source: Main: https://arxiv.org/html/2605.05249v3#S4.T2; ablations: https://arxiv.org/html/2605.05249v3#S4.T3, https://arxiv.org/html/2605.05249v3#S4.T4, https://arxiv.org/html/2605.05249v3#S4.T5; SID diagnostics: https://arxiv.org/html/2605.05249v3#A3.T6; probing: https://arxiv.org/html/2605.05249v3#A4.T7; vs MiniOneRec: https://arxiv.org/html/2605.05249v3#A5.T8.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-把视觉语义编进 SID，并用视觉描述等多任务让模型理解 SID 的含义。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [SIDReasoner](sidreasoner.md): SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds visual captions and mined interests before quantization and eight alignment tasks.

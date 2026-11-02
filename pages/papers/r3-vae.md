@@ -48,12 +48,6 @@ R3-VAE stabilizes residual quantization with a reference vector as semantic anch
 - **Results from**: Table 1 (Beauty, Sports, Toys) and Table 2 (LastFM, ML1M, Clothing) with SC/PD metrics; Table 3 (industrial generative MRR and online A/B); Tables 4-5 (CTR UAUC and online A/B); Table 6 (Beauty SID quality including collision rate and Gini).
   - Source: Results: https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T2, https://arxiv.org/html/2604.11440v3#S4.T3, https://arxiv.org/html/2604.11440v3#S4.T4, https://arxiv.org/html/2604.11440v3#S4.T5, https://arxiv.org/html/2604.11440v3#S4.T6.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用参考向量和点积评分稳定残差量化训练，并给出不用训练生成模型的 SID 评估指标。
-
 ### 5. Connections to Related Work
 
 - **Competitor** · [OneRec](onerec.md): OneRec's residual K-means is the main industrial baseline and the generation framework; R3-VAE adds a reference-vector projection, rating-weighted residual quantization, and SID-quality regularization.

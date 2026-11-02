@@ -48,12 +48,6 @@ PAD-Rec adds gated item-slot and draft-step position embeddings to the draft mod
 - **Results from**: Table 2 (wall-clock speedup, accepted length, Recall@10, NDCG@10 versus EAGLE-2, HASS, FSPAD, GRIFFIN on four datasets); Table 3 (naive decoding latency); later tables and figures (ablations, model scaling, hyperparameters).
   - Source: Main: https://arxiv.org/html/2604.27747v1#S5.T2; latency: https://arxiv.org/html/2604.27747v1#S5.T3; ablations and hyperparameters in Section 5.
 
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-在投机解码的草稿模型中加入 SID 位置信息，加速列表式生成。
-
 ### 5. Connections to Related Work
 
 - **Predecessor** · [LC-Rec](lc-rec.md): PAD-Rec accelerates a list-wise LC-Rec target model with speculative decoding, adding item and step position embeddings to the draft head.

@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2603.23183) · [Code](https://github.com/HappyPointer/SIDReasoner) · [Matrix](../../README.md#iii--training)
 
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,10 +28,44 @@ SIDReasoner strengthens Semantic ID-language alignment with multi-task training 
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces. |
 | Modified Stage | Training |
+| Limitation | The RL reward scores only the generated Semantic ID, by its longest correct prefix and whether it maps to a catalog item, and not the reasoning text (Sec. 3.3.2). |
+
+### 1. Why This Paper Matters
+
+LLM-based generative recommenders already share one token space for language and Semantic IDs (SIDs), but reasoning over SIDs is hard: itemic tokens carry no native meaning for an LLM, and recommendation reasoning has little high-quality supervision (Abstract). SIDReasoner strengthens SID-language alignment first, so that the LLM's general reasoning can carry over to recommendation without many recommendation-specific reasoning traces.
+
+> "Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks." (Sec. 5)
+
+Based on arXiv v2.
 
 ### 2. How It Works
 
 ![SIDReasoner architecture diagram](../../architectures/sidreasoner.png)
+
+*Figure source: Fig. 1, original paper.*
+
+```mermaid
+flowchart LR
+    A[Teacher-enriched corpus] --> B[Multi-task alignment]
+    B --> C[Reasoning activation]
+    C --> D[Outcome-based GRPO]
+    D --> E[Reasoning text]
+    E --> F[SID]
+```
+
+#### SID-Language Alignment
+
+Multi-task training covers next-item prediction and bidirectional translation between SIDs and item titles (Sec. 3.2.2). A teacher model enriches item descriptions in item-centric and user-centric forms, and general reasoning data is mixed in (Sec. 3.2.3).
+
+#### Reasoning Activation
+
+A short supervised stage teaches the model to write reasoning before the recommendation (Sec. 3.3.1). The paper calls it cold-start reasoning activation; it concerns the response format, not cold-start users or items.
+
+> "This stage mainly serves to improve the reliability of response formatting, ensuring that reasoning is consistently generated before recommendation." (Sec. 3.3.1)
+
+#### Outcome-Based GRPO
+
+GRPO samples groups of reasoning-and-prediction trajectories and optimizes them with rewards from recommendation accuracy (Sec. 3.3.2, Eqs. 6–8).
 
 ### 3. Experimental Findings
 
@@ -52,77 +86,19 @@ SIDReasoner strengthens Semantic ID-language alignment with multi-task training 
 - **Results from**: Table 2 (Games, Office, Industrial versus discriminative, generative, and reasoning baselines); Table 3 (alignment strategies before and after RL); Table 4 (general-ability benchmarks); Table 5 (teacher models for corpus enrichment).
   - Source: Main: https://arxiv.org/html/2603.23183v2#S4.T2; alignment ablation: https://arxiv.org/html/2603.23183v2#S4.T3; general abilities: https://arxiv.org/html/2603.23183v2#S4.T4; teachers: https://arxiv.org/html/2603.23183v2#S4.T5.
 
-## 旧卡片说明
+- Alignment strategies: adding the enriched corpus to multi-task alignment improves results, and each variant is reported before and after RL (Table 3).
+- Cross-domain: after joint SID-language alignment on all domains, the paper compares RL on a single domain with RL on all domains (Sec. 4.2.2, Fig. 3).
 
-迁自 `d61aa6c:papers/sidreasoner.md`。保留方法说明、实验叙述与局限；本轮只对照现有记录处理明确冲突，未重新逐句核查原论文。分类和规格以页面上方由记录生成的表格为准。
+  > "Such reasoning knowledge, once learned, can be transferred across domains." (Sec. 4.2.2)
 
-### SIDReasoner：基于语义标识推理的生成式推荐
+- Reasoning length: the length of the reasoning text decreases during RL (Sec. 4.4.2, Fig. 6).
 
-> SIDReasoner 让语言模型在生成最终语义标识前显式推理用户偏好，以提升跨域和冷启动推荐能力。
+### 4. Limitations & Critical Analysis
 
-### 研究动机与问题定义
+**Our analysis.**
 
-直接预测 SID 容易把推荐当作模式匹配，难以利用物品语义和用户偏好之间的中间关系。SIDReasoner 将推理文本或结构化思考引入 SID 生成过程。
-
-### TL;DR（核心摘要）
-
-`用户历史与物品信息 → 对齐语料预训练 → 偏好推理 → 生成SID → 推荐物品`
-
-模型以语义标识为推荐目标，先通过丰富的对齐语料学习语义、行为和标识之间的关系，再使用冷启动推理激活与分组强化学习优化推理链。最终输出 SID 直接映射物品。
-
-### 输入与使用场景
-
-| 方面 | 说明 |
-|---|---|
-| 使用信息 | 用户行为、物品语义和跨域推荐数据 |
-| 信息融入位置 | 对齐语料、推理过程和强化学习奖励 |
-| 语义标识结构 | 推理序列后接多 token SID |
-| 适用场景 | 跨域、冷启动和常规推荐 |
-
-### 方法设计
-
-#### 3.1 任务形式化
-SIDReasoner 将推荐输出表示为语义标识，并要求模型在生成标识前形成与用户历史和物品语义相关的推理过程。推理文本和最终 SID 在同一生成任务中衔接。
-
-#### 3.2 丰富的 SID-语言对齐
-模型构造多种对齐语料，让 SID 能被翻译为物品语义、让物品内容能解释 SID，并同时学习行为序列预测。该阶段的作用是把离散标识嵌入语言模型的语义空间。
-
-#### 3.3 推理增强强化学习
-方法包含冷启动推理激活和分组强化学习。模型根据候选推理路径及最终推荐结果获得奖励，训练其生成更有依据的偏好分析，再输出目标 SID。
-
-#### 3.4 实验与分析
-论文评估跨域泛化、不同对齐策略、模型规模和强化学习设置，重点观察推理能力是否真正转化为推荐收益。
-
-### 实验结论
-
-- 推理增强改善了跨域推荐表现。
-- 丰富对齐语料、冷启动激活和强化学习均有独立贡献。
-
-### 局限性与研究定位
-
-#### 局限性
-- 推理文本会增加生成长度和推理成本。
-- 推理质量、奖励设计与真实用户意图之间仍可能存在偏差。
-
-#### 研究定位
-SIDReasoner 的贡献是把 SID 作为推理对象而不只是输出标签，适合放在“推理增强生成式推荐”章节。
-
-### 标签
-
-`语义标识推理` · `强化学习` · `跨域泛化` · `生成式推荐`
-
-### 架构图来源
-
-*图源：原论文，图1。图片使用许可待核实。*
-
----
-
-### 旧总表补充
-
-来源：`d61aa6c:tables/all-methods.md`。
-
-- 核心贡献：在SID生成前进行偏好推理。
-- 使用场景：跨域与冷启动。
+- LC-Rec aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with `Multi-task NTP`; SIDReasoner keeps that kind of alignment and adds an RL stage (`NTP → RL`).
+- TIGER predicts `RQ-VAE` SIDs with a small `Enc-Dec` generator trained by `NTP`; SIDReasoner uses the same kind of SIDs with a `Dec-Only` LLM.
 
 ### 5. Connections to Related Work
 
