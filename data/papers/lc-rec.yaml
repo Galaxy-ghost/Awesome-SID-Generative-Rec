@@ -6,7 +6,7 @@ year: 2024
 venue: ICDE’24
 links:
   arxiv: https://arxiv.org/abs/2311.09049
-  code: null
+  code: https://github.com/RUCAIBox/LC-Rec/
 problem: III
 stage: Training
 representation: Text
@@ -19,5 +19,56 @@ poi: false
 summary: 'Abstract: "there exists a large semantic gap between LLMs and recommender systems".'
 evidence:
 - field: problem
-  quote: 'Abstract: "there exists a large semantic gap between LLMs and recommender systems".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2311.09049v4#abstract1
+  quote: there exists a large semantic gap between LLMs and recommender systems
+setup:
+  datasets: 'Amazon Reviews (May 1996-October 2018): Musical Instruments, Arts Crafts and Sewing, Video Games; users and items
+    with fewer than 5 interactions are filtered; sequences capped at 20 items. Sizes (users / items / interactions): Instruments
+    24,773 / 9,923 / 206,153; Arts 45,142 / 20,957 / 390,832; Games 50,547 / 16,860 / 452,989.'
+  split: 'Per-user leave-one-out: most recent item for test, second most recent for validation, the rest for training.'
+  candidates: 'full catalog (full ranking over the entire item set instead of sampled evaluation). Separate analysis (Table
+    5): choose between the target and one negative that is language-similar, collaborative-similar (by SASRec embeddings),
+    or random; history exclusion for these negatives not reported.'
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '4-level RQ-VAE x 256 codewords (dimension 32) over mean-pooled LLaMA embeddings of title and description, added to
+    the LLaMA tokenizer as new tokens. Conflicts are resolved without an extra suffix level: the last-level codewords of each
+    conflicting group are redistributed under a uniform-distribution constraint.'
+  inference_budget: 'Beam search with beam size 20 for all generative methods; tokens leading to invalid item indices get
+    zero probability. LLaMA backbone with DeepSpeed; hardware, inference batch size, and latency: not reported. HR and NDCG
+    at 1, 5, 10.'
+  results_from: Table 3 (Instruments, Arts, Games; LC-Rec averaged over instruction templates); Table 4 (alignment-task ablation);
+    Table 5 (similar-negative ranking accuracy).
+setup_where:
+  datasets: 'Amazon 2018 subsets, 5-interaction filter, length 20: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS1.p1; statistics:
+    https://arxiv.org/html/2311.09049v4#S4.T2.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1.'
+  candidates: 'Full ranking over the entire item set: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1; separate pairwise
+    test with one negative: https://arxiv.org/html/2311.09049v4#S4.SS4.SSS0.Px3.p1.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1.'
+  sid: '4 levels x 256 x 32 over LLaMA text embeddings: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS4.p1; uniform last-level
+    redistribution for conflicts: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p2 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p3.'
+  inference_budget: 'Beam size 20 and invalid-token masking: https://arxiv.org/html/2311.09049v4#S4.SS1.SSS3.p1 and https://arxiv.org/html/2311.09049v4#S3.SS4.SSS2.p1.'
+  results_from: 'Main: https://arxiv.org/html/2311.09049v4#S4.T3; ablation: https://arxiv.org/html/2311.09049v4#S4.T4; negative-item
+    analysis: https://arxiv.org/html/2311.09049v4#S4.T5.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER resolves leaf conflicts with an extra index level and uses a small seq2seq model; LC-Rec redistributes conflicting
+    last-level codes uniformly and tunes LLaMA with language-collaborative alignment tasks.
+  where: 'LC-Rec v4, conflict discussion: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1; baselines and Table 3: https://arxiv.org/html/2311.09049v4#S4.I1.i10.p1
+    and https://arxiv.org/html/2311.09049v4#S4.T3.'
+- id: cid
+  relation: competitor
+  note: P5-CID builds collaborative indices and also adds a supplementary index for conflicts; LC-Rec learns semantic RQ indices
+    from LLM text embeddings.
+  where: 'LC-Rec v4, conflict discussion: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1; baselines and Table 3: https://arxiv.org/html/2311.09049v4#S4.I1.i9.p1
+    and https://arxiv.org/html/2311.09049v4#S4.T3.'
+- id: vq-rec
+  relation: predecessor
+  note: LC-Rec borrows the idea of learned semantic indices from VQ-Rec and TIGER, then adapts it for LLM tuning.
+  where: 'LC-Rec v4, Section 3.2.1: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4.'
+- id: transrec
+  relation: alternative
+  note: TransRec also builds LLM-based generative recommendation with multi-facet identifiers; LC-Rec uses learned VQ indices
+    with alignment tuning.
+  where: 'LC-Rec v4, Section 2.2 and Section 3.5 related work: https://arxiv.org/html/2311.09049v4#S2.SS2.p3 and https://arxiv.org/html/2311.09049v4#S3.SS5.p3.'

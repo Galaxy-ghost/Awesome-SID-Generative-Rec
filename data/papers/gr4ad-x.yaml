@@ -30,3 +30,42 @@ summary: 'Generative recommendation (GR) reformulates item retrieval as autoregr
   beam pruning, and discriminative reranking within a unified model. Large-scale online A/B tests on the Kuaishou advertising
   platform demonstrate that GR4AD-X achieves a cumulative revenue improvement of 3.07% over the deployed GR4AD baseline while
   satisfying strict latency and throughput constraints.'
+setup:
+  datasets: Kuaishou production advertising; 7.556M advertisement embeddings in the SID analysis. Dates and filtering rules
+    not reported.
+  split: Offline train/validation/test split not reported; each online variant receives a random 5% traffic share for seven
+    days.
+  candidates: not reported; value-alignment analysis uses final-ranking candidates from sampled online requests, without a
+    full-catalog or sampled-negative protocol.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Two paths per advertisement, each with three levels: first-level RQ-KMeans 16384 centroids, second-level RQ-KMeans
+    size not reported, final non-semantic feature hash size not reported. Collision disambiguation not reported; repeated
+    retrieved advertisements are deduplicated by their highest-scoring path.'
+  inference_budget: Beam 512; PV-BeamSearch expands to 1024 before pruning at SID levels >=2, followed by advertisement deduplication
+    and reranking. Serving exceeds 500 QPS per NVIDIA L20 GPU with end-to-end latency below 100 ms; inference batch size not
+    reported.
+  results_from: 'Original Table 1: cumulative online revenue versus deployed GR4AD; Table 2: scaling/QPS; Table 3: value alignment;
+    Figure 3: SID analysis.'
+setup_where:
+  datasets: 'Section 4.2 and Appendix A: https://arxiv.org/html/2610.38378v1#S4.SS2.p2 and https://arxiv.org/html/2610.38378v1#A1.SS0.SSS0.Px1.p1'
+  split: 'Appendix A: https://arxiv.org/html/2610.38378v1#A1.SS0.SSS0.Px2.p1'
+  candidates: 'Section 4.4: https://arxiv.org/html/2610.38378v1#S4.SS4.p1'
+  visibility: 'Section 4 and Appendix A define no item holdout: https://arxiv.org/html/2610.38378v1#S4 and https://arxiv.org/html/2610.38378v1#A1'
+  sid: 'Section 3.2 and Appendix A: https://arxiv.org/html/2610.38378v1#S3.SS2.p3 and https://arxiv.org/html/2610.38378v1#A1.SS0.SSS0.Px3.p1'
+  inference_budget: 'Sections 3.2/3.4 and Appendix A: https://arxiv.org/html/2610.38378v1#S3.SS2.p7 and https://arxiv.org/html/2610.38378v1#S3.SS4.SSS2.p2
+    and https://arxiv.org/html/2610.38378v1#A1.SS0.SSS0.Px1.p1 and https://arxiv.org/html/2610.38378v1#A1.SS0.SSS0.Px3.p1'
+  results_from: 'Section 4: https://arxiv.org/html/2610.38378v1#S4.T1 and https://arxiv.org/html/2610.38378v1#S4.T2 and https://arxiv.org/html/2610.38378v1#S4.T3
+    and https://arxiv.org/html/2610.38378v1#S4.F3'
+related:
+- id: tiger
+  relation: predecessor
+  note: GR4AD-X places its multi-path residual SID construction in the lineage of TIGER's residual-quantized identifiers.
+  where: 'GR4AD-X v1, Sections 2.1 and 3.2: https://arxiv.org/html/2610.38378v1#S2.SS1.p1; https://arxiv.org/html/2610.38378v1#S3.SS2.p3.'
+- id: rpg
+  relation: alternative
+  note: RPG is cited for parallel generation; GR4AD-X instead scales capacity under a fixed serving budget.
+  where: 'GR4AD-X v1, Section 2.3 (Hou et al., 2025): https://arxiv.org/html/2610.38378v1#S2.SS3.p1.'
+- id: mmq
+  relation: alternative
+  note: MMQ is cited among multimodal quantization studies; GR4AD-X targets SID reliability with alternative first-level paths.
+  where: 'GR4AD-X v1, Section 2.1 (Xu et al., 2026): https://arxiv.org/html/2610.38378v1#S2.SS1.p1.'

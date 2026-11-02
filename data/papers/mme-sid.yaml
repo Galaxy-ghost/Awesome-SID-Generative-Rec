@@ -6,7 +6,7 @@ year: 2025
 venue: CIKM’25
 links:
   arxiv: https://arxiv.org/abs/2509.02017
-  code: null
+  code: https://github.com/Applied-Machine-Learning-Lab/MME-SID
 problem: I
 stage: Tokenization
 representation: Text+Img+CF
@@ -20,6 +20,62 @@ summary: 'Abstract: "embedding collapse when incorporating pre-trained collabora
   of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
 evidence:
 - field: problem
-  quote: 'Abstract: "embedding collapse when incorporating pre-trained collaborative embeddings"; "catastrophic forgetting
-    of quantized embeddings when utilizing semantic IDs". Candidates: I / III (rule: tie broken by the first new design).'
-  where: arXiv abstract
+  where: 'Abstract, first challenge (fragment), arXiv v1: https://arxiv.org/html/2509.02017v1#abstract1.1'
+  quote: embedding collapse when incorporating pre-trained collaborative embeddings
+  reason: 'Organizer judgment: I is selected over III by the first new design, multimodal and quantized embeddings that mitigate
+    embedding collapse.'
+- field: problem
+  where: 'Abstract, second challenge (separate fragment), arXiv v1: https://arxiv.org/html/2509.02017v1#abstract1.1'
+  quote: catastrophic forgetting of quantized embeddings when utilizing semantic IDs
+setup:
+  datasets: 'Amazon 2014 5-core: Beauty (22,332 users / 12,086 items), Toys and Games (19,121 / 11,757), Sports and Outdoors
+    (35,092 / 18,090); items lacking a title or image are removed. Positives are ratings above 3.'
+  split: Per user, the N-th (last) item is the test target and the (N-1)-th item the training target; a validation split is
+    not reported. Results averaged over 3 runs.
+  candidates: not reported (full catalog versus sampled); items are scored by dot products between the LLM output and multimodal
+    item embeddings, with HR and nDCG at 5, 10, 20.
+  visibility: warm; no unseen-item protocol is defined. A frequency-aware fusion module reweights modalities by each item's
+    training-set frequency.
+  sid: Separate collaborative, textual, and visual SIDs from RQ-VAEs with 4 levels x 256 codes (300 for Sports), used as LLM
+    input embeddings alongside projected modality embeddings. The paper states that MME-SID does not need to tackle collisions
+    because multimodal data discriminate between items; no resolution rule is described.
+  inference_budget: 'No autoregressive decoding: one forward pass of Llama3-8B-instruct, then scoring against item embeddings.
+    All experiments on A100 GPUs; inference batch size and latency: not reported.'
+  results_from: Table 3 (Beauty, Toys, Sports versus ID, multimodal, and SID-based baselines; t-tests); Figure 3 (embedding
+    collapse and SR performance); Appendix Table 4 (hyperparameters).
+setup_where:
+  datasets: '5-core Amazon 2014 and item removal: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1 and https://arxiv.org/html/2509.02017v1#A2.p1;
+    statistics: https://arxiv.org/html/2509.02017v1#S5.T1.'
+  split: 'Last and second-last item as test and training targets: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1; three
+    runs: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1.'
+  candidates: 'Scores over target item embeddings: https://arxiv.org/html/2509.02017v1#S4.SS3.p3 and https://arxiv.org/html/2509.02017v1#S6.SS2.p1;
+    metrics: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS2.p1.'
+  visibility: 'Standard split; frequency-aware fusion for cold versus warm items without an unseen-item protocol: https://arxiv.org/html/2509.02017v1#S5.SS1.SSS1.p1
+    and https://arxiv.org/html/2509.02017v1#S4.SS3.p3.'
+  sid: '4 levels x 256 (300 for Sports) per modality: https://arxiv.org/html/2509.02017v1#A1.T4; no collision handling needed
+    by design: https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1.'
+  inference_budget: 'Scoring instead of autoregressive decoding: https://arxiv.org/html/2509.02017v1#S6.SS2.p1; hardware:
+    https://arxiv.org/html/2509.02017v1#S5.SS1.SSS4.p1.'
+  results_from: 'Main: https://arxiv.org/html/2509.02017v1#S5.T3; collapse analysis: https://arxiv.org/html/2509.02017v1#S5.SS3.p1.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER-MM generates per-modality RQ-VAE semantic IDs autoregressively and must resolve collisions; MME-SID feeds multimodal
+    SIDs and embeddings to an LLM and scores items directly.
+  where: 'MME-SID v1, baseline TIGER-MM: https://arxiv.org/html/2509.02017v1#S5.I2.i7.p1; collision contrast: https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1;
+    Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.'
+- id: letter
+  relation: competitor
+  note: LETTER regularizes the tokenizer for generative retrieval on a TIGER backbone; MME-SID avoids generation and aligns
+    modalities with an MMD loss.
+  where: 'MME-SID v1, baseline LETTER implemented on TIGER: https://arxiv.org/html/2509.02017v1#S5.I2.i9.p1; Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.'
+- id: lc-rec
+  relation: alternative
+  note: LC-Rec aligns an LLM to item indices but decodes autoregressively; MME-SID scores items from the LLM output for lower
+    latency.
+  where: 'MME-SID v1, Section 6.2: https://arxiv.org/html/2509.02017v1#S6.SS2.p1.'
+- id: adc-sid
+  relation: alternative
+  note: ADC-SID later compares against MM-RQ-VAE (MME-SID's tokenizer) and adds adaptive behavior-content alignment.
+  where: 'Evidence is from the later ADC-SID paper: MM-RQ-VAE baseline and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1
+    and https://arxiv.org/html/2510.25622v3#S4.T2.'

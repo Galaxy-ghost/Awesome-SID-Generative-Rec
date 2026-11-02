@@ -28,3 +28,40 @@ summary: Generative recommendation formulates item recommendation as autoregress
   a representative encoder-decoder baseline, LoopGR achieves superior performance while reducing model size by up to 52%.
   These results establish recurrent depth as a new scaling dimension, offering a flexible and resource-efficient scaling path
   for generative recommendation.
+setup:
+  datasets: Amazon Reviews 2014 Beauty, Sports and Outdoors, CDs and Vinyl; Tencent industrial data. Filtering and industrial
+    dataset statistics not reported.
+  split: Interactions ordered chronologically; sliding-window next-item training. Train/validation/test allocation not reported.
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined.
+  sid: Sentence-T5 embeddings; 3 RQ-VAE digits plus fourth anti-collision digit for unique SIDs. Codebook sizes not reported.
+  inference_budget: 'Experiments on 4 NVIDIA H20 GPUs; beam width not reported. Public Recall/NDCG@5/10; industrial Recall@5/10/20/50/100.
+    Table 6, batch 1: 16/8/4 cycles, 211.08/104.01/49.82ms, 17.408/8.415/3.918 GFLOPs.'
+  results_from: 'Tables 1/2: public/industrial comparisons; Table 6: trajectory compression. Industrial baselines adapted
+    by authors; public-baseline reproduction versus copied scores not reported.'
+setup_where:
+  datasets: 'Section 5.1 and Appendix A.1: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.34157v1#A1.SS1.p1'
+  split: 'Section 5.1: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px1.p1'
+  candidates: 'Evaluation protocol in Section 5.1 and Appendix A.1 does not specify candidate enumeration or sampling: https://arxiv.org/html/2610.34157v1#S5.SS1
+    and https://arxiv.org/html/2610.34157v1#A1.SS1'
+  visibility: 'Section 5.1 and Appendix A.1 define no item-level cold-start experiment: https://arxiv.org/html/2610.34157v1#S5.SS1
+    and https://arxiv.org/html/2610.34157v1#A1.SS1'
+  sid: 'Section 5.1: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px3.p1'
+  inference_budget: 'Section 5.1, Table 2, and Appendix A.2/Table 6: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px3.p1
+    and https://arxiv.org/html/2610.34157v1#S5.T2 and https://arxiv.org/html/2610.34157v1#A1.SS2.p1 and https://arxiv.org/html/2610.34157v1#A1.T6'
+  results_from: 'Section 5.1 and Tables 1/2/6: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2610.34157v1#S5.T1
+    and https://arxiv.org/html/2610.34157v1#S5.T2 and https://arxiv.org/html/2610.34157v1#A1.T6'
+related:
+- id: tiger
+  relation: competitor
+  note: Encoder-decoder baseline; LoopGR adds shared recurrent context refinement.
+  where: 'LoopGR v1, Section 5.1 and Tables 1/2: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.34157v1#S5.T1;
+    https://arxiv.org/html/2610.34157v1#S5.T2.'
+- id: rpg
+  relation: competitor
+  note: Parallel graph-guided decoding contrasts with LoopGR's recurrent RQ-VAE SID generation.
+  where: 'LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.'
+- id: actionpiece
+  relation: competitor
+  note: Context-dependent action tokens contrast with LoopGR's standard RQ-VAE identifiers.
+  where: 'LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.'

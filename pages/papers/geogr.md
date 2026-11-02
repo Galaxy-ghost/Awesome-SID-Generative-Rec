@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -26,6 +26,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![GeoGR architecture diagram](../../architectures/geogr.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Foursquare NYC and TKY (11 months of check-ins; POIs with fewer than 10 interactions and users with fewer than 10 check-ins removed, following GNPR-SID; 2,083 users / 5,135 POIs and 2,293 / 7,873), and AMAP industrial data: AMAP (one day of platform-wide traffic with users' traced histories; 7,536K users / 34,119K POIs) and AMAP-SH (one month in Shanghai; 4,820K users / 910K POIs). Industrial filtering rules: not reported.
+  - Source: Datasets and filtering: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p1 and https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; statistics: https://arxiv.org/html/2602.10411v2#S5.T1.
+- **Split**: NYC and TKY: records sorted by time and split 80% / 10% / 10% into training, validation, and test. AMAP: one day for training and 1 million records randomly sampled from the following day for testing. AMAP-SH: last day held out for testing. Online: three-month A/B test against the legacy multi-stage retrieval.
+  - Source: Splits: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; online test: https://arxiv.org/html/2602.10411v2#S5.SS9.p2.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-k SIDs come from beam search.
+  - Source: Metrics only: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS2.p1.
+- **Visibility**: warm; no unseen-item protocol is defined.
+  - Source: Temporal splits with no unseen-POI protocol: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2.
+- **SID**: 3 RQ-Kmeans layers over Qwen-4B POI embeddings with geographic co-visitation alignment; codebook size stated as 32 and 64 for NYC and TKY, respectively, and 4,096 for AMAP and AMAP-SH. SIDs are refined by an EM-style loop with the LLM, using a 20-candidate dynamic beam to prevent SID collisions; a final collision-resolution rule is not reported.
+  - Source: Three RQ-Kmeans layers and codebook sizes: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS4.p1 and https://arxiv.org/html/2602.10411v2#S4.SS1.SSS2.p2; RQ-Kmeans following OneRec: https://arxiv.org/html/2602.10411v2#S4.SS1.p1; EM refinement with 20-candidate beam to avoid collisions: https://arxiv.org/html/2602.10411v2#S4.SS1.SSS3.p1.
+- **Inference budget**: Offline: beam search for the top-k SIDs; numerical beam width not reported. Online: dynamic beam search generating 50 candidate SIDs per request; GeoGR-0.6B averages 50 ms per request on NVIDIA H20 GPUs versus 90 ms for GeoGR-4B; inference batch size not reported. Training on 16 H20 GPUs with per-GPU batch 16.
+  - Source: Beam search for top-k: https://arxiv.org/html/2602.10411v2#S4.SS2.SSS2.p4; deployment budget and latency: https://arxiv.org/html/2602.10411v2#S5.SS9.p1; training hardware: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS4.p1.
+- **Results from**: Table 2 (NYC, TKY versus traditional, POI, and generative baselines); Table 3 (AMAP, AMAP-SH); Table 4 (ablation); Table 5 (SID quality); Table 6 (CPT effect); Section 5.6 (model scaling); Table 7 and Section 5.9 (three-month online A/B test).
+  - Source: Public: https://arxiv.org/html/2602.10411v2#S5.T2; industrial: https://arxiv.org/html/2602.10411v2#S5.T3; ablation: https://arxiv.org/html/2602.10411v2#S5.T4; SID evaluation: https://arxiv.org/html/2602.10411v2#S5.T5; CPT: https://arxiv.org/html/2602.10411v2#S5.T6; scaling: https://arxiv.org/html/2602.10411v2#S5.SS6.p2; online: https://arxiv.org/html/2602.10411v2#S5.SS9.p2.
 
 ## 旧卡片说明
 
@@ -110,5 +129,14 @@ GeoGR 适合放在“工业级地理生成式推荐”章节，体现时空协�
 - 使用场景：导航与工业 POI 推荐。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
+  - Source: GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3; discussion in Section 5.2.2: https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3.
+- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI semantic IDs for next-POI generation; GeoGR follows its preprocessing and adds co-visitation alignment, EM-style SID refinement, and CPT plus SFT.
+  - Source: GeoGR v2, follows the GNPR-SID preprocessing: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; Tables 2, 3, 5, and 6: https://arxiv.org/html/2602.10411v2#S5.T2, https://arxiv.org/html/2602.10411v2#S5.T3, https://arxiv.org/html/2602.10411v2#S5.T5, https://arxiv.org/html/2602.10411v2#S5.T6.
+- **Competitor** · [TIGER](tiger.md): TIGER uses content RQ-VAE SIDs with a small Transformer; GeoGR uses geo-aware RQ-Kmeans SIDs with an LLM aligned through continued pre-training.
+  - Source: GeoGR v2, Tables 2 and 3: https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3.
+- **Predecessor** · [OneRec](onerec.md): GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
+  - Source: GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): https://arxiv.org/html/2602.10411v2#S4.SS1.p1.
 
 [View all papers in this cell](../../README.md#i--representation)

@@ -6,7 +6,7 @@ year: 2024
 venue: arXiv’24
 links:
   arxiv: https://arxiv.org/abs/2412.18176
-  code: null
+  code: https://anonymous.4open.science/r/Molar-8B06/
 problem: I
 stage: Representation
 representation: Text+Img+CF
@@ -20,12 +20,31 @@ summary: 'Abstract: "inherently lack collaborative filtering information, relyin
   other modalities".'
 evidence:
 - field: problem
-  quote: 'Abstract: "inherently lack collaborative filtering information, relying primarily on textual content data neglecting
-    other modalities".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p3
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p3
+  where: 'Abstract, CF and modality limitations (fragment), arXiv v2: https://arxiv.org/html/2412.18176v2#abstract1.1'
+  quote: inherently lack collaborative filtering information, relying primarily on textual content data neglecting other modalities
+setup:
+  datasets: 'Amazon clothing (993,087 users / 301,312 items / 8,813,442 interactions), PixelRec (50,000 / 82,864 / 989,476),
+    MovieLens (6,040 / 3,706 / 1,000,209). Filtering rules: not reported.'
+  split: Sequential leave-one-out into training, validation, and test; the exact position allocation is not reported beyond
+    the label.
+  candidates: full catalog (the paper states metrics are evaluated on the full amount of data); training uses 1:1 negative
+    sampling with BCE.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: n/a (items are represented by continuous embeddings from a fine-tuned multimodal LLM; no discrete SIDs are built).
+  inference_budget: 'Scoring with item embeddings from Qwen2-VL-2B (MIRM) and a user model (DUEG); hardware, inference batch
+    size, and latency: not reported.'
+  results_from: Table 2 (Amazon, PixelRec, MovieLens versus traditional, content, and LLM-based baselines); Tables 3-5 (modalities,
+    post-alignment model, ablations); Appendix Table 6 (MLLM backbones).
+setup_where:
+  datasets: 'Datasets: https://arxiv.org/html/2412.18176v2#S4.I2.i1.p1, https://arxiv.org/html/2412.18176v2#S4.I2.i2.p1, https://arxiv.org/html/2412.18176v2#S4.I2.i3.p1;
+    statistics: https://arxiv.org/html/2412.18176v2#S4.T1; filtering not stated.'
+  split: 'Leave-one-out: https://arxiv.org/html/2412.18176v2#S4.SS1.SSS1.p2.'
+  candidates: 'Evaluated on the full amount of data: https://arxiv.org/html/2412.18176v2#S4.SS1.SSS1.p2; 1:1 negatives are
+    a training choice: https://arxiv.org/html/2412.18176v2#A2.p1.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2412.18176v2#S4.SS1.SSS1.p2.'
+  sid: 'Continuous item embeddings from the MLLM, no discrete IDs: https://arxiv.org/html/2412.18176v2#S4.SS1.SSS2.p1; Table
+    1 judgment in facts/dash.yaml.'
+  inference_budget: 'Backbone and training: https://arxiv.org/html/2412.18176v2#S4.SS1.SSS2.p1 and https://arxiv.org/html/2412.18176v2#S4.SS1.SSS2.p2;
+    no inference settings found.'
+  results_from: 'Main: https://arxiv.org/html/2412.18176v2#S4.T2; modalities: https://arxiv.org/html/2412.18176v2#S4.T3; post-alignment:
+    https://arxiv.org/html/2412.18176v2#S4.T4; ablation: https://arxiv.org/html/2412.18176v2#S4.T5; backbones: https://arxiv.org/html/2412.18176v2#A1.T6.'

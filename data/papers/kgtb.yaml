@@ -17,3 +17,35 @@ objective: Multi-task NTP
 inference: –
 poi: true
 summary: 完整 POI StruID 是推荐输出，知识图谱编号和多行为监督提供独立设计。
+setup:
+  datasets: Foursquare Boston/Paris; Gowalla Austin/San Francisco. No filtering strategies applied.
+  split: Per-user chronological 70% training, 10% validation, 20% test.
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. Cold-start means POIs with fewer than five visitors; unseen means
+    unvisited by the user. Cross-city transfer is also tested. Item-level generator/tokenizer holdouts and KG exposure to
+    test interactions: not reported.'
+  sid: '3-level KG residual quantization. Printed sizes at level l=1/2/3: POI/user 8^{4(l-1)}; region/category 8^{2(l-1)}.
+    Collision handling: not reported.'
+  inference_budget: 'HR/NDCG@1/5/10; FB total test time 0.4h. Decoder, beam, inference hardware/batch, per-request latency:
+    not reported; L40 and batch 4 describe fine-tuning.'
+  results_from: 'Original Tables 2/3/4/5/6/7: main, ablation, cross-city, compute, backbone, user-unvisited POIs; Figure 4:
+    low-visitor subset.'
+setup_where:
+  datasets: 'Experimental Setup and Main Results: https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx1.p1 and https://arxiv.org/html/2509.12350v1#Sx5.SSx2.p3'
+  split: 'Experimental Setup, Datasets and Metrics: https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx1.p1'
+  candidates: 'Experimental Setup reports ranking metrics without a candidate protocol: https://arxiv.org/html/2509.12350v1#Sx5.SSx1'
+  visibility: 'Standard split, low-visitor/user-unvisited subsets, and cross-city transfer: https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx1.p1
+    and https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1 and https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx3.p1 and
+    https://arxiv.org/html/2509.12350v1#Sx7.SSx3.p1'
+  sid: 'Implementation Details, formula retained as printed: https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx3.p1'
+  inference_budget: 'Implementation Details, ranking metrics, Table 5: https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx3.p1
+    and https://arxiv.org/html/2509.12350v1#Sx5.SSx1.SSSx1.p2 and https://arxiv.org/html/2509.12350v1#Sx5.T5'
+  results_from: 'Tables 2-7 and Figure 4: https://arxiv.org/html/2509.12350v1#Sx5.T2 and https://arxiv.org/html/2509.12350v1#Sx5.T3
+    and https://arxiv.org/html/2509.12350v1#Sx5.T4 and https://arxiv.org/html/2509.12350v1#Sx5.T5 and https://arxiv.org/html/2509.12350v1#Sx7.T6
+    and https://arxiv.org/html/2509.12350v1#Sx7.T7 and https://arxiv.org/html/2509.12350v1#Sx5.F4'
+related:
+- id: gnpr-sid
+  relation: competitor
+  note: GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
+  where: 'KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2;
+    https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.'

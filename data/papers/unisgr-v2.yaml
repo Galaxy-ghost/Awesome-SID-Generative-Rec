@@ -31,3 +31,43 @@ summary: Semantic-ID-based generative recommendation unifies retrieval and ranki
   industrial behavior histories, it introduces gated convolutional denoising to suppress noise and adapts the pyramid memory
   funnel to reduce inference cost. Offline experiments on a large-scale Lazada dataset show significant gains over OneRec,
   UniRec, and UniSGR. Online A/B testing improves IPV, Order, and GMV by 0.79%, 5.55%, and 3.09%, respectively.
+setup:
+  datasets: 'Lazada recommendation logs with impression, click, add-to-cart and pay behaviors; training: 2.42 billion samples,
+    6.46 million users, 7.53 million items.'
+  split: 'Chronological: first 30 days training, following day testing; validation split not reported.'
+  candidates: not reported; full-catalog versus sampled retrieval evaluation and history exclusion are unspecified; ranking
+    sample construction not reported.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 3-level semantic IDs with 2,048 codewords per level; tokenizer inputs, quantization algorithm, training visibility
+    and collision handling not reported.
+  inference_budget: 'Beam search width not reported; paired prediction/code execution uses 3 sequential decoder calls; maximum
+    history 1,024. Full TacGR: 701 QPS, mean latency 75.6 ms, P99 83.8 ms under matched production hardware/load; hardware
+    specification, batch size and numerical memory-funnel schedule not reported; anchoring tower is training-only.'
+  results_from: 'Own Lazada offline comparison, ablations and serving benchmarks; Table 1 averages 5 seeds. UniRec CoA reproduced
+    on the same backbone; other baseline implementation provenance not reported. Own 40-day online A/B test on 10% traffic
+    replaces UniSGR in one retrieval channel: IPV +0.79%, Order +5.55%, GMV +3.09%; other channels and downstream ranking
+    retained.'
+setup_where:
+  datasets: https://arxiv.org/html/2610.16132v2#S4.SS1.p1
+  split: https://arxiv.org/html/2610.16132v2#S4.SS1.p1
+  candidates: https://arxiv.org/html/2610.16132v2#S4.SS1.p3 ; HR@100/500 are output cutoffs, not a stated evaluation pool.
+  visibility: https://arxiv.org/html/2610.16132v2#S4.SS1.p1 ; Appendix A's cold-start prediction refers to the initial anticipation
+    slot.
+  sid: https://arxiv.org/html/2610.16132v2#S4.SS1.p4
+  inference_budget: https://arxiv.org/html/2610.16132v2#S3.SS5.SSS4.p1 ; https://arxiv.org/html/2610.16132v2#S4.SS1.p4 ; https://arxiv.org/html/2610.16132v2#A2.T5
+    ; https://arxiv.org/html/2610.16132v2#S3.SS4.SSS2.p3 ; https://arxiv.org/html/2610.16132v2#S3.SS7.SSS2
+  results_from: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; https://arxiv.org/html/2610.16132v2#S4.T1 ; https://arxiv.org/html/2610.16132v2#S4.SS5.p1
+    ; https://arxiv.org/html/2610.16132v2#A2.p1
+related:
+- id: unirec
+  relation: predecessor
+  note: Its discrete attribute chain is the closest motivation and a same-backbone baseline.
+  where: https://arxiv.org/html/2610.16132v2#S1.p5 ; https://arxiv.org/html/2610.16132v2#S4.SS1.p2
+- id: onerec-v2
+  relation: competitor
+  note: Industrial generative retrieval baseline in Table 1.
+  where: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; bibliography identifies Zhou et al. (2025) as arXiv:2508.20900.
+- id: tiger
+  relation: competitor
+  note: Semantic-ID generative retrieval baseline in Table 1.
+  where: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; https://arxiv.org/html/2610.16132v2#S4.T1

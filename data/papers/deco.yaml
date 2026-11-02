@@ -30,3 +30,57 @@ summary: 'Generative recommenders retrieve items by writing their semantic IDs (
   budget in a production-style serving pipeline. Delegating beam search makes larger candidate pools and models practical:
   Deco generates 1000 candidates faster than its teacher generates 100, and with a 1.5B-parameter LLM backbone, it matches
   the 69M-parameter teacher''s throughput while achieving higher accuracy.'
+setup:
+  datasets: Amazon-2014 Beauty/Sports/Toys and Amazon-2023 BPC-23/Books-23, published 5-core subsets; MovieLens-25M subset
+    (filtering rules not reported); Yambda-500M last30 days, exact deduplication, consecutive track-repeat collapse and user/item
+    thresholds5/20.
+  split: 'Global temporal: latest10% interactions test, latest10% of the remainder validation; Yambda uses last day test and
+    preceding day validation. Each user''s last event per held-out period is target; earlier within-period events enter history.
+    History cap20 Amazon,100 MovieLens/Yambda. Separate Beauty leave-one-out comparison also reported.'
+  candidates: 'full catalog: the training item catalog; history items are not excluded because repeats are legitimate targets.
+    Main beam100; larger candidate budgets up to1000 are separately tested.'
+  visibility: 'warm; no unseen-item protocol is defined. Yambda new targets mean absent from the last100 history items, not
+    globally unseen items. Tokenizer-fitting exposure to test items/interactions: not reported.'
+  sid: Fixed RQ-KMeans,4 levels x2048 codes, from multilingual E5-large metadata embeddings or provided128-dimensional Yambda
+    item embeddings. Popularity-based collision resolution is stated; detailed rule not reported. Depth study uses2-8 nested
+    levels x256 codes.
+  inference_budget: Testbeam100 (validationbeam10), NDCG/Recall@10/50/100; copy pointer on Yambda. One H10080GB, bf16; main
+    serving pipeline compiled with CUDA graphs and beam-shared history cache. Report batch128, peak sweep and50ms p95 budget;3.2-7.3x
+    FusedGR throughput under that budget. GPU batch latency includes concept prefill/full beam/trie masking, excludes data
+    loading/SID-item mapping and compilation/capture/warm-up. Each point repeats3 times,100 timed batches after10 warm-ups
+    (50/5 above batch64). Table3 instead uses common eager PyTorch, batch128.
+  results_from: 'Table2: paper''s six matched-family models, shared SIDs/training budgets, mean+SD over3 seeds. Table3 external
+    baselines are tuned/retrained from scratch under this protocol; eager native-path timing, RPG graph construction excluded.
+    Separate Table4 Beauty leave-one-out baseline scores come from literature. Main throughput includes prefill; decoder-only
+    comparisons excluding prefill are separate.'
+setup_where:
+  datasets: 'Sec.4.1.1: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS1.p1'
+  split: 'Sec.4.1.2/4.1.4: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS2.p1 and https://arxiv.org/html/2610.32980v2#S4.SS1.SSS4.p1
+    and https://arxiv.org/html/2610.32980v2#S4.SS2.SSS1.Px5.p1'
+  candidates: 'Sec.4.1.2: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS2.p1'
+  visibility: 'Sec.4.1 protocol and repeat/new analysis: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS2.p1 and https://arxiv.org/html/2610.32980v2#S4.F6
+    and https://arxiv.org/html/2610.32980v2#S4.SS2.SSS4.Px2.p1'
+  sid: 'Sec.4.1.4 and SID-depth study: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS4.p1 and https://arxiv.org/html/2610.32980v2#S4.SS2.SSS3.Px2.p1'
+  inference_budget: 'Sec.4.1.4, Sec.4.2.2 and Appendix C: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS4.p1 and https://arxiv.org/html/2610.32980v2#S4.SS2.SSS2.p2
+    and https://arxiv.org/html/2610.32980v2#A3.SS0.SSS0.Px3.p1'
+  results_from: 'Sec.4.1 baselines, Tables2-4 and Appendix C: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p1 and https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2
+    and https://arxiv.org/html/2610.32980v2#S4.T2 and https://arxiv.org/html/2610.32980v2#S4.T3 and https://arxiv.org/html/2610.32980v2#S4.SS2.SSS1.Px5.p1
+    and https://arxiv.org/html/2610.32980v2#A3.SS0.SSS0.Px3.p1'
+related:
+- id: tiger
+  relation: competitor
+  note: KV-cached TIGER is retrained as an autoregressive comparison.
+  where: 'Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.'
+- id: rpg
+  relation: competitor
+  note: RPG is compared with both graph search and full-catalog scoring.
+  where: 'Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.'
+- id: llada-rec
+  relation: competitor
+  note: LLaDA-Rec is a retrained diffusion-based comparison.
+  where: 'Deco v2, Related Work and Table3: https://arxiv.org/html/2610.32980v2#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2;
+    https://arxiv.org/html/2610.32980v2#S4.T3.'
+- id: nezha
+  relation: competitor
+  note: NEZHA is a retrained efficient-generation comparison.
+  where: 'Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.'

@@ -19,11 +19,47 @@ poi: false
 summary: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
 evidence:
 - field: problem
-  quote: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3–3.4.1, p5
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3–3.4.1, p5
+  where: https://arxiv.org/html/2504.05730v2#abstract1
+  quote: integrating both semantic and collaborative signals into item representations
+  reason: 区分搜索和推荐的需求
+setup:
+  datasets: 'Semi-synthetic Amazon Electronics search/recommendation data; Commercial Chinese-app data, 10,000 users over
+    two weeks. Filtering rules: not reported in paper.'
+  split: not reported in paper; data-processing and train/validation/test details are delegated to code.
+  candidates: 'Recommendation sampled: 99 random negatives excluding user-interacted items, plus the target. Search sampled:
+    99 BM25-retrieved hard negatives, plus the target; search history exclusion: not reported.'
+  visibility: 'warm; no unseen-item protocol is defined. Collaborative-encoder exposure to test items: not reported.'
+  sid: 'Shared/task-specific RQ-VAE; sensitivity favors 2 shared + 2 task-specific codes. Numerical codebook size and collision
+    handling: not reported; semantic/collaborative collision rates 0.18%/0.39%.'
+  inference_budget: 'Constrained beam search; HR/NDCG@1/5/10. Beam width, hardware, inference batch size, latency: not reported
+    in paper.'
+  results_from: 'Original Tables 3/4: recommendation/search; Table 5: task ablations; Figures 4-7: identifier analyses.'
+setup_where:
+  datasets: 'Section 4.1.1: https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1'
+  split: 'Section 4.1.1 directs split details to code: https://arxiv.org/html/2504.05730v2#S4.SS1.SSS1.p1'
+  candidates: 'Tables 3 and 4 captions: https://arxiv.org/html/2504.05730v2#S4.T3 and https://arxiv.org/html/2504.05730v2#S4.T4'
+  visibility: 'Sections 3.2.1 and 4.1 define no unseen-item protocol: https://arxiv.org/html/2504.05730v2#S3.SS2.SSS1.p1 and
+    https://arxiv.org/html/2504.05730v2#S4.SS1'
+  sid: 'Sections 3.2.2 and 4.4.2-4.4.3: https://arxiv.org/html/2504.05730v2#S3.SS2.SSS2.p1 and https://arxiv.org/html/2504.05730v2#S4.SS4.SSS2.p1
+    and https://arxiv.org/html/2504.05730v2#S4.SS4.SSS3.p2'
+  inference_budget: 'Sections 3.4.2 and 4.1.3: https://arxiv.org/html/2504.05730v2#S3.SS4.SSS2.p1 and https://arxiv.org/html/2504.05730v2#S4.SS1.SSS3.p1'
+  results_from: 'Tables 3-5 and Figures 4-7: https://arxiv.org/html/2504.05730v2#S4.T3 and https://arxiv.org/html/2504.05730v2#S4.T4
+    and https://arxiv.org/html/2504.05730v2#S4.T5 and https://arxiv.org/html/2504.05730v2#S4.F4 and https://arxiv.org/html/2504.05730v2#S4.F7'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER is a recommendation baseline; GenSAR extends RQ-VAE identifiers with shared and task-specific codes for joint
+    search/recommendation.
+  where: 'GenSAR v2, Sections 1 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S1.p6; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2;
+    https://arxiv.org/html/2504.05730v2#S4.T3.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec is a generative recommendation baseline; GenSAR learns separate semantic/collaborative identifiers and joint
+    search/recommendation tasks.
+  where: 'GenSAR v2, Sections 3.2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S3.SS2.p1; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2;
+    https://arxiv.org/html/2504.05730v2#S4.T3.'
+- id: cid
+  relation: competitor
+  note: P5-CID is a generative recommendation baseline; GenSAR uses learned shared/task-specific codebooks.
+  where: 'GenSAR v2, Sections 2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S2.p2; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2;
+    https://arxiv.org/html/2504.05730v2#S4.T3.'

@@ -17,3 +17,30 @@ objective: NTP → RL†
 inference: FP8+RecoGEM
 poi: false
 summary: 新增可区分的 FP8 PTQ 与执行栈/算子设计，适合单独 V × Inference 条目，而非只重复 OneRec-V2。
+setup:
+  datasets: Production single-column short-video recommendation; online evaluation on Kuaishou and Kuaishou Lite. Dataset
+    dates, sizes and filtering not reported.
+  split: Offline split not reported; online A/B runs one week, traffic allocation not reported.
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined.
+  sid: not reported
+  inference_budget: '4B fat-MoE, 0.5B active/token, batch 32. FP16 baseline versus FP8 Linear/MoE (Linear accumulation FP32):
+    139ms to 70ms mean latency; throughput 205 to 394, units not reported. GPU model, beam width and output K not reported.'
+  results_from: 'Original Section 5.2/Figure 3: FP16 versus combined infrastructure/FP8/operator optimization; Table 1: online
+    quality. The full 49% latency reduction and 92% throughput gain include all three changes.'
+setup_where:
+  datasets: 'Sections 5.1/5.3: https://arxiv.org/html/2603.11486v1#S5.SS1.p1 and https://arxiv.org/html/2603.11486v1#S5.SS3.p1'
+  split: 'Sections 5.1/5.3: https://arxiv.org/html/2603.11486v1#S5.SS1 and https://arxiv.org/html/2603.11486v1#S5.SS3.p1'
+  candidates: 'Section 5 evaluates serving performance and online engagement without a candidate protocol: https://arxiv.org/html/2603.11486v1#S5'
+  visibility: 'Sections 4.1/5 define PTQ and serving tests, without an unseen-item protocol: https://arxiv.org/html/2603.11486v1#S4.SS1.p1
+    and https://arxiv.org/html/2603.11486v1#S5'
+  sid: 'Section 4.1 leaves the base model unchanged but does not specify SID construction: https://arxiv.org/html/2603.11486v1#S4.SS1.p1'
+  inference_budget: 'Sections 4.1/5.1/5.2: https://arxiv.org/html/2603.11486v1#S4.SS1.p2 and https://arxiv.org/html/2603.11486v1#S5.SS1.p1
+    and https://arxiv.org/html/2603.11486v1#S5.SS1.p2 and https://arxiv.org/html/2603.11486v1#S5.SS2.p2'
+  results_from: 'Section 5.2/Figure 3 and Section 5.3/Table 1: https://arxiv.org/html/2603.11486v1#S5.SS2.p2 and https://arxiv.org/html/2603.11486v1#S5.F3
+    and https://arxiv.org/html/2603.11486v1#S5.T1'
+related:
+- id: onerec-v2
+  relation: predecessor
+  note: Provides the unchanged base architecture and training procedure for FP8 deployment.
+  where: 'Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: https://arxiv.org/html/2603.11486v1#S1.p3; https://arxiv.org/html/2603.11486v1#S4.SS1.p1.'

@@ -17,3 +17,37 @@ objective: Multi-task NTP
 inference: –
 poi: false
 summary: 提出明确可复用的词嵌入 grounding 训练阶段，并在真实离散 RQ-VAE SID 推荐中验证。
+setup:
+  datasets: Industrial recruitment pairs (good matches for SFT; profiles require at least one listed attribute); Vibrent rentals;
+    other filtering not reported.
+  split: 'Vibrent: leave-one-out; validation details not reported. Industry: 200 evaluation jobs; train/test separation not
+    reported.'
+  candidates: not reported; 200 retrieved candidates per industrial query does not specify the evaluation universe.
+  visibility: warm; no unseen-item protocol is defined. Industrial Mistral-E5 uses engagement supervision; test-candidate
+    exposure not reported.
+  sid: 'RQ-VAE SIDs from 1024-d embeddings. Industry: engagement-tuned Mistral-E5 embeddings, 3 x 8192. Vibrent: Qwen3-Embedding-0.6B
+    embeddings, 4 x 256 with 32-d codes and the Wang et al. (2024) diversity regularizer for balanced codebook use. The appendix''s
+    4 x 256 configuration additionally uses final-layer Sinkhorn-Knopp balancing to reduce collisions; residual collision
+    resolution is not reported.'
+  inference_budget: K=5/10/20/50/100. Experiments use four H100s; inference-specific hardware, beam width, batch size and
+    latency not reported.
+  results_from: 'Original experiments: Tables 1-2 industrial relative gains; Table 3 Vibrent relative gains; Table 4 absolute
+    metrics.'
+setup_where:
+  datasets: https://arxiv.org/html/2604.02324v1#S7.SS1
+  split: https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px3.p1
+  candidates: https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px3.p1 (200 retrieved candidates is an output count, not a negative-sampling
+    protocol).
+  visibility: 'https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px4.p2 and #S4.SS1.SSS0.Px4.p3'
+  sid: https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px4.p2 ; https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px4.p3 ; https://arxiv.org/html/2604.02324v1#S7.SS3.p2
+  inference_budget: 'https://arxiv.org/html/2604.02324v1#S4.T1 ; #S4.T3 ; #S4.SS1.SSS0.Px4.p1'
+  results_from: 'https://arxiv.org/html/2604.02324v1#S4.T1 ; #S4.T2 ; #S4.T3 ; #S7.T4'
+related:
+- id: tiger
+  relation: predecessor
+  note: GTI adopts TIGER-style RQ-VAE semantic identifiers.
+  where: https://arxiv.org/html/2604.02324v1#S7.SS3.p2 (Appendix 7.3).
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec uses multi-task alignment; GTI adds grounding before fine-tuning.
+  where: 'https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px2.p3 ; #S4.T1 ; #S7.T4.'

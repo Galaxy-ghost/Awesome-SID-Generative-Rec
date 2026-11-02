@@ -19,8 +19,40 @@ poi: false
 summary: 'Abstract: "poor integration of traditional RS features"; "补信息算 I".'
 evidence:
 - field: problem
-  quote: 'Abstract: "poor integration of traditional RS features"; "补信息算 I".'
-  where: arXiv abstract
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3, §3.4, p5
+  where: https://arxiv.org/html/2502.14735v1#abstract1
+  quote: poor integration of traditional RS features
+  reason: 补信息算 I
+setup:
+  datasets: Amazon Beauty, Sports and Outdoors, Musical Instruments; user/item 5-core filtering.
+  split: Leave-one-out; exact validation allocation not reported; training histories capped at 20 items.
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. Item-level tokenizer and DIN behavior-encoder training exposure:
+    not reported.'
+  sid: Separate semantic/behavioral hierarchical k-means until singleton clusters; four layers discussed. 256 values/token
+    is a theoretical capacity example; explicit main codebook sizes not reported.
+  inference_budget: Beam 20; Recall/NDCG@5/10; hardware, inference batch size, latency not reported.
+  results_from: Original Tables 2-4; Table 3 compares LETTER on Instruments using Llama2-7B.
+setup_where:
+  datasets: 'Section 4.1.1: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS1.p1'
+  split: 'Section 4.1.2: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1'
+  candidates: 'Sections 4.1-4.4 do not state full-catalog versus sampled-negative evaluation: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1'
+  visibility: 'Sections 3.2 and 4.1 define no unseen-item protocol; DIN supplies behavioral embeddings: https://arxiv.org/html/2502.14735v1#S3.SS2.p3
+    and https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1'
+  sid: 'Section 3.2 and Figure 6 discussion: https://arxiv.org/html/2502.14735v1#S3.SS2.p5 and https://arxiv.org/html/2502.14735v1#S4.SS4.p3'
+  inference_budget: 'Section 4.1.2; Section 4.1.3''s batch 128 is training, not inference: https://arxiv.org/html/2502.14735v1#S4.SS1.SSS2.p1
+    and https://arxiv.org/html/2502.14735v1#S4.SS1.SSS3.p1'
+  results_from: 'Tables 2-4: https://arxiv.org/html/2502.14735v1#S4.T2 and https://arxiv.org/html/2502.14735v1#S4.T3 and https://arxiv.org/html/2502.14735v1#S4.T4'
+related:
+- id: eager
+  relation: predecessor
+  note: The authors explicitly extend EAGER's dual-source modeling to an LLM backbone.
+  where: 'EAGER-LLM v1, Section 2.1: https://arxiv.org/html/2502.14735v1#S2.SS1.p1.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec supplies the compared vector-quantized IDs; EAGER-LLM separately clusters behavioral and semantic embeddings.
+  where: 'EAGER-LLM v1, Sections 3.2/4.2.1 and Table 2: https://arxiv.org/html/2502.14735v1#S3.SS2.p5; https://arxiv.org/html/2502.14735v1#S4.SS2.SSS1.p5;
+    https://arxiv.org/html/2502.14735v1#S4.T2.'
+- id: letter
+  relation: competitor
+  note: LETTER regularizes collaborative coding; EAGER-LLM separates the two information sources before LLM fusion.
+  where: 'EAGER-LLM v1, Section 4.2.2 and Table 3: https://arxiv.org/html/2502.14735v1#S4.SS2.SSS2.p4; https://arxiv.org/html/2502.14735v1#S4.T3.'

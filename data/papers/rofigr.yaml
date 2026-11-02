@@ -27,3 +27,39 @@ summary: Generative recommenders predict an item's semantic identifier (SID) one
   with Holm correction support the main NDCG@10 improvements. Comparisons with alternative collaborative supervision objectives
   and tokenizers support the proposed design. Matched task and decoding analyses distinguish the effects of training exposure,
   stream fusion, and candidate budgets.
+setup:
+  datasets: Amazon Instruments, Arts, Games; 5-core filtering, histories capped at 20; catalogs 6250/9416/13839 items, respectively.
+  split: Per-user chronological last event test, penultimate validation, earlier events training; teacher fitting and student
+    optimization use the training partition.
+  candidates: full catalog; no sampled negatives. A target absent from the decoded stream union scores zero.
+  visibility: warm; no unseen-item protocol is defined. MISSRec teacher fits training interactions; item embeddings/scores
+    are frozen offline. Tokenizer exposure to test items not separately reported.
+  sid: Separate text/image residual trees, each [64,256,256,512], code dimension 32. Collisions repaired at L4 or L3-L4, preserving
+    L1-L2; complete SIDs uniquely identify items.
+  inference_budget: 'Four independent trie beams of 20, item union and equal-weight stream fusion; HR@1/5/10, NDCG@5/10. One
+    L20, FP16, batch 1, history 20: four-stream mean latency 56.7/60.9/63.7 ms (Instruments/Arts/Games); two-stream 31.8/33.5/35.1
+    ms. Includes encoding through final sorting; no online teacher/reranker.'
+  results_from: 'Original Table 3: five-seed main comparison; MACRec/SynGR retain native two-stream inference versus RoFiGR''s
+    four. Tables 5/6 separate task exposure, stream fusion, matched beam slots and candidate caps.'
+setup_where:
+  datasets: 'Section 4.1: https://arxiv.org/html/2610.39470v1#S4.SS1.p1'
+  split: 'Section 4.1: https://arxiv.org/html/2610.39470v1#S4.SS1.p1'
+  candidates: 'Section 4.1: https://arxiv.org/html/2610.39470v1#S4.SS1.p2'
+  visibility: 'Sections 3.1/4.1 define no item holdout: https://arxiv.org/html/2610.39470v1#S3.SS1.p2 and https://arxiv.org/html/2610.39470v1#S4.SS1.p1'
+  sid: 'Sections 3.2/3.6: https://arxiv.org/html/2610.39470v1#S3.SS2.p2 and https://arxiv.org/html/2610.39470v1#S3.SS6.p1'
+  inference_budget: 'Sections 3.5/4.8: https://arxiv.org/html/2610.39470v1#S3.SS5.p3 and https://arxiv.org/html/2610.39470v1#S4.SS8.p2'
+  results_from: 'Section 4.1/4.2 and Tables 3/5/6: https://arxiv.org/html/2610.39470v1#S4.SS1.p2 and https://arxiv.org/html/2610.39470v1#S3.T3
+    and https://arxiv.org/html/2610.39470v1#S4.SS2.p1 and https://arxiv.org/html/2610.39470v1#S4.T5 and https://arxiv.org/html/2610.39470v1#S4.T6'
+related:
+- id: macrec
+  relation: predecessor
+  note: RoFiGR retains MACRec's two-tree quantizer and adds coarse collaborative alignment.
+  where: 'RoFiGR v1, Section 3.2 and Table 3: https://arxiv.org/html/2610.39470v1#S3.SS2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.'
+- id: syngr
+  relation: competitor
+  note: SynGR promotes cross-modal synergy; RoFiGR adds collaborative coarse routing supervision.
+  where: 'RoFiGR v1, Section 2 and Table 3: https://arxiv.org/html/2610.39470v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.'
+- id: mql4grec
+  relation: competitor
+  note: RoFiGR adopts MQL4GRec's domain data setting and compares against it.
+  where: 'RoFiGR v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39470v1#S4.SS1.p1; https://arxiv.org/html/2610.39470v1#S3.T3.'

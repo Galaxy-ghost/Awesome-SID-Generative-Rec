@@ -17,3 +17,42 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 给固定SID码位加入前缀条件记忆表示，让生成器识别同一码在不同前缀下的含义。
+setup:
+  datasets: 'Pinterest: about 10M engagement subsequences (<=32 events), 240M item occurrences, tens of millions of unique
+    items. Filtering rules not reported.'
+  split: Evaluation uses later dates and disjoint users; exact dates/fractions not reported. On 100K held-out examples, a
+    random engagement position is the target and preceding events are history.
+  candidates: not reported; retrieval evaluates exact ground-truth SID membership in generated beams.
+  visibility: warm; no unseen-item protocol is defined. RQ-VAE codebook trained on the full billion-item catalog; evaluation
+    users are disjoint, not explicitly evaluation items.
+  sid: 'RQ-VAE on PinCLIP multimodal embeddings: 5 levels x 2048 codes. Collisions acknowledged; full-SID recall matches codes
+    without resolving item collisions.'
+  inference_budget: 'Qwen3-1.7B default; five-step SID beam search with K=20/30/50/100; TIGER extension uses beam 10. PrefixMem:
+    4 hash heads, 2M rows, dimension 256, active at levels 4/5. Hardware, inference batch size, measured latency not reported.'
+  results_from: 'Original Tables 2/3: teacher-forcing/initialization; Table 4: full-SID recall; Tables 9/10: LLM/TIGER transfer;
+    Table 11: SID-Transformer comparison. Same-corpus with/without-encoder experiments.'
+setup_where:
+  datasets: 'Section 4.1: https://arxiv.org/html/2606.00324v1#S4.SS1.p1'
+  split: 'Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p2 and https://arxiv.org/html/2606.00324v1#S4.SS3.p1'
+  candidates: 'Section 4.3 defines beam SID matching, not sampled item negatives: https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1'
+  visibility: 'Section 4.1 has user/time holdout but no unseen-item holdout: https://arxiv.org/html/2606.00324v1#S4.SS1.p1
+    and https://arxiv.org/html/2606.00324v1#S4.SS1.p2'
+  sid: 'Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p1 and https://arxiv.org/html/2606.00324v1#S4.SS3.p2'
+  inference_budget: 'Sections 4.2/4.3 and Table 10: https://arxiv.org/html/2606.00324v1#S4.SS2.p1 and https://arxiv.org/html/2606.00324v1#S4.SS2.p2
+    and https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1 and https://arxiv.org/html/2606.00324v1#S5.T10'
+  results_from: 'Tables 2-4/9-11: https://arxiv.org/html/2606.00324v1#S5.T2 and https://arxiv.org/html/2606.00324v1#S5.T3
+    and https://arxiv.org/html/2606.00324v1#S5.T4 and https://arxiv.org/html/2606.00324v1#S5.T9 and https://arxiv.org/html/2606.00324v1#S5.T10
+    and https://arxiv.org/html/2606.00324v1#S5.T11'
+related:
+- id: tiger
+  relation: predecessor
+  note: PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
+  where: 'PrefixMem v1, Section 5.2 and Table 10: https://arxiv.org/html/2606.00324v1#S5.SS2.p5; https://arxiv.org/html/2606.00324v1#S5.T10.'
+- id: plum
+  relation: predecessor
+  note: PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
+  where: 'PrefixMem v1, Sections 2/3.1: https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.00324v1#S3.SS1.p1.'
+- id: onerec-think
+  relation: predecessor
+  note: PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
+  where: 'PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.'

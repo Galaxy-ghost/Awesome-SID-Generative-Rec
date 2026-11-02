@@ -17,3 +17,41 @@ objective: (NTP + Ctr.) → RL
 inference: Beam
 poi: false
 summary: End-to-end paradigm or benchmark using R-KM+FSQ tokenization and Enc-Dec backbone.
+setup:
+  datasets: 'Kuaishou product-card, short-video, and live-streaming logs; dates/sample counts not reported. Tokenizer: 70M
+    product-product pairs (<=40 occurrences/item), 12M video-product pairs from long views 1-5 minutes before product clicks,
+    excluding News/Comedy/Dance/Film-TV/Selfie videos and downsampling frequent products/same-user pairs.'
+  split: Offline train/validation/test allocation not reported; simulation replays online requests. Online A/B duration and
+    traffic allocation not reported.
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Frozen codebooks can tokenize new uploads; encoder/tokenizer exposure
+    to test items not reported.
+  sid: Two Res-Kmeans levels plus a 4096-code FSQ final level; residual-only baseline uses 3x4096. Final variant's residual
+    codebook sizes not separately stated. FSQ reduces collisions; residual collision resolution not reported.
+  inference_budget: Deployed 0.5B-total/0.1B-active model; HR@50/100/500. Serving beam width, hardware, inference batch size,
+    latency not reported; beam 768 is RL training candidate generation.
+  results_from: 'Original Table 1: scaling; Table 2: replay versus equally sized SASRec/TIGER with identical input features;
+    Table 3: online A/B; Tables 4/5: RL/tokenizer ablations.'
+setup_where:
+  datasets: 'Sections 3.1.1 and 4: https://arxiv.org/html/2601.21770v1#S3.SS1.SSS1.p1 and https://arxiv.org/html/2601.21770v1#S4.p1'
+  split: 'Sections 4.2/4.3 describe replay and online tests, not a data split: https://arxiv.org/html/2601.21770v1#S4.SS2.p1
+    and https://arxiv.org/html/2601.21770v1#S4.SS3.p1'
+  candidates: 'Section 4 evaluates generated top-K retrieval, without full-catalog/sampled-negative specification: https://arxiv.org/html/2601.21770v1#S4.p1'
+  visibility: 'Sections 2.2/4 define no unseen-item evaluation protocol: https://arxiv.org/html/2601.21770v1#S2.SS2.p1 and
+    https://arxiv.org/html/2601.21770v1#S4'
+  sid: 'Sections 3.1.3/4.5: https://arxiv.org/html/2601.21770v1#S3.SS1.SSS3.p1 and https://arxiv.org/html/2601.21770v1#S4.SS5.p1
+    and https://arxiv.org/html/2601.21770v1#S4.SS5.p2'
+  inference_budget: 'Sections 4/4.2/4.4: https://arxiv.org/html/2601.21770v1#S4.p1 and https://arxiv.org/html/2601.21770v1#S4.SS2.p1
+    and https://arxiv.org/html/2601.21770v1#S4.SS4.p1'
+  results_from: 'Sections 4.2/4.3 and Tables 1-5: https://arxiv.org/html/2601.21770v1#S4.SS2.p1 and https://arxiv.org/html/2601.21770v1#S4.T2
+    and https://arxiv.org/html/2601.21770v1#S4.T3 and https://arxiv.org/html/2601.21770v1#S3.T1 and https://arxiv.org/html/2601.21770v1#S4.T4
+    and https://arxiv.org/html/2601.21770v1#S4.T5'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER is the equally sized encoder-decoder replay baseline.
+  where: 'OneMall v1, Section 4.2 and Table 2: https://arxiv.org/html/2601.21770v1#S4.SS2.p1; https://arxiv.org/html/2601.21770v1#S4.T2.'
+- id: onerec
+  relation: predecessor
+  note: OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
+  where: 'OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): https://arxiv.org/html/2601.21770v1#S1.p5.'

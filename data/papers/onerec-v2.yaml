@@ -19,13 +19,53 @@ poi: false
 summary: §4.1明确OneRec-V2 PTQ不改架构或训练；其§2.2.2点名沿用OneRec-V1 tokenizer。另核OneRec-V1 §2.1.1，caption/tag/ASR/OCR/cover/frames进入MiniCPM-V，再用协同物品对对齐。仅通过该两跳继承链报告，故标†。
 evidence:
 - field: problem
-  quote: 'Abstract: "inefficient computational allocation where 97.66% of resources are consumed by sequence encoding rather
-    than generation"; "limitations in reinforcement learning relying solely on reward models". Candidates: V / IV (rule: tie
-    broken by the first new design).'
-  where: arXiv abstract
+  where: 'OneRec-V2 Technical Report v4, Abstract: https://arxiv.org/html/2508.20900v4#abstract1'
+  quote: limitations in reinforcement learning that relies solely on reward models
+  reason: Organizer judgment compares V with IV and selects V by the first new design, the Lazy Decoder-Only architecture.
+    The abstract identifies 97.66% of resources going to sequence/context encoding as well as reward-model limitations.
 - field: representation
-  quote: Paper only says the tokenizer is as in OneRec-V1; inferred from the OneRec technical report, as for OneRec-Think.
-  where: §2.2.2, p8
+  where: 'OneRec-V2 v4, Section 2.2.2, tokenizer: https://arxiv.org/html/2508.20900v4#S2.SS2.SSS2.Px1.p1 ; inherited source,
+    OneRec Technical Report v4 (2506.13695), Section 2.1.1: https://arxiv.org/html/2506.13695v4#S2.SS1.SSS1.p2'
+  reason: Text+Img+CF remains inferred through OneRec-V2's explicit reuse of the OneRec-V1 tokenizer and the separate technical
+    report's multimodal and collaborative-pair pipeline. These input modalities are not restated in OneRec-V2's tokenizer
+    paragraph.
 - field: tokenization
-  quote: Paper only says the tokenizer is as in OneRec-V1; inferred from the OneRec technical report, as for OneRec-Think.
-  where: §2.2.2, p8
+  where: 'OneRec-V2 v4, Section 2.2.2, tokenizer: https://arxiv.org/html/2508.20900v4#S2.SS2.SSS2.Px1.p1 ; inherited source,
+    OneRec Technical Report v4 (2506.13695), Section 2.1.2: https://arxiv.org/html/2506.13695v4#S2.SS1.SSS2.p1'
+  reason: 'R-KM remains an inherited organizer inference: OneRec-V2 reuses the OneRec-V1 semantic tokenizer, while the separate
+    technical report explicitly specifies RQ-Kmeans. It is not a directly named quantization algorithm in the OneRec-V2 tokenizer
+    paragraph.'
+setup:
+  datasets: Kuaishou impressions, August 10-14 2025, for streaming architecture experiments; Kuaishou and Kuaishou Lite feeds
+    for online evaluation. Filtering and dataset sizes not reported.
+  split: 'Offline holdout allocation not reported. Online: one week, 5% experimental traffic; V2 serves 25% of degraded traffic
+    within that group (Appendix D wording). Separate 1% group disables caching and serves V2 for every request.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Cold-start video-view metrics are reported, but subset criteria and
+    tokenizer exposure are not reported.
+  sid: 3 semantic tokens using the OneRec-V1 tokenizer; codebook sizes and collision handling not reported here.
+  inference_budget: Online 1B model, context 3000, beam 512, L20 GPUs, latency 36ms, MFU 62%; inference batch size not reported.
+  results_from: 'Original Tables 2-5: architecture/scaling; Tables 6-8: online alignment/deployment comparisons; Table 9:
+    caching disabled. Online improvements are relative to OneRec-V1.'
+setup_where:
+  datasets: 'Sections 2.3/4: https://arxiv.org/html/2508.20900v4#S2.SS3.p1 and https://arxiv.org/html/2508.20900v4#S4.p1'
+  split: 'Sections 2.3/4 and Appendix D: https://arxiv.org/html/2508.20900v4#S2.SS3.p1 and https://arxiv.org/html/2508.20900v4#S4.p1
+    and https://arxiv.org/html/2508.20900v4#A4.p1'
+  candidates: 'Sections 2.3/4 describe training loss and online tests without candidate-enumeration protocol: https://arxiv.org/html/2508.20900v4#S2.SS3
+    and https://arxiv.org/html/2508.20900v4#S4'
+  visibility: 'Sections 4/5 and Appendix D do not define a held-out unseen-item protocol: https://arxiv.org/html/2508.20900v4#S4
+    and https://arxiv.org/html/2508.20900v4#A4.p2'
+  sid: 'Section 2.2.2 Tokenizer: https://arxiv.org/html/2508.20900v4#S2.SS2.SSS2.Px1.p1'
+  inference_budget: 'Section 4: https://arxiv.org/html/2508.20900v4#S4.p1'
+  results_from: 'Original Tables 2-8 and Appendix D Table 9: https://arxiv.org/html/2508.20900v4#S2.T2 and https://arxiv.org/html/2508.20900v4#S2.T5
+    and https://arxiv.org/html/2508.20900v4#S3.T6 and https://arxiv.org/html/2508.20900v4#S3.T8 and https://arxiv.org/html/2508.20900v4#A4.T9'
+related:
+- id: tiger
+  relation: alternative
+  note: Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
+  where: 'OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.20900v4#S1.p1;
+    https://arxiv.org/html/2508.20900v4#S2.SS1.'
+- id: onerec-v2-quantized
+  relation: successor
+  note: Adds FP8 post-training quantization and an optimized inference stack.
+  where: 'Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: https://arxiv.org/html/2603.11486v1#S4.SS1.p1.'

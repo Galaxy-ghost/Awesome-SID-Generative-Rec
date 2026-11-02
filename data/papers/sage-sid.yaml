@@ -17,3 +17,40 @@ objective: NTP → RL
 inference: –
 poi: false
 summary: 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。
+setup:
+  datasets: 'Amazon Reviews 2014 Sports/Beauty/Toys; RecIF-Bench: about 120M interactions, 200K users, Short Video/Ad/Product.
+    Filtering not reported.'
+  split: 'RecIF: 20% users held out, per-user histories separated temporally from future targets. Amazon split and validation
+    allocation not reported.'
+  candidates: not reported for the SID branch
+  visibility: warm; no unseen-item protocol is defined. Amazon cold items are bottom 5% by training interaction frequency;
+    RecIF holds out users, not explicitly items.
+  sid: OneRec-SAGE uses Semantic IDs and OpenOneRec checkpoints/settings; SID length, codebook sizes and collision handling
+    not reported here.
+  inference_budget: Reported slate length 10; Amazon Recall/NDCG@5/10; RecIF Pass/Recall@1/32 and label AUC. SID beam width,
+    inference hardware, batch size and latency not reported.
+  results_from: OneRec-SAGE rows in Tables 1/2 (Amazon) and 3/4 (RecIF). RecIF task-specific sequential and TIGER baseline
+    numbers are reused from the benchmark; OneRec variants use public checkpoints/settings.
+setup_where:
+  datasets: 'Section 4.1.1: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS1.p1 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS1.p2'
+  split: 'Section 4.1.1: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS1.p3'
+  candidates: 'Section 4.1.4 identifies inherited SID evaluation settings but does not specify candidate enumeration: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3'
+  visibility: 'Sections 4.1.1/4.1.3: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS1.p3 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS3.p1'
+  sid: 'Sections 4.1.2/4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3'
+  inference_budget: 'Sections 4.1.3/4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS3.p1 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS3.p2
+    and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p1 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3'
+  results_from: 'Tables 1-4 and Section 4.1.4: https://arxiv.org/html/2601.21452v3#S3.T1 and https://arxiv.org/html/2601.21452v3#S3.T2
+    and https://arxiv.org/html/2601.21452v3#S3.T3 and https://arxiv.org/html/2601.21452v3#S4.T4 and https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3'
+related:
+- id: onerec-v2
+  relation: predecessor
+  note: SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
+  where: 'SAGE v3, Sections 3.4.1/4.1.2: https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1; https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4.'
+- id: lc-rec
+  relation: competitor
+  note: Adapted to a Qwen3-8B backbone for the RecIF comparison.
+  where: 'SAGE v3, Section 4.1.2: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3.'
+- id: tiger
+  relation: competitor
+  note: RecIF comparison reuses TIGER's reported benchmark numbers.
+  where: 'SAGE v3, Section 4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3.'

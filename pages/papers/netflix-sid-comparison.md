@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.15864) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -25,6 +25,34 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Modified Stage | No single stage |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Proprietary streaming-media member histories, synthetic content QA, and open instruction-following data; >=10M examples/task. Catalog size, exact corpus sizes and filtering not reported.
+  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px3.p1
+- **Split**: Histories snapshotted at a fixed date-hour; internal ranking test averages future-interaction offsets +1 through +7 days. Exact cutoff and train/validation/test sizes not reported; content QA uses a stratified test set.
+  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px4.p1
+- **Candidates**: not reported; trie/request-eligible catalog constraints define serving validity, but the ranking test universe and evaluation negative sampling are not specified.
+  - Source: https://arxiv.org/html/2610.15864v1#S3.SS3.SSS1.p1 ; #S3.SS3.SSS2.p1 ; #S4.SS1.SSS0.Px4.p1
+- **Visibility**: Cold-start cohort: titles launched after training cutoff, without training engagement. Generator exposure through content QA and tokenizer fitting exposure not reported; unseen by generator only versus unseen by tokenizer too is not established.
+  - Source: https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px4.p1 ; #S4.SS3.SSS0.Px1.p1 ; #S4.SS1.SSS0.Px3.p1
+- **SID**: Frozen snapshot of RQ-VAE identifiers: 4 x 1024. For collisions (<=1% example rate), return the first entity in the SID bucket.
+  - Source: https://arxiv.org/html/2610.15864v1#S3.SS1.p1 ; #S4.SS1.SSS0.Px1.p1
+- **Inference budget**: Single-head: vLLM constrained beam search with prefix caching; MTP: one-pass per-code distributions and eligible-entity scoring. Beam width, output K, inference batch size and latency not reported. Shared training/inference pool: up to 256 H200/A100-80GB GPUs; inference allocation not reported. MTP throughput is 75% higher on 8B.
+  - Source: https://arxiv.org/html/2610.15864v1#S3.SS3 ; #S4.SS1.SSS0.Px2.p1 ; #S4.T2 ; #S4.SS2.SSS0.Px2.p1
+- **Results from**: Original Tables 1-2: controlled single-head versus MTP quality/system comparison. Tables 3-4: SID recipe versus previous non-SID auxiliary-head baseline; Tables 5-7: ablations. Proprietary scores/costs reported relatively; no imported baseline result table identified.
+  - Source: https://arxiv.org/html/2610.15864v1#S4.T1 ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.SS2.p1
+
 ### 5. Connections to Related Work
+
+- **Predecessor** · [TIGER](tiger.md): The single-head arm follows TIGER-style autoregressive SID generation with constrained beam search in a multitask streaming-media LLM.
+  - Source: Netflix comparison v1, Introduction and Section 3.2.1: https://arxiv.org/html/2610.15864v1#S1.p3; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS1.p1.
+- **Alternative** · [RPG](rpg.md): RPG pairs parallel SID prediction with graph-constrained decoding; this study strengthens its MTP arm with an auxiliary item-ranking loss and tests moderate four-token SIDs.
+  - Source: Netflix comparison v1, Sections 2/3.2.2/4.2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1; https://arxiv.org/html/2610.15864v1#S4.SS2.SSS0.Px3.p1.
+- **Alternative** · [STAMP](stamp.md): STAMP uses auxiliary multi-token prediction to densify training supervision; this study compares MTP and autoregressive decoding as generation paradigms.
+  - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1.
+- **Alternative** · [NEZHA](nezha.md): NEZHA accelerates SID beam search using self-drafting and hash-set verification; this study addresses generation quality and cost rather than only decoding acceleration.
+  - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px3.p1.
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

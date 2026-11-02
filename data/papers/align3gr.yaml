@@ -20,12 +20,64 @@ summary: 'Abstract: "fundamental challenges arise when transforming LLMs into re
   and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
 evidence:
 - field: problem
-  quote: 'Abstract: "fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic
-    and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
-  where: arXiv abstract
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: Multi-task SFT, p4; Progressive DPO, p4–5, Eq. 3
+  where: https://arxiv.org/html/2511.11255v2#abstract1
+  quote: fundamental challenges arise when transforming LLMs into real-world recommender systems due to semantic and behavioral
+    misalignment
+  reason: 'Candidates: III / I (rule: judged by the abstract''s complaint first).'
 - field: inference
-  quote: Beam width 20; no prefix constraint reported.
   where: Implementation Details and Evaluation Metrics, p5
+  reason: Beam width 20; no prefix constraint reported.
+setup:
+  datasets: 'Amazon Instruments, Amazon Beauty, and Yelp; users and items with fewer than 5 interactions are filtered. Retained
+    corpus sizes: not reported in the body. Industrial: internal data from a large-scale advertising recommendation platform;
+    filtering not reported.'
+  split: 'Leave-one-out into training, validation, and test; histories capped at the 20 most recent items. The exact position
+    allocation is not reported beyond the leave-one-out label. Online: 10% of traffic (about 40+ million users) over multiple
+    weeks.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); industrial retrieval reports Recall@100.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Item SCID: 3-level RQ-VAE x 256 codewords (dimension 32) over concatenated semantic (T5) and collaborative (DIN) embeddings;
+    users receive their own SCIDs from a separate user RQ-VAE. Both are added to the LLM vocabulary. Collision handling: not
+    reported.'
+  inference_budget: 'Beam search with beam width 20 for generative methods (following EAGER-LLM); Recall and NDCG at K=5 and
+    10. All experiments use 4 NVIDIA GPUs (model not stated); inference batch size and latency: not reported. Backbone: Llama2-7B
+    with LoRA.'
+  results_from: Table 1 (Instruments, Beauty, Yelp; averages over five seeds); Table 2 (industrial Recall@100 and online revenue
+    versus a two-tower baseline and TIGER); Tables 3-5 and Figure 4 (tokenization, SFT-task, and DPO ablations).
+setup_where:
+  datasets: 'Datasets, 5-interaction filter, leave-one-out, history cap: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1;
+    industrial platform: https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1.'
+  split: 'Leave-one-out and 20-item cap: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1 and https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3;
+    online traffic: https://arxiv.org/html/2511.11255v2#Sx4.SSx3.p1.'
+  candidates: 'Metrics and beam width only: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3.'
+  visibility: 'Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p1.'
+  sid: '3-level RQ-VAE x 256 codes of dimension 32, user and item SCIDs added to the vocabulary: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4;
+    dual user/item tokenizer: https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p2 and https://arxiv.org/html/2511.11255v2#Sx3.SSx2.p4.'
+  inference_budget: 'Beam width 20 following EAGER-LLM: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; 4 GPUs for all experiments:
+    https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4.'
+  results_from: 'Main table: https://arxiv.org/html/2511.11255v2#Sx3.T1; industrial: https://arxiv.org/html/2511.11255v2#Sx4.T2;
+    ablations: https://arxiv.org/html/2511.11255v2#Sx4.T3, https://arxiv.org/html/2511.11255v2#Sx4.T4, https://arxiv.org/html/2511.11255v2#Sx4.T5;
+    five seeds: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p4.'
+related:
+- id: eager-llm
+  relation: competitor
+  note: EAGER-LLM aligns item tokens with collaborative signals; Align3GR also tokenizes users and adds progressive self-play
+    and real-feedback DPO.
+  where: 'Align3GR v2, Experimental Settings baselines (13) and beam-width protocol: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2
+    and https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec aligns LLMs to item codes with auxiliary tasks; Align3GR adds dual user-item SCIDs and preference-level DPO
+    on top of multi-task SFT.
+  where: 'Align3GR v2, baselines (11): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.'
+- id: letter
+  relation: competitor
+  note: LETTER learns a regularized item tokenizer; Align3GR fuses semantic and collaborative features for both users and
+    items through a U2I loss.
+  where: 'Align3GR v2, baselines (12): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER uses content-only RQ-VAE item codes with a small Transformer; Align3GR uses an LLM backbone with dual SCIDs
+    and DPO.
+  where: 'Align3GR v2, baselines (10): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1;
+    industrial Table 2: https://arxiv.org/html/2511.11255v2#Sx4.T2.'

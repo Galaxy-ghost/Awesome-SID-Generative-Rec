@@ -19,11 +19,44 @@ poi: false
 summary: 'Abstract: "severely hindered by high inference latency".'
 evidence:
 - field: problem
-  quote: 'Abstract: "severely hindered by high inference latency".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.4, p6; Algorithm 3
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.4, p6; Algorithm 3
+  where: 'Abstract, inference-latency complaint (fragment), arXiv v2: https://arxiv.org/html/2511.18793v2#abstract1.1'
+  quote: severely hindered by high inference latency
+setup:
+  datasets: Yelp, Amazon Beauty, Amazon Games; filtering rules not reported. Deployment uses Taobao Search Advertising production
+    data; size, dates and filtering not reported.
+  split: 'Public per-user leave-one-out: last interaction test, penultimate validation, remainder training. Production offline
+    split not reported; online A/B lasts seven days, traffic allocation not reported.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not reported.
+  sid: 'Public RQ-VAE: 3 x 512, using embeddings of textual item attributes. Production uses three levels with different,
+    unreported codebook sizes. Collision handling not reported; hash-set verification filters invalid generated SIDs.'
+  inference_budget: 'Public beam 10, HR/NDCG@5/10; mean prefill+decode latency on Beauty/Games/Yelp: Llama 7.00/7.52/7.41
+    ms, Qwen 4.41/4.80/4.46 ms. Production benchmark beam 512; 2.6x algorithm speedup, deployed total latency <30 ms including
+    queue savings. GPU model/count and inference batch size not reported.'
+  results_from: 'Original Table 3: public beam/MTP/NEZHA comparison, means over seeds 42/43/44; Table 4: Yelp ablations. Section
+    5: production offline hit-rate gains and seven-day online revenue test. No imported baseline results identified.'
+setup_where:
+  datasets: 'https://arxiv.org/html/2511.18793v1#S4.SS1.p1 ; #S5.p1'
+  split: 'https://arxiv.org/html/2511.18793v1#S4.SS1.p1 ; #S5.p3'
+  candidates: 'Section 4.1 specifies metrics and beam size, not an evaluation universe: https://arxiv.org/html/2511.18793v1#S4.SS1'
+  visibility: 'https://arxiv.org/html/2511.18793v1#S4.SS1.p1 ; #S4.SS1.p4'
+  sid: 'https://arxiv.org/html/2511.18793v1#S4.SS1.p4 ; #S3.SS3.p6'
+  inference_budget: 'https://arxiv.org/html/2511.18793v1#S4.SS1.p4 ; #S3.T3 ; #S1.T1 ; #S1.p3 ; #S5.p2'
+  results_from: 'https://arxiv.org/html/2511.18793v1#S3.T3 ; #S4.T4 ; #S4.SS1.p4 ; #S5.p3'
+related:
+- id: atspeed
+  relation: alternative
+  note: AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head
+    and hash-set validation. AtSpeed is omitted from public comparisons.
+  where: 'NEZHA v1, Sections 2.2/4.1: https://arxiv.org/html/2511.18793v1#S2.SS2.p2; https://arxiv.org/html/2511.18793v1#S4.SS1.p2.'
+- id: specgr
+  relation: alternative
+  note: SpecGR supports out-of-vocabulary recommendation with speculative inference; NEZHA removes separate drafting and costly
+    target-model verification for fast catalog-valid generation.
+  where: 'NEZHA v1, Sections 1/6, citing Ding et al. (2024): https://arxiv.org/html/2511.18793v1#S1.p4; https://arxiv.org/html/2511.18793v1#S6.p2;
+    https://arxiv.org/html/2511.18793v1#S6.p6.'
+- id: rpg
+  relation: alternative
+  note: RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight
+    autoregressive draft head.
+  where: 'NEZHA v1, Sections 3.2/6: https://arxiv.org/html/2511.18793v1#S3.SS2.p7; https://arxiv.org/html/2511.18793v1#S6.p2.'

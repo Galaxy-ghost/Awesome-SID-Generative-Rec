@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2609.28972) · [Matrix](../../README.md#vi--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -22,6 +22,32 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Modified Stage | Training |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Industrial e-commerce advertising: >1 billion interactions, 19 million users, 25 million ads across 6 countries; largest country has about 10x the smallest's training interactions. Amazon M2/KDD Cup 2023: UK/DE/JP/IT/FR/ES; high-resource locales supply about 91% of training sessions. Filtering rules not reported.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p1
+- **Split**: Offline train/validation/test allocation and chronology not reported; all baselines use the same dataset partition. Online A/B: May 10–20, 2026, 10% live traffic across all 6 countries.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.SS2.p4
+- **Candidates**: not reported; evaluation pool and history exclusion are unspecified. Sampled-softmax negatives train the i2i model, and cross-country neighbor filtering supports training augmentation; neither defines evaluation negatives.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p1 ; https://arxiv.org/html/2609.28972v1#S3.SS1.p3 ; https://arxiv.org/html/2609.28972v1#S3.SS2.p2
+- **Visibility**: warm; no unseen-item protocol is defined. Countries have disjoint users/items but are pooled for joint training; tokenizer/i2i exposure to test items is not reported.
+  - Source: https://arxiv.org/html/2609.28972v1#S2.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1
+- **SID**: Shared 4-token RQ-VAE identifiers: Qwen-VL-32B encodes multimodal content to 64 dimensions, with joint cross-country behavioral i2i alignment described before quantization. Codebook sizes and collision handling not reported; dynamic market attributes filter substitutions rather than form SID inputs.
+  - Source: https://arxiv.org/html/2609.28972v1#S3.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S3.SS1.p3 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S3.SS2.p2
+- **Inference budget**: Autoregressive GenCDR backbone, Recall/NDCG@10/100; decoding algorithm/beam width, history cap, inference hardware, batch size and latency not reported. Mixing rates p=k=0.1 and neighbor thresholds are training augmentation settings.
+  - Source: https://arxiv.org/html/2609.28972v1#S3.SS3.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+- **Results from**: Own offline comparisons on shared partitions (Table 1), industrial ablations (Table 2), and two-backbone sensitivity experiments (Figure 3); no imported baseline scores stated; run counts/variance not reported. Own online six-country aggregate: advertising revenue +1.77%, orders +2.64%; online control model not identified.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1 ; https://arxiv.org/html/2609.28972v1#S4.T2 ; https://arxiv.org/html/2609.28972v1#S4.SS2.p4
+
 ### 5. Connections to Related Work
+
+- **Predecessor** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+- **Competitor** · [TIGER](tiger.md): Generative recommendation baseline trained on the common partition.
+  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1
+- **Alternative** · [GMC](gmc.md): Shared-token cross-domain transfer contrasted with data-level code mixing.
+  - Source: https://arxiv.org/html/2609.28972v1#S1.p2
 
 [View all papers in this cell](../../README.md#vi--training)

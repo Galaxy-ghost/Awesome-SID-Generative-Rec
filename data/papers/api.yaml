@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2610.36763
-  code: null
+  code: https://anonymous.4open.science/r/API-C1F9/
 problem: II
 stage: Tokenization
 representation: Text
@@ -31,3 +31,53 @@ summary: Generative recommendation (GR) predicts the next item through its seman
   paired with their pretrained semantic annotations. Extensive experiments show that API achieves competitive performance
   across backbones and decoding schemes, while preserving item distinctions under compact token budgets and enabling explainable
   retrieval.
+setup:
+  datasets: 'Amazon Beauty, Sports, and Toys as preprocessed in prior work (P5, GRID), keeping their splits; item text from
+    title, brand, category, and price. Sizes: Appendix A (not restated here).'
+  split: The prior-work (P5 / GRID) splits and evaluation protocol are retained (allocation not restated); checkpoints selected
+    by validation Recall@5.
+  candidates: full catalog (complete test split, full catalog without sampled negatives).
+  visibility: warm; no unseen-item protocol is defined. PID selection statistics and activation calibration are estimated
+    from training-item contents.
+  sid: 'Pretrained Interpretable IDs: K in {4, 8, 16} feature indices selected by a priority rule from the 32 strongest of
+    24,576 labeled sparse-autoencoder features of a frozen GPT-2-small, plus their relative activation strengths, which separate
+    items whose index sequences coincide. Collision-affected items at K=4: 15.16% on Beauty (77.37% with native SAE selection).'
+  inference_budget: 'Two decoders: parallel prediction (PR) with exact catalog scoring, and autoregressive (AR) with catalog-constrained
+    beam search of width 50; T5- and GPT-2-style backbones trained from scratch. Hardware, inference batch size, and latency:
+    not reported.'
+  results_from: Table 1 (full API versus sequential and generative recommenders); Table 2 (tokenizers under T5 and GPT-2 backbones
+    with AR and PR decoding); Table 3 (collision rates by token budget); Table 4 (content alignment); Table 5 (preference
+    and strength ablation); Figure 3 (cross-domain vocabulary reuse).
+setup_where:
+  datasets: 'Benchmark aligned with P5 and GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.'
+  split: 'Inherited splits; PID statistics from training items only: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.'
+  candidates: 'Full catalog without sampled negatives: https://arxiv.org/html/2610.36763v1#S5.SS1.p4.'
+  visibility: 'PID statistics estimated from training-item contents; no unseen-item protocol: https://arxiv.org/html/2610.36763v1#S5.SS1.p1.'
+  sid: 'PID from frozen GPT-2 SAE features with K tokens and activation strengths: https://arxiv.org/html/2610.36763v1#S5.SS1.p3,
+    https://arxiv.org/html/2610.36763v1#S4.SS1.p3; collisions: https://arxiv.org/html/2610.36763v1#S5.T3.'
+  inference_budget: 'Decoding settings: https://arxiv.org/html/2610.36763v1#S5.SS1.p4.'
+  results_from: 'Results: https://arxiv.org/html/2610.36763v1#S4.T1, https://arxiv.org/html/2610.36763v1#S5.T2, https://arxiv.org/html/2610.36763v1#S5.T3,
+    https://arxiv.org/html/2610.36763v1#S5.T4, https://arxiv.org/html/2610.36763v1#S5.F3.'
+related:
+- id: grid
+  relation: predecessor
+  note: API keeps GRID's preprocessed data and its residual-quantization tokenizer baselines, and replaces learned codes with
+    pretrained interpretable SAE feature IDs.
+  where: 'API v1, benchmark and tokenization baselines aligned with GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1 and
+    https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.'
+- id: rpg
+  relation: competitor
+  note: RPG's parallel-prediction implementation is the PR backbone; API swaps its OPQ codes for SAE feature indices with
+    activation strengths.
+  where: 'API v1, PR implementation based on RPG: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1
+    and https://arxiv.org/html/2610.36763v1#S5.T2.'
+- id: tiger
+  relation: competitor
+  note: TIGER's autoregressive implementation is the AR backbone and RQ-VAE is a tokenizer baseline.
+  where: 'API v1, AR implementation based on TIGER: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1
+    and https://arxiv.org/html/2610.36763v1#S5.T2.'
+- id: hid-vae
+  relation: competitor
+  note: HiD-VAE supervises quantization levels with category tags for interpretability; API takes interpretability from labeled
+    pretrained SAE features.
+  where: 'API v1, tokenization baselines: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.'

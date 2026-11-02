@@ -19,5 +19,55 @@ poi: false
 summary: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
 evidence:
 - field: problem
-  quote: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
-  where: arXiv abstract
+  where: 'PSRQ v1, Abstract, first limitation, quoted phrase: https://arxiv.org/html/2508.20359v1#abstract1'
+  quote: intra-modal semantic degradation
+- field: problem
+  where: 'PSRQ v1, Abstract, second limitation, quoted phrase: https://arxiv.org/html/2508.20359v1#abstract1'
+  quote: inter-modal modeling gaps
+setup:
+  datasets: 'Amazon Baby (81,423 users / 33,652 items; ratings of 4 or more are positives), an industrial music-streaming
+    dataset from one week of logs (4,926,656 users / 1,387,247 songs; collections are positives, played-but-not-collected
+    are negatives), and Music4all (14,127 users / 99,596 songs; repeated plays are positives). Items with fewer than 30 interactions
+    are marked cold-start. Further filtering: not reported.'
+  split: 'not reported (sequences are built by timestamp and trained for one epoch, but the train/test division is not described).
+    Online: A/B test in February 2025 on the music platform against a DLRM ranker.'
+  candidates: 'n/a for ranking candidates: evaluation is pointwise AUC and Logloss on labeled positive and negative samples;
+    how negatives relate to user history is defined by the labels above.'
+  visibility: warm; no unseen-item protocol is defined. 'Cold AUC' covers items with fewer than 30 interactions, which are
+    low-frequency, not unseen.
+  sid: 'Progressive Semantic Residual Quantization (PSRQ): layer-wise K-means over modality embeddings (text, image or audio)
+    that preserves the prefix semantic feature, producing modal-specific and modal-joint semantic IDs; clusters per layer
+    k = 64 (Amazon Baby), 256 (Industrial), 128 (Music4all), 3 layers. Collision handling: not reported.'
+  inference_budget: 'n/a for generation (SIDs feed a DIN-style ranker with cross-attention, MCCA). MLLM feature extractors
+    run on NVIDIA A100 GPUs; ranker inference batch size and latency: not reported.'
+  results_from: 'Table 2 (All AUC, Cold AUC, Logloss versus multimodal and quantization-based rankers); Table 3 (quantizers
+    added to DIN with text only); Table 4 (MCCA ablation); Section 5.3 (online A/B: collect +2.81%, full play +0.95%).'
+setup_where:
+  datasets: 'Datasets and labels: https://arxiv.org/html/2508.20359v1#S5.SS1.SSS1.p1, https://arxiv.org/html/2508.20359v1#S5.I2.i1.p1,
+    https://arxiv.org/html/2508.20359v1#S5.I2.i2.p1, https://arxiv.org/html/2508.20359v1#S5.I2.i3.p1; statistics: https://arxiv.org/html/2508.20359v1#S5.T1.'
+  split: 'Timestamp-ordered sequences, no split rule: https://arxiv.org/html/2508.20359v1#S5.I2.i1.p1 and https://arxiv.org/html/2508.20359v1#S5.SS1.SSS2.p1;
+    online test: https://arxiv.org/html/2508.20359v1#S5.SS3.p1.'
+  candidates: 'Pointwise AUC on labeled samples: https://arxiv.org/html/2508.20359v1#S5.SS1.SSS3.p1.'
+  visibility: 'Cold-start = fewer than 30 interactions, not unseen: https://arxiv.org/html/2508.20359v1#S5.SS1.SSS1.p1.'
+  sid: 'Clusters k and layers l per dataset: https://arxiv.org/html/2508.20359v1#S5.SS1.SSS2.p1; PSRQ name and modal-specific/modal-joint
+    IDs: https://arxiv.org/html/2508.20359v1#abstract1 and https://arxiv.org/html/2508.20359v1#S4.SS1.p1.'
+  inference_budget: 'Discriminative ranker, hardware for feature extraction: https://arxiv.org/html/2508.20359v1#S5.SS1.SSS2.p1.'
+  results_from: 'Main: https://arxiv.org/html/2508.20359v1#S5.T2; quantizers in DIN: https://arxiv.org/html/2508.20359v1#S5.T3;
+    ablation: https://arxiv.org/html/2508.20359v1#S5.T4; online: https://arxiv.org/html/2508.20359v1#S5.SS3.p1.'
+related:
+- id: tiger
+  relation: alternative
+  note: TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive
+    semantic residual K-means and uses the IDs as ranking features for cold-start items.
+  where: 'PSRQ v1, Section 1 and Section 2.2 cite Rajput et al. (2023): https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1;
+    RQ-VAE is a quantizer baseline in Table 3: https://arxiv.org/html/2508.20359v1#S5.T3.'
+- id: vq-rec
+  relation: alternative
+  note: VQ-Rec framed vector quantization for transferable recommenders; PSRQ adds modal-specific and modal-joint codebooks
+    for multimodal cold-start ranking.
+  where: 'PSRQ v1, Section 1 and Section 2.2: https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.'
+- id: onerec
+  relation: alternative
+  note: OneRec uses residual K-means SIDs inside an end-to-end generator; PSRQ keeps a discriminative ranker and feeds it
+    multimodal SID embeddings.
+  where: 'PSRQ v1, contribution list and Section 2.2 cite OneRec: https://arxiv.org/html/2508.20359v1#S1.I1.i2.p1 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.'

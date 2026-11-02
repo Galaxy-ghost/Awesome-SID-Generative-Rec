@@ -6,7 +6,7 @@ year: 2026
 venue: AAAI’26
 links:
   arxiv: https://arxiv.org/abs/2511.14221
-  code: null
+  code: https://github.com/JiangHaoPG11/LGSID
 problem: I
 stage: Representation
 representation: Text+Geo+CF
@@ -20,14 +20,66 @@ summary: 'Abstract: "simply injecting location information into prompts fails to
   and real-world distance awareness among items".'
 evidence:
 - field: problem
-  quote: 'Abstract: "simply injecting location information into prompts fails to capture fine-grained spatial characteristics
-    and real-world distance awareness among items".'
-  where: abstract, p1
+  where: https://arxiv.org/html/2511.14221v1#abstract1
+  quote: simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world
+    distance awareness among items
 - field: stage
-  quote: Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first
-    contribution, aligning the item-encoding LLM (G-DPO), decides.
   where: contribution list, p2; p4
+  reason: Both designs (RL-based geographic alignment, hierarchical geographic tokenization) fix the same problem; the first
+    contribution, aligning the item-encoding LLM (G-DPO), decides.
 - field: backbone
-  quote: Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table
-    2 of the paper), both Enc-Dec in Table 1.
   where: Table 1, Table 2, p5–6
+  reason: Discriminative models DIN, TWIN, ETA etc. (Table 1 of the paper); generative experiments on TIGER and OneRec (Table
+    2 of the paper), both Enc-Dec in Table 1.
+setup:
+  datasets: 'Kuaishou local-life feed data only: 50,000,000 samples, 19,080,888 users, 2,325,266 items, 19,408 brands, 818
+    categories, with item text and geographic location. For discriminative models, all positives are kept and negatives down-sampled
+    1:4. Further filtering: not reported.'
+  split: 'Generative models: leave-one-out on the down-sampled data (last item for test, second-last for validation, the rest
+    for training). Discriminative models: split rule not reported; settings selected on validation data.'
+  candidates: 'Discriminative AUC: evaluation samples with negatives down-sampled at 1:4 to positives; how negatives are drawn
+    and whether user history is excluded: not reported. Generative Hit and NDCG at 5 and 10: full catalog versus sampled not
+    reported.'
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Hierarchical residual quantizer over G-DPO-aligned BGE embeddings (1,024-dimensional) with a KL regularizer toward
+    uniform cluster usage; number of levels and per-level codebook sizes K_l: not reported. Collision handling: not reported.'
+  inference_budget: 'SIDs are used as features in DIN, DIEN, SIM, TWIN, ETA and as targets in TIGER and OneRec generators;
+    decoding method and beam width: not reported. All experiments on two 48GB GPUs; inference batch size and latency: not
+    reported.'
+  results_from: Table 1 (AUC of five discriminative rankers with different tokenizers); Table 2 (TIGER and OneRec generators
+    with different tokenizers); Table 3 (semantic and geographic coverage after alignment); Table 5 (robustness over runs);
+    Table 6 (similarity weight).
+setup_where:
+  datasets: 'Industrial-only dataset and preprocessing: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1; statistics: https://arxiv.org/html/2511.14221v1#A2.T4.'
+  split: 'Leave-one-out for generative models on the down-sampled data: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1;
+    split for discriminative AUC not stated.'
+  candidates: 'Negative down-sampling and metrics: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1.'
+  sid: 'Hierarchical quantizer with uniform-usage regularization: https://arxiv.org/html/2511.14221v1#Sx4.SSx3.p4 and https://arxiv.org/html/2511.14221v1#Sx4.SSx3.p5;
+    BGE embeddings: https://arxiv.org/html/2511.14221v1#A2.SSx1.p1; no codebook sizes or collision rule found.'
+  inference_budget: 'Hardware: https://arxiv.org/html/2511.14221v1#A2.SSx2.p1; generative backbones: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1.'
+  results_from: 'Discriminative: https://arxiv.org/html/2511.14221v1#Sx5.T1; generative: https://arxiv.org/html/2511.14221v1#Sx5.T2;
+    alignment: https://arxiv.org/html/2511.14221v1#Sx5.T3; robustness: https://arxiv.org/html/2511.14221v1#A4.T5; lambda:
+    https://arxiv.org/html/2511.14221v1#A4.T6.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER's RQ-VAE is a tokenizer baseline and TIGER is one of two generative backbones; LGSID aligns the LLM embedding
+    with geographic rewards before a hierarchical quantizer.
+  where: 'LGSID v1, baselines: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1; Tables 1 and 2: https://arxiv.org/html/2511.14221v1#Sx5.T1
+    and https://arxiv.org/html/2511.14221v1#Sx5.T2.'
+- id: onerec
+  relation: predecessor
+  note: OneRec serves as the second generative backbone into which LGSID's SIDs are plugged.
+  where: 'LGSID v1, baselines: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1; Table 2: https://arxiv.org/html/2511.14221v1#Sx5.T2.'
+- id: gnpr-sid
+  relation: alternative
+  note: GNPR-SID builds POI SIDs for next-POI generation; LGSID targets local-life ranking features and aligns embeddings
+    with geographic distance rewards.
+  where: 'LGSID v1, related work: https://arxiv.org/html/2511.14221v1#Sx2.SSx2.p1 and https://arxiv.org/html/2511.14221v1#Sx4.SSx2.p1.'
+- id: lgrid
+  relation: successor
+  note: LGRID later follows LGSID's candidate protocol and replaces its single fused representation with disentangled geographic
+    and semantic streams.
+  where: 'Evidence is from the later LGRID paper: protocol https://arxiv.org/html/2607.27944v1#A1.SS3.p2; baseline and collision
+    comparison https://arxiv.org/html/2607.27944v1#S4.SS1.p2 and https://arxiv.org/html/2607.27944v1#S4.T5.'

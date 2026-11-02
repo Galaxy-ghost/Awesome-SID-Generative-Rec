@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2610.36973
-  code: null
+  code: https://github.com/Yandorn/KL-MOPD
 problem: IV
 stage: Training
 representation: CF
@@ -32,3 +32,31 @@ summary: Coordinating multiple recommendation objectives (e.g., click and conver
   Extensive experiments on three public benchmarks, a billion-scale industrial dataset, and online A/B tests on our e-commerce
   advertising platform demonstrate that KL-MOPD significantly improves both individual and joint recommendation performance.
   The anonymous code is provided for peer review.
+setup:
+  datasets: 'TencentGR (CTR/CVR), YooChoose (CTR/GMV), Taobao (CTR/CVR), industrial advertising (CTR/eCPM). Filtering: not
+    reported.'
+  split: 'Public: chronological 70% student pretraining, 20% teacher tuning/student distillation, 10% evaluation. Industry:
+    penultimate day tuning, final day evaluation, >11M requests/day; pretraining allocation not reported. Sliding windows;
+    history caps 100 public/128 Industry.'
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. Two-tower CF embedding exposure to test items: not reported.'
+  sid: 'RQ-KMeans of two-tower CF embeddings: TencentGR 5x64, YooChoose 5x128, Taobao 8x64, Industry 8x310. Collision handling:
+    not reported.'
+  inference_budget: 'Constrained beam 50, K=10/20 public; beam 200, K=100/200 Industry. Inference hardware, batch size, latency:
+    not reported.'
+  results_from: 'This study''s adapted/tuned baselines: Table 3 public TIGER/REG4Rec, Table 4 ablations, Table 5 industrial
+    TIGER, Table 6 five-day online A/B (10% control, 10% treatment).'
+setup_where:
+  datasets: 'Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p1'
+  split: 'Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p1 and https://arxiv.org/html/2610.36973v1#S4.SS1.p4'
+  candidates: 'Section 4.1 states decoding and cutoffs without specifying candidate sampling: https://arxiv.org/html/2610.36973v1#S4.SS1.p5'
+  visibility: 'Section 4.1 defines no unseen-item evaluation: https://arxiv.org/html/2610.36973v1#S4.SS1.p1 and https://arxiv.org/html/2610.36973v1#S4.SS1.p2'
+  sid: 'Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p2'
+  inference_budget: 'Section 4.1: https://arxiv.org/html/2610.36973v1#S4.SS1.p5'
+  results_from: 'Tables 3-6 and baseline setup: https://arxiv.org/html/2610.36973v1#S2.T3 and https://arxiv.org/html/2610.36973v1#S4.T4
+    and https://arxiv.org/html/2610.36973v1#S4.T5 and https://arxiv.org/html/2610.36973v1#S4.T6 and https://arxiv.org/html/2610.36973v1#S4.SS1.p3'
+related:
+- id: tiger
+  relation: predecessor
+  note: TIGER is a backbone for token-wise multi-teacher distillation, with CF-derived SIDs in this study.
+  where: 'KL-MOPD v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.36973v1#S4.SS1.p2; https://arxiv.org/html/2610.36973v1#S2.T3.'

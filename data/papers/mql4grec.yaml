@@ -6,7 +6,7 @@ year: 2025
 venue: ICLR’25
 links:
   arxiv: https://arxiv.org/abs/2504.05314
-  code: null
+  code: https://github.com/zhaijianyang/MQL4GRec
 problem: I
 stage: Tokenization
 representation: Text+Img
@@ -20,6 +20,64 @@ summary: 'Abstract: "rarely consider the complementary knowledge between the mul
   I / VI (rule: judged by the abstract''s complaint first).'
 evidence:
 - field: problem
-  quote: 'Abstract: "rarely consider the complementary knowledge between the multimodal information of items". Candidates:
-    I / VI (rule: judged by the abstract''s complaint first).'
-  where: arXiv abstract
+  where: 'Abstract, complementary multimodal knowledge, arXiv v1: https://arxiv.org/html/2504.05314v1#abstract1.1'
+  quote: Moreover, they rarely consider the complementary knowledge between the multimodal information of items, which represents
+    the multi-faceted preferences of users.
+  reason: 'Organizer judgment: I is selected over VI by prioritizing the abstract''s complaint about missing complementary
+    multimodal knowledge.'
+setup:
+  datasets: Amazon Reviews 2018 (May 1996-October 2018). Pre-training on six categories (Pet, Cell, Automotive, Tools, Toys,
+    Sports); target tasks on Instruments (17,112 users / 6,250 items), Arts (22,171 / 9,416), Games (42,259 / 13,839). Users
+    and items with fewer than 5 interactions are filtered; sequences capped at 20 items.
+  split: 'Leave-one-out (allocation not restated beyond the label). Separate zero-shot study: models pre-trained on source
+    categories are tested on the targets without fine-tuning.'
+  candidates: full catalog (full ranking over the entire item set instead of sample-based evaluation).
+  visibility: 'Main: warm; no unseen-item protocol is defined. Zero-shot: target-domain items are unseen by the pre-trained
+    generator; whether the RQ-VAE translators saw them: not reported.'
+  sid: Separate text (LLaMA) and image (ViT-L/14) quantitative languages from RQ-VAEs with 4 levels x 256 codewords (dimension
+    32). Colliding items have tokens reassigned by the distances between their residuals and code vectors, instead of an appended
+    identifier.
+  inference_budget: 'Beam search with beam size 20 in each modality; the two recommendation lists are re-ranked so items in
+    both rank higher. T5 encoder-decoder with 4 layers each. Hardware, inference batch size, and latency: not reported.'
+  results_from: Table 1 (Instruments, Arts, Games versus sequential, multimodal, and generative baselines); Table 2 (collision
+    handling versus TIGER's appended index); Tables 3-4 (generation tasks and pre-training); Figures 3-4 (pre-training data
+    and epochs); Table 5 (zero-shot).
+setup_where:
+  datasets: 'Pre-training and target categories: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#A1.p1;
+    filtering and length: https://arxiv.org/html/2504.05314v1#A1.p2; statistics: https://arxiv.org/html/2504.05314v1#A1.T6.'
+  split: 'Leave-one-out named only: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1; zero-shot study: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.'
+  candidates: 'Full ranking over the entire item set: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1.'
+  visibility: 'Standard split; zero-shot uses target-domain items absent from pre-training: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.'
+  sid: '4 levels x 256 x 32 per modality: https://arxiv.org/html/2504.05314v1#A3.p1; distance-based reassignment for collisions:
+    https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p2.'
+  inference_budget: 'Beam size 20 and dual-list re-ranking: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2504.05314v1#S3.SS3.SSS0.Px2.p1;
+    T5 backbone: https://arxiv.org/html/2504.05314v1#A3.p2.'
+  results_from: 'Main: https://arxiv.org/html/2504.05314v1#S4.T1; collisions: https://arxiv.org/html/2504.05314v1#S4.T2; tasks
+    and pre-training: https://arxiv.org/html/2504.05314v1#S4.T3, https://arxiv.org/html/2504.05314v1#S4.T4; zero-shot: https://arxiv.org/html/2504.05314v1#S4.T5.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER uses one text modality and an appended index for collisions; MQL4GRec translates text and images into separate
+    quantitative languages and reassigns colliding tokens by distance.
+  where: 'MQL4GRec v1, Table 1 baseline TIGER: https://arxiv.org/html/2504.05314v1#S4.T1; collision comparison in Table 2:
+    https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#S4.T2.'
+- id: lc-rec
+  relation: alternative
+  note: LC-Rec spreads items across the last level with a uniform constraint, which MQL4GRec says does not fully remove collisions.
+  where: 'MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1.'
+- id: cid
+  relation: competitor
+  note: P5-CID uses collaborative indexing for a T5 model; MQL4GRec uses multimodal content codes with cross-modal generation
+    tasks.
+  where: 'MQL4GRec v1, baseline P5-CID: https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1; Table 1: https://arxiv.org/html/2504.05314v1#S4.T1.'
+- id: vq-rec
+  relation: competitor
+  note: VQ-Rec uses product-quantized text codes in a discriminative transferable model; MQL4GRec generates multimodal codes
+    with pre-training across categories.
+  where: 'MQL4GRec v1, Table 1 baseline VQ-Rec: https://arxiv.org/html/2504.05314v1#S4.T1.'
+- id: macrec
+  relation: successor
+  note: MACRec later reuses MQL4GRec's collision reassignment and dual-modality ensemble and adds cross-modal contrastive
+    alignment during quantization.
+  where: 'Evidence is from the later MACRec paper: https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5 and https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3;
+    MQL4GRec is its main baseline in Table 2: https://arxiv.org/html/2511.15122v2#Sx4.T2.'

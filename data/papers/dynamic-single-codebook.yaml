@@ -18,3 +18,37 @@ objective: NTP†
 inference: Beam†
 poi: false
 summary: 有 SID 生成推荐下游和线上验证，区别于 MERGE 只做传统检索。
+setup:
+  datasets: Amazon Beauty 2014; KuaiRec 2.0 Big Matrix, watch_ratio>=1 and users with >=5 retained events; industrial data.
+    Other filters not reported.
+  split: Per-user chronological last/penultimate holdouts; separate KuaiRec experiment trains through September 3, validates
+    September 4, tests September 5.
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. Fixed-date validation/test days are excluded from codebook fitting;
+    leave-two-out PV weights use all viewing events. Item-level holdouts: not reported.'
+  sid: 'Public data: [1024,512], semantic plus balanced disambiguation code; baseline [256,256,256].'
+  inference_budget: 'K=5/10; beam width, hardware model, inference batch size, absolute latency/QPS not reported. Single-card
+    QPS gains: 28.57%-47.0%.'
+  results_from: Original Table 2, Figures 3/4/6, Tables 9-14; Section 4.5 online A/B.
+setup_where:
+  datasets: 'Section 4.1: https://arxiv.org/html/2608.21012v1#S4.SS1.p1 and https://arxiv.org/html/2608.21012v1#S4.SS1.p2'
+  split: 'Section 4.1 and fixed-date protocol: https://arxiv.org/html/2608.21012v1#S4.SS1.p2 and https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1'
+  candidates: 'Candidate protocol absent from Sections 4.1-4.5 and Appendices B-E: https://arxiv.org/html/2608.21012v1#S4.SS1'
+  visibility: 'Section 4.1 and fixed-date protocol: https://arxiv.org/html/2608.21012v1#S4.SS1.p2 and https://arxiv.org/html/2608.21012v1#S4.SS3.SSS2.p1'
+  sid: 'Section 4.1: https://arxiv.org/html/2608.21012v1#S4.SS1.p3'
+  inference_budget: 'Sections 4.1 and 4.5: https://arxiv.org/html/2608.21012v1#S4.SS1.p5 and https://arxiv.org/html/2608.21012v1#S4.SS5.p1'
+  results_from: 'Section 4 and Appendices C-E: https://arxiv.org/html/2608.21012v1#S4 and https://arxiv.org/html/2608.21012v1#A3
+    and https://arxiv.org/html/2608.21012v1#A4 and https://arxiv.org/html/2608.21012v1#A5'
+related:
+- id: rpg
+  relation: alternative
+  note: RPG parallelizes long SIDs; this method shortens SIDs.
+  where: 'Dynamic-Single-Codebook v1, Section 2.2: https://arxiv.org/html/2608.21012v1#S2.SS2.p2.'
+- id: llada-rec
+  relation: alternative
+  note: LLaDA-Rec uses diffusion with adapted beam search; this method reduces token count.
+  where: 'Dynamic-Single-Codebook v1, Sections 1 and 2.2: https://arxiv.org/html/2608.21012v1#S1.p4; https://arxiv.org/html/2608.21012v1#S2.SS2.p2.'
+- id: letter
+  relation: alternative
+  note: LETTER regularizes residual quantization; this method changes semantic codebook width and depth.
+  where: 'Dynamic-Single-Codebook v1, Section 2.1: https://arxiv.org/html/2608.21012v1#S2.SS1.p2.'

@@ -4,9 +4,9 @@
 
 `III. SID–Model Alignment` · `Tokenization`
 
-[Paper](https://arxiv.org/abs/2608.22734) · [Matrix](../../README.md#iii--tokenization)
+[Paper](https://arxiv.org/abs/2608.22734) · [Code](https://github.com/mxrcandy/Semantic-Subword-Tokenization) · [Matrix](../../README.md#iii--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -25,6 +25,30 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Modified Stage | Tokenization |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Beauty/Instruments and Yelp; user/item 5-core filtering, chronological histories capped at 20.
+  - Source: Section 3.1.1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS1.p1
+- **Split**: Per-user last interaction test, penultimate validation, earlier interactions training.
+  - Source: Section 3.1.3: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1
+- **Candidates**: full catalog; no sampled negatives.
+  - Source: Section 3.1.3: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS3.p1
+- **Visibility**: warm; no unseen-item protocol is defined. Tokenizer/collaborative encoder exposure to test items not reported.
+  - Source: Section 3.1 defines no unseen-item holdout: https://arxiv.org/html/2608.22734v1#S3.SS1
+- **SID**: Sentence-T5 text embeddings; TIGER-VAE, TIGER-KM or LETTER targets retain 4 levels x 256 codes. History-side IST adds semantic subwords (merge budget tuned 64-512). Collision handling not reported.
+  - Source: Section 3.1.4: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2
+- **Inference budget**: Full-trie beam 20; Recall/NDCG@5/10. Hardware, inference batch size and standalone latency not reported; Table 3 wall time combines training, checkpoint loading and test evaluation.
+  - Source: Sections 3.1.4/3.5: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p3 and https://arxiv.org/html/2608.22734v1#S3.SS5.p1
+- **Results from**: Original Table 1: SST on three backbones; SARQ/VSID re-adapted to history-only variable lengths while preserving fixed target decoding. Table 6 reports all tokenizer-criterion variants.
+  - Source: Table 1 and Section 3.1.2: https://arxiv.org/html/2608.22734v1#S3.T1 and https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p5 and https://arxiv.org/html/2608.22734v1#A1.T6
+
 ### 5. Connections to Related Work
+
+- **Predecessor** · [TIGER](tiger.md): SST compresses TIGER-VAE/TIGER-KM histories while retaining fixed-length target SIDs.
+  - Source: SST v1, Sections 3.1.2/3.1.4 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
+- **Predecessor** · [LETTER](letter.md): LETTER is the collaborative-tokenization backbone used for the third SST configuration.
+  - Source: SST v1, Section 3.1.2 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
 
 [View all papers in this cell](../../README.md#iii--tokenization)

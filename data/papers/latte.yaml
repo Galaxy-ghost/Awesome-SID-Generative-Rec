@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2605.06331
-  code: null
+  code: https://github.com/hyp1231/Latte
 problem: III
 stage: Backbone
 representation: Text+CF
@@ -19,5 +19,61 @@ poi: false
 summary: 'Abstract: "making it difficult to distinguish among them based on user-specific preferences".'
 evidence:
 - field: problem
-  quote: 'Abstract: "making it difficult to distinguish among them based on user-specific preferences".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2605.06331v1#abstract1
+  quote: making it difficult to distinguish among them based on user-specific preferences
+setup:
+  datasets: 'Amazon Reviews 2023: Instruments, Scientific, Games (57,439 / 24,587, 50,985 / 25,848, 94,762 / 25,612 users
+    / items; filtering not restated beyond following ETEGRec and Zheng et al. 2025). Separate modality-order study on the
+    Million Playlist Dataset: songs without tags or metadata and playlists with fewer than six songs removed.'
+  split: 'Amazon: chronological leave-one-out, most recent interaction for test, second most recent for validation, the rest
+    for training. MPD: 8:1:1 split.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search with beam size
+    500.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Base PSID semantic IDs from RQ K-Means: 3 positions x 256 tokens, with PSID''s ESM algorithm to prevent SID conflicts;
+    Latte prepends one of M'' learned latent tokens (2, 4, or 8; best 4 or 8) chosen freely at inference. RQ-VAE and OPQ tokenizers
+    are also tested (Table 3).'
+  inference_budget: 'Beam size 500 for PSID and Latte; generation starts with an unconstrained latent token followed by SID
+    tokens, and item scores are aggregated over latent tokens with max. Hardware, inference batch size, and latency: not reported.'
+  results_from: Table 1 (Instruments, Scientific, Games; most baseline numbers copied from prior work, PSID rerun from its
+    released code); Table 2 (tree-distance correlations); Tables 3-4 and Figure 4 (tokenizers, aggregation, number of latent
+    tokens); Table 5 (MPD modality order).
+setup_where:
+  datasets: 'Amazon 2023 categories and split: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1; statistics: https://arxiv.org/html/2605.06331v1#A1.T7;
+    MPD: https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1; MPD 8:1:1: https://arxiv.org/html/2605.06331v1#S6.SS2.SSS0.Px1.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p1.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px1.p1.'
+  sid: 'RQ K-Means m=3 x 256 with ESM conflict resolution, latent tokens: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2;
+    tokenizer variants: https://arxiv.org/html/2605.06331v1#S5.T3.'
+  inference_budget: 'Beam size 500: https://arxiv.org/html/2605.06331v1#A3.T8 and https://arxiv.org/html/2605.06331v1#A3.T9;
+    aggregation over latent tokens: https://arxiv.org/html/2605.06331v1#S4.SS2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.'
+  results_from: 'Main: https://arxiv.org/html/2605.06331v1#S5.T1; constraint analysis: https://arxiv.org/html/2605.06331v1#S5.T2;
+    tokenizers: https://arxiv.org/html/2605.06331v1#S5.T3; aggregation: https://arxiv.org/html/2605.06331v1#S5.T4; latent
+    count: https://arxiv.org/html/2605.06331v1#S5.F4; MPD: https://arxiv.org/html/2605.06331v1#S6.T5; copied baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p2.'
+related:
+- id: psi
+  relation: predecessor
+  note: PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before
+    the semantic ID.
+  where: 'Latte v1, base model and implementation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2;
+    Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER decodes items along one fixed SID tree; Latte relaxes the tree constraint with latent tokens so that close tree
+    nodes need not share preference.
+  where: 'Latte v1, motivation study: https://arxiv.org/html/2605.06331v1#S3.SS2.SSS0.Px2.p1; baselines and Table 1: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1
+    and https://arxiv.org/html/2605.06331v1#S5.T1; Table 2: https://arxiv.org/html/2605.06331v1#S5.T2.'
+- id: letter
+  relation: competitor
+  note: LETTER improves the tokenizer itself; Latte keeps the tokenizer and changes the decoding path.
+  where: 'Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.'
+- id: actionpiece
+  relation: competitor
+  note: ActionPiece makes tokens context-dependent through merges; Latte adds latent prefix tokens on top of fixed SIDs.
+  where: 'Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.'
+- id: grid
+  relation: predecessor
+  note: Latte follows GRID's recommendation to use RQ K-Means as the tokenizer.
+  where: 'Latte v1, Section 5.1 and Appendix D cite Ju et al. (2025): https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1
+    and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.'

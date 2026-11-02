@@ -26,6 +26,8 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     id_pat = re.compile(schema["properties"]["id"]["pattern"])
     ev_item_schema = schema["properties"]["evidence"]["items"]
     ev_req = set(ev_item_schema["required"])
+    ev_keys = list(ev_item_schema["properties"].keys())
+    ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
     ev_fields = allowed_keys - {"evidence", "tldr", "setup", "related", "setup_where"}
 
     vocab_sets = {
@@ -84,8 +86,12 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
                 errors.append(f"[schema] {p.name}: evidence must be a list")
             else:
                 for idx, item in enumerate(rec["evidence"]):
-                    if not isinstance(item, dict) or set(item.keys()) != ev_req:
-                        errors.append(f"[schema] {p.name}: evidence[{idx}] must have keys {sorted(ev_req)}")
+                    if not isinstance(item, dict) or not ev_req <= set(item) or set(item) - set(ev_keys) \
+                            or not set(item) & set(ev_one_of):
+                        errors.append(f"[schema] {p.name}: evidence[{idx}] must have {sorted(ev_req)}, at least one of "
+                                      f"{ev_one_of}, and no other keys")
+                    elif any(not isinstance(v, str) or not v.strip() for v in item.values()):
+                        errors.append(f"[schema] {p.name}: evidence[{idx}] values must be non-empty strings")
                     elif item.get("field") not in ev_fields:
                         errors.append(f"[schema] {p.name}: evidence[{idx}].field={item.get('field')!r} invalid")
 

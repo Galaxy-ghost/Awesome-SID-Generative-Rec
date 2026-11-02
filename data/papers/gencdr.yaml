@@ -6,7 +6,7 @@ year: 2026
 venue: AAAI’26
 links:
   arxiv: https://arxiv.org/abs/2511.08006
-  code: null
+  code: https://github.com/hupeiyu21/GenCDR
 problem: VI
 stage: Tokenization
 representation: Cross-Dom
@@ -20,6 +20,55 @@ summary: 'Abstract: "item ID tokenization dilemma"; "insufficient domain-specifi
   broken by the majority of new designs).'
 evidence:
 - field: problem
-  quote: 'Abstract: "item ID tokenization dilemma"; "insufficient domain-specific modeling". Candidates: VI / I (rule: tie
-    broken by the majority of new designs).'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2511.08006v2#abstract1
+  quote: item ID tokenization dilemma … insufficient domain-specific modeling
+  reason: 'Candidates: VI / I (rule: tie broken by the majority of new designs).'
+setup:
+  datasets: 'Three cross-domain pairs: Amazon Sports-Clothing (35,598 / 39,387 users; 18,357 / 23,033 items; item overlap
+    1.73%, 704), Amazon Phones-Electronics (27,879 / 192,403 users; 10,429 / 63,001 items; overlap 0.55%, 404), and Douban
+    Books-Movies (1,713 / 2,628 users; 8,601 / 20,964 items; overlap 7.48%, 2,058). Filtering rules: not reported.'
+  split: 'Chronological leave-last-out per user: last item for test, second-to-last for validation; checkpoint chosen by validation
+    Recall@10.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); generation is restricted to the target domain's
+    prefix tree.
+  visibility: warm; no unseen-item protocol is defined. The RQ-VAE is pre-trained on the textual features of all items.
+  sid: 'Universal RQ-VAE with M codebooks over item text embeddings, plus domain-specific LoRA adapters and an item-level
+    router; numerical M and codebook size: not reported. Collision handling: not reported.'
+  inference_budget: Qwen2.5-7B with LoRA experts; decoding constrained by a per-domain prefix tree with masked softmax; beam
+    width not reported. Training on NVIDIA H200 GPUs; inference batch size not reported. Figure 6 (Qwen2.5-0.5B) reports runtime
+    memory and inference time versus item-pool size against TriCDR and TIGER, stating constant cost; numerical latencies are
+    only in the figure.
+  results_from: Table 2 (six domains across three pairs versus single-domain, generative, and cross-domain baselines); Table
+    3 (ablations); Figures 3-6 (t-SNE, sensitivity, training efficiency, inference scalability).
+setup_where:
+  datasets: 'Domain pairs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p1; statistics and overlap after merging: https://arxiv.org/html/2511.08006v2#Sx5.T1;
+    no filtering rule found in Section 5.1.'
+  split: 'Chronological leave-last-out allocation: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; checkpoint selection:
+    https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.'
+  candidates: 'Metrics only: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.'
+  visibility: 'Standard split with no cold-start experiment: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; RQ-VAE is pre-trained
+    on all items: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1.'
+  sid: 'M codebooks, no numerical M or codebook size: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1; adapters and
+    router: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7.'
+  inference_budget: 'Domain-aware prefix tree: https://arxiv.org/html/2511.08006v2#Sx4.SSx2.SSSx4.p1; backbone and GPUs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7;
+    scalability figure: https://arxiv.org/html/2511.08006v2#Sx5.SSx6.p2 and https://arxiv.org/html/2511.08006v2#Sx5.F6.'
+  results_from: 'Main: https://arxiv.org/html/2511.08006v2#Sx5.T2; ablation: https://arxiv.org/html/2511.08006v2#Sx5.T3; efficiency:
+    https://arxiv.org/html/2511.08006v2#Sx5.F5 and https://arxiv.org/html/2511.08006v2#Sx5.F6.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER tokenizes one domain with a single RQ-VAE; GenCDR adds domain-specific tokenizer adapters with item-level routing
+    and an LLM with universal and domain LoRA experts.
+  where: 'GenCDR v2, baselines: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p4 and https://arxiv.org/html/2511.08006v2#Sx5.I3.i2.I1.i2.p1;
+    Table 2: https://arxiv.org/html/2511.08006v2#Sx5.T2; inference scalability in Figure 6: https://arxiv.org/html/2511.08006v2#Sx5.F6.'
+- id: vq-rec
+  relation: competitor
+  note: VQ-Rec transfers across domains with discrete codes in a discriminative model; GenCDR generates domain-adapted semantic
+    IDs autoregressively.
+  where: 'GenCDR v2, baselines: https://arxiv.org/html/2511.08006v2#Sx5.I3.i2.I1.i1.p1; Table 2: https://arxiv.org/html/2511.08006v2#Sx5.T2.'
+- id: utgrec
+  relation: alternative
+  note: UTGRec is cited for item tokenization in generative recommendation that GenCDR describes as developed for single domains;
+    GenCDR targets multi-domain tokenization with domain adapters.
+  where: 'GenCDR v2, Related Work cites Zheng et al. (2025): https://arxiv.org/html/2511.08006v2#Sx2.p2; not a baseline in
+    Table 2.'

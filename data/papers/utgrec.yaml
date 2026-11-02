@@ -6,7 +6,7 @@ year: 2025
 venue: arXiv’25
 links:
   arxiv: https://arxiv.org/abs/2504.04405
-  code: null
+  code: https://github.com/RUCAIBox/UTGRec
 problem: VI
 stage: Tokenization
 representation: Multi-Dom
@@ -19,5 +19,55 @@ poi: false
 summary: 'Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".'
 evidence:
 - field: problem
-  quote: 'Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".'
-  where: arXiv abstract
+  where: 'https://arxiv.org/html/2504.04405v3#S1.p3 (Introduction: domain-specific tokenizers and transfer)'
+  quote: Despite the effectiveness, existing item tokenization methods are typically developed in a domain-specific manner.
+setup:
+  datasets: Amazon Reviews 2023 with 5-core filtering. Pre-training on five domains (Arts Crafts and Sewing, Baby Products,
+    CDs and Vinyl, Cell Phones and Accessories, Software; 999,334 users / 344,412 items in total); downstream on Musical Instruments
+    (57,439 / 24,587), Industrial and Scientific (50,985 / 25,848), Video Games (94,762 / 25,612), Office Products (223,308
+    / 77,551).
+  split: 'Per-user leave-one-out: latest item for test, second most recent for validation, the rest for training; the tokenizer
+    and recommender are pre-trained on the five source domains and fine-tuned on each downstream domain.'
+  candidates: full catalog (full-ranking evaluation over the entire item set).
+  visibility: warm; no unseen-item protocol is defined (downstream items are seen during fine-tuning of both tokenizer and
+    recommender).
+  sid: 'Universal item tokenizer on Qwen2-VL-2B (LoRA) with tree-structured codebooks: root codebook 256 and leaf codebook
+    512, identifier length 3, shared across domains. Conflicts are resolved by reassigning the last-level code to the second-nearest
+    or a farther code instead of appending an extra code.'
+  inference_budget: 'Beam size 50 for all generative recommenders; tokenizer pre-training on 16 GPUs (batch 16 per GPU). Inference
+    hardware, batch size, and latency: not reported.'
+  results_from: Table 2 (four downstream domains versus traditional, content-based, and generative baselines including TIGER,
+    LETTER, TIGER-M); Table 3 (ablations); later figures (analyses).
+setup_where:
+  datasets: 'Pre-training and downstream domains, 5-core: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1; statistics:
+    https://arxiv.org/html/2504.04405v3#S3.T1.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1.'
+  candidates: 'Full ranking and beam 50: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1.'
+  visibility: 'Downstream domains are fine-tuned on, no unseen-item protocol: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS1.p1
+    and https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.'
+  sid: 'Tree-structured codebooks (root 256, leaf 512), L=3, last-level reassignment for conflicts: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1
+    and https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2; MLLM tokenizer: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.'
+  inference_budget: 'Beam size 50: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS3.p1; GPUs for tokenizer pre-training: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS4.p1.'
+  results_from: 'Main: https://arxiv.org/html/2504.04405v3#S3.T2; ablation: https://arxiv.org/html/2504.04405v3#S3.T3.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER trains a domain-specific RQ-VAE on text embeddings and appends an extra code for conflicts; UTGRec learns one
+    MLLM-based tree tokenizer across domains and reassigns conflicting last-level codes.
+  where: 'UTGRec v3, baselines TIGER and TIGER-M: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p14 and https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p16;
+    conflict handling: https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.'
+- id: letter
+  relation: competitor
+  note: LETTER regularizes RQ-VAE with collaborative and diversity terms per domain; UTGRec injects collaborative knowledge
+    through co-occurring item alignment in a universal tokenizer.
+  where: 'UTGRec v3, baselines: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p15; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.'
+- id: vq-rec
+  relation: competitor
+  note: VQ-Rec transfers text codes across domains for discriminative sequence modeling; UTGRec transfers a generative tokenizer
+    and recommender across domains.
+  where: 'UTGRec v3, content-based baselines: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.'
+- id: gencdr
+  relation: alternative
+  note: GenCDR later cites UTGRec as single-domain-oriented tokenization and adds domain-specific adapters and routing for
+    cross-domain generation.
+  where: 'Evidence is from the later GenCDR paper, Related Work: https://arxiv.org/html/2511.08006v2#Sx2.p2.'

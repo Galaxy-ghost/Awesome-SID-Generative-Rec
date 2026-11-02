@@ -6,7 +6,7 @@ year: 2025
 venue: SIGIR’25
 links:
   arxiv: https://arxiv.org/abs/2409.05546
-  code: null
+  code: https://github.com/RUCAIBox/ETEGRec
 problem: III
 stage: Training
 representation: CF
@@ -19,5 +19,56 @@ poi: false
 summary: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
 evidence:
 - field: problem
-  quote: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2409.05546v3#abstract1
+  quote: treat item tokenization and generative recommendation training as separate processes
+setup:
+  datasets: 'Amazon 2023 Reviews (May 1996-September 2023): Musical Instruments, Industrial and Scientific, Video Games; 5-core
+    filtering of users and items; sequences capped at 50 items. Sizes (users / items / interactions): Instrument 57,439 /
+    24,587 / 511,836; Scientific 50,985 / 25,848 / 412,947; Game 94,762 / 25,612 / 814,586.'
+  split: 'Per-user leave-one-out: latest interaction for test, second most recent for validation, the rest for training. Separate
+    generalization study on Instrument and Scientific: the 5% of users with the least history are removed from training and
+    evaluated as unseen users.'
+  candidates: full catalog
+  visibility: 'Main: warm; no unseen-item protocol is defined. The generalization study holds out users, not items: test users
+    are unseen by both tokenizer and generator training, while item visibility is unchanged.'
+  sid: 3-level RQ-VAE x 256 codewords (dimension 128) over 256-dimensional SASRec collaborative embeddings; following TIGER,
+    an extra token is appended to make IDs unique. The tokenizer is trained jointly with the generator by alternating optimization.
+  inference_budget: 'Beam size 20 for all generative models; T5 with 6 encoder and 6 decoder layers. Recall and NDCG at K=5
+    and 10. Hardware, inference batch size, and latency: not reported (Section 3.5 gives asymptotic complexity only).'
+  results_from: Table 3 (Instrument, Scientific, Game; paired t-tests); Table 4 (alignment-loss and alternating-training ablations);
+    Figure 2 (seen versus unseen users); Figure 4 (alignment coefficients).
+setup_where:
+  datasets: 'Amazon 2023 subsets, 5-core filter, sequence length 50: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS1.p1; statistics:
+    https://arxiv.org/html/2409.05546v3#S4.T2.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS3.p1; unseen-user experiment: https://arxiv.org/html/2409.05546v3#S4.SS4.SSS1.p1.'
+  candidates: 'Full ranking over the entire item set: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS3.p1.'
+  visibility: 'Main protocol and unseen-user study: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS3.p1 and https://arxiv.org/html/2409.05546v3#S4.SS4.SSS1.p1.'
+  sid: '3 codebooks x 256, dimension 128, extra uniqueness token: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS4.p1; SASRec
+    embeddings as input: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS4.p1.'
+  inference_budget: 'Beam size 20 for all generative models: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS3.p1; backbone:
+    https://arxiv.org/html/2409.05546v3#S4.SS1.SSS5.p1; complexity analysis only: https://arxiv.org/html/2409.05546v3#S3.SS5.SSS2.p1.'
+  results_from: 'Main: https://arxiv.org/html/2409.05546v3#S4.T3; ablation: https://arxiv.org/html/2409.05546v3#S4.T4; seen/unseen
+    users: https://arxiv.org/html/2409.05546v3#S4.F2; coefficients: https://arxiv.org/html/2409.05546v3#S4.F4.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER trains the RQ-VAE tokenizer once and freezes it; ETEGRec optimizes tokenizer and generator alternately with
+    sequence-item and preference-semantic alignment losses.
+  where: 'ETEGRec v3, baselines and implementation: https://arxiv.org/html/2409.05546v3#S4.SS1.SSS2.p1 and https://arxiv.org/html/2409.05546v3#S4.SS1.SSS5.p2;
+    Table 3: https://arxiv.org/html/2409.05546v3#S4.T3; unseen-user comparison in Figure 2: https://arxiv.org/html/2409.05546v3#S4.SS4.SSS1.p1.'
+- id: letter
+  relation: competitor
+  note: LETTER regularizes the tokenizer before generator training; ETEGRec couples the two end to end during training.
+  where: 'ETEGRec v3, Table 1 comparison of methods: https://arxiv.org/html/2409.05546v3#S3.T1; baselines with official implementation:
+    https://arxiv.org/html/2409.05546v3#S4.SS1.SSS5.p2; Table 3: https://arxiv.org/html/2409.05546v3#S4.T3.'
+- id: cid
+  relation: competitor
+  note: CID and SID (Hua et al., 2023) are fixed indexing schemes for P5-style models; ETEGRec learns the tokenizer jointly
+    with the recommender.
+  where: 'ETEGRec v3, Table 1: https://arxiv.org/html/2409.05546v3#S3.T1; baselines CID and SID with official implementations:
+    https://arxiv.org/html/2409.05546v3#S4.SS1.SSS5.p2; Table 3: https://arxiv.org/html/2409.05546v3#S4.T3.'
+- id: adasid
+  relation: alternative
+  note: AdaSID keeps a pre-trained tokenizer and adapts collision repulsion, contrasting with ETEGRec's end-to-end downstream
+    supervision of the tokenizer.
+  where: 'Evidence is from the later AdaSID paper, Section 2.2: https://arxiv.org/html/2604.23522v1#S2.SS2.p1.'

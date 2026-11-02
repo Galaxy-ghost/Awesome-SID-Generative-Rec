@@ -17,3 +17,50 @@ objective: NTP
 inference: Beam†
 poi: false
 summary: 提出时间显式构码框架及配套基准，系统对照时间编码、融合和量化三维设计。
+setup:
+  datasets: Amazon Industrial and Office; Mercari. Item text plus interaction timestamps; interaction-count filtering not
+    reported.
+  split: 'Global temporal cutoff: codebook/SFT training before cutoff, test targets on/after cutoff; Appendix B uses 2018
+    for Amazon. Exact Mercari cutoff and validation allocation not reported. Section 4 inconsistently prints 2028 and 2018.'
+  candidates: not reported
+  visibility: Unseen by tokenizer too for future items, as claimed in Appendix B.6; codebook fitting uses only pre-2018 interacted
+    items and SFT training uses pre-cutoff targets. Test-item overlap/new-item fraction not reported. Users first appearing
+    after cutoff can be test-only.
+  sid: 'Frozen text/time quantizer: residual early/late fusion or parallel quantization; default 3 codebooks x 256 entries,
+    code dimension 42. Absolute/relative time encodings; text/time input dimensions 2560/768. Collision resolution not reported.'
+  inference_budget: HR/NDCG@3/5/10. Decoding algorithm, beam, constraints, inference hardware/batch and latency not reported;
+    batch 1024 per GPU is SFT training.
+  results_from: Original Table 1 compares five baselines and six ChronoID designs on three datasets; Tables 2/6-8/10-11 give
+    fusion, temporal/capacity and hyperparameter analyses. Baseline implementation/result provenance not reported.
+setup_where:
+  datasets: 'Section 4 and Appendix B.1/Table 1: https://arxiv.org/html/2606.14260v1#S4.p1 ; https://arxiv.org/html/2606.14260v1#A2.SS1.p1
+    ; https://arxiv.org/html/2606.14260v1#S5.T1'
+  split: 'Section 4 and Appendix B.3/B.5: https://arxiv.org/html/2606.14260v1#S4.p1 ; https://arxiv.org/html/2606.14260v1#A2.SS3.SSS0.Px1.p1
+    ; https://arxiv.org/html/2606.14260v1#A2.T5'
+  candidates: 'Section 5.1 defines single-ground-truth ranking metrics but no candidate universe: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px2.p1'
+  visibility: 'Section 4 and Appendix B.2/B.6: https://arxiv.org/html/2606.14260v1#S4.p2 ; https://arxiv.org/html/2606.14260v1#A2.SS2.SSS0.Px1.p1
+    ; https://arxiv.org/html/2606.14260v1#A2.SS6.SSS0.Px2.p1'
+  sid: 'Sections 3.2/3.3 and Appendix B.3/D: https://arxiv.org/html/2606.14260v1#S3.SS2.p2 ; https://arxiv.org/html/2606.14260v1#S3.SS2.p3
+    ; https://arxiv.org/html/2606.14260v1#S3.SS3.p3 ; https://arxiv.org/html/2606.14260v1#A2.SS3.SSS0.Px2.p1 ; https://arxiv.org/html/2606.14260v1#A4.T9'
+  inference_budget: 'Table 1 and Appendix D/Table 9: https://arxiv.org/html/2606.14260v1#S5.T1 ; https://arxiv.org/html/2606.14260v1#A4.T9'
+  results_from: 'Sections 5.1/5.2 and Tables 1/2/6-8/10-11: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1 ; https://arxiv.org/html/2606.14260v1#S5.SS2.p1
+    ; https://arxiv.org/html/2606.14260v1#S5.T1 ; https://arxiv.org/html/2606.14260v1#A3.T6 ; https://arxiv.org/html/2606.14260v1#A4.T11'
+related:
+- id: minionerec
+  relation: predecessor
+  note: ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
+  where: 'ChronoID v1, Introduction/Section 3 and Table 1: https://arxiv.org/html/2606.14260v1#S1.p2 ; https://arxiv.org/html/2606.14260v1#S3.p1
+    ; https://arxiv.org/html/2606.14260v1#S5.T1.'
+- id: tokenrec
+  relation: predecessor
+  note: ChronoID adopts parallel quantization as one temporal-tokenization design.
+  where: 'ChronoID v1, Sections 3.3/6 and Table 1: https://arxiv.org/html/2606.14260v1#S3.SS3.p3 ; https://arxiv.org/html/2606.14260v1#S6.p1
+    ; https://arxiv.org/html/2606.14260v1#S5.T1.'
+- id: actionpiece
+  relation: competitor
+  note: ActionPiece is a generative recommendation baseline in the temporal benchmark.
+  where: 'ChronoID v1, Section 5.1 and Table 1: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.'
+- id: tiger
+  relation: predecessor
+  note: ChronoID extends the static residual-quantization paradigm with time-aware IDs.
+  where: 'ChronoID v1, Section 6: https://arxiv.org/html/2606.14260v1#S6.p1.'

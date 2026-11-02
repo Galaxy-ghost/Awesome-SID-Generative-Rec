@@ -6,7 +6,7 @@ year: 2025
 venue: arXiv’25
 links:
   arxiv: https://arxiv.org/abs/2511.06254
-  code: null
+  code: https://github.com/TengShi-RUC/LLaDA-Rec
 problem: III
 stage: Backbone
 representation: Text
@@ -20,6 +20,59 @@ summary: 'Abstract: "error accumulation, where the fixed left-to-right generatio
   tokens to propagate".'
 evidence:
 - field: problem
-  quote: 'Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early
-    tokens to propagate".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2511.06254v1#abstract1
+  quote: error accumulation, where the fixed left-to-right generation order causes prediction errors in early tokens to propagate
+setup:
+  datasets: 'Amazon Reviews 2023: Industrial Scientific (50,985 users / 25,848 items), Musical Instruments (57,439 / 24,587),
+    Video Games (94,762 / 25,612). Filtering rules: not reported.'
+  split: 'Chronological leave-one-out: last item for test, second-to-last for validation, the rest for training.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); top-k lists from the adapted beam search.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Parallel semantic IDs from a Multi-Head VQ-VAE over Sentence-T5 embeddings: the embedding is split into 4 sub-vectors,
+    each quantized by its own codebook of 256 codes (dimension 32). Collision handling: not reported.'
+  inference_budget: 'Discrete-diffusion decoding with beam search over iteratively selected positions and remasking; beam
+    size B: not reported numerically. Bidirectional Transformer encoder (4 layers; 6 for Game). Hardware, inference batch
+    size, and latency: not reported. Recall at 1, 5, 10 and NDCG at 5, 10.'
+  results_from: Table 3 (Scientific, Instrument, Game versus item-ID, diffusion, and semantic-ID baselines; paired t-tests);
+    Table 4 (ablations including RQ-VAE tokenizer and greedy decoding); Figure 3 (attention mechanisms); Section 5.4 (hyperparameters).
+setup_where:
+  datasets: 'Amazon 2023 categories and ordering: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS1.p1; statistics: https://arxiv.org/html/2511.06254v1#S4.T2.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS1.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS3.p1.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS1.p1.'
+  sid: 'M=4 codebooks x 256 x 32 with Multi-Head VQ-VAE: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2511.06254v1#S4.SS1.p3;
+    no collision rule found.'
+  inference_budget: 'Beam search adapted to diffusion decoding: https://arxiv.org/html/2511.06254v1#S4.SS3.SSS3.p1 and https://arxiv.org/html/2511.06254v1#S4.SS3.SSS4.p1;
+    no numerical beam size or hardware found.'
+  results_from: 'Main: https://arxiv.org/html/2511.06254v1#S4.T3; ablation: https://arxiv.org/html/2511.06254v1#S5.T4; attention
+    study: https://arxiv.org/html/2511.06254v1#S5.F3.'
+related:
+- id: rpg
+  relation: competitor
+  note: RPG predicts long unordered OPQ codes in parallel with multi-token prediction; LLaDA-Rec generates parallel VQ codes
+    by discrete diffusion with an adapted beam search.
+  where: 'LLaDA-Rec v1, Table 1 comparison and semantic-ID baselines: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2;
+    Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.'
+- id: tiger
+  relation: competitor
+  note: TIGER generates hierarchical RQ-VAE codes left to right with causal attention; LLaDA-Rec uses bidirectional attention
+    and fills code positions in any order.
+  where: 'LLaDA-Rec v1, Table 1 and baselines (TIGER and TIGER-SAS): https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2;
+    Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.'
+- id: letter
+  relation: competitor
+  note: LETTER improves a hierarchical tokenizer for left-to-right generation; LLaDA-Rec replaces the hierarchy with parallel
+    codes suited to diffusion.
+  where: 'LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1
+    and https://arxiv.org/html/2511.06254v1#S4.T3.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec aligns an LLM to semantic IDs with auxiliary tasks and causal decoding; LLaDA-Rec trains a bidirectional masked
+    predictor with history-level and item-level masking.
+  where: 'LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1
+    and https://arxiv.org/html/2511.06254v1#S4.T3.'
+- id: vq-rec
+  relation: competitor
+  note: VQ-Rec pools product-quantized codes into an item representation for discriminative ranking; LLaDA-Rec generates parallel
+    codes directly.
+  where: 'LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.'

@@ -6,7 +6,7 @@ year: 2025
 venue: TKDE’25
 links:
   arxiv: https://arxiv.org/abs/2406.10450
-  code: null
+  code: https://github.com/Quhaoh233/TokenRec
 problem: I
 stage: Tokenization
 representation: CF
@@ -21,7 +21,62 @@ summary: 'Abstract: "challenges remain in efficiently capturing high-order colla
   first new design).'
 evidence:
 - field: problem
-  quote: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens";
-    "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the
-    first new design).'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2406.10450v3#abstract1 (Abstract; verified excerpt) ; https://arxiv.org/html/2406.10450v3#S1.p4
+    (first new design)
+  quote: challenges remain in capturing high-order collaborative knowledge into discrete tokens compatible with LLMs and generalizing
+    to unseen users/items.
+  reason: I, VI, and V are candidate categories for collaborative-token fidelity, unseen-user/item generalization, and efficiency;
+    the first new design, ID tokenization, breaks the tie in favor of I.
+setup:
+  datasets: 'LastFM (1,090 users / 3,646 items), MovieLens-1M (6,040 / 3,416), Amazon Beauty (22,363 / 12,101), Amazon Clothing
+    (23,033 / 39,387 as printed); histories capped at 100 items. Filtering rules: not reported.'
+  split: 'Leave-one-out: all but the last observation for training; histories are randomly shuffled to give non-chronological
+    lists (to match collaborative-filtering baselines). Separate study on Beauty and LastFM: the 5% of users with the least
+    history are removed from training as unseen users, and all items they interacted with are excluded from training too.'
+  candidates: full catalog (scores all items in the item base and retrieves top-K). Training uses 1:1 negatives drawn at random
+    from un-interacted items.
+  visibility: 'Main: warm; no unseen-item protocol is defined. Unseen-user study: held-out users and every item they interacted
+    with are excluded from the training split, so those items are unseen by the generator and the MQ-Tokenizer training (tokens
+    for them are produced afterwards from their representations).'
+  sid: 'Masked vector-quantized tokenizer (MQ-Tokenizer) for both users and items: K parallel sub-encoders, each quantized
+    against its own sub-codebook of L codes (K searched in 1-5, L in 128-1,024; prompt example uses K=3), over masked collaborative
+    representations. Collision handling: not reported.'
+  inference_budget: 'No beam search: the T5 output is projected and all items are scored for top-K. Table 5: average top-20
+    inference time per user of 5.76-8.43 ms versus 76-102 ms for P5, POD, CID, and TIGER; hardware and batch size: not reported.'
+  results_from: Tables 2-3 (LastFM, ML1M, Beauty, Clothing versus CF, sequential, and LLM-based baselines); Table 4 (seen
+    versus unseen users); Table 5 (inference time); Table 6 (ablations).
+setup_where:
+  datasets: 'Datasets and statistics: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS1.p1 and https://arxiv.org/html/2406.10450v3#S3.T1.'
+  split: 'Leave-one-out with shuffled histories: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS1.p1; unseen-user split: https://arxiv.org/html/2406.10450v3#S3.SS3.p2.'
+  candidates: 'Scores over all items for top-K retrieval; training negatives 1:1: https://arxiv.org/html/2406.10450v3#S2.SS4.SSS3.p3
+    and https://arxiv.org/html/2406.10450v3#S3.SS1.SSS4.p1.'
+  visibility: 'Unseen-user study excludes those users'' items from training: https://arxiv.org/html/2406.10450v3#S3.SS3.p2.'
+  sid: 'K-way masked vector-quantized tokenizer, ranges: https://arxiv.org/html/2406.10450v3#S2.SS3.SSS3.p2, https://arxiv.org/html/2406.10450v3#S2.SS3.SSS3.p3,
+    https://arxiv.org/html/2406.10450v3#S3.SS1.SSS4.p1.'
+  inference_budget: 'Generative retrieval by scoring instead of beam decoding: https://arxiv.org/html/2406.10450v3#S2.SS4.SSS3.p3;
+    timing: https://arxiv.org/html/2406.10450v3#S3.T5.'
+  results_from: 'Main: https://arxiv.org/html/2406.10450v3#S3.T2 and https://arxiv.org/html/2406.10450v3#S3.T3; unseen users:
+    https://arxiv.org/html/2406.10450v3#S3.T4; time: https://arxiv.org/html/2406.10450v3#S3.T5; ablation: https://arxiv.org/html/2406.10450v3#S3.T6.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER decodes RQ-VAE item IDs by beam search; TokenRec tokenizes users and items with a masked K-way quantizer and
+    scores all items directly, about ten times faster.
+  where: 'TokenRec v3, baselines: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1; Tables 2-5: https://arxiv.org/html/2406.10450v3#S3.T2,
+    https://arxiv.org/html/2406.10450v3#S3.T3, https://arxiv.org/html/2406.10450v3#S3.T4, https://arxiv.org/html/2406.10450v3#S3.T5.'
+- id: cid
+  relation: competitor
+  note: CID builds collaborative indices for P5-style text generation; TokenRec builds collaborative tokens for users and
+    items and retrieves without decoding.
+  where: 'TokenRec v3, baselines: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1 and https://arxiv.org/html/2406.10450v3#S3.I2.i4.p1;
+    Tables 2-5: https://arxiv.org/html/2406.10450v3#S3.T2 and https://arxiv.org/html/2406.10450v3#S3.T5.'
+- id: lc-rec
+  relation: alternative
+  note: LC-Rec decodes item indices autoregressively, which TokenRec avoids for speed and to limit hallucinated items.
+  where: 'TokenRec v3, Section 2.4.3 cites Zheng et al. (2024): https://arxiv.org/html/2406.10450v3#S2.SS4.SSS3.p1.'
+- id: r3-vae
+  relation: alternative
+  note: R3-VAE later evaluates TokenRec's masked quantizer (MQ) as a tokenizer baseline and proposes reference-guided residual
+    quantization.
+  where: 'Evidence is from the later R3-VAE paper: baselines and Tables 1, 4: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1,
+    https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T4.'

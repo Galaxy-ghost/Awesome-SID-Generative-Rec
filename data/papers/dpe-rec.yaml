@@ -30,3 +30,40 @@ summary: 'Generative bundle construction completes a partially observed bundle b
   accurate bundle construction with substantially fewer denoise steps. Experiments on multiple bundle construction benchmarks
   show that DPE-Rec improves recommendation performance by 63% on average, and its fast variant achieves 25.6$times$ faster
   inference on average than existing generative recommendation arts, with minimal loss in recommendation quality.'
+setup:
+  datasets: Spotify playlists (K=30/60/90), POG outfits (K=4), IQON3000 outfits (K=8). Remove bundles shorter than K, truncate
+    longer bundles; IQON3000 also drops outfits with missing images. User/item-frequency filtering not reported.
+  split: 'Disjoint bundles: released Spotify/POG partitions (ratios not reported); IQON3000 shuffled outfits split 7:1:2.
+    Each evaluation bundle exposes its first K/2 items and predicts the remainder. Training-only adjacent-swap/random contiguous-K
+    augmentation uses r=0.4 for Spotify, 0.8 for POG/IQON3000.'
+  candidates: 'sampled: 100N total, where N=K/2 targets: Spotify K=30/60/90 uses 1,500/3,000/4,500; POG 200; IQON3000 400.
+    Shared sets contain all N targets plus uniformly sampled non-target items; observed-bundle/user-history exclusion not
+    reported.'
+  visibility: warm; no unseen-item protocol is defined. Partitions are bundle-disjoint; CLHE representation fitting and SID-quantizer
+    exposure to validation/test items are not separately reported.
+  sid: Fixed 64D CLHE features (released Spotify/POG; IQON3000 trained on text/image features); 3 residual-VQ tokens with
+    C=256 for Spotify/IQON3000, 128 for POG. A fourth catalog-order token disambiguates collisions (max 74/53/171 for Spotify/POG/IQON3000).
+    Separate level vocabularies plus boundary/MASK tokens; generated SIDs undergo exact-match or reconstructed-embedding cosine
+    legalization, removing selected candidates for distinct outputs.
+  inference_budget: 'Sequential AO teacher reveals one SID token/step; Fast reveals confidence-qualified positions in parallel
+    plus a quota meeting budget F. Numeric default F/threshold, model size and inference batch size not reported. All experiments
+    use one A100-80GB. Per-bundle DPE/Fast latency (ms): Spotify K=30 443.59/62.34, K=60 903.41/65.79, K=90 1340.05/66.72;
+    POG 59.38/46.49; IQON3000 112.51/58.32.'
+  results_from: Own training/evaluation of all methods with 5 seeds, reporting mean/std quality and measured latency. Spotify/POG
+    backbone pretraining is from scratch with the DDBC recipe; fixed CLHE representations are shared. Compared generators
+    are UniGRec, DiffGRM and DDBC; no imported recommendation-score source is identified.
+setup_where:
+  datasets: 'https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px1.p1 ; #S8.SS1.SSS0.Px2.p1'
+  split: 'https://arxiv.org/html/2610.34700v1#S8.SS1.SSS0.Px2.p1 ; #S8.SS1.SSS0.Px3.p1'
+  candidates: 'https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px4.p1 ; #S8.SS1.SSS0.Px2.p1'
+  visibility: 'https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px1.p1 ; #S8.SS1.SSS0.Px2.p1 ; #S8.SS1.SSS0.Px4.p1'
+  sid: 'https://arxiv.org/html/2610.34700v1#S8.SS1.SSS0.Px4.p1 ; #S8.SS1.SSS0.Px4.p3 ; #S8.SS1.SSS0.Px5.p5 ; #S4.SS3.p1'
+  inference_budget: 'https://arxiv.org/html/2610.34700v1#S4.SS2.SSS0.Px1.p5 ; #S4.SS2.SSS0.Px4.p1 ; #S4.SS2.SSS0.Px4.p4 ;
+    #S8.SS2.p1 ; #S5.T2'
+  results_from: 'https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px3.p1 ; #S5.SS1.SSS0.Px2.p1 ; #S8.SS2.p1 ; #S5.T2'
+related:
+- id: tiger
+  relation: alternative
+  note: Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional
+    diffusion for unordered bundle construction.
+  where: https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)

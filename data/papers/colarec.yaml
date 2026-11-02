@@ -6,7 +6,7 @@ year: 2024
 venue: CIKM’24
 links:
   arxiv: https://arxiv.org/abs/2403.18480
-  code: null
+  code: https://github.com/Junewang0614/ColaRec
 problem: I
 stage: Backbone
 representation: Text+CF
@@ -20,12 +20,58 @@ summary: 'Abstract: "How to integrate content knowledge and collaborative intera
   for item recommendation is still an open research challenge".'
 evidence:
 - field: problem
-  quote: 'Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored
-    for item recommendation is still an open research challenge".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p5
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p5
+  where: https://arxiv.org/html/2403.18480v2#abstract1
+  quote: How to integrate content knowledge and collaborative interaction signals in a generative framework tailored for item
+    recommendation is still an open research challenge
+setup:
+  datasets: 'Amazon Product Reviews: Beauty, Sports and Outdoors, Cell Phones and Accessories (Phone); Food.com Recipe. Users
+    and items with fewer than 5 interactions are filtered. Sizes (users / items / interactions): Beauty 22,363 / 12,101 /
+    198,502; Sports 35,598 / 18,357 / 296,337; Phone 27,879 / 10,429 / 194,439; Recipe 17,813 / 41,240 / 555,618.'
+  split: 'General recommendation, not sequential: each user''s interactions are randomly split 8:1:1 into training, validation,
+    and test. Three runs are averaged.'
+  candidates: full catalog
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'GID length l=3 from hierarchical constrained K-means over pretrained LightGCN item embeddings, K=32 clusters per level
+    (48 for Recipe). Collisions are avoided by construction: clusters hold at most K^(l-t) items and leaf positions are assigned
+    randomly, so each item has a unique GID.'
+  inference_budget: 'Constrained beam search over valid GID prefixes; numerical beam width not reported. T5-small backbone.
+    Recall and NDCG at n=5 and 10 (Table 2). Hardware, inference batch size, and latency: not reported.'
+  results_from: Table 2 (four datasets; mean of three runs); Table 3 (long-tail users); Table 4 (multi-task ablation and GID
+    types); Figures 4-5 (GID length and cluster number).
+setup_where:
+  datasets: 'Datasets and 5-interaction filter: https://arxiv.org/html/2403.18480v2#S5.SS1.p1; statistics: https://arxiv.org/html/2403.18480v2#S4.T1.'
+  split: 'Random 8:1:1 per-user split for general (non-sequential) recommendation: https://arxiv.org/html/2403.18480v2#S5.SS2.p1.'
+  candidates: 'Candidate set is the whole item set: https://arxiv.org/html/2403.18480v2#S5.SS2.p1.'
+  visibility: 'Random interaction split with no cold-start experiment: https://arxiv.org/html/2403.18480v2#S5.SS2.p1; long-tail
+    users are analyzed separately: https://arxiv.org/html/2403.18480v2#S5.T3.'
+  sid: 'Constrained hierarchical K-means over LightGCN embeddings, random leaf assignment, one unique GID per item: https://arxiv.org/html/2403.18480v2#S4.SS2.p1
+    and https://arxiv.org/html/2403.18480v2#S4.SS2.p2; l=3, K=32 (Recipe 48): https://arxiv.org/html/2403.18480v2#S5.SS4.p1.'
+  inference_budget: 'Constrained beam search: https://arxiv.org/html/2403.18480v2#S4.SS5.p5; no numerical width found in Section
+    5.'
+  results_from: 'Main: https://arxiv.org/html/2403.18480v2#S4.T2; long-tail users: https://arxiv.org/html/2403.18480v2#S5.T3;
+    ablation and GID types: https://arxiv.org/html/2403.18480v2#S5.T4; GID length and K: https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p1
+    and https://arxiv.org/html/2403.18480v2#S5.SS7.SSS2.p2.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER builds content-only RQ-VAE identifiers; ColaRec builds collaborative GIDs from LightGCN embeddings and aligns
+    them with item content through item-item indexing.
+  where: 'ColaRec v2, Section 5.3 baselines: https://arxiv.org/html/2403.18480v2#S5.SS3.p1 and https://arxiv.org/html/2403.18480v2#S5.I2.i8.p1
+    (adapted without sequential order); Table 2: https://arxiv.org/html/2403.18480v2#S4.T2.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec learns TIGER-style indices and aligns an LLM through language tasks; ColaRec uses a T5-small generator with
+    collaborative GIDs and a contrastive ranking loss.
+  where: 'ColaRec v2, Section 5.3 baselines: https://arxiv.org/html/2403.18480v2#S5.I2.i9.p1; Table 2: https://arxiv.org/html/2403.18480v2#S4.T2.'
+- id: cid
+  relation: alternative
+  note: P5-CID builds collaborative IDs for prompt-based P5 models that rank a candidate list in the prompt; ColaRec generates
+    GIDs over the whole item set.
+  where: 'ColaRec v2, Section 5.3 explains why P5-based methods including Hua et al. (2023) are excluded as baselines: https://arxiv.org/html/2403.18480v2#S5.SS3.p2;
+    related work: https://arxiv.org/html/2403.18480v2#S2.SS2.p3.'
+- id: seater
+  relation: alternative
+  note: SEATER also builds tree-structured identifiers for generative recommendation; ColaRec derives its tree from collaborative
+    LightGCN embeddings and adds content-based item-item indexing.
+  where: 'ColaRec v2, Section 1 and Section 2.2 cite SEATER among generative identifier methods: https://arxiv.org/html/2403.18480v2#S1.p3
+    and https://arxiv.org/html/2403.18480v2#S2.SS2.p3; not a baseline in Table 2.'

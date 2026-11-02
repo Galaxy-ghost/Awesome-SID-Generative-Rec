@@ -20,12 +20,58 @@ summary: 'Abstract: "fine-tuning these models with Reinforcement Learning (RL) o
   mismatch".'
 evidence:
 - field: problem
-  quote: 'Abstract: "fine-tuning these models with Reinforcement Learning (RL) often suffers from a fundamental probability-reward
-    mismatch".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2602.10699v2#abstract1 (Abstract)
+  quote: However, fine-tuning these models with Reinforcement Learning (RL) often suffers from a fundamental probability-reward
+    mismatch.
 - field: representation
-  quote: Embedding used to build SIDs is not stated; inferred from MiniOneRec (Text in Table 1).
-  where: §5.1, p6; §4.1, p4
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: p6; §3.1, p3; §4.3, p5
+  where: https://arxiv.org/html/2602.10699v2#S5.SS1.p1 (V-STAR data preprocessing and SID construction); https://arxiv.org/html/2510.24431v1#S4.p1
+    (MiniOneRec text embeddings); https://arxiv.org/html/2602.10699v2#S4.SS1.p2 (V-STAR text encoder for reward supervision)
+  reason: The Text representation label is inferred from V-STAR's reuse of MiniOneRec preprocessing, whose tokenizer embeds
+    item titles and descriptions. V-STAR does not explicitly identify its SID-construction embeddings; its separately reported
+    frozen text encoder supplies dense reward supervision.
+setup:
+  datasets: 'Amazon Reviews 2023 Industrial and Scientific and Office Products, preprocessed following MiniOneRec (Kong et
+    al., 2025b); online: WeChat Channels advertising traffic. Filtering and sizes: not restated.'
+  split: 'Chronological next-item prediction following MiniOneRec''s preprocessing (allocation not restated). Online: 5-day
+    A/B test on 5% of live requests, against beam search plus GRPO.'
+  candidates: not reported (full catalog versus sampled); generation is restricted to valid catalog SIDs, with HR and NDCG
+    at 3, 5, 10.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '3-level RQ-VAE semantic IDs (citing TIGER); the paper states each item is represented by a unique fixed-length SID.
+    Codebook size and the mechanism that ensures uniqueness: not reported.'
+  inference_budget: 'Training rollouts use value-guided decoding (VED) with 16 candidates per query and an 8-wide beam to
+    initialize the prefix tree; at inference, standard beam search is the default decoder (width not reported). Qwen2.5-1.5B
+    on 8 GPUs; inference batch size and latency: not reported.'
+  results_from: Table 1 (Industrial and Office versus sequential, generative, and RL baselines including MiniOneRec); Tables
+    2-4 (decoding, expansion rules, training objective); Table 6 (candidate diversity and max reward); Section 5.3 (online
+    GMV +1.23%).
+setup_where:
+  datasets: 'Datasets and MiniOneRec preprocessing: https://arxiv.org/html/2602.10699v2#S5.SS1.p1.'
+  split: 'Chronological next-item protocol: https://arxiv.org/html/2602.10699v2#S5.SS1.p1; online A/B: https://arxiv.org/html/2602.10699v2#S5.SS3.p1.'
+  candidates: 'Valid-SID constraint and metrics: https://arxiv.org/html/2602.10699v2#S5.SS1.p1.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2602.10699v2#S5.SS1.p1.'
+  sid: '3-level RQ-VAE SIDs: https://arxiv.org/html/2602.10699v2#S5.SS1.p1; each item has a unique fixed-length SID: https://arxiv.org/html/2602.10699v2#S3.SS1.p1.'
+  inference_budget: 'VED budget, beam settings, inference decoder: https://arxiv.org/html/2602.10699v2#S5.SS1.p2.'
+  results_from: 'Main: https://arxiv.org/html/2602.10699v2#S4.T1; ablations: https://arxiv.org/html/2602.10699v2#S5.T2, https://arxiv.org/html/2602.10699v2#S5.T3,
+    https://arxiv.org/html/2602.10699v2#S5.T4; diversity: https://arxiv.org/html/2602.10699v2#S5.T6; online: https://arxiv.org/html/2602.10699v2#S5.SS3.p1.'
+related:
+- id: minionerec
+  relation: competitor
+  note: MiniOneRec samples RL candidates by beam search and applies GRPO; V-STAR replaces candidate construction with value-guided
+    prefix expansion and uses sibling-group advantages, while keeping MiniOneRec's preprocessing.
+  where: 'V-STAR v2, preprocessing follows Kong et al. (2025b): https://arxiv.org/html/2602.10699v2#S5.SS1.p1; strongest RL
+    baseline: https://arxiv.org/html/2602.10699v2#S5.SS2.p1; Table 1: https://arxiv.org/html/2602.10699v2#S4.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER's SIDs and beam search are the base; V-STAR targets the pruning of high-reward low-probability prefixes during
+    RL sampling.
+  where: 'V-STAR v2, SID-based baselines: https://arxiv.org/html/2602.10699v2#S5.SS2.p1; Table 1: https://arxiv.org/html/2602.10699v2#S4.T1.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec is an SID-based LLM recommender without RL; V-STAR adds value-guided RL on top of SFT.
+  where: 'V-STAR v2, baselines: https://arxiv.org/html/2602.10699v2#S5.SS2.p1; Table 1: https://arxiv.org/html/2602.10699v2#S4.T1.'
+- id: onerec
+  relation: alternative
+  note: OneRec applies preference alignment with beam-sampled responses; V-STAR argues that probability-based beam sampling
+    under-explores high-reward items.
+  where: 'V-STAR v2, Sections 1 and 2.3 cite OneRec: https://arxiv.org/html/2602.10699v2#S1.p1 and https://arxiv.org/html/2602.10699v2#S2.SS3.p1.'

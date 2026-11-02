@@ -6,7 +6,7 @@ year: 2026
 venue: KDD’26
 links:
   arxiv: https://arxiv.org/abs/2602.11719
-  code: null
+  code: https://github.com/cxfann/UGR
 problem: IV
 stage: Training
 representation: Text
@@ -17,3 +17,34 @@ objective: NTP → (RL + Rank)
 inference: Beam
 poi: false
 summary: 提出 SID 推荐专属不确定性对齐目标，完整生成 SID 并以置信度支持风险应用。
+setup:
+  datasets: Amazon Office (2016.10-2018.11), Industrial and Scientific (1996.10-2018.11), Yelp (2018.05-2018.11); user/item
+    5-core filtering, histories capped at 10.
+  split: Chronological 8:1:1 train/validation/test split; finer per-user allocation details not reported.
+  candidates: not reported; training rollout group size 16 is not an evaluation negative count.
+  visibility: warm; no unseen-item protocol is defined. Tokenizer exposure to test items not reported.
+  sid: RQ-VAE on Qwen3-Embedding-4B item embeddings; 4 layers. Codebook sizes and collision handling not reported.
+  inference_budget: 'Qwen3-8B; beam 10; confidence computed post-generation. Experiments use 8 A100 GPUs; inference device
+    allocation/batch size not reported. Office: 37.0 ms/query versus SFT/GRPO 32.9 ms; training rollout beam/group 16 is separate.'
+  results_from: 'Original Table 1: main comparisons, baselines reproduced from official repositories using best validation
+    checkpoints; Table 2: staged ablations. Table 3: optional confidence reranking on Office, separate from main comparison.'
+setup_where:
+  datasets: 'Appendix A/Table 5: https://arxiv.org/html/2602.11719v2#A1.p2 and https://arxiv.org/html/2602.11719v2#A1.T5'
+  split: 'Section 4.1.1/Appendix A: https://arxiv.org/html/2602.11719v2#S4.SS1.SSS1.p1 and https://arxiv.org/html/2602.11719v2#A1.p2'
+  candidates: 'Section 4.1.2/Appendix C describes beam lists without full-catalog/sampled-negative evaluation specification:
+    https://arxiv.org/html/2602.11719v2#S4.SS1.SSS2.p1 and https://arxiv.org/html/2602.11719v2#A3.p3'
+  visibility: 'Section 4.1/Appendix A defines no unseen-item holdout: https://arxiv.org/html/2602.11719v2#S4.SS1 and https://arxiv.org/html/2602.11719v2#A1'
+  sid: 'Appendix C: https://arxiv.org/html/2602.11719v2#A3.p1'
+  inference_budget: 'Section 4.1.4/Appendix C/Table 6: https://arxiv.org/html/2602.11719v2#S4.SS1.SSS4.p1 and https://arxiv.org/html/2602.11719v2#A3.p3
+    and https://arxiv.org/html/2602.11719v2#A3.T6'
+  results_from: 'Table 1/Appendix B/Table 3: https://arxiv.org/html/2602.11719v2#S3.T1 and https://arxiv.org/html/2602.11719v2#A2.p1
+    and https://arxiv.org/html/2602.11719v2#S4.T3 and https://arxiv.org/html/2602.11719v2#S3.T2'
+related:
+- id: minionerec
+  relation: competitor
+  note: UGR and MiniOneRec share the backbone; UGR adds uncertainty-aware optimization.
+  where: 'UGR v2, Section 4.2: https://arxiv.org/html/2602.11719v2#S4.SS2.p2.'
+- id: tiger
+  relation: competitor
+  note: TIGER supplies the standard SID-based baseline for UGR's uncertainty-aware alignment.
+  where: 'UGR v2, Section 4.1.3 and Table 1: https://arxiv.org/html/2602.11719v2#S4.SS1.SSS3.p1; https://arxiv.org/html/2602.11719v2#S3.T1.'

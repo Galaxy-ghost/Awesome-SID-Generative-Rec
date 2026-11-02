@@ -19,5 +19,50 @@ poi: false
 summary: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
 evidence:
 - field: problem
-  quote: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
-  where: arXiv abstract
+  where: 'OneRec v1 (2502.18965), Abstract, quoted clause: https://arxiv.org/html/2502.18965v1#abstract1'
+  quote: the generative model functions only as a selector during the retrieval stage
+setup:
+  datasets: 'Kuaishou short-video interaction logs; training sessions are built from high-quality user sessions (a session
+    is 5-10 videos per request; the listed criteria include at least 5 videos actually watched, total watch time above a threshold
+    whose value is not given, and interactions such as liking, collecting, or sharing). Dataset size: not reported.'
+  split: 'Offline: evaluation on a randomly sampled set of test cases in each iteration; the train/test construction is not
+    reported. Online: A/B test on Kuaishou''s main-page video scenarios with 1% of main traffic.'
+  candidates: 'n/a for ranking metrics: generated sessions are scored by a pre-trained reward model (session watch time, view,
+    follow, and like probabilities), not ranked against a candidate set.'
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '3 levels x 8,192 codes from multi-level balanced residual K-means over multimodal video embeddings aligned with user
+    behavior; balanced K-means equalizes cluster sizes. Collision handling: not reported.'
+  inference_budget: 'Beam search with beam size 128 (also used to generate 128 responses per user for DPO); KV-cache decoding
+    with float16 quantization; MoE with 24 experts, 2 active (about 13% of parameters active at inference). Training on NVIDIA
+    A800 GPUs; serving hardware, batch size, and latency: not reported.'
+  results_from: 'Table 1 (offline reward-model metrics versus pointwise, listwise, and preference-alignment baselines); Figure
+    4 (DPO sample ratio); Table 2 (online A/B: OneRec-1B+IPA +1.68% total watch time, +6.56% average view duration).'
+setup_where:
+  datasets: 'Industrial Kuaishou data and session construction: https://arxiv.org/html/2502.18965v1#S3.SS2.p1 and https://arxiv.org/html/2502.18965v1#S4.p1;
+    no dataset statistics found.'
+  split: 'Offline evaluation on randomly sampled test cases: https://arxiv.org/html/2502.18965v1#S5.SS1.SSS3.p1; online: https://arxiv.org/html/2502.18965v1#S5.SS5.p1.'
+  candidates: 'Reward-model evaluation of generated sessions: https://arxiv.org/html/2502.18965v1#S5.SS1.SSS3.p1.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2502.18965v1#S5.SS1.SSS3.p1.'
+  sid: 'Balanced residual K-means, L=3 x K=8192: https://arxiv.org/html/2502.18965v1#S3.SS1.p2, https://arxiv.org/html/2502.18965v1#S3.SS1.p3,
+    https://arxiv.org/html/2502.18965v1#S5.SS1.SSS1.p1; no collision rule found.'
+  inference_budget: 'Beam size 128 online and for DPO sampling; KV cache and float16: https://arxiv.org/html/2502.18965v1#S4.p1
+    and https://arxiv.org/html/2502.18965v1#S5.SS1.SSS1.p1.'
+  results_from: 'Offline: https://arxiv.org/html/2502.18965v1#S3.T1; DPO ratio: https://arxiv.org/html/2502.18965v1#S5.F4;
+    online: https://arxiv.org/html/2502.18965v1#S5.T2.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER generates one next item from RQ-VAE semantic IDs; OneRec generates whole sessions with balanced residual K-means
+    IDs, an MoE encoder-decoder, and iterative DPO.
+  where: 'OneRec v1, baselines: https://arxiv.org/html/2502.18965v1#S5.I1.i4.p1; Table 1: https://arxiv.org/html/2502.18965v1#S3.T1;
+    tokenizer contrast with RQ-VAE: https://arxiv.org/html/2502.18965v1#S3.SS1.p2.'
+- id: minionerec
+  relation: successor
+  note: MiniOneRec later reproduces the OneRec-style SID, SFT, and RL pipeline in open source on public data.
+  where: 'Evidence is from the later MiniOneRec paper, Section 1: https://arxiv.org/html/2510.24431v1#S1.p1 and https://arxiv.org/html/2510.24431v1#S1.p3.'
+- id: gflowgr
+  relation: alternative
+  note: GFlowGR later compares against OneRec's IPA alignment and replaces it with a GFlowNet objective over reward-weighted
+    trajectories.
+  where: 'Evidence is from the later GFlowGR paper: IPA baseline and Table 2: https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1
+    and https://arxiv.org/html/2506.16114v3#S4.T2.'

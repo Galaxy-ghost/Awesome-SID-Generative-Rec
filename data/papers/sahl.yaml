@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2610.25093
-  code: null
+  code: https://github.com/CQU-MM-Intelligent-Lab/SAHL
 problem: IV
 stage: Training
 representation: Text
@@ -29,3 +29,39 @@ summary: Generative recommendation constructs semantic IDs for catalog items and
   SAHL improves NDCG@10 by 18.6%-30.0% over RPG and 2.7%-6.0% over strong method MHL. Controlled analyses verify balanced
   code use, the benefit of following quantizer-defined groups during reconstruction, and dependence on user history. The relevant
   code is available at https://github.com/CQU-MM-Intelligent-Lab/SAHL.
+setup:
+  datasets: Amazon Reviews 2014 Beauty, Toys and Games, Sports and Outdoors, CDs and Vinyl, in this order; user/item 5-core.
+  split: 'Per-user chronological leave-one-out: last interaction test, penultimate validation, earlier interactions train.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Low-frequency analysis is explicitly near-cold, not zero-interaction.
+  sid: 'SRBQ: 4/8/8/16 subspaces x 4 residual levels x 256 codes, producing 16/32/32/64 tokens in dataset order. Colliding
+    items remain separate, equal-scored candidates; fixed catalog indices break ties.'
+  inference_budget: 'Dataset order: beam 100/200/100/50, graph neighbors 100/100/200/500, propagation depths 3/5/2/4; temperature
+    0.03; Recall/NDCG@5/10. Inference hardware, batch size and latency not reported; A6000 timings concern training.'
+  results_from: 'Table 2: overall comparison. RPG*, MHL and SAHL use matched controlled experiments; Tlow follows its published
+    matched protocol. Other baseline score provenance not reported.'
+setup_where:
+  datasets: 'Section 5.1: https://arxiv.org/html/2610.25093v1#S5.SS1.p1'
+  split: 'Section 5.2: https://arxiv.org/html/2610.25093v1#S5.SS2.p1'
+  candidates: 'Sections 5.2/5.4 specify graph-constrained decoding but not full-catalog versus sampled-negative evaluation:
+    https://arxiv.org/html/2610.25093v1#S5.SS2 and https://arxiv.org/html/2610.25093v1#S5.SS4.p2'
+  visibility: 'Section 6.11.4: https://arxiv.org/html/2610.25093v1#S6.SS11.SSS4.p1'
+  sid: 'Sections 4.2.2/5.4: https://arxiv.org/html/2610.25093v1#S4.SS2.SSS2.p1 and https://arxiv.org/html/2610.25093v1#S5.SS4.p1
+    and https://arxiv.org/html/2610.25093v1#S5.SS4.p2'
+  inference_budget: 'Section 5.4 and Section 6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS4.p1 and https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p1
+    and https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3'
+  results_from: 'Sections 5.3/6.1 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2 and https://arxiv.org/html/2610.25093v1#S6.SS1.p1
+    and https://arxiv.org/html/2610.25093v1#S5.T2'
+related:
+- id: rpg
+  relation: predecessor
+  note: Supplies the parallel backbone and graph-constrained decoder retained by SAHL.
+  where: 'SAHL v1, Sections 5.3/6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3.'
+- id: tlow
+  relation: competitor
+  note: Tokenizer-oriented comparator; its scores follow the published matched protocol.
+  where: 'SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S5.T2.'
+- id: tiger
+  relation: competitor
+  note: Included semantic-ID baseline; SAHL adds quantizer-aligned history reconstruction.
+  where: 'SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p1; https://arxiv.org/html/2610.25093v1#S5.T2.'

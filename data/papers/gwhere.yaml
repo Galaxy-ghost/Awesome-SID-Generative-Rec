@@ -21,13 +21,58 @@ summary: 'Abstract: "redundant or colliding token assignments"; "insufficient in
   serves II. Both labelings were unsure (alternative I).'
 evidence:
 - field: problem
-  quote: 'Abstract: "redundant or colliding token assignments"; "insufficient integration of heterogeneous item signals".
-    II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision", p8)
-    serves II. Both labelings were unsure (alternative I).'
-  where: abstract, p1
+  where: https://arxiv.org/html/2607.26073v1#abstract1
+  quote: redundant or colliding token assignments … insufficient integration of heterogeneous item signals
+  reason: II and I tie; most of the tokenizer design (contrastive instead of reconstruction loss; "alleviate code collision",
+    p8) serves II. Both labelings were unsure (alternative I).
 - field: stage
-  quote: The designs for both complaints sit in the tokenizer.
   where: §3.2, p3
+  reason: The designs for both complaints sit in the tokenizer.
 - field: tokenizer
-  quote: '"Based on these SIDs, Gwhere adapts LLMs"; SIDs are built offline before LLM training.'
   where: p1; Fig. 1, p6
+  quote: Based on these SIDs, Gwhere adapts LLMs
+  reason: SIDs are built offline before LLM training.
+setup:
+  datasets: Foursquare NYC and TKY, Gowalla CA (POIs with fewer than 10 interactions and users with fewer than 10 check-ins
+    removed, following GNPR-SID; 1,083 / 5,135, 2,293 / 7,873, 6,592 / 14,027 users / POIs), and a proprietary AMAP dataset
+    of sampled desensitized users (10,000K users / 83,100K POIs / 380,000K interactions); AMAP filtering not reported.
+  split: 'Public: time-sorted 80% / 10% / 10% train/validation/test; within each user''s test sequence the last visited POI
+    is the target. AMAP offline split: not reported. Online: one-week and one-month A/B tests on the ''Guess Where You Go''
+    card.'
+  candidates: not reported (full catalog versus sampled candidates); the metric is top-1 accuracy (Acc@1).
+  visibility: warm; users and POIs absent from the training set are removed from the test set.
+  sid: '3-layer residual quantizer over a 96-dimensional fused latent from text, ALS collaborative, image, and spatial GraphSAGE
+    views, trained contrastively with Gumbel-softmax assignment; 48 codewords per layer on public data, larger (not specified)
+    on AMAP. Collision handling: not reported beyond the contrastive objective that aims to reduce code collision.'
+  inference_budget: 'Decoding method and beam width: not reported. Online load test at 50 QPS on 2 NVIDIA H20 GPUs: deployed
+    Gwhere-0.5B at about 30 ms p99 versus about 20 ms for the cascade-ranking system (Figure 4). Training on 200 H20 GPUs
+    with batch 16 per GPU; inputs are the 50 most recent check-ins.'
+  results_from: Table 4 (Acc@1 on NYC, TKY, CA; baseline numbers borrowed from LLM4POI and GNPR-SID); Table 3 (AMAP model
+    sizes versus the cascade-ranking system); Table 5 and Figures 2-3 (ablations, modalities, pretraining); Figure 4 (latency);
+    Table 6 (online A/B).
+setup_where:
+  datasets: 'Datasets and GNPR-SID preprocessing: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p1 and https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p2;
+    statistics: https://arxiv.org/html/2607.26073v1#S4.T2.'
+  split: 'Public split: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p2; AMAP split not stated; online tests: https://arxiv.org/html/2607.26073v1#S4.SS4.SSS3.p1
+    and https://arxiv.org/html/2607.26073v1#S4.SS4.SSS3.p3.'
+  candidates: 'Top-1 accuracy only: https://arxiv.org/html/2607.26073v1#S4.T3 and https://arxiv.org/html/2607.26073v1#S4.T4.'
+  visibility: 'Test users and POIs absent from training are removed: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p2.'
+  sid: '3-layer residual quantizer, 96-dimensional latent, 48 codewords on public data: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS2.p2;
+    four modality views: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS2.p1; contrastive Gumbel-softmax quantization: https://arxiv.org/html/2607.26073v1#S3.SS2.SSS2.Px1.p1.'
+  inference_budget: 'Load test: https://arxiv.org/html/2607.26073v1#S4.SS4.SSS2.p1 and https://arxiv.org/html/2607.26073v1#S4.SS4.SSS2.p2;
+    training hardware: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS2.p3; decoding not specified.'
+  results_from: 'Public: https://arxiv.org/html/2607.26073v1#S4.T4; AMAP: https://arxiv.org/html/2607.26073v1#S4.T3; ablations:
+    Table 5 and https://arxiv.org/html/2607.26073v1#S4.F2; online: https://arxiv.org/html/2607.26073v1#S4.T6.'
+related:
+- id: gnpr-sid
+  relation: competitor
+  note: GNPR-SID quantizes POIs with an RQ-VAE plus diversity losses; Gwhere fuses four modalities with a contrastive Gumbel-softmax
+    quantizer and adds continued pretraining and exposure-aware preference alignment.
+  where: 'Gwhere v1, follows GNPR-SID preprocessing and baselines: https://arxiv.org/html/2607.26073v1#S4.SS1.SSS1.p2 and
+    https://arxiv.org/html/2607.26073v1#S4.SS1.SSS3.p1; Table 4: https://arxiv.org/html/2607.26073v1#S4.T4.'
+- id: tiger
+  relation: alternative
+  note: TIGER's reconstruction-trained RQ-VAE is the tokenizer style Gwhere argues against; Gwhere trains the quantizer contrastively
+    for item separability.
+  where: 'Gwhere v1, Section 1: https://arxiv.org/html/2607.26073v1#S1.p1; Section 3.2: https://arxiv.org/html/2607.26073v1#S3.SS2.p1;
+    not a baseline in Table 4.'

@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2609.29983
-  code: null
+  code: https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation
 problem: IV
 stage: Training
 representation: Text†
@@ -17,3 +17,39 @@ objective: NTP → RL
 inference: CoT+C-Beam
 poi: false
 summary: 用冻结检索器逐条核验兴趣查询，把奖励分配到产生有效召回的推理片段。
+setup:
+  datasets: Amazon Video Games, Office Products, Industrial and Scientific; October 2016-November 2018 interactions, 5-core
+    filtering, histories capped at 10 items.
+  split: Per-user chronological last interaction test, penultimate validation; earlier interactions form sliding-window training
+    pairs.
+  candidates: full catalog; trie contains all catalog SIDs, no sampled negatives.
+  visibility: warm; no unseen-item protocol is defined. SIDReasoner tokenizers/mappings reused and frozen; tokenizer exposure
+    to test items not reported.
+  sid: 'Domain-specific RQ-VAE: 3 levels x 256 codes; collision handling not reported.'
+  inference_budget: Qwen3-1.7B; constrained beam returns 10 valid SIDs, metrics @5/10. Interests average 3.8/query set, each
+    retrieves top-50 by frozen Qwen3-Embedding-4B exact cosine search. Hardware, inference batch size, latency not reported;
+    training samples 16 trajectories/prompt, distinct from evaluation.
+  results_from: Original Table 4 RL controls/ours; external baselines are reported SIDReasoner results. Ours and SID-plus-trace
+    control average three training seeds. Figure 5 interest-conditioned decoding includes target-aware oracle upper bounds.
+setup_where:
+  datasets: 'v1 Section 4.1, pp. 5-6: https://arxiv.org/pdf/2609.29983v1#page=5'
+  split: 'v1 Section 4.1, pp. 5-6: https://arxiv.org/pdf/2609.29983v1#page=5'
+  candidates: 'v1 Section 4.1, p. 6: https://arxiv.org/pdf/2609.29983v1#page=6'
+  visibility: 'v1 Sections 3.1/4.1, pp. 3/5-6 define no unseen-item holdout: https://arxiv.org/pdf/2609.29983v1#page=3 and
+    https://arxiv.org/pdf/2609.29983v1#page=5'
+  sid: 'v1 Section 3.1, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3'
+  inference_budget: 'v1 Section 4.1, p. 6, Figure 5, p. 9: https://arxiv.org/pdf/2609.29983v1#page=6 and https://arxiv.org/pdf/2609.29983v1#page=9'
+  results_from: 'v1 Section 4.1/Table 4, p. 6, Figure 5, p. 9: https://arxiv.org/pdf/2609.29983v1#page=6 and https://arxiv.org/pdf/2609.29983v1#page=9'
+related:
+- id: sidreasoner
+  relation: predecessor
+  note: Reuses SIDReasoner's tokenizer, alignment data, and evaluator; adds retrieval-grounded trace credit.
+  where: 'Retrieval-Grounded-Credit v1, Sections 3.1/3.2 and 4.1, pp. 3/6: https://arxiv.org/pdf/2609.29983v1#page=3; https://arxiv.org/pdf/2609.29983v1#page=6.'
+- id: promise
+  relation: alternative
+  note: PROMISE rewards intermediate SID paths; this method verifies language interests through retrieval.
+  where: 'Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.'
+- id: sapo
+  relation: alternative
+  note: SAPO aligns reasoning blocks with SID tokens; this method attributes query hits to interest lines.
+  where: 'Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.'

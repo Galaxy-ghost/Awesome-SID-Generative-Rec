@@ -4,9 +4,9 @@
 
 `IV. Utility` · `Training`
 
-[Paper](https://arxiv.org/abs/2506.16114) · [Matrix](../../README.md#iv--training)
+[Paper](https://arxiv.org/abs/2506.16114) · [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,6 +28,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![GFlowGR architecture diagram](../../architectures/gflowgr.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Yelp, Amazon Beauty, and Amazon Instruments, preprocessed following LETTER (filter thresholds not restated); 30,431 / 20,032, 22,362 / 12,101, and 24,772 / 9,922 users / items. Production: Taobao search advertising data with hundreds of millions of daily requests; filtering not reported.
+  - Source: Datasets and LETTER preprocessing: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; statistics: https://arxiv.org/html/2506.16114v3#S4.T1; production data: https://arxiv.org/html/2506.16114v3#S5.p2.
+- **Split**: Per-user leave-one-out: last item for test, second-to-last for validation, the rest for training. Three random seeds. Online: 15-day A/B test on 10% of traffic (50/50).
+  - Source: Leave-one-out allocation: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; three seeds: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; online test: https://arxiv.org/html/2506.16114v3#S5.p3.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-5 and top-10 lists. Training negatives for the flow objective come from a collaborative-model sampler or beam search, which is a training choice, not the evaluation candidate set.
+  - Source: Metrics only: https://arxiv.org/html/2506.16114v3#S4.SS1.p2.
+- **Visibility**: warm; no unseen-item protocol is defined. Online, newly listed items gain 4.0% revenue, but their tokenizer and generator visibility is not reported.
+  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2506.16114v3#S4.SS1.p1; online newly listed items without visibility definition: https://arxiv.org/html/2506.16114v3#S5.p3.
+- **SID**: Uses the TIGER and LETTER tokenizers as backbones; layer count and codebook size for the experiments: not reported (Figure 1 illustrates L=3). Collision handling: not reported; the paper notes that intermediate states do not uniquely identify items.
+  - Source: Backbones TIGER and LETTER, no own SID settings: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; L=3 appears in the overview figure: https://arxiv.org/html/2506.16114v3#S1.F1.
+- **Inference budget**: Decoding method and beam width for evaluation: not reported. All experiments run on the same GPU (model not stated). Table 7 reports training cost on production data (GFlowGR 2.1x SFT with 80x samples); inference latency and batch size: not reported.
+  - Source: Hardware statement and cost: https://arxiv.org/html/2506.16114v3#S4.SS1.p3 and https://arxiv.org/html/2506.16114v3#S4.T7.
+- **Results from**: Table 2 (Beauty, Instruments, Yelp; SFT, GRPO, DPO-family baselines on TIGER and LETTER backbones); Tables 3-6 (rewards, combination, sample selection, LLM reward); Figures 3-4 (parameter study); Table 7 and Section 5 (production offline and 15-day online A/B).
+  - Source: Main: https://arxiv.org/html/2506.16114v3#S4.T2; ablations and strategies: https://arxiv.org/html/2506.16114v3#S4.T3, https://arxiv.org/html/2506.16114v3#S4.T4, https://arxiv.org/html/2506.16114v3#S4.T5, https://arxiv.org/html/2506.16114v3#S4.T6; production: https://arxiv.org/html/2506.16114v3#S4.T7 and https://arxiv.org/html/2506.16114v3#S5.p3.
 
 ## 旧卡片说明
 
@@ -102,5 +121,12 @@ GFlowGR 的贡献是把生成式推荐的偏好微调改写为生成流学习问
 - 使用场景：偏好对齐。
 
 ### 5. Connections to Related Work
+
+- **Predecessor** · [TIGER](tiger.md): TIGER is one of the two generative backbones; GFlowGR updates the LLM with the sum of the SFT loss and a GFlowNets loss over augmented generation trajectories.
+  - Source: GFlowGR v3, Section 4.1 installs GFlowGR on TIGER: https://arxiv.org/html/2506.16114v3#S4.SS1.p2; Table 2: https://arxiv.org/html/2506.16114v3#S4.T2; training objective: https://arxiv.org/html/2506.16114v3#S3.SS4.p1.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies the second backbone and the data preprocessing; GFlowGR changes only the fine-tuning objective.
+  - Source: GFlowGR v3, Section 4.1 follows LETTER preprocessing and uses it as a backbone: https://arxiv.org/html/2506.16114v3#S4.SS1.p1 and https://arxiv.org/html/2506.16114v3#S4.SS1.p2; Table 2: https://arxiv.org/html/2506.16114v3#S4.T2.
+- **Competitor** · [OneRec](onerec.md): OneRec's IPA aligns the model by iterative SFT and DPO with reward-selected rejected samples; GFlowGR learns probabilities proportional to rewards over many trajectories.
+  - Source: GFlowGR v3, IPA baseline from OneRec, reimplemented with the same reward model: https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1 and https://arxiv.org/html/2506.16114v3#S4.SS1.p3; Table 2: https://arxiv.org/html/2506.16114v3#S4.T2.
 
 [View all papers in this cell](../../README.md#iv--training)

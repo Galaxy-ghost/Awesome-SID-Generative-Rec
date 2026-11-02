@@ -19,8 +19,42 @@ poi: false
 summary: 'Abstract: "Collision problem".'
 evidence:
 - field: problem
-  quote: 'Abstract: "Collision problem".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: Fig. 4, p5
+  where: https://arxiv.org/html/2603.00632v1#abstract1 (Abstract)
+  quote: Collision problem
+setup:
+  datasets: Amazon Reviews 2018 Beauty and Toys & Games, user/item 5-core; Kuaishou e-commerce industrial logs with multimodal
+    item features.
+  split: 'Public: leave-one-out train/validation/test, exact held-out positions not reported. Online A/B: 5 days, about 5%
+    randomized treatment traffic covering >20M users.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Industrial cold-start subsets have <100 or <600 video views within
+    the first 48h; strict generator/tokenizer unseen status not reported.
+  sid: 'Public: 3 x 256; industrial: 4 x 1024. HaMR repels qualified full/partial collisions; additional inference-time collision
+    resolution not reported.'
+  inference_budget: Offline HitRate/NDCG@5/10; beam width, inference hardware, serving batch size and latency not reported.
+    Appendix A.2 batches 256/1024 concern SID learning.
+  results_from: 'Original Table 2: matched-TIGER tokenizer comparison, five-seed means; Table 3: HaMR added to baselines;
+    Table 4: online retrieval/ranking and low-view subsets.'
+setup_where:
+  datasets: 'Section 5.1.1: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1'
+  split: 'Sections 5.1.1/5.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1 and https://arxiv.org/html/2603.00632v1#S5.SS4.p1'
+  candidates: 'Sections 5.1.3/5.1.4 and Appendix A.2 do not specify candidate enumeration or sampling: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1
+    and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2603.00632v1#A1.SS2'
+  visibility: 'Section 5.4: https://arxiv.org/html/2603.00632v1#S5.SS4.p1'
+  sid: 'Sections 4.2/5.1.4: https://arxiv.org/html/2603.00632v1#S4.SS2 and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1'
+  inference_budget: 'Section 5.1.3 and Appendix A.2: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2603.00632v1#A1.SS2'
+  results_from: 'Tables 2/3/4 and Section 5.1.4: https://arxiv.org/html/2603.00632v1#S4.T2 and https://arxiv.org/html/2603.00632v1#S4.T3
+    and https://arxiv.org/html/2603.00632v1#S5.T4 and https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1'
+related:
+- id: tiger
+  relation: predecessor
+  note: Supplies the shared downstream backbone for tokenizer comparisons.
+  where: 'QuaSID v1, Section 5.1.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1.'
+- id: letter
+  relation: alternative
+  note: Assignment balancing contrasts with QuaSID's qualified, severity-scaled collision repulsion.
+  where: 'QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.'
+- id: hid-vae
+  relation: alternative
+  note: Overlap regularization is contrasted with selectively repelling qualified conflicts.
+  where: 'QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.'

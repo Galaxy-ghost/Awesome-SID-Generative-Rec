@@ -21,15 +21,50 @@ summary: The abstract identifies the codebook-generation gap (III) and semantic 
   of alignment.
 evidence:
 - field: problem
-  quote: The abstract identifies the codebook-generation gap (III) and semantic loss during quantization (I), addressed by
+  where: abstract, p1; contribution list, p2
+  reason: The abstract identifies the codebook-generation gap (III) and semantic loss during quantization (I), addressed by
     DFI and ORQ respectively. The designs and title cover both equally; the first contribution, DFI, breaks the tie in favor
     of alignment.
-  where: abstract, p1; contribution list, p2
 - field: stage
-  quote: The first contribution is Dual-Flow Integration (DFI), which incorporates user-item collaborative information directly
-    into quantization through two flows and a shared codebook. It changes SID construction, not the generation backbone.
   where: contribution 1, p2; §2.1, p2; Fig. 1(a), p3
+  reason: The first contribution is Dual-Flow Integration (DFI), which incorporates user-item collaborative information directly
+    into quantization through two flows and a shared codebook. It changes SID construction, not the generation backbone.
 - field: representation
-  quote: Qwen3-0.6B-embedding encodes restaurant names, categories, dishes and prices. DFI adds collaborative signals from
-    click sequences and target items during SID construction. No explicit geographic field is reported in the prompt template.
   where: §2.1, Eq. (1)–(5), p2
+  reason: Qwen3-0.6B-embedding encodes restaurant names, categories, dishes and prices. DFI adds collaborative signals from
+    click sequences and target items during SID construction. No explicit geographic field is reported in the prompt template.
+setup:
+  datasets: 'Private Meituan production data only: past-year quantization data covering 24M unique items, and 60-day downstream
+    data with 180M interactions. User/item filtering not reported.'
+  split: 'Quantization data: train/validation/test 8:1:1, partition method not reported; 50-click histories predict the 51st
+    item. Downstream data: first 57 days training, last 3 days validation; a generation test split is not separately reported.'
+  candidates: not reported for Hit@10 generation. Quantization classification uses randomly sampled negatives; negative count,
+    sampling distribution and user-history exclusion not reported.
+  visibility: warm; no unseen-item protocol is defined. The quantization dataset covers past-year business items; validation/test-item
+    exposure during SID learning is not separately reported.
+  sid: 'Qwen3-0.6B-embedding encodes restaurant name/categories, reservation status, prices and dishes into 1,024 dimensions.
+    Dual user/item Transformer flows share an orthogonal residual quantizer: 3 layers x 1,024 codes, with salient-feature
+    selection and residual propagation. Collision handling not reported.'
+  inference_budget: Downstream generation evaluated within HSTU. Model size, beam/decoding constraints, token budget, inference
+    hardware/batch size and latency not reported; batch 1,024 is a training setting.
+  results_from: Own offline quantization AUC/F1 and HSTU Hit@10 experiments; RQ-KMeans/RQ-VAE baselines are fine-tuned for
+    application metrics. Own one-week A/B test on 30% of production traffic reports +1.15% revenue from adding DOS SIDs to
+    the original baseline.
+setup_where:
+  datasets: 'https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p1 ; #S3.SS1.SSS1.p2'
+  split: 'https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1'
+  candidates: 'https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1 ; #S3.SS2.SSS2.p1'
+  visibility: 'https://arxiv.org/html/2602.04460v1#S3.SS1.SSS1.p2 ; #S3.SS1.SSS2.p1'
+  sid: 'https://arxiv.org/html/2602.04460v1#S2.SS1.p2 ; #S2.SS1.p3 ; #S2.SS1.p6 ; #S2.SS1.p8 ; #S2.SS2.p5 ; #S3.SS1.SSS2.p1'
+  inference_budget: 'https://arxiv.org/html/2602.04460v1#S3.SS2.SSS2.p1 ; #S3.SS1.SSS2.p1'
+  results_from: 'https://arxiv.org/html/2602.04460v1#S3.SS2.p1 ; #S3.SS2.SSS2.p1 ; #S3.SS4.p1 ; #S3.SS4.p2'
+related:
+- id: das
+  relation: competitor
+  note: Industrial SID baseline compared offline and within HSTU; DOS contrasts direct sequence-target modeling with DAS's
+    indirect collaborative alignment.
+  where: 'https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1 ; #S3.SS2.SSS2.p1'
+- id: tiger
+  relation: alternative
+  note: Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
+  where: https://arxiv.org/html/2602.04460v1#S1.p2 (Rajput et al., 2023)

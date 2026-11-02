@@ -6,7 +6,7 @@ year: 2026
 venue: KDD’26
 links:
   arxiv: https://arxiv.org/abs/2607.28997
-  code: null
+  code: https://doi.org/10.5281/zenodo.18206701
 problem: III
 stage: Training
 representation: Attr+Geo+CF†
@@ -21,13 +21,58 @@ summary: 'Abstract: non-reasoning models "limit the computational capacity ... t
   reasoning does not form a problem of its own.'
 evidence:
 - field: problem
-  quote: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep
-    understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since
-    missing reasoning does not form a problem of its own.'
-  where: abstract, p1
+  where: https://arxiv.org/html/2607.28997v1#abstract1 (Abstract; author excerpt and organizer classification)
+  quote: lack a deep understanding of semantic IDs (SIDs) when SIDs are trained separately
+  reason: The limits on non-reasoning models' capacity to capture deep intent and LLM understanding of separately trained
+    SIDs are both assigned to alignment (III); absent reasoning is not treated as a separate problem class.
 - field: stage
-  quote: SFT and RL-based reasoning are optimized jointly in one architecture, with two advantage weightings.
-  where: §4.1–4.2, p4–6
+  where: https://arxiv.org/html/2607.28997v1#S4.SS1.p1 ; https://arxiv.org/html/2607.28997v1#S4.SS2
+  reason: SFT and RL-based reasoning are optimized jointly in a single architecture, with prompt-aware and model-aware advantage
+    weighting; this is a training-stage intervention.
 - field: representation
-  quote: Inferred from GNPR-SID, whose data processing the paper follows.
-  where: p7
+  where: https://arxiv.org/html/2607.28997v1#S5.SS1.p1 (GNPR preprocessing lineage; inherited-feature inference)
+  reason: Attr+Geo+CF is inferred from the GNPR-SID data-processing lineage; the paper does not directly establish these inherited
+    tokenizer input features.
+setup:
+  datasets: 'Foursquare NYC and TKY (April 2012-February 2013) and Gowalla CA (February 2009-October 2010), preprocessed as
+    in GNPR-SID: POIs with fewer than 10 interactions and users with fewer than 10 check-ins removed. Sizes (users / POIs):
+    NYC 1,083 / 5,135; TKY 2,293 / 7,873; CA 6,592 / 14,027.'
+  split: Records sorted chronologically and split 80% / 10% / 10% for training, validation, and test; for each user the last
+    check-in is the answer. Separate cross-city transfer test (Table 5).
+  candidates: not reported (full catalog versus sampled); Acc@1, 5, 10 and MRR over the predicted top-K POIs.
+  visibility: warm; users and POIs that do not appear in training are removed from the test set. The cross-city transfer (Table
+    5) tests POIs of another city; their tokenizer exposure is not reported.
+  sid: 'Listwise semantic IDs built with RQ-VAE, which the paper contrasts with the pointwise semantic IDs of GNPR; numerical
+    levels, codebook sizes, and collision handling: not reported.'
+  inference_budget: 'Reasoning generated with vLLM (max length 1,024, temperature 1.3, 4 rollouts, beam search width 10) before
+    the POI SID; LLaMA3.1-8B with LoRA. Five NVIDIA L40s GPUs (four for training, one for rollout inference); latency: not
+    reported.'
+  results_from: Table 2 (NYC, TKY, CA versus traditional, sequence, GCN, LLM, and reasoning baselines); Table 3 (ablations);
+    Table 4 (SID category prediction versus GNPR); Table 5 (cross-city generalization).
+setup_where:
+  datasets: 'Datasets and GNPR preprocessing: https://arxiv.org/html/2607.28997v1#S5.SS1.p1; statistics: https://arxiv.org/html/2607.28997v1#S5.T1.'
+  split: 'Temporal 80/10/10 with last check-in as answer: https://arxiv.org/html/2607.28997v1#S5.SS1.p1; cross-domain: https://arxiv.org/html/2607.28997v1#S5.T5.'
+  candidates: 'Acc@K and MRR over predicted lists: https://arxiv.org/html/2607.28997v1#S5.SS3.p1.'
+  visibility: 'Test users and POIs absent from training removed: https://arxiv.org/html/2607.28997v1#S5.SS1.p1.'
+  sid: 'Listwise semantic IDs whose correlations are learned through RQ-VAE, contrasted with GNPR''s pointwise IDs: https://arxiv.org/html/2607.28997v1#S5.SS5.p2;
+    numerical settings not found.'
+  inference_budget: 'Rollout and decoding settings, hardware: https://arxiv.org/html/2607.28997v1#A1.p1.'
+  results_from: 'Main: https://arxiv.org/html/2607.28997v1#S5.T2; ablation: https://arxiv.org/html/2607.28997v1#S5.T3; SID
+    understanding: https://arxiv.org/html/2607.28997v1#S5.T4; cross-domain: https://arxiv.org/html/2607.28997v1#S5.T5.'
+related:
+- id: gnpr-sid
+  relation: competitor
+  note: GNPR-SID trains SID knowledge by SFT alone; Think2Go adds reasoning tokens and advantage-calibrated GRPO over the
+    same kind of POI semantic IDs and generalizes better across cities.
+  where: 'Think2Go v1, LLM-based baselines and preprocessing: https://arxiv.org/html/2607.28997v1#S5.SS2.p4 and https://arxiv.org/html/2607.28997v1#S5.SS1.p1;
+    Tables 2, 4, 5: https://arxiv.org/html/2607.28997v1#S5.T2, https://arxiv.org/html/2607.28997v1#S5.T4, https://arxiv.org/html/2607.28997v1#S5.T5.'
+- id: onerec-think
+  relation: alternative
+  note: OneRec-Think adds reasoning to industrial video recommendation; Think2Go applies RL-trained reasoning to next-POI
+    prediction with SIDs.
+  where: 'Think2Go v1, Section 2.2 cites OneRec-Think: https://arxiv.org/html/2607.28997v1#S2.SS2.p1.'
+- id: oneloc
+  relation: alternative
+  note: OneLoc is a geo-aware generative recommender trained without explicit reasoning; Think2Go relies on reasoning to use
+    spatial context.
+  where: 'Think2Go v1, Section 1 cites OneLoc: https://arxiv.org/html/2607.28997v1#S1.p4.'

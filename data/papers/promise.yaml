@@ -19,12 +19,61 @@ poi: false
 summary: 'Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".'
 evidence:
 - field: problem
-  quote: 'Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".'
-  where: arXiv abstract
+  where: 'PROMISE v1, Abstract, quoted clause: https://arxiv.org/html/2601.04674v1#abstract1'
+  quote: errors in early, high-level tokens irreversibly divert the generation trajectory
 - field: tokenizer
-  quote: SID construction not described; Fixed inferred from the usual pipeline. Location from the 10-26 'Training split'
-    table in the appendix.
-  where: p4
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p4
+  where: 'PROMISE v1, Sections 2.1, 4.1.3 and 4.2.1: https://arxiv.org/html/2601.04674v1#S2.SS1.p1 ; https://arxiv.org/html/2601.04674v1#S4.SS1.SSS3.p1
+    ; https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2'
+  reason: 'Organizer inference only: Fixed was assumed from a conventional preconstructed-SID pipeline, rather than an explicit
+    tokenizer-freezing statement. Although the experiments specify RQ-VAE and Residual K-means, the tokenizer''s update schedule
+    is not stated here.'
+setup:
+  datasets: 'Public: Amazon Beauty and Sports and Outdoors (May 1996-July 2014), following TIGER''s preprocessing (users with
+    fewer than 5 reviews removed). Industrial: Kuaishou online-learning logs (over 400 million daily active users, about 50
+    billion interactions per day, more than 100 million items).'
+  split: 'Public: chronological leave-one-out (last item for test, second-to-last for validation, rest for training). Industrial:
+    online learning on real logs; the offline test construction is not reported. Online: 7-day A/B test on Kuaishou and Kuaishou
+    Lite, with 5% of users (about 20 million) in the experimental group and another 5% in the control group for each app.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); public Recall/NDCG at 5 and 10, industrial
+    at 100, 500, 1000 from beam search.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Public: 3-level RQ-VAE x 256 codes. Industrial: residual K-means over multimodal representations, depth 3 x 8,192
+    codes. Collision handling: not reported.'
+  inference_budget: 'PRM-guided beam search: expand to K+ candidate paths per step, score them with a lightweight path-level
+    PRM, and keep K''. Industrial: K=K''=1000 with K+ of 4,000 or 6,000; 4 encoder and 4 decoder blocks plus 1 PRM block.
+    Public beam settings, hardware, inference batch size, and latency: not reported.'
+  results_from: Table 1 (Beauty and Sports; baseline numbers taken from the original papers or identical settings); Table
+    2 (Kuaishou offline versus six deployed retrievers); Table 3 (online A/B); Table 4 (PRM step ablation with hierarchical
+    recall); Figure 4 (test-time scaling of K+).
+setup_where:
+  datasets: 'Public datasets and TIGER protocol: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; industrial logs: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2.'
+  split: 'Leave-one-out allocation: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; industrial online learning: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2;
+    online A/B groups and length: https://arxiv.org/html/2601.04674v1#S4.SS3.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS4.p1 and https://arxiv.org/html/2601.04674v1#S4.SS2.SSS4.p1.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1.'
+  sid: 'Public 3 x 256 RQ-VAE: https://arxiv.org/html/2601.04674v1#S4.SS1.SSS3.p1; industrial residual K-means d=3, M=8192:
+    https://arxiv.org/html/2601.04674v1#S4.SS2.SSS1.p2; no collision rule found.'
+  inference_budget: 'PRM-guided beam: https://arxiv.org/html/2601.04674v1#S3.SS3.p3; industrial K=K''=1000 and K+ in {4000,
+    6000}: https://arxiv.org/html/2601.04674v1#S4.SS2.SSS3.p1; public beam settings not found.'
+  results_from: 'Public: https://arxiv.org/html/2601.04674v1#S4.T1; industrial: https://arxiv.org/html/2601.04674v1#S4.T2;
+    online: https://arxiv.org/html/2601.04674v1#S4.T3; ablation: https://arxiv.org/html/2601.04674v1#S4.T4; test-time scaling:
+    https://arxiv.org/html/2601.04674v1#S4.SS5.p1.'
+related:
+- id: actionpiece
+  relation: competitor
+  note: ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds
+    a process reward model to steer beam search.
+  where: 'Promise v1, generative baselines: https://arxiv.org/html/2601.04674v1#S4.I2.i3.p1; Table 1 and Section 4.1.5: https://arxiv.org/html/2601.04674v1#S4.T1
+    and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS5.p2.'
+- id: tiger
+  relation: competitor
+  note: TIGER decodes with standard fixed-width beam search, which Promise argues suffers semantic drift; Promise rescores
+    expanded paths at each step with a PRM.
+  where: 'Promise v1, baselines and protocol: https://arxiv.org/html/2601.04674v1#S4.I2.i1.p1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1;
+    Table 1: https://arxiv.org/html/2601.04674v1#S4.T1.'
+- id: onerec-v2
+  relation: alternative
+  note: OneRec-V2 introduces a lazy decoder and scales parameters; Promise argues that scaling inference compute with PRM-guided
+    search is a cheaper way to scale.
+  where: 'Promise v1, Section 6.1 describes OneRec V2 (Zhou et al., 2025c): https://arxiv.org/html/2601.04674v1#S6.SS1.p1;
+    Section 4.6.1 contrasts parameter scaling with test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS6.SSS1.p1.'

@@ -19,11 +19,52 @@ poi: false
 summary: 'Abstract: "their lack of collaborative signals results in a misalignment"; "inevitable information loss during alignment".'
 evidence:
 - field: problem
-  quote: 'Abstract: "their lack of collaborative signals results in a misalignment"; "inevitable information loss during alignment".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p2
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p2
+  where: https://arxiv.org/html/2508.10584v2#abstract1
+  quote: their lack of collaborative signals results in a misalignment … inevitable information loss during alignment
+setup:
+  datasets: 'Kuaishou advertising platform only (public datasets excluded). CTR task: 1.8 billion user-ad samples from about
+    100 million users and 8 million ads, with ad clicks as positives. Generative task: user-ad sequences from the past 15
+    days with length at least 10, about 50 million users.'
+  split: 'CTR: chronological 80% training / 20% testing. Generative task: leave-one-out (citing TIGER); the exact validation/test
+    allocation is not reported. Online: multi-week A/B test with 10% of traffic (about 40+ million users).'
+  candidates: not reported (full catalog versus sampled evaluation candidates for the generative HR@K/NDCG@K task).
+  visibility: 'Offline: warm; no unseen-item protocol is defined. Online results report larger gains in cold-start scenarios
+    (eCPM +8.98%), but generator/tokenizer visibility for those items is not reported.'
+  sid: 'Separate user and ad SIDs from jointly trained RQ-VAEs: 3 codebooks x 512 codes, code dimension 32, k-means-initialized
+    codebooks; ad embeddings 256-dimensional, user embeddings 1,024-dimensional. Collision handling: not reported (SIDs are
+    also used as prefix-ngram sparse features in CTR models).'
+  inference_budget: 'Generative task: TIGER architecture on T5 (4-layer encoder and decoder, 13M parameters), trained on four
+    NVIDIA GPUs for five days; decoding method, beam width, inference batch size, and latency: not reported. CTR models are
+    trained on 16 T4 GPUs. Online, top-k SID predictions from TIGER++ feed two deployment strategies.'
+  results_from: 'Table 1 (offline CTR AUC/UAUC/GAUC with SID feature variants); Table 2 (generative HR/NDCG for TIGER, TIGER+,
+    TIGER++); Table 3 (dual-alignment ablation); Section 4.4 (online A/B: eCPM +3.48% overall, +8.98% in cold-start scenarios).'
+setup_where:
+  datasets: 'Industrial-only data and filters: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS1.p1.'
+  split: 'CTR chronological 80/20 and generative leave-one-out: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS1.p1; online
+    test: https://arxiv.org/html/2508.10584v2#S4.SS4.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS2.p1.'
+  visibility: 'Offline protocols are in-domain: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS1.p1; online cold-start scenarios
+    are named but not defined: https://arxiv.org/html/2508.10584v2#S4.SS4.p1.'
+  sid: '3 codebooks x 512 codes, dimension 32, k-means initialization: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS3.p1
+    and https://arxiv.org/html/2508.10584v2#S2.SS1.SSS2.p1; no collision rule found.'
+  inference_budget: 'Generative model details: https://arxiv.org/html/2508.10584v2#S4.SS1.SSS3.p1; online use of top-k SID
+    predictions: https://arxiv.org/html/2508.10584v2#S4.SS4.p2.'
+  results_from: 'CTR table: https://arxiv.org/html/2508.10584v2#S4.T1; generative table: https://arxiv.org/html/2508.10584v2#S4.T2;
+    ablation: https://arxiv.org/html/2508.10584v2#S4.T3; online: https://arxiv.org/html/2508.10584v2#S4.SS4.p1 and https://arxiv.org/html/2508.10584v2#S4.SS4.p2.'
+related:
+- id: letter
+  relation: competitor
+  note: LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly
+    in one stage and aligns user and ad SIDs dually.
+  where: 'DAS v2, Section 4.2 variant (4) +ASID (LETTER): https://arxiv.org/html/2508.10584v2#S4.SS2.p2; Table 1: https://arxiv.org/html/2508.10584v2#S4.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER with unaligned RQ-VAE ad SIDs is the generative baseline; DAS replaces them with aligned ad SIDs (TIGER+) and
+    adds aligned user SIDs (TIGER++).
+  where: 'DAS v2, Section 4.2: https://arxiv.org/html/2508.10584v2#S4.SS2.p4; Table 2: https://arxiv.org/html/2508.10584v2#S4.T2.'
+- id: adc-sid
+  relation: alternative
+  note: ADC-SID compares against DAS and adds adaptive alignment strength and dynamic behavioral weighting to denoise long-tail
+    collaborative signals.
+  where: 'Evidence is from the later ADC-SID paper: DAS is a baseline in Section 4.1.2 and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1
+    and https://arxiv.org/html/2510.25622v3#S4.T2.'

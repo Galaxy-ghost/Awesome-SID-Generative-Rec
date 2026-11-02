@@ -6,7 +6,7 @@ year: 2025
 venue: CIKM’25
 links:
   arxiv: https://arxiv.org/abs/2507.22224
-  code: null
+  code: https://github.com/snap-research/GRID
 problem: psb
 stage: n/a
 representation: Text
@@ -19,11 +19,48 @@ poi: false
 summary: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
 evidence:
 - field: problem
-  quote: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
-  where: arXiv abstract
-- field: stage
-  quote: Appendix tentatively places the new design in Backbone.
-  where: arXiv abstract
+  where: https://arxiv.org/html/2507.22224v1#abstract1
+  quote: the absence of an open-source, unified framework hinders systematic benchmarking and extension
 - field: tokenization
-  quote: R-KM is the paper's RK-Means, (L, W) = (3, 256).
   where: §4.1, p3
+  reason: R-KM is the paper's RK-Means, (L, W) = (3, 256).
+setup:
+  datasets: '5-core filtered Amazon Beauty, Sports, and Toys; item text from Title, Categories, Description, and Price. Retained
+    corpus sizes: not reported in the body.'
+  split: 'Per-user leave-last-out: last item for test, second-to-last for validation, the rest for training; sliding-window
+    training samples; averages over 5 seeds.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Benchmark default: RK-Means with 3 levels x 256 tokens over mean-pooled Flan-T5-XL embeddings; also R-VQ and RQ-VAE,
+    and L x W variants (e.g. 3 x 128, 3 x 512, 2 x 256). Collisions: Table 7 compares TIGER-style appended-digit de-duplication
+    with randomly selecting one item when SIDs conflict; which one is the default setting is not stated.'
+  inference_budget: 'Beam search with KV cache; constrained and unconstrained beam compared (Table 8), with unconstrained
+    stated to be cheaper; numerical beam width not reported. Tokenizers trained on 8 GPUs (per-device batch 2,048); generator
+    training batch 256; inference hardware, batch size, and latency: not reported.'
+  results_from: Tables 1-3 (tokenizer algorithm, encoder size, codebook dimensions); Tables 4-8 (user tokens, encoder-decoder
+    versus decoder-only, augmentation, SID de-duplication, constrained versus free-form beam). Tables 3 and 4 cover Beauty
+    only; the other tables cover Beauty, Sports, and Toys; results average 5 seeds.
+setup_where:
+  datasets: '5-core Amazon datasets and text features: https://arxiv.org/html/2507.22224v1#S4.p2.'
+  split: 'Leave-last-out allocation and 5 seeds: https://arxiv.org/html/2507.22224v1#S4.p2.'
+  candidates: 'Metrics only: https://arxiv.org/html/2507.22224v1#S4.p2.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2507.22224v1#S4.p2.'
+  sid: 'Default RK-Means (3, 256) with Flan-T5-XL: https://arxiv.org/html/2507.22224v1#S4.SS1.p1; dimension study: https://arxiv.org/html/2507.22224v1#S3.T3;
+    de-duplication strategies: https://arxiv.org/html/2507.22224v1#S4.SS2.p5 and https://arxiv.org/html/2507.22224v1#S4.T7.'
+  inference_budget: 'Beam search with KV cache: https://arxiv.org/html/2507.22224v1#S3.SS1.p3; constrained versus free-form
+    beam: https://arxiv.org/html/2507.22224v1#S4.SS2.p6 and https://arxiv.org/html/2507.22224v1#S4.T8; tokenizer GPUs: https://arxiv.org/html/2507.22224v1#S4.p2.'
+  results_from: 'Tables 1-8: https://arxiv.org/html/2507.22224v1#S3.T1, https://arxiv.org/html/2507.22224v1#S3.T2, https://arxiv.org/html/2507.22224v1#S3.T3,
+    https://arxiv.org/html/2507.22224v1#S4.T4, https://arxiv.org/html/2507.22224v1#S4.T5, https://arxiv.org/html/2507.22224v1#S4.T6,
+    https://arxiv.org/html/2507.22224v1#S4.T7, https://arxiv.org/html/2507.22224v1#S4.T8.'
+related:
+- id: tiger
+  relation: predecessor
+  note: TIGER's RQ-VAE tokenizer, user tokens, and appended-digit de-duplication are the components that GRID ablates in one
+    open framework.
+  where: 'GRID v1, Section 4.1 on RQ-VAE as the TIGER default: https://arxiv.org/html/2507.22224v1#S4.SS1.p2; Table 4 (TIGER-style
+    user tokens): https://arxiv.org/html/2507.22224v1#S4.T4; Section 4.2 de-duplication: https://arxiv.org/html/2507.22224v1#S4.SS2.p5.'
+- id: onerec
+  relation: predecessor
+  note: GRID's default RK-Means tokenizer is taken from OneRec; GRID compares it with R-VQ and RQ-VAE.
+  where: 'GRID v1, Section 4 setup cites Deng et al. (2025) for RK-Means: https://arxiv.org/html/2507.22224v1#S4.p2; Table
+    1: https://arxiv.org/html/2507.22224v1#S3.T1.'

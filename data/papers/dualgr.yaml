@@ -20,12 +20,32 @@ summary: 'Abstract: "long-short interest interference, context-induced noise in 
   of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).'
 evidence:
 - field: problem
-  quote: 'Abstract: "long-short interest interference, context-induced noise in hierarchical SID generation, and the lack
-    of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §2.5, p3
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §2.5, p3
+  where: https://arxiv.org/html/2511.12518v3#abstract1
+  quote: long-short interest interference, context-induced noise in hierarchical SID generation, and the lack of explicit
+    learning from exposed-but-unclicked feedback
+  reason: 'Candidates: I / III / VI (rule: tie broken by the title).'
+setup:
+  datasets: Kuaishou double-column Explore-feed logs; filtering rules and dataset dates not reported.
+  split: Offline split not reported; online A/B test lasts one week with 6% traffic.
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. Item-level generator/tokenizer exposure: not reported.'
+  sid: 'Residual k-means: 3 levels x 8192 codes; collision handling not reported.'
+  inference_budget: Two branch-wise beam searches, followed by merging; HR@100/500/1000. Beam width, hardware, inference batch
+    size, and numerical latency not reported; A/B test reports no measurable response-time increase.
+  results_from: 'Original Table 1: online HR; Table 2: ablations; Section 3.1: A/B results.'
+setup_where:
+  datasets: 'Section 3: https://arxiv.org/html/2511.12518v1#S3.p1'
+  split: 'Sections 3 and 3.1: https://arxiv.org/html/2511.12518v1#S3.p1 and https://arxiv.org/html/2511.12518v1#S3.SS1.p1'
+  candidates: 'Section 3 describes online HR without specifying a full-catalog or sampled-negative protocol: https://arxiv.org/html/2511.12518v1#S3.p1'
+  visibility: 'Sections 2.1 and 3 do not specify generator/tokenizer item holdouts: https://arxiv.org/html/2511.12518v1#S2.SS1
+    and https://arxiv.org/html/2511.12518v1#S3'
+  sid: 'Sections 2.2 and 3: https://arxiv.org/html/2511.12518v1#S2.SS2.p1 and https://arxiv.org/html/2511.12518v1#S3.p1'
+  inference_budget: 'Section 2.3, Table 1, and Section 3.1: https://arxiv.org/html/2511.12518v1#S2.SS3.p2 and https://arxiv.org/html/2511.12518v1#S3.T1
+    and https://arxiv.org/html/2511.12518v1#S3.SS1.p1'
+  results_from: 'Tables 1-2 and Section 3.1: https://arxiv.org/html/2511.12518v1#S3.T1 and https://arxiv.org/html/2511.12518v1#S3.T2
+    and https://arxiv.org/html/2511.12518v1#S3.SS1.p1'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
+  where: 'DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.'

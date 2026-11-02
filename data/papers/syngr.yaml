@@ -6,7 +6,7 @@ year: 2026
 venue: ICML’26
 links:
   arxiv: https://arxiv.org/abs/2605.18920
-  code: null
+  code: https://github.com/gxingyu/SynGR
 problem: I
 stage: Training
 representation: Text+Img
@@ -19,11 +19,52 @@ poi: false
 summary: 'Abstract: "underexplore synergistic information across modalities".'
 evidence:
 - field: problem
-  quote: 'Abstract: "underexplore synergistic information across modalities".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p6
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p6
+  where: https://arxiv.org/html/2605.18920v2#abstract1 (Abstract; excerpt)
+  quote: underexplore synergistic information across modalities
+setup:
+  datasets: 'Amazon Reviews 2018 targets: Arts (22,171 users / 9,416 items), Games (42,259 / 13,839), Instruments (17,112
+    / 6,250), as in MQL4GRec; pre-training on six other categories (about 7.1M interactions, 884,918 users, 255,181 items).
+    Filtering rules: not restated.'
+  split: Leave-one-out (following MQL4GRec and MACRec; allocation not restated beyond the label).
+  candidates: full catalog (full ranking over the entire item space).
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Separate text (LLaMA) and image (ViT-L/14) semantic IDs from RQ-VAEs with 4 levels x 256 codes, merged into a unified
+    dictionary; collision handling: not reported.'
+  inference_budget: 'Beam search with beam size 20 for all generative models, following MQL4GRec''s multimodal decoding; the
+    synergy loss is training-only. Efficiency study on six NVIDIA RTX 4090 GPUs reports inference 6.0% (Arts) and 4.0% (Instruments)
+    faster than MACRec; absolute latency and batch size: not reported.'
+  results_from: Table 1 (Arts, Games, Instruments versus sequential, multimodal, and generative baselines); Figure 3 (training
+    time, inference speed, convergence versus MACRec); Figures 4-5 (parameters and ablations).
+setup_where:
+  datasets: 'Target datasets: https://arxiv.org/html/2605.18920v2#S5.SS1.p1 and https://arxiv.org/html/2605.18920v2#S4.T2;
+    pre-training corpus: https://arxiv.org/html/2605.18920v2#A3.p1.'
+  split: 'Leave-one-out following MQL4GRec and MACRec: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.'
+  candidates: 'Full ranking and beam 20: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p3.'
+  sid: '4 layers x 256 per modality RQ-VAE: https://arxiv.org/html/2605.18920v2#A3.p2 and https://arxiv.org/html/2605.18920v2#S4.SS1.p2;
+    collision handling not found.'
+  inference_budget: 'Beam size 20 for all generative models: https://arxiv.org/html/2605.18920v2#S5.SS1.p3; inference follows
+    MQL4GRec: https://arxiv.org/html/2605.18920v2#S4.SS3.p2; hardware: https://arxiv.org/html/2605.18920v2#S5.F3.'
+  results_from: 'Main: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency: https://arxiv.org/html/2605.18920v2#S5.F3; parameters:
+    https://arxiv.org/html/2605.18920v2#S5.F4; ablation: https://arxiv.org/html/2605.18920v2#S5.F5.'
+related:
+- id: macrec
+  relation: competitor
+  note: MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts
+    and adds a synergy-focused contrastive objective, with lower training cost.
+  where: 'SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1;
+    efficiency comparison: https://arxiv.org/html/2605.18920v2#S5.SS3.p2.'
+- id: mql4grec
+  relation: competitor
+  note: MQL4GRec translates each modality into its own quantitative language; SynGR follows its decoding and pre-training
+    protocol but targets synergistic information between modalities.
+  where: 'SynGR v2, baselines and protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p2, https://arxiv.org/html/2605.18920v2#S5.SS1.p3,
+    https://arxiv.org/html/2605.18920v2#S4.SS3.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER uses unimodal text SIDs; SynGR fuses text and image codes and regularizes their synergy.
+  where: 'SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.'
+- id: cid
+  relation: competitor
+  note: P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
+  where: 'SynGR v2, sequential baselines (P5-CID): https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.'

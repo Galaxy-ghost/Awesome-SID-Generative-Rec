@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2607.24995
-  code: null
+  code: https://anonymous.4open.science/r/ISD-CF7C
 problem: IV
 stage: Inference
 representation: Text†
@@ -17,3 +17,43 @@ objective: NTP†
 inference: ISD Beam
 poi: false
 summary: 有明确推理解码新设计 ISD，不能只按标题认定纯分析。
+setup:
+  datasets: 'Amazon Reviews: Baby, Office, Scientific; filtering rules not reported.'
+  split: 'Per-user chronological leave-one-out: final interaction test, preceding interaction validation, remainder training.'
+  candidates: full catalog of eligible items, with the same consumed-item mask for all methods.
+  visibility: warm; no unseen-item protocol is defined. Separate item scorer and transition/co-consumption statistics use
+    training interactions; tokenizer exposure to test items not reported.
+  sid: 'TIGER/LIGER assignments remain fixed: three semantic positions plus a collision-resolution suffix. Codebook sizes
+    and suffix-assignment rule not reported; primary filtering diagnostic uses RQ-VAE.'
+  inference_budget: Beam 50; one decoder pass; top-50 item-support ranking constructed once per history; reciprocal-rank fusion
+    kappa=60; at most 50 output items, evaluated at K=10/20. Ranker construction is excluded from decoding complexity. Hardware,
+    inference batch size and latency not reported.
+  results_from: 'Original Table 3: matched recommendation comparisons, means across three seeds; Table 4: SID reassignment;
+    Table 5: filtering/ordering ablations. Tables 1-2: encoder/SID representation diagnostics.'
+setup_where:
+  datasets: 'https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1 ; #A1.T6'
+  split: 'https://arxiv.org/html/2607.24995v1#S6.SS1.SSS1.p1 ; #A1.SS4.SSS1.p1'
+  candidates: 'https://arxiv.org/html/2607.24995v1#S6.SS1.SSS3.p1 ; #A1.SS4.SSS1.p1 ; #A1.SS4.SSS2.p1'
+  visibility: 'https://arxiv.org/html/2607.24995v1#S6.SS1 ; #A1.SS2.SSS1.p1 ; #S5.SS1.SSS1.p1'
+  sid: 'https://arxiv.org/html/2607.24995v1#S3.SS3.p1 ; #A1.SS2.p1 ; #A1.SS3.SSS1.p1 ; #S6.SS4.p1'
+  inference_budget: 'https://arxiv.org/html/2607.24995v1#A1.SS3.SSS1.p1 ; #S5.SS2.SSS2.p1 ; #S5.SS3.p1 ; #A1.SS4.SSS2.p1'
+  results_from: 'https://arxiv.org/html/2607.24995v1#S5.T3 ; #S6.T4 ; #S6.T5 ; #A1.SS4.SSS2.p1'
+related:
+- id: tiger
+  relation: predecessor
+  note: ISD augments a frozen TIGER decoder with item-supported prefix selection and final ordering, without changing its
+    SIDs or retraining.
+  where: 'ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1;
+    https://arxiv.org/html/2607.24995v1#S5.T3.'
+- id: liger
+  relation: predecessor
+  note: ISD also operates inside LIGER before beam reduction; LIGER already combines SID generation with dense retrieval and
+    ranking.
+  where: 'ISD v1, Sections 4/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S4.p3; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1;
+    https://arxiv.org/html/2607.24995v1#S5.T3.'
+- id: etegrec
+  relation: competitor
+  note: ETEGRec jointly trains the tokenizer and recommender; ISD instead changes inference with the SID assignment and decoder
+    fixed.
+  where: 'ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1;
+    https://arxiv.org/html/2607.24995v1#S5.T3.'

@@ -29,3 +29,40 @@ summary: 'Generative retrieval (GR) typically relies on item-level beam search t
   the Top-$K$ list in a single greedy pass, also decoupling teacher scaling from online deployment. Experiments on FORGE and
   Taobao Search show that SLIDE substantially improves retrieval quality under single greedy decoding and, with stronger offline
   teachers, surpasses the beam-search reference. Supplementary RL experiments support the effectiveness of list-level generation.'
+setup:
+  datasets: FORGE Stage S3; industrial Taobao Search requests with about 12 training labels/request. Additional filtering
+    rules not reported.
+  split: 'FORGE: retain provided S3 train/evaluation sets. Taobao: 10 consecutive training days, immediately following day
+    test. Validation allocation not reported.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined.
+  sid: Three tokens/item. FORGE uses provided SID vocabulary, sizes not restated; Taobao codebooks [32768,8192,8192]. Tokenizer
+    algorithm and collision handling not reported.
+  inference_budget: Qwen2.5-0.5B student; single greedy rollout to EOS or 1024 tokens; HR@1/5/10/20. Beam reference [20,20,200];
+    offline teacher distillation uses [20,20,20], 20-item targets. Serving hardware/batch/latency not reported; 32 H20 GPUs
+    and global batch 8192 describe training.
+  results_from: 'Original Table 2: direct-training greedy/beam references versus distilled greedy students; teacher sizes
+    0.5B/3B/7B. Tables 3-6 analyze training, target construction, and supplementary RL.'
+setup_where:
+  datasets: 'Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1'
+  split: 'Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1'
+  candidates: 'Section 5.1 describes valid unique generated candidates, without evaluation negative-sampling details: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px3.p1'
+  visibility: 'Section 5.1 defines no unseen-item holdout: https://arxiv.org/html/2610.34764v1#S5.SS1'
+  sid: 'Section 5.1/Appendix A.2: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1 and https://arxiv.org/html/2610.34764v1#A1.SS2.p1'
+  inference_budget: 'Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1'
+  results_from: 'Section 5.2 and Table 2: https://arxiv.org/html/2610.34764v1#S5.SS2.p1 and https://arxiv.org/html/2610.34764v1#S5.T2
+    and https://arxiv.org/html/2610.34764v1#S5.T3 and https://arxiv.org/html/2610.34764v1#S5.T4 and https://arxiv.org/html/2610.34764v1#S5.T5
+    and https://arxiv.org/html/2610.34764v1#S5.T6'
+related:
+- id: forge
+  relation: predecessor
+  note: SLIDE reuses FORGE's S3 split and SID vocabulary.
+  where: 'SLIDE v1, Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1; https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1.'
+- id: onerec
+  relation: alternative
+  note: OneRec models session dependencies; SLIDE focuses on search-to-greedy list distillation.
+  where: 'SLIDE v1, Section 2.1 (Deng et al., 2025, arXiv:2502.18965): https://arxiv.org/html/2610.34764v1#S2.SS1.p2.'
+- id: tiger
+  relation: predecessor
+  note: SLIDE replaces the conventional item-level search interface with a distilled list rollout.
+  where: 'SLIDE v1, Introduction and Section 2.1: https://arxiv.org/html/2610.34764v1#S1.p1; https://arxiv.org/html/2610.34764v1#S2.SS1.p1.'

@@ -6,7 +6,7 @@ year: 2026
 venue: CIKM’26 Applied
 links:
   arxiv: https://arxiv.org/abs/2608.24176
-  code: null
+  code: https://github.com/wjjln/Tlow
 problem: I
 stage: Tokenization
 representation: Text
@@ -17,3 +17,44 @@ objective: MTP + Rel.MSE
 inference: Scoring
 poi: false
 summary: 主公开实验所有模型使用 sentence-t5-base item semantic embedding；多模态/跨域是附加实验。
+setup:
+  datasets: Amazon Reviews Sports/Beauty/Toys/CDs; processed Cloth-Sports cross-domain data. WeChat picture/article logs for
+    online multimodal retrieval. Filtering not reported.
+  split: 'Public: chronological last item test, penultimate validation, earlier interactions train. Online holdout protocol
+    and A/B duration not reported; two weeks refers to model training.'
+  candidates: full catalog for offline ranking; historical-item exclusion not reported
+  visibility: 'Offline: warm; no unseen-item protocol is defined. Cold analysis bins targets by training frequency. Online
+    cold pictures are exposed on publication day; generator/tokenizer exclusion not reported. Tokenizer fits about 1M items,
+    then encodes additional unseen items.'
+  sid: 'Flow plus independent PQ: C in {16,32,64,96,128}, 256 codes each; selected C per offline dataset not reported. Online:
+    16 x 256. Collision handling not reported.'
+  inference_budget: Single-forward parallel token scoring, Recall/NDCG@5/10; temperature searched over 0.03/0.05/0.07. Recommendation
+    hardware, batch size and latency not reported. Online tokenization of tens of millions of new items takes minutes on one
+    unspecified GPU, not per-request serving time.
+  results_from: 'Tables 2/4/5/6: general/cross-domain/multimodal/online results. General comparison reuses RPG-paper baseline
+    scores and reruns RPG; main semantic embeddings are sentence-t5-base.'
+setup_where:
+  datasets: 'Sections 3.1.1/3.6.1: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1'
+  split: 'Sections 3.1.1/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p2 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1'
+  candidates: 'Section 3.1.3: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS3.p1'
+  visibility: 'Sections 3.5/3.6.2/3.6.3: https://arxiv.org/html/2608.24176v1#S3.SS5.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1
+    and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS3.p1'
+  sid: 'Sections 3.1.4/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1'
+  inference_budget: 'Sections 3.1.4/3.6.1/3.6.2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1
+    and https://arxiv.org/html/2608.24176v1#S3.SS6.SSS2.p1'
+  results_from: 'Section 3.1.4 and Tables 2/4/5/6: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1 and https://arxiv.org/html/2608.24176v1#S3.T2
+    and https://arxiv.org/html/2608.24176v1#S3.T4 and https://arxiv.org/html/2608.24176v1#S3.T5 and https://arxiv.org/html/2608.24176v1#S3.T6'
+related:
+- id: rpg
+  relation: predecessor
+  note: Supplies the parallel prediction setup and the rerun controlled baseline.
+  where: 'Tlow v1, Section 3.1.4: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1.'
+- id: tiger
+  relation: competitor
+  note: Autoregressive RQ-VAE comparator against independent flow-space tokenization.
+  where: 'Tlow v1, Introduction and Section 3.1.2: https://arxiv.org/html/2608.24176v1#S1.p2; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1.'
+- id: etegrec
+  relation: competitor
+  note: Included tokenizer comparator; general baseline scores are reused from the RPG paper.
+  where: 'Tlow v1, Sections 3.1.2/3.1.4 and Table 2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1;
+    https://arxiv.org/html/2608.24176v1#S3.T2.'

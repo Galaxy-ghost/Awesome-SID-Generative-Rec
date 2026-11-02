@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2605.17267
-  code: null
+  code: https://github.com/Zhang-Yingyi/TKDE_RAGR
 problem: I
 stage: Training
 representation: Text
@@ -17,3 +17,35 @@ objective: NTP → DPO
 inference: Beam† / –
 poi: false
 summary: 评论 SID 作为上下文与生成监督，目标仍是物品 SID，属于新推荐训练设计。
+setup:
+  datasets: Amazon Beauty, Sports and Outdoors, Toys and Games, with historical review text; remove users/items with fewer
+    than five interactions; maximum history 20, truncating oldest interactions.
+  split: 'Per-user chronological leave-one-out: last interaction test, second last validation, remaining interactions training.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Historical reviews are retained; tokenizer fitting exposure to test
+    items not reported.
+  sid: 'RQ-VAE: 4 x 256, 32-dimensional codewords, shared item/review token space. Default tokenizer fits item text only;
+    collision handling not reported.'
+  inference_budget: 'Autoregressive item-SID prediction; HIT/NDCG@5/10/20. Decoding algorithm/beam width, inference batch
+    size and latency not reported. General experiment server: 8 RTX PRO 6000 96GB GPUs; inference-specific allocation not
+    reported.'
+  results_from: 'Original Table II: TIGER/LETTER with and without RAGR, means over seeds 42/43/44; all baselines trained/evaluated
+    with the common split/protocol. Table III: ablations; Tables IV-V: tokenizer efficiency/collisions. No baseline-result
+    reuse stated.'
+setup_where:
+  datasets: 'https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1 ; #S4.SS1.SSS4.p3'
+  split: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1
+  candidates: 'Experimental settings report top-K metrics but no candidate universe: https://arxiv.org/html/2605.17267v1#S4.SS1'
+  visibility: 'https://arxiv.org/html/2605.17267v1#S4.SS1.SSS1.p1 ; #S4.SS4.p4'
+  sid: 'https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p2 ; #S4.SS4.p4 ; #S4.SS5.p4'
+  inference_budget: 'https://arxiv.org/html/2605.17267v1#S4.SS1.SSS3.p1 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5'
+  results_from: 'https://arxiv.org/html/2605.17267v1#S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5'
+related:
+- id: tiger
+  relation: predecessor
+  note: RAGR augments TIGER with interleaved review SIDs, review-generation supervision and DPO alignment toward item generation.
+  where: 'RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.'
+- id: letter
+  relation: predecessor
+  note: LETTER is the second backbone receiving the same review augmentation and item-centric DPO alignment.
+  where: 'RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.'

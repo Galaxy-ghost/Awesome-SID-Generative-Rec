@@ -17,3 +17,60 @@ objective: MTP + Ctr. + Aux.
 inference: Scoring
 poi: false
 summary: 有完整离散 SID、并行预测和全物品聚合检索，不因最终评分排除。
+setup:
+  datasets: 'Nine Amazon domains: Sports, Beauty, Toys, CDs, Office, Pets, Baby (2014 edition) and Science, Instruments (2023
+    edition); users with fewer than 5 interactions excluded; training histories truncated to the 50 most recent items. Sizes:
+    Appendix Table 5 (not restated here).'
+  split: 'Chronological leave-last-out: last interaction for test, second-to-last for validation, the rest for training.'
+  candidates: full catalog (exact scoring over the entire item pool).
+  visibility: warm; no unseen-item protocol is defined. The cold-start analysis buckets test items by training frequency [0,
+    5] to [16, 20], mixing zero-frequency and low-frequency items; tokenizer exposure is not separated.
+  sid: 'OPQ semantic IDs with m=32 orthogonal subspaces (8 to 64 tested), each with its own codebook of size M (value not
+    restated); an Attentive Token Merger compresses the 32 tokens into 4 latent tokens for the sequence model. Collision handling:
+    not reported.'
+  inference_budget: 'No beam search: per-subspace log-probabilities are computed once and every candidate is scored by gathering
+    and summing its code log-probabilities (exact full-catalog scoring). Hardware, inference batch size, and measured latency:
+    not reported in the main text.'
+  results_from: Tables 1-2 (six representative datasets versus ID-based and semantic-ID baselines; the other three in Appendix
+    C.1; HGN, SASRec, S3-Rec, TIGER on Sports, Beauty, Toys copied from the TIGER paper, others reproduced); Figure 3 (semantic
+    ID length); Figure 5 (cold-start buckets on Pets and Baby).
+setup_where:
+  datasets: 'Nine Amazon domains and preprocessing: https://arxiv.org/html/2602.13573v2#S4.SS1.p1, https://arxiv.org/html/2602.13573v2#A1.SS3.p1,
+    https://arxiv.org/html/2602.13573v2#A1.SS3.p2.'
+  split: 'Leave-last-out allocation: https://arxiv.org/html/2602.13573v2#S4.SS1.p1.'
+  candidates: 'Full candidate ranking: https://arxiv.org/html/2602.13573v2#S4.SS1.p3 and https://arxiv.org/html/2602.13573v2#S3.SS3.p1.'
+  visibility: 'Frequency buckets of test items in training: https://arxiv.org/html/2602.13573v2#S4.SS5.p1.'
+  sid: 'OPQ long semantic IDs m=32 with subspace codebooks: https://arxiv.org/html/2602.13573v2#S3.SS1.SSSx1.p1 and https://arxiv.org/html/2602.13573v2#S4.SS3.p3;
+    no collision rule found.'
+  inference_budget: 'Parallel subspace matching and score gathering: https://arxiv.org/html/2602.13573v2#S3.SS3.p1, https://arxiv.org/html/2602.13573v2#S3.SS3.p3,
+    https://arxiv.org/html/2602.13573v2#S3.SS3.p5.'
+  results_from: 'Main: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2, scope stated
+    in https://arxiv.org/html/2602.13573v2#S4.SS2.p1; ID length: https://arxiv.org/html/2602.13573v2#S4.F3; cold start: https://arxiv.org/html/2602.13573v2#S4.F5;
+    copied baselines: https://arxiv.org/html/2602.13573v2#A1.SS4.p1.'
+related:
+- id: rpg
+  relation: competitor
+  note: RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent
+    tokens for sequence modeling and scores all items exactly.
+  where: 'ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1
+    and https://arxiv.org/html/2602.13573v2#S3.T2; ID-length comparison: https://arxiv.org/html/2602.13573v2#S4.SS3.p3.'
+- id: tiger
+  relation: competitor
+  note: TIGER generates short RQ-VAE IDs by beam search; ACERec uses long OPQ IDs with parallel scoring.
+  where: 'ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Table 1 (numbers copied from TIGER): https://arxiv.org/html/2602.13573v2#S3.T1
+    and https://arxiv.org/html/2602.13573v2#A1.SS4.p1.'
+- id: actionpiece
+  relation: competitor
+  note: ActionPiece merges feature tokens contextually; ACERec merges long OPQ codes into latent tokens with attention.
+  where: 'ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1
+    and https://arxiv.org/html/2602.13573v2#S3.T2.'
+- id: etegrec
+  relation: competitor
+  note: ETEGRec learns the tokenizer end to end; ACERec keeps fixed OPQ codes and compresses them.
+  where: 'ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1
+    and https://arxiv.org/html/2602.13573v2#S3.T2.'
+- id: vq-rec
+  relation: predecessor
+  note: ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
+  where: 'ACERec v2, Section 4.1 protocol follows Hou et al. (2023): https://arxiv.org/html/2602.13573v2#S4.SS1.p1; related
+    work: https://arxiv.org/html/2602.13573v2#S2.p1.'

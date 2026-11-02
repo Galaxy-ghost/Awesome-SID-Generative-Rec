@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2606.00324) · [Matrix](../../README.md#iii--backbone)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -24,6 +24,32 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Modified Stage | Backbone |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Pinterest: about 10M engagement subsequences (<=32 events), 240M item occurrences, tens of millions of unique items. Filtering rules not reported.
+  - Source: Section 4.1: https://arxiv.org/html/2606.00324v1#S4.SS1.p1
+- **Split**: Evaluation uses later dates and disjoint users; exact dates/fractions not reported. On 100K held-out examples, a random engagement position is the target and preceding events are history.
+  - Source: Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p2 and https://arxiv.org/html/2606.00324v1#S4.SS3.p1
+- **Candidates**: not reported; retrieval evaluates exact ground-truth SID membership in generated beams.
+  - Source: Section 4.3 defines beam SID matching, not sampled item negatives: https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1
+- **Visibility**: warm; no unseen-item protocol is defined. RQ-VAE codebook trained on the full billion-item catalog; evaluation users are disjoint, not explicitly evaluation items.
+  - Source: Section 4.1 has user/time holdout but no unseen-item holdout: https://arxiv.org/html/2606.00324v1#S4.SS1.p1 and https://arxiv.org/html/2606.00324v1#S4.SS1.p2
+- **SID**: RQ-VAE on PinCLIP multimodal embeddings: 5 levels x 2048 codes. Collisions acknowledged; full-SID recall matches codes without resolving item collisions.
+  - Source: Sections 4.1/4.3: https://arxiv.org/html/2606.00324v1#S4.SS1.p1 and https://arxiv.org/html/2606.00324v1#S4.SS3.p2
+- **Inference budget**: Qwen3-1.7B default; five-step SID beam search with K=20/30/50/100; TIGER extension uses beam 10. PrefixMem: 4 hash heads, 2M rows, dimension 256, active at levels 4/5. Hardware, inference batch size, measured latency not reported.
+  - Source: Sections 4.2/4.3 and Table 10: https://arxiv.org/html/2606.00324v1#S4.SS2.p1 and https://arxiv.org/html/2606.00324v1#S4.SS2.p2 and https://arxiv.org/html/2606.00324v1#S4.SS3.SSS0.Px2.p1 and https://arxiv.org/html/2606.00324v1#S5.T10
+- **Results from**: Original Tables 2/3: teacher-forcing/initialization; Table 4: full-SID recall; Tables 9/10: LLM/TIGER transfer; Table 11: SID-Transformer comparison. Same-corpus with/without-encoder experiments.
+  - Source: Tables 2-4/9-11: https://arxiv.org/html/2606.00324v1#S5.T2 and https://arxiv.org/html/2606.00324v1#S5.T3 and https://arxiv.org/html/2606.00324v1#S5.T4 and https://arxiv.org/html/2606.00324v1#S5.T9 and https://arxiv.org/html/2606.00324v1#S5.T10 and https://arxiv.org/html/2606.00324v1#S5.T11
+
 ### 5. Connections to Related Work
+
+- **Predecessor** · [TIGER](tiger.md): PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
+  - Source: PrefixMem v1, Section 5.2 and Table 10: https://arxiv.org/html/2606.00324v1#S5.SS2.p5; https://arxiv.org/html/2606.00324v1#S5.T10.
+- **Predecessor** · [PLUM](plum.md): PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
+  - Source: PrefixMem v1, Sections 2/3.1: https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.00324v1#S3.SS1.p1.
+- **Predecessor** · [OneRec-Think](onerec-think.md): PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
+  - Source: PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.
 
 [View all papers in this cell](../../README.md#iii--backbone)

@@ -19,5 +19,53 @@ poi: false
 summary: 'Abstract: "GR decodes over compact SID tokens without item-side signal".'
 evidence:
 - field: problem
-  quote: 'Abstract: "GR decodes over compact SID tokens without item-side signal".'
-  where: arXiv abstract
+  where: 'https://arxiv.org/html/2604.12234v1#S1.p2 (Introduction: expressive gap and missing item-side signals)'
+  quote: Despite this architectural advantage, a fundamental expressive gap separates the two paradigms.
+  reason: The Informativeness label reflects the missing item-side signals during SID decoding, contrasted with the direct
+    feature access available to discriminative recommenders.
+setup:
+  datasets: 'Shopee main-feed production logs over 9 consecutive days, billions of interactions (impressions, clicks, add-to-cart,
+    purchases). Filtering and catalog size: not reported.'
+  split: 'not reported (the 9-day window is described, but not how training and test are divided). Online A/B test in feed
+    and landing scenarios (Table 5); duration and traffic: not reported.'
+  candidates: not reported (full catalog versus sampled); Hit Ratio at 50, 100, 200 on all samples and on purchase samples.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Capacity-constrained residual K-means SIDs with 3 layers x 4,000 codes, using exposure-weighted capacity penalties
+    (tolerance 1.05) instead of equal item counts; Chain-of-Attribute prefixes each SID with category tokens (L2, L3) decoded
+    first. Collision handling: not reported.'
+  inference_budget: 'Autoregressive decoding of attribute tokens then SID tokens; beam width not reported. Online end-to-end
+    latency 110 ms versus 266 ms for the traditional pipeline; hardware and batch size: not reported. Decoder-only model with
+    cross-attention (d_model 256, 3 layers).'
+  results_from: 'Table 1 (HR on all and order samples versus SASRec, TIGER, OneRec-V2); Table 2 (CoA configurations); Table
+    3 (SID construction, ablation, scaling); Table 4 (multi-scene task-conditioned BOS); Table 5 (online A/B: orders +4.76%,
+    GMV +5.60%).'
+setup_where:
+  datasets: 'Shopee production logs: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1.'
+  split: 'No train/test division stated; online A/B: https://arxiv.org/html/2604.12234v5#S4.T5.'
+  candidates: 'Hit Ratio on all and order samples: https://arxiv.org/html/2604.12234v5#S4.T1.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px1.p1.'
+  sid: 'Capacity-constrained SIDs, 3 layers x 4000, tau=1.05; CoA attribute prefix: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1
+    and https://arxiv.org/html/2604.12234v5#S3.SS3.SSS0.Px2.p2.'
+  inference_budget: 'End-to-end latency: https://arxiv.org/html/2604.12234v5#S4.SS2.SSS0.Px3.p1; model size: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS1.Px3.p1.'
+  results_from: 'Results: https://arxiv.org/html/2604.12234v5#S4.T1, https://arxiv.org/html/2604.12234v5#S4.T2, https://arxiv.org/html/2604.12234v5#S4.T3,
+    https://arxiv.org/html/2604.12234v5#S4.T4, https://arxiv.org/html/2604.12234v5#S4.T5.'
+related:
+- id: onerec-v2
+  relation: competitor
+  note: OneRec-V2 decodes SIDs with a decoder-only model over user context; UniRec first decodes coarse item attributes, uses
+    exposure-capacity-constrained SIDs, and aligns to GMV with RFT and DPO.
+  where: 'UniRec v5, baselines: https://arxiv.org/html/2604.12234v5#S4.I2.i3.p1; Table 1: https://arxiv.org/html/2604.12234v5#S4.T1.'
+- id: tiger
+  relation: competitor
+  note: TIGER generates RQ-VAE IDs without any item-side attribute conditioning, which UniRec adds through Chain-of-Attribute.
+  where: 'UniRec v5, baselines: https://arxiv.org/html/2604.12234v5#S4.I2.i2.p1; Table 1: https://arxiv.org/html/2604.12234v5#S4.T1.'
+- id: onerec
+  relation: predecessor
+  note: UniRec starts from OneRec's balanced quantization and replaces equal item counts with exposure-weighted capacity limits.
+  where: 'UniRec v5, Section 3.2: https://arxiv.org/html/2604.12234v5#S3.SS2.p1; RQ-KMeans ablation in Table 3: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS3.Px1.p1.'
+- id: capsid
+  relation: alternative
+  note: CapsID later compares against a UniRec-style Chain-of-Attribute patch and argues that a variable-length SID can avoid
+    extra attribute decoding.
+  where: 'Evidence is from the later CapsID paper: baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1
+    and https://arxiv.org/html/2605.05096v1#S4.T3.'

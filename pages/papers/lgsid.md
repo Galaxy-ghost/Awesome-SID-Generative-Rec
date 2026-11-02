@@ -4,9 +4,9 @@
 
 `I. Informativeness` · `Representation` · `POI`
 
-[Paper](https://arxiv.org/abs/2511.14221) · [Matrix](../../README.md#i--representation)
+[Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID) · [Matrix](../../README.md#i--representation)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,6 +28,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![LGSID architecture diagram](../../architectures/lgsid.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Kuaishou local-life feed data only: 50,000,000 samples, 19,080,888 users, 2,325,266 items, 19,408 brands, 818 categories, with item text and geographic location. For discriminative models, all positives are kept and negatives down-sampled 1:4. Further filtering: not reported.
+  - Source: Industrial-only dataset and preprocessing: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1; statistics: https://arxiv.org/html/2511.14221v1#A2.T4.
+- **Split**: Generative models: leave-one-out on the down-sampled data (last item for test, second-last for validation, the rest for training). Discriminative models: split rule not reported; settings selected on validation data.
+  - Source: Leave-one-out for generative models on the down-sampled data: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1; split for discriminative AUC not stated.
+- **Candidates**: Discriminative AUC: evaluation samples with negatives down-sampled at 1:4 to positives; how negatives are drawn and whether user history is excluded: not reported. Generative Hit and NDCG at 5 and 10: full catalog versus sampled not reported.
+  - Source: Negative down-sampling and metrics: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1.
+- **Visibility**: warm; no unseen-item protocol is defined.
+  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2511.14221v1#A2.SS0.SSSx1.p1.
+- **SID**: Hierarchical residual quantizer over G-DPO-aligned BGE embeddings (1,024-dimensional) with a KL regularizer toward uniform cluster usage; number of levels and per-level codebook sizes K_l: not reported. Collision handling: not reported.
+  - Source: Hierarchical quantizer with uniform-usage regularization: https://arxiv.org/html/2511.14221v1#Sx4.SSx3.p4 and https://arxiv.org/html/2511.14221v1#Sx4.SSx3.p5; BGE embeddings: https://arxiv.org/html/2511.14221v1#A2.SSx1.p1; no codebook sizes or collision rule found.
+- **Inference budget**: SIDs are used as features in DIN, DIEN, SIM, TWIN, ETA and as targets in TIGER and OneRec generators; decoding method and beam width: not reported. All experiments on two 48GB GPUs; inference batch size and latency: not reported.
+  - Source: Hardware: https://arxiv.org/html/2511.14221v1#A2.SSx2.p1; generative backbones: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1.
+- **Results from**: Table 1 (AUC of five discriminative rankers with different tokenizers); Table 2 (TIGER and OneRec generators with different tokenizers); Table 3 (semantic and geographic coverage after alignment); Table 5 (robustness over runs); Table 6 (similarity weight).
+  - Source: Discriminative: https://arxiv.org/html/2511.14221v1#Sx5.T1; generative: https://arxiv.org/html/2511.14221v1#Sx5.T2; alignment: https://arxiv.org/html/2511.14221v1#Sx5.T3; robustness: https://arxiv.org/html/2511.14221v1#A4.T5; lambda: https://arxiv.org/html/2511.14221v1#A4.T6.
 
 ## 旧卡片说明
 
@@ -109,5 +128,14 @@ LGSID 位于“LLM 对齐驱动的地理 SID 构建”方向，突出先获得�
 - 使用场景：本地生活推荐。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER's RQ-VAE is a tokenizer baseline and TIGER is one of two generative backbones; LGSID aligns the LLM embedding with geographic rewards before a hierarchical quantizer.
+  - Source: LGSID v1, baselines: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1; Tables 1 and 2: https://arxiv.org/html/2511.14221v1#Sx5.T1 and https://arxiv.org/html/2511.14221v1#Sx5.T2.
+- **Predecessor** · [OneRec](onerec.md): OneRec serves as the second generative backbone into which LGSID's SIDs are plugged.
+  - Source: LGSID v1, baselines: https://arxiv.org/html/2511.14221v1#A2.SSx3.p1; Table 2: https://arxiv.org/html/2511.14221v1#Sx5.T2.
+- **Alternative** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI SIDs for next-POI generation; LGSID targets local-life ranking features and aligns embeddings with geographic distance rewards.
+  - Source: LGSID v1, related work: https://arxiv.org/html/2511.14221v1#Sx2.SSx2.p1 and https://arxiv.org/html/2511.14221v1#Sx4.SSx2.p1.
+- **Successor** · [LGRID](lgrid.md): LGRID later follows LGSID's candidate protocol and replaces its single fused representation with disentangled geographic and semantic streams.
+  - Source: Evidence is from the later LGRID paper: protocol https://arxiv.org/html/2607.27944v1#A1.SS3.p2; baseline and collision comparison https://arxiv.org/html/2607.27944v1#S4.SS1.p2 and https://arxiv.org/html/2607.27944v1#S4.T5.
 
 [View all papers in this cell](../../README.md#i--representation)

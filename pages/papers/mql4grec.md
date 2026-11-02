@@ -4,9 +4,9 @@
 
 `I. Informativeness` · `Tokenization`
 
-[Paper](https://arxiv.org/abs/2504.05314) · [Matrix](../../README.md#i--tokenization)
+[Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -26,6 +26,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![MQL4GRec architecture diagram](../../architectures/mql4grec.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Reviews 2018 (May 1996-October 2018). Pre-training on six categories (Pet, Cell, Automotive, Tools, Toys, Sports); target tasks on Instruments (17,112 users / 6,250 items), Arts (22,171 / 9,416), Games (42,259 / 13,839). Users and items with fewer than 5 interactions are filtered; sequences capped at 20 items.
+  - Source: Pre-training and target categories: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#A1.p1; filtering and length: https://arxiv.org/html/2504.05314v1#A1.p2; statistics: https://arxiv.org/html/2504.05314v1#A1.T6.
+- **Split**: Leave-one-out (allocation not restated beyond the label). Separate zero-shot study: models pre-trained on source categories are tested on the targets without fine-tuning.
+  - Source: Leave-one-out named only: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1; zero-shot study: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.
+- **Candidates**: full catalog (full ranking over the entire item set instead of sample-based evaluation).
+  - Source: Full ranking over the entire item set: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1.
+- **Visibility**: Main: warm; no unseen-item protocol is defined. Zero-shot: target-domain items are unseen by the pre-trained generator; whether the RQ-VAE translators saw them: not reported.
+  - Source: Standard split; zero-shot uses target-domain items absent from pre-training: https://arxiv.org/html/2504.05314v1#S4.SS5.p1.
+- **SID**: Separate text (LLaMA) and image (ViT-L/14) quantitative languages from RQ-VAEs with 4 levels x 256 codewords (dimension 32). Colliding items have tokens reassigned by the distances between their residuals and code vectors, instead of an appended identifier.
+  - Source: 4 levels x 256 x 32 per modality: https://arxiv.org/html/2504.05314v1#A3.p1; distance-based reassignment for collisions: https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p2.
+- **Inference budget**: Beam search with beam size 20 in each modality; the two recommendation lists are re-ranked so items in both rank higher. T5 encoder-decoder with 4 layers each. Hardware, inference batch size, and latency: not reported.
+  - Source: Beam size 20 and dual-list re-ranking: https://arxiv.org/html/2504.05314v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2504.05314v1#S3.SS3.SSS0.Px2.p1; T5 backbone: https://arxiv.org/html/2504.05314v1#A3.p2.
+- **Results from**: Table 1 (Instruments, Arts, Games versus sequential, multimodal, and generative baselines); Table 2 (collision handling versus TIGER's appended index); Tables 3-4 (generation tasks and pre-training); Figures 3-4 (pre-training data and epochs); Table 5 (zero-shot).
+  - Source: Main: https://arxiv.org/html/2504.05314v1#S4.T1; collisions: https://arxiv.org/html/2504.05314v1#S4.T2; tasks and pre-training: https://arxiv.org/html/2504.05314v1#S4.T3, https://arxiv.org/html/2504.05314v1#S4.T4; zero-shot: https://arxiv.org/html/2504.05314v1#S4.T5.
 
 ## 旧卡片说明
 
@@ -101,5 +120,16 @@ MQL4GRec 的主要贡献是将多模态跨域知识迁移表述为量化语言�
 - 使用场景：多模态跨域。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER uses one text modality and an appended index for collisions; MQL4GRec translates text and images into separate quantitative languages and reassigns colliding tokens by distance.
+  - Source: MQL4GRec v1, Table 1 baseline TIGER: https://arxiv.org/html/2504.05314v1#S4.T1; collision comparison in Table 2: https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#S4.T2.
+- **Alternative** · [LC-Rec](lc-rec.md): LC-Rec spreads items across the last level with a uniform constraint, which MQL4GRec says does not fully remove collisions.
+  - Source: MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1.
+- **Competitor** · [CID](cid.md): P5-CID uses collaborative indexing for a T5 model; MQL4GRec uses multimodal content codes with cross-modal generation tasks.
+  - Source: MQL4GRec v1, baseline P5-CID: https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1; Table 1: https://arxiv.org/html/2504.05314v1#S4.T1.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes in a discriminative transferable model; MQL4GRec generates multimodal codes with pre-training across categories.
+  - Source: MQL4GRec v1, Table 1 baseline VQ-Rec: https://arxiv.org/html/2504.05314v1#S4.T1.
+- **Successor** · [MACRec](macrec.md): MACRec later reuses MQL4GRec's collision reassignment and dual-modality ensemble and adds cross-modal contrastive alignment during quantization.
+  - Source: Evidence is from the later MACRec paper: https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5 and https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3; MQL4GRec is its main baseline in Table 2: https://arxiv.org/html/2511.15122v2#Sx4.T2.
 
 [View all papers in this cell](../../README.md#i--tokenization)

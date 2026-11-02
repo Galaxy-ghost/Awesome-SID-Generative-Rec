@@ -6,7 +6,7 @@ year: 2026
 venue: CIKM’26
 links:
   arxiv: https://arxiv.org/abs/2610.01533
-  code: null
+  code: https://github.com/hirc-airecs/graph-informed-sids
 problem: I
 stage: Tokenization
 representation: Text+CF
@@ -17,3 +17,40 @@ objective: –
 inference: –
 poi: false
 summary: 明确仅文本嵌入，边来自训练交互相邻共现。
+setup:
+  datasets: Amazon Reviews 2014 Beauty, Toys, Sports, Books; MIND-Small; Yelp 2018. Iterative 5-core filtering on all datasets.
+  split: 'Per-user leave-one-out: last interaction test, second-to-last validation; maximum sequence length 20.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. RQ-GAE item-graph edges use adjacent co-occurrences from training
+    sequences.
+  sid: 'RQ-GAE: 4 x 256 codebooks; collision handling not reported. RecDMoN: four recursive levels with branching factor 6
+    in Table 6, plus a fifth deduplication codebook; Appendix A reports five levels. Deduplication assignment rule not reported.'
+  inference_budget: Hit/NDCG@5/10; decoding beam, hardware, inference batch size, latency not reported.
+  results_from: 'Original Table 3: six-dataset comparison, averages over three seeds. RecDMoN Books unavailable due to GPU
+    memory limits.'
+setup_where:
+  datasets: 'Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1'
+  split: 'Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1'
+  candidates: 'Evaluation protocol in Section 5.1 does not specify candidate enumeration or negative sampling: https://arxiv.org/html/2610.01533v1#S5.SS1'
+  visibility: 'Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p3'
+  sid: 'Section 5.1, Section 5.2.4, Table 6, and Appendix A Table 8: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2
+    and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS4.p1 and https://arxiv.org/html/2610.01533v1#S5.T6 and https://arxiv.org/html/2610.01533v1#A1.T8'
+  inference_budget: 'Section 5.1: https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px3.p2'
+  results_from: 'Table 3 and Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.T3 and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1
+    and https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p2'
+related:
+- id: tiger
+  relation: predecessor
+  note: Uses TIGER's T5 backbone to isolate improvements from graph-informed SID construction.
+  where: 'GrIS v1, Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1.'
+- id: letter
+  relation: competitor
+  note: LETTER aligns codes with pretrained CF embeddings; GrIS explicitly constructs and partitions item graphs.
+  where: 'GrIS v1, Sections 2.2/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS2.p1; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1;
+    https://arxiv.org/html/2610.01533v1#S5.T3.'
+- id: mmgrec
+  relation: competitor
+  note: MMGRec supplies a graph-aware tokenizer baseline; GrIS also studies recursive graph pooling and graph-reconstruction
+    quantization.
+  where: 'GrIS v1, Sections 2.3/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS3.p2; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1;
+    https://arxiv.org/html/2610.01533v1#S5.T3.'

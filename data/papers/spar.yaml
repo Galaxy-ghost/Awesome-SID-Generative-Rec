@@ -17,3 +17,42 @@ objective: Multi-task NTP
 inference: –
 poi: true
 summary: 完整四位 SI-SID 含显式消歧码，三项空间机制独立可定位。
+setup:
+  datasets: Public NYC/TKY; one month of AMAP logs from Beijing, Shanghai, Tianjin and Zhejiang. MG-CPT adds 25 geospatial
+    datasets per city. Cleaning details not reported.
+  split: 'Public: chronological 80%/10%/10% train/validation/test. Industrial: last day test, earlier interactions train;
+    industrial validation allocation not reported. Each interaction uses its preceding history.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Cold/warm users have <8/>=16 historical interactions; queries and
+    real-time location remain available. Quantizer fits training POIs; test-POI exclusion not detailed.
+  sid: 'SI-SID: 3 residual K-Means codebooks x 32 codes for NYC/TKY or x 512 for AMAP, plus a fourth disambiguation index
+    guaranteeing unique POI IDs.'
+  inference_budget: 'Default Qwen3-4B; Recall/NDCG/MRR@5/10/20. Experiment environment: 64 A100 GPUs; beam width, inference
+    batch size and latency not reported. Reported batch 32 is training.'
+  results_from: 'Original Tables 2/3: public/industrial recommendation comparisons; Table 5: sparse-history users. Generative
+    baselines are standardized to four-level SIDs with final disambiguation indices.'
+setup_where:
+  datasets: 'Section 5.1, Table 1 and Appendix B: https://arxiv.org/html/2609.02062v2#S5.SS1.p1 and https://arxiv.org/html/2609.02062v2#S5.T1
+    and https://arxiv.org/html/2609.02062v2#A2.p1'
+  split: 'Section 5.1: https://arxiv.org/html/2609.02062v2#S5.SS1.p1'
+  candidates: 'Section 5.1 reports metrics and splits without candidate enumeration or negative sampling: https://arxiv.org/html/2609.02062v2#S5.SS1'
+  visibility: 'Sections 4.1.2/5.5: https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2 and https://arxiv.org/html/2609.02062v2#S5.SS5.p1'
+  sid: 'Sections 4.1.2/5.1: https://arxiv.org/html/2609.02062v2#S4.SS1.SSS2.p2 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4'
+  inference_budget: 'Section 5.1: https://arxiv.org/html/2609.02062v2#S5.SS1.p2 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4'
+  results_from: 'Original Tables 2/3/5 and Section 5.1: https://arxiv.org/html/2609.02062v2#S5.T2 and https://arxiv.org/html/2609.02062v2#S5.T3
+    and https://arxiv.org/html/2609.02062v2#S5.T5 and https://arxiv.org/html/2609.02062v2#S5.SS1.p4'
+related:
+- id: gnpr-sid
+  relation: competitor
+  note: SID POI baseline; SPAR explicitly injects and preserves urban spatial knowledge.
+  where: 'SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.T2;
+    https://arxiv.org/html/2609.02062v2#S5.T3.'
+- id: plum
+  relation: competitor
+  note: Generic SID-CPT-SFT comparator against SPAR's spatially specialized stages.
+  where: 'SPAR v2, Section 5.2.2: https://arxiv.org/html/2609.02062v2#S5.SS2.SSS2.p2.'
+- id: tiger
+  relation: competitor
+  note: Evaluated with four-level SIDs including a final disambiguation index.
+  where: 'SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.SS1.p4;
+    https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.'

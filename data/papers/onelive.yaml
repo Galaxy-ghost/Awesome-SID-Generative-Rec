@@ -17,3 +17,41 @@ objective: NTP → RL
 inference: Beam
 poi: false
 summary: 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。
+setup:
+  datasets: 'Kuaishou live-streaming logs over nearly two months: 400M users, 3M authors, billions of long-view/click interactions.
+    Filtering rules not reported.'
+  split: Last day test, earlier dates training; validation allocation not reported. Online A/B observed nearly one month on
+    Kuaishou/Kuaishou Lite; traffic allocation not reported.
+  candidates: not reported; only ongoing live streams are eligible.
+  visibility: warm; no unseen-item protocol is defined. Collaborative post-alignment and author SID updates use real-time
+    signals; test-author exposure in tokenizer training not reported.
+  sid: 'Res-Kmeans: 3 levels x 8192 codes. Collision rates measured; collision disambiguation not reported.'
+  inference_budget: 'HR/MRR@64/128; RL beam-top settings 64/256. L20 profiling: MTP graph latency mean/P99 2.25/3.62 ms (3
+    layers), 2.97/5.04 ms (6 layers); QPS gains 31.8%/62.0%. Main beam width and inference batch size not reported.'
+  results_from: 'Original Table 2: offline long-view/click comparisons on shared industrial logs; Tables 3-5: ablations/serving;
+    Table 6: online A/B.'
+setup_where:
+  datasets: 'Appendix B.1.1: https://arxiv.org/html/2602.08612v1#A2.SS1.SSS1.p1'
+  split: 'Appendix B.1.1 and Section 3.2: https://arxiv.org/html/2602.08612v1#A2.SS1.SSS1.p1 and https://arxiv.org/html/2602.08612v1#S3.SS2.p1'
+  candidates: 'Introduction and Appendix C.2 specify live eligibility/generated-list metrics, not a sampled-negative protocol:
+    https://arxiv.org/html/2602.08612v1#S1.p5 and https://arxiv.org/html/2602.08612v1#A3.SS2.p1'
+  visibility: 'Appendix B.1 defines no item holdout: https://arxiv.org/html/2602.08612v1#A2.SS1 and https://arxiv.org/html/2602.08612v1#S2.SS1.SSS1.p3'
+  sid: 'Section 2.1.2: https://arxiv.org/html/2602.08612v1#S2.SS1.SSS2.p2'
+  inference_budget: 'Section 3.1.2 and Tables 4/5: https://arxiv.org/html/2602.08612v1#S3.SS1.SSS2.p1 and https://arxiv.org/html/2602.08612v1#S3.T4
+    and https://arxiv.org/html/2602.08612v1#S3.T5'
+  results_from: 'Table 2 and Sections 3.1/3.2: https://arxiv.org/html/2602.08612v1#S2.T2 and https://arxiv.org/html/2602.08612v1#S3.p1
+    and https://arxiv.org/html/2602.08612v1#S3.SS2.p1'
+related:
+- id: tiger
+  relation: predecessor
+  note: OneLive extends SID generation to dynamic live-streaming content.
+  where: 'OneLive v1, Appendix A.2 and Table 2: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.T2.'
+- id: onerec
+  relation: competitor
+  note: OneRec is adapted as the encoder-decoder live-streaming baseline.
+  where: 'OneLive v1, Section 3.1.2 and Table 2; cited Deng et al. (2025) is arXiv:2502.18965: https://arxiv.org/html/2602.08612v1#S3.SS1.SSS2.p1;
+    https://arxiv.org/html/2602.08612v1#S2.T2.'
+- id: mmq
+  relation: alternative
+  note: MMQ aligns content with behavior; OneLive additionally updates author SIDs in real time.
+  where: 'OneLive v1, Appendix A.2 and Section 2.1: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.SS1.'

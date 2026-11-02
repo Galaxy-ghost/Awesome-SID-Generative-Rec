@@ -127,16 +127,18 @@
       "minLength": 1
     },
     "evidence": {
-      "description": "Optional list of verbatim quotes and locations from the paper for display.",
+      "description": "Optional list of locations in the paper, each with a verbatim quote, the curator's reason, or both.",
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["field", "quote", "where"],
+        "required": ["field", "where"],
+        "anyOf": [{"required": ["quote"]}, {"required": ["reason"]}],
         "properties": {
           "field": {"type": "string", "minLength": 1},
+          "where": {"type": "string", "minLength": 1},
           "quote": {"type": "string", "minLength": 1},
-          "where": {"type": "string", "minLength": 1}
+          "reason": {"type": "string", "minLength": 1}
         }
       }
     },

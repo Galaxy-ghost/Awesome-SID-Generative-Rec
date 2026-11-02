@@ -20,12 +20,55 @@ summary: 'Abstract: "SID Content Degradation (SCD)"; "SID Semantic Opacity (SSO)
   the majority of new designs).'
 evidence:
 - field: problem
-  quote: 'Abstract: "SID Content Degradation (SCD)"; "SID Semantic Opacity (SSO)". Candidates: I / III (rule: tie broken by
-    the majority of new designs).'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p4
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p4
+  where: 'https://arxiv.org/html/2605.05249v1#abstract1 (Abstract: SCD, SSO, CMSA, MDIM and TMT)'
+  quote: Prior work addresses at most text-SID alignment, leaving visual semantics and latent user interests entirely unexploited.
+  reason: Both SID content degradation and SID semantic opacity are candidate problems; the record assigns Informativeness
+    because CMSA and MDIM enrich SID content, while TMT addresses generator alignment.
+setup:
+  datasets: Amazon Beauty, Sports and Outdoors, Musical Instruments with 5-core filtering (22K-36K users, 10K-18K items, 198K-296K
+    interactions in total ranges; per-dataset counts not separated in the text).
+  split: Leave-last-out protocol (allocation not restated beyond the label); results averaged over three seeds.
+  candidates: not reported (full catalog versus sampled evaluation candidates); top-K from beam search with beam size 20.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '3-level RQ-VAE with codebook sizes 4,096, 2,048, and 1,024 over gme-Qwen2-VL multimodal embeddings enriched with image
+    captions (CMSA) and mined user interests (MDIM). Collision rates are reported: 3.1% of Beauty items share a full SID (5.1%
+    for text-only RQ-VAE); a resolution rule is not reported.'
+  inference_budget: 'Beam size 20; Qwen2.5-7B-Instruct backbone; experiments on NVIDIA A100 GPUs; inference batch size and
+    latency: not reported.'
+  results_from: Table 2 (Beauty, Sports, Instruments versus sequential, generative, LLM, and reasoning baselines; three seeds);
+    Tables 3-5 (component, SID-versus-task, and task-combination ablations); Appendix Tables 6-8 (SID diagnostics, semantic
+    probing, SID construction versus MiniOneRec).
+setup_where:
+  datasets: 'Datasets and protocol: https://arxiv.org/html/2605.05249v3#A1.p1.'
+  split: 'Leave-last-out: https://arxiv.org/html/2605.05249v3#A1.p1; three seeds: https://arxiv.org/html/2605.05249v3#S4.SS1.p1.'
+  candidates: 'Metrics and beam: https://arxiv.org/html/2605.05249v3#A1.p2.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2605.05249v3#A1.p1.'
+  sid: '3-level RQ-VAE with 4096/2048/1024 over gme-Qwen2-VL embeddings: https://arxiv.org/html/2605.05249v3#A1.p3; collision
+    diagnostics: https://arxiv.org/html/2605.05249v3#A3.T6.'
+  inference_budget: 'Beam 20, backbone, GPUs: https://arxiv.org/html/2605.05249v3#A1.p2 and https://arxiv.org/html/2605.05249v3#A1.p3.'
+  results_from: 'Main: https://arxiv.org/html/2605.05249v3#S4.T2; ablations: https://arxiv.org/html/2605.05249v3#S4.T3, https://arxiv.org/html/2605.05249v3#S4.T4,
+    https://arxiv.org/html/2605.05249v3#S4.T5; SID diagnostics: https://arxiv.org/html/2605.05249v3#A3.T6; probing: https://arxiv.org/html/2605.05249v3#A4.T7;
+    vs MiniOneRec: https://arxiv.org/html/2605.05249v3#A5.T8.'
+related:
+- id: sidreasoner
+  relation: competitor
+  note: SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds
+    visual captions and mined interests before quantization and eight alignment tasks.
+  where: 'TriAlignGR v3, Section 4.1: https://arxiv.org/html/2605.05249v3#S4.SS1.p1; Table 2: https://arxiv.org/html/2605.05249v3#S4.T2.'
+- id: minionerec
+  relation: predecessor
+  note: TriAlignGR shares MiniOneRec's backbone, training protocol, and RQ-VAE configuration and isolates the effect of its
+    SID enrichment against it.
+  where: 'TriAlignGR v3, Section 4.1 comparison: https://arxiv.org/html/2605.05249v3#S4.SS1.p3; Appendix Table 8: https://arxiv.org/html/2605.05249v3#A5.T8.'
+- id: letter
+  relation: competitor
+  note: LETTER regularizes a text tokenizer; TriAlignGR changes the tokenizer input to multimodal, interest-enriched embeddings.
+  where: 'TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.'
+- id: etegrec
+  relation: competitor
+  note: ETEGRec trains tokenizer and generator jointly; TriAlignGR keeps a fixed tokenizer and adds multitask alignment.
+  where: 'TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec uses text-only SIDs with alignment tasks; TriAlignGR extends the task set with visual-semantic tasks.
+  where: 'TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.'

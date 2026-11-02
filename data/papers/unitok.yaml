@@ -6,7 +6,7 @@ year: 2026
 venue: AAAI’26
 links:
   arxiv: https://arxiv.org/abs/2511.12922
-  code: null
+  code: https://github.com/jackfrost168/UniTok
 problem: VI
 stage: Tokenization
 representation: Multi-Dom
@@ -19,11 +19,56 @@ poi: false
 summary: 'Abstract: "require training separate models for each item domain, limiting generalization".'
 evidence:
 - field: problem
-  quote: 'Abstract: "require training separate models for each item domain, limiting generalization".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: p5
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: p5
+  where: https://arxiv.org/html/2511.12922v1#abstract1 (Abstract)
+  quote: However, existing item tokenization methods typically require training separate models for each item domain, limiting
+    generalization.
+setup:
+  datasets: 'Ten domains: Amazon Beauty, Cellphones, Grocery, Instruments, Office, Pet Supplies, Tools, Toys, Games, and Yelp,
+    with title, category, and feature metadata; zero-shot targets Clothing, Health, and Sports. Sizes are in Appendix Table
+    6 (e.g. Beauty 22,363 users / 12,101 items; Yelp 30,431 / 20,033); filtering rules: not reported.'
+  split: 'not reported in the main text (full-ranking evaluation per dataset; the train/test division is not restated). Zero-shot
+    study: the tokenizer is trained on the ten source datasets and tested on three unseen domains.'
+  candidates: full catalog (all non-interacted items are ranked for each user, so user history items are excluded).
+  visibility: 'Main: warm; no unseen-item protocol is defined. Zero-shot: items of the three target domains are unseen by
+    the UniTok tokenizer; whether the T5 recommender saw them: not reported.'
+  sid: '4-level residual quantization x 256 codes (dimension 32) inside each expert of a TokenMoE: one shared expert plus
+    10 domain experts (top-N routing, N = 1 or 2) over 2,048-dimensional language-model embeddings, with mutual-information
+    calibration. Collision handling: not reported.'
+  inference_budget: 'Recommendation uses TIGER''s T5 generator; beam width not reported. Experiments on two NVIDIA RTX 3090
+    GPUs; inference batch size and latency: not reported. Table 2 compares trainable parameters (9.11M versus 87.78M accumulated
+    for per-dataset tokenizers).'
+  results_from: Table 1 (ten datasets versus CF and tokenization-aided baselines); Table 2 (trainable parameters); Table 3
+    (competitors trained jointly across domains); Table 4 (zero-shot on unseen domains); Table 5 and later (ablations).
+setup_where:
+  datasets: 'Ten domains: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx1.p1; zero-shot targets: https://arxiv.org/html/2511.12922v1#Sx4.SSx4.p1;
+    statistics: https://arxiv.org/html/2511.12922v1#A4.SSx1.p1 and https://arxiv.org/html/2511.12922v1#A4.T6.'
+  split: Split not restated in the extracted text.
+  candidates: 'Full ranking over all non-interacted items: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx3.p1.'
+  visibility: 'Zero-shot domains unseen by the tokenizer: https://arxiv.org/html/2511.12922v1#Sx4.SSx4.p1.'
+  sid: '4 levels x 256 x 32 per expert, TokenMoE with shared and domain experts: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx4.p1,
+    https://arxiv.org/html/2511.12922v1#A4.SSx4.p3, https://arxiv.org/html/2511.12922v1#Sx3.SSx3.SSSx2.p3.'
+  inference_budget: 'TIGER T5 recommender and hardware: https://arxiv.org/html/2511.12922v1#A4.SSx4.p1 and https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx4.p1.'
+  results_from: 'Main: https://arxiv.org/html/2511.12922v1#Sx3.T1; parameters: https://arxiv.org/html/2511.12922v1#Sx4.T2;
+    unified training: https://arxiv.org/html/2511.12922v1#Sx4.T3; zero-shot and ablation in later tables.'
+related:
+- id: letter
+  relation: competitor
+  note: LETTER trains one regularized RQ-VAE tokenizer per dataset; UniTok shares one tokenizer across ten domains with a
+    mixture of quantization experts.
+  where: 'UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1-3: https://arxiv.org/html/2511.12922v1#Sx3.T1,
+    https://arxiv.org/html/2511.12922v1#Sx4.T2, https://arxiv.org/html/2511.12922v1#Sx4.T3.'
+- id: tiger
+  relation: competitor
+  note: TIGER is both a tokenizer baseline and the downstream T5 recommender; UniTok replaces per-domain RQ codebooks with
+    routed experts.
+  where: 'UniTok v1, baselines and backbone: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1 and https://arxiv.org/html/2511.12922v1#A4.SSx4.p1;
+    Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.'
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec aligns an LLM to per-domain indices; UniTok targets one tokenizer for many domains.
+  where: 'UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1 and 3: https://arxiv.org/html/2511.12922v1#Sx3.T1
+    and https://arxiv.org/html/2511.12922v1#Sx4.T3.'
+- id: cid
+  relation: competitor
+  note: P5-TID and P5-SemID (Hua et al., 2023) use titles or categories as IDs; UniTok learns codebook IDs.
+  where: 'UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.'

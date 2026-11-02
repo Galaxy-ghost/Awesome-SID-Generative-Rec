@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2510.24431) · [Code](https://github.com/AkaliKong/MiniOneRec) · [Matrix](../../README.md#paradigms-systems-and-benchmarks)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -26,6 +26,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![MiniOneRec architecture diagram](../../architectures/minionerec.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Reviews 2023: Industrial and Scientific, Office Products. Trimming follows Bao et al. (2024): users and items with fewer than 5 interactions removed; events limited to October 1996-November 2018 for Industrial; histories truncated to at most 10 items. Retained sizes: in Appendix B (not restated here).
+  - Source: Datasets and trimming: https://arxiv.org/html/2510.24431v1#S5.SS1.p1 and https://arxiv.org/html/2510.24431v1#A2.p1.
+- **Split**: Chronological 8:1:1 split into training, validation, and test. OOD study: train only on Industrial and evaluate on Office without tuning.
+  - Source: Chronological 8:1:1: https://arxiv.org/html/2510.24431v1#A2.p1; OOD transfer: https://arxiv.org/html/2510.24431v1#S5.SS4.p1.
+- **Candidates**: not reported explicitly (the policy predicts among all catalog candidates and returns the top-k beams; whether metrics are full-catalog is not stated).
+  - Source: Ranking among all catalog items via beam search: https://arxiv.org/html/2510.24431v1#S3.SS1.p2.
+- **Visibility**: In-domain: warm; no unseen-item protocol is defined. OOD: Office items are unseen by the generator (trained only on Industrial); whether the RQ-VAE was fit on Office items: not reported.
+  - Source: In-domain chronological split; OOD on a never-seen domain: https://arxiv.org/html/2510.24431v1#S5.SS4.p1 and https://arxiv.org/html/2510.24431v1#S5.SS4.p2.
+- **SID**: 3-level RQ-VAE x 256 codewords over Qwen3-Embedding-4B text embeddings; the three layers of 256 SID tokens are appended to the Qwen2.5-Instruct tokenizer vocabulary. Collision handling: not reported.
+  - Source: L=3 x K=256 RQ-VAE over Qwen3-Embedding-4B, SID tokens added to vocabulary: https://arxiv.org/html/2510.24431v1#S3.I1.i3.p1, https://arxiv.org/html/2510.24431v1#S4.p1, https://arxiv.org/html/2510.24431v1#A1.SS1.p2; no collision rule found.
+- **Inference budget**: Constrained beam search returns the top-k list; the numerical width at evaluation is not reported (RL rollouts use beam width 16). SFT on 8 NVIDIA H100 GPUs; inference batch size and latency: not reported.
+  - Source: Beam search for recommendation lists and RL rollouts (width 16): https://arxiv.org/html/2510.24431v1#S3.SS1.p2, https://arxiv.org/html/2510.24431v1#S3.SS4.SSS1.p4, https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p1; hardware: https://arxiv.org/html/2510.24431v1#S4.p1.
+- **Results from**: Table 1 (Industrial and Office versus traditional, generative, and LLM-based baselines); Table 2 (unseen Office domain); Table 3 (pre-trained versus random initialization); Figures 1 and 4 (scaling and rollout strategies).
+  - Source: Main: https://arxiv.org/html/2510.24431v1#S5.T1; OOD: https://arxiv.org/html/2510.24431v1#S5.T2; pre-training effect: https://arxiv.org/html/2510.24431v1#S5.T3; rollout strategies: https://arxiv.org/html/2510.24431v1#S5.SS5.SSS2.p2.
 
 ## 旧卡片说明
 
@@ -107,5 +126,12 @@ MiniOneRec 的主要贡献是把 SID 对齐、语言模型扩展和推荐偏好�
 - 使用场景：序列与跨域推荐。
 
 ### 5. Connections to Related Work
+
+- **Predecessor** · [OneRec](onerec.md): MiniOneRec is an open-source reproduction of the OneRec-style pipeline: SID construction, SFT, and RL with constrained beam rollouts on public data.
+  - Source: MiniOneRec v1, Section 1 positions it against OneRec: https://arxiv.org/html/2510.24431v1#S1.p1 and https://arxiv.org/html/2510.24431v1#S1.p3; Section 3.3: https://arxiv.org/html/2510.24431v1#S3.SS3.p1.
+- **Competitor** · [TIGER](tiger.md): TIGER trains a small generator with next-token prediction only; MiniOneRec uses an LLM with SID alignment tasks and GRPO.
+  - Source: MiniOneRec v1, Table 1 generative baselines: https://arxiv.org/html/2510.24431v1#S5.T1.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to SIDs with SFT tasks; MiniOneRec keeps such alignment throughout SFT and RL and adds reinforced preference optimization.
+  - Source: MiniOneRec v1, Table 1 generative baselines (LCRec): https://arxiv.org/html/2510.24431v1#S5.T1; related work: https://arxiv.org/html/2510.24431v1#S2.SS1.p2.
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

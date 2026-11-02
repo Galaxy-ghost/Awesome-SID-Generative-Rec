@@ -70,13 +70,13 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [FORGE][] - KDD’26<br>
   [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid)
 - [GRID][] - CIKM’25<br>
-  [Paper](https://arxiv.org/abs/2507.22224)
+  [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID)
 - [MiniOneRec][] - arXiv’25<br>
   [Paper](https://arxiv.org/abs/2510.24431) · [Code](https://github.com/AkaliKong/MiniOneRec)
 - [OneRec][] - arXiv’25<br>
   [Paper](https://arxiv.org/abs/2502.18965)
 - [GR-Generalize][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2603.19809)
+  [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR)
 - [NEO][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2603.17533)
 - [Netflix-SID-Comparison][] - NeurIPS’26 PALM Workshop<br>
@@ -86,7 +86,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [PLUM][] - WWW’26<br>
   [Paper](https://arxiv.org/abs/2510.07784)
 - [ReRankID][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.22797)
+  [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID)
 - [SIDScope][] - arXiv’26<br>
   SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.<br>
   [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope)
@@ -98,7 +98,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### I × Representation
 
 - [Molar][] - arXiv’24<br>
-  [Paper](https://arxiv.org/abs/2412.18176)
+  [Paper](https://arxiv.org/abs/2412.18176) · [Code](https://anonymous.4open.science/r/Molar-8B06/)
 - [OneLoc][] - arXiv’25 · `POI`<br>
   OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.<br>
   [Paper](https://arxiv.org/abs/2508.14646)
@@ -113,11 +113,11 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [LGRID][] - arXiv’26 · `POI`<br>
   [Paper](https://arxiv.org/abs/2607.27944)
 - [LGSID][] - AAAI’26 · `POI`<br>
-  [Paper](https://arxiv.org/abs/2511.14221)
+  [Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID)
 - [ReSID][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2602.02338)
+  [Paper](https://arxiv.org/abs/2602.02338) · [Code](https://github.com/FuCongResearchSquad/ReSID)
 - [SCRec][] - RecSys’26<br>
-  [Paper](https://arxiv.org/abs/2609.13678)
+  [Paper](https://arxiv.org/abs/2609.13678) · [Code](https://github.com/DanJiayi/SCRec)
 - [SPAR][] - arXiv’26 · `POI`<br>
   [Paper](https://arxiv.org/abs/2609.02062)
 - [TriAlignGR][] - arXiv’26<br>
@@ -131,7 +131,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.<br>
   [Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER)
 - [LMIndexer][] - ICML’24<br>
-  [Paper](https://arxiv.org/abs/2310.07815)
+  [Paper](https://arxiv.org/abs/2310.07815) · [Code](https://github.com/PeterGriffinJin/LMIndexer)
 - [ActionPiece][] - ICML’25<br>
   [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece)
 - [ADC-SID][] - arXiv’25<br>
@@ -147,29 +147,29 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [GNPR-SID][] - KDD’25 · `POI`<br>
   [Paper](https://arxiv.org/abs/2506.01375) · [Code](https://github.com/wds1996/GNPR-SID)
 - [GRAM][] - ACL’25<br>
-  [Paper](https://arxiv.org/abs/2506.01673)
+  [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM)
 - [KGTB][] - arXiv’25 · `POI`<br>
   [Paper](https://arxiv.org/abs/2509.12350)
 - [MME-SID][] - CIKM’25<br>
-  [Paper](https://arxiv.org/abs/2509.02017)
+  [Paper](https://arxiv.org/abs/2509.02017) · [Code](https://github.com/Applied-Machine-Learning-Lab/MME-SID)
 - [MQL4GRec][] - ICLR’25<br>
-  [Paper](https://arxiv.org/abs/2504.05314)
+  [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec)
 - [PSRQ][] - CIKM’25<br>
   [Paper](https://arxiv.org/abs/2508.20359)
 - [QT-Mob][] - KDD’25 · `POI`<br>
-  [Paper](https://arxiv.org/abs/2506.11109)
+  [Paper](https://arxiv.org/abs/2506.11109) · [Code](https://github.com/shadowfall09/QT-Mob)
 - [TokenRec][] - TKDE’25<br>
-  [Paper](https://arxiv.org/abs/2406.10450)
+  [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec)
 - [CapsID][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2605.05096)
 - [ChronoID][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2606.14260)
 - [GrIS (RecDMoN / RQ-GAE)][gris-recdmon-rq-gae] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2610.01533)
+  [Paper](https://arxiv.org/abs/2610.01533) · [Code](https://github.com/hirc-airecs/graph-informed-sids)
 - [MACRec][] - AAAI’26<br>
-  [Paper](https://arxiv.org/abs/2511.15122)
+  [Paper](https://arxiv.org/abs/2511.15122) · [Code](https://github.com/zhangfw123/MACRec)
 - [MMGRec][] - TOMM’26<br>
-  [Paper](https://arxiv.org/abs/2404.16555)
+  [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec)
 - [MMQ][] - WSDM’26<br>
   [Paper](https://arxiv.org/abs/2508.15281)
 - [MSCGRec][] - arXiv’26<br>
@@ -177,17 +177,17 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [PCR-CA][] - KDD’26<br>
   [Paper](https://arxiv.org/abs/2508.18166)
 - [Pctx][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2510.21276)
+  [Paper](https://arxiv.org/abs/2510.21276) · [Code](https://github.com/YoungZ365/Pctx)
 - [ProGEO][] - arXiv’26 · `POI`<br>
   [Paper](https://arxiv.org/abs/2604.23156)
 - [RoFiGR][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.39470)
 - [ROS][] - ACL’26 · `POI`<br>
-  [Paper](https://arxiv.org/abs/2601.04562)
+  [Paper](https://arxiv.org/abs/2601.04562) · [Code](https://github.com/amap-cvlab/Reasoning-Over-Space)
 - [SPRIG][] - CIKM’26 Short<br>
-  [Paper](https://arxiv.org/abs/2610.06590)
+  [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender)
 - [Tlow][] - CIKM’26 Applied<br>
-  [Paper](https://arxiv.org/abs/2608.24176)
+  [Paper](https://arxiv.org/abs/2608.24176) · [Code](https://github.com/wjjln/Tlow)
 - [UniRec][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2604.12234)
 - [UniSID][] - arXiv’26<br>
@@ -198,13 +198,13 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### I × Backbone
 
 - [ColaRec][] - CIKM’24<br>
-  [Paper](https://arxiv.org/abs/2403.18480)
+  [Paper](https://arxiv.org/abs/2403.18480) · [Code](https://github.com/Junewang0614/ColaRec)
 - [EAGER][] - KDD’24<br>
   [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER)
 - [COBRA][] - NeurIPS’25<br>
   [Paper](https://arxiv.org/abs/2503.02453)
 - [DiscRec][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2506.15576)
+  [Paper](https://arxiv.org/abs/2506.15576) · [Code](https://github.com/Ten-Mao/DiscRec)
 - [Spacetime-GR][] - arXiv’25 · `POI`<br>
   [Paper](https://arxiv.org/abs/2508.16126)
 - [SPAR-Youku][] - arXiv’26<br>
@@ -215,13 +215,13 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### I × Training
 
 - [MBGen][] - CIKM’24<br>
-  [Paper](https://arxiv.org/abs/2405.16871)
+  [Paper](https://arxiv.org/abs/2405.16871) · [Code](https://github.com/anananan116/MBGen)
 - [RAGR][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2605.17267)
+  [Paper](https://arxiv.org/abs/2605.17267) · [Code](https://github.com/Zhang-Yingyi/TKDE_RAGR)
 - [REGER][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.37584)
 - [SynGR][] - ICML’26<br>
-  [Paper](https://arxiv.org/abs/2605.18920)
+  [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR)
 
 ### I × Inference
 
@@ -237,27 +237,27 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### II × Tokenization
 
 - [CID][] - SIGIR-AP’23<br>
-  [Paper](https://arxiv.org/abs/2305.06569)
+  [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID)
 - [TransRec][] - KDD’24<br>
-  [Paper](https://arxiv.org/abs/2310.06491)
+  [Paper](https://arxiv.org/abs/2310.06491) · [Code](https://github.com/Linxyhaha/TransRec/)
 - [HiD-VAE][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2508.04618)
+  [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2)
 - [PSI][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2509.16446)
+  [Paper](https://arxiv.org/abs/2509.16446) · [Code](https://github.com/wangshanyw/PurelySemanticIndexing)
 - [AdaSID][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2604.23522)
 - [API][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.36763)
+  [Paper](https://arxiv.org/abs/2610.36763) · [Code](https://anonymous.4open.science/r/API-C1F9/)
 - [CARD][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2604.26427)
+  [Paper](https://arxiv.org/abs/2604.26427) · [Code](https://github.com/HAI-UESTC/CARD)
 - [DIGER][] - SIGIR’26<br>
-  [Paper](https://arxiv.org/abs/2601.19711)
+  [Paper](https://arxiv.org/abs/2601.19711) · [Code](https://github.com/junchen-fu/DIGER)
 - [Gwhere][] - RecSys’26 · `POI`<br>
   [Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT)
 - [QuaSID][] - KDD’26 ADS<br>
   [Paper](https://arxiv.org/abs/2603.00632)
 - [R3-VAE][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2604.11440)
+  [Paper](https://arxiv.org/abs/2604.11440) · [Code](https://github.com/wwqq/R3-VAE)
 - [SnapLGR][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2607.28895)
 
@@ -268,7 +268,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### III × Tokenization
 
 - [IDGenRec][] - SIGIR’24<br>
-  [Paper](https://arxiv.org/abs/2403.19021)
+  [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec)
 - [SIIT][] - arXiv’24<br>
   [Paper](https://arxiv.org/abs/2412.17171)
 - [SemConv][] - AAAI’25<br>
@@ -276,30 +276,30 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [Align3GR][] - AAAI’26<br>
   [Paper](https://arxiv.org/abs/2511.11255)
 - [CogRec][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2607.24402)
+  [Paper](https://arxiv.org/abs/2607.24402) · [Code](https://github.com/caskcsg/CogRec)
 - [DOS][] - WWW’26 Short · `POI`<br>
   [Paper](https://arxiv.org/abs/2602.04460)
 - [GR4AD-X][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.38378)
 - [GRLM][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2601.06798)
+  [Paper](https://arxiv.org/abs/2601.06798) · [Code](https://github.com/ZY0025/GRLM)
 - [HoloRec][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2606.15331)
 - [SST][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2608.22734)
+  [Paper](https://arxiv.org/abs/2608.22734) · [Code](https://github.com/mxrcandy/Semantic-Subword-Tokenization)
 - [TopoGR][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2607.25216)
 
 ### III × Backbone
 
 - [LLaDA-Rec][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2511.06254)
+  [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec)
 - [DECOR][] - SIGIR’26<br>
-  [Paper](https://arxiv.org/abs/2509.10468)
+  [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git)
 - [FLASH][] - NeurIPS’26<br>
-  [Paper](https://arxiv.org/abs/2610.07402)
+  [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash)
 - [Latte][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2605.06331)
+  [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte)
 - [LESSRec][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.37286)
 - [MDGR][] - arXiv’26<br>
@@ -314,23 +314,23 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### III × Training
 
 - [LC-Rec][] - ICDE’24<br>
-  [Paper](https://arxiv.org/abs/2311.09049)
+  [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/)
 - [ETEGRec][] - SIGIR’25<br>
-  [Paper](https://arxiv.org/abs/2409.05546)
+  [Paper](https://arxiv.org/abs/2409.05546) · [Code](https://github.com/RUCAIBox/ETEGRec)
 - [GREAM][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2510.20815)
+  [Paper](https://arxiv.org/abs/2510.20815) · [Code](https://github.com/Indolent-Kawhi/GRRM)
 - [OneRec-Think][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2510.11639)
+  [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think)
 - [Evo-Rec][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2609.29973)
+  [Paper](https://arxiv.org/abs/2609.29973) · [Code](https://github.com/mengdanzhu/evo-rec)
 - [GTI][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2604.02324)
 - [Intent-Driven-News][] - ACL’26 Industry<br>
   [Paper](https://arxiv.org/abs/2605.07613)
 - [SIDReasoner][] - KDD’26<br>
-  [Paper](https://arxiv.org/abs/2603.23183)
+  [Paper](https://arxiv.org/abs/2603.23183) · [Code](https://github.com/HappyPointer/SIDReasoner)
 - [Think2Go][] - KDD’26 · `POI`<br>
-  [Paper](https://arxiv.org/abs/2607.28997)
+  [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701)
 
 ### III × Inference
 
@@ -351,7 +351,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### IV × Backbone
 
 - [DiGR][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2602.07847)
+  [Paper](https://arxiv.org/abs/2602.07847) · [Code](https://anonymous.4open.science/r/SimGR-C408/)
 - [Gryphon][] - CIKM’26 Short<br>
   [Paper](https://arxiv.org/abs/2606.08604)
 - [RecoChain][] - arXiv’26<br>
@@ -360,9 +360,9 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### IV × Training
 
 - [APAO][] - KDD’26<br>
-  [Paper](https://arxiv.org/abs/2603.02730)
+  [Paper](https://arxiv.org/abs/2603.02730) · [Code](https://github.com/yuyq18/APAO)
 - [DASO][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2608.20611)
+  [Paper](https://arxiv.org/abs/2608.20611) · [Code](https://github.com/LucasXinYu/DASO)
 - [DPE-Rec][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.34700)
 - [GEM-Rec][] - arXiv’26<br>
@@ -370,44 +370,44 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [GenRec-JD][] - SIGIR’26<br>
   [Paper](https://arxiv.org/abs/2604.14878)
 - [GFlowGR][] - SIGIR’26<br>
-  [Paper](https://arxiv.org/abs/2506.16114)
+  [Paper](https://arxiv.org/abs/2506.16114) · [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR)
 - [Ghost][] - NeurIPS’26<br>
-  [Paper](https://arxiv.org/abs/2605.16825)
+  [Paper](https://arxiv.org/abs/2605.16825) · [Code](https://github.com/Esperanto-mega/Ghost)
 - [HASTE][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.17368)
 - [HCGRec][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2608.11980)
+  [Paper](https://arxiv.org/abs/2608.11980) · [Code](https://github.com/WncFht/GRec)
 - [IDM/CMM][idm-cmm] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.32943)
 - [KL-MOPD][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.36973)
+  [Paper](https://arxiv.org/abs/2610.36973) · [Code](https://github.com/Yandorn/KL-MOPD)
 - [MuSID-KD][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.35218)
+  [Paper](https://arxiv.org/abs/2610.35218) · [Code](https://anonymous.4open.science/r/m7k2-review-83f9/)
 - [NAU][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.27232)
+  [Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning)
 - [OneChord][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.25805)
+  [Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/)
 - [Retrieval-Grounded-Credit][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2609.29983)
+  [Paper](https://arxiv.org/abs/2609.29983) · [Code](https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation)
 - [SAGE-SID][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2601.21452)
 - [SAHL][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.25093)
+  [Paper](https://arxiv.org/abs/2610.25093) · [Code](https://github.com/CQU-MM-Intelligent-Lab/SAHL)
 - [SAPO][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2605.17648)
+  [Paper](https://arxiv.org/abs/2605.17648) · [Code](https://github.com/zhengzaiyi/SAPO)
 - [SLIDE][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.34764)
 - [Token-Weighted][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2601.17787)
+  [Paper](https://arxiv.org/abs/2601.17787) · [Code](https://github.com/CHIUWEINING/Token-Weighted-Multi-Target-Learning-for-Generative-Recommenders-with-Curriculum-Learning)
 - [UGR][] - KDD’26<br>
-  [Paper](https://arxiv.org/abs/2602.11719)
+  [Paper](https://arxiv.org/abs/2602.11719) · [Code](https://github.com/cxfann/UGR)
 - [V-STAR][] - KDD’26<br>
   [Paper](https://arxiv.org/abs/2602.10699)
 
 ### IV × Inference
 
 - [ISD][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2607.24995)
+  [Paper](https://arxiv.org/abs/2607.24995) · [Code](https://anonymous.4open.science/r/ISD-CF7C)
 - [TCBSA][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.32098)
 
@@ -418,7 +418,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### V × Tokenization
 
 - [SEATER][] - SIGIR-AP’24<br>
-  [Paper](https://arxiv.org/abs/2309.13375)
+  [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval)
 - [Dynamic-Single-Codebook][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2608.21012)
 - [JevRec][] - arXiv’26<br>
@@ -444,9 +444,9 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [PinGER][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2610.33435)
 - [SID-MLP][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2605.12617)
+  [Paper](https://arxiv.org/abs/2605.12617) · [Code](https://github.com/ztguo715/SID-MLP.git)
 - [SPRINT][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2609.34306)
+  [Paper](https://arxiv.org/abs/2609.34306) · [Code](https://github.com/iamZhuoCai/SPRINT)
 - [STAMP][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2604.05329)
 
@@ -458,17 +458,17 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### V × Inference
 
 - [AtSpeed][] - ICLR’25<br>
-  [Paper](https://arxiv.org/abs/2410.05165)
+  [Paper](https://arxiv.org/abs/2410.05165) · [Code](https://github.com/Linxyhaha/AtSpeed)
 - [NEZHA][] - WWW’26 Industry<br>
   [Paper](https://arxiv.org/abs/2511.18793)
 - [OneRec-V2-Quantized][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2603.11486)
 - [PAD-Rec][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2604.27747)
+  [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec)
 - [PFA][] - arXiv’26<br>
-  [Paper](https://arxiv.org/abs/2610.39273)
+  [Paper](https://arxiv.org/abs/2610.39273) · [Code](https://anonymous.4open.science/r/PFA-review-088D)
 - [STATIC][] - KDD’26 ADS<br>
-  [Paper](https://arxiv.org/abs/2602.22647)
+  [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding)
 
 ## VI. Generalization
 
@@ -477,41 +477,41 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 ### VI × Tokenization
 
 - [VQ-Rec][] - WWW’23<br>
-  [Paper](https://arxiv.org/abs/2210.12316)
+  [Paper](https://arxiv.org/abs/2210.12316) · [Code](https://github.com/RUCAIBox/VQ-Rec)
 - [GMC][] - arXiv’25<br>
   [Paper](https://arxiv.org/abs/2507.12871)
 - [UTGRec][] - arXiv’25<br>
-  [Paper](https://arxiv.org/abs/2504.04405)
+  [Paper](https://arxiv.org/abs/2504.04405) · [Code](https://github.com/RUCAIBox/UTGRec)
 - [DACT][] - SIGIR’26<br>
-  [Paper](https://arxiv.org/abs/2603.29705)
+  [Paper](https://arxiv.org/abs/2603.29705) · [Code](https://github.com/HomesAmaranta/DACT)
 - [DREAM][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2606.06947)
 - [GenCDR][] - AAAI’26<br>
-  [Paper](https://arxiv.org/abs/2511.08006)
+  [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR)
 - [MBGR][] - arXiv’26<br>
   [Paper](https://arxiv.org/abs/2604.02684)
 - [OneLive][] - KDD’26 ADS<br>
   [Paper](https://arxiv.org/abs/2602.08612)
 - [UniTok][] - AAAI’26<br>
-  [Paper](https://arxiv.org/abs/2511.12922)
+  [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok)
 
 ### VI × Backbone
 
 - [DualGR][] - WWW’26 Short<br>
   [Paper](https://arxiv.org/abs/2511.12518)
 - [FedCGR][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2608.10929)
+  [Paper](https://arxiv.org/abs/2608.10929) · [Code](https://github.com/ZhuodLiu/FedCGR)
 - [LION][] - CIKM’26<br>
-  [Paper](https://arxiv.org/abs/2609.15598)
+  [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 
 ### VI × Training
 
 - [RecBase][] - EMNLP’25<br>
-  [Paper](https://arxiv.org/abs/2509.03131)
+  [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase)
 - [AWARE][] - arXiv’26 · `POI`<br>
   [Paper](https://arxiv.org/abs/2605.11807)
 - [CausalDPO][] - ICML’26<br>
-  [Paper](https://arxiv.org/abs/2603.22335)
+  [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO)
 - [CMRec][] - CIKM’26 Short<br>
   [Paper](https://arxiv.org/abs/2609.28972)
 
@@ -520,7 +520,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [LIGER][] - arXiv’24<br>
   [Paper](https://arxiv.org/abs/2411.18814)
 - [SpecGR][] - AAAI’26<br>
-  [Paper](https://arxiv.org/abs/2410.02939)
+  [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR)
 
 ## Contributing
 

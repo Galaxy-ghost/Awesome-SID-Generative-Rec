@@ -20,12 +20,39 @@ summary: 'Abstract: "a notable discrepancy persists between the sparse collabora
   systems and the dense token representations within LLMs".'
 evidence:
 - field: problem
-  quote: 'Abstract: "a notable discrepancy persists between the sparse collaborative semantics typically found in recommendation
-    systems and the dense token representations within LLMs".'
-  where: arXiv abstract
-- field: representation
-  quote: AAAI paper without section numbers; subsection titles used.
-  where: Alignment Tokenization, p2–3
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: Alignment Task, p4
+  where: https://arxiv.org/html/2412.13771v1#abstract1 (Abstract; excerpt)
+  quote: a notable discrepancy persists between the sparse collaborative semantics typically found in recommendation systems
+    and the dense token representations within LLMs
+setup:
+  datasets: 'Amazon Games, Arts and Instruments; history cap 20; exclude samples whose concatenated prompt exceeds 2048 tokens.
+    Other filtering: not reported.'
+  split: 'Evaluation uses each user''s last interaction as target and preceding interactions as context. First S-1 actions
+    form training examples; exact validation allocation: not reported.'
+  candidates: not reported
+  visibility: 'warm; no unseen-item protocol is defined. DCCF embedding exposure to test items/interactions: not reported.'
+  sid: 'Aligned residual codebooks: 4 levels x 256 codes; Games reports 0% collisions at four levels. Explicit collision handling:
+    not reported.'
+  inference_budget: 'Beam-generated valid item codes are cached per user; online serving reads cache. HR/NDCG@1/5/10. Beam
+    width, cache K, hardware, inference batch, numerical latency: not reported.'
+  results_from: 'Reported Table 1 main comparison and Tables 3-8 Games ablations. P5 uses the cited external implementation;
+    other baseline borrowed-versus-rerun provenance: not reported.'
+setup_where:
+  datasets: 'Experiment Setup, Datasets: https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx1.p1'
+  split: 'Experiment Setup, Baselines: https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p2'
+  candidates: 'Experiment Setup does not specify evaluation candidate sampling; negative sampling in Alignment Task is training:
+    https://arxiv.org/html/2412.13771v1#Sx4.SSx1 and https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p4'
+  visibility: 'Experiment Setup and Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx4.SSx1 and https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p3'
+  sid: 'Alignment Tokenization and Table 5: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p10 and https://arxiv.org/html/2412.13771v1#Sx4.T5'
+  inference_budget: 'Inference and Metrics: https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1 and https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx3.p1'
+  results_from: 'Tables 1/3-8: https://arxiv.org/html/2412.13771v1#Sx3.T1 and https://arxiv.org/html/2412.13771v1#Sx4.T3 and
+    https://arxiv.org/html/2412.13771v1#Sx4.T8 and https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p1'
+related:
+- id: lc-rec
+  relation: competitor
+  note: LC-Rec supplies the alignment-task/inference template and is the strongest evaluated baseline.
+  where: 'SemConv v1, Alignment Task, Inference and Table1: https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p1; https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1;
+    https://arxiv.org/html/2412.13771v1#Sx3.T1.'
+- id: tiger
+  relation: predecessor
+  note: SemConv draws on TIGER's residual codebooks while removing autoencoder reconstruction.
+  where: 'SemConv v1, Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p2; https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p11.'

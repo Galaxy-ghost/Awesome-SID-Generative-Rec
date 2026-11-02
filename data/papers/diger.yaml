@@ -6,7 +6,7 @@ year: 2026
 venue: SIGIR’26
 links:
   arxiv: https://arxiv.org/abs/2601.19711
-  code: null
+  code: https://github.com/junchen-fu/DIGER
 problem: II
 stage: Tokenization
 representation: Text
@@ -20,13 +20,53 @@ summary: 'Abstract: "This leads to an objective mismatch"; "this often causes co
   used". Candidates: III / II (rule: tie broken by the majority of new designs).'
 evidence:
 - field: problem
-  quote: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are
-    used". Candidates: III / II (rule: tie broken by the majority of new designs).'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §6.1, p6; Table 2, p7
+  where: arXiv:2601.19711v3, abstract
+  quote: This leads to an objective mismatch … this often causes codebook collapse, where only a few codes are used
+  reason: 'Candidates: III / II (rule: tie broken by the majority of new designs).'
 - field: inference
-  quote: Decoding not stated; implementation 'followed the settings in [29]' (ETEGRec); inferred from ETEGRec (Beam in Table
-    1).
   where: §3, p3; p6
+  reason: Decoding not stated; implementation 'followed the settings in [29]' (ETEGRec); inferred from ETEGRec (Beam in Table
+    1).
+setup:
+  datasets: B-Shop (cosmetic products), I-Shop (music-related products), Yelp (restaurants); remove users/items with fewer
+    than five interactions. LLaMA-7B-generated item content; review text supplies interactions only. History cap not reported.
+  split: Leave-one-out; exact validation/test allocation not reported. All reported results use the test set.
+  candidates: full catalog; predicted item ranked against the full item set.
+  visibility: warm; no unseen-item protocol is defined. Pretrained RQ-VAE/content-encoder exposure to test items not reported.
+  sid: 'Pretrained RQ-VAE initialization, then jointly optimized differentiable IDs: 3 code positions x 256 entries plus one
+    conflict code. Conflict-code assignment details not reported. Training uses Gumbel exploration with uncertainty decay;
+    validation/inference tokenizer assignments are deterministic.'
+  inference_budget: Autoregressive next-SID generation; Recall/NDCG@10. Decoder search/beam, prefix constraints, inference
+    batch and latency not reported. Experiments use two H100 GPUs; tokenizer argmax is reported separately from generation.
+  results_from: Original Tables 2/3 compare DIGER variants and baselines; main DIGER uses FrqUD. Most baseline results are
+    quoted from LETTER (Wang et al., 2024); implemented methods are validation-tuned. Original Tables 4/5 give component and
+    capacity/length ablations.
+setup_where:
+  datasets: 'Section 5, Datasets: https://arxiv.org/html/2601.19711v3#S5.p1'
+  split: 'Section 5, Evaluation: https://arxiv.org/html/2601.19711v3#S5.p2'
+  candidates: 'Section 5, Evaluation: https://arxiv.org/html/2601.19711v3#S5.p2'
+  visibility: 'Sections 4.3/5 define no item holdout: https://arxiv.org/html/2601.19711v3#S4.SS3.p2 ; https://arxiv.org/html/2601.19711v3#S5.p1
+    ; https://arxiv.org/html/2601.19711v3#S5.p2'
+  sid: 'Sections 4.2/4.3/5: https://arxiv.org/html/2601.19711v3#S4.SS2.p1 ; https://arxiv.org/html/2601.19711v3#S4.SS3.p1
+    ; https://arxiv.org/html/2601.19711v3#S5.p4'
+  inference_budget: 'Sections 3/4.2/5: https://arxiv.org/html/2601.19711v3#S3.p3 ; https://arxiv.org/html/2601.19711v3#S4.SS2.p1
+    ; https://arxiv.org/html/2601.19711v3#S5.p2 ; https://arxiv.org/html/2601.19711v3#S5.p4'
+  results_from: 'Sections 5/6.2 and Tables 2/3/4/5: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S5.T2
+    ; https://arxiv.org/html/2601.19711v3#S6.T3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p1 ; https://arxiv.org/html/2601.19711v3#S7.T4
+    ; https://arxiv.org/html/2601.19711v3#S7.T5'
+related:
+- id: tiger
+  relation: predecessor
+  note: TIGER supplies the reference two-stage framework for differentiable-ID training.
+  where: 'DIGER v3, Sections 3/5 and Table 3: https://arxiv.org/html/2601.19711v3#S3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p3
+    ; https://arxiv.org/html/2601.19711v3#S6.T3.'
+- id: etegrec
+  relation: alternative
+  note: DIGER replaces alternating distillation with direct recommendation gradients through indexing.
+  where: 'DIGER v3, Sections 2/6.2: https://arxiv.org/html/2601.19711v3#S2.p3 ; https://arxiv.org/html/2601.19711v3#S2.p4
+    ; https://arxiv.org/html/2601.19711v3#S6.SS2.p2.'
+- id: letter
+  relation: competitor
+  note: LETTER is a comparison method and the source of most quoted baseline results.
+  where: 'DIGER v3, Sections 5/6.2 and Table 3: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p3
+    ; https://arxiv.org/html/2601.19711v3#S6.T3.'

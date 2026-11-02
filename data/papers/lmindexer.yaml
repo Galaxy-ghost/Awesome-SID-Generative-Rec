@@ -6,7 +6,7 @@ year: 2024
 venue: ICML’24
 links:
   arxiv: https://arxiv.org/abs/2310.07815
-  code: null
+  code: https://github.com/PeterGriffinJin/LMIndexer
 problem: I
 stage: Tokenization
 representation: Text
@@ -19,11 +19,42 @@ poi: false
 summary: 'Abstract: "each step introduces potential information loss".'
 evidence:
 - field: problem
-  quote: 'Abstract: "each step introduces potential information loss".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3, Fig. 2, p5; §5.1, p7
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3, Fig. 2, p5; §5.1, p7
+  where: https://arxiv.org/html/2310.07815v3#abstract1
+  quote: each step introduces potential information loss
+setup:
+  datasets: 'Amazon Beauty/Sports/Toys: recommendation and product search, user/item >=5 interactions. Document retrieval:
+    NQ, MS MARCO-1M, merged TREC-DL 2019/2020 restricted to that corpus.'
+  split: 'Recommendation: per-user last/penultimate test/validation. Product search: original train/test, 1/8 training queries
+    validation. NQ keeps original labels; MARCO uses original train/dev labels.'
+  candidates: not reported
+  visibility: 'Recommendation: warm; no unseen-item protocol is defined. Zero-shot Beauty product search: unseen by tokenizer
+    too, excluded from both SID self-supervision and downstream finetuning; holdout construction not reported.'
+  sid: Reported ID length 3; codebook sizes 512 (Amazon), 5120 (NQ), 51200 (MARCO-1M). A final ID position distinguishes collisions;
+    its assignment rule not reported.
+  inference_budget: Prefix-tree constrained beam 20; recommendation Recall/NDCG@5; experiments on 8 A100-40G. Inference batch
+    size not reported. Product-search whole-Beauty-test latency 12.21s, not per request.
+  results_from: 'Original Tables 3/4/6: recommendation/product search/document retrieval; Table 15: zero-shot product search.
+    Generative indexer baselines use matched T5-base finetuning.'
+setup_where:
+  datasets: 'Sections 5.1-5.3 and Appendix A.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p2 and https://arxiv.org/html/2310.07815v3#S5.SS2.p2
+    and https://arxiv.org/html/2310.07815v3#A1.SS1.p3'
+  split: 'Appendix A.1: https://arxiv.org/html/2310.07815v3#A1.SS1.p1 and https://arxiv.org/html/2310.07815v3#A1.SS1.p3'
+  candidates: 'Downstream protocols in Sections 5.1-5.3 do not specify negative sampling or complete-catalog enumeration:
+    https://arxiv.org/html/2310.07815v3#S5.SS1 and https://arxiv.org/html/2310.07815v3#S5.SS2 and https://arxiv.org/html/2310.07815v3#S5.SS3'
+  visibility: 'Sections 4.1/5.1 and Appendix A.10: https://arxiv.org/html/2310.07815v3#S4.SS1.p1 and https://arxiv.org/html/2310.07815v3#S5.SS1.p2
+    and https://arxiv.org/html/2310.07815v3#A1.SS10.p1'
+  sid: 'Appendix A.3 Table 9 and Appendix A.5: https://arxiv.org/html/2310.07815v3#A1.T9 and https://arxiv.org/html/2310.07815v3#A1.SS3.p1
+    and https://arxiv.org/html/2310.07815v3#A1.SS5.p2'
+  inference_budget: 'Sections 3.3/5.1 and Appendix A.9/Table 14: https://arxiv.org/html/2310.07815v3#S3.SS3.p1 and https://arxiv.org/html/2310.07815v3#S5.SS1.p4
+    and https://arxiv.org/html/2310.07815v3#A1.SS9.p1 and https://arxiv.org/html/2310.07815v3#A1.T14'
+  results_from: 'Original Tables 3/4/6/15: https://arxiv.org/html/2310.07815v3#S5.T3 and https://arxiv.org/html/2310.07815v3#S5.T4
+    and https://arxiv.org/html/2310.07815v3#S5.T6 and https://arxiv.org/html/2310.07815v3#A1.T15'
+related:
+- id: tiger
+  relation: competitor
+  note: Its RQ-VAE indexing approach is adapted as a matched T5-base baseline.
+  where: 'LMIndexer v3, Section 5.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p3; https://arxiv.org/html/2310.07815v3#S5.SS1.p4.'
+- id: cid
+  relation: alternative
+  note: Cited task-informed item indexing; LMIndexer learns IDs by self-supervised text reconstruction.
+  where: 'LMIndexer v3, Section 2, citing Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2.'

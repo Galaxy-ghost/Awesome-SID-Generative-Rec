@@ -17,3 +17,41 @@ objective: NTP
 inference: C-Beam
 poi: true
 summary: 直接研究 POI SID 质量并用于下游 next-POI 生成，建议保留方法；完整码到多 POI 的物化仍须明确标未知。
+setup:
+  datasets: 'AMap-L (one day), AMap-S; remove POIs without interaction sequences and sessions without authenticated users.
+    Foursquare NYC/TKY use Geo-CPT only; public-data filtering: not reported.'
+  split: not reported; methods share identical splits.
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. Tokenizer fits representations of the entire POI corpus.
+  sid: '3-level RQ-KMeans with last-residual contrastive refinement: 4096 codes/level on AMap-L, 512 on AMap-S. Public-data
+    codebook sizes and collision materialization: not reported.'
+  inference_budget: 'Valid-SID trie-constrained beam 300; Hit@200/300 on AMap, @5 on NYC/TKY. General experiments: 64 A100
+    GPUs; inference allocation, batch size, latency: not reported.'
+  results_from: 'Original Tables 2/3/4/5/6: AMap comparison, ablation, numerical fidelity, public datasets, one-week online
+    A/B.'
+setup_where:
+  datasets: 'Sections 4.1 and 4.5: https://arxiv.org/html/2608.30479v1#S4.SS1.p1 and https://arxiv.org/html/2608.30479v1#S4.SS5.p1'
+  split: 'Section 4.1 mentions identical baseline splits without specifying allocation: https://arxiv.org/html/2608.30479v1#S4.SS1.p2'
+  candidates: 'Sections 3.4 and 4.1 describe valid-SID generation but no full-catalog/sampled evaluation declaration: https://arxiv.org/html/2608.30479v1#S3.SS4.p4
+    and https://arxiv.org/html/2608.30479v1#S4.SS1.p3'
+  visibility: 'Sections 3.4 and 4.1: https://arxiv.org/html/2608.30479v1#S3.SS4.p1 and https://arxiv.org/html/2608.30479v1#S4.SS1'
+  sid: 'Sections 3.4 and 4.1: https://arxiv.org/html/2608.30479v1#S3.SS4.p3 and https://arxiv.org/html/2608.30479v1#S4.SS1.p2'
+  inference_budget: 'Sections 3.4, 4.1 and Table 5: https://arxiv.org/html/2608.30479v1#S3.SS4.p4 and https://arxiv.org/html/2608.30479v1#S4.SS1.p4
+    and https://arxiv.org/html/2608.30479v1#S4.T5'
+  results_from: 'Tables 2-6: https://arxiv.org/html/2608.30479v1#S4.T2 and https://arxiv.org/html/2608.30479v1#S4.T3 and https://arxiv.org/html/2608.30479v1#S4.T4
+    and https://arxiv.org/html/2608.30479v1#S4.T5 and https://arxiv.org/html/2608.30479v1#S4.T6'
+related:
+- id: progeo
+  relation: competitor
+  note: Pro-GEO injects geography during quantization; HF-SID improves representations before quantization.
+  where: 'HF-SID v1, Sections 2 and 4.1, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS1.p2;
+    https://arxiv.org/html/2608.30479v1#S4.T2.'
+- id: geogr
+  relation: competitor
+  note: GeoGR uses co-visit alignment; HF-SID directly encodes coordinates and numerical attributes.
+  where: 'HF-SID v1, Sections 2 and 4.2, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS2.p2;
+    https://arxiv.org/html/2608.30479v1#S4.T2.'
+- id: gnpr-sid
+  relation: competitor
+  note: GNPR-SID regularizes codeword diversity; HF-SID focuses on representation fidelity.
+  where: 'HF-SID v1, Section 4.2 and Table 2: https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.'

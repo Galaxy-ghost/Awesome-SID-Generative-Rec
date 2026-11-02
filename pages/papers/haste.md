@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2610.17368) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -25,6 +25,32 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Modified Stage | Training |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon-2014 Sports/Beauty/Toys: P5 5-core; Fashion-140k: 5-core, minimum sequence length 3, cap 100; internal-fashion: six deliberate engagement types, deduplication, length 3-100, resolved location, single profile; consecutive events with gaps of at least 30 days are discarded.
+  - Source: https://arxiv.org/html/2610.17368v1#S9.SS1.SSS1.Px1.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS2.Px1.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS3.Px1.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS3.Px1.p2 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS3.Px2.p1
+- **Split**: Public sequences: last test, penultimate validation. Amazon conversational examples: shuffled 92/5/3%. Internal-fashion: Section 9.1.3 reports 6255087/339950/203971 train/validation/test conversations; Section 9.1.5 separately reports 368482/19482 training/validation conversations for the attribute-loss SFT corpus. The relationship between these internal corpus counts is not explained.
+  - Source: https://arxiv.org/html/2610.17368v1#S9.SS1.SSS1.Px2.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS2.Px2.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS3.Px3.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS5.Px2.p4
+- **Candidates**: not reported; catalog-valid prefix constraints do not establish full-catalog evaluation.
+  - Source: https://arxiv.org/html/2610.17368v1#S6.p4 ; #S9.SS2.SSS1.Px6.p2
+- **Visibility**: warm; no unseen-item protocol is defined. Fashion-140k tokenizer uses the full 799953-item Fashion pool.
+  - Source: https://arxiv.org/html/2610.17368v1#S9.SS1.SSS4.p1
+- **SID**: TIGER-style RQ-VAE: 3 x 256 plus a fourth collision-disambiguation token. Sports/Beauty/Toys use 1024-d text representations; Internal-fashion uses 1024-d multimodal Qwen3-VL embeddings. Section 6 also describes four 256-entry codebooks, inconsistently.
+  - Source: https://arxiv.org/html/2610.17368v1#S6.p1 ; https://arxiv.org/html/2610.17368v1#S6.p2 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS4.p1 ; https://arxiv.org/html/2610.17368v1#S9.SS1.SSS4.p2 ; https://arxiv.org/html/2610.17368v1#S9.SS2.SSS1.Px5.p1
+- **Inference budget**: K=5/10; prefix tree from up to 100K training sequences, per-position fallback. Experiments: RTX6000 96GB; beam, inference batch/latency not reported.
+  - Source: https://arxiv.org/html/2610.17368v1#S6.p1 ; #S6.p4 ; #S9.SS2.SSS1.Px6.p2
+- **Results from**: Original Tables 1-2: sequential/attribute results; Table 3: convergence; Tables 4-5: ablations.
+  - Source: https://arxiv.org/html/2610.17368v1#S6.SS1
+
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
+  - Source: https://arxiv.org/html/2610.17368v1#S6.p3 ; #S9.SS1.SSS4.p1.
+- **Competitor** · [IDGenRec](idgenrec.md): IDGenRec generates textual identifiers; HASTE supervises quantized SIDs.
+  - Source: https://arxiv.org/html/2610.17368v1#S2.p2 ; #S6.p3.
+- **Alternative** · [LC-Rec](lc-rec.md): LC-Rec adds alignment tasks; HASTE changes losses.
+  - Source: https://arxiv.org/html/2610.17368v1#S2.p2.
 
 [View all papers in this cell](../../README.md#iv--training)

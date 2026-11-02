@@ -19,11 +19,43 @@ poi: false
 summary: 'Abstract: "balancing cross-modal synergy with modality-specific uniqueness"; "bridging the semantic-behavioral gap".'
 evidence:
 - field: problem
-  quote: 'Abstract: "balancing cross-modal synergy with modality-specific uniqueness"; "bridging the semantic-behavioral gap".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3, p5; Fig. 2, p4
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.3, p5; Fig. 2, p4
+  where: 'Abstract, first challenge (fragment), arXiv v1: https://arxiv.org/html/2508.15281v1#abstract1.1'
+  quote: balancing cross-modal synergy with modality-specific uniqueness
+- field: problem
+  where: 'Abstract, second challenge (separate fragment), arXiv v1: https://arxiv.org/html/2508.15281v1#abstract1.1'
+  quote: bridging the semantic-behavioral gap
+setup:
+  datasets: Amazon Beauty; retrieval uses user/item 5-core filtering and histories capped at 20. Southeast Asian advertising
+    logs, October 2024-May 2025 (30M users, 40M ads); industrial filters not reported.
+  split: 'Beauty ranking: chronological 90% train/10% test; ratings >3 positive, <=3 negative. Retrieval and industrial offline
+    splits not reported. Online A/B: July 6-August 6, 2025; treatment 10% random user traffic.'
+  candidates: 'Retrieval: not reported; ranking evaluates labeled ratings, candidate retrieval n/a.'
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '6 positions: 2 shared, 2 text-specific, 2 visual-specific; codebook size 100 (Beauty), 3000 (industrial). Collision
+    handling not reported.'
+  inference_budget: Retrieval K=5/10 using HeterRec; ranking uses PPNet. Decoding budget, hardware, inference batch size,
+    and latency not reported.
+  results_from: 'Original Table 1: tokenizer comparisons under HeterRec retrieval/PPNet ranking; Section 5: online A/B versus
+    deployed ItemID system.'
+setup_where:
+  datasets: 'Section 4.1.1: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p2 and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3'
+  split: 'Sections 4.1.1 and 5: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3 and https://arxiv.org/html/2508.15281v1#S5.p1'
+  candidates: 'Section 4.1.1/4.1.2 gives labels and metrics, not retrieval candidates: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS1.p3
+    and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3'
+  visibility: 'Section 4.1 defines no item holdout: https://arxiv.org/html/2508.15281v1#S4.SS1'
+  sid: 'Section 4.1.4: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p2'
+  inference_budget: 'Sections 4.1.2/4.1.4: https://arxiv.org/html/2508.15281v1#S4.SS1.SSS2.p3 and https://arxiv.org/html/2508.15281v1#S4.SS1.SSS4.p1'
+  results_from: 'Table 1 and Section 5: https://arxiv.org/html/2508.15281v1#S4.T1 and https://arxiv.org/html/2508.15281v1#S5.p1'
+related:
+- id: tiger
+  relation: predecessor
+  note: MMQ replaces TIGER's separated tokenizer training with behavior-aware joint adaptation.
+  where: 'MMQ v1, Section 3.3: https://arxiv.org/html/2508.15281v1#S3.SS3.p1.'
+- id: onerec
+  relation: alternative
+  note: OneRec aligns modalities before quantization; MMQ separates shared and specific experts.
+  where: 'MMQ v1, Section 2: https://arxiv.org/html/2508.15281v1#S2.p3.'
+- id: lc-rec
+  relation: alternative
+  note: LC-Rec aligns indices through multitask fine-tuning; MMQ adapts multimodal tokenization directly.
+  where: 'MMQ v1, Sections 2 and 3.3: https://arxiv.org/html/2508.15281v1#S2.p2; https://arxiv.org/html/2508.15281v1#S3.SS3.p1.'

@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,6 +27,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![ActionPiece architecture diagram](../../architectures/actionpiece.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Reviews: Sports and Outdoors, Beauty, and CDs and Vinyl. Users with fewer than 5 reviews are filtered; an item-frequency filter is not reported. Processed sizes (users / items / actions): Sports 35,598 / 18,357 / 260,739; Beauty 22,363 / 12,101 / 176,139; CDs 75,258 / 64,443 / 1,022,334.
+  - Source: Dataset categories: https://arxiv.org/html/2502.13581v3#S4.SS1.p1; user filter and truncation: https://arxiv.org/html/2502.13581v3#A6.p2; processed sizes: https://arxiv.org/html/2502.13581v3#S3.T3.
+- **Split**: Per-user chronological leave-last-out: last item for test, second-to-last for validation, earlier items for training. Histories are truncated to 20 items for generative methods and 50 items for ID-based and feature-enhanced baselines.
+  - Source: Leave-last-out allocation: https://arxiv.org/html/2502.13581v3#S4.SS1.p1; history truncation: https://arxiv.org/html/2502.13581v3#A6.p2.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-K lists are produced by beam search.
+  - Source: Evaluation settings name metrics only: https://arxiv.org/html/2502.13581v3#S4.SS1.p3; top-K lists come from beam search: https://arxiv.org/html/2502.13581v3#A8.p4.
+- **Visibility**: warm; no unseen-item protocol is defined.
+  - Source: Standard leave-last-out protocol with no cold-start experiment: https://arxiv.org/html/2502.13581v3#S4.SS1.p1.
+- **SID**: Each item is an unordered set of 4 OPQ codes x 256 codewords (sentence-t5-base text embeddings) plus 1 extra identification code to prevent conflicts. ActionPiece then merges co-occurring feature sets into a context-dependent vocabulary of 40,000 tokens (tuned over 5k-40k), so the same item can map to different tokens in different sequences.
+  - Source: OPQ features, 256 codewords per digit, extra identification code: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; vocabulary size 40,000 and tuning range: https://arxiv.org/html/2502.13581v3#A7.T7 and https://arxiv.org/html/2502.13581v3#A8.p2.
+- **Inference budget**: Beam search with beam size 50; inference-time ensemble over q=5 set-permutation segmentations, with item scores averaged across the 5 ranking lists. Recall and NDCG at K=5 and 10. Inference hardware, inference batch size, and measured latency: not reported (each model is trained on one 40GB NVIDIA A100; the paper states only that latency stays comparable when segments run in parallel).
+  - Source: Beam size 50 and q=5 segmentations: https://arxiv.org/html/2502.13581v3#A8.p2 and https://arxiv.org/html/2502.13581v3#A7.T7; score averaging: https://arxiv.org/html/2502.13581v3#S3.SS3.SSS2.p1; GPU statement is for training: https://arxiv.org/html/2502.13581v3#A8.p3; qualitative latency statement: https://arxiv.org/html/2502.13581v3#S3.SS4.p3.
+- **Results from**: Table 4 (main comparison on Sports, Beauty, and CDs; averages over five seeds); Table 5 (ablations, including TIGER with varied vocabulary sizes); Figures 4-6 (vocabulary size, token utilization, and ensemble size). BERT4Rec, SASRec, FDSA, S3-Rec, TIGER, and LMIndexer numbers on Sports and Beauty are copied from earlier papers; other results are the authors' reimplementations.
+  - Source: Main table: https://arxiv.org/html/2502.13581v3#S3.T4 and https://arxiv.org/html/2502.13581v3#S4.SS2.p1; ablation: https://arxiv.org/html/2502.13581v3#S4.T5; five seeds: https://arxiv.org/html/2502.13581v3#S4.SS1.p3; copied baseline numbers: https://arxiv.org/html/2502.13581v3#A8.p1.
 
 ## 旧卡片说明
 
@@ -106,5 +125,14 @@ ActionPiece 更适合放在“生成式推荐的行为序列建模与分词”�
 旧表的“核心／边界／排除”分组已由当前问题与阶段分类取代。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER tokenizes each item independently into ordered RQ-VAE codes, whereas ActionPiece merges unordered feature sets into context-dependent tokens; both use the same encoder-decoder and beam search.
+  - Source: ActionPiece v3, Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4; same architecture statement: https://arxiv.org/html/2502.13581v3#A8.p2.
+- **Predecessor** · [VQ-Rec](vq-rec.md): ActionPiece follows VQ-Rec in quantizing sentence embeddings with OPQ into unordered codes, then builds a merged contextual vocabulary over those codes for generation.
+  - Source: ActionPiece v3, Appendix F follows Hou et al. (2023) for OPQ features: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; VQ-Rec is a Table 4 baseline: https://arxiv.org/html/2502.13581v3#S3.T4.
+- **Competitor** · [LMIndexer](lmindexer.md): LMIndexer learns text-based semantic indexes item by item, while ActionPiece tokenizes whole action sequences with context-aware merges.
+  - Source: ActionPiece v3, Table 1 and Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S1.T1 and https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4.
+- **Competitor** · [CID](cid.md): P5-CID builds item IDs by hierarchical clustering, independent of sequence context; ActionPiece's tokens depend on neighboring actions.
+  - Source: ActionPiece v3, Table 1 and Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S1.T1 and https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4.
 
 [View all papers in this cell](../../README.md#i--tokenization)

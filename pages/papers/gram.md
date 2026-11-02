@@ -4,9 +4,9 @@
 
 `I. Informativeness` · `Tokenization`
 
-[Paper](https://arxiv.org/abs/2506.01673) · [Matrix](../../README.md#i--tokenization)
+[Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) · [Matrix](../../README.md#i--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -28,6 +28,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![GRAM architecture diagram](../../architectures/gram.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Beauty, Toys and Games, Sports and Outdoors, and Yelp, with 5-core filtering of users and items (following Hua et al. 2023). Sizes (users / items / interactions): Beauty 22,363 / 12,101 / 198,502; Toys 19,412 / 11,924 / 167,597; Sports 35,598 / 18,357 / 296,337; Yelp 30,431 / 20,033 / 316,354.
+  - Source: Datasets and 5-core: https://arxiv.org/html/2506.01673v1#S4.p1; statistics: https://arxiv.org/html/2506.01673v1#A7.T10.
+- **Split**: Per-user leave-one-out: last item for test, second last for validation, the rest for training; sequences capped at 20 items. Three seeds.
+  - Source: Leave-one-out allocation and history cap: https://arxiv.org/html/2506.01673v1#S4.p2 and https://arxiv.org/html/2506.01673v1#S4.p4.
+- **Candidates**: full catalog (full-ranking evaluation on all items rather than sampled items).
+  - Source: Full ranking on all items: https://arxiv.org/html/2506.01673v1#S4.p2.
+- **Visibility**: warm; no unseen-item protocol is defined. A head/tail analysis splits test users by target-item popularity (top 20% versus bottom 80%).
+  - Source: Standard split with no unseen-item protocol: https://arxiv.org/html/2506.01673v1#S4.p2; head/tail by target popularity: https://arxiv.org/html/2506.01673v1#S5.SS3.p2.
+- **SID**: Hierarchical textual IDs: recursive k-means over item text embeddings, stopping when a cluster has fewer than c items or depth reaches l; each cluster index is mapped to an existing LLM vocabulary token chosen by TF-IDF. Final (l, k, c): Beauty (7, 128, 128); Toys (5, 32, 32); Sports and Yelp (7 or 9, 32, 32). Duplicate IDs receive an appended digit for uniqueness.
+  - Source: Hierarchical k-means textual IDs: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p2 and https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; final settings: https://arxiv.org/html/2506.01673v1#A7.T12; duplicate-ID digit: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3.
+- **Inference budget**: Constrained beam search with beam size 50 and a Trie over valid IDs; T5-small on OpenP5. Table 7: average inference time per user sequence with all user sequences in a single batch on one NVIDIA A6000 GPU (Beauty 0.2008 s, Toys 0.1605 s; LC-Rec 1.8312 s and 1.8125 s).
+  - Source: Constrained beam 50 with Trie: https://arxiv.org/html/2506.01673v1#S4.p4 and https://arxiv.org/html/2506.01673v1#S3.SS4.p2; timing: https://arxiv.org/html/2506.01673v1#A3.T7.
+- **Results from**: Table 2 (four datasets versus six sequential and eight generative baselines; three seeds); Table 3 (ablations); Table 4 (ID types); Figures 6-8 (head/tail, ID length, similar items); Tables 6-7 (preprocessing and inference time); Tables 8-9 (baseline reproduction fixes for ELMRec and IDGenRec).
+  - Source: Main: https://arxiv.org/html/2506.01673v1#S4.T2; ablation: https://arxiv.org/html/2506.01673v1#S5.T3; ID types: https://arxiv.org/html/2506.01673v1#S5.T4; reproducibility: https://arxiv.org/html/2506.01673v1#A3.T8 and https://arxiv.org/html/2506.01673v1#A4.T9.
 
 ## 旧卡片说明
 
@@ -107,5 +126,16 @@ GRAM 的关键贡献是将多粒度语义融合位置推迟到解码阶段，适
 - 使用场景：语义增强推荐。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec maps RQ-VAE codes to new out-of-vocabulary tokens; GRAM builds hierarchical IDs from existing vocabulary tokens and verbalizes collaborative signals in item prompts.
+  - Source: GRAM v1, Section 3.2.1 contrasts the token choice: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; inference time in Table 7: https://arxiv.org/html/2506.01673v1#A3.T7.
+- **Competitor** · [IDGenRec](idgenrec.md): IDGenRec generates textual IDs with a learned ID generator; GRAM derives hierarchical textual IDs by clustering, and the authors rerun IDGenRec without user IDs that leak test items.
+  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; reproduction in Table 9 and Appendix E: https://arxiv.org/html/2506.01673v1#A4.T9 and https://arxiv.org/html/2506.01673v1#A5.p3.
+- **Competitor** · [TIGER](tiger.md): TIGER uses RQ-VAE codes as new tokens; GRAM's ID-type study also tests RQ-VAE IDs inside GRAM against hierarchical textual IDs.
+  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; Table 4 ID types: https://arxiv.org/html/2506.01673v1#S5.T4 and https://arxiv.org/html/2506.01673v1#S5.SS3.p1.
+- **Competitor** · [CID](cid.md): P5-CID, P5-SID, and P5-SemID are fixed indexing schemes for P5; GRAM adds hierarchical semantic text IDs and collaborative prompts.
+  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; 5-core setting follows Hua et al. (2023): https://arxiv.org/html/2506.01673v1#S4.p1.
+- **Competitor** · [LETTER](letter.md): LETTER learns a regularized RQ-VAE tokenizer; GRAM avoids learned codebooks and uses text clustering mapped to vocabulary tokens.
+  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2.
 
 [View all papers in this cell](../../README.md#i--tokenization)

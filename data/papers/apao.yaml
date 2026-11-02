@@ -6,7 +6,7 @@ year: 2026
 venue: KDD’26
 links:
   arxiv: https://arxiv.org/abs/2603.02730
-  code: null
+  code: https://github.com/yuyq18/APAO
 problem: IV
 stage: Training
 representation: Text
@@ -17,3 +17,47 @@ objective: NTP + Rank
 inference: Beam
 poi: false
 summary: 提出固定 SID 上的前缀感知优化方法，两种骨干验证。
+setup:
+  datasets: Amazon Office (4,905 users / 2,420 items), Grocery (14,681 / 8,713), Beauty (22,363 / 12,101), and Yelp (30,431
+    / 20,033), with 5-core filtering of users and items; histories truncated to the 20 most recent items.
+  split: Leave-one-out (following LETTER and LC-Rec; allocation not restated beyond the label).
+  candidates: 'not reported (full catalog versus sampled evaluation candidates); top-K from beam search with Recall and NDCG
+    at 10 and 20. Training losses use 100 uniformly sampled negatives; exclusion of history items for these negatives: not
+    reported.'
+  visibility: warm; no unseen-item protocol is defined.
+  sid: '4-level RQ-K-means codes over Llama-3.1-8B-Instruct item embeddings; codebook size and collision handling: not reported.'
+  inference_budget: 'Beam search with beam size 20 (scalability over K in Figure 6); TIGER encoder-decoder and Llama decoder
+    backbones of about 0.01B parameters, trained on one NVIDIA A100-40GB. Inference batch size and latency: not reported (Table
+    4 reports training efficiency).'
+  results_from: Table 1 (four datasets, TIGER and Llama backbones, versus CE, MSL, DPO, DMPO, S-DPO losses); Table 3 (one-stage
+    versus two-stage training); Table 4 (training efficiency); Figures 2-6 (ablations, prefix-level analysis, hyperparameters,
+    beam size).
+setup_where:
+  datasets: 'Datasets, 5-core, leave-one-out: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1; statistics: https://arxiv.org/html/2603.02730v4#S5.T2.'
+  split: 'Leave-one-out named: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1.'
+  candidates: 'Metrics; training negatives fixed at 100 uniform: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1 and https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p2.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1.'
+  sid: '4-level RQ-K-means over Llama-3.1-8B embeddings: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1; codebook size
+    and collision rule not found.'
+  inference_budget: 'Beam size 20 and hardware: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1; beam scalability: https://arxiv.org/html/2603.02730v4#S5.F6;
+    training efficiency: https://arxiv.org/html/2603.02730v4#S5.T4.'
+  results_from: 'Main: https://arxiv.org/html/2603.02730v4#S5.T1; paradigms: https://arxiv.org/html/2603.02730v4#S5.T3; efficiency:
+    https://arxiv.org/html/2603.02730v4#S5.T4.'
+related:
+- id: tiger
+  relation: predecessor
+  note: TIGER is the encoder-decoder backbone; APAO adds prefix-level losses so that training matches beam-search pruning.
+  where: 'APAO v4, backbones: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS2.p3; Table 1: https://arxiv.org/html/2603.02730v4#S5.T1;
+    beam-search analysis: https://arxiv.org/html/2603.02730v4#S3.SS3.p3.'
+- id: lc-rec
+  relation: predecessor
+  note: APAO follows LC-Rec and LETTER for data processing and LLM-embedding tokenization, then changes only the training
+    objective.
+  where: 'APAO v4, Section 5.1.1 and 5.1.3 follow Zheng et al. (2024): https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1
+    and https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1.'
+- id: letter
+  relation: predecessor
+  note: APAO follows LETTER's preprocessing protocol; LETTER also adds a ranking-guided loss, whereas APAO supervises every
+    prefix level.
+  where: 'APAO v4, Section 5.1.1 follows Wang et al. (2024): https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1; Section 1:
+    https://arxiv.org/html/2603.02730v4#S1.p2.'

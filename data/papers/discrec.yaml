@@ -6,7 +6,7 @@ year: 2025
 venue: arXiv’25
 links:
   arxiv: https://arxiv.org/abs/2506.15576
-  code: null
+  code: https://github.com/Ten-Mao/DiscRec
 problem: I
 stage: Backbone
 representation: Text+CF
@@ -20,12 +20,47 @@ summary: 'Abstract: "token-item misalignment"; "semantic-collaborative signal en
   broken by the title).'
 evidence:
 - field: problem
-  quote: 'Abstract: "token-item misalignment"; "semantic-collaborative signal entanglement". Candidates: I / III (rule: tie
-    broken by the title).'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2506.15576v2#abstract1
+  quote: token-item misalignment … semantic–collaborative signal entanglement
+  reason: 'Candidates: I / III (rule: tie broken by the title).'
 - field: tokenization
-  quote: Settings A/B take the TIGER and LETTER rows of Table 1.
   where: §I, p2; §IV-A, p7
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §II-A–B, p3
+  reason: Settings A/B take the TIGER and LETTER rows of Table 1.
+setup:
+  datasets: Amazon Review subsets Beauty, Musical Instruments, Arts, Toys; remove users/items with fewer than 5 interactions;
+    keep latest 20 history items, padding shorter histories.
+  split: 'Main per-user chronological leave-one-out: most recent item test, second-most-recent validation, remaining interactions
+    training. Additional Beauty user-level random split: train/validation/test 8:1:1, with all models retrained from scratch.'
+  candidates: full catalog; reported full-ranking evaluation over the entire item set, with prefix-tree-constrained generation;
+    history exclusion not reported.
+  visibility: warm; no unseen-item protocol is defined. Beauty additionally evaluates held-out users and low-popularity targets;
+    LETTER uses pretrained SASRec embeddings, whose test-item exposure is not reported.
+  sid: 4 RQ-VAE codebooks, 256 entries/level, 32 dimensions/entry, from LLaMA2-7B title/description representations. DiscRec-T
+    uses TIGER tokenization; DiscRec-L uses LETTER collaborative/diversity regularization with pretrained SASRec embeddings.
+    Tokenizer trained before recommender; collision handling not reported.
+  inference_budget: Prefix-tree-constrained autoregressive decoding, beam 20; Recall/NDCG@5/10; inference hardware, batch
+    size and measured latency not reported. The paper gives theoretical complexity rather than serving measurements.
+  results_from: Own DiscRec-T/DiscRec-L comparisons, ablations and Beauty generalization studies. Baselines follow referenced
+    implementations under a unified generative configuration; EAGER is resized to dimension 128 and its histories are correctly
+    sorted chronologically. No copied baseline result scores stated; run counts/variance not reported.
+setup_where:
+  datasets: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS1.p1
+  split: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS1.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS5.p2
+  candidates: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS3.p1
+  visibility: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS1.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS5.p2
+  sid: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2 ; https://arxiv.org/html/2506.15576v2#S3.SS2.p2
+  inference_budget: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS3.p1 ; https://arxiv.org/html/2506.15576v2#S3.SS3.p4
+  results_from: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1 ; https://arxiv.org/html/2506.15576v2#S4.T2 ; https://arxiv.org/html/2506.15576v2#S4.SS5.p2
+related:
+- id: tiger
+  relation: predecessor
+  note: DiscRec-T inserts disentangled modeling into TIGER.
+  where: https://arxiv.org/html/2506.15576v2#S1.p5 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2
+- id: letter
+  relation: predecessor
+  note: DiscRec-L uses LETTER's collaboratively regularized tokenizer.
+  where: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2
+- id: eager
+  relation: competitor
+  note: Two-stream baseline compared with DiscRec's single-workflow disentanglement.
+  where: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS2.p2 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1

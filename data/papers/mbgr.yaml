@@ -20,12 +20,53 @@ summary: 'Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unifie
   judged by the abstract''s complaint first).'
 evidence:
 - field: problem
-  quote: 'Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unified SID space causes". Candidates: VI / II (rule:
-    judged by the abstract''s complaint first).'
-  where: arXiv abstract
+  where: 'Abstract, first listed challenge (fragment), arXiv v1: https://arxiv.org/html/2604.02684v1#abstract1.1'
+  quote: a seesaw phenomenon in multi-business scenarios
+  reason: 'Organizer judgment: VI is selected over II by prioritizing the abstract''s complaint about multi-business behavior
+    prediction.'
+- field: problem
+  where: 'Abstract, second listed challenge (separate fragment), arXiv v1: https://arxiv.org/html/2604.02684v1#abstract1.1'
+  quote: a unified SID space causes
 - field: tokenizer
-  quote: SID construction not described; Fixed is inferred. Location from the 10-26 'Training split' table in the appendix.
-  where: p4
-- field: objective
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p4
+  where: 'Section 4.1, BID input tokens and reconstruction, arXiv v1: https://arxiv.org/html/2604.02684v1#S4.SS1.p1 and https://arxiv.org/html/2604.02684v1#S4.SS1.p3'
+  reason: The base SID construction and whether it is updated with the generator are not specified; Fixed is retained only
+    as an organizer inference.
+setup:
+  datasets: 'Meituan only. Generative training data: one year of click sequences from 38,258,649 users over 54,875,570 merchants
+    in four businesses (A 61.47%, B 9.56%, C 12.31%, D 16.66%). Downstream data: 37,349,276 users and 783,946,360 interactions
+    over a rolling 30-day window. Filtering rules: not reported.'
+  split: 'Offline: not reported (the paper mentions a validation set for hyperparameter search but not how train, validation,
+    and test are formed). Online: one-week A/B test with 30% of Meituan production traffic against the baseline without MBP;
+    CTCVR +3.98%.'
+  candidates: not reported (full catalog versus sampled candidates for HR@10); downstream ranking uses business-wise GAUC.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Business-aware semantic IDs: each item''s K token embeddings are re-encoded with its business type through a gated
+    encoder and decoded per business; number of SID levels, codebook sizes, and collision handling: not reported.'
+  inference_budget: 'Decoding method and beam width: not reported. 16-layer Transformer (8 heads, 128-dimensional embeddings),
+    sequences up to 1,500 items; trained and deployed on NVIDIA A100-80GB GPUs; inference batch size and latency: not reported.'
+  results_from: Table 1 (HR@10 per business versus SASRec, TIGER, HSTU); Table 2 (downstream CTCVR GAUC); Table 3 (ablations);
+    Tables 4-7 (time decay, business weights, expert count).
+setup_where:
+  datasets: 'Datasets: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p2, https://arxiv.org/html/2604.02684v1#S6.I1.i1.p1,
+    https://arxiv.org/html/2604.02684v1#S6.I1.i2.p1, https://arxiv.org/html/2604.02684v1#S6.I2.i1.p1, https://arxiv.org/html/2604.02684v1#S6.I2.i2.p1.'
+  split: 'No offline split rule stated; validation used for grid search: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1;
+    online test: https://arxiv.org/html/2604.02684v1#S6.SS6.p4 and https://arxiv.org/html/2604.02684v1#S1.I1.i3.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p2 and https://arxiv.org/html/2604.02684v1#S6.SS1.SSS3.p3.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS1.p1.'
+  sid: 'Business-aware encoder/decoder over K input tokens: https://arxiv.org/html/2604.02684v1#S4.SS1.p3 and https://arxiv.org/html/2604.02684v1#S4.SS1.p6;
+    no codebook settings found.'
+  inference_budget: 'Hardware and architecture: https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p1 and https://arxiv.org/html/2604.02684v1#S6.SS1.SSS4.p2.'
+  results_from: 'Generative: https://arxiv.org/html/2604.02684v1#S6.T1; downstream: https://arxiv.org/html/2604.02684v1#S6.T2;
+    ablation: https://arxiv.org/html/2604.02684v1#S6.T3; hyperparameters: https://arxiv.org/html/2604.02684v1#S6.T4, https://arxiv.org/html/2604.02684v1#S6.T6,
+    https://arxiv.org/html/2604.02684v1#S6.T7.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item
+    for each business in parallel.
+  where: 'MBGR v1, Table 1 baseline Tiger: https://arxiv.org/html/2604.02684v1#S6.T1; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.'
+- id: onerec
+  relation: alternative
+  note: OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business
+    generation for recall.
+  where: 'MBGR v1, Section 6.6 contrasts with OneRec: https://arxiv.org/html/2604.02684v1#S6.SS6.p2; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.'

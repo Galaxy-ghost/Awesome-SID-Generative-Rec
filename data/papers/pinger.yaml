@@ -27,3 +27,43 @@ summary: Generative retrieval replaces nearest-neighbor search with token-by-tok
   for efficient wide-beam generation is paired with decoding constrained to valid identifiers and candidate resolution from
   a host-local index. Deployed in Related Pins, PinGER lifts saves of fresh Pins by 3.60% and overall saves by 0.62%, while
   reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.
+setup:
+  datasets: 'Pinterest session-centric UniPinRec data: historical cross-surface actions paired with target-surface session
+    engagements; session sampling reflects traffic. Filtering rules: not reported.'
+  split: 'Evaluation uses held-out users in a later, non-overlapping window disjoint from training. Window dates, allocation
+    ratios and validation split: not reported.'
+  candidates: 'full catalog: generated identifiers resolve against the full production corpus.'
+  visibility: warm; no unseen-item protocol is defined. Users are held out; fresh-content analysis uses Pins created within
+    28 days, without specified generator/tokenizer item holdouts.
+  sid: RQ-VAE 5x2048; content-only PinCLIP input, OmniSage engagement distillation. Index resolves shared-SID item lists;
+    insufficient leaves fall back to coarser prefixes, with round-robin interleaving across beams.
+  inference_budget: 'Offline beam100, Recall@10/100. Online Related Pins beam60/penalty3; notifications beam100/penalty1.
+    Serving L40S at ~200QPS/host: e2e p50/p99 51/77ms (beam60),54/81ms (beam100); batch not reported. Attention microbenchmark:
+    A10G,batch4,history1018.'
+  results_from: 'Reported Tables 1/2/3/4: serving, offline PinRec/TIGER comparison, diversity, online A/B; Tables 5-8: context
+    sweep, trie costs, segments, ablations. Borrowed-versus-rerun baseline provenance: not reported.'
+setup_where:
+  datasets: 'Section 5.1: https://arxiv.org/html/2610.33435v1#S5.SS1.SSS0.Px1.p1'
+  split: 'Section 5.1: https://arxiv.org/html/2610.33435v1#S5.SS1.SSS0.Px1.p1'
+  candidates: 'Section 5.1: https://arxiv.org/html/2610.33435v1#S5.SS1.SSS0.Px1.p1'
+  visibility: 'Section 5.1 and online fresh-content analysis: https://arxiv.org/html/2610.33435v1#S5.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.33435v1#S5.SS3.SSS1.p1'
+  sid: 'Sections 3.2 and 4.3: https://arxiv.org/html/2610.33435v1#S3.SS2.p1 and https://arxiv.org/html/2610.33435v1#S4.SS3.p1
+    and https://arxiv.org/html/2610.33435v1#S4.SS3.p2'
+  inference_budget: 'Sections 5.1/5.3, Table 1 and Figure 5: https://arxiv.org/html/2610.33435v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2610.33435v1#S5.SS3.SSS1.p1
+    and https://arxiv.org/html/2610.33435v1#S5.SS3.SSS2.p1 and https://arxiv.org/html/2610.33435v1#S4.T1 and https://arxiv.org/html/2610.33435v1#S4.F5'
+  results_from: 'Tables 1-4 and Appendix Tables 5-8: https://arxiv.org/html/2610.33435v1#S4.T1 and https://arxiv.org/html/2610.33435v1#S5.T2
+    and https://arxiv.org/html/2610.33435v1#S5.T3 and https://arxiv.org/html/2610.33435v1#S5.T4 and https://arxiv.org/html/2610.33435v1#A1.T5
+    and https://arxiv.org/html/2610.33435v1#A1.T8'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER is compared at matched training context and serving-token budgets.
+  where: 'PinGER v1, Section 5.2.1 and Table 2: https://arxiv.org/html/2610.33435v1#S5.SS2.SSS1.p1; https://arxiv.org/html/2610.33435v1#S5.T2.'
+- id: static
+  relation: predecessor
+  note: PinGER adopts STATIC's vectorized trie for valid-SID constrained decoding.
+  where: 'PinGER v1, Section 4.2: https://arxiv.org/html/2610.33435v1#S4.SS2.p2.'
+- id: cobra
+  relation: predecessor
+  note: PinGER retains COBRA-style SID/dense interleaving during training and removes past SIDs at serving.
+  where: 'PinGER v1, Section 2: https://arxiv.org/html/2610.33435v1#S2.SS0.SSS0.Px1.p1.'

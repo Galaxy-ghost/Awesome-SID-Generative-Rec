@@ -6,7 +6,7 @@ year: 2026
 venue: arXiv’26
 links:
   arxiv: https://arxiv.org/abs/2602.02338
-  code: null
+  code: https://github.com/FuCongResearchSquad/ReSID
 problem: I
 stage: Representation
 representation: Attr+CF
@@ -17,3 +17,39 @@ objective: NTP
 inference: Beam
 poi: false
 summary: 提出完整 SID 构造方法并在统一生成推荐器上验证。
+setup:
+  datasets: 'Amazon 2023: Musical Instruments, Video Games, Industrial/Scientific, Baby Products, Arts/Crafts/Sewing, Sports/Outdoors,
+    Toys/Games, Health/Household, Beauty/Personal Care, Books. User/item 5-core; require store and three category-level fields.'
+  split: Chronological per-user last/penultimate interactions test/validation; sliding training windows, maximum length 32.
+    Evaluation target items absent from training are added to the training set.
+  candidates: not reported
+  visibility: warm; evaluation target items absent from training are added to the training set.
+  sid: 'GAOQ, 3 levels. Branching tuples: MI(32,40,19),VG(32,64,13),IS(24,80,14),BP(32,64,18),ACS(64,96,16),SO(128,128,11),TG(192,192,5),HH(50,512,8),BPC(96,192,11),Books(256,256,8).
+    Global anchor-vocabulary sizes and collision handling: not reported.'
+  inference_budget: 'Beam 50; Recall/NDCG@5/10. Inference hardware, batch size, latency: not reported; batch 2048 is training.'
+  results_from: Tables 1/4 aggregate/full main comparison; Tables 2/5 ablations; Table 3 quantization runtime, not inference
+    latency. All SID methods use this study's common T5-style generator; tokenizer settings follow original methods.
+setup_where:
+  datasets: 'Section 4 and Appendix C: https://arxiv.org/html/2602.02338v1#S4.p3 and https://arxiv.org/html/2602.02338v1#A3.p1'
+  split: 'Section 4 and Appendix C: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A3.p1'
+  candidates: 'Section 4 and Appendix E specify ranking metrics but no candidate protocol; 128 sampled negatives are a training
+    objective: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A5.p2'
+  visibility: 'Appendix C explicitly inserts evaluation-only items into training: https://arxiv.org/html/2602.02338v1#A3.p1'
+  sid: 'Table 7 and Algorithm 1: https://arxiv.org/html/2602.02338v1#A5.T7 and https://arxiv.org/html/2602.02338v1#alg1'
+  inference_budget: 'Section 4 and Appendix E: https://arxiv.org/html/2602.02338v1#S4.p6 and https://arxiv.org/html/2602.02338v1#A5.p4'
+  results_from: 'Tables 1-5 and Appendix E: https://arxiv.org/html/2602.02338v1#S5.T1 and https://arxiv.org/html/2602.02338v1#S5.T2
+    and https://arxiv.org/html/2602.02338v1#S5.T3 and https://arxiv.org/html/2602.02338v1#A0.T4 and https://arxiv.org/html/2602.02338v1#A0.T5
+    and https://arxiv.org/html/2602.02338v1#A5.p4 and https://arxiv.org/html/2602.02338v1#A5.p3'
+related:
+- id: letter
+  relation: competitor
+  note: LETTER is the strongest compared SID baseline and a quantization-runtime reference.
+  where: 'ReSID v1, Sections 5.1/5.4: https://arxiv.org/html/2602.02338v1#S5.SS1.p4; https://arxiv.org/html/2602.02338v1#S5.SS4.p1.'
+- id: tiger
+  relation: competitor
+  note: TIGER's semantic RQ-VAE tokenizer is compared under the common downstream generator.
+  where: 'ReSID v1, Appendix D/E: https://arxiv.org/html/2602.02338v1#A4.p3; https://arxiv.org/html/2602.02338v1#A5.p4.'
+- id: unger
+  relation: competitor
+  note: UNGER aligns semantic/collaborative representations; ReSID uses structured-field masked prediction.
+  where: 'ReSID v1, Section 3.1 and Appendix D: https://arxiv.org/html/2602.02338v1#S3.SS1.p3; https://arxiv.org/html/2602.02338v1#A4.p3.'

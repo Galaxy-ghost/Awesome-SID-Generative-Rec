@@ -6,7 +6,7 @@
 
 [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) · [Matrix](../../README.md#i--backbone)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -25,6 +25,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![EAGER architecture diagram](../../architectures/eager.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon Product Reviews (May 1996-July 2018): Beauty, Sports and Outdoors, Toys and Games; Yelp 2019 transactions (January-December 2019). 5-core filtering of users and items. Sizes (users / items / interactions): Beauty 22,363 / 12,101 / 198,360; Sports 35,598 / 18,357 / 296,175; Toys 19,412 / 11,924 / 167,526; Yelp 30,431 / 20,033 / 316,354.
+  - Source: 5-core filtering and timestamp ordering: https://arxiv.org/html/2406.14017v2#S4.SS1.p1; Amazon and Yelp scope: https://arxiv.org/html/2406.14017v2#S4.I2.i1.p1 and https://arxiv.org/html/2406.14017v2#S4.I2.i2.p1; statistics: https://arxiv.org/html/2406.14017v2#S3.T1.
+- **Split**: Chronological leave-one-out: last item for test, second-to-last for validation, the rest for training; training histories limited to 20 items.
+  - Source: Leave-one-out allocation and history cap: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); top-k lists come from beam search in two streams.
+  - Source: Metrics only: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
+- **Visibility**: warm; no unseen-item protocol is defined.
+  - Source: Standard leave-one-out with no cold-start experiment: https://arxiv.org/html/2406.14017v2#S4.SS1.p2.
+- **SID**: Two codes per item: behavior codes from DIN embeddings and semantic codes from Sentence-T5 embeddings, each built by hierarchical k-means with k=256 branches, splitting until each child cluster contains a single item; code length l follows from the item count and k.
+  - Source: Dual hierarchical k-means codes until each leaf holds one item: https://arxiv.org/html/2406.14017v2#S3.SS3.p3; k=256: https://arxiv.org/html/2406.14017v2#S4.SS1.p3; length varies with k: https://arxiv.org/html/2406.14017v2#S4.SS5.p2.
+- **Inference budget**: Beam search in each of the behavior and semantic decoders returns top-k codes; the 2k predictions are merged by log-probability confidence. Table 6 (Beauty, top-k=5, beam size 100): 0.0325 s per sample for EAGER versus 0.0281 s for TIGER; hardware and inference batch size not reported. Recall and NDCG at 5, 10, and 20.
+  - Source: Two-stream beam search and confidence ranking: https://arxiv.org/html/2406.14017v2#S3.SS6.p2; speed table: https://arxiv.org/html/2406.14017v2#S4.T6.
+- **Results from**: Table 2 (Beauty, Sports, Toys, Yelp versus sequential, tree-based, and generative baselines); Table 3 (TSG/GCT/STT ablations); Tables 4, 5, 7 and Figures 4-6 (modalities, summary token, contrastive metric, layers, cluster number); Table 6 (inference speed).
+  - Source: Main: https://arxiv.org/html/2406.14017v2#S3.T2; ablations: https://arxiv.org/html/2406.14017v2#S4.T3; analyses: https://arxiv.org/html/2406.14017v2#S4.T4, https://arxiv.org/html/2406.14017v2#S4.T5, https://arxiv.org/html/2406.14017v2#S4.T7; speed: https://arxiv.org/html/2406.14017v2#S4.T6.
 
 ## 旧卡片说明
 
@@ -106,5 +125,14 @@ EAGER 的主要贡献是将行为码和语义码分流建模，并通过全局�
 - 使用场景：多源序列推荐。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER decodes one content-based semantic ID; EAGER decodes behavior and semantic hierarchical k-means codes with two decoders and merges them by confidence.
+  - Source: EAGER v2, baselines: https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1; Table 2: https://arxiv.org/html/2406.14017v2#S3.T2; speed comparison in Table 6: https://arxiv.org/html/2406.14017v2#S4.T6.
+- **Alternative** · [SEATER](seater.md): SEATER also uses tree-structured identifiers for generative retrieval; EAGER builds separate behavior and semantic trees and aligns them with contrastive and transfer tasks.
+  - Source: EAGER v2, Section 1 cites SEATER among generative recommenders: https://arxiv.org/html/2406.14017v2#S1.p2; not a baseline in Table 2.
+- **Alternative** · [LMIndexer](lmindexer.md): LMIndexer learns semantic IDs from text with a language model; EAGER keeps fixed k-means codes from pre-trained behavior and semantic encoders.
+  - Source: EAGER v2, Section 2 cites LMIndexer among semantic indexing methods: https://arxiv.org/html/2406.14017v2#S2.p2; not a baseline in Table 2.
+- **Alternative** · [CoST](cost.md): CoST learns RQ codes with a contrastive objective, whereas EAGER clusters frozen embeddings and adds contrastive learning on the generator side.
+  - Source: EAGER v2, Section 2 cites CoST: https://arxiv.org/html/2406.14017v2#S2.p2. CoST v2, Section 2 in turn cites EAGER as a hierarchical k-means tokenizer: https://arxiv.org/html/2404.14774v2#S2.p2.
 
 [View all papers in this cell](../../README.md#i--backbone)

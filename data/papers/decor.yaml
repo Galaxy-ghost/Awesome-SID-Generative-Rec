@@ -6,7 +6,7 @@ year: 2026
 venue: SIGIR’26
 links:
   arxiv: https://arxiv.org/abs/2509.10468
-  code: null
+  code: https://github.com/yliuaa/DECOR.git
 problem: III
 stage: Backbone
 representation: Text+CF
@@ -20,12 +20,55 @@ summary: 'Abstract: "suboptimal static tokenization"; "discarded pretrained sema
   by the first new design).'
 evidence:
 - field: problem
-  quote: 'Abstract: "suboptimal static tokenization"; "discarded pretrained semantics". Candidates: I / III (rule: tie broken
-    by the first new design).'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: Fig. 2, p4
+  where: https://arxiv.org/html/2509.10468v2#abstract1
+  quote: suboptimal static tokenization … discarded pretrained semantics
+  reason: 'Candidates: I / III (rule: tie broken by the first new design).'
 - field: inference
-  quote: No prefix constraint reported.
   where: §4.8, p9; Table 5, p10
+  reason: No prefix constraint reported.
+setup:
+  datasets: Amazon Scientific, Instrument and Game (paper labels); user/item 5-core filtering; chronological histories capped
+    at 20 items.
+  split: 'Per-user chronological leave-one-out: last interaction test, penultimate validation, remaining interactions training.'
+  candidates: full catalog; full-ranking evaluation without sampling.
+  visibility: warm; no unseen-item protocol is defined. RQ-VAE/text-encoder exposure to test items not reported; collaborative
+    embeddings are learned from recommendation sequences.
+  sid: 'Sentence-T5 embeddings; frozen RQ-VAE with 3 levels x 256 entries, plus an incremental index token resolving identical
+    3-token prefixes: 4-token IDs. Token assignments remain fixed while embeddings are contextually composed and fused with
+    learned collaborative embeddings.'
+  inference_budget: 'Beam 50; Recall/NDCG@5/10; experiments on one Tesla A40. Table 5 batches 8/16/32/64/128: DECOR 4.49-4.70
+    ms/sample, 213-223 samples/s; batch 128 adds 0.85 ms over TIGER. Prefix constraints not reported.'
+  results_from: Original Table 2 test results use seed 2025; significance tested across five seeds. Generative baselines rerun
+    from official code; other baselines adapted or quoted when protocols match. Table 5 measures inference cost; Figure 5
+    measures convergence, excluding ETEGRec tokenizer-update epochs.
+setup_where:
+  datasets: 'Section 4.1.1 and Table 1: https://arxiv.org/html/2509.10468v2#S4.SS1.SSS1.p1 ; https://arxiv.org/html/2509.10468v2#S3.T1'
+  split: 'Section 4.1.1: https://arxiv.org/html/2509.10468v2#S4.SS1.SSS1.p1'
+  candidates: 'Section 4.1.1: https://arxiv.org/html/2509.10468v2#S4.SS1.SSS1.p1'
+  visibility: 'Sections 3.2/3.3/4.1 define no item holdout: https://arxiv.org/html/2509.10468v2#S3.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.SS3.p2
+    ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS1.p1'
+  sid: 'Sections 3.2/3.3/4.1.2: https://arxiv.org/html/2509.10468v2#S3.SS2.p2 ; https://arxiv.org/html/2509.10468v2#S3.SS3.p2
+    ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1'
+  inference_budget: 'Section 4.1.2/4.8 and Table 5: https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS8.p1
+    ; https://arxiv.org/html/2509.10468v2#S4.T5'
+  results_from: 'Sections 4.1.2/4.2/4.7 and Tables 2/5: https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS2.p1
+    ; https://arxiv.org/html/2509.10468v2#S3.T2 ; https://arxiv.org/html/2509.10468v2#S4.T5 ; https://arxiv.org/html/2509.10468v2#S4.SS7.p1'
+related:
+- id: tiger
+  relation: predecessor
+  note: DECOR augments TIGER's fixed tokenization with contextual token embeddings.
+  where: 'DECOR v2, Sections 3.2/4.1.2 and Table 2: https://arxiv.org/html/2509.10468v2#S3.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1
+    ; https://arxiv.org/html/2509.10468v2#S3.T2.'
+- id: etegrec
+  relation: alternative
+  note: DECOR adapts embeddings without ETEGRec's repeated re-tokenization.
+  where: 'DECOR v2, Sections 3.4/4.7: https://arxiv.org/html/2509.10468v2#S3.SS4.p2 ; https://arxiv.org/html/2509.10468v2#S4.SS7.p1.'
+- id: letter
+  relation: competitor
+  note: LETTER is a tokenizer-enhancement baseline in the shared evaluation.
+  where: 'DECOR v2, Sections 1/4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S1.p6 ; https://arxiv.org/html/2509.10468v2#S4.SS2.p1
+    ; https://arxiv.org/html/2509.10468v2#S3.T2.'
+- id: cid
+  relation: competitor
+  note: P5-CID is a collaborative-indexing baseline.
+  where: 'DECOR v2, Section 4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.'

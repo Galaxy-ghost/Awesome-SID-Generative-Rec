@@ -6,7 +6,7 @@ year: 2023
 venue: SIGIR-AP’23
 links:
   arxiv: https://arxiv.org/abs/2305.06569
-  code: null
+  code: https://github.com/Wenyueh/LLM-RecSys-ID
 problem: II
 stage: Tokenization
 representation: CF
@@ -20,12 +20,43 @@ summary: 'Abstract: "To avoid generating excessively long text and hallucinated 
   item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
 evidence:
 - field: problem
-  quote: 'Abstract: "To avoid generating excessively long text and hallucinated recommendations"; "creating LLM-compatible
-    item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: p2; §5.2
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: p2; §5.2
+  where: https://arxiv.org/html/2305.06569v6#abstract1
+  quote: To avoid generating excessively long text and hallucinated recommendations … creating LLM-compatible item IDs to
+    uniquely identify each item is essential
+  reason: 'Candidates: II / I (rule: judged by the abstract''s complaint first).'
+setup:
+  datasets: Amazon Sports & Outdoors, Amazon Beauty, Yelp; paper states a Jan-Dec 2019 transaction window. Interaction-count
+    filtering not reported.
+  split: 'Per-user leave-one-out: last interaction test, penultimate validation, earlier interactions training. Test history
+    includes the validation interaction.'
+  candidates: not reported
+  visibility: warm; no unseen-item protocol is defined. CID co-occurrence edges/weights use training sequences only; graph
+    nodes represent all items. Separate tokenizer/item holdouts not reported.
+  sid: 'CID only: recursive N-way spectral clustering until clusters contain at most k items; k shared OOV tokens encode cluster
+    paths plus a unique-within-cluster leaf token. Variable-length fixed IDs; recommended mean length 3-4. Table 6 sweeps
+    N=10/20 and k=200/500/1000; Table 4 default N/k not reported.'
+  inference_budget: Trie-constrained generation; HR/NDCG@5/10. Beam width, inference hardware/batch and latency not reported.
+    Two RTX A5000 GPUs and batch 64 describe 20-epoch P5 training.
+  results_from: Original Table 4 CID row; Figures 4/5 and Tables 6/7 analyze CID clustering parameters and ID lengths. CID+IID
+    is a separate hybrid variant, not CID. Baselines use the S3-Rec implementation; copied-versus-rerun provenance not stated.
+setup_where:
+  datasets: 'Section 3.3: https://arxiv.org/html/2305.06569v6#S3.SS3.p1'
+  split: 'Section 3.3: https://arxiv.org/html/2305.06569v6#S3.SS3.p2'
+  candidates: 'Sections 3.3/5.1/5.2 do not define an evaluation candidate pool: https://arxiv.org/html/2305.06569v6#S3.SS3.p2
+    ; https://arxiv.org/html/2305.06569v6#S5.SS1.p1 ; https://arxiv.org/html/2305.06569v6#S5.SS2.p1'
+  visibility: 'Sections 3.3/4.2: https://arxiv.org/html/2305.06569v6#S3.SS3.p2 ; https://arxiv.org/html/2305.06569v6#S4.SS2.p1
+    ; https://arxiv.org/html/2305.06569v6#S4.SS2.SSS1.p1'
+  sid: 'Sections 4.2/5.5 and Tables 6/7: https://arxiv.org/html/2305.06569v6#S4.SS2.SSS1.p2 ; https://arxiv.org/html/2305.06569v6#S4.SS2.SSS2.p1
+    ; https://arxiv.org/html/2305.06569v6#S4.SS2.SSS2.p4 ; https://arxiv.org/html/2305.06569v6#S5.SS5.p4 ; https://arxiv.org/html/2305.06569v6#S5.T6
+    ; https://arxiv.org/html/2305.06569v6#S5.T7'
+  inference_budget: 'Introduction, Implementation Details and Table 4: https://arxiv.org/html/2305.06569v6#S1.p5 ; https://arxiv.org/html/2305.06569v6#S5.SS2.p1
+    ; https://arxiv.org/html/2305.06569v6#S5.T4'
+  results_from: 'Sections 5.1/5.3/5.5/5.7 and Tables 4/6/7: https://arxiv.org/html/2305.06569v6#S5.SS1.p1 ; https://arxiv.org/html/2305.06569v6#S5.SS3.p2
+    ; https://arxiv.org/html/2305.06569v6#S5.SS5.p2 ; https://arxiv.org/html/2305.06569v6#S5.SS7.p1 ; https://arxiv.org/html/2305.06569v6#S5.T4
+    ; https://arxiv.org/html/2305.06569v6#S5.T6 ; https://arxiv.org/html/2305.06569v6#S5.T7'
+related:
+- id: lmindexer
+  relation: successor
+  note: LMIndexer cites this indexing study as earlier generative-recommendation work.
+  where: 'Evidence from LMIndexer v3, Section 2 and reference Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2
+    ; https://arxiv.org/html/2310.07815v3#bib.bib11.'

@@ -6,7 +6,7 @@ year: 2025
 venue: arXiv’25
 links:
   arxiv: https://arxiv.org/abs/2510.11639
-  code: null
+  code: https://github.com/wangshy31/OneRec-Think
 problem: III
 stage: Training
 representation: Text+Img+CF†
@@ -20,12 +20,64 @@ summary: 'Abstract: "critically lacking the capacity for explicit and controllab
   lack of reasoning is not a class of its own).'
 evidence:
 - field: problem
-  quote: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule:
-    lack of reasoning is not a class of its own).'
-  where: arXiv abstract
+  where: 'OneRec-Think v2, Abstract, quoted clause: https://arxiv.org/html/2510.11639v2#abstract1'
+  quote: critically lacking the capacity for explicit and controllable reasoning
+  reason: Organizer judgment retains the none-versus-III comparison and selects III because lack of reasoning is not a separate
+    taxonomy class.
 - field: representation
-  quote: Paper says itemic tokens come from 'multi-modal and collaborative content' but does not name the visual inputs.
-  where: §3, p2; OneRec technical report §2.1.1
+  where: 'OneRec-Think v2, Section 3: https://arxiv.org/html/2510.11639v2#S3.SS0.SSS0.Px1.p1 ; inherited source, OneRec Technical
+    Report v4 (2506.13695), Section 2.1.1: https://arxiv.org/html/2506.13695v4#S2.SS1.SSS1.p2'
+  quote: multi-modal and collaborative content
+  reason: OneRec-Think does not enumerate visual inputs in this definition. Img remains inferred through the cited OneRec
+    pipeline; the separate technical report lists cover images and frames with textual inputs and collaborative-pair alignment.
 - field: tokenization
-  quote: Paper only says 'Following OneRec'; R-KM inferred from the OneRec technical report (RQ-Kmeans).
-  where: §3, p2; OneRec technical report (arXiv 2506.13695v4) §2.1.2, Table 11; §5.4.1, p6
+  where: 'OneRec-Think v2, Section 3: https://arxiv.org/html/2510.11639v2#S3.SS0.SSS0.Px1.p1 ; inherited source, OneRec Technical
+    Report v4 (2506.13695), Section 2.1.2: https://arxiv.org/html/2506.13695v4#S2.SS1.SSS2.p1'
+  reason: R-KM remains an organizer inference from the following-OneRec statement and the separate technical report's explicit
+    RQ-Kmeans tokenizer. OneRec-Think's Section 3 does not itself name that quantizer.
+setup:
+  datasets: 'Amazon Beauty, Toys, and Sports; users and items with fewer than 5 interactions are discarded. Industrial: Kuaishou
+    short-video data with daily incremental training on about 20B tokens per day. Retained corpus sizes: not reported.'
+  split: 'Public: leave-one-out (allocation not restated beyond the label); training histories capped at 50 items. Online:
+    one-week A/B test with a 1.29% traffic group.'
+  candidates: not reported (full catalog versus sampled evaluation candidates); top-K lists from beam search with width 10.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Public: four-level hierarchical semantic IDs with 256 tokens per level (1,024 new tokens). Industrial: three levels
+    x 8,192 itemic tokens (24,576 new tokens), plus item boundary tokens. The tokenizer algorithm is not restated; collision
+    handling: not reported.'
+  inference_budget: 'Public: beam search with width 10 after the reasoning text (Qwen3-1.7B). Industrial: Think-Ahead serving
+    generates the reasoning and the first two itemic tokens offline with Qwen-8B, then a real-time OneRec model completes
+    the last token online; latency numbers: not reported. Daily training on a cluster of 80 GPUs.'
+  results_from: Table 1 (Beauty, Toys, Sports versus sequential and generative baselines); Table 2 (alignment and reasoning
+    ablation on Beauty); Table 3 (online A/B); Table 4 (user and video understanding BertScore).
+setup_where:
+  datasets: 'Public datasets: https://arxiv.org/html/2510.11639v2#S5.SS1.p2; filtering and split: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1;
+    industrial deployment: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1.'
+  split: 'Leave-one-out and history cap: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; online test: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS2.Px1.p1.'
+  candidates: 'Metrics only: https://arxiv.org/html/2510.11639v2#S5.SS1.p2.'
+  visibility: 'Standard split with no unseen-item protocol: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1.'
+  sid: 'Public 4 levels x 256; industrial 3 levels x 8,192: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1;
+    no collision rule found.'
+  inference_budget: 'Beam width 10 for public evaluation: https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; Rollout-Beam
+    reward with width K: https://arxiv.org/html/2510.11639v2#S4.SS3.p2; two-stage serving: https://arxiv.org/html/2510.11639v2#S4.SS4.p2;
+    training cluster: https://arxiv.org/html/2510.11639v2#S5.SS4.SSS1.p1.'
+  results_from: 'Public: https://arxiv.org/html/2510.11639v2#S4.T1; ablation: https://arxiv.org/html/2510.11639v2#S5.T2; online:
+    https://arxiv.org/html/2510.11639v2#S5.T3; understanding benchmarks: https://arxiv.org/html/2510.11639v2#S5.T4.'
+related:
+- id: tiger
+  relation: competitor
+  note: TIGER generates the next itemic tokens directly; OneRec-Think first generates interleaved text-and-item reasoning
+    and is rewarded with a beam-based signal.
+  where: 'OneRec-Think v2, baselines: https://arxiv.org/html/2510.11639v2#S5.SS1.p2 and https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px1.p1;
+    Table 1: https://arxiv.org/html/2510.11639v2#S4.T1.'
+- id: lc-rec
+  relation: alternative
+  note: LC-Rec aligns LLMs to item indices with auxiliary tasks; OneRec-Think adds itemic-textual alignment followed by reasoning
+    activation and RL.
+  where: 'OneRec-Think v2, Section 3 and Appendix A.1 cite Zheng et al. (2024): https://arxiv.org/html/2510.11639v2#S3.SS0.SSS0.Px2.p2
+    and https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; not a baseline in Table 1.'
+- id: grlm
+  relation: alternative
+  note: GRLM later compares against OneRec-Think and replaces numeric itemic tokens with natural-language term IDs.
+  where: 'Evidence is from the later GRLM paper: LLM-based baselines and Table 2: https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1
+    and https://arxiv.org/html/2601.06798v1#S5.T2.'

@@ -17,3 +17,39 @@ objective: Multi-task NTP
 inference: Beam
 poi: false
 summary: 明确完整端到端工业系统且多组件共同构成贡献；SID 为语义簇，再由 materialization 映射具体视频。
+setup:
+  datasets: Internal Snapchat short-video engagement logs and multimodal video corpus; dataset size and filtering rules not
+    reported. Up to 10 future items/request supply evaluation targets.
+  split: SFT uses one day; evaluation uses the immediately following hour. CPT uses one month ending one week before SFT;
+    validation allocation not reported.
+  candidates: not reported; primary offline metrics match generated SID clusters before video materialization.
+  visibility: warm; no unseen-item protocol is defined. PPR co-engagement graph and tokenizer exposure to test videos not
+    reported.
+  sid: 'PPR-supervised RQ-VAE: [1024,512,256]. Shared SIDs represent video clusters; materialization ranks videos within each
+    bucket by engagement value. Per-bucket retained-video cap not reported.'
+  inference_budget: Qwen3-0.6B, beam 32; daily offline generation, online candidate-index lookup. A100 single-GPU and 64-GPU
+    inference studies; optimized per-GPU throughput 45.7x legacy pipeline. Inference batch size, absolute throughput and latency
+    not reported.
+  results_from: 'Original Table 3: offline SID comparison with T5 retrained on identical SIDs/data; Table 5: SID/video recall.
+    Table 8: seven-day A/B versus deployed T5 with coarser CLIP SIDs, jointly changing tokenizer/backbone/serving.'
+setup_where:
+  datasets: 'Sections 2.1/4.1: https://arxiv.org/html/2607.28895v4#S2.SS1.p3 and https://arxiv.org/html/2607.28895v4#S4.SS1.p1'
+  split: 'Section 4.1: https://arxiv.org/html/2607.28895v4#S4.SS1.p1'
+  candidates: 'Section 4.1/Appendix B.2 defines SID-level generated-set metrics, not sampled evaluation negatives: https://arxiv.org/html/2607.28895v4#S4.SS1.p2
+    and https://arxiv.org/html/2607.28895v4#A2.SS2.p1'
+  visibility: 'Sections 2.1/4.1 define no unseen-item holdout: https://arxiv.org/html/2607.28895v4#S2.SS1.p7 and https://arxiv.org/html/2607.28895v4#S4.SS1.p1'
+  sid: 'Section 3.1/Appendix A.3.1: https://arxiv.org/html/2607.28895v4#S3.SS1.p3 and https://arxiv.org/html/2607.28895v4#A1.SS3.SSS1.p1'
+  inference_budget: 'Sections 2.3/4.1/4.4: https://arxiv.org/html/2607.28895v4#S2.SS3.p1 and https://arxiv.org/html/2607.28895v4#S2.SS2.p1
+    and https://arxiv.org/html/2607.28895v4#S4.SS1.p2 and https://arxiv.org/html/2607.28895v4#S4.SS4.SSS2.p2 and https://arxiv.org/html/2607.28895v4#S4.SS4.SSS2.p3
+    and https://arxiv.org/html/2607.28895v4#S4.SS4.SSS2.p5'
+  results_from: 'Section 4.1/4.5 and Tables 3/5/8: https://arxiv.org/html/2607.28895v4#S4.SS1.p3 and https://arxiv.org/html/2607.28895v4#S4.T3
+    and https://arxiv.org/html/2607.28895v4#S4.T5 and https://arxiv.org/html/2607.28895v4#S4.SS5.p2 and https://arxiv.org/html/2607.28895v4#S4.T8'
+related:
+- id: tiger
+  relation: predecessor
+  note: SnapLGR replaces the deployed TIGER-style T5 retriever with a grounded decoder-only LLM.
+  where: 'SnapLGR v4, Sections 4.1/4.5: https://arxiv.org/html/2607.28895v4#S4.SS1.p3; https://arxiv.org/html/2607.28895v4#S4.SS5.p1.'
+- id: plum
+  relation: predecessor
+  note: SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
+  where: 'SnapLGR v4, Sections 2.1/5: https://arxiv.org/html/2607.28895v4#S2.SS1.p6; https://arxiv.org/html/2607.28895v4#S5.p2.'

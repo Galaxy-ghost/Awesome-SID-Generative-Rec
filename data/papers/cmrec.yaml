@@ -17,3 +17,45 @@ objective: NTP
 inference: –
 poi: false
 summary: 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。
+setup:
+  datasets: 'Industrial e-commerce advertising: >1 billion interactions, 19 million users, 25 million ads across 6 countries;
+    largest country has about 10x the smallest''s training interactions. Amazon M2/KDD Cup 2023: UK/DE/JP/IT/FR/ES; high-resource
+    locales supply about 91% of training sessions. Filtering rules not reported.'
+  split: 'Offline train/validation/test allocation and chronology not reported; all baselines use the same dataset partition.
+    Online A/B: May 10–20, 2026, 10% live traffic across all 6 countries.'
+  candidates: not reported; evaluation pool and history exclusion are unspecified. Sampled-softmax negatives train the i2i
+    model, and cross-country neighbor filtering supports training augmentation; neither defines evaluation negatives.
+  visibility: warm; no unseen-item protocol is defined. Countries have disjoint users/items but are pooled for joint training;
+    tokenizer/i2i exposure to test items is not reported.
+  sid: 'Shared 4-token RQ-VAE identifiers: Qwen-VL-32B encodes multimodal content to 64 dimensions, with joint cross-country
+    behavioral i2i alignment described before quantization. Codebook sizes and collision handling not reported; dynamic market
+    attributes filter substitutions rather than form SID inputs.'
+  inference_budget: Autoregressive GenCDR backbone, Recall/NDCG@10/100; decoding algorithm/beam width, history cap, inference
+    hardware, batch size and latency not reported. Mixing rates p=k=0.1 and neighbor thresholds are training augmentation
+    settings.
+  results_from: 'Own offline comparisons on shared partitions (Table 1), industrial ablations (Table 2), and two-backbone
+    sensitivity experiments (Figure 3); no imported baseline scores stated; run counts/variance not reported. Own online six-country
+    aggregate: advertising revenue +1.77%, orders +2.64%; online control model not identified.'
+setup_where:
+  datasets: https://arxiv.org/html/2609.28972v1#S4.SS1.p1
+  split: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.SS2.p4
+  candidates: https://arxiv.org/html/2609.28972v1#S4.SS1.p1 ; https://arxiv.org/html/2609.28972v1#S3.SS1.p3 ; https://arxiv.org/html/2609.28972v1#S3.SS2.p2
+  visibility: https://arxiv.org/html/2609.28972v1#S2.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1
+  sid: https://arxiv.org/html/2609.28972v1#S3.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S3.SS1.p3 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+    ; https://arxiv.org/html/2609.28972v1#S3.SS2.p2
+  inference_budget: https://arxiv.org/html/2609.28972v1#S3.SS3.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p1 ; https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+  results_from: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1 ; https://arxiv.org/html/2609.28972v1#S4.T2
+    ; https://arxiv.org/html/2609.28972v1#S4.SS2.p4
+related:
+- id: gencdr
+  relation: predecessor
+  note: CMRec uses GenCDR as its backbone and augments its training sequences.
+  where: https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+- id: tiger
+  relation: competitor
+  note: Generative recommendation baseline trained on the common partition.
+  where: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1
+- id: gmc
+  relation: alternative
+  note: Shared-token cross-domain transfer contrasted with data-level code mixing.
+  where: https://arxiv.org/html/2609.28972v1#S1.p2

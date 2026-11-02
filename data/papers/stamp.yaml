@@ -19,11 +19,48 @@ poi: false
 summary: 'Abstract: "prohibitive training overhead due to sequence expansion".'
 evidence:
 - field: problem
-  quote: 'Abstract: "prohibitive training overhead due to sequence expansion".'
-  where: arXiv abstract
-- field: backbone
-  quote: arXiv v3.
-  where: §1, p2; §5.1.4, p6
-- field: tokenizer
-  quote: Location from the 10-26 'Training split' table in the appendix.
-  where: p5
+  where: https://arxiv.org/html/2604.05329v3#abstract1 (Abstract; excerpt)
+  quote: prohibitive training overhead due to sequence expansion
+setup:
+  datasets: Amazon Beauty (22.4K users / 12.1K items), Sports (35.6K / 18.4K), Toys (19.4K / 11.9K) with 5-core filtering;
+    and AL-GR-Tiny, a subset of the AL-GR benchmark from a Chinese e-commerce platform (the full AL-GR has 131M users / 251M
+    items / 14B interactions).
+  split: 'Amazon: per-user leave-one-out (final interaction for test, penultimate for validation). AL-GR-Tiny: the benchmark''s
+    Stage 1 split, four days of training behaviors and a test set from the following day. GRID results averaged over five
+    seeds.'
+  candidates: not reported (full catalog versus sampled); Recall/NDCG at 5 and 10 under GRID, HitRate at 20-1000 under FORGE,
+    as defined by those frameworks.
+  visibility: warm; no unseen-item protocol is defined.
+  sid: 'Uses each framework''s SIDs unchanged: GRID with RK-Means over Flan-T5-XL embeddings and three codebooks (codebook
+    size not restated); FORGE''s pre-processed AL-GR SIDs. Collision handling: not reported.'
+  inference_budget: STAMP accelerates training (token pruning plus an auxiliary loss that is discarded at inference, so no
+    inference overhead is claimed); inference decoding settings follow GRID and FORGE and are not restated. Training speed
+    and VRAM reported on one A100-40GB (GRID) and two A100-80GB (FORGE).
+  results_from: 'Table 2 (GRID T5 on Beauty, Sports, Toys: accuracy, training time, VRAM versus EARN; five seeds); Table 3
+    (FORGE Qwen2.5-0.5B on AL-GR-Tiny); later analyses and ablations.'
+setup_where:
+  datasets: 'Datasets: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1;
+    statistics: https://arxiv.org/html/2604.05329v3#S5.T1.'
+  split: 'Leave-one-out on Amazon; AL-GR S1 split: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1.'
+  candidates: 'Metrics inherited from GRID and FORGE: https://arxiv.org/html/2604.05329v3#S5.I4.i1.p1.'
+  visibility: 'No unseen-item protocol: https://arxiv.org/html/2604.05329v3#S5.I2.i1.p1 and https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1.'
+  sid: 'GRID RK-Means with three codebooks over Flan-T5-XL: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2; FORGE SIDs
+    from AL-GR: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3.'
+  inference_budget: 'Training-time acceleration; MAP discarded at inference: https://arxiv.org/html/2604.05329v3#S4.SS4.p1;
+    hardware: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2 and https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3.'
+  results_from: 'Results: https://arxiv.org/html/2604.05329v3#S5.T2 and https://arxiv.org/html/2604.05329v3#S5.T3.'
+related:
+- id: grid
+  relation: predecessor
+  note: STAMP is implemented inside the GRID framework and keeps its tokenizer and T5 backbone, adding training-time token
+    pruning and multi-step auxiliary prediction.
+  where: 'STAMP v3, Section 5.1.4 GRID setup: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2; Table 2: https://arxiv.org/html/2604.05329v3#S5.T2.'
+- id: forge
+  relation: predecessor
+  note: STAMP uses FORGE's AL-GR-Tiny data and Qwen backbone as its second testbed.
+  where: 'STAMP v3, Section 5.1.1 and 5.1.4: https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1 and https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3;
+    Table 3: https://arxiv.org/html/2604.05329v3#S5.T3.'
+- id: atspeed
+  relation: alternative
+  note: AtSpeed accelerates inference by speculative decoding; STAMP targets training-time cost instead.
+  where: 'STAMP v3, Section 2 acceleration paragraph: https://arxiv.org/html/2604.05329v3#S2.p3.'

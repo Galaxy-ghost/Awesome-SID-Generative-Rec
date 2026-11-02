@@ -4,9 +4,9 @@
 
 `IV. Utility` · `Training`
 
-[Paper](https://arxiv.org/abs/2610.25805) · [Matrix](../../README.md#iv--training)
+[Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/) · [Matrix](../../README.md#iv--training)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -24,6 +24,32 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Modified Stage | Training |
 
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Amazon 2014 5-core Sports/Beauty/Toys; Amazon 2023 5core/last_out_w_his Scientific/Instruments/Games, reconstructing each user's longest chronological sequence.
+  - Source: Section 4.1 and Appendix B.1: https://arxiv.org/html/2610.25805v1#S4.SS1.SSS0.Px1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS1.p1
+- **Split**: Last two interactions validation/test; sliding training windows over earlier interactions, history cap 20; one validation/test target per user.
+  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p1
+- **Candidates**: full catalog of distinct legal SIDs; identical SIDs share one entry; exact four-code match determines hits.
+  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p2
+- **Visibility**: warm; no unseen-item protocol is defined. Fixed OPQ mapping covers every processed item.
+  - Source: Appendix B.1: https://arxiv.org/html/2610.25805v1#A2.SS1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS1.p2
+- **SID**: Four-code OPQ, 256 codes/position; collisions remain merged as one catalog entry.
+  - Source: Appendix A.5: https://arxiv.org/html/2610.25805v1#A1.SS5.SSS0.Px1.p1
+- **Inference budget**: One encoder/parallel-decoder pass plus catalog scoring; no beam. Recall/NDCG@5; full-test Top-10 generation 0.23-1.24 s; test batch 256. Hardware and per-request latency: not reported.
+  - Source: Section 3.6, Section 4.2 and Appendix B.3: https://arxiv.org/html/2610.25805v1#S3.SS6.SSS0.Px3.p1 and https://arxiv.org/html/2610.25805v1#S4.SS2.SSS0.Px1.p1 and https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px2.p1
+- **Results from**: Reported Tables 1/2/3/4: accuracy, full-test cost, ablations, sparsity groups. OneChord accuracy is five-run mean/SD; baselines use common splits, but borrowed-versus-rerun provenance is not reported.
+  - Source: Tables 1-4 and Appendix B.2-B.3: https://arxiv.org/html/2610.25805v1#S3.T1 and https://arxiv.org/html/2610.25805v1#S3.T2 and https://arxiv.org/html/2610.25805v1#S4.T3 and https://arxiv.org/html/2610.25805v1#S4.T4 and https://arxiv.org/html/2610.25805v1#A2.SS2.p1 and https://arxiv.org/html/2610.25805v1#A2.SS3.SSS0.Px3.p1
+
 ### 5. Connections to Related Work
+
+- **Competitor** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
+  - Source: OneChord v1, Section 2 and Table 1: https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.25805v1#S3.T1.
+- **Competitor** · [RPG](rpg.md): RPG is compared for full-catalog accuracy and complete-test generation cost.
+  - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
+- **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
+  - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
 
 [View all papers in this cell](../../README.md#iv--training)

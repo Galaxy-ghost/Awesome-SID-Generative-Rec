@@ -4,9 +4,9 @@
 
 `VI. Generalization` · `Tokenization`
 
-[Paper](https://arxiv.org/abs/2511.08006) · [Matrix](../../README.md#vi--tokenization)
+[Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) · [Matrix](../../README.md#vi--tokenization)
 
-Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
 
 | Representation | Tokenization | Backbone | Training | Inference |
 | :-: | :-: | :-: | :-: | :-: |
@@ -27,6 +27,25 @@ Reading level: Overview (Level 1) · On this page: [At a Glance](#at-a-glance) �
 ### 2. How It Works
 
 ![GenCDR architecture diagram](../../architectures/gencdr.png)
+
+### 3. Experimental Findings
+
+**Experimental setup**
+
+- **Datasets**: Three cross-domain pairs: Amazon Sports-Clothing (35,598 / 39,387 users; 18,357 / 23,033 items; item overlap 1.73%, 704), Amazon Phones-Electronics (27,879 / 192,403 users; 10,429 / 63,001 items; overlap 0.55%, 404), and Douban Books-Movies (1,713 / 2,628 users; 8,601 / 20,964 items; overlap 7.48%, 2,058). Filtering rules: not reported.
+  - Source: Domain pairs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p1; statistics and overlap after merging: https://arxiv.org/html/2511.08006v2#Sx5.T1; no filtering rule found in Section 5.1.
+- **Split**: Chronological leave-last-out per user: last item for test, second-to-last for validation; checkpoint chosen by validation Recall@10.
+  - Source: Chronological leave-last-out allocation: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; checkpoint selection: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.
+- **Candidates**: not reported (full catalog versus sampled evaluation candidates); generation is restricted to the target domain's prefix tree.
+  - Source: Metrics only: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p6.
+- **Visibility**: warm; no unseen-item protocol is defined. The RQ-VAE is pre-trained on the textual features of all items.
+  - Source: Standard split with no cold-start experiment: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p2; RQ-VAE is pre-trained on all items: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1.
+- **SID**: Universal RQ-VAE with M codebooks over item text embeddings, plus domain-specific LoRA adapters and an item-level router; numerical M and codebook size: not reported. Collision handling: not reported.
+  - Source: M codebooks, no numerical M or codebook size: https://arxiv.org/html/2511.08006v2#Sx4.SSx1.SSSx1.p1; adapters and router: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7.
+- **Inference budget**: Qwen2.5-7B with LoRA experts; decoding constrained by a per-domain prefix tree with masked softmax; beam width not reported. Training on NVIDIA H200 GPUs; inference batch size not reported. Figure 6 (Qwen2.5-0.5B) reports runtime memory and inference time versus item-pool size against TriCDR and TIGER, stating constant cost; numerical latencies are only in the figure.
+  - Source: Domain-aware prefix tree: https://arxiv.org/html/2511.08006v2#Sx4.SSx2.SSSx4.p1; backbone and GPUs: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p7; scalability figure: https://arxiv.org/html/2511.08006v2#Sx5.SSx6.p2 and https://arxiv.org/html/2511.08006v2#Sx5.F6.
+- **Results from**: Table 2 (six domains across three pairs versus single-domain, generative, and cross-domain baselines); Table 3 (ablations); Figures 3-6 (t-SNE, sensitivity, training efficiency, inference scalability).
+  - Source: Main: https://arxiv.org/html/2511.08006v2#Sx5.T2; ablation: https://arxiv.org/html/2511.08006v2#Sx5.T3; efficiency: https://arxiv.org/html/2511.08006v2#Sx5.F5 and https://arxiv.org/html/2511.08006v2#Sx5.F6.
 
 ## 旧卡片说明
 
@@ -105,5 +124,12 @@ GenCDR 的贡献是把域适配从推荐器参数扩展到 SID 表示和路由�
 - 使用场景：跨域推荐。
 
 ### 5. Connections to Related Work
+
+- **Competitor** · [TIGER](tiger.md): TIGER tokenizes one domain with a single RQ-VAE; GenCDR adds domain-specific tokenizer adapters with item-level routing and an LLM with universal and domain LoRA experts.
+  - Source: GenCDR v2, baselines: https://arxiv.org/html/2511.08006v2#Sx5.SSx1.p4 and https://arxiv.org/html/2511.08006v2#Sx5.I3.i2.I1.i2.p1; Table 2: https://arxiv.org/html/2511.08006v2#Sx5.T2; inference scalability in Figure 6: https://arxiv.org/html/2511.08006v2#Sx5.F6.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec transfers across domains with discrete codes in a discriminative model; GenCDR generates domain-adapted semantic IDs autoregressively.
+  - Source: GenCDR v2, baselines: https://arxiv.org/html/2511.08006v2#Sx5.I3.i2.I1.i1.p1; Table 2: https://arxiv.org/html/2511.08006v2#Sx5.T2.
+- **Alternative** · [UTGRec](utgrec.md): UTGRec is cited for item tokenization in generative recommendation that GenCDR describes as developed for single domains; GenCDR targets multi-domain tokenization with domain adapters.
+  - Source: GenCDR v2, Related Work cites Zheng et al. (2025): https://arxiv.org/html/2511.08006v2#Sx2.p2; not a baseline in Table 2.
 
 [View all papers in this cell](../../README.md#vi--tokenization)

@@ -24,19 +24,20 @@ tldr: OneLoc extends end-to-end generative recommendation to local-life videos b
   encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 evidence:
 - field: problem
-  quote: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user
-    interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID,
-    geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the
-    paper is not in the top block (unlike OneRec).'
-  where: abstract, p1
+  where: 'OneLoc v1, Abstract and contribution list: https://arxiv.org/html/2508.14646v1#abstract1 ; https://arxiv.org/html/2508.14646v1#S1'
+  quote: The first challenge is how to make full use of geographic information.
+  reason: 'Organizer judgment: three geographic designs versus two reward designs favor problem I over IV, while multi-objective
+    balancing remains a utility concern. These complaints fit the six-problem taxonomy rather than the paradigm/system block
+    used for OneRec.'
 - field: stage
-  quote: The three designs for I sit in Representation and Backbone; the first contribution, the geo-aware SID, decides. Its
-    quantizer follows OneRec; only the input embedding adds location context.
-  where: contribution list, p3; §2.2, p3
+  where: 'OneLoc v1, contributions and Section 2.2: https://arxiv.org/html/2508.14646v1#S1 ; https://arxiv.org/html/2508.14646v1#S2.SS2.p1'
+  reason: Organizer stage judgment prioritizes the first geographic design, the geo-aware SID input representation, although
+    self-attention and prompting also affect the backbone. The residual K-means quantizer follows OneRec, while its input
+    embedding incorporates location context.
 - field: representation
-  quote: No collaborative signal enters the SIDs. Img is inferred from "video content and location context information, extracted
-    by a multimodal large language model". Table 2 had Text+Img+Geo+CF.
-  where: §2.1, §2.2, p3
+  where: 'OneLoc v1, Sections 2.1/2.2: https://arxiv.org/html/2508.14646v1#S2.SS1 ; https://arxiv.org/html/2508.14646v1#S2.SS2.p1'
+  reason: 'Organizer reading: the SID input names video-content and location-context embeddings, with no collaborative input
+    specified there. Img remains an inference from the multimodal-LLM description, not an explicitly enumerated visual input.'
 setup:
   datasets: 'KuaiLLSR: eight days of uniformly sampled Kuaishou local-life-service short-video interactions, with 60 million
     users, 900,000 videos, and 440 million interactions; additional filtering rules not reported. Foursquare NYC: 1,042 users,

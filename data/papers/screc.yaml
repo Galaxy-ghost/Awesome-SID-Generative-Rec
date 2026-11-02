@@ -6,7 +6,7 @@ year: 2026
 venue: RecSys’26
 links:
   arxiv: https://arxiv.org/abs/2609.13678
-  code: null
+  code: https://github.com/DanJiayi/SCRec
 problem: I
 stage: Representation
 representation: Text+CF
@@ -20,12 +20,51 @@ summary: 'Abstract: "item tokenization is largely dominated by textual semantics
   signals"; "the generation stage tends to overlook the original semantic information".'
 evidence:
 - field: problem
-  quote: 'Abstract: "item tokenization is largely dominated by textual semantics with limited incorporation of collaborative
-    signals"; "the generation stage tends to overlook the original semantic information".'
-  where: arXiv abstract
-- field: tokenizer
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.2–3.3, p4–5
-- field: objective
-  quote: Location from the pre-10-26 Training evidence in the appendix.
-  where: §3.2–3.3, p4–5
+  where: https://arxiv.org/html/2609.13678v1#abstract1 (Abstract)
+  quote: item tokenization is largely dominated by textual semantics with limited incorporation of collaborative signals
+- field: problem
+  where: https://arxiv.org/html/2609.13678v1#abstract1 (Abstract)
+  quote: the generation stage tends to overlook the original semantic information
+setup:
+  datasets: Amazon Reviews Beauty, Sports and Outdoors, Toys and Games. Filtering and maximum history length not reported
+    directly; preprocessing settings delegated to RPG.
+  split: 'Per-user chronological leave-last-out: final interaction test, penultimate validation, remaining interactions training;
+    shared across baselines.'
+  candidates: not reported; evaluation configurations are delegated to RPG without specifying the candidate universe or negative
+    sampling.
+  visibility: warm; no unseen-item protocol is defined. SASRec for top-10 collaborative neighbors is pretrained on training
+    data; tokenizer fitting exposure to test items not reported.
+  sid: RQ-VAE with 256 entries/codebook and latent dimension 256, quantizing fused item-text and textualized-neighbor embeddings.
+    Semantic level count and collision handling not reported.
+  inference_budget: 'Main decoder-only backbone follows RPG, with TIGER/LIGER module variants. Exact main inference procedure,
+    prediction-head structure and beam width not reported; Recall/NDCG@5/10. General experiment GPU: one RTX 4090; inference
+    batch size and absolute latency not reported. Beauty module inference-time increases: TIGER 6.19%, LIGER 0.54%, averaged
+    over ten runs.'
+  results_from: 'Original Table 1: main comparison; baselines including RPG rerun in the same environment, TIGER/LIGER evaluated
+    through the same LIGER codebase. Table 2: ablations; Table 3: backbone extensions; Tables 4-5: alternative fusion/alignment.
+    No imported baseline results stated.'
+setup_where:
+  datasets: 'https://arxiv.org/html/2609.13678v1#S4.SS1.p1 ; #S4.SS1.p5'
+  split: https://arxiv.org/html/2609.13678v1#S4.SS1.p1
+  candidates: 'https://arxiv.org/html/2609.13678v1#S4.SS1.p4 ; #S4.SS1.p5'
+  visibility: 'https://arxiv.org/html/2609.13678v1#S4.SS1.p1 ; #S4.SS1.p5'
+  sid: 'https://arxiv.org/html/2609.13678v1#S3.SS1.p9 ; #S4.SS1.p5'
+  inference_budget: 'https://arxiv.org/html/2609.13678v1#S3.SS2.p5 ; #S4.SS1.p4 ; #S4.SS1.p5 ; #S4.SS5.p1 ; #S4.SS5.p2'
+  results_from: 'https://arxiv.org/html/2609.13678v1#S4.T1 ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.p5'
+related:
+- id: rpg
+  relation: predecessor
+  note: SCRec adopts a decoder-only backbone following RPG but replaces tokenization with collaborative-enhanced RQ-VAE and
+    adds semantic/manifold alignment modules.
+  where: 'SCRec v1, Sections 3.1/4.1: https://arxiv.org/html/2609.13678v1#S3.SS1.p9; https://arxiv.org/html/2609.13678v1#S4.SS1.p5.'
+- id: tiger
+  relation: predecessor
+  note: SCRec is also added to TIGER as a reusable module, improving collaborative input to tokenization and semantic guidance
+    during generation.
+  where: 'SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.T3.'
+- id: liger
+  relation: predecessor
+  note: SCRec augments the hybrid LIGER backbone with the same reusable cross-stage supplementation module and measures its
+    inference overhead.
+  where: 'SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.SS5.p2;
+    https://arxiv.org/html/2609.13678v1#S4.T3.'

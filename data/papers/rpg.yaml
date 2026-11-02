@@ -21,8 +21,8 @@ tldr: RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-tok
   of valid IDs, replacing autoregressive beam search over short IDs.
 evidence:
 - field: problem
-  quote: 'Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".'
-  where: arXiv abstract
+  where: https://arxiv.org/html/2506.05781v1#abstract1 (Abstract)
+  quote: they often suffer from inefficient inference due to the reliance on resource-intensive beam search
 setup:
   datasets: 'Amazon Reviews: Sports and Outdoors, Beauty, Toys and Games, and CDs and Vinyl; filtering rules: not reported.'
   split: 'Per-user chronological leave-last-out: last item for test, second-last for validation, earlier items for training.'
