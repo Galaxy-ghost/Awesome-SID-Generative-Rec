@@ -37,8 +37,6 @@ Industrial generative recommenders that replace embedding tables with Semantic I
 
 MiniOneRec answers with an open framework that covers SID construction, supervised fine-tuning (SFT), and reinforcement learning (RL), and releases code, training pipelines, and checkpoints (Sec. 1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![MiniOneRec architecture diagram](../../architectures/minionerec.png)

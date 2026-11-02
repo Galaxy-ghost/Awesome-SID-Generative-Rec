@@ -10,8 +10,6 @@ Most recommenders run a retrieve-and-rank cascade, and a generative model, when 
 
 OneRec replaces the cascade with a single-stage generative model and was deployed in the main scene of Kuaishou (Abstract, Sec. 1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -45,7 +43,7 @@ A recommender shows each request only once, so true positive and negative lists 
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The authors report a weakness found in the online results.
+**Stated by the authors.**
 
 > "Additionally, our analysis of online results reveals that, besides user watch time, our model has limitations in interactive indicators, such as likes." (Sec. 6)
 

@@ -38,8 +38,6 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 
 > "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![LLaDA-Rec architecture diagram](../../architectures/llada-rec.png)

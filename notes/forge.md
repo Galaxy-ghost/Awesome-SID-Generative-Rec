@@ -8,8 +8,6 @@ Current studies offer limited investigation of how to construct Semantic IDs (SI
 
 > "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid

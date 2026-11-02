@@ -34,7 +34,7 @@ flowchart LR
 
 ### 1. Why This Paper Matters
 
-Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
+Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract).
 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
 
@@ -172,7 +172,7 @@ Simplifications: The code scores every item in the catalog before the graph sear
 
 </details>
 
-- Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison.
+- Overall: Table 2 gives the full comparison with the baselines.
 - Efficiency: on Sports, RPG uses less runtime memory and less inference time than TIGER (Sec. 3.3, Fig. 3).
 
   > "Moreover, RPG reduces runtime memory consumption by nearly 25× and achieves an inference speedup of almost 15× compared to TIGER." (Sec. 3.3)

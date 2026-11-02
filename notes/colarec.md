@@ -8,8 +8,6 @@ Existing LLM-based methods fuse content and collaborative signals but rely on te
 
 > "To model collaborative signals, the GIDs are constructed from a pretrained collaborative filtering model, and the user is represented as the content aggregation of interacted items." (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

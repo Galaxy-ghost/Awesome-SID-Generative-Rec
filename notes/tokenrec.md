@@ -6,8 +6,6 @@ Limitation: New users and items need a retrained collaborative filtering model t
 
 LLM-based recommenders need user and item tokens that the LLM can read (Abstract). One token per user or item expands the LLM vocabulary with the number of users and items (Sec. I). The authors also name two further gaps: existing tokens do not capture high-order collaborative knowledge, and they generalize poorly to users or items outside the training data (Abstract). TokenRec tokenizes users and items from collaborative representations and replaces autoregressive decoding with retrieval.
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid

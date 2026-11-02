@@ -36,8 +36,6 @@ flowchart LR
 
 Most generative recommenders generate Semantic IDs (SIDs) directly from interaction sequences without a reasoning step (Abstract). The authors name two problems in reasoning-enhanced variants: reasoning placed entirely before generation spreads computation unevenly across the SID levels, and latent reasoning vectors have no interpretable semantics or verifiable supervision. S2GR interleaves thinking tokens with SID code generation, one before each code, and supervises each with the semantics of the next code (Sec. 1).
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ![S2GR architecture diagram](../../architectures/s2gr.png)

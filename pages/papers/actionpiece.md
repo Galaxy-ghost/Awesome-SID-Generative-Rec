@@ -33,11 +33,9 @@ flowchart LR
 
 ### 1. Why This Paper Matters
 
-Existing generative recommendation (GR) models tokenize each action independently, so identical actions receive the same tokens in every sequence (Abstract). The authors argue that the same action may hold different meanings depending on its surrounding context (Abstract). ActionPiece makes the tokenization of an action depend on that context.
+Existing generative recommendation (GR) models tokenize each action on its own, so an action gets the same tokens in every sequence (Abstract). The authors argue that the same action can mean different things in different contexts (Abstract). ActionPiece lets the surrounding actions decide how an action is tokenized.
 
 > "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships." (Abstract)
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -99,7 +97,7 @@ Because feature sets are unordered, set permutation regularization produces mult
 
 **Our analysis.**
 
-- Inference ranks several segmentations and averages them. This suggests that decoding cost grows with the ensemble size unless the segmentations run in parallel.
+- Inference ranks several segmentations and averages the scores. This suggests that decoding cost grows with the ensemble size unless the segmentations run in parallel.
 - VQ-Rec uses `OPQ` codes in an `Encoder` with `Scoring`; ActionPiece starts from the same kind of codes but generates merged tokens with an `Enc-Dec` generator.
 
 ### 5. Connections to Related Work

@@ -40,8 +40,6 @@ Generative recommendation (GR) models are usually fine-tuned with the next-token
 
 > "To address these challenges, we reformulate GR as a sequential set-generation problem and propose GFlowGR, a GFlowNet-based fine-tuning framework that explicitly aligns generation probabilities with item-level utilities." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ![GFlowGR architecture diagram](../../architectures/gflowgr.png)

@@ -8,8 +8,6 @@ Existing multi-target cross-domain recommendation (MTCDR) methods rely on users 
 
 > "The core idea of GMC is to leverage semantically quantized discrete item identifiers as a medium for integrating multi-domain knowledge within a unified generative model." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid

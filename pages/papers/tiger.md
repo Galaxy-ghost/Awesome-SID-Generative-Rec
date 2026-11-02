@@ -190,7 +190,7 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The authors state that TIGER can be more expensive than ANN-based models at inference because of beam search (Appendix E).
+**Stated by the authors.**
 
 > "we note that our model can be more computationally expensive than ANN-based models during inference due to the use of beam search for autoregressive decoding." (Appendix E)
 

@@ -40,8 +40,6 @@ Generative recommendation needs Semantic IDs (SIDs) that are hierarchical, have 
 
 MACRec adds cross-modal interaction at two points: inside the quantizer and in the generator's training tasks (Methodology).
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ![MACRec architecture diagram](../../architectures/macrec.png)

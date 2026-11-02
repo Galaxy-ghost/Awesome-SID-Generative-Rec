@@ -8,8 +8,6 @@ Turning a large language model (LLM) into a recommender meets semantic and behav
 
 > "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment." (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

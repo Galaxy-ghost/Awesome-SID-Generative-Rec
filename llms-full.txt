@@ -88,11 +88,9 @@
 
 ### 1. Why This Paper Matters
 
-Existing generative recommendation (GR) models tokenize each action independently, so identical actions receive the same tokens in every sequence (Abstract). The authors argue that the same action may hold different meanings depending on its surrounding context (Abstract). ActionPiece makes the tokenization of an action depend on that context.
+Existing generative recommendation (GR) models tokenize each action on its own, so an action gets the same tokens in every sequence (Abstract). The authors argue that the same action can mean different things in different contexts (Abstract). ActionPiece lets the surrounding actions decide how an action is tokenized.
 
 > "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships." (Abstract)
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -132,7 +130,7 @@ Because feature sets are unordered, set permutation regularization produces mult
 
 **Our analysis.**
 
-- Inference ranks several segmentations and averages them. This suggests that decoding cost grows with the ensemble size unless the segmentations run in parallel.
+- Inference ranks several segmentations and averages the scores. This suggests that decoding cost grows with the ensemble size unless the segmentations run in parallel.
 - VQ-Rec uses `OPQ` codes in an `Encoder` with `Scoring`; ActionPiece starts from the same kind of codes but generates merged tokens with an `Enc-Dec` generator.
 
 ## AdaSID
@@ -217,8 +215,6 @@ Limitation: The behavioral weights are computed from the magnitude of a pre-trai
 Semantic IDs (SIDs) quantize item content features so that items can share knowledge, and existing methods add collaborative information to them (Abstract). User-item interactions are highly skewed, so collaborative information is much weaker for long-tail items (Abstract). The authors identify two effects: indiscriminate alignment lets this noise corrupt the content representations of tail items, and equal weights hide which behavioral SIDs are informative (Abstract).
 
 > "unlike relatively uniform content features, user-item interactions are highly skewed, resulting in a significant quality gap in collaborative information between popular and long-tail items." (Abstract)
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -307,8 +303,6 @@ Key Findings: On the public dataset, Align3GR reports +17.8% in Recall@10 and +2
 Turning a large language model (LLM) into a recommender meets semantic and behavioral misalignment (Abstract). Earlier LLM recommenders such as LC-Rec align item tokens through supervised tasks. Align3GR treats alignment as one problem across token, behavior modeling, and preference levels.
 
 > "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment." (Abstract)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -882,8 +876,6 @@ Existing LLM-based methods fuse content and collaborative signals but rely on te
 
 > "To model collaborative signals, the GIDs are constructed from a pretrained collaborative filtering model, and the user is represented as the content aggregation of interacted items." (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid
@@ -1456,8 +1448,6 @@ Existing generative methods use either the behavioral or the semantic side of it
 
 > "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy" (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid
@@ -1586,8 +1576,6 @@ Limitation: The tokenizer reads collaborative embeddings only, so items without 
 Current approaches often train item tokenization and generative recommendation as separate processes (Abstract). ETEGRec couples the two inside one dual encoder-decoder framework (Abstract).
 
 > "To enable synergistic interaction between these components, we propose a recommendation-oriented alignment strategy, which includes two key optimization objectives: sequence-item alignment and preference-semantic alignment." (Abstract)
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -1815,8 +1803,6 @@ Current studies offer limited investigation of how to construct Semantic IDs (SI
 
 > "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid
@@ -1942,8 +1928,6 @@ Limitation: Each domain adds its own tokenizer adapter and its own offline prefi
 Traditional cross-domain recommendation relies on shared user or item IDs, which most real-world scenarios do not have (Abstract). The authors state that LLM-based approaches face an item ID tokenization dilemma and insufficient domain-specific modeling (Abstract). GenCDR moves domain adaptation into the tokenizer itself.
 
 > "GenCDR first employs a Domain-adaptive Tokenization module, which generates disentangled semantic IDs for items by dynamically routing between a universal encoder and domain-specific adapters." (Abstract)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -2104,8 +2088,6 @@ The authors state that SID-based point-of-interest (POI) recommenders lack SIDs 
 
 > "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs." (Sec. 4.1.1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid
@@ -2197,8 +2179,6 @@ Limitation: The reward model learns item utility from logged user signals, so th
 Generative recommendation (GR) models are usually fine-tuned with the next-token loss of supervised fine-tuning (SFT) or with DPO-style objectives (Abstract). The authors state that these objectives predict a single ground-truth item and treat all interactions as equally informative (Abstract).
 
 > "To address these challenges, we reformulate GR as a sequential set-generation problem and propose GFlowGR, a GFlowNet-based fine-tuning framework that explicitly aligns generation probabilities with item-level utilities." (Abstract)
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -2323,8 +2303,6 @@ Existing multi-target cross-domain recommendation (MTCDR) methods rely on users 
 
 > "The core idea of GMC is to leverage semantically quantized discrete item identifiers as a medium for integrating multi-domain knowledge within a unified generative model." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid
@@ -2406,8 +2384,6 @@ Limitation: Operating hours and collaborative features come from check-ins, so a
 Existing generative POI recommenders usually give POIs random numeric IDs, which limits the modeling of semantic relationships between similar locations (Abstract). GNPR-SID replaces them with Semantic IDs (SIDs) learned from POI features.
 
 > "To achieve this, we propose the diversity loss, which promotes the distinctiveness of codewords within each codebook layer." (Sec. 1)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -2559,15 +2535,13 @@ Appendix A.1 adds multiple cropping and fill-in-the-blank augmentation (Appendix
 ## At a Glance
 
 Key Findings: On four benchmark datasets, GRAM reports improvements of 11.5–16.0% in Recall@5 and 5.3–13.6% in NDCG@5 over eight generative recommendation models (Abstract).
-Limitation: The authors name the TF-IDF selection of vocabulary words and the small T5 models as limitations (Sec. 7).
+Limitation: The authors name the TF-IDF selection of vocabulary words and the small T5 models (T5-small and T5-base) as limitations (Sec. 7).
 
 ### 1. Why This Paper Matters
 
 Generative recommenders built on large language models (LLMs) struggle to incorporate implicit item relationships and to use rich but lengthy item information (Abstract). GRAM addresses the first with textual IDs and the second with late fusion.
 
 > "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -2600,8 +2574,6 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 - Efficiency: the authors analyze preprocessing and inference time in Appendix C.
 
 ### 4. Limitations & Critical Analysis
-
-**Stated by the authors.** The authors state that the TF-IDF-based choice of vocabulary words and the use of T5-small and T5-base limit the study (Sec. 7).
 
 **Our analysis.**
 
@@ -2689,8 +2661,6 @@ The authors state that LLMs face two obstacles as generative reasoning recommend
 
 > "GREAM natively supports two complementary inference modes: Direct Sequence Recommendation for high-throughput, low-latency deployment, and Sequential Reasoning Recommendation that first emits an interpretable reasoning chain for causal transparency." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -2772,8 +2742,6 @@ Sparse-Regularized Group Policy Optimization (SRPO) uses a Residual-Sensitive Ve
 Varied modeling techniques, hyperparameters, and experimental setups make direct comparisons between generative recommendation (GR) proposals difficult (Abstract). GRID gives these proposals one modular framework in which components can be swapped and ablated.
 
 > "Our comprehensive experiments with GRID reveal that many overlooked architectural components in GR models with SIDs substantially impact performance." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -2894,8 +2862,6 @@ Limitation: A generated Term ID that matches no item is grounded by structural m
 Text-based item identifiers expose the large output space of an LLM, while Semantic IDs (SIDs) need costly vocabulary expansion and alignment training (Abstract). GRLM takes a middle path with standardized keywords.
 
 > "Text-based methods introduce LLMs' vast output space, leading to hallucination, while methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring costly vocabulary expansion and alignment training." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -3048,8 +3014,6 @@ Key Findings: In long-term online A/B tests on Amap, Gwhere reports improvements
 The authors state that scaling generative retrieval to industry is hard because of redundant or colliding token assignments and weak integration of heterogeneous item signals (Abstract). Next point-of-interest (POI) recommendation adds structured spatial entities and mobility patterns (Abstract).
 
 > "Gwhere first learns discriminative POI SIDs through a contrastive residual-quantization tokenizer that aligns textual, visual, spatial, and collaborative signals." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -3241,8 +3205,6 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 > "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items." (Sec. 1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid
@@ -3399,8 +3361,6 @@ Limitation: Item IDs change whenever the ID generator is updated, so the prefix 
 The authors state that generative recommendation struggles to encode items in the text-to-text framework with concise yet meaningful IDs (Abstract). Because IDGenRec's IDs are plain words, user histories become platform-agnostic text, which opens zero-shot transfer (Abstract).
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -3731,8 +3691,6 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 > "In essence, LLMs capture language semantics while recommender systems imply collaborative semantics, making it difficult to sufficiently leverage the model capacity of LLMs for recommendation." (Abstract)
 
-Based on arXiv v4.
-
 ### 2. How It Works
 
 ```mermaid
@@ -3853,8 +3811,6 @@ Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 #### Semantic Regularization
@@ -3954,8 +3910,6 @@ Limitation: The geographic slots mirror a fixed administrative hierarchy of prov
 
 Existing Semantic ID (SID) frameworks build one representation and then quantize it (Abstract). The authors state that this mixes geography, brand, and category, causes information loss and collisions, and gives SID positions no clear meaning (Abstract). LGRID gives each SID position an explicit attribute.
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -3993,7 +3947,7 @@ The two streams are quantized separately, so SID positions correspond to item at
 
 **Our analysis.**
 
-- A full-SID collision rate of 39.9% still leaves many items sharing an SID. Discriminative ranking tolerates shared SIDs better than generation would.
+- A full-SID collision rate of 39.9% still leaves many items sharing an SID. This suggests that LGRID fits discriminative ranking, which tolerates shared SIDs, better than generation.
 - TIGER quantizes one representation with `RQ-VAE`; LGRID quantizes two streams (`DSRQ`) and feeds a discriminative ranker.
 
 ## LGSID
@@ -4043,8 +3997,6 @@ Limitation: LLM alignment needs a separately trained list-wise reward model befo
 Text-based recommenders encode item text with prompts and tokenize items into discrete Semantic IDs (SIDs) (Abstract). In local-life services, the authors state that putting location into the prompt misses fine-grained spatial characteristics and real distances between items (Abstract).
 
 > "However, in domain-specific tasks such as local-life services, simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -4134,8 +4086,6 @@ Limitation: Every cold-start item joins the candidate set, and the design assume
 Sequential dense retrieval stores one representation per item, so memory grows with the catalog (Abstract). Generative retrieval predicts Semantic IDs (SIDs) instead, but a fair comparison of the two was missing (Abstract).
 
 > "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items." (Sec. 2.4)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -4255,8 +4205,6 @@ Limitation: Fewer diffusion steps improve generation efficiency but lower recomm
 Autoregressive generative recommenders decode a Semantic ID (SID) one token at a time with causal attention. The authors name two limitations of this setup: each token attends only to its predecessors, and errors in early tokens propagate through the fixed left-to-right order (Abstract). LLaDA-Rec replaces left-to-right decoding with discrete diffusion over all SID positions.
 
 > "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -4417,8 +4365,6 @@ Generative recommendation needs Semantic IDs (SIDs) that are hierarchical, have 
 > "However, existing multimodal GR models typically encode each modality separately to obtain semantic IDs for different modalities." (Related Work)
 
 MACRec adds cross-modal interaction at two points: inside the quantizer and in the generator's training tasks (Methodology).
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -4647,8 +4593,6 @@ Industrial generative recommenders that replace embedding tables with Semantic I
 
 MiniOneRec answers with an open framework that covers SID construction, supervised fine-tuning (SFT), and reinforcement learning (RL), and releases code, training pipelines, and checkpoints (Sec. 1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -4871,8 +4815,6 @@ Limitation: With both modalities, pre-training does not improve results on Games
 Generative recommenders that build on pre-trained language models carry general linguistic knowledge that does not match recommendation needs, and they rarely use the complementary knowledge in item text and images (Abstract). MQL4GRec turns the content of items from many domains and modalities into one discrete vocabulary, so that a generator trained on source domains can transfer to a target domain.
 
 > "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -5267,11 +5209,11 @@ At inference, the generator returns one recommendation list per modality, and a 
 ## At a Glance
 
 Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
-Limitation: The paper does not state that KuaiLLSR is released (Sec. 4.1.1).
+Limitation: Location enters the SID only through one fused embedding before residual k-means, so no SID position is tied to geography (Sec. 2.2).
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -5409,8 +5351,8 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 **Our analysis.**
 
-- Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
-- The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
+- OneLoc mixes location into the input (`Text+Img+Geo†`). LGSID instead uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`, so their SID positions carry geography directly. GeoGR adds geographic and collaborative signals to text (`Text+Geo+CF`).
+- KuaiLLSR, the GMV scoring model, and the online test all come from Kuaishou, so only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
 
 ## OneMall
 
@@ -5493,8 +5435,6 @@ Most recommenders run a retrieve-and-rank cascade, and a generative model, when 
 
 OneRec replaces the cascade with a single-stage generative model and was deployed in the main scene of Kuaishou (Abstract, Sec. 1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -5528,7 +5468,7 @@ A recommender shows each request only once, so true positive and negative lists 
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The authors report a weakness found in the online results.
+**Stated by the authors.**
 
 > "Additionally, our analysis of online results reveals that, besides user watch time, our model has limitations in interactive indicators, such as likes." (Sec. 6)
 
@@ -5584,8 +5524,6 @@ Limitation: Multi-step reasoning conflicts with real-time latency requirements, 
 Generative recommenders such as OneRec predict item tokens directly and do not produce explicit, controllable reasoning (Abstract). OneRec-Think lets an LLM write a reasoning sequence and then the next itemic tokens in the same output.
 
 > "In contrast, we reformulate this task to unify reasoning and recommendation in a single autoregressive pass." (Sec. 3)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -5983,8 +5921,6 @@ Local service platforms need recommendations that are relevant and also geograph
 > "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are semantically relevant yet geographically unreachable." (Abstract)
 
 ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes each POI's position relative to its semantic cluster, so geography becomes part of the Semantic ID (SID) instead of a weak auxiliary feature (Abstract, Sec. 1).
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -6588,15 +6524,13 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 ## At a Glance
 
 Key Findings: On NYC, ROS reports HR@1 of 0.4478 against 0.4027 for CoAST (+11.2%), and the paper reports gains of +11.0% on TKY and +15.7% on Gowalla-CA over the strongest LLM-based baselines (Table 1).
-Limitation: A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro or highway (Limitations).
+Limitation: A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro rail or highway, especially near transit hubs (Limitations).
 
 ### 1. Why This Paper Matters
 
 LLM-based generative recommenders make limited use of geographic signals, which matter in mobility and local-service scenarios (Abstract). ROS models the next visit as a sequence of constrained decisions driven by time, intent, and geography (Sec. 2.3). It represents each POI with a hierarchical spatial Semantic ID (SID) that encodes locality and POI semantics (Abstract).
 
 > "We present ROS, a generative next POI recommendation framework that treats geography as an explicit decision variable." (Sec. 5)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -6635,8 +6569,6 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 - Cross-city transfer: trained on one city and applied to two unseen cities, ROS achieves the best transfer results against LLM4POI and GA-LLM (Sec. 3.4, Table 6).
 
 ### 4. Limitations & Critical Analysis
-
-**Stated by the authors.** ROS relies on a monotonic prior that long transitions are unlikely within short time intervals. The authors state that this prior can underweight fast long-range moves by metro rail or highway, especially near transit hubs (Limitations).
 
 **Our analysis.**
 
@@ -6687,7 +6619,7 @@ Limitation: The authors assume that the tokens of an SID are conditionally indep
 
 ### 1. Why This Paper Matters
 
-Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract). ACERec and SPRINT, later papers in the same matrix cell, use the same `Par. OPQ` tokenization and `Non-AR` backbone.
+Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract).
 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
 
@@ -6803,7 +6735,7 @@ Simplifications: The code scores every item in the catalog before the graph sear
 
 ### 3. Experimental Findings
 
-- Overall: with 64-token IDs, RPG outperforms the generative baselines by an average of 12.6% on NDCG@10 (Abstract). Table 2 gives the full comparison.
+- Overall: Table 2 gives the full comparison with the baselines.
 - Efficiency: on Sports, RPG uses less runtime memory and less inference time than TIGER (Sec. 3.3, Fig. 3).
 
   > "Moreover, RPG reduces runtime memory consumption by nearly 25× and achieves an inference speedup of almost 15× compared to TIGER." (Sec. 3.3)
@@ -6867,8 +6799,6 @@ Limitation: On the industrial dataset with same-scale models, training takes abo
 ### 1. Why This Paper Matters
 
 Most generative recommenders generate Semantic IDs (SIDs) directly from interaction sequences without a reasoning step (Abstract). The authors name two problems in reasoning-enhanced variants: reasoning placed entirely before generation spreads computation unevenly across the SID levels, and latent reasoning vectors have no interpretable semantics or verifiable supervision. S2GR interleaves thinking tokens with SID code generation, one before each code, and supervises each with the semantics of the next code (Sec. 1).
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -7202,8 +7132,6 @@ Limitation: The RL reward scores only the generated Semantic ID, by its longest 
 LLM-based generative recommenders already share one token space for language and Semantic IDs (SIDs), but reasoning over SIDs is hard: itemic tokens carry no native meaning for an LLM, and recommendation reasoning has little high-quality supervision (Abstract). SIDReasoner strengthens SID-language alignment first, so that the LLM's general reasoning can carry over to recommendation without many recommendation-specific reasoning traces.
 
 > "Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks." (Sec. 5)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -7804,8 +7732,6 @@ GRPO samples groups of reasoning-and-prediction trajectories and optimizes them 
 
 Next-POI recommendation learns from sparse and complex mobility patterns (Abstract). The authors argue that non-reasoning models lack the capacity to capture deep intent from them, and that LLMs understand Semantic IDs (SIDs) poorly when the SIDs are trained separately from the model (Abstract, Sec. 5.8). Think2Go lets an LLM reason before it recommends, and trains memorization and reasoning in one architecture instead of running SFT and RL one after the other (Sec. 4, Sec. 4.1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -8034,7 +7960,7 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 
 ### 4. Limitations & Critical Analysis
 
-**Stated by the authors.** The authors state that TIGER can be more expensive than ANN-based models at inference because of beam search (Appendix E).
+**Stated by the authors.**
 
 > "we note that our model can be more computationally expensive than ANN-based models during inference due to the use of beam search for autoregressive decoding." (Appendix E)
 
@@ -8159,8 +8085,6 @@ Limitation: New users and items need a retrained collaborative filtering model t
 ### 1. Why This Paper Matters
 
 LLM-based recommenders need user and item tokens that the LLM can read (Abstract). One token per user or item expands the LLM vocabulary with the number of users and items (Sec. I). The authors also name two further gaps: existing tokens do not capture high-order collaborative knowledge, and they generalize poorly to users or items outside the training data (Abstract). TokenRec tokenizes users and items from collaborative representations and replaces autoregressive decoding with retrieval.
-
-Based on arXiv v3.
 
 ### 2. How It Works
 
@@ -8660,8 +8584,6 @@ RL fine-tuning of generative recommenders samples candidates with likelihood-dri
 
 > "Our V-STAR primarily focuses on training-time improvement." (Sec. 4.4)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid
@@ -8775,8 +8697,6 @@ Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's 
 ### 1. Why This Paper Matters
 
 Transferable recommenders encode item text with a pre-trained language model (PLM) and use the encoding as the item representation (Abstract). The authors argue that this tight binding over-emphasizes text features and enlarges the effect of the domain gap (Abstract, Sec. 4). VQ-Rec inserts discrete codes between text and representation: item text maps to a vector of discrete indices, called an item code, and the code looks up the item representation in an embedding table (Sec. 2.1). VQ-Rec is a discriminative sequential recommender, not a generative one; later Semantic ID (SID) papers reuse its code scheme.
-
-Based on arXiv v2.
 
 ### 2. How It Works
 

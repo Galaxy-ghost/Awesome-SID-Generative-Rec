@@ -8,8 +8,6 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 > "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items." (Sec. 1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

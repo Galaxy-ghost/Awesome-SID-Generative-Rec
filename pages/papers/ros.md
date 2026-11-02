@@ -32,15 +32,13 @@ flowchart LR
 | Key Contribution | ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided reinforcement learning to LLM-based next-POI generation. |
 | Modified Stage | Tokenization |
 | Key Findings | On NYC, ROS reports HR@1 of 0.4478 against 0.4027 for CoAST (+11.2%), and the paper reports gains of +11.0% on TKY and +15.7% on Gowalla-CA over the strongest LLM-based baselines (Table 1). |
-| Limitation | A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro or highway (Limitations). |
+| Limitation | A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro rail or highway, especially near transit hubs (Limitations). |
 
 ### 1. Why This Paper Matters
 
 LLM-based generative recommenders make limited use of geographic signals, which matter in mobility and local-service scenarios (Abstract). ROS models the next visit as a sequence of constrained decisions driven by time, intent, and geography (Sec. 2.3). It represents each POI with a hierarchical spatial Semantic ID (SID) that encodes locality and POI semantics (Abstract).
 
 > "We present ROS, a generative next POI recommendation framework that treats geography as an explicit decision variable." (Sec. 5)
-
-Based on arXiv v2.
 
 ### 2. How It Works
 
@@ -101,8 +99,6 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 - Cross-city transfer: trained on one city and applied to two unseen cities, ROS achieves the best transfer results against LLM4POI and GA-LLM (Sec. 3.4, Table 6).
 
 ### 4. Limitations & Critical Analysis
-
-**Stated by the authors.** ROS relies on a monotonic prior that long transitions are unlikely within short time intervals. The authors state that this prior can underweight fast long-range moves by metro rail or highway, especially near transit hubs (Limitations).
 
 **Our analysis.**
 

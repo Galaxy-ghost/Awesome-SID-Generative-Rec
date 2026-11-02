@@ -37,8 +37,6 @@ The authors state that LLMs face two obstacles as generative reasoning recommend
 
 > "GREAM natively supports two complementary inference modes: Direct Sequence Recommendation for high-throughput, low-latency deployment, and Sequential Reasoning Recommendation that first emits an interpretable reasoning chain for causal transparency." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![GREAM architecture diagram](../../architectures/gream.png)

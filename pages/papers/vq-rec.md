@@ -34,8 +34,6 @@ flowchart LR
 
 Transferable recommenders encode item text with a pre-trained language model (PLM) and use the encoding as the item representation (Abstract). The authors argue that this tight binding over-emphasizes text features and enlarges the effect of the domain gap (Abstract, Sec. 4). VQ-Rec inserts discrete codes between text and representation: item text maps to a vector of discrete indices, called an item code, and the code looks up the item representation in an embedding table (Sec. 2.1). VQ-Rec is a discriminative sequential recommender, not a generative one; later Semantic ID (SID) papers reuse its code scheme.
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ![VQ-Rec architecture diagram](../../architectures/vq-rec.png)

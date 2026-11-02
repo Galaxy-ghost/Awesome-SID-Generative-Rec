@@ -37,8 +37,6 @@ Existing generative methods use either the behavioral or the semantic side of it
 
 > "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy" (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ![EAGER architecture diagram](../../architectures/eager.png)

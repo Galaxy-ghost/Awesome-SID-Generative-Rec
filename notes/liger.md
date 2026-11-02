@@ -8,8 +8,6 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 
 > "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items." (Sec. 2.4)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

@@ -8,8 +8,6 @@ Semantic IDs (SIDs) quantize item content features so that items can share knowl
 
 > "unlike relatively uniform content features, user-item interactions are highly skewed, resulting in a significant quality gap in collaborative information between popular and long-tail items." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid

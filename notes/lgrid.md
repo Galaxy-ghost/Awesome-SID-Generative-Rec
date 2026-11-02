@@ -7,8 +7,6 @@ Limitation: The geographic slots mirror a fixed administrative hierarchy of prov
 
 Existing Semantic ID (SID) frameworks build one representation and then quantize it (Abstract). The authors state that this mixes geography, brand, and category, causes information loss and collisions, and gives SID positions no clear meaning (Abstract). LGRID gives each SID position an explicit attribute.
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid
@@ -46,5 +44,5 @@ The two streams are quantized separately, so SID positions correspond to item at
 
 **Our analysis.**
 
-- A full-SID collision rate of 39.9% still leaves many items sharing an SID. Discriminative ranking tolerates shared SIDs better than generation would.
+- A full-SID collision rate of 39.9% still leaves many items sharing an SID. This suggests that LGRID fits discriminative ranking, which tolerates shared SIDs, better than generation.
 - TIGER quantizes one representation with `RQ-VAE`; LGRID quantizes two streams (`DSRQ`) and feeds a discriminative ranker.

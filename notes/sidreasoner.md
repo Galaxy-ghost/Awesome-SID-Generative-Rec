@@ -8,8 +8,6 @@ LLM-based generative recommenders already share one token space for language and
 
 > "Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks." (Sec. 5)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

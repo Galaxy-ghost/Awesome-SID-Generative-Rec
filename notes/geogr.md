@@ -9,8 +9,6 @@ The authors state that SID-based point-of-interest (POI) recommenders lack SIDs 
 
 > "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs." (Sec. 4.1.1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

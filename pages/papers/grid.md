@@ -35,8 +35,6 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 
 > "Our comprehensive experiments with GRID reveal that many overlooked architectural components in GR models with SIDs substantially impact performance." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![GRID architecture diagram](../../architectures/grid.png)

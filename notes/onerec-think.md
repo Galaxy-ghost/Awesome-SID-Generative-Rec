@@ -9,8 +9,6 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 
 > "In contrast, we reformulate this task to unify reasoning and recommendation in a single autoregressive pass." (Sec. 3)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

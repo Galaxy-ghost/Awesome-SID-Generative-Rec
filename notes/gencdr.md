@@ -8,8 +8,6 @@ Traditional cross-domain recommendation relies on shared user or item IDs, which
 
 > "GenCDR first employs a Domain-adaptive Tokenization module, which generates disentangled semantic IDs for items by dynamically routing between a universal encoder and domain-specific adapters." (Abstract)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

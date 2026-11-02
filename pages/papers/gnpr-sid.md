@@ -40,8 +40,6 @@ Existing generative POI recommenders usually give POIs random numeric IDs, which
 
 > "To achieve this, we propose the diversity loss, which promotes the distinctiveness of codewords within each codebook layer." (Sec. 1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ![GNPR-SID architecture diagram](../../architectures/gnpr-sid.png)

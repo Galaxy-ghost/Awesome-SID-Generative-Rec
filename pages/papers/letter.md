@@ -39,8 +39,6 @@ Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ![LETTER architecture diagram](../../architectures/letter.png)

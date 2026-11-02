@@ -41,8 +41,6 @@ Local service platforms need recommendations that are relevant and also geograph
 
 ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes each POI's position relative to its semantic cluster, so geography becomes part of the Semantic ID (SID) instead of a weak auxiliary feature (Abstract, Sec. 1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![ProGEO architecture diagram](../../architectures/progeo.png)

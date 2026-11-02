@@ -38,8 +38,6 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 > "In essence, LLMs capture language semantics while recommender systems imply collaborative semantics, making it difficult to sufficiently leverage the model capacity of LLMs for recommendation." (Abstract)
 
-Based on arXiv v4.
-
 ### 2. How It Works
 
 ![LC-Rec architecture diagram](../../architectures/lc-rec.png)

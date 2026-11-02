@@ -36,8 +36,6 @@ flowchart LR
 
 Next-POI recommendation learns from sparse and complex mobility patterns (Abstract). The authors argue that non-reasoning models lack the capacity to capture deep intent from them, and that LLMs understand Semantic IDs (SIDs) poorly when the SIDs are trained separately from the model (Abstract, Sec. 5.8). Think2Go lets an LLM reason before it recommends, and trains memorization and reasoning in one architecture instead of running SFT and RL one after the other (Sec. 4, Sec. 4.1).
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![Think2Go architecture diagram](../../architectures/think2go.png)

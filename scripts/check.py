@@ -8,7 +8,7 @@
    comparisons/ (archive/ is not checked)
 6. No constraint-*.md or tension-*.md file anywhere in the repository
 5. data/updates.yaml entries (date, change, papers)
-7. Chinese notes sync: each notes/zh/<id>.md has notes/<id>.md with the same number of ### and #### headings,
+7. Chinese notes sync: notes/<id>.md and notes/zh/<id>.md exist in pairs, with the same number of ### and #### headings,
    every English quotation verbatim, and every English number
 """
 import argparse
@@ -270,7 +270,10 @@ def body_text(txt: str) -> str:
 
 
 def check_zh_notes(root: Path, errors: list):
-    """Each Chinese note mirrors its English note: heading counts, verbatim quotations, and numbers."""
+    """Each English note has a Chinese note that mirrors it: heading counts, verbatim quotations, and numbers."""
+    for ep in sorted((root / "notes").glob("*.md")):
+        if not (root / "notes/zh" / ep.name).exists():
+            errors.append(f"[sync] notes/{ep.name}: no Chinese note notes/zh/{ep.name}")
     for zp in sorted((root / "notes/zh").glob("*.md")):
         ep = root / "notes" / zp.name
         name = f"notes/zh/{zp.name}"
@@ -283,7 +286,7 @@ def check_zh_notes(root: Path, errors: list):
             if count(en) != count(zh):
                 errors.append(f"[sync] {name}: {count(zh)} '{depth}' headings, English has {count(en)}")
         for q in dict.fromkeys(QUOTE_RE.findall(body_text(en))):
-            if q not in zh:
+            if q not in body_text(zh):
                 errors.append(f"[sync] {name}: missing quotation \"{q[:60]}\"")
         zh_nums = set(NUMBER_RE.findall(zh))
         missing = [x for x in dict.fromkeys(NUMBER_RE.findall(en)) if x not in zh_nums]

@@ -8,8 +8,6 @@ Text-based item identifiers expose the large output space of an LLM, while Seman
 
 > "Text-based methods introduce LLMs' vast output space, leading to hallucination, while methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring costly vocabulary expansion and alignment training." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid

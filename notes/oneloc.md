@@ -1,11 +1,11 @@
 ## At a Glance
 
 Key Findings: In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4).
-Limitation: The paper does not state that KuaiLLSR is released (Sec. 4.1.1).
+Limitation: Location enters the SID only through one fused embedding before residual k-means, so no SID position is tied to geography (Sec. 2.2).
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract). LGSID and GeoGR, two other POI papers in the same matrix cell, also add geographic signals in the Representation stage (`Text+Geo+CF`).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -143,5 +143,5 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 **Our analysis.**
 
-- Location enters the SID only through the fused embedding before residual k-means (`Text+Img+Geo†`), so no SID position is tied to geography. LGSID uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`; both are in the same matrix cell.
-- The paper does not state that KuaiLLSR or the GMV scoring model is released, and the online test runs on Kuaishou traffic. Only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
+- OneLoc mixes location into the input (`Text+Img+Geo†`). LGSID instead uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`, so their SID positions carry geography directly. GeoGR adds geographic and collaborative signals to text (`Text+Geo+CF`).
+- KuaiLLSR, the GMV scoring model, and the online test all come from Kuaishou, so only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).

@@ -8,8 +8,6 @@ Current approaches often train item tokenization and generative recommendation a
 
 > "To enable synergistic interaction between these components, we propose a recommendation-oriented alignment strategy, which includes two key optimization objectives: sequence-item alignment and preference-semantic alignment." (Abstract)
 
-Based on arXiv v3.
-
 ### 2. How It Works
 
 ```mermaid

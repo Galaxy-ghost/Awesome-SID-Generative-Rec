@@ -8,8 +8,6 @@ The authors state that scaling generative retrieval to industry is hard because 
 
 > "Gwhere first learns discriminative POI SIDs through a contrastive residual-quantization tokenizer that aligns textual, visual, spatial, and collaborative signals." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ```mermaid

@@ -32,15 +32,13 @@ flowchart LR
 | Key Contribution | GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular prompts separately, fusing them only at decoding, to use lengthy item text efficiently. |
 | Modified Stage | Tokenization |
 | Key Findings | On four benchmark datasets, GRAM reports improvements of 11.5–16.0% in Recall@5 and 5.3–13.6% in NDCG@5 over eight generative recommendation models (Abstract). |
-| Limitation | The authors name the TF-IDF selection of vocabulary words and the small T5 models as limitations (Sec. 7). |
+| Limitation | The authors name the TF-IDF selection of vocabulary words and the small T5 models (T5-small and T5-base) as limitations (Sec. 7). |
 
 ### 1. Why This Paper Matters
 
 Generative recommenders built on large language models (LLMs) struggle to incorporate implicit item relationships and to use rich but lengthy item information (Abstract). GRAM addresses the first with textual IDs and the second with late fusion.
 
 > "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
-
-Based on arXiv v1.
 
 ### 2. How It Works
 
@@ -95,8 +93,6 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 - Efficiency: the authors analyze preprocessing and inference time in Appendix C.
 
 ### 4. Limitations & Critical Analysis
-
-**Stated by the authors.** The authors state that the TF-IDF-based choice of vocabulary words and the use of T5-small and T5-base limit the study (Sec. 7).
 
 **Our analysis.**
 

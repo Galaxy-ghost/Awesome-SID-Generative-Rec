@@ -4,7 +4,7 @@
 
 `VI. 泛化` · `Inference` · [论文](https://arxiv.org/abs/2411.18814) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/liger.md)
 
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -30,10 +30,40 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | LIGER 在受控对比序列稠密检索与 SID 生成式检索后，将稠密检索融入生成式检索器，缩小二者性能差距并改善冷启动推荐。 |
 | 主要改动阶段 | Inference |
+| 局限 | 所有冷启动物品都进入候选集，设计前提是冷启动物品不多（Sec. 3）。 |
+
+### 1. 为什么重要
+
+序列稠密检索为每个物品存一个表示，内存随物品库增长（Abstract）。生成式检索改为预测语义 ID（Semantic ID，SID），但两者之间缺少公平的比较（Abstract）。
+
+> "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items."（Sec. 2.4）（模型学到的条件概率过拟合训练中见过的物品，很难生成冷启动物品。）
 
 ### 2. 方法
 
 ![LIGER architecture diagram](../../../architectures/liger.png)
+
+```mermaid
+flowchart LR
+    A[历史] --> B[T5 编码器]
+    B --> C[束搜索]
+    C --> D[候选]
+    E[冷启动物品] --> D
+    D --> F[稠密排序]
+```
+
+#### 输入与训练
+
+每个 SID token 的嵌入加上物品的文本表示和两个位置嵌入（Sec. 3）。训练结合两项：向下一物品文本表示靠拢的余弦相似度损失，和在其 SID 上的下一 token 预测（Sec. 3）。
+
+#### 混合推理
+
+解码器给出候选，编码器的输出把这些候选和冷启动物品一起排序（Sec. 3，Algorithm 1）。
+
+> "During inference, the decoder retrieves K items by beam search, then supplemented with cold-start items and ranked with the encoder's output embeddings."（Sec. 3）（解码器用束搜索取 K 个物品，补上冷启动物品，再用编码器输出排序。）
+
+这个设计建立在一个关于冷启动物品的假设上（Sec. 3）。
+
+> "This design choice is based on the hypothesis that cold-start items are relatively sparse compared to in-set items, as recommendation systems periodically update themselves to incorporate newly introduced items."（Sec. 3）（假设冷启动物品相对少，因为系统会定期把新物品纳入。）
 
 ### 3. 实验发现
 
@@ -56,6 +86,16 @@ flowchart LR
   - 出处：Main: [S4.T2](https://arxiv.org/html/2411.18814v2#S4.T2); K sweep: [A3.T4](https://arxiv.org/html/2411.18814v2#A3.T4); motivation figures: [S1.F1](https://arxiv.org/html/2411.18814v2#S1.F1), [S2.F3](https://arxiv.org/html/2411.18814v2#S2.F3), [S2.F4](https://arxiv.org/html/2411.18814v2#S2.F4).
 
 </details>
+
+- 报告设置：生成式检索返回 20 个物品，再和冷启动物品一起排序（Sec. 4.2）。
+- 主结果：在所评估的数据集上，LIGER 缩小了和稠密检索的差距，并改善了冷启动推荐（Abstract）。
+
+### 4. 局限与分析
+
+**Our analysis.**
+
+- 最终顺序由稠密嵌入决定。生成的 SID 只负责选候选，不决定顺序。
+- TIGER 只靠 `Beam` 搜索检索；LIGER 加了稠密损失（`NTP + Dense`）和 `Hybrid` 排序。
 
 ### 5. 相关工作
 

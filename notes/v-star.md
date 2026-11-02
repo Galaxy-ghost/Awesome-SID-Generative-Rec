@@ -4,8 +4,6 @@ RL fine-tuning of generative recommenders samples candidates with likelihood-dri
 
 > "Our V-STAR primarily focuses on training-time improvement." (Sec. 4.4)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ```mermaid

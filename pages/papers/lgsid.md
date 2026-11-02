@@ -39,8 +39,6 @@ Text-based recommenders encode item text with prompts and tokenize items into di
 
 > "However, in domain-specific tasks such as local-life services, simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![LGSID architecture diagram](../../architectures/lgsid.png)

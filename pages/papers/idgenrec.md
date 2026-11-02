@@ -38,8 +38,6 @@ The authors state that generative recommendation struggles to encode items in th
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
 
-Based on arXiv v2.
-
 ### 2. How It Works
 
 ![IDGenRec architecture diagram](../../architectures/idgenrec.png)

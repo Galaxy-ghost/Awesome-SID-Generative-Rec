@@ -37,8 +37,6 @@ Generative recommenders that build on pre-trained language models carry general 
 
 > "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge." (Abstract)
 
-Based on arXiv v1.
-
 ### 2. How It Works
 
 ![MQL4GRec architecture diagram](../../architectures/mql4grec.png)
