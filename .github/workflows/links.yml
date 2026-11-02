@@ -1,0 +1,16 @@
+name: Links
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: --no-progress README.md pages guides comparisons
+          fail: false

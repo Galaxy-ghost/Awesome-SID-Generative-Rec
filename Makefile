@@ -5,4 +5,4 @@ build:
 
 check:
 	python3 scripts/check.py $(if $(TABLE1),--table1 $(TABLE1))
-	npx --yes awesome-lint
+	npx --yes awesome-lint@2.3.0

@@ -2,6 +2,8 @@
 
 Each table lists the papers whose main change sits in one stage, with that stage's Table 1 value. Papers on paradigms, systems and benchmarks change no single stage; the [README](../../README.md#paradigms-systems-and-benchmarks) lists them.
 
+Side-by-side tables: [Tokenizer](../../comparisons/tokenizer.md) · [Training](../../comparisons/training.md) · [Inference](../../comparisons/inference.md)
+
 ## Representation
 
 | Paper | Venue | Problem | Representation |

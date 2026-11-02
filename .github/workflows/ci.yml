@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [living-review, main]
+  pull_request:
+    branches: [living-review, main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+      - run: pip install pyyaml
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+      - run: make build
+      - run: git diff --exit-code
+      - run: make check

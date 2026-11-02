@@ -4,7 +4,8 @@
 2. Global uniqueness (file stem, id, name, links.arxiv)
 3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
 4. Relative Markdown links, reference definitions, and anchors across README.md, CONTRIBUTING.md, schema/README.md,
-   notes/, pages/papers/, pages/index/, guides/ (archive/ is not checked)
+   notes/, pages/papers/, pages/index/, guides/, comparisons/ (archive/ is not checked)
+6. No constraint-*.md or tension-*.md file anywhere in the repository
 5. data/updates.yaml entries (date, change, papers)
 """
 import argparse
@@ -198,9 +199,13 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
         *sorted((root / "pages/papers").glob("*.md")),
         *sorted((root / "pages/index").glob("*.md")),
         *sorted((root / "guides").glob("*.md")),
+        *sorted((root / "comparisons").glob("*.md")),
     ]
-    if (root / "pack/constraint-1.md").exists() or (root / "pages/constraint-1.md").exists():
-        errors.append("[content-rule-2] constraint-1 page must not exist")
+    for d, subdirs, files in os.walk(root):
+        subdirs[:] = [x for x in subdirs if x not in (".git", "node_modules")]
+        for f in files:
+            if f.endswith(".md") and f.startswith(("constraint-", "tension-")):
+                errors.append(f"[content-rule-2] forbidden page {(Path(d) / f).relative_to(root)}")
 
     valid_prob_names = {e["name"] for e in vocab["problem"]}
     wrong_names = ["Information Loss", "Collision & Invalidity", "Alignment Gap", "Single-Point Utility"]

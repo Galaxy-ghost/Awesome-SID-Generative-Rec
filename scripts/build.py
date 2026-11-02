@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Build README.md, per-paper pages (pages/papers/<id>.md), index pages (pages/index/), guides/glossary.md,
-llms.txt, and llms-full.txt, or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
+"""Build README.md, per-paper pages (pages/papers/<id>.md), index pages (pages/index/), comparison tables (comparisons/),
+guides/glossary.md, llms.txt, and llms-full.txt, or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
 """
 import argparse
 import os
@@ -336,7 +336,8 @@ def build_indexes(vocab: dict, papers: list) -> dict:
     stages = ["# Papers by Stage", "",
               "Each table lists the papers whose main change sits in one stage, with that stage's Table 1 value. "
               f"Papers on {probs['psb']['name'].lower()} change no single stage; the "
-              f"[README](../../README.md#{slugify_heading(probs['psb']['name'])}) lists them.", ""]
+              f"[README](../../README.md#{slugify_heading(probs['psb']['name'])}) lists them.", "",
+              "Side-by-side tables: " + " · ".join(f"[{t}](../../comparisons/{f}.md)" for f, t, *_ in COMPARISONS), ""]
     for s in STAGES:
         rows = [[link(r), r["venue"], band(probs[r["problem"]]),
                  f"`{r['tokenizer']} / {r['objective']}`" if s == "Training" else f"`{r[s.lower()]}`"]
@@ -352,6 +353,40 @@ def build_indexes(vocab: dict, papers: list) -> dict:
                 f"{len(poi)} papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper mainly changes.", "",
                 *table(["Paper", "Venue", "Problem × Stage", "Pipeline"], [[link(r), r["venue"], cell_label(r, probs), pipeline(r)] for r in poi]), ""]
     return {"stages.md": "\n".join(stages), "code.md": "\n".join(code), "poi.md": "\n".join(poi_page)}
+
+
+COMPARISONS = [  # (file, title, intro, sort keys, [(header, record key or setup.<key>)])
+    ("tokenizer", "Tokenizer", "This table lists how each paper builds its SIDs. Information Source, Quantization, and Tokenizer Update "
+     "are Table 1 values; SID Length, Codebook, Collisions is quoted from the setup card.", ["tokenization"],
+     [("Information Source", "representation"), ("Quantization", "tokenization"),
+      ("SID Length, Codebook, Collisions", "setup.sid"), ("Tokenizer Update", "tokenizer")]),
+    ("training", "Training", "This table lists how each paper trains its tokenizer and generator. Tokenizer Update and Objective are Table 1 values.",
+     ["tokenizer", "objective"], [("Tokenizer Update", "tokenizer"), ("Objective", "objective")]),
+    ("inference", "Inference", "This table lists how each paper generates SIDs at inference. Backbone and Decoding are Table 1 values; "
+     "Search Budget and Visibility are quoted from the setup card.", ["inference"],
+     [("Backbone", "backbone"), ("Decoding", "inference"), ("Search Budget", "setup.inference_budget"),
+      ("Visibility", "setup.visibility")]),
+]
+
+
+def cell_text(s: str) -> str:
+    return re.sub(r"\s+", " ", str(s)).strip().replace("|", "\\|")
+
+
+def build_comparisons(papers: list, by_id: dict) -> dict:
+    link = lambda r: f"[{r['name']}](../pages/papers/{r['id']}.md)"
+    val = lambda r, k: cell_text((r.get("setup") or {}).get(k[6:], "no card yet")) if k.startswith("setup.") else f"`{cell_text(r[k])}`"
+    rel = lambda r: "; ".join(f"{x['relation'].capitalize()}: {link(by_id[x['id']])}" for x in r.get("related", [])) or "–"
+    out = {}
+    for f, title, intro, keys, cols in COMPARISONS:
+        rows = sorted(papers, key=lambda r: [r[k].lower() for k in keys] + [r["name"].lower()])
+        head = ["Paper", *(h for h, _ in cols), "Related"]
+        table = [f"| {' | '.join(head)} |", "|" + " :-- |" * len(head),
+                 *[f"| {' | '.join([link(r), *(val(r, k) for _, k in cols), rel(r)])} |" for r in rows]]
+        out[f"{f}.md"] = "\n".join([f"# {title} Comparison", "", f"{intro} Related lists the relations recorded in each record.", "",
+                                    "Values are defined in the [glossary](../guides/glossary.md). "
+                                    "Setup text is quoted from each paper's setup card.", "", *align(table), ""])
+    return out
 
 
 def build_glossary(vocab: dict) -> str:
@@ -428,7 +463,7 @@ def main():
     updates = yaml.safe_load((root / "data/updates.yaml").read_text(encoding="utf-8")) or []
     (root / "README.md").write_text(build_readme(vocab, papers, by_id, levels, updates), encoding="utf-8")
     for sub, files in (("pages/papers", {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes.get(r["id"]), root) for r in papers}),
-                       ("pages/index", build_indexes(vocab, papers))):
+                       ("pages/index", build_indexes(vocab, papers)), ("comparisons", build_comparisons(papers, by_id))):
         out = root / sub
         out.mkdir(parents=True, exist_ok=True)
         for existing in out.glob("*.md"):
@@ -440,7 +475,7 @@ def main():
     short, full = build_llms(vocab, papers, notes)
     (root / "llms.txt").write_text(short, encoding="utf-8")
     (root / "llms-full.txt").write_text(full, encoding="utf-8")
-    print(f"Built README.md, {len(papers)} paper pages, 3 index pages, guides/glossary.md, llms.txt, and llms-full.txt.")
+    print(f"Built README.md, {len(papers)} paper pages, 3 index pages, 3 comparison tables, guides/glossary.md, llms.txt, and llms-full.txt.")
 
 
 if __name__ == "__main__":
