@@ -1,10 +1,14 @@
 # FORGE
 
-*Forming semantic identifiers for generative retrieval in industrial datasets* — Fu et al. · KDD’26
+| **Title** | *Forming semantic identifiers for generative retrieval in industrial datasets* |
+| :-- | :-- |
+| **Authors** | Fu et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/forge.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/forge.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies, adds metrics that assess IDs without generator training, and releases Taobao data.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,11 +36,15 @@ flowchart LR
 | Modified Stage | No single stage |
 | Key Findings | In online A/B tests on Taobao, SID construction strategies chosen from the benchmark findings increase transaction count by 0.35% (Abstract). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Current studies offer limited investigation of how to construct Semantic IDs (SIDs), and their SID assessment usually needs costly generative retrieval (GR) training (Abstract). FORGE turns these choices into a benchmark.
 
 > "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -42,11 +52,16 @@ Current studies offer limited investigation of how to construct Semantic IDs (SI
 
 ```mermaid
 flowchart LR
-    A[Multimodal content] --> B[Item representation]
-    C[Co-occurrence pairs] --> B
-    B --> D[SID encoder]
-    D --> E[Collision post-processing]
-    E --> F[GR model]
+    A("CN-CLIP features") --> B["QFormer fusion"]
+    P("Co-occurrence pairs") -.-> L1{{"Optional InfoNCE"}}
+    L1 -.-> B
+    B --> C["SID encoder: RQ-VAE, VQ, OPQ, RQ-Kmeans"]
+    C --> D["Collision post-processing"]
+    D --> E("SIDs")
+    E --> F["GR model"]
+    F --> G["Dynamic beam 300 / 600 / 1,200"]
+    E --> Q["HitRate + Gini, no GR training"]:::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Representation
@@ -66,6 +81,8 @@ The beam size is 300 at the first step, 600 at the second, and 1,200 at the fina
 Embedding HitRate and the Gini coefficient measure SID quality without GR training (Sec. 3.4).
 
 > "The Gini coefficient measures the deviation between a uniform SID distribution and the actual item distribution, where a lower value indicates a more balanced assignment." (Sec. 3.4)
+
+---
 
 ### 3. Experimental Findings
 
@@ -96,6 +113,8 @@ Embedding HitRate and the Gini coefficient measure SID quality without GR traini
 - Deployment: the strategies are deployed at full scale on Taobao (Abstract).
 - Dataset: AL-GR contains 14 billion interactions and 250 million items with multimodal features (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
@@ -103,6 +122,8 @@ Embedding HitRate and the Gini coefficient measure SID quality without GR traini
 - The metric-HR correlation is shown on the benchmark's data. This suggests that it should be re-checked before the metrics replace GR training on other catalogs.
 - A final beam of 1,200 suggests a high decoding cost.
 - OneRec uses `R-KM` codes and OneRec-V2 uses `R-KM†` codes; FORGE's base configuration uses `RQ-VAE` codes.
+
+---
 
 ### 5. Connections to Related Work
 

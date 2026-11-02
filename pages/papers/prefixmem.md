@@ -1,10 +1,14 @@
 # PrefixMem
 
-*LLMs Need Encoders for Semantic IDs Too* — Chen et al. · arXiv’26
+| **Title** | *LLMs Need Encoders for Semantic IDs Too* |
+| :-- | :-- |
+| **Authors** | Chen et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2606.00324) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/prefixmem.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2606.00324) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/prefixmem.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets a prefix-conditioned representation instead of a plain vocabulary embedding.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets a prefix-conditioned representation instead of a plain vocabulary embedding. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Tables 2-4/9-11: [S5.T2](https://arxiv.org/html/2606.00324v1#S5.T2) and [S5.T3](https://arxiv.org/html/2606.00324v1#S5.T3) and [S5.T4](https://arxiv.org/html/2606.00324v1#S5.T4) and [S5.T9](https://arxiv.org/html/2606.00324v1#S5.T9) and [S5.T10](https://arxiv.org/html/2606.00324v1#S5.T10) and [S5.T11](https://arxiv.org/html/2606.00324v1#S5.T11)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

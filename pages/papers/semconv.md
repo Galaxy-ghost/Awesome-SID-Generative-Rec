@@ -1,10 +1,14 @@
 # SemConv
 
-*Semantic Convergence: Harmonizing Recommender Systems via Two-Stage Alignment and Behavioral Semantic Tokenization* — Li et al. · AAAI’25
+| **Title** | *Semantic Convergence: Harmonizing Recommender Systems via Two-Stage Alignment and Behavioral Semantic Tokenization* |
+| :-- | :-- |
+| **Authors** | Li et al. |
+| **Venue** | AAAI’25 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2412.13771) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/semconv.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2412.13771) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/semconv.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SemConv converts item IDs into token sequences aligned with the LLM space through Alignment Tokenization, adds tasks linking collaborative signals and language, and pre-caches top-K results for serving.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | SemConv converts item IDs into token sequences aligned with the LLM space through Alignment Tokenization, adds tasks linking collaborative signals and language, and pre-caches top-K results for serving. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Tables 1/3-8: [Sx3.T1](https://arxiv.org/html/2412.13771v1#Sx3.T1) and [Sx4.T3](https://arxiv.org/html/2412.13771v1#Sx4.T3) and [Sx4.T8](https://arxiv.org/html/2412.13771v1#Sx4.T8) and [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2412.13771v1#Sx4.SSx1.SSSx2.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

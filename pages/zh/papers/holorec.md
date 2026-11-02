@@ -1,10 +1,14 @@
 # HoloRec
 
-*Holistic Encoding and Interleaved Reasoning for Generative Recommendation* — Zhao et al. · arXiv’26
+| **题目** | *Holistic Encoding and Interleaved Reasoning for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhao et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2606.15331) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/holorec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2606.15331) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/holorec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > HoloRec 用带全粒度重构损失的嵌套残差量化构建层级 SID，并在解码过程中直接生成思维链步骤，不依赖外部标注的推理文本。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | HoloRec 用带全粒度重构损失的嵌套残差量化构建层级 SID，并在解码过程中直接生成思维链步骤，不依赖外部标注的推理文本。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Tables 2-3: [S4.T2](https://arxiv.org/html/2606.15331v1#S4.T2) and [S4.T3](https://arxiv.org/html/2606.15331v1#S4.T3)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,10 +1,14 @@
 # NEZHA
 
-*A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* — Wang et al. · WWW’26 Industry
+| **题目** | *A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | WWW’26 Industry |
+| **问题与阶段** | `V. 效率` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2511.18793) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/nezha.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Inference` · [论文](https://arxiv.org/abs/2511.18793) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/nezha.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：[S3.T3](https://arxiv.org/html/2511.18793v1#S3.T3) ; #S4.T4 ; #S4.SS1.p4 ; #S5.p3
 
 </details>
+
+---
 
 ### 5. 相关工作
 

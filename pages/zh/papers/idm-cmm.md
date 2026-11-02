@@ -1,10 +1,14 @@
 # IDM/CMM
 
-*Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* — Xu et al. · arXiv’26
+| **题目** | *Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Xu et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.32943) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/idm-cmm.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2610.32943) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/idm-cmm.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Table 2: [S4.T2](https://arxiv.org/html/2610.32943v1#S4.T2)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

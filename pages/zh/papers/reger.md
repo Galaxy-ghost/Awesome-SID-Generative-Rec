@@ -1,10 +1,14 @@
 # REGER
 
-*Modeling inter-item Relations with Semantic IDs for Generative Recommendation* — Huang et al. · arXiv’26
+| **题目** | *Modeling inter-item Relations with Semantic IDs for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Huang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.37584) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/reger.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Training` · [论文](https://arxiv.org/abs/2610.37584) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/reger.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > REGER 预训练生成器以产出语义近邻的 SID，结合全局与 ID 边界局部注意力，并沿目标前缀路径蒸馏判别式教师的下一 token 分布。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | REGER 预训练生成器以产出语义近邻的 SID，结合全局与 ID 边界局部注意力，并沿目标前缀路径蒸馏判别式教师的下一 token 分布。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：[S4.T1](https://arxiv.org/html/2610.37584v1#S4.T1) ; #S5.T2 ; #S5.T3 ; #A1.T6 ; #A1.SS3.p2
 
 </details>
+
+---
 
 ### 5. 相关工作
 

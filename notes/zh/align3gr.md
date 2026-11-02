@@ -12,11 +12,16 @@ Key Findings: 在公开数据集上，Align3GR 比最强基线的 Recall@10 高 
 
 ```mermaid
 flowchart LR
-    A[用户与物品] --> B[双路 SC 编码器]
-    B --> C[SCID]
-    C --> D[多任务 SFT]
-    D --> E[SP-DPO]
-    E --> F[RF-DPO]
+    A("用户与物品") --> B["双路 SC 编码器 + RQ-VAE"]
+    B --> C("用户与物品 SCID")
+    C --> D["多任务 SFT"]
+    D --> E["SP-DPO：Easy、Medium、Hard"]:::key
+    E --> F["真实反馈 RF-DPO"]:::key
+    F --> G("对齐后的 LLM")
+    L1{{"四个 SFT 任务"}} -.-> D
+    L2{{"前缀 n-gram 课程"}} -.-> E
+    L3{{"disliked / neutral / liked"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### token 级对齐

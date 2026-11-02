@@ -1,10 +1,14 @@
 # RAGR
 
-*Review-Augmented Generative Recommendation* — Zhang et al. · arXiv’26
+| **题目** | *Review-Augmented Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2605.17267) · [代码](https://github.com/Zhang-Yingyi/TKDE_RAGR) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/ragr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Training` · [论文](https://arxiv.org/abs/2605.17267) · [代码](https://github.com/Zhang-Yingyi/TKDE_RAGR) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/ragr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > RAGR 在用户序列中按时间交错排列物品 SID 与评论 SID，并用 DPO 在预测位置偏好物品 token，替代仅建模物品序列的做法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | RAGR 在用户序列中按时间交错排列物品 SID 与评论 SID，并用 DPO 在预测位置偏好物品 token，替代仅建模物品序列的做法。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：[S4.T2](https://arxiv.org/html/2605.17267v1#S4.T2) ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.SSS4.p1 ; #S4.SS1.SSS4.p5
 
 </details>
+
+---
 
 ### 5. 相关工作
 

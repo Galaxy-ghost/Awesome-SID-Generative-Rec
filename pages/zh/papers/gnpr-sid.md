@@ -1,10 +1,14 @@
 # GNPR-SID
 
-*Generative Next POI Recommendation with Semantic ID* — Wang et al. · KDD’25
+| **题目** | *Generative Next POI Recommendation with Semantic ID* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | KDD’25 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2506.01375) · [代码](https://github.com/wds1996/GNPR-SID) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/gnpr-sid.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · `POI` · [论文](https://arxiv.org/abs/2506.01375) · [代码](https://github.com/wds1996/GNPR-SID) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/gnpr-sid.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GNPR-SID 用融合语义与协同特征并在多样性损失下训练的 RQ-VAE SID 替代随机数字 POI ID，并微调 LLM 生成下一访问 POI。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -34,11 +40,15 @@ flowchart LR
 | 主要发现 | 在三个基准数据集上，GNPR-SID 的推荐准确率比对比方法最多高 16%（Abstract）。 |
 | 局限 | 营业时段和协同特征都来自签到数据，没有访问记录的新兴趣点（POI）特征不全（Sec. 4.1.1）。 |
 
+---
+
 ### 1. 为什么重要
 
 现有生成式 POI 推荐通常给 POI 随机数字 ID，难以刻画相似地点之间的语义关系（Abstract）。GNPR-SID 改用从 POI 特征学到的语义 ID（Semantic ID，SID）。
 
 > "To achieve this, we propose the diversity loss, which promotes the distinctiveness of codewords within each codebook layer."（Sec. 1）（多样性损失让每层码本内的码字彼此区分。）
+
+---
 
 ### 2. 方法
 
@@ -46,11 +56,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[POI 特征] --> B[One-hot 向量]
-    B --> C[RQ-VAE]
-    C --> D[POI SID]
-    D --> E[微调后的 LLM]
-    E --> F[下一个 POI]
+    A("Plus Code 区域") --> D["One-hot 向量"]
+    B("24 个时段中的前 10 个") --> D
+    C("前 10 位访客") --> D
+    D --> E["RQ-VAE"]
+    L1{{"多样性损失"}}:::key -.-> E
+    E --> F("POI SID")
+    F --> G["微调的 LLM，NTP"]
+    G --> H("下一个 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### POI 特征
@@ -68,6 +82,8 @@ flowchart LR
 #### 训练数据
 
 附录 A.1 加了多重裁剪和填空两种数据增强（Appendix A.1）。
+
+---
 
 ### 3. 实验发现
 
@@ -93,12 +109,16 @@ flowchart LR
 
 - 其他分析：论文测试了域外数据（Sec. 6.5），并从训练时间、测试时间和 token 数三方面看效率（Sec. 6.6，Table 6）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - GeoGR 的 `R-KM+EM` 码会随生成器精修；GNPR-SID 的 `RQ-VAE` 码只训练一次。
 - LC-Rec 用 `Multi-task NTP` 在文本上训练 LLM；GNPR-SID 用 POI 属性、地理和协同特征，只用普通 `NTP`。
+
+---
 
 ### 5. 相关工作
 

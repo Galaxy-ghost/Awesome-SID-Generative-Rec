@@ -1,10 +1,14 @@
 # GR4AD-X
 
-*Towards Reliable, Scalable, and Value-Aligned Generative Recommendation for Large-Scale Advertising* — Xiao et al. · arXiv’26
+| **题目** | *Towards Reliable, Scalable, and Value-Aligned Generative Recommendation for Large-Scale Advertising* |
+| :-- | :-- |
+| **作者** | Xiao et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2610.38378) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/gr4ad-x.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2610.38378) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/gr4ad-x.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：Section 4: [S4.T1](https://arxiv.org/html/2610.38378v1#S4.T1) and [S4.T2](https://arxiv.org/html/2610.38378v1#S4.T2) and [S4.T3](https://arxiv.org/html/2610.38378v1#S4.T3) and [S4.F3](https://arxiv.org/html/2610.38378v1#S4.F3)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

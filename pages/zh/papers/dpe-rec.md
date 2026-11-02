@@ -1,10 +1,14 @@
 # DPE-Rec
 
-*Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* — Ma et al. · arXiv’26
+| **题目** | *Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* |
+| :-- | :-- |
+| **作者** | Ma et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.34700) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/dpe-rec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2610.34700) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/dpe-rec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > DPE-Rec 用扩散语言模型做捆绑包补全，加入语义分叉感知的 GRPO 保持组合多样性，并用伪轨迹蒸馏在每步去噪中揭示更多 token。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | DPE-Rec 用扩散语言模型做捆绑包补全，加入语义分叉感知的 GRPO 保持组合多样性，并用伪轨迹蒸馏在每步去噪中揭示更多 token。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：[S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px3.p1) ; #S5.SS1.SSS0.Px2.p1 ; #S8.SS2.p1 ; #S5.T2
 
 </details>
+
+---
 
 ### 5. 相关工作
 

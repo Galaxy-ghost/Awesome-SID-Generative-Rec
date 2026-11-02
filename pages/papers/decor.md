@@ -1,10 +1,14 @@
 # DECOR
 
-*Learning Decomposed Contextual Token Representations from Pretrained and Collaborative Signals for Generative Recommendation* — Liu et al. · SIGIR’26
+| **Title** | *Learning Decomposed Contextual Token Representations from Pretrained and Collaborative Signals for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Liu et al. |
+| **Venue** | SIGIR’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/decor.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/decor.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > DECOR refines Semantic ID token embeddings by interaction context and fuses pretrained codebook embeddings with learned collaborative embeddings, instead of static token assignments that overwrite pretrained semantics.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | DECOR refines Semantic ID token embeddings by interaction context and fuses pretrained codebook embeddings with learned collaborative embeddings, instead of static token assignments that overwrite pretrained semantics. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Sections 4.1.2/4.2/4.7 and Tables 2/5: [S4.SS1.SSS2.p1](https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1) ; [S4.SS2.p1](https://arxiv.org/html/2509.10468v2#S4.SS2.p1) ; [S3.T2](https://arxiv.org/html/2509.10468v2#S3.T2) ; [S4.T5](https://arxiv.org/html/2509.10468v2#S4.T5) ; [S4.SS7.p1](https://arxiv.org/html/2509.10468v2#S4.SS7.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

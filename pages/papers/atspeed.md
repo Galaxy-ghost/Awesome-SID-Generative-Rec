@@ -1,10 +1,14 @@
 # AtSpeed
 
-*Efficient Inference for Large Language Model-based Generative Recommendation* — Lin et al. · ICLR’25
+| **Title** | *Efficient Inference for Large Language Model-based Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Lin et al. |
+| **Venue** | ICLR’25 |
+| **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2410.05165) · [Code](https://github.com/Linxyhaha/AtSpeed) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/atspeed.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Inference` · [Paper](https://arxiv.org/abs/2410.05165) · [Code](https://github.com/Linxyhaha/AtSpeed) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/atspeed.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to speed up beam-search generation of top-K items in LLM-based generative recommendation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to speed up beam-search generation of top-K items in LLM-based generative recommendation. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S4.T1](https://arxiv.org/html/2410.05165v3#S4.T1); ranking results: [A1.T5](https://arxiv.org/html/2410.05165v3#A1.T5); appendix datasets and cost: [A1.T6](https://arxiv.org/html/2410.05165v3#A1.T6) and [A1.T7](https://arxiv.org/html/2410.05165v3#A1.T7).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

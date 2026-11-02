@@ -1,10 +1,14 @@
 # PAD-Rec
 
-*Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* — Chen et al. · arXiv’26
+| **Title** | *Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* |
+| :-- | :-- |
+| **Authors** | Chen et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/pad-rec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Inference` · [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/pad-rec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > PAD-Rec adds gated item-slot and draft-step position embeddings to the draft model of speculative decoding, instead of treating all Semantic ID draft tokens uniformly.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | PAD-Rec adds gated item-slot and draft-step position embeddings to the draft model of speculative decoding, instead of treating all Semantic ID draft tokens uniformly. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S5.T2](https://arxiv.org/html/2604.27747v1#S5.T2); latency: [S5.T3](https://arxiv.org/html/2604.27747v1#S5.T3); ablations and hyperparameters in Section 5.
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # HiD-VAE
 
-*Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* — Fang et al. · arXiv’25
+| **题目** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
+| :-- | :-- |
+| **作者** | Fang et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2508.04618) · [代码](https://anonymous.4open.science/r/HiD-VAE-84B2) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/hid-vae.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`II. 唯一性与合法性` · `Tokenization` · [论文](https://arxiv.org/abs/2508.04618) · [代码](https://anonymous.4open.science/r/HiD-VAE-84B2) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/hid-vae.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > HiD-VAE 通过层级监督量化将各 SID 层与多级物品标签对齐，并加入防冲突唯一性损失，替代扁平的无监督编号。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 局限 | 编号器需要多级物品标签，没有标签的数据集要靠 LLM 生成，所以 ID 质量取决于标签质量（Sec. 3.4）。 |
 
+---
+
 ### 1. 为什么重要
 
 作者指出，无监督编号让语义 ID（Semantic ID，SID）有两个缺陷：语义上是扁平的；不同物品的表示纠缠在一起，会发生冲突（Abstract）。
 
 > "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items."（Sec. 1）（唯一性损失直接惩罚不同物品潜在表示的重叠，从源头防止 ID 冲突。）
+
+---
 
 ### 2. 方法
 
@@ -44,11 +54,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> C[有监督量化]
-    B[层级标签] --> C
-    C --> D[SID]
-    D --> E[生成器]
-    E --> F[约束解码]
+    A("物品文本") --> C["层级监督量化器"]:::key
+    B("多级标签，缺失时由 LLM 生成") --> C
+    L1{{"逐层预测标签"}} -.-> C
+    L2{{"唯一性损失"}} -.-> C
+    C --> D("SID")
+    D --> E["Enc-Dec 生成器"]
+    E --> F["约束解码"]
+    F --> G("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 生成层级标签
@@ -70,6 +84,8 @@ KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分�
 生成器根据用户历史预测下一物品的 SID（Sec. 3.3）。
 
 > "During inference, constrained decoding ensures that generated IDs correspond to valid items."（Sec. 3.3）（推理时用约束解码保证生成的 ID 对应真实物品。）
+
+---
 
 ### 3. 实验发现
 
@@ -95,11 +111,15 @@ KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分�
 
 - 主实验：在三个公开基准上，HiD-VAE 好于对比方法（Abstract）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - TIGER 用无监督的 `RQ-VAE` 码和普通 `Beam` 搜索；HiD-VAE 用标签监督的 `Hier. RQ` 码，生成器同为 `Enc-Dec`，并加约束解码。
+
+---
 
 ### 5. 相关工作
 

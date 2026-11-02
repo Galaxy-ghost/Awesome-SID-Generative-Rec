@@ -1,10 +1,14 @@
 # CAPE
 
-*Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* — Huang et al. · arXiv’26
+| **Title** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
+| :-- | :-- |
+| **Authors** | Huang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.29298) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cape.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Inference` · [Paper](https://arxiv.org/abs/2610.29298) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cape.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Sec.5.1, Tables2/3 and Appendix B: [S5.SS1.p2](https://arxiv.org/html/2610.29298v1#S5.SS1.p2) and [S5.T2](https://arxiv.org/html/2610.29298v1#S5.T2) and [S5.T3](https://arxiv.org/html/2610.29298v1#S5.T3) and [A2.p2](https://arxiv.org/html/2610.29298v1#A2.p2) and [A2.p4](https://arxiv.org/html/2610.29298v1#A2.p4)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

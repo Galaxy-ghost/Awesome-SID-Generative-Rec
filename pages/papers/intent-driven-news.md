@@ -1,10 +1,14 @@
 # Intent-Driven-News
 
-*Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* — Su et al. · ACL’26 Industry
+| **Title** | *Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* |
+| :-- | :-- |
+| **Authors** | Su et al. |
+| **Venue** | ACL’26 Industry |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2605.07613) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/intent-driven-news.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Training` · [Paper](https://arxiv.org/abs/2605.07613) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/intent-driven-news.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > Intent-Driven-News trains an LLM to map implicit conversational intents to hierarchical Semantic ID prefixes and fuzzy-matches them to the current news pool, instead of retrieving articles first.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | Intent-Driven-News trains an LLM to map implicit conversational intents to hierarchical Semantic ID prefixes and fuzzy-matches them to the current news pool, instead of retrieving articles first. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Tables 3/5/6 and Figure 2: [S4.T3](https://arxiv.org/html/2605.07613v1#S4.T3) and [S4.T5](https://arxiv.org/html/2605.07613v1#S4.T5) and [S4.T6](https://arxiv.org/html/2605.07613v1#S4.T6) and [S4.F2](https://arxiv.org/html/2605.07613v1#S4.F2)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # TopoGR
 
-*Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* — Zheng et al. · arXiv’26
+| **题目** | *Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zheng et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2607.25216) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/topogr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2607.25216) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/topogr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S5.T1](https://arxiv.org/html/2607.25216v1#S5.T1) ; #S5.SS1.p4 ; #A2.T6 ; #A1.F8
 
 </details>
+
+---
 
 ### 5. 相关工作
 

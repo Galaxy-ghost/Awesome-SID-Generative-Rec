@@ -1,10 +1,14 @@
 # SEATER
 
-*Generative retrieval with semantic tree-structured identifiers and contrastive learning* — Si et al. · SIGIR-AP’24
+| **Title** | *Generative retrieval with semantic tree-structured identifiers and contrastive learning* |
+| :-- | :-- |
+| **Authors** | Si et al. |
+| **Venue** | SIGIR-AP’24 |
+| **Problem × Stage** | `V. Efficiency` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) · [Matrix](../../README.md#v--tokenization) · [中文](../zh/papers/seater.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Tokenization` · [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) · [Matrix](../../README.md#v--tokenization) · [中文](../zh/papers/seater.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Main: [S5.T3](https://arxiv.org/html/2309.13375v2#S5.T3); complexity: [S3.T1](https://arxiv.org/html/2309.13375v2#S3.T1).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -12,11 +12,13 @@ The authors state that generative recommendation struggles to encode items in th
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[ID generator]
-    B --> C[Textual IDs]
-    C --> D[Base recommender]
-    D --> E[Prefix tree]
-    E --> F[Item]
+    A("Plain-text item information") --> B["T5 ID generator"]:::key
+    B --> C("Textual IDs")
+    C --> D["T5 base recommender"]
+    D --> E["Prefix tree of all IDs"]
+    E --> F("Item")
+    D -.->|alternate training| B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID Generator
@@ -30,6 +32,16 @@ The generator keeps generating until each item has a unique ID (Sec. 2.3).
 > "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search." (Sec. 2.3)
 
 The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
+
+```mermaid
+flowchart LR
+    A["Generate IDs by beam search"] --> B{"Duplicates?"}
+    B -->|no| C("Unique IDs")
+    B -->|yes| D["Diversity penalty + 1"]
+    D --> E{"Penalty reached 10?"}
+    E -->|no| A
+    E -->|yes| F["Extend length limit"] --> A
+```
 
 #### Base Recommender
 

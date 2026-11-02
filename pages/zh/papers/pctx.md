@@ -1,10 +1,14 @@
 # Pctx
 
-*Tokenizing Personalized Context for Generative Recommendation* — Zhong et al. · CIKM’26
+| **题目** | *Tokenizing Personalized Context for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhong et al. |
+| **会议** | CIKM’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2510.21276) · [代码](https://github.com/YoungZ365/Pctx) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/pctx.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2510.21276) · [代码](https://github.com/YoungZ365/Pctx) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/pctx.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Pctx 将用户交互历史作为上下文对物品编号，使同一物品面向不同用户可获得不同 SID，替代静态的纯物品映射。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | Pctx 将用户交互历史作为上下文对物品编号，使同一物品面向不同用户可获得不同 SID，替代静态的纯物品映射。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1) ; #S3.T2 ; #S3.T3 ; #A3.SS4.p1 ; #A4.T6
 
 </details>
+
+---
 
 ### 5. 相关工作
 

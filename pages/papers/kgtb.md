@@ -1,10 +1,14 @@
 # KGTB
 
-*Knowledge Graph Tokenization for Behavior-Aware Generative Next POI Recommendation* — Sun et al. · arXiv’25
+| **Title** | *Knowledge Graph Tokenization for Behavior-Aware Generative Next POI Recommendation* |
+| :-- | :-- |
+| **Authors** | Sun et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2509.12350) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/kgtb.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2509.12350) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/kgtb.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > KGTB organizes POI data as a knowledge graph, quantizes each node into a structural ID under graph supervision, and fine-tunes an LLM on POI, category, and region visit tasks.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | KGTB organizes POI data as a knowledge graph, quantizes each node into a structural ID under graph supervision, and fine-tunes an LLM on POI, category, and region visit tasks. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Tables 2-7 and Figure 4: [Sx5.T2](https://arxiv.org/html/2509.12350v1#Sx5.T2) and [Sx5.T3](https://arxiv.org/html/2509.12350v1#Sx5.T3) and [Sx5.T4](https://arxiv.org/html/2509.12350v1#Sx5.T4) and [Sx5.T5](https://arxiv.org/html/2509.12350v1#Sx5.T5) and [Sx7.T6](https://arxiv.org/html/2509.12350v1#Sx7.T6) and [Sx7.T7](https://arxiv.org/html/2509.12350v1#Sx7.T7) and [Sx5.F4](https://arxiv.org/html/2509.12350v1#Sx5.F4)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # UniRec
 
-*Bridging the Expressive Gap between Generative and Discriminative Recommendation via Chain-of-Attribute* — Wang et al. · arXiv’26
+| **Title** | *Bridging the Expressive Gap between Generative and Discriminative Recommendation via Chain-of-Attribute* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.12234) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/unirec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2604.12234) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/unirec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > UniRec prefixes each Semantic ID with category, seller, and brand tokens through Chain-of-Attribute, to recover the item-side feature crossing of discriminative models, and adds capacity-constrained quantization.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | UniRec prefixes each Semantic ID with category, seller, and brand tokens through Chain-of-Attribute, to recover the item-side feature crossing of discriminative models, and adds capacity-constrained quantization. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Results: [S4.T1](https://arxiv.org/html/2604.12234v5#S4.T1), [S4.T2](https://arxiv.org/html/2604.12234v5#S4.T2), [S4.T3](https://arxiv.org/html/2604.12234v5#S4.T3), [S4.T4](https://arxiv.org/html/2604.12234v5#S4.T4), [S4.T5](https://arxiv.org/html/2604.12234v5#S4.T5).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

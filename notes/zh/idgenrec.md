@@ -12,11 +12,13 @@ Limitation: ID 生成器一更新，物品 ID 就变，训练中要重建合法 
 
 ```mermaid
 flowchart LR
-    A[物品元数据] --> B[ID 生成器]
-    B --> C[文本 ID]
-    C --> D[基础推荐器]
-    D --> E[前缀树]
-    E --> F[物品]
+    A("纯文本物品信息") --> B["T5 ID 生成器"]:::key
+    B --> C("文本 ID")
+    C --> D["T5 基础推荐器"]
+    D --> E["全部 ID 的前缀树"]
+    E --> F("物品")
+    D -.->|交替训练| B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID 生成器
@@ -30,6 +32,16 @@ ID 生成器读入纯文本的物品信息，如标题、品类、价格、描�
 > "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search."（Sec. 2.3）（发现重复就加大束搜索的多样性惩罚。）
 
 惩罚每轮加 1；加到 10 仍不唯一，就放宽长度上限（Sec. 3.2）。
+
+```mermaid
+flowchart LR
+    A["束搜索生成 ID"] --> B{"有重复？"}
+    B -->|否| C("唯一 ID")
+    B -->|是| D["多样性惩罚 + 1"]
+    D --> E{"惩罚到 10？"}
+    E -->|否| A
+    E -->|是| F["放宽长度上限"] --> A
+```
 
 #### 基础推荐器
 

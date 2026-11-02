@@ -1,10 +1,14 @@
 # SynGR
 
-*Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* — Chen et al. · ICML’26
+| **Title** | *Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Chen et al. |
+| **Venue** | ICML’26 |
+| **Problem × Stage** | `I. Informativeness` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/syngr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Training` · [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/syngr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1); efficiency: [S5.F3](https://arxiv.org/html/2605.18920v2#S5.F3); parameters: [S5.F4](https://arxiv.org/html/2605.18920v2#S5.F4); ablation: [S5.F5](https://arxiv.org/html/2605.18920v2#S5.F5).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

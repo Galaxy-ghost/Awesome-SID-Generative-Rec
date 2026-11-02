@@ -1,9 +1,0 @@
-# UniTok: archived card
-
-Moved from notes/unitok.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用共享专家和领域专家码本，把多个领域的物品统一分词。

@@ -5,7 +5,7 @@
 3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
 4. Relative Markdown links, reference definitions, and anchors across README.md, README.zh.md, CONTRIBUTING.md,
    schema/README.md, notes/, notes/zh/, pages/papers/, pages/zh/papers/, pages/index/, pages/zh/index/, guides/,
-   comparisons/ (archive/ is not checked)
+   comparisons/
 6. No constraint-*.md or tension-*.md file anywhere in the repository
 5. data/updates.yaml entries (date, change, papers)
 7. Chinese notes sync: notes/<id>.md and notes/zh/<id>.md exist in pairs, with the same number of ### and #### headings,

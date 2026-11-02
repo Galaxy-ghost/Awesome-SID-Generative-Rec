@@ -1,10 +1,14 @@
 # ChronoID
 
-*Infusing Explicit Temporal Signals into Semantic IDs for Generative Recommendation* — Nian et al. · arXiv’26
+| **题目** | *Infusing Explicit Temporal Signals into Semantic IDs for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Nian et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2606.14260) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/chronoid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2606.14260) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/chronoid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Sections 5.1/5.2 and Tables 1/2/6-8/10-11: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1) ; [S5.SS2.p1](https://arxiv.org/html/2606.14260v1#S5.SS2.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1) ; [A3.T6](https://arxiv.org/html/2606.14260v1#A3.T6) ; [A4.T11](https://arxiv.org/html/2606.14260v1#A4.T11)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

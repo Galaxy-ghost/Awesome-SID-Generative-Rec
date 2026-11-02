@@ -1,10 +1,14 @@
 # LGSID
 
-*LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* — Jiang et al. · AAAI’26
+| **Title** | *LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* |
+| :-- | :-- |
+| **Authors** | Jiang et al. |
+| **Venue** | AAAI’26 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/lgsid.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/lgsid.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > LGSID aligns an LLM to spatial relationships with a reward model and G-DPO, then builds Semantic IDs from spatial and content attributes plus residual tokens from the aligned LLM representation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,11 +39,15 @@ flowchart LR
 | Modified Stage | Representation |
 | Limitation | LLM alignment needs a separately trained list-wise reward model before G-DPO, and the residual tokens change whenever that alignment is redone (Abstract). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Text-based recommenders encode item text with prompts and tokenize items into discrete Semantic IDs (SIDs) (Abstract). In local-life services, the authors state that putting location into the prompt misses fine-grained spatial characteristics and real distances between items (Abstract).
 
 > "However, in domain-specific tasks such as local-life services, simply injecting location information into prompts fails to capture fine-grained spatial characteristics and real-world distance awareness among items." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -45,13 +55,16 @@ Text-based recommenders encode item text with prompts and tokenize items into di
 
 ```mermaid
 flowchart LR
-    A[Item text and location] --> B[Reward model]
-    B --> C[G-DPO]
-    C --> D[Aligned LLM]
-    D --> E[Residual tokens]
-    F[Attributes] --> G[Primary tokens]
-    E --> H[SIDs]
-    G --> H
+    A("Item text + location") --> B["List-wise reward model"]
+    B --> C["G-DPO"]:::key
+    L1{{"In-batch contrastive regularizer"}} -.-> C
+    C --> D("Geographic vectors")
+    D --> E("Residual tokens")
+    F("Spatial and content attributes") --> G("Primary tokens")
+    G --> H("SIDs")
+    E --> H
+    H --> I["DIN, TWIN, TIGER, OneRec ..."]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Reward Model
@@ -69,6 +82,8 @@ G-DPO uses the reward model to inject spatial knowledge and collaborative signal
 #### Hierarchical Geographic Item Tokenization
 
 Primary tokens come from discrete spatial and content attributes, and residual tokens come from the aligned LLM's geographic vectors (Abstract).
+
+---
 
 ### 3. Experimental Findings
 
@@ -96,12 +111,16 @@ Primary tokens come from discrete spatial and content attributes, and residual t
 - Downstream models: Table 1 uses the SIDs in DIN, DIEN, SIM, TWIN, and ETA, and Table 2 in TIGER and OneRec (Tables 1-2).
 - Other analyses: the paper reports ablations, visualizations, and case studies (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - Primary tokens need discrete attributes. This suggests that items with missing attributes need a fallback.
 - LGRID uses `DSRQ` codes for discriminative ranking only; LGSID uses `Geo-Idx+RQ` codes for both ranking and generation.
+
+---
 
 ### 5. Connections to Related Work
 

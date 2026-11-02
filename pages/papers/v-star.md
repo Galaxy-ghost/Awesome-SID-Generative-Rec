@@ -1,10 +1,14 @@
 # V-STAR
 
-*Spend Search Where It Pays: Value-Guided Structured Sampling and Optimization for Generative Recommendation* — Jiang et al. · KDD’26
+| **Title** | *Spend Search Where It Pays: Value-Guided Structured Sampling and Optimization for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Jiang et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.10699) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/v-star.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2602.10699) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/v-star.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Key Contribution | V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search. |
 | Modified Stage | Training |
 
+---
+
 ### 1. Why This Paper Matters
 
 RL fine-tuning of generative recommenders samples candidates with likelihood-driven decoding such as beam search (Abstract). The authors name two failures of this setup. High-reward items in low-probability branches are pruned early, and candidates that share a high-probability prefix receive correlated rewards, which weakens the comparison signal for RL. A larger beam does not fix this, because it spends most extra compute on redundant high-probability candidates (Sec. 1). V-STAR changes how RL candidates are built and how their advantages are computed.
 
 > "Our V-STAR primarily focuses on training-time improvement." (Sec. 4.4)
+
+---
 
 ### 2. How It Works
 
@@ -43,12 +53,14 @@ RL fine-tuning of generative recommenders samples candidates with likelihood-dri
 
 ```mermaid
 flowchart LR
-    A[User context] --> B[Policy]
-    B --> C[SID prefix tree]
-    C --> D[Value-guided expansion]
-    D --> E[Candidate set]
-    E --> F[Sibling-GRPO]
-    F --> B
+    A("User context") --> B["Policy"]
+    B --> C["Prefix tree from probability beam"]
+    V["Value head"]:::key --> D
+    C --> D["VED: expand nodes above depth-average priority"]:::key
+    D --> E("Candidate set")
+    E --> F{{"Sibling-GRPO"}}:::key
+    F -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Value Head
@@ -66,6 +78,18 @@ VED treats SID decoding as building a candidate set on the prefix tree under a f
 Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's score is the mean reward of its descendant candidates, and advantages are normalized among siblings (Eq. 17).
 
 > "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates." (Sec. 1)
+
+```mermaid
+flowchart TD
+    P("Parent prefix") --> A("Child a: mean reward of its candidates")
+    P --> B("Child b: mean reward of its candidates")
+    P --> C("Child c: mean reward of its candidates")
+    A --> N{{"Normalize advantages among siblings"}}
+    B --> N
+    C --> N
+```
+
+---
 
 ### 3. Experimental Findings
 
@@ -92,11 +116,15 @@ Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's 
 - Decoding budget: under matched training-time decoding budgets, VED outperforms beam search on the tested metrics (Sec. 5.5, Fig. 4). The budget counts model-evaluated tokens during candidate construction, not end-to-end latency.
 - Training objective: combining GRPO with Sibling-GRPO gives the highest NDCG and HR among the tested objectives (Sec. 5.4, Table 4).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - MiniOneRec uses the same `RQ-VAE` SIDs, `Dec-Only` generator, and `NTP → RL` training; V-STAR changes only how RL candidates are sampled and how advantages are computed.
+
+---
 
 ### 5. Connections to Related Work
 

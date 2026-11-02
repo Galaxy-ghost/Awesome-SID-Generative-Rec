@@ -1,10 +1,14 @@
 # HASTE
 
-*Hierarchical and Attribute-aware Supervision for Generative Recommendation* — Shukla et al. · arXiv’26
+| **题目** | *Hierarchical and Attribute-aware Supervision for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Shukla et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.17368) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/haste.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2610.17368) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/haste.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > HASTE 在生成器训练中加入各 SID 层级损失与属性特定损失，加快收敛并改善长尾物品表现，优于标准自回归交叉熵目标。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | HASTE 在生成器训练中加入各 SID 层级损失与属性特定损失，加快收敛并改善长尾物品表现，优于标准自回归交叉熵目标。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S6.SS1](https://arxiv.org/html/2610.17368v1#S6.SS1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -6,12 +6,16 @@ Next-POI recommendation learns from sparse and complex mobility patterns (Abstra
 
 ```mermaid
 flowchart LR
-    A[SID history and time] --> B[Think]
-    B --> C[Go]
-    C --> D[Self-correct prompt]
-    D --> E[Answer]
-    B -. RL .-> F[Policy update]
-    E -. SFT .-> F
+    A("SID history + time") --> B("Think")
+    B --> C("Go: first prediction")
+    C --> D("Self-correct prompt")
+    D --> E("Answer")
+    B -.-> L1{{"RL: progressive reward"}}
+    E -.-> L2{{"SFT"}}
+    L1 -.-> P["Policy"]
+    L2 -.-> P
+    W["STEU + DRG advantage weights"]:::key -.-> L1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Unified SFT and RL

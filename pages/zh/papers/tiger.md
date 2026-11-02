@@ -1,10 +1,14 @@
 # TIGER
 
-*Recommender Systems with Generative Retrieval* — Rajput et al. · NeurIPS’23
+| **题目** | *Recommender Systems with Generative Retrieval* |
+| :-- | :-- |
+| **作者** | Rajput et al. |
+| **会议** | NeurIPS’23 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2305.05065) · [代码（第三方）](https://github.com/baiyimeng/TIGER) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/tiger.md) |
+| **阅读级别** | 代码级精读（第 3 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2305.05065) · [代码（第三方）](https://github.com/baiyimeng/TIGER) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/tiger.md)
-
-阅读级别：代码级精读（第 3 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -20,6 +24,8 @@ flowchart LR
 > [!NOTE]
 > TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,11 +36,15 @@ flowchart LR
 | 主要发现 | 在 Amazon Beauty 上，TIGER 的 Recall@5 为 0.0454，SASRec 为 0.0387；RQ-VAE 语义 ID（Semantic ID，SID）好于 LSH ID 和随机 ID（Tables 1 and 2）。 |
 | 局限 | 作者指出，由于束搜索，TIGER 在推理时可能比基于 ANN 的检索更费算力（Appendix E）。 |
 
+---
+
 ### 1. 为什么重要
 
 大规模推荐器通常把用户和物品嵌入同一个空间，再用近似最近邻（ANN）搜索选候选（Abstract）。作者称 TIGER 是第一个基于语义 ID 的生成式推荐模型（Sec. 2）。本清单中很多后来的论文沿用这条 SID 流程，只改其中一个阶段。
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation."（Sec. 1）（为序列推荐提出构建生成式检索模型的新范式。）
+
+---
 
 ### 2. 方法
 
@@ -44,10 +54,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[物品文本] -->|Sentence-T5| B[嵌入]
-    B -->|RQ-VAE| C[SID]
-    C -->|Enc-Dec| D[下一个 SID]
-    D -->|查表| E[物品]
+    A("物品文本") --> B["Sentence-T5：768 维"]
+    B --> C["DNN 编码器：32 维"]
+    C --> D["RQ-VAE，3 层 × 256"]:::key
+    D --> E("SID + 冲突 token")
+    E --> F["Enc-Dec 生成器"]
+    L1{{"4 个 token 上的 NTP"}} -.-> F
+    F --> G["束搜索"]
+    G --> H("查表得到物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：物品文本到潜在向量
@@ -96,6 +111,17 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 ```
 
 简化说明：代码只写了量化循环和量化损失，省去了 DNN 编码器和解码器、重建损失，以及码本的 k-means 初始化。
+
+```mermaid
+flowchart TD
+    Z("z") --> L1["第 1 层：最近码字 c1"]
+    L1 --> R2("r2 = z - e(c1)")
+    R2 --> L2["第 2 层：最近码字 c2"]
+    L2 --> R3("r3 = r2 - e(c2)")
+    R3 --> L3["第 3 层：最近码字 c3"]
+    L3 --> S("(c1, c2, c3)"):::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### 第 3 步：训练编号器
 
@@ -150,6 +176,8 @@ TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。
 
 推理时，TIGER 用自回归束搜索解码 SID，再通过冻结的映射表把每个生成的 SID 对应到物品（Appendix E）。
 
+---
+
 ### 3. 实验发现
 
 <details>
@@ -188,6 +216,8 @@ TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。
 
   > "We noticed that the recommendation metrics for TIGER were robust to these changes."（Appendix E）（TIGER 的推荐指标对这些改动不敏感。）
 
+---
+
 ### 4. 局限与分析
 
 **Stated by the authors.**
@@ -200,6 +230,8 @@ TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。
 - 编号器在训练生成器之前就固定了（`Fixed`）。ETEGRec 轮流更新编号器和生成器（`Altern.`）。
 - 不加约束的束搜索可能生成对应不到物品的 ID（Sec. 4.5）。LETTER 用约束束搜索解码（`C-Beam`）。
 - 束搜索每生成一个 SID token 就要跑一步生成器。RPG 并行预测一个 SID 的所有 token（`Non-AR`），并在合法 ID 构成的图上解码（`Graph`）。
+
+---
 
 ### 5. 相关工作
 

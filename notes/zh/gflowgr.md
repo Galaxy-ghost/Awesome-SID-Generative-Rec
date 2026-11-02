@@ -13,11 +13,14 @@ Limitation: 奖励模型从日志里的用户信号学习物品效用，微调�
 
 ```mermaid
 flowchart LR
-    A[用户历史] --> B[轨迹采样器]
-    B --> C[轨迹]
-    C --> D[奖励模型]
-    D --> E[GFlowNet 损失]
-    E --> F[生成器]
+    A("用户历史") --> S["轨迹采样器"]
+    S --> T("轨迹")
+    T --> R["感知行为的奖励模型"]
+    R --> L{{"GFlowNet 损失：DB 或 TB"}}:::key
+    L -.-> G["生成器"]
+    N{{"下一 token 损失"}} -.-> G
+    G -.->|在策略样本| S
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 轨迹采样器
@@ -25,6 +28,14 @@ flowchart LR
 轨迹集合由四种方法构造（Sec. 3.1）。作者指出，随机样本会让训练不稳，也偏离模型自身的学习动态（Sec. 3.1）。
 
 > "There are four methods for constructing the trajectory set: interaction log, random sampling, CM-based sampling, and on-policy sampling."（Sec. 3.1）（四种方法：交互日志、随机采样、基于 CM 的采样、在策略采样。）
+
+```mermaid
+flowchart LR
+    I("交互日志") --> T("轨迹集合")
+    R("随机采样") --> T
+    C("基于 CM 的采样") --> T
+    O("在策略采样") --> T
+```
 
 #### 奖励模型
 

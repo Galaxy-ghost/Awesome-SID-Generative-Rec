@@ -1,10 +1,14 @@
 # ProGEO
 
-*Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* — He et al. · arXiv’26
+| **Title** | *Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* |
+| :-- | :-- |
+| **Authors** | He et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.23156) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/progeo.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2604.23156) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/progeo.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding, so Semantic IDs model semantics and geography jointly.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,6 +39,8 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Key Findings | On the industrial dataset, ProGEO reports Hit@50 of 0.4243 against 0.4056 for RQ-Kmeans, and an average geographic clustering distance of 25.41 km against 46.71 km for RQ-OPQ (Table 1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Local service platforms need recommendations that are relevant and also geographically reachable (Abstract). Semantic codebooks cluster items by content alone.
@@ -41,18 +49,23 @@ Local service platforms need recommendations that are relevant and also geograph
 
 ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes each POI's position relative to its semantic cluster, so geography becomes part of the Semantic ID (SID) instead of a weak auxiliary feature (Abstract, Sec. 1).
 
+---
+
 ### 2. How It Works
 
 ![ProGEO architecture diagram](../../architectures/progeo.png)
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[Two semantic layers]
-    B --> C[Geo-centroid coordinates]
-    C --> D[Geo-RoPE layer]
-    D --> E[SID]
-    E --> F[Fine-tuned LLM]
-    F --> G[Nearby POIs]
+    A("POI features") --> B["Layer 1-2: cosine clustering"]
+    B --> C("Two-layer SID subset")
+    C --> D["Geographic centroid, polar coordinates"]
+    D --> E["Geo-RoPE rotation of layer-2 residual"]:::key
+    E --> F("Geo-codeword")
+    F --> G("Three-token SID")
+    G --> H["Fine-tuned LLM"]
+    H --> I("Nearby POIs")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Layers
@@ -72,6 +85,8 @@ Geo-RoPE encodes each POI's offset from the centroid as complex-valued rotations
 #### Generation
 
 In the industrial setting, the LLM prompt contains the search query, the city, and a GeoHash of the user's location (Table 4).
+
+---
 
 ### 3. Experimental Findings
 
@@ -100,6 +115,8 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 
   > "when Geo-RoPE is introduced, the recommended POIs are concentrated much closer to the user, typically within a 6-kilometer radius." (Sec. 4.5.2)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
@@ -107,6 +124,8 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 - The geographic signal enters only the third SID token. This suggests that the generator still chooses the semantic cluster before it uses any spatial information.
 - OneLoc uses plain `R-KM` codes; ProGEO adds a geo-codebook layer to the same kind of tokenizer (`R-KM+Geo-CB`).
 - GNPR-SID also encodes geography in POI SIDs (`Attr+Geo+CF`) but uses a plain `RQ-VAE`, without a dedicated geo-codebook layer.
+
+---
 
 ### 5. Connections to Related Work
 

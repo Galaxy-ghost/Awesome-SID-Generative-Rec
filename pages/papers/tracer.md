@@ -1,10 +1,14 @@
 # TRACER
 
-*Token ReAssignment for Concept ERasure in Generative Recommendation* — Chen et al. · NeurIPS’26
+| **Title** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Chen et al. |
+| **Venue** | NeurIPS’26 |
+| **Problem × Stage** | `IV. Utility` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2606.07688) · [Matrix](../../README.md#iv--tokenization) · [中文](../zh/papers/tracer.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Tokenization` · [Paper](https://arxiv.org/abs/2606.07688) · [Matrix](../../README.md#iv--tokenization) · [中文](../zh/papers/tracer.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Sec.4 models/baselines and Appendix D.1/D.2/D.4: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1) and [S4.SS0.SSS0.Px5.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px5.p1) and [A4.SS1.p1](https://arxiv.org/html/2606.07688v1#A4.SS1.p1) and [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1) and [A4.SS4.p1](https://arxiv.org/html/2606.07688v1#A4.SS4.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # LETTER
 
-*Learnable item tokenization for generative recommendation* — Wang et al. · CIKM’24
+| **Title** | *Learnable item tokenization for generative recommendation* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | CIKM’24 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/letter.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/letter.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,15 +39,33 @@ flowchart LR
 | Key Findings | On Instruments, LETTER-TIGER reports Recall@10 of 0.1122 against 0.1058 for TIGER, and adding either regularization alone also improves TIGER (Table 2). |
 | Limitation | The collaborative regularization needs embeddings from a separately trained CF model (Sec. 3.1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short in encoding semantics, carrying collaborative signals, or handling code assignment bias (Abstract). LETTER's Semantic IDs (SIDs) serve two generators, TIGER and LC-Rec (Sec. 4.1.3).
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias." (Abstract)
 
+---
+
 ### 2. How It Works
 
 ![LETTER architecture diagram](../../architectures/letter.png)
+
+```mermaid
+flowchart LR
+    A("Semantic embedding") --> B["RQ-VAE tokenizer"]:::key
+    L1{{"Semantic: RQ-VAE loss"}} -.-> B
+    L2{{"Collaborative: align with 32-dim SASRec"}} -.-> B
+    L3{{"Diversity: constrained k-means clusters"}} -.-> B
+    B --> C("Fixed identifiers")
+    C --> D["TIGER or LC-Rec generator"]
+    L4{{"Ranking-guided generation loss"}} -.-> D
+    D --> E["Trie-constrained generation"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Semantic Regularization
 
@@ -64,6 +88,8 @@ A diversity loss groups the code embeddings by constrained k-means, pulls embedd
 LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it to tokenize items for training and inference of the generator (Sec. 3.2). LETTER also adds a ranking-guided generation loss to the generator's training to improve its ranking ability (Abstract, Sec. 1). At inference, a trie restricts generation to valid identifiers.
 
 > "To ensure generating valid identifiers, we follow (Hua et al., 2023) to employ constrained generation (De Cao et al., 2020) via Trie" (Sec. 3.2.2)
+
+---
 
 ### 3. Experimental Findings
 
@@ -104,6 +130,8 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 
   > "However, 2) blindly expanding N might inversely hurt the performance, where larger codebook size might be more susceptible to noise in the item's semantic information, potentially leading to the over-fitting of some meaningless semantics." (Sec. 4.3.5)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Stated by the authors.** The conclusion names three directions for future work: tokenization with rich user behaviors, cross-domain item tokenization, and combining natural-language user instructions with tokenized interaction histories (Sec. 6).
@@ -113,6 +141,8 @@ LETTER first trains the tokenizer with the combined loss (Eq. 5), then uses it t
 - The tokenizer is trained once and then fixed (`Fixed`), so a change in the catalog requires retraining the tokenizer and re-tokenizing items. ETEGRec updates the tokenizer and the generator in turns (`Altern.`), and DIGER lets the generator loss update the tokenizer directly (`Joint`).
 - The collaborative regularization needs a CF embedding for every item. This suggests that items without interactions receive no collaborative signal in their identifiers.
 - The opposite effects of the two terms on code usage (Sec. 4.3.2) suggest that their weights trade one property against the other.
+
+---
 
 ### 5. Connections to Related Work
 

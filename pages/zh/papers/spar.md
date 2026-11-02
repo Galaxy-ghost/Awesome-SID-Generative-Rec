@@ -1,10 +1,14 @@
 # SPAR
 
-*Enhancing Industrial-Scale Generative POI Recommendation via Real-World Spatial Perception* — Wang et al. · arXiv’26
+| **题目** | *Enhancing Industrial-Scale Generative POI Recommendation via Real-World Spatial Perception* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Representation` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2609.02062) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/spar.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Representation` · `POI` · [论文](https://arxiv.org/abs/2609.02062) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/spar.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > SPAR 将正弦坐标嵌入融入 SID 构建，在地理空间数据上持续预训练 LLM，并在行为微调期间将该知识固定为冻结任务向量。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | SPAR 将正弦坐标嵌入融入 SID 构建，在地理空间数据上持续预训练 LLM，并在行为微调期间将该知识固定为冻结任务向量。 |
 | 主要改动阶段 | Representation |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Original Tables 2/3/5 and Section 5.1: [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2) and [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3) and [S5.T5](https://arxiv.org/html/2609.02062v2#S5.T5) and [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

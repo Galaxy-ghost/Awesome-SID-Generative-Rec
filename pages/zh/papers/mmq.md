@@ -1,10 +1,14 @@
 # MMQ
 
-*Multimodal Mixture-of-Quantization Tokenization for Semantic ID Generation and User Behavioral Adaptation* — Xu et al. · WSDM’26
+| **题目** | *Multimodal Mixture-of-Quantization Tokenization for Semantic ID Generation and User Behavioral Adaptation* |
+| :-- | :-- |
+| **作者** | Xu et al. |
+| **会议** | WSDM’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2508.15281) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mmq.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2508.15281) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mmq.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > MMQ 在正交正则下训练含模态共享与模态特定专家的多模态编号器，再结合多模态重构损失在行为目标上微调 SID。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | MMQ 在正交正则下训练含模态共享与模态特定专家的多模态编号器，再结合多模态重构损失在行为目标上微调 SID。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Table 1 and Section 5: [S4.T1](https://arxiv.org/html/2508.15281v1#S4.T1) and [S5.p1](https://arxiv.org/html/2508.15281v1#S5.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

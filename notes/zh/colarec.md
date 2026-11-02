@@ -12,12 +12,18 @@ Limitation: 生成式标识（GID）来自离线的 LightGCN 嵌入和聚类，�
 
 ```mermaid
 flowchart LR
-    A[交互数据] --> B[LightGCN]
-    B --> C[约束 K-means]
-    C --> D[GID]
-    E[物品内容] --> F[编码器-解码器]
+    A("交互数据") --> B["LightGCN"]
+    B --> C["逐层约束 K-means"]
+    C --> D("GID")
+    E("物品文本 + 用户") --> F["共享编码器-解码器"]:::key
     D --> F
-    F --> G[下一物品 GID]
+    F --> G["约束束搜索"]
+    G --> H("下一物品 GID")
+    L1{{"推荐损失"}} -.-> F
+    L2{{"索引损失"}} -.-> F
+    L3{{"BPR 损失"}} -.-> F
+    L4{{"加权对比损失"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 构建生成式标识

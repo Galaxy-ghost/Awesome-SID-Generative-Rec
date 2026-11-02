@@ -1,10 +1,14 @@
 # ADC-SID
 
-*Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation* — Xu et al. · arXiv’25
+| **Title** | *Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation* |
+| :-- | :-- |
+| **Authors** | Xu et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2510.25622) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/adc-sid.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2510.25622) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/adc-sid.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > ADC-SID adds collaborative information to Semantic ID quantization with alignment strength that adapts to collaborative noise and learned weights for behavioral IDs, instead of uniform alignment and equal weights.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | The behavioral weights are computed from the magnitude of a pre-trained collaborative embedding, so they depend on the quality of that embedding (Sec. 3.4.1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Semantic IDs (SIDs) quantize item content features so that items can share knowledge, and existing methods add collaborative information to them (Abstract). User-item interactions are highly skewed, so collaborative information is much weaker for long-tail items (Abstract). The authors identify two effects: indiscriminate alignment lets this noise corrupt the content representations of tail items, and equal weights hide which behavioral SIDs are informative (Abstract).
 
 > "unlike relatively uniform content features, user-item interactions are highly skewed, resulting in a significant quality gap in collaborative information between popular and long-tail items." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -43,12 +53,15 @@ Semantic IDs (SIDs) quantize item content features so that items can share knowl
 
 ```mermaid
 flowchart LR
-    A[Content and behavior] --> B[Mixture-of-quantization]
-    B --> C[Alignment controller]
-    B --> D[Weighting gate]
-    C --> E[SIDs]
-    D --> E
-    E --> F[Generator]
+    A("Content features") --> M["Shared and specific experts"]
+    B("Behavior features") --> M
+    M --> C["Alignment strength controller"]:::key
+    M --> D["Gate on L2 magnitude of CF embedding"]:::key
+    C --> L1{{"Adaptive alignment loss"}}
+    D --> W("Weighted behavioral SIDs")
+    W --> E("SIDs")
+    E --> G["Generator"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior-Content Mixture-of-Quantization
@@ -66,6 +79,8 @@ An alignment strength controller sets how strongly behavior and content are alig
 A gate learns an importance score for each behavioral SID from the L2 magnitude of the pre-trained collaborative embedding (Sec. 3.4.1, Eq. 22). A ReLU-based router with load balancing reduces training imbalance among the behavioral experts (Sec. 3.4.2, Eq. 23).
 
 > "This gate suppresses noisy behavioral SIDs, improving the robustness of behavioral SIDs when incorporated with downstream recommendations." (Sec. 3.4.1)
+
+---
 
 ### 3. Experimental Findings
 
@@ -94,11 +109,15 @@ A gate learns an importance score for each behavioral SID from the L2 magnitude 
 - Behavioral weighting: the ablation compares learned weights with equal weights (Sec. 4.3.2).
 - Popularity groups: with items split into popular (top 25%) and long-tail (bottom 25%) groups by impressions over the last 30 days, ADC-SID gains most on tail items (Sec. 4.5, Fig. 6).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - MME-SID uses the same three inputs with `MM-RQ` codes and a `Dec-Only` generator scored by `Scoring`; ADC-SID uses `MoE-VQ` codes with an `Enc-Dec` generator.
+
+---
 
 ### 5. Connections to Related Work
 

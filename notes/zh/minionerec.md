@@ -14,12 +14,17 @@ MiniOneRec 的回答是一个开源框架，覆盖 SID 构建、监督微调（S
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[RQ-VAE]
-    B --> C[加入词表的 SID]
-    C --> D[SFT]
-    D --> E[GRPO]
-    E --> F[约束束搜索]
-    F --> G[下一物品]
+    A("标题与描述") --> B["冻结的文本编码器"]
+    B --> C["RQ-VAE"]
+    C --> D("加进词表的 SID")
+    D --> E["SFT"]
+    E --> F["GRPO"]:::key
+    L1{{"下一物品 + 对齐任务"}} -.-> E
+    L1 -.-> F
+    L2{{"正确性 + 排序奖励"}} -.-> F
+    F --> G["约束束搜索"]
+    G --> H("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品编号

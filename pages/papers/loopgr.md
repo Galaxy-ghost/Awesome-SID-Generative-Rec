@@ -1,10 +1,14 @@
 # LoopGR
 
-*Parameter-Efficient Scaling for Generative Recommendation via Recurrent Depth* — Zhang et al. · arXiv’26
+| **Title** | *Parameter-Efficient Scaling for Generative Recommendation via Recurrent Depth* |
+| :-- | :-- |
+| **Authors** | Zhang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.34157) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/loopgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Backbone` · [Paper](https://arxiv.org/abs/2610.34157) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/loopgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills a low-budget student, to scale computation without proportionally growing model size.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills a low-budget student, to scale computation without proportionally growing model size. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Section 5.1 and Tables 1/2/6: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1) and [S5.T1](https://arxiv.org/html/2610.34157v1#S5.T1) and [S5.T2](https://arxiv.org/html/2610.34157v1#S5.T2) and [A1.T6](https://arxiv.org/html/2610.34157v1#A1.T6)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

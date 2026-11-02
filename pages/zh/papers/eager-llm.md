@@ -1,10 +1,14 @@
 # EAGER-LLM
 
-*Enhancing Large Language Models as Recommenders through Exogenous Behavior-Semantic Integration* — Hong et al. · WWW’25
+| **题目** | *Enhancing Large Language Models as Recommenders through Exogenous Behavior-Semantic Integration* |
+| :-- | :-- |
+| **作者** | Hong et al. |
+| **会议** | WWW’25 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2502.14735) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/eager-llm.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2502.14735) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/eager-llm.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > EAGER-LLM 为仅解码器 LLM 加入行为与语义双源物品索引、多尺度对齐重构任务以及退火适配器，无需从头学习协同语义。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | EAGER-LLM 为仅解码器 LLM 加入行为与语义双源物品索引、多尺度对齐重构任务以及退火适配器，无需从头学习协同语义。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Tables 2-4: [S4.T2](https://arxiv.org/html/2502.14735v1#S4.T2) and [S4.T3](https://arxiv.org/html/2502.14735v1#S4.T3) and [S4.T4](https://arxiv.org/html/2502.14735v1#S4.T4)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

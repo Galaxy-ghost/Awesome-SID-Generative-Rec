@@ -1,10 +1,14 @@
 # UniTok
 
-*Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* — Hou and Shin · AAAI’26
+| **Title** | *Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* |
+| :-- | :-- |
+| **Authors** | Hou and Shin |
+| **Venue** | AAAI’26 |
+| **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/unitok.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Tokenization` · [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/unitok.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks, calibrating mutual information across domains, instead of one tokenizer per domain.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks, calibrating mutual information across domains, instead of one tokenizer per domain. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Main: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1); parameters: [Sx4.T2](https://arxiv.org/html/2511.12922v1#Sx4.T2); unified training: [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3); zero-shot and ablation in later tables.
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

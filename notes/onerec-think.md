@@ -13,10 +13,12 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 
 ```mermaid
 flowchart LR
-    A[Itemic alignment] --> B[Reasoning activation]
-    B --> C[Reasoning enhancement]
-    C --> D[Rationale]
-    D --> E[Itemic tokens]
+    A["Itemic alignment: token warm-up, four tasks"] --> B["Reasoning activation SFT"]
+    B --> C["GRPO reasoning enhancement"]:::key
+    L1{{"Rollout-Beam reward"}} -.-> C
+    C --> D("Reasoning text")
+    D --> E("Itemic tokens")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Itemic Alignment
@@ -38,6 +40,15 @@ RL with GRPO refines the reasoning paths (Sec. 4.3). After each sampled rational
 The full OneRec-Think model generates the reasoning path and the first two itemic tokens offline (Sec. 4.4).
 
 > "It utilizes the pre-generated item-tokens as a constrained prefix to rapidly produce the final itemic token." (Sec. 4.4)
+
+```mermaid
+sequenceDiagram
+    participant Offline as OneRec-Think, offline
+    participant Online as Real-time OneRec, online
+    Offline->>Offline: reasoning path + first two itemic tokens
+    Offline->>Online: tokens as constrained prefix
+    Online->>Online: final itemic token
+```
 
 ### 3. Experimental Findings
 

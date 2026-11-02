@@ -1,10 +1,14 @@
 # DACT
 
-*Drift-Aware Continual Tokenization for Generative Recommendation* — Feng et al. · SIGIR’26
+| **题目** | *Drift-Aware Continual Tokenization for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Feng et al. |
+| **会议** | SIGIR’26 |
+| **问题与阶段** | `VI. 泛化` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2603.29705) · [代码](https://github.com/HomesAmaranta/DACT) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/dact.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Tokenization` · [论文](https://arxiv.org/abs/2603.29705) · [代码](https://github.com/HomesAmaranta/DACT) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/dact.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：[S4.T2](https://arxiv.org/html/2603.29705v1#S4.T2) ; #S4.T3 ; #S4.SS1.SSS2.p2 ; #S4.SS2.SSS1.p1 ; #S4.SS2.SSS2.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

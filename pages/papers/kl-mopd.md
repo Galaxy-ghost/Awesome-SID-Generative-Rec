@@ -1,10 +1,14 @@
 # KL-MOPD
 
-*Discrepancy-Aware Multi-Objective On-Policy Distillation for Generative Recommendation* — Yang et al. · arXiv’26
+| **Title** | *Discrepancy-Aware Multi-Objective On-Policy Distillation for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Yang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.36973) · [Code](https://github.com/Yandorn/KL-MOPD) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/kl-mopd.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2610.36973) · [Code](https://github.com/Yandorn/KL-MOPD) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/kl-mopd.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its initial KL divergence from the student, instead of vanilla on-policy distillation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its initial KL divergence from the student, instead of vanilla on-policy distillation. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Tables 3-6 and baseline setup: [S2.T3](https://arxiv.org/html/2610.36973v1#S2.T3) and [S4.T4](https://arxiv.org/html/2610.36973v1#S4.T4) and [S4.T5](https://arxiv.org/html/2610.36973v1#S4.T5) and [S4.T6](https://arxiv.org/html/2610.36973v1#S4.T6) and [S4.SS1.p3](https://arxiv.org/html/2610.36973v1#S4.SS1.p3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

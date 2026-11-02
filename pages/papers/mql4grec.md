@@ -1,10 +1,14 @@
 # MQL4GRec
 
-*MULTIMODAL QUANTITATIVE LANGUAGE FOR GEN-ERATIVE RECOMMENDATION* — Zhai et al. · ICLR’25
+| **Title** | *MULTIMODAL QUANTITATIVE LANGUAGE FOR GEN-ERATIVE RECOMMENDATION* |
+| :-- | :-- |
+| **Authors** | Zhai et al. |
+| **Venue** | ICLR’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mql4grec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mql4grec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > MQL4GRec translates item text and images from several domains into a shared quantitative language and pre-trains generation tasks over it, to transfer recommendation knowledge across domains and modalities.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | With both modalities, pre-training does not improve results on Games, and zero-shot ability on the target domains is weak (Sec. 4.3, Sec. 4.5). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Generative recommenders that build on pre-trained language models carry general linguistic knowledge that does not match recommendation needs, and they rarely use the complementary knowledge in item text and images (Abstract). MQL4GRec turns the content of items from many domains and modalities into one discrete vocabulary, so that a generator trained on source domains can transfer to a target domain.
 
 > "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -43,12 +53,16 @@ Generative recommenders that build on pre-trained language models carry general 
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Quantitative translators]
-    B --> C[Quantitative language]
-    C --> D[Source-domain pre-training]
-    D --> E[Target-domain fine-tuning]
-    E --> F[Two-list re-ranking]
-    F --> G[Next item]
+    A("Text via LLaMA") --> C["Text translator RQ-VAE"]
+    B("Image via ViT") --> D["Image translator RQ-VAE"]
+    C --> E("Prefixed quantitative language")
+    D --> E
+    E --> F["Source pre-training: next-item tasks"]
+    F --> G["Target fine-tuning: all tasks"]:::key
+    G --> H("Text list + image list")
+    H --> I["Re-rank by item scores"]
+    I --> J("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Quantitative Translators
@@ -66,6 +80,8 @@ Next-item generation predicts the next item's quantitative language in the same 
 Pre-training on the source domains uses only the two next-item generation sub-tasks. Fine-tuning on the target domain uses all generation tasks (Sec. 3.3).
 
 At inference, the generator returns one recommendation list per modality, and a re-ranking step merges the two lists by their item scores (Sec. 3.3, Eq. 7).
+
+---
 
 ### 3. Experimental Findings
 
@@ -96,12 +112,16 @@ At inference, the generator returns one recommendation list per modality, and a 
 
 - Zero-shot: pre-trained models without fine-tuning show preliminary but weak zero-shot ability on Instruments and Arts, and none on Games (Sec. 4.5, Table 5).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The two quantizers are trained separately (`Dual RQ`), so the text and image codes are linked only by the generation tasks. MACRec replaces them with `Cross RQ`, which adds cross-modal contrastive learning inside quantization.
 - TIGER quantizes text only (`Text`); MQL4GRec adds images (`Text+Img`) and keeps the same `Enc-Dec` generator with `Beam` decoding.
+
+---
 
 ### 5. Connections to Related Work
 

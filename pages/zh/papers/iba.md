@@ -1,10 +1,14 @@
 # IBA
 
-*Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* — Yang et al. · arXiv’26
+| **题目** | *Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Yang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2607.12425) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/iba.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2607.12425) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/iba.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > IBA 按信息增益在各 SID 位置之间分配隐式推理步数，将更多计算分给信息量更大的前序位置，替代每个位置固定步数的做法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | IBA 按信息增益在各 SID 位置之间分配隐式推理步数，将更多计算分给信息量更大的前序位置，替代每个位置固定步数的做法。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Tables II-V: [S4.T2](https://arxiv.org/html/2607.12425v1#S4.T2) and [S4.T3](https://arxiv.org/html/2607.12425v1#S4.T3) and [S4.T4](https://arxiv.org/html/2607.12425v1#S4.T4) and [S4.T5](https://arxiv.org/html/2607.12425v1#S4.T5)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

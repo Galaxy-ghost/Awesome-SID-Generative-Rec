@@ -6,12 +6,16 @@
 
 ```mermaid
 flowchart LR
-    A[SID 历史与时间] --> B[Think]
-    B --> C[Go]
-    C --> D[自我纠正提示]
-    D --> E[Answer]
-    B -. RL .-> F[策略更新]
-    E -. SFT .-> F
+    A("SID 历史 + 时间") --> B("Think")
+    B --> C("Go：第一次预测")
+    C --> D("自我纠正提示")
+    D --> E("Answer")
+    B -.-> L1{{"RL：渐进奖励"}}
+    E -.-> L2{{"SFT"}}
+    L1 -.-> P["策略"]
+    L2 -.-> P
+    W["STEU + DRG 优势权重"]:::key -.-> L1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 统一 SFT 与 RL

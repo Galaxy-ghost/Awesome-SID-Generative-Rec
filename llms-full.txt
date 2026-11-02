@@ -96,10 +96,14 @@ Existing generative recommendation (GR) models tokenize each action on its own, 
 
 ```mermaid
 flowchart LR
-    A[Action sequences] --> B[Co-occurrence counts]
-    B --> C[Vocabulary]
-    C --> D[Segmentations]
-    D --> E[Generator]
+    A("Action sequences of feature sets") --> B["Count token pairs in a set and across adjacent sets"]
+    B --> C["Weighted merges"]:::key
+    C --> D("Context-dependent vocabulary")
+    D --> E["Set permutation regularization"]
+    E --> F("Several segmentations")
+    F --> G["Enc-Dec generator"]
+    G --> H("Ensembled ranking")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Actions as Feature Sets
@@ -220,12 +224,15 @@ Semantic IDs (SIDs) quantize item content features so that items can share knowl
 
 ```mermaid
 flowchart LR
-    A[Content and behavior] --> B[Mixture-of-quantization]
-    B --> C[Alignment controller]
-    B --> D[Weighting gate]
-    C --> E[SIDs]
-    D --> E
-    E --> F[Generator]
+    A("Content features") --> M["Shared and specific experts"]
+    B("Behavior features") --> M
+    M --> C["Alignment strength controller"]:::key
+    M --> D["Gate on L2 magnitude of CF embedding"]:::key
+    C --> L1{{"Adaptive alignment loss"}}
+    D --> W("Weighted behavioral SIDs")
+    W --> E("SIDs")
+    E --> G["Generator"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior-Content Mixture-of-Quantization
@@ -308,11 +315,16 @@ Turning a large language model (LLM) into a recommender meets semantic and behav
 
 ```mermaid
 flowchart LR
-    A[Users and items] --> B[Dual SC encoders]
-    B --> C[SCIDs]
-    C --> D[Multi-task SFT]
-    D --> E[SP-DPO]
-    E --> F[RF-DPO]
+    A("Users and items") --> B["Dual SC encoders + RQ-VAE"]
+    B --> C("User and item SCIDs")
+    C --> D["Multi-task SFT"]
+    D --> E["SP-DPO: Easy, Medium, Hard"]:::key
+    E --> F["RF-DPO on real feedback"]:::key
+    F --> G("Aligned LLM")
+    L1{{"Four SFT tasks"}} -.-> D
+    L2{{"Prefix n-gram curriculum"}} -.-> E
+    L3{{"disliked / neutral / liked"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Token-Level Alignment
@@ -880,12 +892,18 @@ Existing LLM-based methods fuse content and collaborative signals but rely on te
 
 ```mermaid
 flowchart LR
-    A[Interactions] --> B[LightGCN]
-    B --> C[Constrained K-means]
-    C --> D[GIDs]
-    E[Item content] --> F[Encoder-decoder]
+    A("Interactions") --> B["LightGCN"]
+    B --> C["Hierarchical constrained K-means"]
+    C --> D("GIDs")
+    E("Item text + users") --> F["Shared encoder-decoder"]:::key
     D --> F
-    F --> G[Next-item GID]
+    F --> G["Constrained beam search"]
+    G --> H("Next-item GID")
+    L1{{"Recommendation loss"}} -.-> F
+    L2{{"Indexing loss"}} -.-> F
+    L3{{"BPR loss"}} -.-> F
+    L4{{"Weighted contrastive loss"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Generative Identifier Construction
@@ -1452,12 +1470,18 @@ Existing generative methods use either the behavioral or the semantic side of it
 
 ```mermaid
 flowchart LR
-    A[User history] --> B[Shared encoder]
-    B --> C[Behavior decoder]
-    B --> D[Semantic decoder]
-    C --> E[Confidence ranking]
-    D --> E
-    E --> F[Items]
+    A("User history") --> B["Shared encoder"]
+    B --> C["Behavior decoder"]
+    B --> D["Semantic decoder"]
+    C --> E("k behavior codes")
+    D --> F("k semantic codes")
+    E --> G["Confidence ranking of 2k codes"]:::key
+    F --> G
+    G --> H("Items")
+    L1{{"GCT: summary-token distillation"}} -.-> C
+    L1 -.-> D
+    L2{{"STT: masked code reconstruction"}} -.-> C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior Codes and Semantic Codes
@@ -1581,11 +1605,14 @@ Current approaches often train item tokenization and generative recommendation a
 
 ```mermaid
 flowchart LR
-    A[CF embeddings] --> B[RQ-VAE tokenizer]
-    B --> C[Item tokens]
-    C --> D[Generator]
-    D --> E[Alignment losses]
-    E --> B
+    A("CF embeddings") --> B["RQ-VAE tokenizer"]
+    B --> C("Item tokens")
+    C --> D["Enc-Dec generator"]
+    D --> L1{{"Sequence-item alignment"}}:::key
+    D --> L2{{"Preference-semantic alignment"}}:::key
+    L1 -.-> B
+    L2 -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Tokenizer
@@ -1603,6 +1630,17 @@ Sequence-item alignment matches the quantized token distributions of the encoder
 In the tokenizer phase, the quantization loss and both alignment losses update the tokenizer while the generator stays fixed (Sec. 3.4).
 
 > "In order to improve the training stability, we propose an alternating optimization strategy to mutually train the item tokenizer and the generative recommender." (Sec. 3.4)
+
+```mermaid
+sequenceDiagram
+    participant T as Tokenizer
+    participant G as Generator
+    loop Alternating optimization
+        Note over T: Quantization loss + both alignment losses
+        T->>T: update (generator fixed)
+        G->>G: update (tokenizer fixed)
+    end
+```
 
 ### 3. Experimental Findings
 
@@ -1807,11 +1845,16 @@ Current studies offer limited investigation of how to construct Semantic IDs (SI
 
 ```mermaid
 flowchart LR
-    A[Multimodal content] --> B[Item representation]
-    C[Co-occurrence pairs] --> B
-    B --> D[SID encoder]
-    D --> E[Collision post-processing]
-    E --> F[GR model]
+    A("CN-CLIP features") --> B["QFormer fusion"]
+    P("Co-occurrence pairs") -.-> L1{{"Optional InfoNCE"}}
+    L1 -.-> B
+    B --> C["SID encoder: RQ-VAE, VQ, OPQ, RQ-Kmeans"]
+    C --> D["Collision post-processing"]
+    D --> E("SIDs")
+    E --> F["GR model"]
+    F --> G["Dynamic beam 300 / 600 / 1,200"]
+    E --> Q["HitRate + Gini, no GR training"]:::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Representation
@@ -1933,13 +1976,17 @@ Traditional cross-domain recommendation relies on shared user or item IDs, which
 
 ```mermaid
 flowchart LR
-    A[Items] --> B[Universal encoder]
-    A --> C[Domain adapters]
-    B --> D[Item-level routing]
+    A("Item") --> B["Universal encoder"]
+    A --> C["Domain LoRA adapters"]
+    B --> D["Item-level routing"]:::key
     C --> D
-    D --> E[Semantic IDs]
-    E --> F[LLM with LoRA experts]
-    F --> G[Prefix tree]
+    D --> E("Disentangled SIDs")
+    E --> F["LLM with mixture of LoRA"]
+    F --> G["User-level routing"]:::key
+    L1{{"VIB regularizer"}} -.-> G
+    G --> H["Domain prefix tree"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Domain-Adaptive Tokenization
@@ -2092,12 +2139,14 @@ The authors state that SID-based point-of-interest (POI) recommenders lack SIDs 
 
 ```mermaid
 flowchart LR
-    A[POI description] --> B[Contrastive representation]
-    C[Co-visit pairs] --> B
-    B --> D[RQ-Kmeans SIDs]
-    D --> E[Iterative refinement]
-    E --> F[CPT]
-    F --> G[SFT]
+    A("POI description") --> B["Qwen encoder"]
+    C("Co-visit POI pairs") -.-> L1{{"Swing-weighted NCE"}}
+    L1 -.-> B
+    B --> D["RQ-Kmeans"]
+    D --> E("SIDs")
+    E --> F["CPT"]
+    F --> G["SFT"]
+    G --> H("Next POI")
 ```
 
 #### Location Description
@@ -2113,6 +2162,14 @@ POI pairs that frequently co-occur in trajectories are weighted by Swing similar
 RQ-Kmeans discretizes the LLM embeddings into hierarchical SIDs (Sec. 1).
 
 > "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions." (Sec. 4.1.3)
+
+```mermaid
+flowchart LR
+    S("SIDs") --> P1["Phase 1: fix SIDs, fine-tune LLM"]
+    P1 --> P2["Phase 2: fix LLM, update SIDs from its predictions"]:::key
+    P2 -->|repeat| P1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Multi-Stage LLM Training
 
@@ -2184,11 +2241,14 @@ Generative recommendation (GR) models are usually fine-tuned with the next-token
 
 ```mermaid
 flowchart LR
-    A[User history] --> B[Trajectory sampler]
-    B --> C[Trajectories]
-    C --> D[Reward model]
-    D --> E[GFlowNet loss]
-    E --> F[Generator]
+    A("User history") --> S["Trajectory sampler"]
+    S --> T("Trajectories")
+    T --> R["Behavior-aware reward model"]
+    R --> L{{"GFlowNet loss: DB or TB"}}:::key
+    L -.-> G["Generator"]
+    N{{"Next-token loss"}} -.-> G
+    G -.->|on-policy samples| S
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Trajectory Sampler
@@ -2196,6 +2256,14 @@ flowchart LR
 The trajectory set comes from four methods (Sec. 3.1). The authors state that random samples cause training instability and drift from the model's learning dynamics (Sec. 3.1).
 
 > "There are four methods for constructing the trajectory set: interaction log, random sampling, CM-based sampling, and on-policy sampling." (Sec. 3.1)
+
+```mermaid
+flowchart LR
+    I("Interaction log") --> T("Trajectory set")
+    R("Random sampling") --> T
+    C("CM-based sampling") --> T
+    O("On-policy sampling") --> T
+```
 
 #### Reward Model
 
@@ -2307,11 +2375,14 @@ Existing multi-target cross-domain recommendation (MTCDR) methods rely on users 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLM embeddings]
-    B --> C[Residual quantization]
-    C --> D[Shared SIDs]
-    D --> E[Unified generator]
-    E --> F[Domain LoRA]
+    A("Item text, all domains") --> B["LLM embeddings"]
+    B --> C["Residual quantization"]
+    L1{{"Domain-aware contrastive loss"}}:::key -.-> C
+    C --> D("Shared SIDs")
+    D --> E["Unified generator"]
+    E --> F["Domain LoRA, rest frozen"]:::key
+    F --> G("Per-domain recommendations")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Identifier Learning
@@ -2389,11 +2460,15 @@ Existing generative POI recommenders usually give POIs random numeric IDs, which
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[One-hot vectors]
-    B --> C[RQ-VAE]
-    C --> D[POI SIDs]
-    D --> E[Fine-tuned LLM]
-    E --> F[Next POI]
+    A("Plus Code region") --> D["One-hot vectors"]
+    B("Top 10 of 24 time slots") --> D
+    C("Top 10 visitors") --> D
+    D --> E["RQ-VAE"]
+    L1{{"Diversity loss"}}:::key -.-> E
+    E --> F("POI SIDs")
+    F --> G["Fine-tuned LLM, NTP"]
+    G --> H("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### POI Features
@@ -2547,12 +2622,15 @@ Generative recommenders built on large language models (LLMs) struggle to incorp
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Textual IDs]
-    C[Collaborative signals] --> D[Item prompts]
-    B --> E[User prompt]
-    E --> F[Separate encoders]
-    D --> F
-    F --> G[Decoder fusion]
+    A("Item text") --> B["TF-IDF words from LLM vocabulary"]:::key
+    B --> C("Textual IDs, e.g. soap-mild-mango")
+    C --> D("User prompt: history IDs")
+    E("Attributes + collaborative signals") --> F("Item prompts")
+    D --> G["Separate encoders"]
+    F --> G
+    G --> I["Decoder cross-attention over all outputs"]:::key
+    I --> J("Next textual ID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic-to-Lexical Translation
@@ -2665,11 +2743,16 @@ The authors state that LLMs face two obstacles as generative reasoning recommend
 
 ```mermaid
 flowchart LR
-    A[Item text and reviews] --> B[Rewritten description]
-    B --> C[RQ-KMeans indices]
-    C --> D[Alignment SFT]
-    D --> E[Reasoning curriculum]
-    E --> F[SRPO]
+    A("Title, description, reviews") --> B["GPT-5 rewrite"]
+    B --> C["RQ-KMeans"]
+    C --> D("Item indices")
+    D --> E["Alignment SFT + auxiliary tasks"]
+    E --> F["Reasoning curriculum SFT"]
+    F --> G["SRPO"]:::key
+    L1{{"Residual-sensitive verifiable reward"}} -.-> G
+    L2{{"Bonus-calibrated group advantage"}} -.-> G
+    G --> H("Direct mode or reasoning mode")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Collaborative-Semantic Alignment
@@ -2681,6 +2764,11 @@ For each item, GPT-5 rewrites the title, the official description, and selected 
 An external LLM generates structured reasoning paths by reverse reasoning from the recommendation (Sec. 4.2).
 
 > "This process guides the model through a structured, five-stage logical chain—behavioral evidence extraction, latent preference modeling, intent inference, recommendation formulation, and denoised sequence rewriting" (Sec. 1)
+
+```mermaid
+flowchart LR
+    S1["1 Behavioral evidence"] --> S2["2 Latent preference"] --> S3["3 Intent"] --> S4["4 Recommendation"] --> S5["5 Denoised sequence"]
+```
 
 #### SRPO
 
@@ -2747,10 +2835,15 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 
 ```mermaid
 flowchart LR
-    A[Item content] --> B[Semantic encoder]
-    B --> C[SID tokenizer]
-    C --> D[Generator]
-    D --> E[Beam search]
+    subgraph Tok["Tokenization phase"]
+        A("Item content") --> B["Semantic encoder (size varied)"]
+        B --> C["Tokenizer (L, W) varied"]
+    end
+    subgraph Gen["Generation phase"]
+        D["User tokens, Enc-Dec vs Dec-only, augmentation, de-dup IDs"] --> E["Constrained or free beam"]
+    end
+    C --> F("SIDs") --> D
+    E --> G("Next item")
 ```
 
 #### Tokenization then Generation
@@ -2867,11 +2960,15 @@ Text-based item identifiers expose the large output space of an LLM, while Seman
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[Term generation]
-    B --> C[Term IDs]
-    C --> D[Instruction fine-tuning]
-    D --> E[Generated Term ID]
-    E --> F[Grounding]
+    A("Item metadata") --> B["Context-aware term generation"]
+    B --> C("Term IDs")
+    C --> D["Integrative instruction fine-tuning"]
+    D --> E("Generated TID")
+    E --> F{"Exact match?"}
+    F -->|yes| G("Item")
+    F -->|no| H["EIG: weighted structural match"]:::key
+    H --> G
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Context-Aware Term Generation
@@ -3019,11 +3116,15 @@ The authors state that scaling generative retrieval to industry is hard because 
 
 ```mermaid
 flowchart LR
-    A[Four signals] --> B[Contrastive quantizer]
-    B --> C[POI SIDs]
-    C --> D[Continued pretraining]
-    D --> E[SFT]
-    E --> F[EAKTO]
+    A("Text, image, spatial, CF") --> B["Gumbel-softmax quantizer"]:::key
+    L1{{"NT-Xent, no reconstruction"}} -.-> B
+    B --> C("POI SIDs")
+    C --> D["Continued pretraining on two corpora"]
+    D --> E["SFT"]
+    E --> F["EAKTO"]
+    L2{{"Clicks vs non-clicks"}} -.-> F
+    F --> G("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Contrastive Item Tokenization
@@ -3209,11 +3310,15 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 ```mermaid
 flowchart LR
-    A[Item text] --> C[Supervised quantization]
-    B[Hierarchical tags] --> C
-    C --> D[SIDs]
-    D --> E[Generator]
-    E --> F[Constrained decoding]
+    A("Item text") --> C["Hierarchically supervised quantizer"]:::key
+    B("Multi-level tags, LLM-made if missing") --> C
+    L1{{"Tag prediction per level"}} -.-> C
+    L2{{"Uniqueness loss"}} -.-> C
+    C --> D("SIDs")
+    D --> E["Enc-Dec generator"]
+    E --> F["Constrained decoding"]
+    F --> G("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Tag Generation
@@ -3366,11 +3471,13 @@ The authors state that generative recommendation struggles to encode items in th
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[ID generator]
-    B --> C[Textual IDs]
-    C --> D[Base recommender]
-    D --> E[Prefix tree]
-    E --> F[Item]
+    A("Plain-text item information") --> B["T5 ID generator"]:::key
+    B --> C("Textual IDs")
+    C --> D["T5 base recommender"]
+    D --> E["Prefix tree of all IDs"]
+    E --> F("Item")
+    D -.->|alternate training| B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID Generator
@@ -3384,6 +3491,16 @@ The generator keeps generating until each item has a unique ID (Sec. 2.3).
 > "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search." (Sec. 2.3)
 
 The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
+
+```mermaid
+flowchart LR
+    A["Generate IDs by beam search"] --> B{"Duplicates?"}
+    B -->|no| C("Unique IDs")
+    B -->|yes| D["Diversity penalty + 1"]
+    D --> E{"Penalty reached 10?"}
+    E -->|no| A
+    E -->|yes| F["Extend length limit"] --> A
+```
 
 #### Base Recommender
 
@@ -3695,11 +3812,15 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLaMA embeddings]
-    B --> C[Vector quantization]
-    C --> D[Item indices]
-    D --> E[Instruction tuning]
-    E --> F[Generated index]
+    A("Item text") --> B["LLaMA embeddings"]
+    B --> C["Vector quantization + uniform semantic mapping"]
+    C --> D("Item indices")
+    D --> E["LLaMA instruction tuning"]:::key
+    L1{{"Sequential item prediction"}} -.-> E
+    L2{{"Explicit: text to index and back"}} -.-> E
+    L3{{"Implicit: asymmetric, intention, preference"}} -.-> E
+    E --> F("Generated index")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Indexing
@@ -3813,6 +3934,20 @@ Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short
 
 ### 2. How It Works
 
+```mermaid
+flowchart LR
+    A("Semantic embedding") --> B["RQ-VAE tokenizer"]:::key
+    L1{{"Semantic: RQ-VAE loss"}} -.-> B
+    L2{{"Collaborative: align with 32-dim SASRec"}} -.-> B
+    L3{{"Diversity: constrained k-means clusters"}} -.-> B
+    B --> C("Fixed identifiers")
+    C --> D["TIGER or LC-Rec generator"]
+    L4{{"Ranking-guided generation loss"}} -.-> D
+    D --> E["Trie-constrained generation"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
 #### Semantic Regularization
 
 An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).
@@ -3914,12 +4049,17 @@ Existing Semantic ID (SID) frameworks build one representation and then quantize
 
 ```mermaid
 flowchart LR
-    A[Item fields] --> B[Joint LLM encoding]
-    B --> C[SD-Block]
-    C --> D[Geographic slots]
-    C --> E[Semantic slots]
-    D --> F[Dual-stream quantization]
+    A("Item fields") --> B["Joint LLM encoding"]
+    B --> C["SD-Block"]:::key
+    C --> D("k geographic slots")
+    C --> E("N-k semantic slots")
+    L1{{"Hierarchical hard negatives"}} -.-> C
+    L2{{"LDR: orthogonal slots"}} -.-> C
+    D --> F["Dual-stream RQ"]
     E --> F
+    F --> G("Attribute-aligned SIDs")
+    G --> H["Discriminative ranker"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Structured Disentangled Block
@@ -4002,13 +4142,16 @@ Text-based recommenders encode item text with prompts and tokenize items into di
 
 ```mermaid
 flowchart LR
-    A[Item text and location] --> B[Reward model]
-    B --> C[G-DPO]
-    C --> D[Aligned LLM]
-    D --> E[Residual tokens]
-    F[Attributes] --> G[Primary tokens]
-    E --> H[SIDs]
-    G --> H
+    A("Item text + location") --> B["List-wise reward model"]
+    B --> C["G-DPO"]:::key
+    L1{{"In-batch contrastive regularizer"}} -.-> C
+    C --> D("Geographic vectors")
+    D --> E("Residual tokens")
+    F("Spatial and content attributes") --> G("Primary tokens")
+    G --> H("SIDs")
+    E --> H
+    H --> I["DIN, TWIN, TIGER, OneRec ..."]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Reward Model
@@ -4091,11 +4234,15 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 
 ```mermaid
 flowchart LR
-    A[History] --> B[T5 encoder]
-    B --> C[Beam search]
-    C --> D[Candidates]
-    E[Cold-start items] --> D
-    D --> F[Dense ranking]
+    A("SID tokens + text + positions") --> B["T5 encoder-decoder"]
+    L1{{"Next-token loss"}} -.-> B
+    L2{{"Cosine loss to next item text"}} -.-> B
+    B --> D["Beam search: K items"]
+    D --> E("Candidates")
+    F("Cold-start items") --> E
+    E --> G["Rank by encoder embedding"]:::key
+    G --> H("Top items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Input and Training
@@ -4210,12 +4357,14 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Multi-Head VQ-VAE]
-    B --> C[Parallel SIDs]
-    C --> D[Masked predictor]
-    E[User history] --> D
-    D --> F[Adapted beam search]
-    F --> G[Next item]
+    A("Item text embedding") --> B["Multi-Head VQ-VAE"]
+    B --> C("Parallel SIDs")
+    C --> D["Mask predictor"]:::key
+    L1{{"User-history masking"}} -.-> D
+    L2{{"Next-item masking"}} -.-> D
+    D --> E["Adapted beam search"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Parallel Tokenization
@@ -4233,6 +4382,16 @@ Inference starts from a fully masked SID and fills it over several steps (Sec. 4
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence." (Sec. 4.3.4)
 
 The number of steps is controllable, and each step can predict several tokens (Sec. 4.4.2). An adapted beam search keeps several candidates during this process, because standard beam search does not fit diffusion-based generation (Abstract).
+
+```mermaid
+flowchart LR
+    S0("All positions masked") --> P["Predict all masked positions"]
+    P --> K["Keep selected positions"]:::key
+    K --> R["Remask the rest"]
+    R -->|next step| P
+    K --> D("Full SID after the last step")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 
@@ -4370,12 +4529,22 @@ MACRec adds cross-modal interaction at two points: inside the quantizer and in t
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Pseudo-labels]
-    B --> C[Cross-modal RQ]
-    C --> D[Text and image SIDs]
-    D --> E[Aligned generator]
-    E --> F[Score averaging]
-    F --> G[Next item]
+    A("Text embeddings") --> C["Text RQ"]
+    B("Image embeddings") --> D["Image RQ"]
+    A -.-> PT("Text pseudo-labels")
+    B -.-> PI("Image pseudo-labels")
+    PI -.-> L1{{"Residual-level contrastive"}}:::key
+    PT -.-> L2{{"Residual-level contrastive"}}:::key
+    L1 -.-> C
+    L2 -.-> D
+    C --> E("Text SIDs")
+    D --> F("Image SIDs")
+    E --> G["Generator"]
+    F --> G
+    L3{{"Implicit + item- and sequence-level alignment"}} -.-> G
+    G --> H["Average scores"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Dual-Modality Pseudo-Labels
@@ -4597,12 +4766,17 @@ MiniOneRec answers with an open framework that covers SID construction, supervis
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[RQ-VAE]
-    B --> C[SIDs in vocabulary]
-    C --> D[SFT]
-    D --> E[GRPO]
-    E --> F[Constrained beam]
-    F --> G[Next item]
+    A("Titles and descriptions") --> B["Frozen text encoder"]
+    B --> C["RQ-VAE"]
+    C --> D("SIDs added to vocabulary")
+    D --> E["SFT"]
+    E --> F["GRPO"]:::key
+    L1{{"Next-item + alignment tasks"}} -.-> E
+    L1 -.-> F
+    L2{{"Correctness + ranking reward"}} -.-> F
+    F --> G["Constrained beam"]
+    G --> H("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Tokenization
@@ -4820,12 +4994,16 @@ Generative recommenders that build on pre-trained language models carry general 
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Quantitative translators]
-    B --> C[Quantitative language]
-    C --> D[Source-domain pre-training]
-    D --> E[Target-domain fine-tuning]
-    E --> F[Two-list re-ranking]
-    F --> G[Next item]
+    A("Text via LLaMA") --> C["Text translator RQ-VAE"]
+    B("Image via ViT") --> D["Image translator RQ-VAE"]
+    C --> E("Prefixed quantitative language")
+    D --> E
+    E --> F["Source pre-training: next-item tasks"]
+    F --> G["Target fine-tuning: all tasks"]:::key
+    G --> H("Text list + image list")
+    H --> I["Re-rank by item scores"]
+    I --> J("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Quantitative Translators
@@ -5223,11 +5401,15 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ```mermaid
 flowchart LR
-    A[Video and location] -->|Multimodal LLM| B[Embedding]
-    B -->|Residual k-means| C[Geo-aware SID]
-    C -->|GA-Attn encoder| D[User vector]
-    D -->|Prompted decoder, NTP| E[Generator]
-    E -->|Rewards, DPO| F[Aligned generator]
+    A("Video + location") --> B["Multimodal LLM"]
+    B --> C["Residual k-means"]
+    C --> D("Geo-aware SID")
+    D --> E["GA-Attn encoder"]:::key
+    E --> F["Decoder with neighbor-aware prompt"]:::key
+    L1{{"NTP loss"}} -.-> F
+    L2{{"DPO on geo + GMV rewards"}} -.-> F
+    F --> G("Next video")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -5332,6 +5514,17 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 ```
 
 Simplifications: The code shows one attention head and leaves out RMSNorm, the feed-forward network, and the residual connections of each block. It takes the projection matrices, the gate MLP, and the log-probabilities as inputs, and it does not build preference pairs or run beam search.
+
+```mermaid
+flowchart LR
+    M("Model θi") --> B["Beam search: N videos"]
+    B --> R["Geo + GMV rewards"]
+    R --> P("Highest = positive, lowest = negative")
+    P --> L{{"L = NTP + 0.05 DPO"}}:::key
+    L --> N("Model θi+1, reference θi")
+    N -->|next round| M
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 
@@ -5439,12 +5632,15 @@ OneRec replaces the cascade with a single-stage generative model and was deploye
 
 ```mermaid
 flowchart LR
-    A[Behavior history] --> B[Encoder]
-    B --> C[Session decoder]
-    C --> D[Session list]
-    D --> E[Reward model]
-    E --> F[Iterative DPO]
-    F --> C
+    A("Behavior history") --> B["Encoder"]
+    B --> C["Session decoder"]:::key
+    C --> D("Session list of SIDs")
+    E["Balanced K-means"] --> F("SIDs") --> C
+    D --> G["Beam samples"]
+    G --> H["Reward model"]
+    H --> L{{"DPO on best vs worst"}}
+    L -.->|next round| C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Balanced Semantic IDs
@@ -5529,10 +5725,12 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 
 ```mermaid
 flowchart LR
-    A[Itemic alignment] --> B[Reasoning activation]
-    B --> C[Reasoning enhancement]
-    C --> D[Rationale]
-    D --> E[Itemic tokens]
+    A["Itemic alignment: token warm-up, four tasks"] --> B["Reasoning activation SFT"]
+    B --> C["GRPO reasoning enhancement"]:::key
+    L1{{"Rollout-Beam reward"}} -.-> C
+    C --> D("Reasoning text")
+    D --> E("Itemic tokens")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Itemic Alignment
@@ -5554,6 +5752,15 @@ RL with GRPO refines the reasoning paths (Sec. 4.3). After each sampled rational
 The full OneRec-Think model generates the reasoning path and the first two itemic tokens offline (Sec. 4.4).
 
 > "It utilizes the pre-generated item-tokens as a constrained prefix to rapidly produce the final itemic token." (Sec. 4.4)
+
+```mermaid
+sequenceDiagram
+    participant Offline as OneRec-Think, offline
+    participant Online as Real-time OneRec, online
+    Offline->>Offline: reasoning path + first two itemic tokens
+    Offline->>Online: tokens as constrained prefix
+    Online->>Online: final itemic token
+```
 
 ### 3. Experimental Findings
 
@@ -5926,12 +6133,15 @@ ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes ea
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[Two semantic layers]
-    B --> C[Geo-centroid coordinates]
-    C --> D[Geo-RoPE layer]
-    D --> E[SID]
-    E --> F[Fine-tuned LLM]
-    F --> G[Nearby POIs]
+    A("POI features") --> B["Layer 1-2: cosine clustering"]
+    B --> C("Two-layer SID subset")
+    C --> D["Geographic centroid, polar coordinates"]
+    D --> E["Geo-RoPE rotation of layer-2 residual"]:::key
+    E --> F("Geo-codeword")
+    F --> G("Three-token SID")
+    G --> H["Fine-tuned LLM"]
+    H --> I("Nearby POIs")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Layers
@@ -6536,11 +6746,13 @@ LLM-based generative recommenders make limited use of geographic signals, which 
 
 ```mermaid
 flowchart LR
-    A[Check-ins] --> B[Spatial SID]
-    B --> C[SID grounding]
-    C --> D[Mobility CoT]
-    D --> E[Spatial RL]
-    E --> F[Next POI]
+    A("Check-ins") --> B["Spatial SID: S2 prefix + anchor + suffix"]:::key
+    B --> C["SID grounding + sequence pretraining"]
+    C --> D["Mobility CoT"]
+    D --> E["Spatial-guided GRPO"]
+    L1{{"Haversine + SID match + format"}} -.-> E
+    E --> F("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Spatial SID
@@ -6558,6 +6770,11 @@ Sequence pretraining then trains next-POI prediction on SID sequences, where the
 #### Mobility Chain-of-Thought
 
 The model reasons in three deterministic stages: it profiles the user, builds an intent-aligned candidate space, and prunes candidates (Sec. 2.3). Pruning uses temporal consistency, semantic fit, and spatial feasibility from street addresses and transition distances.
+
+```mermaid
+flowchart LR
+    U["Profile the user"] --> C["Build intent-aligned candidates"] --> P["Prune: time, semantics, space"] --> A("Answer")
+```
 
 #### Spatial-Guided RL
 
@@ -6629,10 +6846,16 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 ```mermaid
 flowchart LR
-    A[Item embedding] -->|OPQ| B[Long SID]
-    B -->|Pooling, decoder| C[Sequence vector]
-    C -->|MTP heads| D[Token scores]
-    D -->|Graph search| E[Top-K items]
+    A("Item embedding") --> B["OPQ: m subvectors"]
+    B --> C("Long unordered SID")
+    C --> D["Pool tokens per item"]
+    D --> E["Transformer decoder"]
+    E --> F["m parallel heads"]:::key
+    L1{{"MTP loss"}} -.-> F
+    F --> G("Cached token scores")
+    G --> H["Graph-constrained decoding"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Long SIDs from OPQ
@@ -6733,6 +6956,15 @@ Simplifications: The code scores every item in the catalog before the graph sear
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
+```mermaid
+flowchart LR
+    S1["1 Sample b SIDs as beam"] --> S2["2 Add b×k graph neighbors"]
+    S2 --> S3["3 Score with cached values, keep b"]:::key
+    S3 -->|repeat q times| S2
+    S3 --> S4("4 Final beam = top-K")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
 ### 3. Experimental Findings
 
 - Overall: Table 2 gives the full comparison with the baselines.
@@ -6804,12 +7036,14 @@ Most generative recommenders generate Semantic IDs (SIDs) directly from interact
 
 ```mermaid
 flowchart LR
-    A[Item co-occurrence graph] --> B[CoBa RQ-VAE]
-    B --> C[SIDs]
-    C --> D[Thinking token]
-    D --> E[SID code]
-    E --> D
-    E --> F[Next item]
+    A("Item co-occurrence graph") --> B["Propagate embeddings"]
+    B --> C["CoBa RQ-VAE"]
+    C --> D("SIDs")
+    D --> E["Enc-Dec generator"]
+    L1{{"Recommendation loss"}} -.-> E
+    L2{{"Thinking loss vs k-means centroid"}}:::key -.-> E
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior-Aligned Codebook
@@ -6823,6 +7057,12 @@ The codebook-balanced RQ-VAE adds uniformity constraints and adaptive load balan
 #### Stepwise Latent Thinking
 
 Before each SID code, the generator outputs a thinking token, which is a continuous latent embedding rather than natural-language text (Sec. 4.3.2). A contrastive loss aligns it with the k-means cluster centroid of the next ground-truth code in the corresponding codebook. The generator objective adds this thinking loss to the recommendation loss (Eqs. 22–24). The tokenizer is optimized separately (Sec. 4.2).
+
+```mermaid
+flowchart LR
+    T1("Thinking token"):::key --> C1("Code") --> T2("Thinking token"):::key --> C2("Code") --> E("…")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Decoding
 
@@ -7137,11 +7377,13 @@ LLM-based generative recommenders already share one token space for language and
 
 ```mermaid
 flowchart LR
-    A[Teacher-enriched corpus] --> B[Multi-task alignment]
-    B --> C[Reasoning activation]
-    C --> D[Outcome-based GRPO]
-    D --> E[Reasoning text]
-    E --> F[SID]
+    A("Teacher-enriched corpus + general reasoning data") --> B["Multi-task SID-language alignment"]:::key
+    B --> C["Reasoning activation SFT"]
+    C --> D["Outcome-based GRPO"]
+    L1{{"Reward on the SID only"}} -.-> D
+    D --> E("Reasoning text")
+    E --> F("SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### SID-Language Alignment
@@ -7736,12 +7978,16 @@ Next-POI recommendation learns from sparse and complex mobility patterns (Abstra
 
 ```mermaid
 flowchart LR
-    A[SID history and time] --> B[Think]
-    B --> C[Go]
-    C --> D[Self-correct prompt]
-    D --> E[Answer]
-    B -. RL .-> F[Policy update]
-    E -. SFT .-> F
+    A("SID history + time") --> B("Think")
+    B --> C("Go: first prediction")
+    C --> D("Self-correct prompt")
+    D --> E("Answer")
+    B -.-> L1{{"RL: progressive reward"}}
+    E -.-> L2{{"SFT"}}
+    L1 -.-> P["Policy"]
+    L2 -.-> P
+    W["STEU + DRG advantage weights"]:::key -.-> L1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Unified SFT and RL
@@ -7834,10 +8080,15 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 ```mermaid
 flowchart LR
-    A[Item text] -->|Sentence-T5| B[Embedding]
-    B -->|RQ-VAE| C[SID]
-    C -->|Enc-Dec| D[Next SID]
-    D -->|Lookup| E[Items]
+    A("Item text") --> B["Sentence-T5: 768-dim"]
+    B --> C["DNN encoder: 32-dim"]
+    C --> D["RQ-VAE, 3 levels × 256"]:::key
+    D --> E("SID + collision token")
+    E --> F["Enc-Dec generator"]
+    L1{{"NTP over 4 tokens"}} -.-> F
+    F --> G["Beam search"]
+    G --> H("Items via lookup table")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Item Text to a Latent Vector
@@ -7886,6 +8137,17 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 ```
 
 Simplifications: The code shows only the quantization loop and the quantization loss. It omits the DNN encoder and decoder, the reconstruction loss, and the k-means codebook initialization.
+
+```mermaid
+flowchart TD
+    Z("z") --> L1["Level 1: nearest codeword c1"]
+    L1 --> R2("r2 = z - e(c1)")
+    R2 --> L2["Level 2: nearest codeword c2"]
+    L2 --> R3("r3 = r2 - e(c2)")
+    R3 --> L3["Level 3: nearest codeword c3"]
+    L3 --> S("(c1, c2, c3)"):::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Step 3: Tokenizer Training
 
@@ -8090,12 +8352,16 @@ LLM-based recommenders need user and item tokens that the LLM can read (Abstract
 
 ```mermaid
 flowchart LR
-    A[GNN representations] --> B[MQ-Tokenizer]
-    B --> C[User and item tokens]
-    C --> D[LLM query encoder]
-    D --> E[Projection]
-    E --> F[Cosine scoring]
-    F --> G[Top-K items]
+    A("GNN CF representations") --> B["Random mask"]
+    B --> C["K encoders + K codebooks"]:::key
+    C --> D("User and item tokens")
+    C --> E["Average codewords + MLP decoder"]
+    E -.-> L1{{"Reconstruction loss"}}
+    D --> F["LLM query encoder"]
+    F --> G["3-layer MLP projection"]
+    G --> H["Cosine vs GNN item representations"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer
@@ -8588,12 +8854,14 @@ RL fine-tuning of generative recommenders samples candidates with likelihood-dri
 
 ```mermaid
 flowchart LR
-    A[User context] --> B[Policy]
-    B --> C[SID prefix tree]
-    C --> D[Value-guided expansion]
-    D --> E[Candidate set]
-    E --> F[Sibling-GRPO]
-    F --> B
+    A("User context") --> B["Policy"]
+    B --> C["Prefix tree from probability beam"]
+    V["Value head"]:::key --> D
+    C --> D["VED: expand nodes above depth-average priority"]:::key
+    D --> E("Candidate set")
+    E --> F{{"Sibling-GRPO"}}:::key
+    F -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Value Head
@@ -8611,6 +8879,16 @@ VED treats SID decoding as building a candidate set on the prefix tree under a f
 Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's score is the mean reward of its descendant candidates, and advantages are normalized among siblings (Eq. 17).
 
 > "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates." (Sec. 1)
+
+```mermaid
+flowchart TD
+    P("Parent prefix") --> A("Child a: mean reward of its candidates")
+    P --> B("Child b: mean reward of its candidates")
+    P --> C("Child c: mean reward of its candidates")
+    A --> N{{"Normalize advantages among siblings"}}
+    B --> N
+    C --> N
+```
 
 ### 3. Experimental Findings
 
@@ -8702,12 +8980,14 @@ Transferable recommenders encode item text with a pre-trained language model (PL
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Fixed BERT]
-    B --> C[OPQ codes]
-    C --> D[Code embeddings]
-    D --> E[Mean pooling]
-    E --> F[Transformer encoder]
-    F --> G[Item scores]
+    A("Item text") --> B["Fixed BERT"]
+    B --> C["OPQ"]
+    C --> D("Item code")
+    D --> E["Code embedding lookup + mean"]:::key
+    E --> F["Transformer encoder"]
+    L1{{"Contrastive: semi-synthetic + mixed-domain negatives"}} -.-> F
+    F --> G("Item scores")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Text to Code
@@ -8731,6 +9011,14 @@ In a new domain, VQ-Rec re-trains the PQ centroids and aligns them to the existi
 A new item in a known domain needs no retraining.
 
 > "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup." (Sec. 2.4.2)
+
+```mermaid
+flowchart LR
+    A("New-domain text") --> B["Re-train PQ centroids"]
+    B --> C["Differentiable permutation to old code embeddings"]:::key
+    C --> D["Fine-tune permuted table, Transformer fixed"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 

@@ -1,10 +1,14 @@
 # MACRec
 
-*Multi-aspect cross-modal quantization for generative recommendation* — Zhang et al. · AAAI’26
+| **Title** | *Multi-aspect cross-modal quantization for generative recommendation* |
+| :-- | :-- |
+| **Authors** | Zhang et al. |
+| **Venue** | AAAI’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.15122) · [Code](https://github.com/zhangfw123/MACRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/macrec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2511.15122) · [Code](https://github.com/zhangfw123/MACRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/macrec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and adds implicit and explicit cross-modal alignment to generator training.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Key Findings | MACRec leads all baselines on HR@10, NDCG@5, and NDCG@10 on all three datasets, while on Games HR@5 MISSRec reports 0.0674 against 0.0671 for MACRec (Table 2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Generative recommendation needs Semantic IDs (SIDs) that are hierarchical, have few conflicts, and support generator training (Abstract). Earlier multimodal generative recommenders quantize each modality on its own, so text and image do not inform each other's IDs.
@@ -40,18 +48,30 @@ Generative recommendation needs Semantic IDs (SIDs) that are hierarchical, have 
 
 MACRec adds cross-modal interaction at two points: inside the quantizer and in the generator's training tasks (Methodology).
 
+---
+
 ### 2. How It Works
 
 ![MACRec architecture diagram](../../architectures/macrec.png)
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Pseudo-labels]
-    B --> C[Cross-modal RQ]
-    C --> D[Text and image SIDs]
-    D --> E[Aligned generator]
-    E --> F[Score averaging]
-    F --> G[Next item]
+    A("Text embeddings") --> C["Text RQ"]
+    B("Image embeddings") --> D["Image RQ"]
+    A -.-> PT("Text pseudo-labels")
+    B -.-> PI("Image pseudo-labels")
+    PI -.-> L1{{"Residual-level contrastive"}}:::key
+    PT -.-> L2{{"Residual-level contrastive"}}:::key
+    L1 -.-> C
+    L2 -.-> D
+    C --> E("Text SIDs")
+    D --> F("Image SIDs")
+    E --> G["Generator"]
+    F --> G
+    L3{{"Implicit + item- and sequence-level alignment"}} -.-> G
+    G --> H["Average scores"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Dual-Modality Pseudo-Labels
@@ -71,6 +91,8 @@ Reconstruction and quantization losses keep the codes able to recover the origin
 The generator trains on next-item prediction within each modality, an implicit alignment of the two SID representations, and explicit item-level and sequence-level tasks across modalities (Generative Recommendation with Multi-aspect Alignment).
 
 > "For sequence-level alignment, we construct a prediction task where a historical sequence of textual semantic IDs is used to predict the visual semantic ID of the next recommended item." (Explicit Alignment with Different Generation Tasks)
+
+---
 
 ### 3. Experimental Findings
 
@@ -97,12 +119,16 @@ The generator trains on next-item prediction within each modality, an implicit a
 - Ablation: removing any module lowers HR@10 on all three datasets (Table 3).
 - Collisions: MACRec has lower item ID collision rates than MQL4GRec (Table 4).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - MQL4GRec also builds separate text and image SIDs (`Dual RQ`); MACRec replaces this with `Cross RQ` and adds a contrastive term to the generator objective (`NTP + Ctr.`).
 - The representation uses text and image only (`Text+Img`). CARD adds collaborative signals (`Text+Img+CF`) and quantizes one combined input with `NU-RQ`.
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # ReRankID
 
-*Reasoning Reranking with Semantic IDs as the Sole Item Representation* — Tang et al. · arXiv’26
+| **Title** | *Reasoning Reranking with Semantic IDs as the Sole Item Representation* |
+| :-- | :-- |
+| **Authors** | Tang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/rerankid.md) |
+| **Reading level** | Overview (Level 1) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/rerankid.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Key Contribution | ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task. |
 | Modified Stage | No single stage |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: Tables 1/2/D.1 and Section 5.1: [S4.T1](https://arxiv.org/html/2610.22797v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.22797v1#S5.T2) and [A4.T1](https://arxiv.org/html/2610.22797v1#A4.T1) and [S5.SS1.p1](https://arxiv.org/html/2610.22797v1#S5.SS1.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

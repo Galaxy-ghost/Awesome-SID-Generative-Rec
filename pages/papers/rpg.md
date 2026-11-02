@@ -1,10 +1,14 @@
 # RPG
 
-*Generating long semantic ids in parallel for recommendation* — Hou et al. · KDD’25
+| **Title** | *Generating long semantic ids in parallel for recommendation* |
+| :-- | :-- |
+| **Authors** | Hou et al. |
+| **Venue** | KDD’25 |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2506.05781) · [Code](https://github.com/facebookresearch/RPG_KDD2025) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/rpg.md) |
+| **Reading level** | Annotated Deep Dive (Level 3) |
 
-`V. Efficiency` · `Backbone` · [Paper](https://arxiv.org/abs/2506.05781) · [Code](https://github.com/facebookresearch/RPG_KDD2025) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/rpg.md)
-
-Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Key Findings | With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract). |
 | Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Generative recommenders such as TIGER decode a Semantic ID (SID) token by token with beam search, which needs several forward passes of the generator per recommendation. As a result, existing models keep SIDs short, often 4 tokens (Abstract).
 
 > "Running beam search for 32 steps would be computationally prohibitive." (Sec. 1)
+
+---
 
 ### 2. How It Works
 
@@ -46,10 +56,16 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 ```mermaid
 flowchart LR
-    A[Item embedding] -->|OPQ| B[Long SID]
-    B -->|Pooling, decoder| C[Sequence vector]
-    C -->|MTP heads| D[Token scores]
-    D -->|Graph search| E[Top-K items]
+    A("Item embedding") --> B["OPQ: m subvectors"]
+    B --> C("Long unordered SID")
+    C --> D["Pool tokens per item"]
+    D --> E["Transformer decoder"]
+    E --> F["m parallel heads"]:::key
+    L1{{"MTP loss"}} -.-> F
+    F --> G("Cached token scores")
+    G --> H["Graph-constrained decoding"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Long SIDs from OPQ
@@ -150,6 +166,17 @@ Simplifications: The code scores every item in the catalog before the graph sear
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
 
+```mermaid
+flowchart LR
+    S1["1 Sample b SIDs as beam"] --> S2["2 Add b×k graph neighbors"]
+    S2 --> S3["3 Score with cached values, keep b"]:::key
+    S3 -->|repeat q times| S2
+    S3 --> S4("4 Final beam = top-K")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
+
 ### 3. Experimental Findings
 
 <details>
@@ -184,6 +211,8 @@ Simplifications: The code scores every item in the catalog before the graph sear
 - Semantic encoder: the main runs use OpenAI text-embedding-3-large, and Table 4 repeats the comparison with sentence-t5-base for parity with benchmark results (Sec. 3.1, Sec. 3.5.2).
 - Long-tail items: on Sports, the authors state that RPG achieves the best overall performance across the training-frequency groups (Sec. 3.5.3, Fig. 5).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Stated by the authors.** The authors state that the efficiency study uses one fixed set of hyperparameters, and that its runtime memory covers the GPU memory for computing logits, not the storage of model parameters (Sec. 3.3).
@@ -192,6 +221,8 @@ Simplifications: The code scores every item in the catalog before the graph sear
 
 - The score of an SID is a sum of per-token scores (Eq. 3), so the model cannot express dependencies between tokens of one SID. In the same cell, ACERec adds contrastive and auxiliary objectives (`MTP + Ctr. + Aux.`), and SPRINT replaces the objective with `Dual-level Flow Ctr.`; both keep `Par. OPQ` and `Non-AR`.
 - The decoding graph is an index outside the model. It has one node per catalog item and must be rebuilt after retraining or re-tokenization (Sec. 2.3.1).
+
+---
 
 ### 5. Connections to Related Work
 

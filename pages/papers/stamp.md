@@ -1,10 +1,14 @@
 # STAMP
 
-*Semantic Trimming and Auxiliary Multi-step Prediction for Generative Recommendation* — Zhan et al. · arXiv’26
+| **Title** | *Semantic Trimming and Auxiliary Multi-step Prediction for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Zhan et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.05329) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/stamp.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Backbone` · [Paper](https://arxiv.org/abs/2604.05329) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/stamp.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and adds a multi-step auxiliary prediction objective, to cut training cost and densify supervision for long Semantic IDs.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and adds a multi-step auxiliary prediction objective, to cut training cost and densify supervision for long Semantic IDs. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Results: [S5.T2](https://arxiv.org/html/2604.05329v3#S5.T2) and [S5.T3](https://arxiv.org/html/2604.05329v3#S5.T3).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

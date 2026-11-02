@@ -1,10 +1,14 @@
 # HoloRec
 
-*Holistic Encoding and Interleaved Reasoning for Generative Recommendation* — Zhao et al. · arXiv’26
+| **Title** | *Holistic Encoding and Interleaved Reasoning for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Zhao et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2606.15331) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/holorec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2606.15331) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/holorec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Tables 2-3: [S4.T2](https://arxiv.org/html/2606.15331v1#S4.T2) and [S4.T3](https://arxiv.org/html/2606.15331v1#S4.T3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

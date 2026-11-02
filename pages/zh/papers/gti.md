@@ -1,10 +1,14 @@
 # GTI
 
-*Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation* — Chen et al. · arXiv’26
+| **题目** | *Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Chen et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2604.02324) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/gti.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Training` · [论文](https://arxiv.org/abs/2604.02324) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/gti.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GTI 在微调前借助配对语言监督，把新增 SID token 映射到预训练嵌入空间中的区分性位置，而非用已有嵌入的均值初始化。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | GTI 在微调前借助配对语言监督，把新增 SID token 映射到预训练嵌入空间中的区分性位置，而非用已有嵌入的均值初始化。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S4.T1](https://arxiv.org/html/2604.02324v1#S4.T1) ; #S4.T2 ; #S4.T3 ; #S7.T4
 
 </details>
+
+---
 
 ### 5. 相关工作
 

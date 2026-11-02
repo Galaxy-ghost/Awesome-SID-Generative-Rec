@@ -1,10 +1,14 @@
 # R3-VAE
 
-*Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation* — Wan et al. · arXiv’26
+| **题目** | *Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Wan et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2604.11440) · [代码](https://github.com/wwqq/R3-VAE) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/r3-vae.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`II. 唯一性与合法性` · `Tokenization` · [论文](https://arxiv.org/abs/2604.11440) · [代码](https://github.com/wwqq/R3-VAE) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/r3-vae.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > R3-VAE 用作为语义锚点的参考向量与点积评分机制稳定残差量化，并将两项 SID 质量指标作为训练正则项。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | 核心贡献 | R3-VAE 用作为语义锚点的参考向量与点积评分机制稳定残差量化，并将两项 SID 质量指标作为训练正则项。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Results: [S3.T1](https://arxiv.org/html/2604.11440v3#S3.T1), [S4.T2](https://arxiv.org/html/2604.11440v3#S4.T2), [S4.T3](https://arxiv.org/html/2604.11440v3#S4.T3), [S4.T4](https://arxiv.org/html/2604.11440v3#S4.T4), [S4.T5](https://arxiv.org/html/2604.11440v3#S4.T5), [S4.T6](https://arxiv.org/html/2604.11440v3#S4.T6).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

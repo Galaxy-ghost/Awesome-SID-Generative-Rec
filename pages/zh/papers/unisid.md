@@ -1,10 +1,14 @@
 # UniSID
 
-*End-to-End Semantic ID Generation for Generative Advertisement Recommendation* — Jiang et al. · arXiv’26
+| **题目** | *End-to-End Semantic ID Generation for Generative Advertisement Recommendation* |
+| :-- | :-- |
+| **作者** | Jiang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2602.10445) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/unisid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2602.10445) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/unisid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UniSID 通过多粒度对比学习与基于摘要的重构，从原始广告数据端到端联合优化嵌入与 SID，替代先提取嵌入再后验量化的两步做法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | UniSID 通过多粒度对比学习与基于摘要的重构，从原始广告数据端到端联合优化嵌入与 SID，替代先提取嵌入再后验量化的两步做法。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：[S4.T2](https://arxiv.org/html/2602.10445v3#S4.T2) ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS2.p5
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,10 +1,14 @@
 # FLASH
 
-*Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* — Liu et al. · NeurIPS’26
+| **题目** | *Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* |
+| :-- | :-- |
+| **作者** | Liu et al. |
+| **会议** | NeurIPS’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.07402) · [代码](https://github.com/KevinC2015/Flash) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/flash.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Backbone` · [论文](https://arxiv.org/abs/2610.07402) · [代码](https://github.com/KevinC2015/Flash) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/flash.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > FLASH 将哈希方法的劣势归因于自回归解码和刚性离散化，把免训练的 SimHash SID 与并行解码和显式语义对齐结合起来。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | FLASH 将哈希方法的劣势归因于自回归解码和刚性离散化，把免训练的 SimHash SID 与并行解码和显式语义对齐结合起来。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Sections 3.1/3.2 and Figure 6: [S3.SS1.p4](https://arxiv.org/html/2610.07402v1#S3.SS1.p4) and [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1) and [S3.F6](https://arxiv.org/html/2610.07402v1#S3.F6)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

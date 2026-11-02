@@ -1,10 +1,14 @@
 # OneLive
 
-*Dynamically Unified Generative Framework for Live-Streaming Recommendation* — Wang et al. · KDD’26 ADS
+| **题目** | *Dynamically Unified Generative Framework for Live-Streaming Recommendation* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | KDD’26 ADS |
+| **问题与阶段** | `VI. 泛化` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2602.08612) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/onelive.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Tokenization` · [论文](https://arxiv.org/abs/2602.08612) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/onelive.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > OneLive 结合动态残差量化编号器、时间感知门控注意力、带序列式多 token 预测的仅解码器生成器与多目标对齐，将生成式推荐用于直播场景。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | OneLive 结合动态残差量化编号器、时间感知门控注意力、带序列式多 token 预测的仅解码器生成器与多目标对齐，将生成式推荐用于直播场景。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Table 2 and Sections 3.1/3.2: [S2.T2](https://arxiv.org/html/2602.08612v1#S2.T2) and [S3.p1](https://arxiv.org/html/2602.08612v1#S3.p1) and [S3.SS2.p1](https://arxiv.org/html/2602.08612v1#S3.SS2.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

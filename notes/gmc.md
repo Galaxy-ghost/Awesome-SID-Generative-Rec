@@ -12,11 +12,14 @@ Existing multi-target cross-domain recommendation (MTCDR) methods rely on users 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLM embeddings]
-    B --> C[Residual quantization]
-    C --> D[Shared SIDs]
-    D --> E[Unified generator]
-    E --> F[Domain LoRA]
+    A("Item text, all domains") --> B["LLM embeddings"]
+    B --> C["Residual quantization"]
+    L1{{"Domain-aware contrastive loss"}}:::key -.-> C
+    C --> D("Shared SIDs")
+    D --> E["Unified generator"]
+    E --> F["Domain LoRA, rest frozen"]:::key
+    F --> G("Per-domain recommendations")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Identifier Learning

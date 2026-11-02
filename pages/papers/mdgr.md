@@ -1,10 +1,14 @@
 # MDGR
 
-*Masked Diffusion Generative Recommendation* — Mu et al. · arXiv’26
+| **Title** | *Masked Diffusion Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Mu et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.19501) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/mdgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2601.19501) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/mdgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > MDGR uses a parallel codebook, adaptive masking along time and samples, and warm-up two-stage parallel decoding for masked diffusion recommendation, instead of fixed-order autoregressive Semantic ID decoding.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | MDGR uses a parallel codebook, adaptive masking along time and samples, and warm-up two-stage parallel decoding for masked diffusion recommendation, instead of fixed-order autoregressive Semantic ID decoding. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: [S4.T2](https://arxiv.org/html/2601.19501v1#S4.T2) ; #S5.T3 ; #S5.T4 ; #S5.SS6.p1
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

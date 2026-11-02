@@ -1,10 +1,14 @@
 # Spacetime-GR
 
-*A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* — Lin et al. · arXiv’25
+| **Title** | *A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* |
+| :-- | :-- |
+| **Authors** | Lin et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.16126) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/spacetime-gr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Backbone` · `POI` · [Paper](https://arxiv.org/abs/2508.16126) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/spacetime-gr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal context into action sequences, adds multimodal POI embeddings, and post-trains for embeddings, ranking scores, and candidates.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal context into action sequences, adds multimodal POI embeddings, and post-trains for embeddings, ranking scores, and candidates. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Original Tables 5/6/7/9: [S4.T5](https://arxiv.org/html/2508.16126v1#S4.T5) and [S4.T6](https://arxiv.org/html/2508.16126v1#S4.T6) and [S5.T7](https://arxiv.org/html/2508.16126v1#S5.T7) and [S5.T9](https://arxiv.org/html/2508.16126v1#S5.T9)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -11,6 +11,20 @@ Limitation: 协同正则需要一个单独训练的 CF 模型提供嵌入（Sec.
 
 ### 2. 方法
 
+```mermaid
+flowchart LR
+    A("语义嵌入") --> B["RQ-VAE 编号器"]:::key
+    L1{{"语义：RQ-VAE 损失"}} -.-> B
+    L2{{"协同：对齐 32 维 SASRec"}} -.-> B
+    L3{{"多样性：约束 k-means 聚类"}} -.-> B
+    B --> C("固定的标识")
+    C --> D["TIGER 或 LC-Rec 生成器"]
+    L4{{"排序引导的生成损失"}} -.-> D
+    D --> E["Trie 约束生成"]
+    E --> F("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
 #### 语义正则
 
 RQ-VAE 逐层量化物品的语义嵌入，标识因此保留由粗到细的语义层级（Sec. 3.1）。

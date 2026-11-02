@@ -1,10 +1,14 @@
 # MMGRec
 
-*Multimodal Generative Recommendation with Transformer Model* — Liu et al. · TOMM’26
+| **题目** | *Multimodal Generative Recommendation with Transformer Model* |
+| :-- | :-- |
+| **作者** | Liu et al. |
+| **会议** | TOMM’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2404.16555) · [代码](https://github.com/hanliu95/MMGRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mmgrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2404.16555) · [代码](https://github.com/hanliu95/MMGRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mmgrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > MMGRec 在多模态与协同特征上用 Graph RQ-VAE 为每个物品分配 Rec-ID，并训练带关系感知自注意力的 Transformer 生成该 ID，替代嵌入检索。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | MMGRec 在多模态与协同特征上用 Graph RQ-VAE 为每个物品分配 Rec-ID，并训练带关系感知自注意力的 Transformer 生成该 ID，替代嵌入检索。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Tables 2-5, Figures 4-6 and baseline implementation statement: [S6.T2](https://arxiv.org/html/2404.16555v4#S6.T2) and [S6.T3](https://arxiv.org/html/2404.16555v4#S6.T3) and [S6.T4](https://arxiv.org/html/2404.16555v4#S6.T4) and [S6.T5](https://arxiv.org/html/2404.16555v4#S6.T5) and [S6.F4](https://arxiv.org/html/2404.16555v4#S6.F4) and [S6.F6](https://arxiv.org/html/2404.16555v4#S6.F6) and [S6.F5](https://arxiv.org/html/2404.16555v4#S6.F5) and [S5.SS2.p2](https://arxiv.org/html/2404.16555v4#S5.SS2.p2)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

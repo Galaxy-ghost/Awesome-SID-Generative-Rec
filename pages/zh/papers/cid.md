@@ -1,10 +1,14 @@
 # CID
 
-*How to Index Item IDs for Recommendation Foundation Models* — Hua et al. · SIGIR-AP’23
+| **题目** | *How to Index Item IDs for Recommendation Foundation Models* |
+| :-- | :-- |
+| **作者** | Hua et al. |
+| **会议** | SIGIR-AP’23 |
+| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2305.06569) · [代码](https://github.com/Wenyueh/LLM-RecSys-ID) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/cid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`II. 唯一性与合法性` · `Tokenization` · [论文](https://arxiv.org/abs/2305.06569) · [代码](https://github.com/Wenyueh/LLM-RecSys-ID) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/cid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > CID 研究 P5 基础模型的物品编号方式，提出顺序、协同、语义与混合索引，替代容易产生长输出或虚构物品的随机、标题和独立 ID。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | 核心贡献 | CID 研究 P5 基础模型的物品编号方式，提出顺序、协同、语义与混合索引，替代容易产生长输出或虚构物品的随机、标题和独立 ID。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：Sections 5.1/5.3/5.5/5.7 and Tables 4/6/7: [S5.SS1.p1](https://arxiv.org/html/2305.06569v6#S5.SS1.p1) ; [S5.SS3.p2](https://arxiv.org/html/2305.06569v6#S5.SS3.p2) ; [S5.SS5.p2](https://arxiv.org/html/2305.06569v6#S5.SS5.p2) ; [S5.SS7.p1](https://arxiv.org/html/2305.06569v6#S5.SS7.p1) ; [S5.T4](https://arxiv.org/html/2305.06569v6#S5.T4) ; [S5.T6](https://arxiv.org/html/2305.06569v6#S5.T6) ; [S5.T7](https://arxiv.org/html/2305.06569v6#S5.T7)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,10 +1,14 @@
 # TopoGR
 
-*Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* — Zheng et al. · arXiv’26
+| **Title** | *Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Zheng et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2607.25216) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/topogr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2607.25216) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/topogr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: [S5.T1](https://arxiv.org/html/2607.25216v1#S5.T1) ; #S5.SS1.p4 ; #A2.T6 ; #A1.F8
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

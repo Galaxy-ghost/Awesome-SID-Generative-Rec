@@ -1,10 +1,14 @@
 # Molar
 
-*Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation* — Luo et al. · arXiv’24
+| **题目** | *Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation* |
+| :-- | :-- |
+| **作者** | Luo et al. |
+| **会议** | arXiv’24 |
+| **问题与阶段** | `I. 信息量` · `Representation` |
+| **链接** | [论文](https://arxiv.org/abs/2412.18176) · [代码](https://anonymous.4open.science/r/Molar-8B06/) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/molar.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Representation` · [论文](https://arxiv.org/abs/2412.18176) · [代码](https://anonymous.4open.science/r/Molar-8B06/) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/molar.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > Molar 用多模态 LLM 从文本与图像构建物品表示，并将用户表示与基于 ID 的协同过滤模型对齐，补足 LLM 推荐器缺失的协同信号。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | Molar 用多模态 LLM 从文本与图像构建物品表示，并将用户表示与基于 ID 的协同过滤模型对齐，补足 LLM 推荐器缺失的协同信号。 |
 | 主要改动阶段 | Representation |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Main: [S4.T2](https://arxiv.org/html/2412.18176v2#S4.T2); modalities: [S4.T3](https://arxiv.org/html/2412.18176v2#S4.T3); post-alignment: [S4.T4](https://arxiv.org/html/2412.18176v2#S4.T4); ablation: [S4.T5](https://arxiv.org/html/2412.18176v2#S4.T5); backbones: [A1.T6](https://arxiv.org/html/2412.18176v2#A1.T6).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

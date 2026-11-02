@@ -1,10 +1,14 @@
 # QuaSID
 
-*Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* — Hu et al. · KDD’26 ADS
+| **题目** | *Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* |
+| :-- | :-- |
+| **作者** | Hu et al. |
+| **会议** | KDD’26 ADS |
+| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2603.00632) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/quasid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`II. 唯一性与合法性` · `Tokenization` · [论文](https://arxiv.org/abs/2603.00632) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/quasid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > QuaSID 用按汉明距离缩放的间隔仅排斥判定为有害的冲突 SID 对，屏蔽良性重叠并加入双塔对比目标，不再对所有冲突一视同仁。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | 核心贡献 | QuaSID 用按汉明距离缩放的间隔仅排斥判定为有害的冲突 SID 对，屏蔽良性重叠并加入双塔对比目标，不再对所有冲突一视同仁。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Tables 2/3/4 and Section 5.1.4: [S4.T2](https://arxiv.org/html/2603.00632v1#S4.T2) and [S4.T3](https://arxiv.org/html/2603.00632v1#S4.T3) and [S5.T4](https://arxiv.org/html/2603.00632v1#S5.T4) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

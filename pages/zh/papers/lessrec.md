@@ -1,10 +1,14 @@
 # LESSRec
 
-*Level-Specific History Modeling for Semantic ID-Based Recommendation* — Yang et al. · arXiv’26
+| **题目** | *Level-Specific History Modeling for Semantic ID-Based Recommendation* |
+| :-- | :-- |
+| **作者** | Yang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.37286) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/lessrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Backbone` · [论文](https://arxiv.org/abs/2610.37286) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/lessrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > LESSRec 按各 SID 层级分别编码交互历史，将注意力限制在目标 token 所在层级并加入物品级语义序列，替代跨全部层级的全局注意力。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | LESSRec 按各 SID 层级分别编码交互历史，将注意力限制在目标 token 所在层级并加入物品级语义序列，替代跨全部层级的全局注意力。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：Section 4.1.5 and Tables 2/6: [S4.SS1.SSS5.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS5.p1) and [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2) and [S4.T6](https://arxiv.org/html/2610.37286v1#S4.T6)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

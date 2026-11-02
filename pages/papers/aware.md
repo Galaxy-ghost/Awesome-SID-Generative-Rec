@@ -1,10 +1,14 @@
 # AWARE
 
-*Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* — Ding et al. · arXiv’26
+| **Title** | *Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* |
+| :-- | :-- |
+| **Authors** | Ding et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `VI. Generalization` · `Training` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2605.11807) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/aware.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Training` · `POI` · [Paper](https://arxiv.org/abs/2605.11807) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/aware.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior, to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior, to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Sec.4.2, Sec.4.1 metrics and Tables1-4/Figure5: [S4.SS2.p1](https://arxiv.org/html/2605.11807v1#S4.SS2.p1) and [S4.SS1.p3](https://arxiv.org/html/2605.11807v1#S4.SS1.p3) and [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1) and [S4.T4](https://arxiv.org/html/2605.11807v1#S4.T4) and [S4.F5.g1](https://arxiv.org/html/2605.11807v1#S4.F5.g1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # SLIDE
 
-*Search-to-List Item Distillation for Single-Rollout Generative Retrieval* — Zhan et al. · arXiv’26
+| **题目** | *Search-to-List Item Distillation for Single-Rollout Generative Retrieval* |
+| :-- | :-- |
+| **作者** | Zhan et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.34764) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/slide.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2610.34764) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/slide.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > SLIDE 将教师模型离线束搜索得到的候选拼接为列表级 SID 目标，使学生模型通过单次贪心解码生成完整 top-K 列表，替代逐物品束搜索。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | SLIDE 将教师模型离线束搜索得到的候选拼接为列表级 SID 目标，使学生模型通过单次贪心解码生成完整 top-K 列表，替代逐物品束搜索。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Section 5.2 and Table 2: [S5.SS2.p1](https://arxiv.org/html/2610.34764v1#S5.SS2.p1) and [S5.T2](https://arxiv.org/html/2610.34764v1#S5.T2) and [S5.T3](https://arxiv.org/html/2610.34764v1#S5.T3) and [S5.T4](https://arxiv.org/html/2610.34764v1#S5.T4) and [S5.T5](https://arxiv.org/html/2610.34764v1#S5.T5) and [S5.T6](https://arxiv.org/html/2610.34764v1#S5.T6)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

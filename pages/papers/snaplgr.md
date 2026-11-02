@@ -1,10 +1,14 @@
 # SnapLGR
 
-*LLM-Based Generative Retrieval for Snapchat Content Recommendation* — Collins et al. · arXiv’26
+| **Title** | *LLM-Based Generative Retrieval for Snapchat Content Recommendation* |
+| :-- | :-- |
+| **Authors** | Collins et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2607.28895) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/snaplgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`II. Uniqueness and Validity` · `Tokenization` · [Paper](https://arxiv.org/abs/2607.28895) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/snaplgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | Key Contribution | SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Section 4.1/4.5 and Tables 3/5/8: [S4.SS1.p3](https://arxiv.org/html/2607.28895v4#S4.SS1.p3) and [S4.T3](https://arxiv.org/html/2607.28895v4#S4.T3) and [S4.T5](https://arxiv.org/html/2607.28895v4#S4.T5) and [S4.SS5.p2](https://arxiv.org/html/2607.28895v4#S4.SS5.p2) and [S4.T8](https://arxiv.org/html/2607.28895v4#S4.T8)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

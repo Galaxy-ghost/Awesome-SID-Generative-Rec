@@ -12,11 +12,15 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 
 ```mermaid
 flowchart LR
-    A[History] --> B[T5 encoder]
-    B --> C[Beam search]
-    C --> D[Candidates]
-    E[Cold-start items] --> D
-    D --> F[Dense ranking]
+    A("SID tokens + text + positions") --> B["T5 encoder-decoder"]
+    L1{{"Next-token loss"}} -.-> B
+    L2{{"Cosine loss to next item text"}} -.-> B
+    B --> D["Beam search: K items"]
+    D --> E("Candidates")
+    F("Cold-start items") --> E
+    E --> G["Rank by encoder embedding"]:::key
+    G --> H("Top items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Input and Training

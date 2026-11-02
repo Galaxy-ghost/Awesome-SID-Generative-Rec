@@ -12,11 +12,13 @@ Limitation: 强化学习的奖励只给生成的语义 ID（Semantic ID，SID）
 
 ```mermaid
 flowchart LR
-    A[教师增强语料] --> B[多任务对齐]
-    B --> C[推理激活]
-    C --> D[基于结果的 GRPO]
-    D --> E[推理文本]
-    E --> F[SID]
+    A("教师增强语料 + 通用推理数据") --> B["多任务 SID-语言对齐"]:::key
+    B --> C["推理激活 SFT"]
+    C --> D["基于结果的 GRPO"]
+    L1{{"只对 SID 打分的奖励"}} -.-> D
+    D --> E("推理文本")
+    E --> F("SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### SID-语言对齐

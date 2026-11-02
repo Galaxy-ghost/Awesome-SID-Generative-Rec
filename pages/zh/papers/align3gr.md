@@ -1,10 +1,14 @@
 # Align3GR
 
-*Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* — Ye et al. · AAAI’26
+| **题目** | *Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Ye et al. |
+| **会议** | AAAI’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2511.11255) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/align3gr.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2511.11255) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/align3gr.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > Align3GR 从双语义-协同编号、行为建模中的双向语义对齐，以及结合自博弈与真实反馈的渐进式 DPO 三个层面，对齐 LLM 推荐模型。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,11 +37,15 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 主要发现 | 在公开数据集上，Align3GR 比最强基线的 Recall@10 高 +17.8%，NDCG@10 高 +20.2%（Abstract）。 |
 
+---
+
 ### 1. 为什么重要
 
 把大语言模型（LLM）改造成推荐器，会遇到语义和行为两方面的错位（Abstract）。LC-Rec 等早期 LLM 推荐器用监督任务对齐物品 token。Align3GR 把 token、行为建模和偏好三个层级的对齐放在一起处理。
 
 > "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment."（Abstract）（把 token、行为建模、偏好三级对齐统一起来。）
+
+---
 
 ### 2. 方法
 
@@ -43,11 +53,16 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[用户与物品] --> B[双路 SC 编码器]
-    B --> C[SCID]
-    C --> D[多任务 SFT]
-    D --> E[SP-DPO]
-    E --> F[RF-DPO]
+    A("用户与物品") --> B["双路 SC 编码器 + RQ-VAE"]
+    B --> C("用户与物品 SCID")
+    C --> D["多任务 SFT"]
+    D --> E["SP-DPO：Easy、Medium、Hard"]:::key
+    E --> F["真实反馈 RF-DPO"]:::key
+    F --> G("对齐后的 LLM")
+    L1{{"四个 SFT 任务"}} -.-> D
+    L2{{"前缀 n-gram 课程"}} -.-> E
+    L3{{"disliked / neutral / liked"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### token 级对齐
@@ -65,6 +80,8 @@ flowchart LR
 自博弈 DPO（SP-DPO）分 Easy、Medium、Hard 三个阶段，阶段按层级 SCID 的前缀 n-gram 匹配划分（Preference-level Alignment）。之后的真实反馈 DPO（RF-DPO）使用标为 disliked、neutral、liked 的反馈（Preference-level Alignment）。
 
 > "Specifically, considering the hierarchical nature of SCID, we divide progressive SP-DPO learning into three stages: Easy, Medium, and Hard, using a prefix-ngram match metric (Zheng et al. 2025)"（Preference-level Alignment）（按前缀 n-gram 匹配把 SP-DPO 分成三个由易到难的阶段。）
+
+---
 
 ### 3. 实验发现
 
@@ -90,12 +107,16 @@ flowchart LR
 
 - 工业部署：作者报告了在工业推荐平台上的在线 A/B 测试收益和全量部署（Abstract）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 流程依次训练 SCID 编号器、多任务 SFT 和两轮 DPO。由此推断，物品库一变就要重跑好几个阶段。
 - EAGER-LLM 同样把语义和协同信号输入 `Dec-Only` LLM，但用 `Dual H-KM` 码；Align3GR 用 `Dual RQ` 码，并加了 DPO。
+
+---
 
 ### 5. 相关工作
 

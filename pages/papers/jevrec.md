@@ -1,10 +1,14 @@
 # JevRec
 
-*Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* — Zhong et al. · arXiv’26
+| **Title** | *Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Zhong et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.36937) · [Matrix](../../README.md#v--tokenization) · [中文](../zh/papers/jevrec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Tokenization` · [Paper](https://arxiv.org/abs/2610.36937) · [Matrix](../../README.md#v--tokenization) · [中文](../zh/papers/jevrec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones, and predicts length and content with separate heads, instead of one ID length for all items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones, and predicts length and content with separate heads, instead of one ID length for all items. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: [S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2) ; #S4.T3 ; #S4.F4 ; #A3.p1
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

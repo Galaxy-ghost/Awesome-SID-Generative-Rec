@@ -1,10 +1,14 @@
 # OneMall
 
-*One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* — Zhang et al. · CIKM’26
+| **题目** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
+| :-- | :-- |
+| **作者** | Zhang et al. |
+| **会议** | CIKM’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2601.21770) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onemall.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2601.21770) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onemall.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：Sections 4.2/4.3 and Tables 1-5: [S4.SS2.p1](https://arxiv.org/html/2601.21770v1#S4.SS2.p1) and [S4.T2](https://arxiv.org/html/2601.21770v1#S4.T2) and [S4.T3](https://arxiv.org/html/2601.21770v1#S4.T3) and [S3.T1](https://arxiv.org/html/2601.21770v1#S3.T1) and [S4.T4](https://arxiv.org/html/2601.21770v1#S4.T4) and [S4.T5](https://arxiv.org/html/2601.21770v1#S4.T5)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

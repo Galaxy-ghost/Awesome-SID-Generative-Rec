@@ -12,12 +12,18 @@ Existing LLM-based methods fuse content and collaborative signals but rely on te
 
 ```mermaid
 flowchart LR
-    A[Interactions] --> B[LightGCN]
-    B --> C[Constrained K-means]
-    C --> D[GIDs]
-    E[Item content] --> F[Encoder-decoder]
+    A("Interactions") --> B["LightGCN"]
+    B --> C["Hierarchical constrained K-means"]
+    C --> D("GIDs")
+    E("Item text + users") --> F["Shared encoder-decoder"]:::key
     D --> F
-    F --> G[Next-item GID]
+    F --> G["Constrained beam search"]
+    G --> H("Next-item GID")
+    L1{{"Recommendation loss"}} -.-> F
+    L2{{"Indexing loss"}} -.-> F
+    L3{{"BPR loss"}} -.-> F
+    L4{{"Weighted contrastive loss"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Generative Identifier Construction

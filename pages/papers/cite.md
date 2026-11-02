@@ -1,10 +1,14 @@
 # CITE
 
-*Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* — Ma et al. · Electronics’26
+| **Title** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
+| :-- | :-- |
+| **Authors** | Ma et al. |
+| **Venue** | Electronics’26 |
+| **Problem × Stage** | `I. Informativeness` · `Inference` |
+| **Links** | [Paper](https://doi.org/10.3390/electronics15204749) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cite.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Inference` · [Paper](https://doi.org/10.3390/electronics15204749) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cite.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Publisher version: §5.4 p.10, §5.5 p.13/Table 3; §§5.8–5.11 pp.17–21/Tables 7–11; §6 p.22. [link](https://doi.org/10.3390/electronics15204749)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

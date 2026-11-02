@@ -1,10 +1,14 @@
 # RecoChain
 
-*Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* — Liu and Cao · arXiv’26
+| **Title** | *Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* |
+| :-- | :-- |
+| **Authors** | Liu and Cao |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.25787) · [Matrix](../../README.md#iv--backbone) · [中文](../zh/papers/recochain.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Backbone` · [Paper](https://arxiv.org/abs/2604.25787) · [Matrix](../../README.md#iv--backbone) · [中文](../zh/papers/recochain.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > RecoChain generates candidates by hierarchical Semantic ID prediction and then ranks them with SIM-based click estimation in the same Transformer, to close the gap between generation and ranking.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | RecoChain generates candidates by hierarchical Semantic ID prediction and then ranks them with SIM-based click estimation in the same Transformer, to close the gap between generation and ranking. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Results: [S2.T1](https://arxiv.org/html/2604.25787v1#S2.T1), [S2.T2](https://arxiv.org/html/2604.25787v1#S2.T2), [S2.T3](https://arxiv.org/html/2604.25787v1#S2.T3).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

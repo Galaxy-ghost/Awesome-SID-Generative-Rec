@@ -14,12 +14,22 @@ MACRec adds cross-modal interaction at two points: inside the quantizer and in t
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Pseudo-labels]
-    B --> C[Cross-modal RQ]
-    C --> D[Text and image SIDs]
-    D --> E[Aligned generator]
-    E --> F[Score averaging]
-    F --> G[Next item]
+    A("Text embeddings") --> C["Text RQ"]
+    B("Image embeddings") --> D["Image RQ"]
+    A -.-> PT("Text pseudo-labels")
+    B -.-> PI("Image pseudo-labels")
+    PI -.-> L1{{"Residual-level contrastive"}}:::key
+    PT -.-> L2{{"Residual-level contrastive"}}:::key
+    L1 -.-> C
+    L2 -.-> D
+    C --> E("Text SIDs")
+    D --> F("Image SIDs")
+    E --> G["Generator"]
+    F --> G
+    L3{{"Implicit + item- and sequence-level alignment"}} -.-> G
+    G --> H["Average scores"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Dual-Modality Pseudo-Labels

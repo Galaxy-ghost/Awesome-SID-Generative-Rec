@@ -12,13 +12,16 @@ Limitation: LLM 对齐要先单独训练一个列表式奖励模型，才能做 
 
 ```mermaid
 flowchart LR
-    A[物品文本与位置] --> B[奖励模型]
-    B --> C[G-DPO]
-    C --> D[对齐后的 LLM]
-    D --> E[残差 token]
-    F[属性] --> G[主 token]
-    E --> H[SID]
-    G --> H
+    A("物品文本 + 位置") --> B["列表式奖励模型"]
+    B --> C["G-DPO"]:::key
+    L1{{"批内对比正则"}} -.-> C
+    C --> D("地理向量")
+    D --> E("残差 token")
+    F("空间与内容属性") --> G("主 token")
+    G --> H("SID")
+    E --> H
+    H --> I["DIN、TWIN、TIGER、OneRec 等"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 奖励模型

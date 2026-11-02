@@ -12,13 +12,17 @@ Traditional cross-domain recommendation relies on shared user or item IDs, which
 
 ```mermaid
 flowchart LR
-    A[Items] --> B[Universal encoder]
-    A --> C[Domain adapters]
-    B --> D[Item-level routing]
+    A("Item") --> B["Universal encoder"]
+    A --> C["Domain LoRA adapters"]
+    B --> D["Item-level routing"]:::key
     C --> D
-    D --> E[Semantic IDs]
-    E --> F[LLM with LoRA experts]
-    F --> G[Prefix tree]
+    D --> E("Disentangled SIDs")
+    E --> F["LLM with mixture of LoRA"]
+    F --> G["User-level routing"]:::key
+    L1{{"VIB regularizer"}} -.-> G
+    G --> H["Domain prefix tree"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Domain-Adaptive Tokenization

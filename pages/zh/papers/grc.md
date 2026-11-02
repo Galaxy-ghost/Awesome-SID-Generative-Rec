@@ -1,10 +1,14 @@
 # GRC
 
-*Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* — Xing et al. · CIKM’26
+| **题目** | *Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Xing et al. |
+| **会议** | CIKM’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2602.23639) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/grc.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Inference` · [论文](https://arxiv.org/abs/2602.23639) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/grc.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GRC 将单遍解码扩展为语义 token 空间中的“生成-反思-修正”流程，用 GRPO 训练轨迹，并在束搜索中按熵分配修正预算。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | GRC 将单遍解码扩展为语义 token 空间中的“生成-反思-修正”流程，用 GRPO 训练轨迹，并在束搜索中按熵分配修正预算。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Section 5 Tables 1-3 and Section 6: [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1) and [S5.T2](https://arxiv.org/html/2602.23639v1#S5.T2) and [S5.T3](https://arxiv.org/html/2602.23639v1#S5.T3) and [S6.p1](https://arxiv.org/html/2602.23639v1#S6.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

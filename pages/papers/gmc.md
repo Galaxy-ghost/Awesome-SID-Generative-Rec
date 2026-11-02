@@ -1,10 +1,14 @@
 # GMC
 
-*Generative Multi-Target Cross-Domain Recommendation* — Jin et al. · arXiv’25
+| **Title** | *Generative Multi-Target Cross-Domain Recommendation* |
+| :-- | :-- |
+| **Authors** | Jin et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2507.12871) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/gmc.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`VI. Generalization` · `Tokenization` · [Paper](https://arxiv.org/abs/2507.12871) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/gmc.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > GMC assigns domain-shared Semantic IDs with a domain-aware contrastive loss and trains one sequence-to-sequence generator across domains, instead of relying on users or items shared between domains.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | The Semantic IDs (SIDs) come from text embeddings only, so collaborative signals reach the model only through the generator's training sequences (Sec. 3). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Existing multi-target cross-domain recommendation (MTCDR) methods rely on users or items shared between domains, which non-overlapped scenarios do not have (Abstract). Methods based on domain-sharable semantic representations often need extensive auxiliary data for pre-training (Abstract).
 
 > "The core idea of GMC is to leverage semantically quantized discrete item identifiers as a medium for integrating multi-domain knowledge within a unified generative model." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,14 @@ Existing multi-target cross-domain recommendation (MTCDR) methods rely on users 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLM embeddings]
-    B --> C[Residual quantization]
-    C --> D[Shared SIDs]
-    D --> E[Unified generator]
-    E --> F[Domain LoRA]
+    A("Item text, all domains") --> B["LLM embeddings"]
+    B --> C["Residual quantization"]
+    L1{{"Domain-aware contrastive loss"}}:::key -.-> C
+    C --> D("Shared SIDs")
+    D --> E["Unified generator"]
+    E --> F["Domain LoRA, rest frozen"]:::key
+    F --> G("Per-domain recommendations")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Identifier Learning
@@ -62,6 +75,8 @@ GMC quantizes LLM text embeddings with residual vector quantization into SIDs sh
 After unified training, each domain gets its own LoRA module (Sec. 1, Sec. 3.5).
 
 > "Specifically, we incorporate domain-specific LoRA modules (Hu et al., 2022) into the unified recommender and update the corresponding LoRA parameters using domain-specific data, while freezing all other parameters of the unified model." (Sec. 1)
+
+---
 
 ### 3. Experimental Findings
 
@@ -87,12 +102,16 @@ After unified training, each domain gets its own LoRA module (Sec. 1, Sec. 3.5).
 
 - Main comparison: on five public datasets, GMC reports better performance than a range of baselines (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The contrastive loss pulls items of one domain together. This suggests a trade-off with code sharing across domains.
 - VQ-Rec also transfers across domains, with `OPQ` codes in an `Encoder` and `Scoring`; GMC generates `Unified RQ` codes with an `Enc-Dec` generator.
+
+---
 
 ### 5. Connections to Related Work
 

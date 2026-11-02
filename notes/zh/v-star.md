@@ -8,12 +8,14 @@
 
 ```mermaid
 flowchart LR
-    A[用户上下文] --> B[策略]
-    B --> C[SID 前缀树]
-    C --> D[价值引导扩展]
-    D --> E[候选集]
-    E --> F[Sibling-GRPO]
-    F --> B
+    A("用户上下文") --> B["策略"]
+    B --> C["由概率束得到前缀树"]
+    V["价值头"]:::key --> D
+    C --> D["VED：扩展优先级高于同层平均的节点"]:::key
+    D --> E("候选集")
+    E --> F{{"Sibling-GRPO"}}:::key
+    F -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 价值头
@@ -31,6 +33,16 @@ VED 把 SID 解码看作在固定算力预算下、在前缀树上构建候选�
 Sibling-GRPO 把每个父前缀下的子节点分成一组（Sec. 4.3）。每个子节点的分数是其后代候选的平均奖励，优势在兄弟节点之间归一化（Eq. 17）。
 
 > "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates."（Sec. 1）（用兄弟组缓解候选相关时的优势压缩。）
+
+```mermaid
+flowchart TD
+    P("父前缀") --> A("子节点 a：其候选的平均奖励")
+    P --> B("子节点 b：其候选的平均奖励")
+    P --> C("子节点 c：其候选的平均奖励")
+    A --> N{{"在兄弟节点间归一化优势"}}
+    B --> N
+    C --> N
+```
 
 ### 3. 实验发现
 

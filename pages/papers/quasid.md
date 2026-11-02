@@ -1,10 +1,14 @@
 # QuaSID
 
-*Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* — Hu et al. · KDD’26 ADS
+| **Title** | *Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* |
+| :-- | :-- |
+| **Authors** | Hu et al. |
+| **Venue** | KDD’26 ADS |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.00632) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/quasid.md) |
+| **Reading level** | Overview (Level 1) |
 
-`II. Uniqueness and Validity` · `Tokenization` · [Paper](https://arxiv.org/abs/2603.00632) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/quasid.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds a dual-tower contrastive objective, instead of treating all collisions equally.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | Key Contribution | QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds a dual-tower contrastive objective, instead of treating all collisions equally. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Tables 2/3/4 and Section 5.1.4: [S4.T2](https://arxiv.org/html/2603.00632v1#S4.T2) and [S4.T3](https://arxiv.org/html/2603.00632v1#S4.T3) and [S5.T4](https://arxiv.org/html/2603.00632v1#S5.T4) and [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

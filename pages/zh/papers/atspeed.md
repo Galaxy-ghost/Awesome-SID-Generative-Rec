@@ -1,10 +1,14 @@
 # AtSpeed
 
-*Efficient Inference for Large Language Model-based Generative Recommendation* — Lin et al. · ICLR’25
+| **题目** | *Efficient Inference for Large Language Model-based Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Lin et al. |
+| **会议** | ICLR’25 |
+| **问题与阶段** | `V. 效率` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2410.05165) · [代码](https://github.com/Linxyhaha/AtSpeed) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/atspeed.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Inference` · [论文](https://arxiv.org/abs/2410.05165) · [代码](https://github.com/Linxyhaha/AtSpeed) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/atspeed.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > AtSpeed 在 top-K 序列上对齐草稿模型与目标 LLM，并放宽投机解码的验证条件，以加速 LLM 生成式推荐中 top-K 物品的束搜索解码。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | AtSpeed 在 top-K 序列上对齐草稿模型与目标 LLM，并放宽投机解码的验证条件，以加速 LLM 生成式推荐中 top-K 物品的束搜索解码。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Main: [S4.T1](https://arxiv.org/html/2410.05165v3#S4.T1); ranking results: [A1.T5](https://arxiv.org/html/2410.05165v3#A1.T5); appendix datasets and cost: [A1.T6](https://arxiv.org/html/2410.05165v3#A1.T6) and [A1.T7](https://arxiv.org/html/2410.05165v3#A1.T7).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

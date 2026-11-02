@@ -1,10 +1,14 @@
 # UGR
 
-*Uncertainty-aware Generative Recommendation* — Fan et al. · KDD’26
+| **Title** | *Uncertainty-aware Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Fan et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.11719) · [Code](https://github.com/cxfann/UGR) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/ugr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2602.11719) · [Code](https://github.com/cxfann/UGR) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/ugr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization, and explicit confidence alignment, instead of rewards based only on binary outcome correctness.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization, and explicit confidence alignment, instead of rewards based only on binary outcome correctness. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Table 1/Appendix B/Table 3: [S3.T1](https://arxiv.org/html/2602.11719v2#S3.T1) and [A2.p1](https://arxiv.org/html/2602.11719v2#A2.p1) and [S4.T3](https://arxiv.org/html/2602.11719v2#S4.T3) and [S3.T2](https://arxiv.org/html/2602.11719v2#S3.T2)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

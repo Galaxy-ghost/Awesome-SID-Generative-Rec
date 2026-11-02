@@ -1,10 +1,14 @@
 # DiscRec
 
-*Disentangled Semantic-Collaborative Modeling for Generative Recommendation* — Liu et al. · arXiv’25
+| **题目** | *Disentangled Semantic-Collaborative Modeling for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Liu et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2506.15576) · [代码](https://github.com/Ten-Mao/DiscRec) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/discrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Backbone` · [论文](https://arxiv.org/abs/2506.15576) · [代码](https://github.com/Ten-Mao/DiscRec) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/discrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > DiscRec 加入物品级位置嵌入，并将语义与协同信号拆分为两个门控分支（其一在物品内部做注意力计算），而非在单一嵌入空间直接混合。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | DiscRec 加入物品级位置嵌入，并将语义与协同信号拆分为两个门控分支（其一在物品内部做注意力计算），而非在单一嵌入空间直接混合。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S4.SS1.SSS4.p1](https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1) ; [S4.T2](https://arxiv.org/html/2506.15576v2#S4.T2) ; [S4.SS5.p2](https://arxiv.org/html/2506.15576v2#S4.SS5.p2)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

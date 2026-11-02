@@ -1,10 +1,14 @@
 # DualGR
 
-*Generative Retrieval with Long and Short-Term Interests Modeling* — Yi et al. · WWW’26 Short
+| **题目** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
+| :-- | :-- |
+| **作者** | Yi et al. |
+| **会议** | WWW’26 Short |
+| **问题与阶段** | `VI. 泛化` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2511.12518) · [矩阵](../../../README.zh.md#vi--backbone) · [English](../../papers/dualgr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Backbone` · [论文](https://arxiv.org/abs/2511.12518) · [矩阵](../../../README.zh.md#vi--backbone) · [English](../../papers/dualgr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：Tables 1-2 and Section 3.1: [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1) and [S3.T2](https://arxiv.org/html/2511.12518v1#S3.T2) and [S3.SS1.p1](https://arxiv.org/html/2511.12518v1#S3.SS1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

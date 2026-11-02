@@ -1,10 +1,14 @@
 # Intent-Driven-News
 
-*Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* — Su et al. · ACL’26 Industry
+| **题目** | *Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* |
+| :-- | :-- |
+| **作者** | Su et al. |
+| **会议** | ACL’26 Industry |
+| **问题与阶段** | `III. SID 与模型对齐` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2605.07613) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/intent-driven-news.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Training` · [论文](https://arxiv.org/abs/2605.07613) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/intent-driven-news.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > Intent-Driven-News 训练 LLM 将对话中的隐含意图映射为层级 SID 前缀，再与当前新闻池做模糊匹配，替代先检索文章的流程。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | Intent-Driven-News 训练 LLM 将对话中的隐含意图映射为层级 SID 前缀，再与当前新闻池做模糊匹配，替代先检索文章的流程。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Tables 3/5/6 and Figure 2: [S4.T3](https://arxiv.org/html/2605.07613v1#S4.T3) and [S4.T5](https://arxiv.org/html/2605.07613v1#S4.T5) and [S4.T6](https://arxiv.org/html/2605.07613v1#S4.T6) and [S4.F2](https://arxiv.org/html/2605.07613v1#S4.F2)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

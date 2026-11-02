@@ -1,10 +1,14 @@
 # UTGRec
 
-*Universal Item Tokenization for Transferable Generative Recommendation* — Zheng et al. · arXiv’25
+| **题目** | *Universal Item Tokenization for Transferable Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zheng et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `VI. 泛化` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2504.04405) · [代码](https://github.com/RUCAIBox/UTGRec) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/utgrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Tokenization` · [论文](https://arxiv.org/abs/2504.04405) · [代码](https://github.com/RUCAIBox/UTGRec) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/utgrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UTGRec 基于多模态 LLM 结合树结构码本、图文重构与共现对齐构建通用物品编号器，并预训练可跨域迁移的生成器。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | UTGRec 基于多模态 LLM 结合树结构码本、图文重构与共现对齐构建通用物品编号器，并预训练可跨域迁移的生成器。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Main: [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2); ablation: [S3.T3](https://arxiv.org/html/2504.04405v3#S3.T3).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

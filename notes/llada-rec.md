@@ -12,12 +12,14 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Multi-Head VQ-VAE]
-    B --> C[Parallel SIDs]
-    C --> D[Masked predictor]
-    E[User history] --> D
-    D --> F[Adapted beam search]
-    F --> G[Next item]
+    A("Item text embedding") --> B["Multi-Head VQ-VAE"]
+    B --> C("Parallel SIDs")
+    C --> D["Mask predictor"]:::key
+    L1{{"User-history masking"}} -.-> D
+    L2{{"Next-item masking"}} -.-> D
+    D --> E["Adapted beam search"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Parallel Tokenization
@@ -35,6 +37,16 @@ Inference starts from a fully masked SID and fills it over several steps (Sec. 4
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence." (Sec. 4.3.4)
 
 The number of steps is controllable, and each step can predict several tokens (Sec. 4.4.2). An adapted beam search keeps several candidates during this process, because standard beam search does not fit diffusion-based generation (Abstract).
+
+```mermaid
+flowchart LR
+    S0("All positions masked") --> P["Predict all masked positions"]
+    P --> K["Keep selected positions"]:::key
+    K --> R["Remask the rest"]
+    R -->|next step| P
+    K --> D("Full SID after the last step")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 

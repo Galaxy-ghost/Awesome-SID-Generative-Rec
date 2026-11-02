@@ -1,10 +1,14 @@
 # NEO
 
-*A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* — De Nadai et al. · arXiv’26
+| **题目** | *A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* |
+| :-- | :-- |
+| **作者** | De Nadai et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2603.17533) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/neo.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2603.17533) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/neo.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Original Tables 5/8/9 and Sections 4.1.1/4.2.3: [S4.T5](https://arxiv.org/html/2603.17533v1#S4.T5) and [A2.T8](https://arxiv.org/html/2603.17533v1#A2.T8) and [A2.T9](https://arxiv.org/html/2603.17533v1#A2.T9) and [S4.SS1.SSS1](https://arxiv.org/html/2603.17533v1#S4.SS1.SSS1) and [S4.SS2.SSS3.Px1.p1](https://arxiv.org/html/2603.17533v1#S4.SS2.SSS3.Px1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

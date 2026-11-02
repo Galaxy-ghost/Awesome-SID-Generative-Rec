@@ -1,10 +1,14 @@
 # LIGER
 
-*Unifying generative and dense retrieval for sequential recommendation* — Yang et al. · arXiv’24
+| **Title** | *Unifying generative and dense retrieval for sequential recommendation* |
+| :-- | :-- |
+| **Authors** | Yang et al. |
+| **Venue** | arXiv’24 |
+| **Problem × Stage** | `VI. Generalization` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2411.18814) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/liger.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`VI. Generalization` · `Inference` · [Paper](https://arxiv.org/abs/2411.18814) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/liger.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of both approaches, to narrow their performance gap and improve cold-start recommendation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Inference |
 | Limitation | Every cold-start item joins the candidate set, and the design assumes that cold-start items are few (Sec. 3). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Sequential dense retrieval stores one representation per item, so memory grows with the catalog (Abstract). Generative retrieval predicts Semantic IDs (SIDs) instead, but a fair comparison of the two was missing (Abstract).
 
 > "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items." (Sec. 2.4)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,15 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 
 ```mermaid
 flowchart LR
-    A[History] --> B[T5 encoder]
-    B --> C[Beam search]
-    C --> D[Candidates]
-    E[Cold-start items] --> D
-    D --> F[Dense ranking]
+    A("SID tokens + text + positions") --> B["T5 encoder-decoder"]
+    L1{{"Next-token loss"}} -.-> B
+    L2{{"Cosine loss to next item text"}} -.-> B
+    B --> D["Beam search: K items"]
+    D --> E("Candidates")
+    F("Cold-start items") --> E
+    E --> G["Rank by encoder embedding"]:::key
+    G --> H("Top items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Input and Training
@@ -64,6 +78,8 @@ The decoder proposes candidates, and the encoder output ranks them together with
 The authors base this design on an assumption about cold-start items (Sec. 3).
 
 > "This design choice is based on the hypothesis that cold-start items are relatively sparse compared to in-set items, as recommendation systems periodically update themselves to incorporate newly introduced items." (Sec. 3)
+
+---
 
 ### 3. Experimental Findings
 
@@ -90,12 +106,16 @@ The authors base this design on an assumption about cold-start items (Sec. 3).
 - Reporting setup: generative retrieval returns 20 items, which are ranked with the cold-start items (Sec. 4.2).
 - Main result: LIGER narrows the gap to dense retrieval and improves cold-start recommendation on the evaluated datasets (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The final order comes from the dense embedding. The generated SID selects candidates but does not decide their order.
 - TIGER retrieves by `Beam` search only; LIGER adds a dense loss (`NTP + Dense`) and `Hybrid` ranking.
+
+---
 
 ### 5. Connections to Related Work
 

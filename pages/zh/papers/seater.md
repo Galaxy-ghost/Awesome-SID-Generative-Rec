@@ -1,10 +1,14 @@
 # SEATER
 
-*Generative retrieval with semantic tree-structured identifiers and contrastive learning* — Si et al. · SIGIR-AP’24
+| **题目** | *Generative retrieval with semantic tree-structured identifiers and contrastive learning* |
+| :-- | :-- |
+| **作者** | Si et al. |
+| **会议** | SIGIR-AP’24 |
+| **问题与阶段** | `V. 效率` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2309.13375) · [代码](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/seater.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Tokenization` · [论文](https://arxiv.org/abs/2309.13375) · [代码](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/seater.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > SEATER 在平衡 k 叉树上构建物品标识，并结合生成损失、InfoNCE 损失与三元组损失训练编码器-解码器，以相等的推理开销学习层级 token。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | SEATER 在平衡 k 叉树上构建物品标识，并结合生成损失、InfoNCE 损失与三元组损失训练编码器-解码器，以相等的推理开销学习层级 token。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Main: [S5.T3](https://arxiv.org/html/2309.13375v2#S5.T3); complexity: [S3.T1](https://arxiv.org/html/2309.13375v2#S3.T1).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

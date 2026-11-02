@@ -1,9 +1,0 @@
-# GR-Generalize: archived card
-
-Moved from notes/gr-generalize.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-以分析为主；提出的方法按实例加权融合生成式模型和 SASRec 的分数，最终物品不由 SID 生成单独决定。

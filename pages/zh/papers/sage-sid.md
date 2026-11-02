@@ -1,10 +1,14 @@
 # SAGE-SID
 
-*SAGE: Sequence-level Adaptive Gradient Evolution for Generative Recommendation* — Xie et al. · arXiv’26
+| **题目** | *SAGE: Sequence-level Adaptive Gradient Evolution for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Xie et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2601.21452) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/sage-sid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2601.21452) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/sage-sid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > SAGE-SID 用几何平均序列比率、解耦的多目标优势、非对称自适应裁剪界与熵感知惩罚优化列表级生成器，替代 GBPO 的对称裁剪界。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | SAGE-SID 用几何平均序列比率、解耦的多目标优势、非对称自适应裁剪界与熵感知惩罚优化列表级生成器，替代 GBPO 的对称裁剪界。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：Tables 1-4 and Section 4.1.4: [S3.T1](https://arxiv.org/html/2601.21452v3#S3.T1) and [S3.T2](https://arxiv.org/html/2601.21452v3#S3.T2) and [S3.T3](https://arxiv.org/html/2601.21452v3#S3.T3) and [S4.T4](https://arxiv.org/html/2601.21452v3#S4.T4) and [S4.SS1.SSS4.p3](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

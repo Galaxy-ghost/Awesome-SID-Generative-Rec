@@ -1,10 +1,14 @@
 # TrieRec
 
-*Trie-Aware Transformers for Generative Recommendation* — Xu et al. · NeurIPS’26
+| **Title** | *Trie-Aware Transformers for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Xu et al. |
+| **Venue** | NeurIPS’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.21677) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/trierec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2602.21677) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/trierec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: Section 4.2, Tables 2/4: [S4.SS2.p1](https://arxiv.org/html/2602.21677v1#S4.SS2.p1) and [S4.T2](https://arxiv.org/html/2602.21677v1#S4.T2) and [S4.T4](https://arxiv.org/html/2602.21677v1#S4.T4) and [S4.T3](https://arxiv.org/html/2602.21677v1#S4.T3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

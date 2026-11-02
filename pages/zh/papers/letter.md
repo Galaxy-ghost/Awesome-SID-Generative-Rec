@@ -1,10 +1,14 @@
 # LETTER
 
-*Learnable item tokenization for generative recommendation* — Wang et al. · CIKM’24
+| **题目** | *Learnable item tokenization for generative recommendation* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | CIKM’24 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2405.07314) · [代码](https://github.com/HonghuiBao2000/LETTER) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/letter.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2405.07314) · [代码](https://github.com/HonghuiBao2000/LETTER) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/letter.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LETTER 用协同对齐损失与多样性损失约束 RQ-VAE 编号器，使物品 SID 融入协同信号并减轻早期标识中的码分配偏置。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -33,15 +39,33 @@ flowchart LR
 | 主要发现 | 在 Instruments 上，LETTER-TIGER 的 Recall@10 为 0.1122，TIGER 为 0.1058；只加其中任一种正则也能提升 TIGER（Table 2）。 |
 | 局限 | 协同正则需要一个单独训练的 CF 模型提供嵌入（Sec. 3.1）。 |
 
+---
+
 ### 1. 为什么重要
 
 以往的物品标识，无论是普通 ID、文本还是码本编码，都在编码语义、携带协同信号或处理码分配偏差上有欠缺（Abstract）。LETTER 的语义 ID（Semantic ID，SID）可以给 TIGER 和 LC-Rec 两种生成器使用（Sec. 4.1.3）。
 
 > "LETTER incorporates Residual Quantized VAE for semantic regularization, a contrastive alignment loss for collaborative regularization, and a diversity loss to mitigate code assignment bias."（Abstract）（RQ-VAE 做语义正则，对比对齐损失做协同正则，多样性损失缓解码分配偏差。）
 
+---
+
 ### 2. 方法
 
 ![LETTER architecture diagram](../../../architectures/letter.png)
+
+```mermaid
+flowchart LR
+    A("语义嵌入") --> B["RQ-VAE 编号器"]:::key
+    L1{{"语义：RQ-VAE 损失"}} -.-> B
+    L2{{"协同：对齐 32 维 SASRec"}} -.-> B
+    L3{{"多样性：约束 k-means 聚类"}} -.-> B
+    B --> C("固定的标识")
+    C --> D["TIGER 或 LC-Rec 生成器"]
+    L4{{"排序引导的生成损失"}} -.-> D
+    D --> E["Trie 约束生成"]
+    E --> F("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### 语义正则
 
@@ -64,6 +88,8 @@ RQ-VAE 逐层量化物品的语义嵌入，标识因此保留由粗到细的语�
 LETTER 先用组合损失训练编号器（Eq. 5），再用它给物品编号，供生成器训练和推理（Sec. 3.2）。LETTER 还在生成器训练中加了排序引导的生成损失，提高排序能力（Abstract，Sec. 1）。推理时用 trie 把生成限制在合法标识内。
 
 > "To ensure generating valid identifiers, we follow (Hua et al., 2023) to employ constrained generation (De Cao et al., 2020) via Trie"（Sec. 3.2.2）（用 Trie 做约束生成，保证标识合法。）
+
+---
 
 ### 3. 实验发现
 
@@ -104,6 +130,8 @@ LETTER 先用组合损失训练编号器（Eq. 5），再用它给物品编号�
 
   > "However, 2) blindly expanding N might inversely hurt the performance, where larger codebook size might be more susceptible to noise in the item's semantic information, potentially leading to the over-fitting of some meaningless semantics."（Sec. 4.3.5）（盲目增大 N 会更容易受语义噪声影响，导致过拟合。）
 
+---
+
 ### 4. 局限与分析
 
 **Stated by the authors.** 结论部分给出三个未来方向：结合丰富用户行为的编号、跨领域的物品编号、把自然语言用户指令和编号后的交互历史结合起来（Sec. 6）。
@@ -113,6 +141,8 @@ LETTER 先用组合损失训练编号器（Eq. 5），再用它给物品编号�
 - 编号器训练一次就固定（`Fixed`），物品库一变就要重训编号器、重新编号。ETEGRec 轮流更新编号器和生成器（`Altern.`），DIGER 让生成器损失直接更新编号器（`Joint`）。
 - 协同正则要求每个物品都有 CF 嵌入。由此推断，没有交互的物品，其标识里没有协同信号。
 - 两种正则对码使用的作用相反（Sec. 4.3.2），由此推断，它们的权重是在两种性质之间取舍。
+
+---
 
 ### 5. 相关工作
 

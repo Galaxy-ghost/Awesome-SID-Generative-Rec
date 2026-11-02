@@ -1,10 +1,14 @@
 # Merge-and-Branch
 
-*Merge and Branch: Efficient Tree-Structured Supervised Fine-Tuning of LLMs for Recommendation* — Zhu et al. · arXiv’26
+| **题目** | *Merge and Branch: Efficient Tree-Structured Supervised Fine-Tuning of LLMs for Recommendation* |
+| :-- | :-- |
+| **作者** | Zhu et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.37973) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/merge-and-branch.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2610.37973) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/merge-and-branch.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > Merge-and-Branch 将每个历史物品的 SID 与文本压缩为少量可学习 token，并以树状布局从共享历史同时预测多个目标 ID，降低微调开销。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | Merge-and-Branch 将每个历史物品的 SID 与文本压缩为少量可学习 token，并以树状布局从共享历史同时预测多个目标 ID，降低微调开销。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Table 3, Table 4 and Appendix B.1: [S4.T3](https://arxiv.org/html/2610.37973v1#S4.T3) and [S4.T4](https://arxiv.org/html/2610.37973v1#S4.T4) and [A2.SS1.p1](https://arxiv.org/html/2610.37973v1#A2.SS1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

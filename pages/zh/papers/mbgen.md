@@ -1,10 +1,14 @@
 # MBGen
 
-*Multi-Behavior Generative Recommendation* — Liu et al. · CIKM’24
+| **题目** | *Multi-Behavior Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Liu et al. |
+| **会议** | CIKM’24 |
+| **问题与阶段** | `I. 信息量` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2405.16871) · [代码](https://github.com/anananan116/MBGen) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/mbgen.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Training` · [论文](https://arxiv.org/abs/2405.16871) · [代码](https://github.com/anananan116/MBGen) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/mbgen.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > MBGen 在同一序列中交错排列行为 token 与物品 token，先预测下一行为类型再预测下一物品，并用按位置路由的稀疏架构扩展规模。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | MBGen 在同一序列中交错排列行为 token 与物品 token，先预测下一行为类型再预测下一物品，并用按位置路由的稀疏架构扩展规模。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S4.T3](https://arxiv.org/html/2405.16871v1#S4.T3) ; #S4.T4 ; #S4.T5 ; #S4.T6 ; #S4.T7 ; #S4.SS1.SSS4.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

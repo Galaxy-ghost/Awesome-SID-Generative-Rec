@@ -1,10 +1,14 @@
 # Dynamic-Single-Codebook
 
-*From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative Recommendation* — Xie et al. · arXiv’26
+| **题目** | *From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Xie et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2608.21012) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/dynamic-single-codebook.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Tokenization` · [论文](https://arxiv.org/abs/2608.21012) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/dynamic-single-codebook.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > Dynamic-Single-Codebook 用大单层码本的一个 token 加协同消歧 token 替代多层残差码，并随曝光分布变化动态更新码本。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | Dynamic-Single-Codebook 用大单层码本的一个 token 加协同消歧 token 替代多层残差码，并随曝光分布变化动态更新码本。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Section 4 and Appendices C-E: [S4](https://arxiv.org/html/2608.21012v1#S4) and [A3](https://arxiv.org/html/2608.21012v1#A3) and [A4](https://arxiv.org/html/2608.21012v1#A4) and [A5](https://arxiv.org/html/2608.21012v1#A5)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

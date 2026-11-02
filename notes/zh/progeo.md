@@ -14,12 +14,15 @@ ProGEO 保留标准的语义码字，再加一个地理码字，编码每个 POI
 
 ```mermaid
 flowchart LR
-    A[POI 特征] --> B[两层语义码本]
-    B --> C[地理质心坐标]
-    C --> D[Geo-RoPE 层]
-    D --> E[SID]
-    E --> F[微调后的 LLM]
-    F --> G[附近的 POI]
+    A("POI 特征") --> B["第 1-2 层：余弦聚类"]
+    B --> C("前两层 SID 子集")
+    C --> D["地理质心，极坐标"]
+    D --> E["Geo-RoPE 旋转第 2 层残差"]:::key
+    E --> F("地理码字")
+    F --> G("三个 token 的 SID")
+    G --> H["微调的 LLM"]
+    H --> I("附近的 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 语义层

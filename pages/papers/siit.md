@@ -1,10 +1,14 @@
 # SIIT
 
-*Enhancing item tokenization for generative recommendation through self-improvement* — Chen et al. · arXiv’24
+| **Title** | *Enhancing item tokenization for generative recommendation through self-improvement* |
+| :-- | :-- |
+| **Authors** | Chen et al. |
+| **Venue** | arXiv’24 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2412.17171) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/siit.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2412.17171) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/siit.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S4.T2](https://arxiv.org/html/2412.17171v1#S4.T2); ablation: [S4.T3](https://arxiv.org/html/2412.17171v1#S4.T3); identifier similarity: [S4.T4](https://arxiv.org/html/2412.17171v1#S4.T4).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

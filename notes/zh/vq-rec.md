@@ -6,12 +6,14 @@
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[固定的 BERT]
-    B --> C[OPQ 码]
-    C --> D[码嵌入]
-    D --> E[均值池化]
-    E --> F[Transformer 编码器]
-    F --> G[物品分数]
+    A("物品文本") --> B["固定的 BERT"]
+    B --> C["OPQ"]
+    C --> D("物品码")
+    D --> E["查码嵌入 + 取平均"]:::key
+    E --> F["Transformer 编码器"]
+    L1{{"对比：半合成负例 + 混合领域负例"}} -.-> F
+    F --> G("物品分数")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 文本到码
@@ -35,6 +37,14 @@ Transformer 编码物品表示组成的序列（Sec. 2.3.1）。真实的下一�
 已知领域里出现新物品时不需要重训。
 
 > "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup."（Sec. 2.4.2）（新物品的文本编码成离散索引，查嵌入表即得表示。）
+
+```mermaid
+flowchart LR
+    A("新领域文本") --> B["重训 PQ 中心"]
+    B --> C["可微置换，对齐旧码嵌入"]:::key
+    C --> D["微调置换后的嵌入表，Transformer 固定"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. 实验发现
 

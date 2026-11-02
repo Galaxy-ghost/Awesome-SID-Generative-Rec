@@ -1,10 +1,14 @@
 # OneLoc
 
-*Geo-Aware Generative Recommender Systems for Local Life Service* — Wei et al. · arXiv’25
+| **Title** | *Geo-Aware Generative Recommender Systems for Local Life Service* |
+| :-- | :-- |
+| **Authors** | Wei et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.14646) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/oneloc.md) |
+| **Reading level** | Annotated Deep Dive (Level 3) |
 
-`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2508.14646) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/oneloc.md)
-
-Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,11 +39,15 @@ flowchart LR
 | Key Findings | In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4). |
 | Limitation | Location enters the SID only through one fused embedding before residual k-means, so no SID position is tied to geography (Sec. 2.2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -47,11 +57,15 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ```mermaid
 flowchart LR
-    A[Video and location] -->|Multimodal LLM| B[Embedding]
-    B -->|Residual k-means| C[Geo-aware SID]
-    C -->|GA-Attn encoder| D[User vector]
-    D -->|Prompted decoder, NTP| E[Generator]
-    E -->|Rewards, DPO| F[Aligned generator]
+    A("Video + location") --> B["Multimodal LLM"]
+    B --> C["Residual k-means"]
+    C --> D("Geo-aware SID")
+    D --> E["GA-Attn encoder"]:::key
+    E --> F["Decoder with neighbor-aware prompt"]:::key
+    L1{{"NTP loss"}} -.-> F
+    L2{{"DPO on geo + GMV rewards"}} -.-> F
+    F --> G("Next video")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -157,6 +171,19 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 
 Simplifications: The code shows one attention head and leaves out RMSNorm, the feed-forward network, and the residual connections of each block. It takes the projection matrices, the gate MLP, and the log-probabilities as inputs, and it does not build preference pairs or run beam search.
 
+```mermaid
+flowchart LR
+    M("Model θi") --> B["Beam search: N videos"]
+    B --> R["Geo + GMV rewards"]
+    R --> P("Highest = positive, lowest = negative")
+    P --> L{{"L = NTP + 0.05 DPO"}}:::key
+    L --> N("Model θi+1, reference θi")
+    N -->|next round| M
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
+
 ### 3. Experimental Findings
 
 <details>
@@ -189,6 +216,8 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 - Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model.
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Stated by the authors.** The conclusion names two directions for future work: scaling laws of model size and sequence length, and RL methods adapted to local-life services (Sec. 7).
@@ -197,6 +226,8 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 - OneLoc mixes location into the input (`Text+Img+Geo†`). LGSID instead uses geographic indexing with residual quantization (`Geo-Idx+RQ`), and LGRID uses `DSRQ`, so their SID positions carry geography directly. GeoGR adds geographic and collaborative signals to text (`Text+Geo+CF`).
 - KuaiLLSR, the GMV scoring model, and the online test all come from Kuaishou, so only the Foursquare results can be reproduced from public data (Sec. 4.1.1, Sec. 5).
+
+---
 
 ### 5. Connections to Related Work
 

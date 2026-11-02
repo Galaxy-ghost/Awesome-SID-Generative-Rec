@@ -1,9 +1,0 @@
-# MSCGRec: archived card
-
-Moved from notes/mscgrec.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态语义码和协同码共同表示物品，以约束 softmax 训练，约束束搜索解码。

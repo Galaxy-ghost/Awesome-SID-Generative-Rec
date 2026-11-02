@@ -1,9 +1,20 @@
 <!--lint disable awesome-github-->
+<div align="center">
+
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-> Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes and the pipeline stage it changes.
+Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes and the pipeline stage it changes.
+
+[![papers](https://img.shields.io/badge/papers-181-c6dbef)](#all-papers) [![updated](https://img.shields.io/badge/updated-2026--11--01-d9ead3)](#recent-updates) [![license](https://img.shields.io/badge/license-CC0--1.0-e5dcef)](LICENSE)
 
 English | [中文](README.zh.md)
+
+</div>
+
+```mermaid
+flowchart LR
+    R["Representation<br/>12 papers"] --> T["Tokenization<br/>70 papers"] --> B["Backbone<br/>33 papers"] --> TR["Training<br/>40 papers"] --> I["Inference<br/>14 papers"]
+```
 
 ## Scope
 

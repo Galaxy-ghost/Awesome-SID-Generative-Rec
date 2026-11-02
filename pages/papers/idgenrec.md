@@ -1,10 +1,14 @@
 # IDGenRec
 
-*Llm-recsys alignment with textual id learning* — Tan et al. · SIGIR’24
+| **Title** | *Llm-recsys alignment with textual id learning* |
+| :-- | :-- |
+| **Authors** | Tan et al. |
+| **Venue** | SIGIR’24 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/idgenrec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/idgenrec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language tokens, and tests zero-shot transfer to unseen platforms.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | Item IDs change whenever the ID generator is updated, so the prefix tree of valid IDs must be rebuilt during training (Sec. 2.4). |
 
+---
+
 ### 1. Why This Paper Matters
 
 The authors state that generative recommendation struggles to encode items in the text-to-text framework with concise yet meaningful IDs (Abstract). Because IDGenRec's IDs are plain words, user histories become platform-agnostic text, which opens zero-shot transfer (Abstract).
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,13 @@ The authors state that generative recommendation struggles to encode items in th
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[ID generator]
-    B --> C[Textual IDs]
-    C --> D[Base recommender]
-    D --> E[Prefix tree]
-    E --> F[Item]
+    A("Plain-text item information") --> B["T5 ID generator"]:::key
+    B --> C("Textual IDs")
+    C --> D["T5 base recommender"]
+    D --> E["Prefix tree of all IDs"]
+    E --> F("Item")
+    D -.->|alternate training| B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID Generator
@@ -63,11 +75,23 @@ The generator keeps generating until each item has a unique ID (Sec. 2.3).
 
 The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
 
+```mermaid
+flowchart LR
+    A["Generate IDs by beam search"] --> B{"Duplicates?"}
+    B -->|no| C("Unique IDs")
+    B -->|yes| D["Diversity penalty + 1"]
+    D --> E{"Penalty reached 10?"}
+    E -->|no| A
+    E -->|yes| F["Extend length limit"] --> A
+```
+
 #### Base Recommender
 
 The base recommender decodes the target ID under a prefix-tree constraint (Sec. 2.4).
 
 > "To ensure that the decoded ID corresponds to an actual existing item, we adopt a constrained sequence decoding strategy (De Cao et al., 2020). More specifically, a prefix tree is used to store all generated candidate IDs." (Sec. 2.4)
+
+---
 
 ### 3. Experimental Findings
 
@@ -94,12 +118,16 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 - Standard setting: IDGenRec reports better performance than existing models in sequential recommendation (Abstract).
 - Zero-shot setting: a model trained on 19 datasets and tested on 6 unseen datasets from other platforms performs comparably to or better than some supervised traditional recommenders (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - Unique IDs come from raising the diversity penalty and the length limit. This suggests that IDs of similar items can be pushed apart by arbitrary words.
 - CID builds `Spectral Clus.` IDs from `CF` signals and keeps them fixed; IDGenRec builds `LLM-Vocab` IDs from text and updates them.
+
+---
 
 ### 5. Connections to Related Work
 

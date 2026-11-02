@@ -1,9 +1,0 @@
-# GEM-Rec: archived card
-
-Moved from notes/gem-rec.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用控制 token 决定是否展示广告，并在约束解码时注入实时出价。

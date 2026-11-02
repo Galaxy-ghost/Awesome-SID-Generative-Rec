@@ -1,10 +1,14 @@
 # SIDReasoner
 
-*Reasoning over Semantic IDs Enhances Generative Recommendation* — He et al. · KDD’26
+| **题目** | *Reasoning over Semantic IDs Enhances Generative Recommendation* |
+| :-- | :-- |
+| **作者** | He et al. |
+| **会议** | KDD’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2603.23183) · [代码](https://github.com/HappyPointer/SIDReasoner) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/sidreasoner.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Training` · [论文](https://arxiv.org/abs/2603.23183) · [代码](https://github.com/HappyPointer/SIDReasoner) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/sidreasoner.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SIDReasoner 在教师合成语料上用多任务训练加强 SID 与自然语言的对齐，再通过结果驱动的强化学习改进推理，不依赖人工标注的推荐推理轨迹。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Training |
 | 局限 | 强化学习的奖励只给生成的语义 ID（Semantic ID，SID）打分（看最长正确前缀，以及是否对应物品库中的物品），不评价推理文本（Sec. 3.3.2）。 |
 
+---
+
 ### 1. 为什么重要
 
 基于 LLM 的生成式推荐器已经让语言和 SID 共用一个 token 空间，但在 SID 上推理仍然困难：物品 token 对 LLM 没有天然含义，推荐推理也缺少高质量的监督（Abstract）。SIDReasoner 先加强 SID 与语言的对齐，让 LLM 的通用推理能力迁移到推荐上，而不需要大量推荐专用的推理轨迹。
 
 > "Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks."（Sec. 5）（SID 与语言对齐得越好，通用推理越能迁移到推荐。）
+
+---
 
 ### 2. 方法
 
@@ -44,11 +54,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[教师增强语料] --> B[多任务对齐]
-    B --> C[推理激活]
-    C --> D[基于结果的 GRPO]
-    D --> E[推理文本]
-    E --> F[SID]
+    A("教师增强语料 + 通用推理数据") --> B["多任务 SID-语言对齐"]:::key
+    B --> C["推理激活 SFT"]
+    C --> D["基于结果的 GRPO"]
+    L1{{"只对 SID 打分的奖励"}} -.-> D
+    D --> E("推理文本")
+    E --> F("SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### SID-语言对齐
@@ -64,6 +76,8 @@ flowchart LR
 #### 基于结果的 GRPO
 
 GRPO 成组采样"推理加预测"的轨迹，用推荐准确率给出的奖励优化（Sec. 3.3.2，Eqs. 6–8）。
+
+---
 
 ### 3. 实验发现
 
@@ -94,12 +108,16 @@ GRPO 成组采样"推理加预测"的轨迹，用推荐准确率给出的奖励�
 
 - 推理长度：强化学习过程中推理文本变短（Sec. 4.4.2，Fig. 6）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - LC-Rec 用 `Multi-task NTP` 把 `Dec-Only` LLM 对齐到 `RQ-VAE` SID；SIDReasoner 保留这类对齐，并加了一个强化学习阶段（`NTP → RL`）。
 - TIGER 用 `NTP` 训练的小型 `Enc-Dec` 生成器预测 `RQ-VAE` SID；SIDReasoner 用同类 SID，配 `Dec-Only` LLM。
+
+---
 
 ### 5. 相关工作
 

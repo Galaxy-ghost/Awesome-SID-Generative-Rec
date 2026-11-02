@@ -1,10 +1,14 @@
 # DOS
 
-*Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* — Yin et al. · WWW’26 Short
+| **题目** | *Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* |
+| :-- | :-- |
+| **作者** | Yin et al. |
+| **会议** | WWW’26 Short |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2602.04460) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/dos.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · `POI` · [论文](https://arxiv.org/abs/2602.04460) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/dos.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > DOS 通过协同信号上的用户-物品双向流将 SID 码本与生成空间对齐，并用正交残差量化旋转语义空间。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | DOS 通过协同信号上的用户-物品双向流将 SID 码本与生成空间对齐，并用正交残差量化旋转语义空间。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：[S3.SS2.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.p1) ; #S3.SS2.SSS2.p1 ; #S3.SS4.p1 ; #S3.SS4.p2
 
 </details>
+
+---
 
 ### 5. 相关工作
 

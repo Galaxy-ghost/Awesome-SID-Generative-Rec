@@ -1,10 +1,14 @@
 # Spacetime-GR
 
-*A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* — Lin et al. · arXiv’25
+| **题目** | *A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* |
+| :-- | :-- |
+| **作者** | Lin et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `Backbone` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2508.16126) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spacetime-gr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Backbone` · `POI` · [论文](https://arxiv.org/abs/2508.16126) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spacetime-gr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Spacetime-GR 用地理层级索引 POI，将时空上下文编码进动作序列，融入多模态 POI 嵌入，并针对嵌入、排序分数与候选生成做后训练。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | Spacetime-GR 用地理层级索引 POI，将时空上下文编码进动作序列，融入多模态 POI 嵌入，并针对嵌入、排序分数与候选生成做后训练。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Original Tables 5/6/7/9: [S4.T5](https://arxiv.org/html/2508.16126v1#S4.T5) and [S4.T6](https://arxiv.org/html/2508.16126v1#S4.T6) and [S5.T7](https://arxiv.org/html/2508.16126v1#S5.T7) and [S5.T9](https://arxiv.org/html/2508.16126v1#S5.T9)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

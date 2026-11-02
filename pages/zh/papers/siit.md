@@ -1,10 +1,14 @@
 # SIIT
 
-*Enhancing item tokenization for generative recommendation through self-improvement* — Chen et al. · arXiv’24
+| **题目** | *Enhancing item tokenization for generative recommendation through self-improvement* |
+| :-- | :-- |
+| **作者** | Chen et al. |
+| **会议** | arXiv’24 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2412.17171) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/siit.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2412.17171) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/siit.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SIIT 从任意外部模型给出的物品编号出发，在训练过程中周期性地按 LLM 学到的模式调整编号，使物品编号匹配 LLM 内部的物品理解。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | SIIT 从任意外部模型给出的物品编号出发，在训练过程中周期性地按 LLM 学到的模式调整编号，使物品编号匹配 LLM 内部的物品理解。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Main: [S4.T2](https://arxiv.org/html/2412.17171v1#S4.T2); ablation: [S4.T3](https://arxiv.org/html/2412.17171v1#S4.T3); identifier similarity: [S4.T4](https://arxiv.org/html/2412.17171v1#S4.T4).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

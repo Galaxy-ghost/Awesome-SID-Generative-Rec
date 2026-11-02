@@ -1,10 +1,14 @@
 # GNPR-SID
 
-*Generative Next POI Recommendation with Semantic ID* — Wang et al. · KDD’25
+| **Title** | *Generative Next POI Recommendation with Semantic ID* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | KDD’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2506.01375) · [Code](https://github.com/wds1996/GNPR-SID) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gnpr-sid.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2506.01375) · [Code](https://github.com/wds1996/GNPR-SID) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gnpr-sid.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GNPR-SID replaces random numeric POI IDs with RQ-VAE Semantic IDs built from semantic and collaborative features under a diversity loss, and fine-tunes an LLM to generate the next POI.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -34,11 +40,15 @@ flowchart LR
 | Key Findings | On three benchmark datasets, GNPR-SID reports up to 16% improvement in recommendation accuracy over the compared methods (Abstract). |
 | Limitation | Operating hours and collaborative features come from check-ins, so a new point of interest (POI) without visits has incomplete features (Sec. 4.1.1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Existing generative POI recommenders usually give POIs random numeric IDs, which limits the modeling of semantic relationships between similar locations (Abstract). GNPR-SID replaces them with Semantic IDs (SIDs) learned from POI features.
 
 > "To achieve this, we propose the diversity loss, which promotes the distinctiveness of codewords within each codebook layer." (Sec. 1)
+
+---
 
 ### 2. How It Works
 
@@ -46,11 +56,15 @@ Existing generative POI recommenders usually give POIs random numeric IDs, which
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[One-hot vectors]
-    B --> C[RQ-VAE]
-    C --> D[POI SIDs]
-    D --> E[Fine-tuned LLM]
-    E --> F[Next POI]
+    A("Plus Code region") --> D["One-hot vectors"]
+    B("Top 10 of 24 time slots") --> D
+    C("Top 10 visitors") --> D
+    D --> E["RQ-VAE"]
+    L1{{"Diversity loss"}}:::key -.-> E
+    E --> F("POI SIDs")
+    F --> G["Fine-tuned LLM, NTP"]
+    G --> H("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### POI Features
@@ -68,6 +82,8 @@ The diversity loss keeps the SIDs uniformly distributed across the semantic spac
 #### Training Data
 
 Appendix A.1 adds multiple cropping and fill-in-the-blank augmentation (Appendix A.1).
+
+---
 
 ### 3. Experimental Findings
 
@@ -93,12 +109,16 @@ Appendix A.1 adds multiple cropping and fill-in-the-blank augmentation (Appendix
 
 - Other analyses: the paper tests out-of-domain data (Sec. 6.5) and efficiency through training time, test time, and token counts (Sec. 6.6, Table 6).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - GeoGR refines its `R-KM+EM` codes against the generator; GNPR-SID trains its `RQ-VAE` codes once.
 - LC-Rec trains its LLM with `Multi-task NTP` over text; GNPR-SID uses POI attributes, geography, and collaborative features with plain `NTP`.
+
+---
 
 ### 5. Connections to Related Work
 

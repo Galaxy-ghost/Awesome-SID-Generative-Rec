@@ -1,10 +1,14 @@
 # PinGER
 
-*Token-Efficient Generative Retrieval with Semantic IDs* — Li et al. · arXiv’26
+| **题目** | *Token-Efficient Generative Retrieval with Semantic IDs* |
+| :-- | :-- |
+| **作者** | Li et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.33435) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/pinger.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2610.33435) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/pinger.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Tables 1-4 and Appendix Tables 5-8: [S4.T1](https://arxiv.org/html/2610.33435v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.33435v1#S5.T2) and [S5.T3](https://arxiv.org/html/2610.33435v1#S5.T3) and [S5.T4](https://arxiv.org/html/2610.33435v1#S5.T4) and [A1.T5](https://arxiv.org/html/2610.33435v1#A1.T5) and [A1.T8](https://arxiv.org/html/2610.33435v1#A1.T8)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

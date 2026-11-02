@@ -8,10 +8,14 @@ Existing generative recommendation (GR) models tokenize each action on its own, 
 
 ```mermaid
 flowchart LR
-    A[Action sequences] --> B[Co-occurrence counts]
-    B --> C[Vocabulary]
-    C --> D[Segmentations]
-    D --> E[Generator]
+    A("Action sequences of feature sets") --> B["Count token pairs in a set and across adjacent sets"]
+    B --> C["Weighted merges"]:::key
+    C --> D("Context-dependent vocabulary")
+    D --> E["Set permutation regularization"]
+    E --> F("Several segmentations")
+    F --> G["Enc-Dec generator"]
+    G --> H("Ensembled ranking")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Actions as Feature Sets

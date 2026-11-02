@@ -1,10 +1,14 @@
 # OneMall
 
-*One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* — Zhang et al. · CIKM’26
+| **Title** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
+| :-- | :-- |
+| **Authors** | Zhang et al. |
+| **Venue** | CIKM’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.21770) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/onemall.md) |
+| **Reading level** | Overview (Level 1) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2601.21770) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/onemall.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Key Contribution | OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward. |
 | Modified Stage | No single stage |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: Sections 4.2/4.3 and Tables 1-5: [S4.SS2.p1](https://arxiv.org/html/2601.21770v1#S4.SS2.p1) and [S4.T2](https://arxiv.org/html/2601.21770v1#S4.T2) and [S4.T3](https://arxiv.org/html/2601.21770v1#S4.T3) and [S3.T1](https://arxiv.org/html/2601.21770v1#S3.T1) and [S4.T4](https://arxiv.org/html/2601.21770v1#S4.T4) and [S4.T5](https://arxiv.org/html/2601.21770v1#S4.T5)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

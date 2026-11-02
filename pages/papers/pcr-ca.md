@@ -1,10 +1,14 @@
 # PCR-CA
 
-*Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* — Tan et al. · KDD’26
+| **Title** | *Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* |
+| :-- | :-- |
+| **Authors** | Tan et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.18166) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/pcr-ca.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2508.18166) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/pcr-ca.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: [S4.T2](https://arxiv.org/html/2508.18166v1#S4.T2) ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.p2
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

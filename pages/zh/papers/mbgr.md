@@ -1,10 +1,14 @@
 # MBGR
 
-*Multi-Business Prediction for Generative Recommendation at Meituan* — Li et al. · arXiv’26
+| **题目** | *Multi-Business Prediction for Generative Recommendation at Meituan* |
+| :-- | :-- |
+| **作者** | Li et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `VI. 泛化` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2604.02684) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/mbgr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Tokenization` · [论文](https://arxiv.org/abs/2604.02684) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/mbgr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Generative: [S6.T1](https://arxiv.org/html/2604.02684v1#S6.T1); downstream: [S6.T2](https://arxiv.org/html/2604.02684v1#S6.T2); ablation: [S6.T3](https://arxiv.org/html/2604.02684v1#S6.T3); hyperparameters: [S6.T4](https://arxiv.org/html/2604.02684v1#S6.T4), [S6.T6](https://arxiv.org/html/2604.02684v1#S6.T6), [S6.T7](https://arxiv.org/html/2604.02684v1#S6.T7).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

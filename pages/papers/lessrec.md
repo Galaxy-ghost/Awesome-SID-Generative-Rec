@@ -1,10 +1,14 @@
 # LESSRec
 
-*Level-Specific History Modeling for Semantic ID-Based Recommendation* — Yang et al. · arXiv’26
+| **Title** | *Level-Specific History Modeling for Semantic ID-Based Recommendation* |
+| :-- | :-- |
+| **Authors** | Yang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.37286) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/lessrec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2610.37286) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/lessrec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > LESSRec encodes the history separately at each Semantic ID level and restricts attention to the target token's level, adding an item-level semantic sequence, instead of attending to all levels.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | LESSRec encodes the history separately at each Semantic ID level and restricts attention to the target token's level, adding an item-level semantic sequence, instead of attending to all levels. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Section 4.1.5 and Tables 2/6: [S4.SS1.SSS5.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS5.p1) and [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2) and [S4.T6](https://arxiv.org/html/2610.37286v1#S4.T6)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

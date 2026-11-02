@@ -12,11 +12,14 @@ Limitation: 语义 ID（Semantic ID，SID）只来自文本嵌入，协同信号
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[LLM 嵌入]
-    B --> C[残差量化]
-    C --> D[共享 SID]
-    D --> E[统一生成器]
-    E --> F[领域 LoRA]
+    A("各领域物品文本") --> B["LLM 嵌入"]
+    B --> C["残差量化"]
+    L1{{"领域感知对比损失"}}:::key -.-> C
+    C --> D("共享 SID")
+    D --> E["统一生成器"]
+    E --> F["领域 LoRA，其余冻结"]:::key
+    F --> G("各领域的推荐")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 学习语义标识

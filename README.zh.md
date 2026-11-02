@@ -1,9 +1,20 @@
 <!--lint disable awesome-github-->
+<div align="center">
+
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-> 按要解决的问题和改动的流程阶段整理的语义 ID 生成式推荐论文清单。
+按要解决的问题和改动的流程阶段整理的语义 ID 生成式推荐论文清单。
+
+[![论文](https://img.shields.io/badge/%E8%AE%BA%E6%96%87-181-c6dbef)](#全部论文) [![更新](https://img.shields.io/badge/%E6%9B%B4%E6%96%B0-2026--11--01-d9ead3)](#最近更新) [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC0--1.0-e5dcef)](LICENSE)
 
 [English](README.md) | 中文
+
+</div>
+
+```mermaid
+flowchart LR
+    R["Representation<br/>12 篇"] --> T["Tokenization<br/>70 篇"] --> B["Backbone<br/>33 篇"] --> TR["Training<br/>40 篇"] --> I["Inference<br/>14 篇"]
+```
 
 ## 范围
 

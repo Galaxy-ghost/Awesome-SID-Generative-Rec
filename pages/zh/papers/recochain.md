@@ -1,10 +1,14 @@
 # RecoChain
 
-*Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* — Liu and Cao · arXiv’26
+| **题目** | *Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* |
+| :-- | :-- |
+| **作者** | Liu and Cao |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2604.25787) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/recochain.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Backbone` · [论文](https://arxiv.org/abs/2604.25787) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/recochain.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > RecoChain 在同一 Transformer 中先通过层级 SID 预测生成候选，再用基于 SIM 的点击率估计做排序，弥合生成与排序之间的差距。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | RecoChain 在同一 Transformer 中先通过层级 SID 预测生成候选，再用基于 SIM 的点击率估计做排序，弥合生成与排序之间的差距。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Results: [S2.T1](https://arxiv.org/html/2604.25787v1#S2.T1), [S2.T2](https://arxiv.org/html/2604.25787v1#S2.T2), [S2.T3](https://arxiv.org/html/2604.25787v1#S2.T3).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

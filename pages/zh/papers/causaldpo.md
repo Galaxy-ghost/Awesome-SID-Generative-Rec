@@ -1,10 +1,14 @@
 # CausalDPO
 
-*Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* — Zhao et al. · ICML’26
+| **题目** | *Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhao et al. |
+| **会议** | ICML’26 |
+| **问题与阶段** | `VI. 泛化` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2603.22335) · [代码](https://github.com/user683/CausalDPO) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/causaldpo.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Training` · [论文](https://arxiv.org/abs/2603.22335) · [代码](https://github.com/user683/CausalDPO) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/causaldpo.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CausalDPO 为基于 LLM 的推荐扩展 DPO，加入后门调整、隐环境软聚类与不变性约束，消除分布偏移下被 DPO 放大的虚假相关。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | CausalDPO 为基于 LLM 的推荐扩展 DPO，加入后门调整、隐环境软聚类与不变性约束，消除分布偏移下被 DPO 放大的虚假相关。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：OOD table: [S3.T1](https://arxiv.org/html/2603.22335v2#S3.T1); IID: [A2.T3](https://arxiv.org/html/2603.22335v2#A2.T3); mixed shift: [A2.T4](https://arxiv.org/html/2603.22335v2#A2.T4); regularizer transfer: [A2.T5](https://arxiv.org/html/2603.22335v2#A2.T5); ablation: [A2.T8](https://arxiv.org/html/2603.22335v2#A2.T8); model sizes: [A2.T9](https://arxiv.org/html/2603.22335v2#A2.T9).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

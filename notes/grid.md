@@ -8,10 +8,15 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 
 ```mermaid
 flowchart LR
-    A[Item content] --> B[Semantic encoder]
-    B --> C[SID tokenizer]
-    C --> D[Generator]
-    D --> E[Beam search]
+    subgraph Tok["Tokenization phase"]
+        A("Item content") --> B["Semantic encoder (size varied)"]
+        B --> C["Tokenizer (L, W) varied"]
+    end
+    subgraph Gen["Generation phase"]
+        D["User tokens, Enc-Dec vs Dec-only, augmentation, de-dup IDs"] --> E["Constrained or free beam"]
+    end
+    C --> F("SIDs") --> D
+    E --> G("Next item")
 ```
 
 #### Tokenization then Generation

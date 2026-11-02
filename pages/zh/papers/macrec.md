@@ -1,10 +1,14 @@
 # MACRec
 
-*Multi-aspect cross-modal quantization for generative recommendation* — Zhang et al. · AAAI’26
+| **题目** | *Multi-aspect cross-modal quantization for generative recommendation* |
+| :-- | :-- |
+| **作者** | Zhang et al. |
+| **会议** | AAAI’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2511.15122) · [代码](https://github.com/zhangfw123/MACRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/macrec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2511.15122) · [代码](https://github.com/zhangfw123/MACRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/macrec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > MACRec 对文本与图像特征做跨模态量化以构建低冲突 SID，并在生成器训练中加入隐式与显式跨模态对齐。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 主要发现 | MACRec 在三个数据集上的 HR@10、NDCG@5 和 NDCG@10 都领先所有基线；在 Games 的 HR@5 上，MISSRec 为 0.0674，MACRec 为 0.0671（Table 2）。 |
 
+---
+
 ### 1. 为什么重要
 
 生成式推荐需要的语义 ID（Semantic ID，SID）要有层级、冲突少，还要便于训练生成器（Abstract）。早期的多模态生成式推荐对每个模态单独量化，文本和图像的 ID 互不参照。
@@ -40,18 +48,30 @@ flowchart LR
 
 MACRec 在两处加入跨模态交互：量化器内部和生成器的训练任务（Methodology）。
 
+---
+
 ### 2. 方法
 
 ![MACRec architecture diagram](../../../architectures/macrec.png)
 
 ```mermaid
 flowchart LR
-    A[文本与图像] --> B[伪标签]
-    B --> C[跨模态 RQ]
-    C --> D[文本 SID 与图像 SID]
-    D --> E[对齐的生成器]
-    E --> F[分数平均]
-    F --> G[下一物品]
+    A("文本嵌入") --> C["文本 RQ"]
+    B("图像嵌入") --> D["图像 RQ"]
+    A -.-> PT("文本伪标签")
+    B -.-> PI("图像伪标签")
+    PI -.-> L1{{"残差层对比"}}:::key
+    PT -.-> L2{{"残差层对比"}}:::key
+    L1 -.-> C
+    L2 -.-> D
+    C --> E("文本 SID")
+    D --> F("图像 SID")
+    E --> G["生成器"]
+    F --> G
+    L3{{"隐式 + 物品级与序列级对齐"}} -.-> G
+    G --> H["分数平均"]
+    H --> I("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 双模态伪标签
@@ -71,6 +91,8 @@ MACRec 分别按文本嵌入和图像嵌入给物品聚类。簇标签用来定�
 生成器的训练包括：各模态内的下一物品预测、两种 SID 表示的隐式对齐，以及跨模态的物品级和序列级显式任务（Generative Recommendation with Multi-aspect Alignment）。
 
 > "For sequence-level alignment, we construct a prediction task where a historical sequence of textual semantic IDs is used to predict the visual semantic ID of the next recommended item."（Explicit Alignment with Different Generation Tasks）（序列级对齐：用历史的文本语义 ID 预测下一物品的视觉语义 ID。）
+
+---
 
 ### 3. 实验发现
 
@@ -97,12 +119,16 @@ MACRec 分别按文本嵌入和图像嵌入给物品聚类。簇标签用来定�
 - 消融：去掉任何一个模块，三个数据集上的 HR@10 都下降（Table 3）。
 - 冲突：MACRec 的物品 ID 冲突率低于 MQL4GRec（Table 4）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - MQL4GRec 也分别构建文本 SID 和图像 SID（`Dual RQ`）；MACRec 改为 `Cross RQ`，并在生成器目标里加了对比项（`NTP + Ctr.`）。
 - 表示只用文本和图像（`Text+Img`）。CARD 加入协同信号（`Text+Img+CF`），用 `NU-RQ` 量化合并后的单一输入。
+
+---
 
 ### 5. 相关工作
 

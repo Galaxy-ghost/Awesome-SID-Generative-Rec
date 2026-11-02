@@ -1,10 +1,14 @@
 # Gwhere
 
-*Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap* — Zhai et al. · RecSys’26
+| **Title** | *Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap* |
+| :-- | :-- |
+| **Authors** | Zhai et al. |
+| **Venue** | RecSys’26 |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/gwhere.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`II. Uniqueness and Validity` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/gwhere.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Gwhere learns POI Semantic IDs with a contrastive residual-quantization tokenizer over text, image, spatial, and collaborative signals, then adapts an LLM through continued pretraining, fine-tuning, and exposure-aware KTO.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,11 +39,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Key Findings | In long-term online A/B tests on Amap, Gwhere reports improvements of 5.83% in P-CTR and 6.20% in U-CTR over the production baseline (Abstract). |
 
+---
+
 ### 1. Why This Paper Matters
 
 The authors state that scaling generative retrieval to industry is hard because of redundant or colliding token assignments and weak integration of heterogeneous item signals (Abstract). Next point-of-interest (POI) recommendation adds structured spatial entities and mobility patterns (Abstract).
 
 > "Gwhere first learns discriminative POI SIDs through a contrastive residual-quantization tokenizer that aligns textual, visual, spatial, and collaborative signals." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -45,11 +55,15 @@ The authors state that scaling generative retrieval to industry is hard because 
 
 ```mermaid
 flowchart LR
-    A[Four signals] --> B[Contrastive quantizer]
-    B --> C[POI SIDs]
-    C --> D[Continued pretraining]
-    D --> E[SFT]
-    E --> F[EAKTO]
+    A("Text, image, spatial, CF") --> B["Gumbel-softmax quantizer"]:::key
+    L1{{"NT-Xent, no reconstruction"}} -.-> B
+    B --> C("POI SIDs")
+    C --> D["Continued pretraining on two corpora"]
+    D --> E["SFT"]
+    E --> F["EAKTO"]
+    L2{{"Clicks vs non-clicks"}} -.-> F
+    F --> G("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Contrastive Item Tokenization
@@ -67,6 +81,8 @@ Two corpora from desensitized Amap trajectories and POI metadata cover semantic 
 Exposure-Aware Kahneman-Tversky Optimization (EAKTO) adapts KTO to the clicks and non-clicks of exposure logs (Sec. 3.4).
 
 > "In contrast, KTO (Ethayarajh et al., 2024) operates on simpler binary signals (desirable / undesirable), aligning with the natural structure of exposure logs (clicks vs. non-clicks)." (Sec. 3.4)
+
+---
 
 ### 3. Experimental Findings
 
@@ -93,12 +109,16 @@ Exposure-Aware Kahneman-Tversky Optimization (EAKTO) adapts KTO to the clicks an
 - Offline: the paper evaluates Gwhere on public datasets and Amap's industrial dataset (Abstract).
 - Deployment: Gwhere serves Amap's homepage under high-concurrency and low-latency constraints (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - Without a reconstruction loss, the quantizer trains only for separability. This suggests that SID prefixes need not form a semantic hierarchy.
 - GNPR-SID builds `RQ-VAE` codes and trains with plain `NTP`; Gwhere builds `Contr. RQ` codes and adds preference alignment.
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # AdaSID
 
-*Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale* — Pan et al. · arXiv’26
+| **题目** | *Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale* |
+| :-- | :-- |
+| **作者** | Pan et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2604.23522) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/adasid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`II. 唯一性与合法性` · `Tokenization` · [论文](https://arxiv.org/abs/2604.23522) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/adasid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > AdaSID 在编号器训练中对语义相近物品放松排斥，并按局部冲突负载缩放其余排斥项，替代固定强度的重叠正则。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | 核心贡献 | AdaSID 在编号器训练中对语义相近物品放松排斥，并按局部冲突负载缩放其余排斥项，替代固定强度的重叠正则。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Main offline table: [S5.T2](https://arxiv.org/html/2604.23522v1#S5.T2); industrial table: [S5.T3](https://arxiv.org/html/2604.23522v1#S5.T3); ablation: [S5.T4](https://arxiv.org/html/2604.23522v1#S5.T4); codebook statistics: [S5.F3](https://arxiv.org/html/2604.23522v1#S5.F3).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

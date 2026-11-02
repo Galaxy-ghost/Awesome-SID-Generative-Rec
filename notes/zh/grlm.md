@@ -12,11 +12,15 @@ Limitation: 生成的 Term ID 若对不上任何物品，就靠结构匹配落�
 
 ```mermaid
 flowchart LR
-    A[物品元数据] --> B[生成关键词]
-    B --> C[Term ID]
-    C --> D[指令微调]
-    D --> E[生成的 Term ID]
-    E --> F[落地到物品]
+    A("物品元数据") --> B["上下文感知的关键词生成"]
+    B --> C("Term ID")
+    C --> D["一体化指令微调"]
+    D --> E("生成的 TID")
+    E --> F{"精确匹配？"}
+    F -->|是| G("物品")
+    F -->|否| H["EIG：加权结构匹配"]:::key
+    H --> G
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 上下文感知的关键词生成

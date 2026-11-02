@@ -13,11 +13,15 @@ Existing generative POI recommenders usually give POIs random numeric IDs, which
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[One-hot vectors]
-    B --> C[RQ-VAE]
-    C --> D[POI SIDs]
-    D --> E[Fine-tuned LLM]
-    E --> F[Next POI]
+    A("Plus Code region") --> D["One-hot vectors"]
+    B("Top 10 of 24 time slots") --> D
+    C("Top 10 visitors") --> D
+    D --> E["RQ-VAE"]
+    L1{{"Diversity loss"}}:::key -.-> E
+    E --> F("POI SIDs")
+    F --> G["Fine-tuned LLM, NTP"]
+    G --> H("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### POI Features

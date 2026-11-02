@@ -1,9 +1,0 @@
-# CARD: archived card
-
-Moved from notes/card.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-把文本、图像和协同信号统一成视觉语义单元，再用非均匀 RQ-VAE 缓解码字分布不均。

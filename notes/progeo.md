@@ -14,12 +14,15 @@ ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes ea
 
 ```mermaid
 flowchart LR
-    A[POI features] --> B[Two semantic layers]
-    B --> C[Geo-centroid coordinates]
-    C --> D[Geo-RoPE layer]
-    D --> E[SID]
-    E --> F[Fine-tuned LLM]
-    F --> G[Nearby POIs]
+    A("POI features") --> B["Layer 1-2: cosine clustering"]
+    B --> C("Two-layer SID subset")
+    C --> D["Geographic centroid, polar coordinates"]
+    D --> E["Geo-RoPE rotation of layer-2 residual"]:::key
+    E --> F("Geo-codeword")
+    F --> G("Three-token SID")
+    G --> H["Fine-tuned LLM"]
+    H --> I("Nearby POIs")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Layers

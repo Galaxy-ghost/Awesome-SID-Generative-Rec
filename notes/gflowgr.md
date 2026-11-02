@@ -13,11 +13,14 @@ Generative recommendation (GR) models are usually fine-tuned with the next-token
 
 ```mermaid
 flowchart LR
-    A[User history] --> B[Trajectory sampler]
-    B --> C[Trajectories]
-    C --> D[Reward model]
-    D --> E[GFlowNet loss]
-    E --> F[Generator]
+    A("User history") --> S["Trajectory sampler"]
+    S --> T("Trajectories")
+    T --> R["Behavior-aware reward model"]
+    R --> L{{"GFlowNet loss: DB or TB"}}:::key
+    L -.-> G["Generator"]
+    N{{"Next-token loss"}} -.-> G
+    G -.->|on-policy samples| S
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Trajectory Sampler
@@ -25,6 +28,14 @@ flowchart LR
 The trajectory set comes from four methods (Sec. 3.1). The authors state that random samples cause training instability and drift from the model's learning dynamics (Sec. 3.1).
 
 > "There are four methods for constructing the trajectory set: interaction log, random sampling, CM-based sampling, and on-policy sampling." (Sec. 3.1)
+
+```mermaid
+flowchart LR
+    I("Interaction log") --> T("Trajectory set")
+    R("Random sampling") --> T
+    C("CM-based sampling") --> T
+    O("On-policy sampling") --> T
+```
 
 #### Reward Model
 

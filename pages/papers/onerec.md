@@ -1,10 +1,14 @@
 # OneRec
 
-*Unifying retrieve and rank with generative recommender and iterative preference alignment* — Deng et al. · arXiv’25
+| **Title** | *Unifying retrieve and rank with generative recommender and iterative preference alignment* |
+| :-- | :-- |
+| **Authors** | Deng et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2502.18965) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/onerec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2502.18965) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/onerec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions of videos, and aligns preferences by iterative DPO with a reward model.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Modified Stage | No single stage |
 | Limitation | In the online test, OneRec improves watch time but is weaker on interaction indicators such as likes (Sec. 6). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Most recommenders run a retrieve-and-rank cascade, and a generative model, when present, only selects candidates in the retrieval stage (Abstract). The authors argue that each stage caps the stage after it.
@@ -39,18 +47,23 @@ Most recommenders run a retrieve-and-rank cascade, and a generative model, when 
 
 OneRec replaces the cascade with a single-stage generative model and was deployed in the main scene of Kuaishou (Abstract, Sec. 1).
 
+---
+
 ### 2. How It Works
 
 ![OneRec architecture diagram](../../architectures/onerec.png)
 
 ```mermaid
 flowchart LR
-    A[Behavior history] --> B[Encoder]
-    B --> C[Session decoder]
-    C --> D[Session list]
-    D --> E[Reward model]
-    E --> F[Iterative DPO]
-    F --> C
+    A("Behavior history") --> B["Encoder"]
+    B --> C["Session decoder"]:::key
+    C --> D("Session list of SIDs")
+    E["Balanced K-means"] --> F("SIDs") --> C
+    D --> G["Beam samples"]
+    G --> H["Reward model"]
+    H --> L{{"DPO on best vs worst"}}
+    L -.->|next round| C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Balanced Semantic IDs
@@ -66,6 +79,8 @@ Instead of predicting one next item, OneRec generates the list of items for a wh
 #### Iterative Preference Alignment
 
 A recommender shows each request only once, so true positive and negative lists for the same request are not available (Abstract). OneRec samples several responses with beam search, scores them with a pre-trained reward model, and pairs the highest-scoring and lowest-scoring responses for DPO (Sec. 3.3.2). The model then generates new samples in the next round.
+
+---
 
 ### 3. Experimental Findings
 
@@ -92,6 +107,8 @@ A recommender shows each request only once, so true positive and negative lists 
 - Session-wise generation: OneRec outperforms dot-product retrieval methods and point-wise generation such as TIGER on the reward-model metrics (Sec. 5.2, Table 1).
 - Preference alignment: adding IPA further improves the generated sessions (Sec. 5.2, Table 1).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Stated by the authors.**
@@ -102,6 +119,8 @@ A recommender shows each request only once, so true positive and negative lists 
 
 - The DPO pairs are ranked by the reward model, not by observed user feedback on both lists. This suggests that alignment quality is bounded by the reward model.
 - MiniOneRec reproduces the pipeline on public data with `RQ-VAE` SIDs over text only (`Text`), a `Dec-Only` generator, and RL in place of DPO (`NTP → RL`).
+
+---
 
 ### 5. Connections to Related Work
 

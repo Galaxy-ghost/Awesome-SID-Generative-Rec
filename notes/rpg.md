@@ -15,10 +15,16 @@ Generative recommenders such as TIGER decode a Semantic ID (SID) token by token 
 
 ```mermaid
 flowchart LR
-    A[Item embedding] -->|OPQ| B[Long SID]
-    B -->|Pooling, decoder| C[Sequence vector]
-    C -->|MTP heads| D[Token scores]
-    D -->|Graph search| E[Top-K items]
+    A("Item embedding") --> B["OPQ: m subvectors"]
+    B --> C("Long unordered SID")
+    C --> D["Pool tokens per item"]
+    D --> E["Transformer decoder"]
+    E --> F["m parallel heads"]:::key
+    L1{{"MTP loss"}} -.-> F
+    F --> G("Cached token scores")
+    G --> H["Graph-constrained decoding"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Long SIDs from OPQ
@@ -118,6 +124,15 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
 Simplifications: The code scores every item in the catalog before the graph search; the paper scores only the nodes visited along graph edges (Sec. 2.3.3). It also takes the heads, token embeddings, and graph as inputs, and omits OPQ, the Transformer decoder, MTP training, and graph construction.
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)." (Sec. 2.4.2)
+
+```mermaid
+flowchart LR
+    S1["1 Sample b SIDs as beam"] --> S2["2 Add b×k graph neighbors"]
+    S2 --> S3["3 Score with cached values, keep b"]:::key
+    S3 -->|repeat q times| S2
+    S3 --> S4("4 Final beam = top-K")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 

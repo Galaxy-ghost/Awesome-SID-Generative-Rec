@@ -1,10 +1,14 @@
 # CID
 
-*How to Index Item IDs for Recommendation Foundation Models* — Hua et al. · SIGIR-AP’23
+| **Title** | *How to Index Item IDs for Recommendation Foundation Models* |
+| :-- | :-- |
+| **Authors** | Hua et al. |
+| **Venue** | SIGIR-AP’23 |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/cid.md) |
+| **Reading level** | Overview (Level 1) |
 
-`II. Uniqueness and Validity` · `Tokenization` · [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/cid.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing, replacing random, title, and independent IDs that cause long outputs or hallucinated items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | Key Contribution | CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing, replacing random, title, and independent IDs that cause long outputs or hallucinated items. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Sections 5.1/5.3/5.5/5.7 and Tables 4/6/7: [S5.SS1.p1](https://arxiv.org/html/2305.06569v6#S5.SS1.p1) ; [S5.SS3.p2](https://arxiv.org/html/2305.06569v6#S5.SS3.p2) ; [S5.SS5.p2](https://arxiv.org/html/2305.06569v6#S5.SS5.p2) ; [S5.SS7.p1](https://arxiv.org/html/2305.06569v6#S5.SS7.p1) ; [S5.T4](https://arxiv.org/html/2305.06569v6#S5.T4) ; [S5.T6](https://arxiv.org/html/2305.06569v6#S5.T6) ; [S5.T7](https://arxiv.org/html/2305.06569v6#S5.T7)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

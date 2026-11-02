@@ -8,10 +8,15 @@
 
 ```mermaid
 flowchart LR
-    A[物品内容] --> B[语义编码器]
-    B --> C[SID 编号器]
-    C --> D[生成器]
-    D --> E[束搜索]
+    subgraph Tok["编号阶段"]
+        A("物品内容") --> B["语义编码器（大小可变）"]
+        B --> C["编号器 (L, W) 可变"]
+    end
+    subgraph Gen["生成阶段"]
+        D["用户 token、Enc-Dec 与 Dec-only、数据增强、去重 ID"] --> E["约束或不约束的束搜索"]
+    end
+    C --> F("SID") --> D
+    E --> G("下一物品")
 ```
 
 #### 先编号，再生成

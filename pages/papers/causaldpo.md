@@ -1,10 +1,14 @@
 # CausalDPO
 
-*Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* — Zhao et al. · ICML’26
+| **Title** | *Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Zhao et al. |
+| **Venue** | ICML’26 |
+| **Problem × Stage** | `VI. Generalization` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/causaldpo.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Training` · [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/causaldpo.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: OOD table: [S3.T1](https://arxiv.org/html/2603.22335v2#S3.T1); IID: [A2.T3](https://arxiv.org/html/2603.22335v2#A2.T3); mixed shift: [A2.T4](https://arxiv.org/html/2603.22335v2#A2.T4); regularizer transfer: [A2.T5](https://arxiv.org/html/2603.22335v2#A2.T5); ablation: [A2.T8](https://arxiv.org/html/2603.22335v2#A2.T8); model sizes: [A2.T9](https://arxiv.org/html/2603.22335v2#A2.T9).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # TokenRec
 
-*Learning to tokenize id for llm-based generative recommendations* — Qu et al. · TKDE’25
+| **题目** | *Learning to tokenize id for llm-based generative recommendations* |
+| :-- | :-- |
+| **作者** | Qu et al. |
+| **会议** | TKDE’25 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2406.10450) · [代码](https://github.com/Quhaoh233/TokenRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/tokenrec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2406.10450) · [代码](https://github.com/Quhaoh233/TokenRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/tokenrec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > TokenRec 将掩码协同用户与物品表示量化为离散 token，无需自回归解码或束搜索即可检索 top-K 物品，并泛化到新用户与新物品。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,9 +37,13 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 局限 | 新用户和新物品要重训协同过滤模型才能得到表示；只有编号器和 LLM 保持冻结（Sec. II-E.2）。 |
 
+---
+
 ### 1. 为什么重要
 
 基于 LLM 的推荐器需要 LLM 能读的用户 token 和物品 token（Abstract）。每个用户或物品一个 token，词表就随用户数和物品数一起膨胀（Sec. I）。作者还指出两点不足：现有 token 刻画不了高阶协同知识；对训练数据之外的用户或物品泛化差（Abstract）。TokenRec 从协同表示出发给用户和物品编号，并用检索替代自回归解码。
+
+---
 
 ### 2. 方法
 
@@ -41,12 +51,16 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[GNN 表示] --> B[MQ-Tokenizer]
-    B --> C[用户与物品 token]
-    C --> D[LLM 查询编码器]
-    D --> E[投影]
-    E --> F[余弦打分]
-    F --> G[Top-K 物品]
+    A("GNN 协同表示") --> B["随机遮盖"]
+    B --> C["K 个编码器 + K 个码本"]:::key
+    C --> D("用户与物品 token")
+    C --> E["码字平均 + MLP 解码器"]
+    E -.-> L1{{"重建损失"}}
+    D --> F["LLM 查询编码器"]
+    F --> G["3 层 MLP 投影"]
+    G --> H["与 GNN 物品表示算余弦"]:::key
+    H --> I("Top-K 物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer
@@ -62,6 +76,8 @@ flowchart LR
 #### 生成式检索
 
 LLM 读入的提示含用户的 token，还可以含交互过的物品的 token；训练时这些物品 token 被打乱，不按时间顺序（Sec. II-D.2）。LLM 充当查询编码器。三层 MLP 投影它的隐藏状态，再与 GNN 物品表示算余弦相似度，给所有物品打分，取 top-K（Sec. II-D.3，Eqs. 17–19）。
+
+---
 
 ### 3. 实验发现
 
@@ -90,12 +106,16 @@ LLM 读入的提示含用户的 token，还可以含交互过的物品的 token�
 
   > "This can be attributed to our generative retrieval paradigm, bypassing the most time-consuming auto-regressive decoding and beam search processes of LLMs [ 29 ] ."（Sec. III-D）（生成式检索绕过了 LLM 最耗时的自回归解码和束搜索。）
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - TIGER 用 `Beam` 解码基于文本的 `RQ-VAE` ID；TokenRec 只用协同信号构建 token（`CF`），用 `Scoring` 排序，从不生成 ID。
 - CID 也对协同信号编号（`CF`），但用 `Spectral Clus.`，以 `C-Beam` 解码；TokenRec 用 `Masked VQ` 和 `Encoder`。
+
+---
 
 ### 5. 相关工作
 

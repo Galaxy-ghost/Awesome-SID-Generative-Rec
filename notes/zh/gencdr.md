@@ -12,13 +12,17 @@ Limitation: 每个领域都要加一个自己的编号器适配器和一棵离�
 
 ```mermaid
 flowchart LR
-    A[物品] --> B[通用编码器]
-    A --> C[领域适配器]
-    B --> D[物品级路由]
+    A("物品") --> B["通用编码器"]
+    A --> C["领域 LoRA 适配器"]
+    B --> D["物品级路由"]:::key
     C --> D
-    D --> E[语义 ID]
-    E --> F[带 LoRA 专家的 LLM]
-    F --> G[前缀树]
+    D --> E("解耦的 SID")
+    E --> F["混合 LoRA 的 LLM"]
+    F --> G["用户级路由"]:::key
+    L1{{"VIB 正则"}} -.-> G
+    G --> H["领域前缀树"]
+    H --> I("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 领域自适应编号

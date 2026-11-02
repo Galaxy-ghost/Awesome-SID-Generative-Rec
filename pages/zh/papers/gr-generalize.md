@@ -1,10 +1,14 @@
 # GR-Generalize
 
-*How Well Does Generative Recommendation Generalize?* — Ding et al. · arXiv’26
+| **题目** | *How Well Does Generative Recommendation Generalize?* |
+| :-- | :-- |
+| **作者** | Ding et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2603.19809) · [代码](https://github.com/Jamesding000/MemGen-GR) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/gr-generalize.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2603.19809) · [代码](https://github.com/Jamesding000/MemGen-GR) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/gr-generalize.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -19,6 +23,8 @@ flowchart LR
 > [!NOTE]
 > GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -26,6 +32,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -48,6 +56,8 @@ flowchart LR
   - 出处：Breakdown: [S2.T1](https://arxiv.org/html/2603.19809v1#S2.T1); SID configurations: [S4.T3](https://arxiv.org/html/2603.19809v1#S4.T3); ensemble: [S5.T4](https://arxiv.org/html/2603.19809v1#S5.T4).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

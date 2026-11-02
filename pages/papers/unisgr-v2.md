@@ -1,10 +1,14 @@
 # UniSGR-V2
 
-*Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* — Yang et al. · arXiv’26
+| **Title** | *Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Yang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.16132) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/unisgr-v2.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Backbone` · [Paper](https://arxiv.org/abs/2610.16132) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/unisgr-v2.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: [S4.SS1.p2](https://arxiv.org/html/2610.16132v2#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2610.16132v2#S4.T1) ; [S4.SS5.p1](https://arxiv.org/html/2610.16132v2#S4.SS5.p1) ; [A2.p1](https://arxiv.org/html/2610.16132v2#A2.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

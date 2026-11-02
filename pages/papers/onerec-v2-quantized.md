@@ -1,10 +1,14 @@
 # OneRec-V2-Quantized
 
-*Quantized Inference for OneRec-V2* — Su et al. · arXiv’26
+| **Title** | *Quantized Inference for OneRec-V2* |
+| :-- | :-- |
+| **Authors** | Su et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.11486) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/onerec-v2-quantized.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Inference` · [Paper](https://arxiv.org/abs/2603.11486) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/onerec-v2-quantized.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: Section 5.2/Figure 3 and Section 5.3/Table 1: [S5.SS2.p2](https://arxiv.org/html/2603.11486v1#S5.SS2.p2) and [S5.F3](https://arxiv.org/html/2603.11486v1#S5.F3) and [S5.T1](https://arxiv.org/html/2603.11486v1#S5.T1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

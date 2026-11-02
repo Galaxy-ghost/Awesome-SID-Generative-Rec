@@ -1,10 +1,14 @@
 # AWARE
 
-*Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* — Ding et al. · arXiv’26
+| **题目** | *Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* |
+| :-- | :-- |
+| **作者** | Ding et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `VI. 泛化` · `Training` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2605.11807) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/aware.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Training` · `POI` · [论文](https://arxiv.org/abs/2605.11807) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/aware.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > AWARE 将智能体结合用户行为生成的本地活动、文化与时令叙事融入基于 LLM 的下一 POI 生成，弥补模型参数训练后知识固定的局限。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | AWARE 将智能体结合用户行为生成的本地活动、文化与时令叙事融入基于 LLM 的下一 POI 生成，弥补模型参数训练后知识固定的局限。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Sec.4.2, Sec.4.1 metrics and Tables1-4/Figure5: [S4.SS2.p1](https://arxiv.org/html/2605.11807v1#S4.SS2.p1) and [S4.SS1.p3](https://arxiv.org/html/2605.11807v1#S4.SS1.p3) and [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1) and [S4.T4](https://arxiv.org/html/2605.11807v1#S4.T4) and [S4.F5.g1](https://arxiv.org/html/2605.11807v1#S4.F5.g1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,10 +1,14 @@
 # DOS
 
-*Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* — Yin et al. · WWW’26 Short
+| **Title** | *Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* |
+| :-- | :-- |
+| **Authors** | Yin et al. |
+| **Venue** | WWW’26 Short |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.04460) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/dos.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2602.04460) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/dos.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: [S3.SS2.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.p1) ; #S3.SS2.SSS2.p1 ; #S3.SS4.p1 ; #S3.SS4.p2
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

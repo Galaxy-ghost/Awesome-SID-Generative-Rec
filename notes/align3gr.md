@@ -12,11 +12,16 @@ Turning a large language model (LLM) into a recommender meets semantic and behav
 
 ```mermaid
 flowchart LR
-    A[Users and items] --> B[Dual SC encoders]
-    B --> C[SCIDs]
-    C --> D[Multi-task SFT]
-    D --> E[SP-DPO]
-    E --> F[RF-DPO]
+    A("Users and items") --> B["Dual SC encoders + RQ-VAE"]
+    B --> C("User and item SCIDs")
+    C --> D["Multi-task SFT"]
+    D --> E["SP-DPO: Easy, Medium, Hard"]:::key
+    E --> F["RF-DPO on real feedback"]:::key
+    F --> G("Aligned LLM")
+    L1{{"Four SFT tasks"}} -.-> D
+    L2{{"Prefix n-gram curriculum"}} -.-> E
+    L3{{"disliked / neutral / liked"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Token-Level Alignment

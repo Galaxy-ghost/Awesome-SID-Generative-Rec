@@ -1,10 +1,14 @@
 # NAU
 
-*Neighborhood-Aware Unlearning for Generative Recommendation* — Lubitzsch et al. · arXiv’26
+| **Title** | *Neighborhood-Aware Unlearning for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Lubitzsch et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/nau.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/nau.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Section 5 and Appendix D: [S5.p1](https://arxiv.org/html/2610.27232v1#S5.p1) and [S5.p8](https://arxiv.org/html/2610.27232v1#S5.p8) and [S5.p9](https://arxiv.org/html/2610.27232v1#S5.p9) and [A4.p1](https://arxiv.org/html/2610.27232v1#A4.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

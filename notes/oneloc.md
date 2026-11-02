@@ -15,11 +15,15 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ```mermaid
 flowchart LR
-    A[Video and location] -->|Multimodal LLM| B[Embedding]
-    B -->|Residual k-means| C[Geo-aware SID]
-    C -->|GA-Attn encoder| D[User vector]
-    D -->|Prompted decoder, NTP| E[Generator]
-    E -->|Rewards, DPO| F[Aligned generator]
+    A("Video + location") --> B["Multimodal LLM"]
+    B --> C["Residual k-means"]
+    C --> D("Geo-aware SID")
+    D --> E["GA-Attn encoder"]:::key
+    E --> F["Decoder with neighbor-aware prompt"]:::key
+    L1{{"NTP loss"}} -.-> F
+    L2{{"DPO on geo + GMV rewards"}} -.-> F
+    F --> G("Next video")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Geo-Aware Semantic IDs
@@ -124,6 +128,17 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 ```
 
 Simplifications: The code shows one attention head and leaves out RMSNorm, the feed-forward network, and the residual connections of each block. It takes the projection matrices, the gate MLP, and the log-probabilities as inputs, and it does not build preference pairs or run beam search.
+
+```mermaid
+flowchart LR
+    M("Model θi") --> B["Beam search: N videos"]
+    B --> R["Geo + GMV rewards"]
+    R --> P("Highest = positive, lowest = negative")
+    P --> L{{"L = NTP + 0.05 DPO"}}:::key
+    L --> N("Model θi+1, reference θi")
+    N -->|next round| M
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 

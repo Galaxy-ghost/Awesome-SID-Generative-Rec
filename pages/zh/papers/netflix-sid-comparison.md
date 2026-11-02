@@ -1,10 +1,14 @@
 # Netflix-SID-Comparison
 
-*Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction* — Oh et al. · NeurIPS’26 PALM Workshop
+| **题目** | *Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction* |
+| :-- | :-- |
+| **作者** | Oh et al. |
+| **会议** | NeurIPS’26 PALM Workshop |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2610.15864) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/netflix-sid-comparison.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2610.15864) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/netflix-sid-comparison.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > Netflix-SID-Comparison 是工业界对比研究而非新推荐模型：在生成质量与计算开销上对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | Netflix-SID-Comparison 是工业界对比研究而非新推荐模型：在生成质量与计算开销上对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：[S4.T1](https://arxiv.org/html/2610.15864v1#S4.T1) ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.SS2.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

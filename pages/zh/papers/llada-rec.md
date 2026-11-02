@@ -1,10 +1,14 @@
 # LLaDA-Rec
 
-*Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* — Shi et al. · arXiv’25
+| **题目** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Shi et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2511.06254) · [代码](https://github.com/TengShi-RUC/LLaDA-Rec) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/llada-rec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Backbone` · [论文](https://arxiv.org/abs/2511.06254) · [代码](https://github.com/TengShi-RUC/LLaDA-Rec) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/llada-rec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LLaDA-Rec 用带双向注意力、历史级与物品级掩码以及适配束搜索的离散扩散模型并行生成 SID，替代从左到右的自回归解码。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Backbone |
 | 局限 | 扩散步数少，生成快，但推荐效果下降；作者把更好的权衡留作开放问题（Sec. 5.4.3，Fig. 5）。 |
 
+---
+
 ### 1. 为什么重要
 
 自回归生成式推荐器用因果注意力逐个 token 解码语义 ID（Semantic ID，SID）。作者指出这种做法的两个局限：每个 token 只能看到它前面的 token；早期 token 的错误会沿固定的从左到右顺序传下去（Abstract）。LLaDA-Rec 改为在 SID 的所有位置上做离散扩散。
 
 > "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation."（Abstract）（用离散扩散把推荐改写成并行生成语义 ID。）
+
+---
 
 ### 2. 方法
 
@@ -44,12 +54,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[多头 VQ-VAE]
-    B --> C[并行 SID]
-    C --> D[掩码预测器]
-    E[用户历史] --> D
-    D --> F[改造的束搜索]
-    F --> G[下一物品]
+    A("物品文本嵌入") --> B["多头 VQ-VAE"]
+    B --> C("并行 SID")
+    C --> D["掩码预测器"]:::key
+    L1{{"用户历史掩码"}} -.-> D
+    L2{{"下一物品掩码"}} -.-> D
+    D --> E["改造的束搜索"]
+    E --> F("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 并行编号
@@ -67,6 +79,18 @@ flowchart LR
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence."（Sec. 4.3.4）（未选中的位置重新遮住，让预测器在已生成部分的基础上重新判断。）
 
 步数可调，每一步可以预测多个 token（Sec. 4.4.2）。标准束搜索不适合扩散式生成，所以论文改造了束搜索，在这个过程中保留多个候选（Abstract）。
+
+```mermaid
+flowchart LR
+    S0("所有位置遮住") --> P["预测所有遮住的位置"]
+    P --> K["保留选中的位置"]:::key
+    K --> R["其余重新遮住"]
+    R -->|下一步| P
+    K --> D("最后一步得到完整 SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
 
 ### 3. 实验发现
 
@@ -95,12 +119,16 @@ flowchart LR
 
   > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme."（Sec. 5.4.2）（自适应顺序始终最好，常用的从左到右有时最差。）
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 编号器训练一次就固定（`Fixed`），只编码物品文本（`Text`）。由此推断，协同信号只能通过生成器进入。
 - RPG 也用 `Non-AR` 生成器生成并行码；RPG 用 `Par. OPQ` 码和 `Graph` 解码，LLaDA-Rec 用 `Par. VQ` 码和 `Diff.` 解码。
+
+---
 
 ### 5. 相关工作
 

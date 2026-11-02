@@ -1,10 +1,14 @@
 # SIDScope
 
-*A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* — Ding et al. · arXiv’26
+| **题目** | *A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Ding et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/sidscope.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/sidscope.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -18,6 +22,8 @@ flowchart LR
 > [!NOTE]
 > SIDScope 是诊断工具与资源而非新推荐模型：在 SID 映射刷新后检查码组织结构、物品解析能力以及与生成模型的兼容性。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -25,6 +31,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | SIDScope 是诊断工具与资源而非新推荐模型：在 SID 映射刷新后检查码组织结构、物品解析能力以及与生成模型的兼容性。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -47,6 +55,8 @@ flowchart LR
   - 出处：The cited tables separate mapping diagnostics, candidate exposure, beam accounting, resolver outcomes, and lifecycle handoff; [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3), [S5.T4](https://arxiv.org/html/2608.18779v2#S5.T4), [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5), [S5.T6](https://arxiv.org/html/2608.18779v2#S5.T6), [S5.T7](https://arxiv.org/html/2608.18779v2#S5.T7), [S6.T8](https://arxiv.org/html/2608.18779v2#S6.T8), [S5.SS4.p1](https://arxiv.org/html/2608.18779v2#S5.SS4.p1), [A2.T11](https://arxiv.org/html/2608.18779v2#A2.T11), and [A2.T12](https://arxiv.org/html/2608.18779v2#A2.T12).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

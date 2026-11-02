@@ -1,10 +1,14 @@
 # HiD-VAE
 
-*Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* — Fang et al. · arXiv’25
+| **Title** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
+| :-- | :-- |
+| **Authors** | Fang et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/hid-vae.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`II. Uniqueness and Validity` · `Tokenization` · [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/hid-vae.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | The tokenizer needs multi-level item tags, which an LLM must generate for datasets without them, so ID quality depends on tag quality (Sec. 3.4). |
 
+---
+
 ### 1. Why This Paper Matters
 
 The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two flaws: they are semantically flat, and different items collide on entangled representations (Abstract).
 
 > "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items." (Sec. 1)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,15 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 ```mermaid
 flowchart LR
-    A[Item text] --> C[Supervised quantization]
-    B[Hierarchical tags] --> C
-    C --> D[SIDs]
-    D --> E[Generator]
-    E --> F[Constrained decoding]
+    A("Item text") --> C["Hierarchically supervised quantizer"]:::key
+    B("Multi-level tags, LLM-made if missing") --> C
+    L1{{"Tag prediction per level"}} -.-> C
+    L2{{"Uniqueness loss"}} -.-> C
+    C --> D("SIDs")
+    D --> E["Enc-Dec generator"]
+    E --> F["Constrained decoding"]
+    F --> G("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Tag Generation
@@ -70,6 +84,8 @@ The uniqueness loss penalizes latent overlap between different items (Sec. 1). T
 A generator predicts the next item's SID from the user history (Sec. 3.3).
 
 > "During inference, constrained decoding ensures that generated IDs correspond to valid items." (Sec. 3.3)
+
+---
 
 ### 3. Experimental Findings
 
@@ -95,11 +111,15 @@ A generator predicts the next item's SID from the user history (Sec. 3.3).
 
 - Main comparison: on three public benchmarks, HiD-VAE reports better performance than the compared methods (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - TIGER uses unsupervised `RQ-VAE` codes with plain `Beam` search; HiD-VAE uses tag-supervised `Hier. RQ` codes with the same `Enc-Dec` generator and constrained decoding.
+
+---
 
 ### 5. Connections to Related Work
 

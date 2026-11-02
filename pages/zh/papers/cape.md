@@ -1,10 +1,14 @@
 # CAPE
 
-*Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* — Huang et al. · arXiv’26
+| **题目** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
+| :-- | :-- |
+| **作者** | Huang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2610.29298) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cape.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Inference` · [论文](https://arxiv.org/abs/2610.29298) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cape.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Sec.5.1, Tables2/3 and Appendix B: [S5.SS1.p2](https://arxiv.org/html/2610.29298v1#S5.SS1.p2) and [S5.T2](https://arxiv.org/html/2610.29298v1#S5.T2) and [S5.T3](https://arxiv.org/html/2610.29298v1#S5.T3) and [A2.p2](https://arxiv.org/html/2610.29298v1#A2.p2) and [A2.p4](https://arxiv.org/html/2610.29298v1#A2.p4)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

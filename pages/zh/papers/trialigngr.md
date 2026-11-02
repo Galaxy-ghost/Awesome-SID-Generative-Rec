@@ -1,10 +1,14 @@
 # TriAlignGR
 
-*Triangular Multitask Alignment with Multimodal Deep Interest Mining for Generative Recommendation* — Zeng et al. · arXiv’26
+| **题目** | *Triangular Multitask Alignment with Multimodal Deep Interest Mining for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zeng et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Representation` |
+| **链接** | [论文](https://arxiv.org/abs/2605.05249) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/trialigngr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Representation` · [论文](https://arxiv.org/abs/2605.05249) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/trialigngr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > TriAlignGR 在 SID 构建中引入视觉内容与 LLM 挖掘的用户意图，并在统一自回归损失下训练连接 SID、文本与图像的多项生成任务。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | TriAlignGR 在 SID 构建中引入视觉内容与 LLM 挖掘的用户意图，并在统一自回归损失下训练连接 SID、文本与图像的多项生成任务。 |
 | 主要改动阶段 | Representation |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Main: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2); ablations: [S4.T3](https://arxiv.org/html/2605.05249v3#S4.T3), [S4.T4](https://arxiv.org/html/2605.05249v3#S4.T4), [S4.T5](https://arxiv.org/html/2605.05249v3#S4.T5); SID diagnostics: [A3.T6](https://arxiv.org/html/2605.05249v3#A3.T6); probing: [A4.T7](https://arxiv.org/html/2605.05249v3#A4.T7); vs MiniOneRec: [A5.T8](https://arxiv.org/html/2605.05249v3#A5.T8).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

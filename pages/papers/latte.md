@@ -1,10 +1,14 @@
 # Latte
 
-*Expressiveness Limits of Autoregressive Semantic ID Generation in Generative Recommendation* — Hou et al. · arXiv’26
+| **Title** | *Expressiveness Limits of Autoregressive Semantic ID Generation in Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Hou et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/latte.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/latte.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees, to relax the probability coupling between items that are close in the tree.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees, to relax the probability coupling between items that are close in the tree. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1); constraint analysis: [S5.T2](https://arxiv.org/html/2605.06331v1#S5.T2); tokenizers: [S5.T3](https://arxiv.org/html/2605.06331v1#S5.T3); aggregation: [S5.T4](https://arxiv.org/html/2605.06331v1#S5.T4); latent count: [S5.F4](https://arxiv.org/html/2605.06331v1#S5.F4); MPD: [S6.T5](https://arxiv.org/html/2605.06331v1#S6.T5); copied baselines: [A4.SS0.SSS0.Px1.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p2).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

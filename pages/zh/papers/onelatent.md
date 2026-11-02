@@ -1,10 +1,14 @@
 # OneLatent
 
-*Latent Reasoning for Efficient Foundation Recommendation Models* — Jiang et al. · arXiv’26
+| **题目** | *Latent Reasoning for Efficient Foundation Recommendation Models* |
+| :-- | :-- |
+| **作者** | Jiang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2610.30675) · [矩阵](../../../README.zh.md#v--training) · [English](../../papers/onelatent.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Training` · [论文](https://arxiv.org/abs/2610.30675) · [矩阵](../../../README.zh.md#v--training) · [English](../../papers/onelatent.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > OneLatent 通过多视图教师轨迹、分阶段对齐与课程式后训练，将显式思维链压缩为可学习隐 token，避免在推理时生成长推理文本。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | OneLatent 通过多视图教师轨迹、分阶段对齐与课程式后训练，将显式思维链压缩为可学习隐 token，避免在推理时生成长推理文本。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Tables 2/3/7/9 and Section 4.2: [S4.T2](https://arxiv.org/html/2610.30675v1#S4.T2) and [S4.T3](https://arxiv.org/html/2610.30675v1#S4.T3) and [S4.T7](https://arxiv.org/html/2610.30675v1#S4.T7) and [S4.T9](https://arxiv.org/html/2610.30675v1#S4.T9) and [S4.SS2.SSS0.Px1.p1](https://arxiv.org/html/2610.30675v1#S4.SS2.SSS0.Px1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

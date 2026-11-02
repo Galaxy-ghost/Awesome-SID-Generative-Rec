@@ -13,11 +13,15 @@ Limitation: 营业时段和协同特征都来自签到数据，没有访问记�
 
 ```mermaid
 flowchart LR
-    A[POI 特征] --> B[One-hot 向量]
-    B --> C[RQ-VAE]
-    C --> D[POI SID]
-    D --> E[微调后的 LLM]
-    E --> F[下一个 POI]
+    A("Plus Code 区域") --> D["One-hot 向量"]
+    B("24 个时段中的前 10 个") --> D
+    C("前 10 位访客") --> D
+    D --> E["RQ-VAE"]
+    L1{{"多样性损失"}}:::key -.-> E
+    E --> F("POI SID")
+    F --> G["微调的 LLM，NTP"]
+    G --> H("下一个 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### POI 特征

@@ -10,12 +10,16 @@ LLM-based recommenders need user and item tokens that the LLM can read (Abstract
 
 ```mermaid
 flowchart LR
-    A[GNN representations] --> B[MQ-Tokenizer]
-    B --> C[User and item tokens]
-    C --> D[LLM query encoder]
-    D --> E[Projection]
-    E --> F[Cosine scoring]
-    F --> G[Top-K items]
+    A("GNN CF representations") --> B["Random mask"]
+    B --> C["K encoders + K codebooks"]:::key
+    C --> D("User and item tokens")
+    C --> E["Average codewords + MLP decoder"]
+    E -.-> L1{{"Reconstruction loss"}}
+    D --> F["LLM query encoder"]
+    F --> G["3-layer MLP projection"]
+    G --> H["Cosine vs GNN item representations"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer

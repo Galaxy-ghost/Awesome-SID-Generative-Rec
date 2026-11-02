@@ -1,10 +1,14 @@
 # NEZHA
 
-*A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* — Wang et al. · WWW’26 Industry
+| **Title** | *A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | WWW’26 Industry |
+| **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.18793) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/nezha.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Inference` · [Paper](https://arxiv.org/abs/2511.18793) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/nezha.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set of valid IDs, instead of separate draft models and model-based verifiers.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set of valid IDs, instead of separate draft models and model-based verifiers. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: [S3.T3](https://arxiv.org/html/2511.18793v1#S3.T3) ; #S4.T4 ; #S4.SS1.p4 ; #S5.p3
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

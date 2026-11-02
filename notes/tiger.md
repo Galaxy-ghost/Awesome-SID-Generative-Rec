@@ -15,10 +15,15 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 ```mermaid
 flowchart LR
-    A[Item text] -->|Sentence-T5| B[Embedding]
-    B -->|RQ-VAE| C[SID]
-    C -->|Enc-Dec| D[Next SID]
-    D -->|Lookup| E[Items]
+    A("Item text") --> B["Sentence-T5: 768-dim"]
+    B --> C["DNN encoder: 32-dim"]
+    C --> D["RQ-VAE, 3 levels × 256"]:::key
+    D --> E("SID + collision token")
+    E --> F["Enc-Dec generator"]
+    L1{{"NTP over 4 tokens"}} -.-> F
+    F --> G["Beam search"]
+    G --> H("Items via lookup table")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Step 1: Item Text to a Latent Vector
@@ -67,6 +72,17 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 ```
 
 Simplifications: The code shows only the quantization loop and the quantization loss. It omits the DNN encoder and decoder, the reconstruction loss, and the k-means codebook initialization.
+
+```mermaid
+flowchart TD
+    Z("z") --> L1["Level 1: nearest codeword c1"]
+    L1 --> R2("r2 = z - e(c1)")
+    R2 --> L2["Level 2: nearest codeword c2"]
+    L2 --> R3("r3 = r2 - e(c2)")
+    R3 --> L3["Level 3: nearest codeword c3"]
+    L3 --> S("(c1, c2, c3)"):::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Step 3: Tokenizer Training
 

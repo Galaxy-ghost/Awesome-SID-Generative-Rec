@@ -1,10 +1,14 @@
 # STAMP
 
-*Semantic Trimming and Auxiliary Multi-step Prediction for Generative Recommendation* — Zhan et al. · arXiv’26
+| **题目** | *Semantic Trimming and Auxiliary Multi-step Prediction for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhan et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2604.05329) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/stamp.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2604.05329) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/stamp.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > STAMP 在前向传播中自适应剪除冗余 SID token，并加入多步辅助预测目标，降低训练开销并加密长 SID 的监督信号。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | STAMP 在前向传播中自适应剪除冗余 SID token，并加入多步辅助预测目标，降低训练开销并加密长 SID 的监督信号。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Results: [S5.T2](https://arxiv.org/html/2604.05329v3#S5.T2) and [S5.T3](https://arxiv.org/html/2604.05329v3#S5.T3).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -8,6 +8,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -134,6 +135,8 @@ ZH_LABELS = {
     "source": "出处",
     "levels": ["概览", "阅读笔记", "代码级精读"],
     "reading_level": "阅读级别",
+    "card": {"Title": "题目", "Authors": "作者", "Venue": "会议", "Cell": "问题与阶段", "Links": "链接", "Reading level": "阅读级别"},
+    "overview": "篇",
     "level_n": "第 {n} 级",
     "glance_title": "速览",
     "colon": "：",
@@ -166,6 +169,7 @@ ZH_LABELS = {
         "VI": "VI. 泛化",
     },
     "readme": {
+        "badges": ("论文", "更新", "许可"),
         "intro": "按要解决的问题和改动的流程阶段整理的语义 ID 生成式推荐论文清单。",
         "scope_title": "范围",
         "scope": "本清单收录 {n} 篇用语义 ID（Semantic ID，SID）做生成式推荐的论文。矩阵按问题和主要改动的阶段放置其中 {m} 篇，"
@@ -224,6 +228,8 @@ ZH_LABELS = {
 }
 FLOW_IDS = ["R", "T", "B", "TR", "I"]
 MAIN_STYLE = "fill:#eaf2fb,stroke:#6b8fc7"
+LICENSE_ID = "CC0-1.0"  # SPDX id of LICENSE, shown in the README badge
+BADGE_COLORS = {"papers": "c6dbef", "updated": "d9ead3", "license": "e5dcef"}  # light shields.io backgrounds
 
 
 def title_of(rec: dict) -> str:
@@ -396,17 +402,21 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
     switch = f"[English](../../papers/{rec['id']}.md)" if zh else f"[中文](../zh/papers/{rec['id']}.md)"
     matrix = f"[{Z['links']['Matrix'] if zh else 'Matrix'}]({readme}#{anchor})"
     level_name = (Z["levels"] if zh else LEVELS)[level - 1]
+    level_text = f"{level_name}（{Z['level_n'].format(n=level)}）" if zh else f"{level_name} (Level {level})"
+    card = [("Title", f"*{title_of(rec)}*"), ("Authors", rec["authors"]), ("Venue", rec["venue"]),
+            ("Cell", " · ".join(f"`{t}`" for t in tags)), ("Links", link_line(rec, [matrix, switch], zh=zh)),
+            ("Reading level", level_text)]
+    lab = lambda k: Z["card"][k] if zh else ("Problem × Stage" if k == "Cell" else k)
+    rows = [f"| **{lab(k)}** | {v.replace('|', chr(92) + '|')} |" for k, v in card]
     lines = [
         f"# {rec['name']}", "",
-        f"*{title_of(rec)}* — {rec['authors']} · {rec['venue']}", "",
-        " · ".join([*(f"`{t}`" for t in tags), link_line(rec, [matrix, switch], zh=zh)]), "",
-        (f"{Z['reading_level']}：{level_name}（{Z['level_n'].format(n=level)}） · {Z['on_this_page']}：{toc}" if zh else
-         f"Reading level: {level_name} (Level {level}) · On this page: {toc}"), "",
+        rows[0], "| :-- | :-- |", *rows[1:], "",
+        f"{Z['on_this_page'] if zh else 'On this page'}{Z['colon'] if zh else ': '}{toc}", "",
         *flow_chart(rec), "",
         *vals, "",
     ]
-    for t, parts in blocks:
-        lines += ([f"### {t}", ""] if t else []) + [x for p in parts for x in (p, "")]
+    for i, (t, parts) in enumerate(blocks):
+        lines += (["---", ""] if i else []) + ([f"### {t}", ""] if t else []) + [x for p in parts for x in (p, "")]
     return "\n".join(lines)
 
 
@@ -434,6 +444,37 @@ def format_item(rec: dict, zh: bool = False) -> str:
     return "<br>\n  ".join([first, *[x for x in (tldr, link_line(rec, zh=zh)) if x]])
 
 
+def shield(label: str, value: str, color: str) -> str:
+    esc = lambda x: quote(str(x).replace("-", "--").replace("_", "__").replace(" ", "_"))
+    return f"https://img.shields.io/badge/{esc(label)}-{esc(value)}-{color}"
+
+
+def stage_overview(papers: list, zh: bool = False) -> list:
+    """Mermaid chart of the five stages, each node with the number of papers that mainly change it."""
+    unit = f" {ZH_LABELS['overview']}" if zh else " papers"
+    counts = {s: sum(r["stage"] == s for r in papers) for s in STAGES}
+    nodes = " --> ".join(f"{i}[{mm_label(f'{s}<br/>{counts[s]}{unit}')}]" for i, s in zip(FLOW_IDS, STAGES))
+    return ["```mermaid", "flowchart LR", f"    {nodes}", "```"]
+
+
+def readme_head(papers: list, updates: list, zh: bool = False) -> list:
+    """Centered title, one-line description, light badges, language switch, and the five-stage overview."""
+    R = ZH_LABELS["readme"]
+    labels = R["badges"] if zh else ("papers", "updated", "license")
+    latest = max((u["date"] for u in updates), default="")
+    badges = [(labels[0], len(papers), "papers", "#" + slugify_heading(R["all_title"] if zh else "All Papers")),
+              (labels[1], latest, "updated", "#" + slugify_heading(R["updates_title"] if zh else "Recent Updates")),
+              (labels[2], LICENSE_ID, "license", "LICENSE")]
+    intro = R["intro"] if zh else ("Papers on generative recommendation with Semantic IDs, sorted by the problem each paper "
+                                   "fixes and the pipeline stage it changes.")
+    return ['<div align="center">', "",
+            "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)", "",
+            intro, "",
+            " ".join(f"[![{l}]({shield(l, v, BADGE_COLORS[k])})]({href})" for l, v, k, href in badges), "",
+            "[English](README.md) | 中文" if zh else "English | [中文](README.zh.md)", "",
+            "</div>", "", *stage_overview(papers, zh)]
+
+
 def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, zh: bool = False) -> str:
     R = ZH_LABELS["readme"]
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
@@ -455,14 +496,12 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
     two = lambda head, rows: align([f"| {' | '.join(head)} |", "|" + " :-- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]])
     n, m, k = len(papers), sum(totals), len(psb_list)
     if zh:
-        top = [f"> {R['intro']}", "", "[English](README.md) | 中文", "",
+        top = [
                f"## {R['scope_title']}", "", R["scope"].format(n=n, m=m, k=k), "",
                f"## {R['start_title']}", "", *two(R["start_head"], R["start"]), "",
                f"## {R['starter_title']}", ""]
     else:
-        top = ["> Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes "
-               "and the pipeline stage it changes.", "", "English | [中文](README.zh.md)", "",
-               "## Scope", "",
+        top = ["## Scope", "",
                f"This list collects {n} papers on generative recommendation with Semantic IDs (SIDs). "
                f"The matrix places {m} of them by problem and main stage; the other {k} are {psb['name'].lower()}. "
                "Methods that use SIDs as features are included. POI and local-life papers carry a `POI` tag "
@@ -477,7 +516,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
                "## Starter Papers", ""]
     lines = [
         "<!--lint disable awesome-github-->",
-        "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)", "",
+        *readme_head(papers, updates, zh), "",
         *top,
         *two(R["starter_head"] if zh else ("Paper", "In one sentence", "Venue"),
              [(ref(r), tl(r).replace("|", "\\|"), r["venue"]) for r in starters]), "",

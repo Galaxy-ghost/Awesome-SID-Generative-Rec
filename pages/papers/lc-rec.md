@@ -1,10 +1,14 @@
 # LC-Rec
 
-*Adapting large language models by integrating collaborative semantics for recommendation* — Zheng et al. · ICDE’24
+| **Title** | *Adapting large language models by integrating collaborative semantics for recommendation* |
+| :-- | :-- |
+| **Authors** | Zheng et al. |
+| **Venue** | ICDE’24 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/lc-rec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Training` · [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/lc-rec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Training |
 | Limitation | The item indices come from text embeddings only, so collaborative semantics enter only through the tuning tasks (Sec. III-B). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Items in recommender systems are often indexed by IDs outside the vocabulary of a large language model (LLM), which leaves a semantic gap between the two (Abstract).
 
 > "In essence, LLMs capture language semantics while recommender systems imply collaborative semantics, making it difficult to sufficiently leverage the model capacity of LLMs for recommendation." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,15 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLaMA embeddings]
-    B --> C[Vector quantization]
-    C --> D[Item indices]
-    D --> E[Instruction tuning]
-    E --> F[Generated index]
+    A("Item text") --> B["LLaMA embeddings"]
+    B --> C["Vector quantization + uniform semantic mapping"]
+    C --> D("Item indices")
+    D --> E["LLaMA instruction tuning"]:::key
+    L1{{"Sequential item prediction"}} -.-> E
+    L2{{"Explicit: text to index and back"}} -.-> E
+    L3{{"Implicit: asymmetric, intention, preference"}} -.-> E
+    E --> F("Generated index")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Indexing
@@ -66,6 +80,8 @@ Sequential item prediction is the main objective (Sec. III-C1). Two explicit tas
 All tasks are formatted as conditional language generation for one instruction-tuned model (Sec. III-D).
 
 > "To this end, we employ LLaMA [25] as our backbone model and then optimize it via instruction tuning." (Sec. III-D)
+
+---
 
 ### 3. Experimental Findings
 
@@ -91,11 +107,15 @@ All tasks are formatted as conditional language generation for one instruction-t
 
 - Main comparison: LC-Rec outperforms traditional recommenders and existing LLM-based recommenders (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - TIGER uses the same `RQ-VAE` codes with an `Enc-Dec` generator; LC-Rec uses a `Dec-Only` LLM trained with `Multi-task NTP`.
+
+---
 
 ### 5. Connections to Related Work
 

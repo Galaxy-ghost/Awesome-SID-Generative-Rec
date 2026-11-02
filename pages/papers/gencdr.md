@@ -1,10 +1,14 @@
 # GenCDR
 
-*From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization* — Hu et al. · AAAI’26
+| **Title** | *From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization* |
+| :-- | :-- |
+| **Authors** | Hu et al. |
+| **Venue** | AAAI’26 |
+| **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/gencdr.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`VI. Generalization` · `Tokenization` · [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/gencdr.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes over a domain-aware prefix tree, instead of relying on shared user or item IDs.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | Each domain adds its own tokenizer adapter and its own offline prefix tree (Domain-adaptive Tokenization, Domain-aware Prefix-tree). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Traditional cross-domain recommendation relies on shared user or item IDs, which most real-world scenarios do not have (Abstract). The authors state that LLM-based approaches face an item ID tokenization dilemma and insufficient domain-specific modeling (Abstract). GenCDR moves domain adaptation into the tokenizer itself.
 
 > "GenCDR first employs a Domain-adaptive Tokenization module, which generates disentangled semantic IDs for items by dynamically routing between a universal encoder and domain-specific adapters." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -44,13 +54,17 @@ Traditional cross-domain recommendation relies on shared user or item IDs, which
 
 ```mermaid
 flowchart LR
-    A[Items] --> B[Universal encoder]
-    A --> C[Domain adapters]
-    B --> D[Item-level routing]
+    A("Item") --> B["Universal encoder"]
+    A --> C["Domain LoRA adapters"]
+    B --> D["Item-level routing"]:::key
     C --> D
-    D --> E[Semantic IDs]
-    E --> F[LLM with LoRA experts]
-    F --> G[Prefix tree]
+    D --> E("Disentangled SIDs")
+    E --> F["LLM with mixture of LoRA"]
+    F --> G["User-level routing"]:::key
+    L1{{"VIB regularizer"}} -.-> G
+    G --> H["Domain prefix tree"]
+    H --> I("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Domain-Adaptive Tokenization
@@ -70,6 +84,8 @@ The generator first trains a mixture of LoRA adapters on data from all domains t
 For each domain, an offline prefix tree holds all valid ID sequences from the tokenizer and restricts decoding (Domain-aware Prefix-tree).
 
 > "Finally, a Domain-aware Prefix-tree enables efficient and accurate generation." (Abstract)
+
+---
 
 ### 3. Experimental Findings
 
@@ -96,12 +112,16 @@ For each domain, an offline prefix tree holds all valid ID sequences from the to
 - Main comparison: GenCDR reports better performance than the baselines on multiple real-world datasets (Abstract).
 - Ablation: Table 3 removes the MTM component, the adapter, the specific expert, the universal experts, the MoE gate, and the prefix tree (Table 3).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The prefix trees are built offline from the tokenizer output. This suggests that new items require re-tokenization and a tree rebuild.
 - VQ-Rec also transfers across domains (`Multi-Dom`), with `OPQ` codes and `Scoring`; GenCDR generates `RQ+LoRA` codes with a `Dec-Only` LLM.
+
+---
 
 ### 5. Connections to Related Work
 

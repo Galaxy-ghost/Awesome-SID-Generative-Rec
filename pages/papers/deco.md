@@ -1,10 +1,14 @@
 # Deco
 
-*Separating Thinking from Spelling for Efficient Generative Recommendation* — Gusak et al. · arXiv’26
+| **Title** | *Separating Thinking from Spelling for Efficient Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Gusak et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.32980) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/deco.md) |
+| **Reading level** | Overview (Level 1) |
 
-`V. Efficiency` · `Backbone` · [Paper](https://arxiv.org/abs/2610.32980) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/deco.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > Deco reads each history item as one fused token, condenses the history into a next-item concept, and runs beam search in a light KV-cached decoder instead of the full backbone.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
 | Key Contribution | Deco reads each history item as one fused token, condenses the history into a next-item concept, and runs beam search in a light KV-cached decoder instead of the full backbone. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Sec.4.1 baselines, Tables2-4 and Appendix C: [S4.SS1.SSS3.p1](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p1) and [S4.SS1.SSS3.p2](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2) and [S4.T2](https://arxiv.org/html/2610.32980v2#S4.T2) and [S4.T3](https://arxiv.org/html/2610.32980v2#S4.T3) and [S4.SS2.SSS1.Px5.p1](https://arxiv.org/html/2610.32980v2#S4.SS2.SSS1.Px5.p1) and [A3.SS0.SSS0.Px3.p1](https://arxiv.org/html/2610.32980v2#A3.SS0.SSS0.Px3.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -12,11 +12,14 @@ Current approaches often train item tokenization and generative recommendation a
 
 ```mermaid
 flowchart LR
-    A[CF embeddings] --> B[RQ-VAE tokenizer]
-    B --> C[Item tokens]
-    C --> D[Generator]
-    D --> E[Alignment losses]
-    E --> B
+    A("CF embeddings") --> B["RQ-VAE tokenizer"]
+    B --> C("Item tokens")
+    C --> D["Enc-Dec generator"]
+    D --> L1{{"Sequence-item alignment"}}:::key
+    D --> L2{{"Preference-semantic alignment"}}:::key
+    L1 -.-> B
+    L2 -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Tokenizer
@@ -34,6 +37,17 @@ Sequence-item alignment matches the quantized token distributions of the encoder
 In the tokenizer phase, the quantization loss and both alignment losses update the tokenizer while the generator stays fixed (Sec. 3.4).
 
 > "In order to improve the training stability, we propose an alternating optimization strategy to mutually train the item tokenizer and the generative recommender." (Sec. 3.4)
+
+```mermaid
+sequenceDiagram
+    participant T as Tokenizer
+    participant G as Generator
+    loop Alternating optimization
+        Note over T: Quantization loss + both alignment losses
+        T->>T: update (generator fixed)
+        G->>G: update (tokenizer fixed)
+    end
+```
 
 ### 3. Experimental Findings
 

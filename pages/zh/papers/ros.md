@@ -1,10 +1,14 @@
 # ROS
 
-*Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* — Lv et al. · ACL’26
+| **题目** | *Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* |
+| :-- | :-- |
+| **作者** | Lv et al. |
+| **会议** | ACL’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2601.04562) · [代码](https://github.com/amap-cvlab/Reasoning-Over-Space) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/ros.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · `POI` · [论文](https://arxiv.org/abs/2601.04562) · [代码](https://github.com/amap-cvlab/Reasoning-Over-Space) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/ros.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > ROS 为基于 LLM 的下一 POI 生成加入层级空间 SID、带局部性剪枝的移动思维链以及空间引导强化学习。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -34,11 +40,15 @@ flowchart LR
 | 主要发现 | 在 NYC 上，ROS 的 HR@1 为 0.4478，CoAST 为 0.4027（+11.2%）；在 TKY 和 Gowalla-CA 上，比最强的 LLM 基线分别高 +11.0% 和 +15.7%（Table 1）。 |
 | 局限 | 单调先验认为短时间内的远距离移动不太可能，所以 ROS 可能低估乘地铁或走高速的快速长途出行，交通枢纽附近尤其如此（Limitations）。 |
 
+---
+
 ### 1. 为什么重要
 
 基于 LLM 的生成式推荐器很少用地理信号，而在出行和本地服务场景里地理很重要（Abstract）。ROS 把下一次到访看作一串受时间、意图和地理约束的决策（Sec. 2.3）。它用层级空间语义 ID（Semantic ID，SID）表示每个 POI，SID 同时编码所在区域和 POI 语义（Abstract）。
 
 > "We present ROS, a generative next POI recommendation framework that treats geography as an explicit decision variable."（Sec. 5）（ROS 把地理当作显式的决策变量。）
+
+---
 
 ### 2. 方法
 
@@ -46,11 +56,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[签到数据] --> B[空间 SID]
-    B --> C[SID 落地]
-    C --> D[出行思维链]
-    D --> E[空间引导 RL]
-    E --> F[下一个 POI]
+    A("签到数据") --> B["空间 SID：S2 前缀 + 锚点 + 后缀"]:::key
+    B --> C["SID 落地 + 序列预训练"]
+    C --> D["出行思维链"]
+    D --> E["空间引导 GRPO"]
+    L1{{"Haversine + SID 匹配 + 格式"}} -.-> E
+    E --> F("下一个 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 层级空间 SID
@@ -69,9 +81,16 @@ flowchart LR
 
 模型按三个确定的阶段推理：刻画用户；构建与意图一致的候选空间；剪枝候选（Sec. 2.3）。剪枝依据时间一致性、语义匹配，以及由街道地址和转移距离判断的空间可达性。
 
+```mermaid
+flowchart LR
+    U["刻画用户"] --> C["构建与意图一致的候选"] --> P["剪枝：时间、语义、空间"] --> A("答案")
+```
+
 #### 空间引导的强化学习
 
 GRPO 优化一个统一奖励（Sec. 2.4.3）。奖励由三部分组成：预测 POI 与真实 POI 之间的 Haversine 距离（Sec. 2.4.1），带完全匹配奖励的层级 SID 匹配（Sec. 2.4.2），以及格式项。
+
+---
 
 ### 3. 实验发现
 
@@ -98,12 +117,16 @@ GRPO 优化一个统一奖励（Sec. 2.4.3）。奖励由三部分组成：预�
 - 思维链阶段：三个阶段全用才最好（Sec. 3.3，Table 3）。
 - 跨城迁移：在一个城市训练，用到两个没见过的城市，ROS 的迁移效果好于 LLM4POI 和 GA-LLM（Sec. 3.4，Table 6）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - GNPR-SID 用普通 `RQ-VAE` 量化 POI 特征；ROS 在语义码前面加了显式的 S2 cell 前缀（`Geo-Prefix+RQ-VAE`）。
 - SpaceTime-GR 只用地理索引（`Geo`，`Geo-Idx`）；ROS 在 SID 中加入品类语义，并在解码前先推理（`CoT+C-Beam`）。
+
+---
 
 ### 5. 相关工作
 

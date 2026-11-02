@@ -10,12 +10,14 @@ Limitation: 在工业数据集上用同等规模的模型，训练约需 59 h，
 
 ```mermaid
 flowchart LR
-    A[物品共现图] --> B[CoBa RQ-VAE]
-    B --> C[SID]
-    C --> D[思考 token]
-    D --> E[SID 码]
-    E --> D
-    E --> F[下一物品]
+    A("物品共现图") --> B["传播嵌入"]
+    B --> C["CoBa RQ-VAE"]
+    C --> D("SID")
+    D --> E["Enc-Dec 生成器"]
+    L1{{"推荐损失"}} -.-> E
+    L2{{"思考损失：对齐 k-means 簇中心"}}:::key -.-> E
+    E --> F("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 与行为对齐的码本
@@ -29,6 +31,12 @@ S2GR 从历史序列构建物品共现图，在图上传播物品嵌入（Sec. 4
 #### 逐步潜在思考
 
 生成器在每个 SID 码之前输出一个思考 token，它是连续的潜在嵌入，不是自然语言文本（Sec. 4.3.2）。对比损失让它对齐对应码本中下一个真实码的 k-means 簇中心。生成器的目标是推荐损失加上这个思考损失（Eqs. 22–24）。编号器单独优化（Sec. 4.2）。
+
+```mermaid
+flowchart LR
+    T1("思考 token"):::key --> C1("码") --> T2("思考 token"):::key --> C2("码") --> E("…")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### 解码
 

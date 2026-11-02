@@ -1,10 +1,14 @@
 # Gryphon
 
-*A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations* — Tikhonovich et al. · CIKM’26 Short
+| **Title** | *A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations* |
+| :-- | :-- |
+| **Authors** | Tikhonovich et al. |
+| **Venue** | CIKM’26 Short |
+| **Problem × Stage** | `IV. Utility` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2606.08604) · [Matrix](../../README.md#iv--backbone) · [中文](../zh/papers/gryphon.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Backbone` · [Paper](https://arxiv.org/abs/2606.08604) · [Matrix](../../README.md#iv--backbone) · [中文](../zh/papers/gryphon.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated Semantic ID to its items and re-scoring them, instead of ranking by token likelihood.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated Semantic ID to its items and re-scoring them, instead of ranking by token likelihood. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Tables 1-3: [S4.T1](https://arxiv.org/html/2606.08604v1#S4.T1) and [S4.T2](https://arxiv.org/html/2606.08604v1#S4.T2) and [S4.T3](https://arxiv.org/html/2606.08604v1#S4.T3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

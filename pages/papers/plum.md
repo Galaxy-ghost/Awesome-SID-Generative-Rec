@@ -1,10 +1,14 @@
 # PLUM
 
-*Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* — He et al. · WWW’26
+| **Title** | *Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* |
+| :-- | :-- |
+| **Authors** | He et al. |
+| **Venue** | WWW’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2510.07784) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/plum.md) |
+| **Reading level** | Overview (Level 1) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2510.07784) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/plum.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -20,6 +24,8 @@ flowchart LR
 > [!NOTE]
 > PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -27,6 +33,8 @@ flowchart LR
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Key Contribution | PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training on domain data, and fine-tuning for generative retrieval, instead of large embedding tables. |
 | Modified Stage | No single stage |
+
+---
 
 ### 3. Experimental Findings
 
@@ -49,6 +57,8 @@ flowchart LR
   - Source: Tables 2-5 and live protocol: [S3.T2](https://arxiv.org/html/2510.07784v1#S3.T2) and [S3.T3](https://arxiv.org/html/2510.07784v1#S3.T3) and [S3.T4](https://arxiv.org/html/2510.07784v1#S3.T4) and [S3.T5](https://arxiv.org/html/2510.07784v1#S3.T5) and [S3.SS1.SSS2.Px2.p1](https://arxiv.org/html/2510.07784v1#S3.SS1.SSS2.Px2.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

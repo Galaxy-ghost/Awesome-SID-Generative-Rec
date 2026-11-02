@@ -1,10 +1,14 @@
 # DPE-Rec
 
-*Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* — Ma et al. · arXiv’26
+| **Title** | *Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* |
+| :-- | :-- |
+| **Authors** | Ma et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.34700) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/dpe-rec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2610.34700) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/dpe-rec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and pseudo-trajectory distillation to reveal more tokens per denoising step.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and pseudo-trajectory distillation to reveal more tokens per denoising step. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.34700v1#S5.SS1.SSS0.Px3.p1) ; #S5.SS1.SSS0.Px2.p1 ; #S8.SS2.p1 ; #S5.T2
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

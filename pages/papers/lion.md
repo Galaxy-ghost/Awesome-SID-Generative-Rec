@@ -1,10 +1,14 @@
 # LION
 
-*Self-Evolving Memory for Generative Recommendation* — Lin et al. · CIKM’26
+| **Title** | *Self-Evolving Memory for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Lin et al. |
+| **Venue** | CIKM’26 |
+| **Problem × Stage** | `VI. Generalization` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/lion.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Backbone` · [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/lion.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: Section 5.1.3 and Tables 1-3: [S5.SS1.SSS3.p1](https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1) and [S5.T1](https://arxiv.org/html/2609.15598v1#S5.T1) and [S5.T2](https://arxiv.org/html/2609.15598v1#S5.T2) and [S5.T3](https://arxiv.org/html/2609.15598v1#S5.T3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

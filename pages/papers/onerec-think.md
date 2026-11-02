@@ -1,10 +1,14 @@
 # OneRec-Think
 
-*In-text reasoning for generative recommendation* — Liu et al. · arXiv’25
+| **Title** | *In-text reasoning for generative recommendation* |
+| :-- | :-- |
+| **Authors** | Liu et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/onerec-think.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Training` · [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/onerec-think.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding, and a recommendation reward for multiple valid targets, instead of implicit prediction alone.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,11 +39,15 @@ flowchart LR
 | Key Findings | In the online A/B test on Kuaishou, the Think-Ahead deployment increases App Stay Time by 0.159% against the online model (Sec. 5.4.2, Table 3). |
 | Limitation | Multi-step reasoning conflicts with real-time latency requirements, so the full model runs only offline and a separate real-time OneRec model produces the last itemic token online (Sec. 4.4). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Generative recommenders such as OneRec predict item tokens directly and do not produce explicit, controllable reasoning (Abstract). OneRec-Think lets an LLM write a reasoning sequence and then the next itemic tokens in the same output.
 
 > "In contrast, we reformulate this task to unify reasoning and recommendation in a single autoregressive pass." (Sec. 3)
+
+---
 
 ### 2. How It Works
 
@@ -45,10 +55,12 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 
 ```mermaid
 flowchart LR
-    A[Itemic alignment] --> B[Reasoning activation]
-    B --> C[Reasoning enhancement]
-    C --> D[Rationale]
-    D --> E[Itemic tokens]
+    A["Itemic alignment: token warm-up, four tasks"] --> B["Reasoning activation SFT"]
+    B --> C["GRPO reasoning enhancement"]:::key
+    L1{{"Rollout-Beam reward"}} -.-> C
+    C --> D("Reasoning text")
+    D --> E("Itemic tokens")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Itemic Alignment
@@ -70,6 +82,17 @@ RL with GRPO refines the reasoning paths (Sec. 4.3). After each sampled rational
 The full OneRec-Think model generates the reasoning path and the first two itemic tokens offline (Sec. 4.4).
 
 > "It utilizes the pre-generated item-tokens as a constrained prefix to rapidly produce the final itemic token." (Sec. 4.4)
+
+```mermaid
+sequenceDiagram
+    participant Offline as OneRec-Think, offline
+    participant Online as Real-time OneRec, online
+    Offline->>Offline: reasoning path + first two itemic tokens
+    Offline->>Online: tokens as constrained prefix
+    Online->>Online: final itemic token
+```
+
+---
 
 ### 3. Experimental Findings
 
@@ -96,12 +119,16 @@ The full OneRec-Think model generates the reasoning path and the first two itemi
 - Public benchmarks: OneRec-Think performs best on Amazon Beauty, Toys, and Sports against the baselines in Table 1 (Sec. 5.2).
 - Ablation: on Beauty, adding itemic alignment to the base model and then the reasoning mechanism both improve the recommendation metrics (Sec. 5.3, Table 2).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - OneRec uses an `Enc-Dec` generator trained with `NTP → DPO`; OneRec-Think uses a `Dec-Only` LLM trained with `NTP → RL` and generates reasoning before the item (`CoT`).
 - The online gain comes from a split system in which a different model produces the last token. This suggests that the measured effect mixes the offline reasoning with the online model's own updates.
+
+---
 
 ### 5. Connections to Related Work
 

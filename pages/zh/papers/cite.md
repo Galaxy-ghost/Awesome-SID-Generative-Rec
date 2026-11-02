@@ -1,10 +1,14 @@
 # CITE
 
-*Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* — Ma et al. · Electronics’26
+| **题目** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
+| :-- | :-- |
+| **作者** | Ma et al. |
+| **会议** | Electronics’26 |
+| **问题与阶段** | `I. 信息量` · `Inference` |
+| **链接** | [论文](https://doi.org/10.3390/electronics15204749) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cite.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Inference` · [论文](https://doi.org/10.3390/electronics15204749) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cite.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Publisher version: §5.4 p.10, §5.5 p.13/Table 3; §§5.8–5.11 pp.17–21/Tables 7–11; §6 p.22. [link](https://doi.org/10.3390/electronics15204749)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

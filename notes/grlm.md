@@ -12,11 +12,15 @@ Text-based item identifiers expose the large output space of an LLM, while Seman
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[Term generation]
-    B --> C[Term IDs]
-    C --> D[Instruction fine-tuning]
-    D --> E[Generated Term ID]
-    E --> F[Grounding]
+    A("Item metadata") --> B["Context-aware term generation"]
+    B --> C("Term IDs")
+    C --> D["Integrative instruction fine-tuning"]
+    D --> E("Generated TID")
+    E --> F{"Exact match?"}
+    F -->|yes| G("Item")
+    F -->|no| H["EIG: weighted structural match"]:::key
+    H --> G
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Context-Aware Term Generation

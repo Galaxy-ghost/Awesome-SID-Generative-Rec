@@ -1,10 +1,14 @@
 # PLUM
 
-*Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* — He et al. · WWW’26
+| **题目** | *Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* |
+| :-- | :-- |
+| **作者** | He et al. |
+| **会议** | WWW’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2510.07784) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/plum.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2510.07784) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/plum.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -20,6 +24,8 @@ flowchart LR
 > [!NOTE]
 > PLUM 通过 SID 编号、领域数据持续预训练与生成式检索微调将预训练 LLM 适配到工业推荐系统，替代大规模嵌入表。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -27,6 +33,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | PLUM 通过 SID 编号、领域数据持续预训练与生成式检索微调将预训练 LLM 适配到工业推荐系统，替代大规模嵌入表。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -49,6 +57,8 @@ flowchart LR
   - 出处：Tables 2-5 and live protocol: [S3.T2](https://arxiv.org/html/2510.07784v1#S3.T2) and [S3.T3](https://arxiv.org/html/2510.07784v1#S3.T3) and [S3.T4](https://arxiv.org/html/2510.07784v1#S3.T4) and [S3.T5](https://arxiv.org/html/2510.07784v1#S3.T5) and [S3.SS1.SSS2.Px2.p1](https://arxiv.org/html/2510.07784v1#S3.SS1.SSS2.Px2.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

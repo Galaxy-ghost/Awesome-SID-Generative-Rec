@@ -1,10 +1,14 @@
 # TokenRec
 
-*Learning to tokenize id for llm-based generative recommendations* — Qu et al. · TKDE’25
+| **Title** | *Learning to tokenize id for llm-based generative recommendations* |
+| :-- | :-- |
+| **Authors** | Qu et al. |
+| **Venue** | TKDE’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/tokenrec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/tokenrec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,9 +37,13 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | New users and items need a retrained collaborative filtering model to produce their representations; only the tokenizer and the LLM stay frozen (Sec. II-E.2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 LLM-based recommenders need user and item tokens that the LLM can read (Abstract). One token per user or item expands the LLM vocabulary with the number of users and items (Sec. I). The authors also name two further gaps: existing tokens do not capture high-order collaborative knowledge, and they generalize poorly to users or items outside the training data (Abstract). TokenRec tokenizes users and items from collaborative representations and replaces autoregressive decoding with retrieval.
+
+---
 
 ### 2. How It Works
 
@@ -41,12 +51,16 @@ LLM-based recommenders need user and item tokens that the LLM can read (Abstract
 
 ```mermaid
 flowchart LR
-    A[GNN representations] --> B[MQ-Tokenizer]
-    B --> C[User and item tokens]
-    C --> D[LLM query encoder]
-    D --> E[Projection]
-    E --> F[Cosine scoring]
-    F --> G[Top-K items]
+    A("GNN CF representations") --> B["Random mask"]
+    B --> C["K encoders + K codebooks"]:::key
+    C --> D("User and item tokens")
+    C --> E["Average codewords + MLP decoder"]
+    E -.-> L1{{"Reconstruction loss"}}
+    D --> F["LLM query encoder"]
+    F --> G["3-layer MLP projection"]
+    G --> H["Cosine vs GNN item representations"]:::key
+    H --> I("Top-K items")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer
@@ -62,6 +76,8 @@ The tokenizer randomly masks the representation, encodes it with K separate enco
 #### Generative Retrieval
 
 The LLM reads a prompt with the user's tokens and, optionally, the tokens of interacted items, which are shuffled during training rather than kept in time order (Sec. II-D.2). The LLM acts as a query encoder. A three-layer MLP projects its hidden state, and cosine similarity against the GNN item representations scores all items for top-K retrieval (Sec. II-D.3, Eqs. 17–19).
+
+---
 
 ### 3. Experimental Findings
 
@@ -90,12 +106,16 @@ The LLM reads a prompt with the user's tokens and, optionally, the tokens of int
 
   > "This can be attributed to our generative retrieval paradigm, bypassing the most time-consuming auto-regressive decoding and beam search processes of LLMs [ 29 ] ." (Sec. III-D)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - TIGER decodes text-based `RQ-VAE` IDs with `Beam`; TokenRec builds tokens from collaborative signals only (`CF`) and ranks by `Scoring`, so it never generates an ID.
 - CID also tokenizes collaborative signals (`CF`) but with `Spectral Clus.` and decodes with `C-Beam`; TokenRec uses `Masked VQ` and an `Encoder`.
+
+---
 
 ### 5. Connections to Related Work
 

@@ -1,10 +1,14 @@
 # TRACER
 
-*Token ReAssignment for Concept ERasure in Generative Recommendation* — Chen et al. · NeurIPS’26
+| **题目** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Chen et al. |
+| **会议** | NeurIPS’26 |
+| **问题与阶段** | `IV. 实用目标` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2606.07688) · [矩阵](../../../README.zh.md#iv--tokenization) · [English](../../papers/tracer.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Tokenization` · [论文](https://arxiv.org/abs/2606.07688) · [矩阵](../../../README.zh.md#iv--tokenization) · [English](../../papers/tracer.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Sec.4 models/baselines and Appendix D.1/D.2/D.4: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1) and [S4.SS0.SSS0.Px5.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px5.p1) and [A4.SS1.p1](https://arxiv.org/html/2606.07688v1#A4.SS1.p1) and [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1) and [A4.SS4.p1](https://arxiv.org/html/2606.07688v1#A4.SS4.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

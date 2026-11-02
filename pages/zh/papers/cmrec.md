@@ -1,10 +1,14 @@
 # CMRec
 
-*Cross-Country Code-Mixing for Generative Recommendation* — Gao et al. · CIKM’26 Short
+| **题目** | *Cross-Country Code-Mixing for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Gao et al. |
+| **会议** | CIKM’26 Short |
+| **问题与阶段** | `VI. 泛化` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2609.28972) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/cmrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Training` · [论文](https://arxiv.org/abs/2609.28972) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/cmrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：[S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2609.28972v1#S4.T1) ; [S4.T2](https://arxiv.org/html/2609.28972v1#S4.T2) ; [S4.SS2.p4](https://arxiv.org/html/2609.28972v1#S4.SS2.p4)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

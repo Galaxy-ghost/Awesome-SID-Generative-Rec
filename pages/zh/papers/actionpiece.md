@@ -1,10 +1,14 @@
 # ActionPiece
 
-*Contextually Tokenizing Action Sequences for Generative Recommendation* — Hou et al. · ICML’25
+| **题目** | *Contextually Tokenizing Action Sequences for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Hou et al. |
+| **会议** | ICML’25 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2502.13581) · [代码](https://github.com/google-deepmind/action_piece) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/actionpiece.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2502.13581) · [代码](https://github.com/google-deepmind/action_piece) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/actionpiece.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > ActionPiece 将每次交互表示为物品特征集合，把共现特征模式合并为新 token，使相同动作获得随上下文变化的 token，而非固定独立的 token。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,11 +37,15 @@ flowchart LR
 | 核心贡献 | ActionPiece 将每次交互表示为物品特征集合，把共现特征模式合并为新 token，使相同动作获得随上下文变化的 token，而非固定独立的 token。 |
 | 主要改动阶段 | Tokenization |
 
+---
+
 ### 1. 为什么重要
 
 现有的生成式推荐（GR）模型对每个行为单独编号，同一个行为在任何序列里都得到相同的 token（Abstract）。作者认为，同一个行为放在不同的上下文里，意思可以不同（Abstract）。ActionPiece 让前后的行为决定一个行为怎样被编号。
 
 > "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships."（Abstract）（现有 GR 模型孤立地给每个行为编号，不看上下文。）
+
+---
 
 ### 2. 方法
 
@@ -43,10 +53,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[行为序列] --> B[共现计数]
-    B --> C[词表]
-    C --> D[多种切分]
-    D --> E[生成器]
+    A("特征集合组成的行为序列") --> B["统计集合内和相邻集合间的 token 对"]
+    B --> C["加权合并"]:::key
+    C --> D("依赖上下文的词表")
+    D --> E["集合置换正则"]
+    E --> F("多种切分")
+    F --> G["Enc-Dec 生成器"]
+    G --> H("集成后的排序")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 行为即特征集合
@@ -62,6 +76,8 @@ flowchart LR
 #### 集合置换正则
 
 特征集合没有顺序，所以集合置换正则可以把同一条行为序列切成多种语义相同的切分（Abstract）。这些切分在训练时用作数据增强，在推理时做集成（Sec. 3.2.2）。
+
+---
 
 ### 3. 实验发现
 
@@ -93,12 +109,16 @@ flowchart LR
 - token 使用：同一物品按邻居得到不同的 token，提高了 token 的使用率，也起到数据增强的作用（Sec. 4.3）。
 - 其他分析：论文还研究了 token 使用（Sec. 4.4.2）、集成数（Fig. 6）和案例（Sec. 4.5）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 推理时要对多种切分分别排序再平均分数。由此推断，除非并行处理，解码开销会随集成数增长。
 - VQ-Rec 在 `Encoder` 上用 `OPQ` 码做 `Scoring`；ActionPiece 从同类的码出发，但用 `Enc-Dec` 生成器生成合并后的 token。
+
+---
 
 ### 5. 相关工作
 

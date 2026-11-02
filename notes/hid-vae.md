@@ -12,11 +12,15 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 ```mermaid
 flowchart LR
-    A[Item text] --> C[Supervised quantization]
-    B[Hierarchical tags] --> C
-    C --> D[SIDs]
-    D --> E[Generator]
-    E --> F[Constrained decoding]
+    A("Item text") --> C["Hierarchically supervised quantizer"]:::key
+    B("Multi-level tags, LLM-made if missing") --> C
+    L1{{"Tag prediction per level"}} -.-> C
+    L2{{"Uniqueness loss"}} -.-> C
+    C --> D("SIDs")
+    D --> E["Enc-Dec generator"]
+    E --> F["Constrained decoding"]
+    F --> G("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Tag Generation

@@ -1,10 +1,14 @@
 # UNGER
 
-*Generative Recommendation with A Unified Code via Semantic and Collaborative Integration* — Xiao et al. · TOIS’25
+| **Title** | *Generative Recommendation with A Unified Code via Semantic and Collaborative Integration* |
+| :-- | :-- |
+| **Authors** | Xiao et al. |
+| **Venue** | TOIS’25 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` |
+| **Links** | [Paper](https://arxiv.org/abs/2502.06269) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/unger.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Representation` · [Paper](https://arxiv.org/abs/2502.06269) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/unger.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > UNGER learns one integrated semantic-collaborative embedding through cross-modality alignment and next-item prediction, quantizes it into a unified code, and adds intra-modality distillation, instead of separate codes per modality.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | UNGER learns one integrated semantic-collaborative embedding through cross-modality alignment and next-item prediction, quantizes it into a unified code, and adds intra-modality distillation, instead of separate codes per modality. |
 | Modified Stage | Representation |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: [S4.SS2.SSS2.p1](https://arxiv.org/html/2502.06269v3#S4.SS2.SSS2.p1) ; [S4.T3](https://arxiv.org/html/2502.06269v3#S4.T3)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

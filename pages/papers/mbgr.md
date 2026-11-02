@@ -1,10 +1,14 @@
 # MBGR
 
-*Multi-Business Prediction for Generative Recommendation at Meituan* — Li et al. · arXiv’26
+| **Title** | *Multi-Business Prediction for Generative Recommendation at Meituan* |
+| :-- | :-- |
+| **Authors** | Li et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2604.02684) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/mbgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Tokenization` · [Paper](https://arxiv.org/abs/2604.02684) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/mbgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Generative: [S6.T1](https://arxiv.org/html/2604.02684v1#S6.T1); downstream: [S6.T2](https://arxiv.org/html/2604.02684v1#S6.T2); ablation: [S6.T3](https://arxiv.org/html/2604.02684v1#S6.T3); hyperparameters: [S6.T4](https://arxiv.org/html/2604.02684v1#S6.T4), [S6.T6](https://arxiv.org/html/2604.02684v1#S6.T6), [S6.T7](https://arxiv.org/html/2604.02684v1#S6.T7).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

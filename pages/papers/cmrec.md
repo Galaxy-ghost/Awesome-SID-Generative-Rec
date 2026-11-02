@@ -1,10 +1,14 @@
 # CMRec
 
-*Cross-Country Code-Mixing for Generative Recommendation* — Gao et al. · CIKM’26 Short
+| **Title** | *Cross-Country Code-Mixing for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Gao et al. |
+| **Venue** | CIKM’26 Short |
+| **Problem × Stage** | `VI. Generalization` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2609.28972) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/cmrec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Training` · [Paper](https://arxiv.org/abs/2609.28972) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/cmrec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -28,6 +34,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -50,6 +58,8 @@ flowchart LR
   - Source: [S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2609.28972v1#S4.T1) ; [S4.T2](https://arxiv.org/html/2609.28972v1#S4.T2) ; [S4.SS2.p4](https://arxiv.org/html/2609.28972v1#S4.SS2.p4)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

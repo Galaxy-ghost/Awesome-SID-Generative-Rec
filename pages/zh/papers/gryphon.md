@@ -1,10 +1,14 @@
 # Gryphon
 
-*A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations* — Tikhonovich et al. · CIKM’26 Short
+| **题目** | *A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations* |
+| :-- | :-- |
+| **作者** | Tikhonovich et al. |
+| **会议** | CIKM’26 Short |
+| **问题与阶段** | `IV. 实用目标` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2606.08604) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/gryphon.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Backbone` · [论文](https://arxiv.org/abs/2606.08604) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/gryphon.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Gryphon 在编码器-解码器生成器中加入联合训练的物品级打分模块，将生成的 SID 解析为具体物品并重新打分，替代按 token 似然排序。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | Gryphon 在编码器-解码器生成器中加入联合训练的物品级打分模块，将生成的 SID 解析为具体物品并重新打分，替代按 token 似然排序。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Tables 1-3: [S4.T1](https://arxiv.org/html/2606.08604v1#S4.T1) and [S4.T2](https://arxiv.org/html/2606.08604v1#S4.T2) and [S4.T3](https://arxiv.org/html/2606.08604v1#S4.T3)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

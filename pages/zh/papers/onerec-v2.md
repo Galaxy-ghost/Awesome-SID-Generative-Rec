@@ -1,10 +1,14 @@
 # OneRec-V2
 
-*Technical Report* — Zhou et al. · arXiv’25
+| **题目** | *Technical Report* |
+| :-- | :-- |
+| **作者** | Zhou et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2508.20900) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/onerec-v2.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2508.20900) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/onerec-v2.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > OneRec-V2 用懒惰仅解码器架构替代 OneRec 的编码器-解码器以削减序列编码计算，并通过时长感知奖励塑形与自适应比率裁剪对齐真实反馈。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | OneRec-V2 用懒惰仅解码器架构替代 OneRec 的编码器-解码器以削减序列编码计算，并通过时长感知奖励塑形与自适应比率裁剪对齐真实反馈。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Original Tables 2-8 and Appendix D Table 9: [S2.T2](https://arxiv.org/html/2508.20900v4#S2.T2) and [S2.T5](https://arxiv.org/html/2508.20900v4#S2.T5) and [S3.T6](https://arxiv.org/html/2508.20900v4#S3.T6) and [S3.T8](https://arxiv.org/html/2508.20900v4#S3.T8) and [A4.T9](https://arxiv.org/html/2508.20900v4#A4.T9)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

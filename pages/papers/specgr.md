@@ -1,10 +1,14 @@
 # SpecGR
 
-*Inductive Generative Recommendation via Retrieval-based Speculation* — Ding et al. · AAAI’26
+| **Title** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
+| :-- | :-- |
+| **Authors** | Ding et al. |
+| **Venue** | AAAI’26 |
+| **Problem × Stage** | `VI. Generalization` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/specgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Inference` · [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/specgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: [Sx4.SSx2.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p1) ; #Sx4.SSx2.p2 ; #Sx4.T3 ; #A2.SSx3.p1 ; #A5.T6
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

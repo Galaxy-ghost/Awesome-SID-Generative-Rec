@@ -1,10 +1,14 @@
 # SCRec
 
-*Addressing Cross-Stage Decoupling of Semantic and Collaborative Signals in Generative Recommendation* — Dan · RecSys’26
+| **题目** | *Addressing Cross-Stage Decoupling of Semantic and Collaborative Signals in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Dan |
+| **会议** | RecSys’26 |
+| **问题与阶段** | `I. 信息量` · `Representation` |
+| **链接** | [论文](https://arxiv.org/abs/2609.13678) · [代码](https://github.com/DanJiayi/SCRec) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/screc.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Representation` · [论文](https://arxiv.org/abs/2609.13678) · [代码](https://github.com/DanJiayi/SCRec) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/screc.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SCRec 将文本化的协同信号注入语义编号，在生成时用可学习码嵌入校准语义先验，并对齐码本与语义空间以耦合两个阶段。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | SCRec 将文本化的协同信号注入语义编号，在生成时用可学习码嵌入校准语义先验，并对齐码本与语义空间以耦合两个阶段。 |
 | 主要改动阶段 | Representation |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：[S4.T1](https://arxiv.org/html/2609.13678v1#S4.T1) ; #S4.T2 ; #S4.T3 ; #S4.T4 ; #S4.T5 ; #S4.SS1.p5
 
 </details>
+
+---
 
 ### 5. 相关工作
 

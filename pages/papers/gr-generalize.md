@@ -1,10 +1,14 @@
 # GR-Generalize
 
-*How Well Does Generative Recommendation Generalize?* — Ding et al. · arXiv’26
+| **Title** | *How Well Does Generative Recommendation Generalize?* |
+| :-- | :-- |
+| **Authors** | Ding et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/gr-generalize.md) |
+| **Reading level** | Overview (Level 1) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/gr-generalize.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -19,6 +23,8 @@ flowchart LR
 > [!NOTE]
 > GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -26,6 +32,8 @@ flowchart LR
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Key Contribution | GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance. |
 | Modified Stage | No single stage |
+
+---
 
 ### 3. Experimental Findings
 
@@ -48,6 +56,8 @@ flowchart LR
   - Source: Breakdown: [S2.T1](https://arxiv.org/html/2603.19809v1#S2.T1); SID configurations: [S4.T3](https://arxiv.org/html/2603.19809v1#S4.T3); ensemble: [S5.T4](https://arxiv.org/html/2603.19809v1#S5.T4).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

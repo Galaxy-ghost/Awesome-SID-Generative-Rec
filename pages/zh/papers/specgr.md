@@ -1,10 +1,14 @@
 # SpecGR
 
-*Inductive Generative Recommendation via Retrieval-based Speculation* — Ding et al. · AAAI’26
+| **题目** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
+| :-- | :-- |
+| **作者** | Ding et al. |
+| **会议** | AAAI’26 |
+| **问题与阶段** | `VI. 泛化` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/specgr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Inference` · [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/specgr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：[Sx4.SSx2.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p1) ; #Sx4.SSx2.p2 ; #Sx4.T3 ; #A2.SSx3.p1 ; #A5.T6
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,9 +1,0 @@
-# UTGRec: archived card
-
-Moved from notes/utgrec.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态大模型和树状码本构造跨领域通用的物品标识。

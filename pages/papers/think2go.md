@@ -1,10 +1,14 @@
 # Think2Go
 
-*Generative Next POI Recommendation with LLM Reasoning* — Zhuang et al. · KDD’26
+| **Title** | *Generative Next POI Recommendation with LLM Reasoning* |
+| :-- | :-- |
+| **Authors** | Zhuang et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/think2go.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Training` · `POI` · [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/think2go.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,9 +38,13 @@ flowchart LR
 | Key Contribution | Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs. |
 | Modified Stage | Training |
 
+---
+
 ### 1. Why This Paper Matters
 
 Next-POI recommendation learns from sparse and complex mobility patterns (Abstract). The authors argue that non-reasoning models lack the capacity to capture deep intent from them, and that LLMs understand Semantic IDs (SIDs) poorly when the SIDs are trained separately from the model (Abstract, Sec. 5.8). Think2Go lets an LLM reason before it recommends, and trains memorization and reasoning in one architecture instead of running SFT and RL one after the other (Sec. 4, Sec. 4.1).
+
+---
 
 ### 2. How It Works
 
@@ -42,12 +52,16 @@ Next-POI recommendation learns from sparse and complex mobility patterns (Abstra
 
 ```mermaid
 flowchart LR
-    A[SID history and time] --> B[Think]
-    B --> C[Go]
-    C --> D[Self-correct prompt]
-    D --> E[Answer]
-    B -. RL .-> F[Policy update]
-    E -. SFT .-> F
+    A("SID history + time") --> B("Think")
+    B --> C("Go: first prediction")
+    C --> D("Self-correct prompt")
+    D --> E("Answer")
+    B -.-> L1{{"RL: progressive reward"}}
+    E -.-> L2{{"SFT"}}
+    L1 -.-> P["Policy"]
+    L2 -.-> P
+    W["STEU + DRG advantage weights"]:::key -.-> L1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Unified SFT and RL
@@ -67,6 +81,8 @@ Standard group advantages give the same update weight to easy and hard samples (
 > "challenging samples with high epistemic uncertainty and correct predictions receive larger updates to encourage exploration, while incorrect predictions are updated conservatively to ensure robustness." (Sec. 4.2.1)
 
 The second weight rescales the group advantage by the reward relative to the maximum reward, so that the absolute performance signal is kept (Sec. 4.2.4, Eq. 9). The authors describe the combination as an implicit curriculum.
+
+---
 
 ### 3. Experimental Findings
 
@@ -99,12 +115,16 @@ The second weight rescales the group advantage by the reward relative to the max
 - Out-of-domain: Think2Go degrades less than the other methods on out-of-domain datasets (Sec. 5.8, Table 5).
 - Efficiency: against Refine-POI trained on NYC, the paper reports training time per epoch, test time, and memory (Appendix E, Table 10).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - GNPR-SID trains on `RQ-VAE` POI SIDs with `NTP` only and has no reported inference strategy (`–`); Think2Go adds an RL stage (`NTP → RL`) and reasons before decoding (`CoT+Beam`).
 - ROS also reasons before decoding (`CoT+C-Beam`) but puts geography into the SID itself (`Geo-Prefix+RQ-VAE`); Think2Go keeps a plain `RQ-VAE` SID and models space through the advantage weights.
+
+---
 
 ### 5. Connections to Related Work
 

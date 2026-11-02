@@ -1,10 +1,14 @@
 # OneLive
 
-*Dynamically Unified Generative Framework for Live-Streaming Recommendation* — Wang et al. · KDD’26 ADS
+| **Title** | *Dynamically Unified Generative Framework for Live-Streaming Recommendation* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | KDD’26 ADS |
+| **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.08612) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/onelive.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Tokenization` · [Paper](https://arxiv.org/abs/2602.08612) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/onelive.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Table 2 and Sections 3.1/3.2: [S2.T2](https://arxiv.org/html/2602.08612v1#S2.T2) and [S3.p1](https://arxiv.org/html/2602.08612v1#S3.p1) and [S3.SS2.p1](https://arxiv.org/html/2602.08612v1#S3.SS2.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

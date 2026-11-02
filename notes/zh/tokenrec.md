@@ -10,12 +10,16 @@ Limitation: 新用户和新物品要重训协同过滤模型才能得到表示�
 
 ```mermaid
 flowchart LR
-    A[GNN 表示] --> B[MQ-Tokenizer]
-    B --> C[用户与物品 token]
-    C --> D[LLM 查询编码器]
-    D --> E[投影]
-    E --> F[余弦打分]
-    F --> G[Top-K 物品]
+    A("GNN 协同表示") --> B["随机遮盖"]
+    B --> C["K 个编码器 + K 个码本"]:::key
+    C --> D("用户与物品 token")
+    C --> E["码字平均 + MLP 解码器"]
+    E -.-> L1{{"重建损失"}}
+    D --> F["LLM 查询编码器"]
+    F --> G["3 层 MLP 投影"]
+    G --> H["与 GNN 物品表示算余弦"]:::key
+    H --> I("Top-K 物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer

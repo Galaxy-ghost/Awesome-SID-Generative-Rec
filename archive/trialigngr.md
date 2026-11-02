@@ -1,9 +1,0 @@
-# TriAlignGR: archived card
-
-Moved from notes/trialigngr.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-把视觉语义编进 SID，并用视觉描述等多任务让模型理解 SID 的含义。

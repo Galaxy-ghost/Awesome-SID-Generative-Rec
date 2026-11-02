@@ -1,9 +1,0 @@
-# PSI: archived card
-
-Moved from notes/psi.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-放宽最近质心分配，不追加非语义 token 也能得到唯一 SID。

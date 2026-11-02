@@ -14,12 +14,15 @@ OneRec replaces the cascade with a single-stage generative model and was deploye
 
 ```mermaid
 flowchart LR
-    A[Behavior history] --> B[Encoder]
-    B --> C[Session decoder]
-    C --> D[Session list]
-    D --> E[Reward model]
-    E --> F[Iterative DPO]
-    F --> C
+    A("Behavior history") --> B["Encoder"]
+    B --> C["Session decoder"]:::key
+    C --> D("Session list of SIDs")
+    E["Balanced K-means"] --> F("SIDs") --> C
+    D --> G["Beam samples"]
+    G --> H["Reward model"]
+    H --> L{{"DPO on best vs worst"}}
+    L -.->|next round| C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Balanced Semantic IDs

@@ -1,10 +1,14 @@
 # PROMISE
 
-*Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* — Guo et al. · arXiv’26
+| **题目** | *Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* |
+| :-- | :-- |
+| **作者** | Guo et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2601.04674) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/promise.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`III. SID 与模型对齐` · `Inference` · [论文](https://arxiv.org/abs/2601.04674) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/promise.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | 核心贡献 | PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Public: [S4.T1](https://arxiv.org/html/2601.04674v1#S4.T1); industrial: [S4.T2](https://arxiv.org/html/2601.04674v1#S4.T2); online: [S4.T3](https://arxiv.org/html/2601.04674v1#S4.T3); ablation: [S4.T4](https://arxiv.org/html/2601.04674v1#S4.T4); test-time scaling: [S4.SS5.p1](https://arxiv.org/html/2601.04674v1#S4.SS5.p1).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

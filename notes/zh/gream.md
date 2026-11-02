@@ -12,11 +12,16 @@ Limitation: 物品索引依赖 GPT-5 改写的描述，推理数据来自外部 
 
 ```mermaid
 flowchart LR
-    A[物品文本与评论] --> B[改写后的描述]
-    B --> C[RQ-KMeans 索引]
-    C --> D[对齐 SFT]
-    D --> E[推理课程]
-    E --> F[SRPO]
+    A("标题、描述、评论") --> B["GPT-5 改写"]
+    B --> C["RQ-KMeans"]
+    C --> D("物品索引")
+    D --> E["对齐 SFT + 辅助任务"]
+    E --> F["推理课程 SFT"]
+    F --> G["SRPO"]:::key
+    L1{{"残差敏感的可验证奖励"}} -.-> G
+    L2{{"奖励校准的组优势"}} -.-> G
+    G --> H("直接模式或推理模式")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 协同-语义对齐
@@ -28,6 +33,11 @@ flowchart LR
 外部 LLM 从推荐结果反向推理，生成结构化的推理路径（Sec. 4.2）。
 
 > "This process guides the model through a structured, five-stage logical chain—behavioral evidence extraction, latent preference modeling, intent inference, recommendation formulation, and denoised sequence rewriting"（Sec. 1）（五步推理链：提取行为证据、建模潜在偏好、推断意图、形成推荐、去噪改写序列。）
+
+```mermaid
+flowchart LR
+    S1["1 行为证据"] --> S2["2 潜在偏好"] --> S3["3 意图"] --> S4["4 推荐"] --> S5["5 去噪序列"]
+```
 
 #### SRPO
 

@@ -12,11 +12,16 @@ Current studies offer limited investigation of how to construct Semantic IDs (SI
 
 ```mermaid
 flowchart LR
-    A[Multimodal content] --> B[Item representation]
-    C[Co-occurrence pairs] --> B
-    B --> D[SID encoder]
-    D --> E[Collision post-processing]
-    E --> F[GR model]
+    A("CN-CLIP features") --> B["QFormer fusion"]
+    P("Co-occurrence pairs") -.-> L1{{"Optional InfoNCE"}}
+    L1 -.-> B
+    B --> C["SID encoder: RQ-VAE, VQ, OPQ, RQ-Kmeans"]
+    C --> D["Collision post-processing"]
+    D --> E("SIDs")
+    E --> F["GR model"]
+    F --> G["Dynamic beam 300 / 600 / 1,200"]
+    E --> Q["HitRate + Gini, no GR training"]:::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Representation

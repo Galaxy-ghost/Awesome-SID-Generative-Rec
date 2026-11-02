@@ -1,10 +1,14 @@
 # GRC
 
-*Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* — Xing et al. · CIKM’26
+| **Title** | *Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Xing et al. |
+| **Venue** | CIKM’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.23639) · [Matrix](../../README.md#iii--inference) · [中文](../zh/papers/grc.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Inference` · [Paper](https://arxiv.org/abs/2602.23639) · [Matrix](../../README.md#iii--inference) · [中文](../zh/papers/grc.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Section 5 Tables 1-3 and Section 6: [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1) and [S5.T2](https://arxiv.org/html/2602.23639v1#S5.T2) and [S5.T3](https://arxiv.org/html/2602.23639v1#S5.T3) and [S6.p1](https://arxiv.org/html/2602.23639v1#S6.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

@@ -14,12 +14,17 @@ MiniOneRec answers with an open framework that covers SID construction, supervis
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[RQ-VAE]
-    B --> C[SIDs in vocabulary]
-    C --> D[SFT]
-    D --> E[GRPO]
-    E --> F[Constrained beam]
-    F --> G[Next item]
+    A("Titles and descriptions") --> B["Frozen text encoder"]
+    B --> C["RQ-VAE"]
+    C --> D("SIDs added to vocabulary")
+    D --> E["SFT"]
+    E --> F["GRPO"]:::key
+    L1{{"Next-item + alignment tasks"}} -.-> E
+    L1 -.-> F
+    L2{{"Correctness + ranking reward"}} -.-> F
+    F --> G["Constrained beam"]
+    G --> H("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Tokenization

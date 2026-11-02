@@ -12,11 +12,15 @@ Key Findings: 在高德（Amap）的长期在线 A/B 测试中，Gwhere 比线�
 
 ```mermaid
 flowchart LR
-    A[四类信号] --> B[对比量化器]
-    B --> C[POI SID]
-    C --> D[继续预训练]
-    D --> E[SFT]
-    E --> F[EAKTO]
+    A("文本、图像、空间、协同") --> B["Gumbel-softmax 量化器"]:::key
+    L1{{"NT-Xent，无重建损失"}} -.-> B
+    B --> C("POI SID")
+    C --> D["两份语料上继续预训练"]
+    D --> E["SFT"]
+    E --> F["EAKTO"]
+    L2{{"点击与未点击"}} -.-> F
+    F --> G("下一个 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 对比式物品编号

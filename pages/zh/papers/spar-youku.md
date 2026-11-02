@@ -1,10 +1,14 @@
 # SPAR-Youku
 
-*SPAR: Stepwise Personalized Autoregressive Recommendation with Prefix-Balanced Semantic IDs* — Zhang et al. · arXiv’26
+| **题目** | *SPAR: Stepwise Personalized Autoregressive Recommendation with Prefix-Balanced Semantic IDs* |
+| :-- | :-- |
+| **作者** | Zhang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.27898) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spar-youku.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Backbone` · [论文](https://arxiv.org/abs/2610.27898) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spar-youku.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > SPAR-Youku 从压缩用户记忆中提取前缀相关证据引导每步 SID 解码，并用 RQ-PIB 均衡兄弟分支间的交互负载，减少分支错误与流行度偏差。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | SPAR-Youku 从压缩用户记忆中提取前缀相关证据引导每步 SID 解码，并用 RQ-PIB 均衡兄弟分支间的交互负载，减少分支错误与流行度偏差。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：[S3.T1](https://arxiv.org/html/2610.27898v1#S3.T1) ; #S3.T2 ; #S3.T3 ; #S3.T4 ; #S3.SS5.SSS4.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

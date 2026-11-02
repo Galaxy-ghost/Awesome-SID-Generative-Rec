@@ -1,10 +1,14 @@
 # ISD
 
-*Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* — Wang et al. · arXiv’26
+| **题目** | *Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Wang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2607.24995) · [代码](https://anonymous.4open.science/r/ISD-CF7C) · [矩阵](../../../README.zh.md#iv--inference) · [English](../../papers/isd.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Inference` · [论文](https://arxiv.org/abs/2607.24995) · [代码](https://anonymous.4open.science/r/ISD-CF7C) · [矩阵](../../../README.zh.md#iv--inference) · [English](../../papers/isd.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > ISD 在指出 SID 丢失局部物品结构后，于推理阶段无需重训地用用户特定物品排序支撑 SID 前缀，避免它们在束搜索中被过早剪枝。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | ISD 在指出 SID 丢失局部物品结构后，于推理阶段无需重训地用用户特定物品排序支撑 SID 前缀，避免它们在束搜索中被过早剪枝。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：[S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3) ; #S6.T4 ; #S6.T5 ; #A1.SS4.SSS2.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

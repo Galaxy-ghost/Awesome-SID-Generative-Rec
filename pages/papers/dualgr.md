@@ -1,10 +1,14 @@
 # DualGR
 
-*Generative Retrieval with Long and Short-Term Interests Modeling* — Yi et al. · WWW’26 Short
+| **Title** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
+| :-- | :-- |
+| **Authors** | Yi et al. |
+| **Venue** | WWW’26 Short |
+| **Problem × Stage** | `VI. Generalization` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.12518) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/dualgr.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Backbone` · [Paper](https://arxiv.org/abs/2511.12518) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/dualgr.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Tables 1-2 and Section 3.1: [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1) and [S3.T2](https://arxiv.org/html/2511.12518v1#S3.T2) and [S3.SS1.p1](https://arxiv.org/html/2511.12518v1#S3.SS1.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

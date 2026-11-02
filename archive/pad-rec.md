@@ -1,9 +1,0 @@
-# PAD-Rec: archived card
-
-Moved from notes/pad-rec.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-在投机解码的草稿模型中加入 SID 位置信息，加速列表式生成。

@@ -1,10 +1,14 @@
 # SynGR
 
-*Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* — Chen et al. · ICML’26
+| **题目** | *Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Chen et al. |
+| **会议** | ICML’26 |
+| **问题与阶段** | `I. 信息量` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/syngr.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Training` · [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/syngr.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Main: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1); efficiency: [S5.F3](https://arxiv.org/html/2605.18920v2#S5.F3); parameters: [S5.F4](https://arxiv.org/html/2605.18920v2#S5.F4); ablation: [S5.F5](https://arxiv.org/html/2605.18920v2#S5.F5).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

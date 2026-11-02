@@ -1,10 +1,14 @@
 # COBRA
 
-*Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations* — Yang et al. · NeurIPS’25
+| **Title** | *Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations* |
+| :-- | :-- |
+| **Authors** | Yang et al. |
+| **Venue** | NeurIPS’25 |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2503.02453) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/cobra.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Backbone` · [Paper](https://arxiv.org/abs/2503.02453) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/cobra.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Public table: [S4.T2](https://arxiv.org/html/2503.02453v1#S4.T2); industrial variants: [S4.T3](https://arxiv.org/html/2503.02453v1#S4.T3); online: [S4.SS4.p1](https://arxiv.org/html/2503.02453v1#S4.SS4.p1); diversity curves: [S4.F6](https://arxiv.org/html/2503.02453v1#S4.F6).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

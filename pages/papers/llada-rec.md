@@ -1,10 +1,14 @@
 # LLaDA-Rec
 
-*Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* — Shi et al. · arXiv’25
+| **Title** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Shi et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/llada-rec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/llada-rec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level masking, and an adapted beam search, instead of left-to-right autoregressive decoding.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Backbone |
 | Limitation | Fewer diffusion steps improve generation efficiency but lower recommendation performance, and the authors leave a better trade-off as an open question (Sec. 5.4.3, Fig. 5). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Autoregressive generative recommenders decode a Semantic ID (SID) one token at a time with causal attention. The authors name two limitations of this setup: each token attends only to its predecessors, and errors in early tokens propagate through the fixed left-to-right order (Abstract). LLaDA-Rec replaces left-to-right decoding with discrete diffusion over all SID positions.
 
 > "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -44,12 +54,14 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Multi-Head VQ-VAE]
-    B --> C[Parallel SIDs]
-    C --> D[Masked predictor]
-    E[User history] --> D
-    D --> F[Adapted beam search]
-    F --> G[Next item]
+    A("Item text embedding") --> B["Multi-Head VQ-VAE"]
+    B --> C("Parallel SIDs")
+    C --> D["Mask predictor"]:::key
+    L1{{"User-history masking"}} -.-> D
+    L2{{"Next-item masking"}} -.-> D
+    D --> E["Adapted beam search"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Parallel Tokenization
@@ -67,6 +79,18 @@ Inference starts from a fully masked SID and fills it over several steps (Sec. 4
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence." (Sec. 4.3.4)
 
 The number of steps is controllable, and each step can predict several tokens (Sec. 4.4.2). An adapted beam search keeps several candidates during this process, because standard beam search does not fit diffusion-based generation (Abstract).
+
+```mermaid
+flowchart LR
+    S0("All positions masked") --> P["Predict all masked positions"]
+    P --> K["Keep selected positions"]:::key
+    K --> R["Remask the rest"]
+    R -->|next step| P
+    K --> D("Full SID after the last step")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
 
 ### 3. Experimental Findings
 
@@ -95,12 +119,16 @@ The number of steps is controllable, and each step can predict several tokens (S
 
   > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme." (Sec. 5.4.2)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The tokenizer is trained once and kept fixed (`Fixed`), and it encodes item text only (`Text`). This suggests that collaborative signals enter only through the generator.
 - RPG also generates parallel codes with a `Non-AR` generator; RPG uses `Par. OPQ` codes and `Graph` decoding, while LLaDA-Rec uses `Par. VQ` codes and `Diff.` decoding.
+
+---
 
 ### 5. Connections to Related Work
 

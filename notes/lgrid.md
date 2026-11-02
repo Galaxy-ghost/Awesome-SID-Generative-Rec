@@ -11,12 +11,17 @@ Existing Semantic ID (SID) frameworks build one representation and then quantize
 
 ```mermaid
 flowchart LR
-    A[Item fields] --> B[Joint LLM encoding]
-    B --> C[SD-Block]
-    C --> D[Geographic slots]
-    C --> E[Semantic slots]
-    D --> F[Dual-stream quantization]
+    A("Item fields") --> B["Joint LLM encoding"]
+    B --> C["SD-Block"]:::key
+    C --> D("k geographic slots")
+    C --> E("N-k semantic slots")
+    L1{{"Hierarchical hard negatives"}} -.-> C
+    L2{{"LDR: orthogonal slots"}} -.-> C
+    D --> F["Dual-stream RQ"]
     E --> F
+    F --> G("Attribute-aligned SIDs")
+    G --> H["Discriminative ranker"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Structured Disentangled Block

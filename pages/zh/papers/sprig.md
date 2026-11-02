@@ -1,10 +1,14 @@
 # SPRIG
 
-*Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* — Hangoebl et al. · CIKM’26 Short
+| **题目** | *Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Hangoebl et al. |
+| **会议** | CIKM’26 Short |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2610.06590) · [代码](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/sprig.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2610.06590) · [代码](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/sprig.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > SPRIG 在以内容派生 SID 结尾的知识图谱路径上训练生成器，将关系结构锚定与共享物品 token 结合起来，替代绑定嵌入表的不透明 token。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,6 +38,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | SPRIG 在以内容派生 SID 结尾的知识图谱路径上训练生成器，将关系结构锚定与共享物品 token 结合起来，替代绑定嵌入表的不透明 token。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -54,6 +62,8 @@ flowchart LR
   - 出处：Sec.3 implementation/baselines, Table2 and Sec.4 ablation: [S3.p5](https://arxiv.org/html/2610.06590v1#S3.p5) and [S3.p8](https://arxiv.org/html/2610.06590v1#S3.p8) and [S4.T2](https://arxiv.org/html/2610.06590v1#S4.T2) and [S4.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.06590v1#S4.SS0.SSS0.Px1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

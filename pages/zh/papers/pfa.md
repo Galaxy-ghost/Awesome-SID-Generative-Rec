@@ -1,10 +1,14 @@
 # PFA
 
-*Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation* — Zhou et al. · arXiv’26
+| **题目** | *Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhou et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2610.39273) · [代码](https://anonymous.4open.science/r/PFA-review-088D) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/pfa.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Inference` · [论文](https://arxiv.org/abs/2610.39273) · [代码](https://anonymous.4open.science/r/PFA-review-088D) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/pfa.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > PFA 在首个解码步保留完整注意力，随后在各束之间复用共享的重要性排序以缩减后续步关注的历史长度，加速长序列生成式解码。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | PFA 在首个解码步保留完整注意力，随后在各束之间复用共享的重要性排序以缩减后续步关注的历史长度，加速长序列生成式解码。 |
 | 主要改动阶段 | Inference |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：Tables 3-7: [S4.T3](https://arxiv.org/html/2610.39273v1#S4.T3) and [S4.T4](https://arxiv.org/html/2610.39273v1#S4.T4) and [S4.T5](https://arxiv.org/html/2610.39273v1#S4.T5) and [S4.T6](https://arxiv.org/html/2610.39273v1#S4.T6) and [S4.T7](https://arxiv.org/html/2610.39273v1#S4.T7) and [S4.SS6.p1](https://arxiv.org/html/2610.39273v1#S4.SS6.p1) and [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

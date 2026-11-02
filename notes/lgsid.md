@@ -12,13 +12,16 @@ Text-based recommenders encode item text with prompts and tokenize items into di
 
 ```mermaid
 flowchart LR
-    A[Item text and location] --> B[Reward model]
-    B --> C[G-DPO]
-    C --> D[Aligned LLM]
-    D --> E[Residual tokens]
-    F[Attributes] --> G[Primary tokens]
-    E --> H[SIDs]
-    G --> H
+    A("Item text + location") --> B["List-wise reward model"]
+    B --> C["G-DPO"]:::key
+    L1{{"In-batch contrastive regularizer"}} -.-> C
+    C --> D("Geographic vectors")
+    D --> E("Residual tokens")
+    F("Spatial and content attributes") --> G("Primary tokens")
+    G --> H("SIDs")
+    E --> H
+    H --> I["DIN, TWIN, TIGER, OneRec ..."]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Reward Model

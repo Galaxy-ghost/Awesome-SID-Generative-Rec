@@ -1,10 +1,14 @@
 # SPRIG
 
-*Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* — Hangoebl et al. · CIKM’26 Short
+| **Title** | *Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Hangoebl et al. |
+| **Venue** | CIKM’26 Short |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/sprig.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/sprig.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Sec.3 implementation/baselines, Table2 and Sec.4 ablation: [S3.p5](https://arxiv.org/html/2610.06590v1#S3.p5) and [S3.p8](https://arxiv.org/html/2610.06590v1#S3.p8) and [S4.T2](https://arxiv.org/html/2610.06590v1#S4.T2) and [S4.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.06590v1#S4.SS0.SSS0.Px1.p1)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

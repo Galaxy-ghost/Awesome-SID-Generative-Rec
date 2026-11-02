@@ -14,12 +14,15 @@ OneRec 用一个单阶段生成式模型替代级联，并部署在快手主场�
 
 ```mermaid
 flowchart LR
-    A[行为历史] --> B[编码器]
-    B --> C[会话解码器]
-    C --> D[会话列表]
-    D --> E[奖励模型]
-    E --> F[迭代 DPO]
-    F --> C
+    A("行为历史") --> B["编码器"]
+    B --> C["会话解码器"]:::key
+    C --> D("会话 SID 列表")
+    E["均衡 K-means"] --> F("SID") --> C
+    D --> G["束搜索采样"]
+    G --> H["奖励模型"]
+    H --> L{{"最好与最差配对的 DPO"}}
+    L -.->|下一轮| C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 均衡的语义 ID

@@ -1,10 +1,14 @@
 # RPG
 
-*Generating long semantic ids in parallel for recommendation* — Hou et al. · KDD’25
+| **题目** | *Generating long semantic ids in parallel for recommendation* |
+| :-- | :-- |
+| **作者** | Hou et al. |
+| **会议** | KDD’25 |
+| **问题与阶段** | `V. 效率` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2506.05781) · [代码](https://github.com/facebookresearch/RPG_KDD2025) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/rpg.md) |
+| **阅读级别** | 代码级精读（第 3 级） |
 
-`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2506.05781) · [代码](https://github.com/facebookresearch/RPG_KDD2025) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/rpg.md)
-
-阅读级别：代码级精读（第 3 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > RPG 用多 token 预测损失并行预测长且无序的 OPQ SID，并在合法 ID 图上解码，替代短 ID 上的自回归束搜索。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要发现 | 用 64 个 token 的 ID 时，RPG 在 NDCG@10 上比生成式基线平均高 12.6%，推理效率也更高（Abstract）。 |
 | 局限 | 作者假设，给定输入序列时，一个语义 ID（Semantic ID，SID）的各 token 条件独立（Sec. 2.2.1）。 |
 
+---
+
 ### 1. 为什么重要
 
 TIGER 这类生成式推荐器用束搜索逐个 token 解码 SID，每次推荐都要让生成器前向好几次。因此现有模型都把 SID 做得很短，常见是 4 个 token（Abstract）。
 
 > "Running beam search for 32 steps would be computationally prohibitive."（Sec. 1）（跑 32 步束搜索的计算量承受不起。）
+
+---
 
 ### 2. 方法
 
@@ -46,10 +56,16 @@ TIGER 这类生成式推荐器用束搜索逐个 token 解码 SID，每次推荐
 
 ```mermaid
 flowchart LR
-    A[物品嵌入] -->|OPQ| B[长 SID]
-    B -->|池化, 解码器| C[序列向量]
-    C -->|MTP 预测头| D[token 分数]
-    D -->|图搜索| E[Top-K 物品]
+    A("物品嵌入") --> B["OPQ：m 个子向量"]
+    B --> C("无序的长 SID")
+    C --> D["按物品池化 token"]
+    D --> E["Transformer 解码器"]
+    E --> F["m 个并行预测头"]:::key
+    L1{{"MTP 损失"}} -.-> F
+    F --> G("缓存的 token 分数")
+    G --> H["图约束解码"]:::key
+    H --> I("Top-K 物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：用 OPQ 构建长 SID
@@ -150,6 +166,17 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)."（Sec. 2.4.2）（与 TIGER 相比，每个输入的编码器前向次数从约 O(bm) 降到 O(1)。）
 
+```mermaid
+flowchart LR
+    S1["1 采样 b 个 SID 作初始束"] --> S2["2 加入 b×k 个图邻居"]
+    S2 --> S3["3 用缓存值打分，保留 b 个"]:::key
+    S3 -->|重复 q 轮| S2
+    S3 --> S4("4 最终束即 top-K")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
+
 ### 3. 实验发现
 
 <details>
@@ -184,6 +211,8 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
 - 语义编码器：主实验用 OpenAI text-embedding-3-large；为与基准结果对齐，Table 4 用 sentence-t5-base 重做了对比（Sec. 3.1，Sec. 3.5.2）。
 - 长尾物品：在 Sports 上，作者认为 RPG 在各训练频次分组中总体最好（Sec. 3.5.3，Fig. 5）。
 
+---
+
 ### 4. 局限与分析
 
 **Stated by the authors.** 作者说明，效率实验只用一组固定的超参数；其中的运行内存指计算 logit 所用的 GPU 内存，不含模型参数的存储（Sec. 3.3）。
@@ -192,6 +221,8 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
 
 - 一个 SID 的分数是各 token 分数之和（Eq. 3），模型无法表达同一 SID 内 token 之间的依赖。同格的 ACERec 加了对比和辅助目标（`MTP + Ctr. + Aux.`），SPRINT 把目标换成 `Dual-level Flow Ctr.`；两者都保留 `Par. OPQ` 和 `Non-AR`。
 - 解码用的图是模型之外的一个索引。它每个物品一个节点，模型重训或重新编号后都要重建（Sec. 2.3.1）。
+
+---
 
 ### 5. 相关工作
 

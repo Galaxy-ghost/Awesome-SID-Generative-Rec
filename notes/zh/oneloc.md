@@ -15,11 +15,15 @@ Limitation: 位置只通过残差 k-means 之前的一个融合嵌入进入语�
 
 ```mermaid
 flowchart LR
-    A[视频与位置] -->|多模态 LLM| B[嵌入]
-    B -->|残差 k-means| C[地理感知 SID]
-    C -->|GA-Attn 编码器| D[用户向量]
-    D -->|带提示的解码器, NTP| E[生成器]
-    E -->|奖励, DPO| F[对齐后的生成器]
+    A("视频 + 位置") --> B["多模态 LLM"]
+    B --> C["残差 k-means"]
+    C --> D("地理感知 SID")
+    D --> E["GA-Attn 编码器"]:::key
+    E --> F["带邻域提示的解码器"]:::key
+    L1{{"NTP 损失"}} -.-> F
+    L2{{"地理 + GMV 奖励上的 DPO"}} -.-> F
+    F --> G("下一个视频")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：地理感知的语义 ID
@@ -124,6 +128,17 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 ```
 
 简化说明：代码只画一个注意力头，省去了每个块的 RMSNorm、前馈网络和残差连接。投影矩阵、门 MLP 和对数概率都作为输入传入；代码不构造偏好对，也不跑束搜索。
+
+```mermaid
+flowchart LR
+    M("模型 θi") --> B["束搜索：N 个视频"]
+    B --> R["地理 + GMV 奖励"]
+    R --> P("最高为正例，最低为负例")
+    P --> L{{"L = NTP + 0.05 DPO"}}:::key
+    L --> N("模型 θi+1，参考 θi")
+    N -->|下一轮| M
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. 实验发现
 

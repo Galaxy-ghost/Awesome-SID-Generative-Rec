@@ -13,12 +13,18 @@ Existing generative methods use either the behavioral or the semantic side of it
 
 ```mermaid
 flowchart LR
-    A[User history] --> B[Shared encoder]
-    B --> C[Behavior decoder]
-    B --> D[Semantic decoder]
-    C --> E[Confidence ranking]
-    D --> E
-    E --> F[Items]
+    A("User history") --> B["Shared encoder"]
+    B --> C["Behavior decoder"]
+    B --> D["Semantic decoder"]
+    C --> E("k behavior codes")
+    D --> F("k semantic codes")
+    E --> G["Confidence ranking of 2k codes"]:::key
+    F --> G
+    G --> H("Items")
+    L1{{"GCT: summary-token distillation"}} -.-> C
+    L1 -.-> D
+    L2{{"STT: masked code reconstruction"}} -.-> C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior Codes and Semantic Codes

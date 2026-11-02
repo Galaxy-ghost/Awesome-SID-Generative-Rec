@@ -1,10 +1,14 @@
 # HF-SID
 
-*High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services* — Lin et al. · arXiv’26
+| **Title** | *High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services* |
+| :-- | :-- |
+| **Authors** | Lin et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2608.30479) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/hf-sid.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2608.30479) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/hf-sid.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -25,6 +29,8 @@ flowchart LR
 > [!NOTE]
 > HF-SID restores geographic, numerical, and structural detail in POI representations before quantization, through Cartesian coordinates, unit-encoded numbers, and residual contrastive learning, instead of lengthening the Semantic ID.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,6 +38,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | HF-SID restores geographic, numerical, and structural detail in POI representations before quantization, through Cartesian coordinates, unit-encoded numbers, and residual contrastive learning, instead of lengthening the Semantic ID. |
 | Modified Stage | Representation |
+
+---
 
 ### 3. Experimental Findings
 
@@ -54,6 +62,8 @@ flowchart LR
   - Source: Tables 2-6: [S4.T2](https://arxiv.org/html/2608.30479v1#S4.T2) and [S4.T3](https://arxiv.org/html/2608.30479v1#S4.T3) and [S4.T4](https://arxiv.org/html/2608.30479v1#S4.T4) and [S4.T5](https://arxiv.org/html/2608.30479v1#S4.T5) and [S4.T6](https://arxiv.org/html/2608.30479v1#S4.T6)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

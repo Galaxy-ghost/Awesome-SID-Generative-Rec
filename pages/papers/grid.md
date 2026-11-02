@@ -1,10 +1,14 @@
 # GRID
 
-*Generative Recommendation with Semantic IDs: A Practitioner's Handbook* — Ju et al. · CIKM’25
+| **Title** | *Generative Recommendation with Semantic IDs: A Practitioner's Handbook* |
+| :-- | :-- |
+| **Authors** | Ju et al. |
+| **Venue** | CIKM’25 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/grid.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/grid.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,11 +35,15 @@ flowchart LR
 | Key Contribution | GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks. |
 | Modified Stage | No single stage |
 
+---
+
 ### 1. Why This Paper Matters
 
 Varied modeling techniques, hyperparameters, and experimental setups make direct comparisons between generative recommendation (GR) proposals difficult (Abstract). GRID gives these proposals one modular framework in which components can be swapped and ablated.
 
 > "Our comprehensive experiments with GRID reveal that many overlooked architectural components in GR models with SIDs substantially impact performance." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -41,10 +51,15 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 
 ```mermaid
 flowchart LR
-    A[Item content] --> B[Semantic encoder]
-    B --> C[SID tokenizer]
-    C --> D[Generator]
-    D --> E[Beam search]
+    subgraph Tok["Tokenization phase"]
+        A("Item content") --> B["Semantic encoder (size varied)"]
+        B --> C["Tokenizer (L, W) varied"]
+    end
+    subgraph Gen["Generation phase"]
+        D["User tokens, Enc-Dec vs Dec-only, augmentation, de-dup IDs"] --> E["Constrained or free beam"]
+    end
+    C --> F("SIDs") --> D
+    E --> G("Next item")
 ```
 
 #### Tokenization then Generation
@@ -60,6 +75,8 @@ The study varies the tokenizer algorithm, the size of the semantic encoder, and 
 #### Generation Ablations
 
 The study varies the number of user tokens, encoder-decoder versus decoder-only, data augmentation, de-duplication IDs, and constrained versus unconstrained beam search (Sec. 4.2).
+
+---
 
 ### 3. Experimental Findings
 
@@ -87,12 +104,16 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 
   > "Conversely, other, often overlooked design choices prove to be vital, such as encoder-decoder architectures and data augmentation." (Sec. 5)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The ablations change one component at a time against a default configuration (Sec. 4.1). This suggests that interactions between components are not covered.
 - TIGER uses `RQ-VAE` codes; GRID's default uses `R-KM` codes, the same tokenization as OneRec.
+
+---
 
 ### 5. Connections to Related Work
 

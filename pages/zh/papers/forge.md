@@ -1,10 +1,14 @@
 # FORGE
 
-*Forming semantic identifiers for generative retrieval in industrial datasets* — Fu et al. · KDD’26
+| **题目** | *Forming semantic identifiers for generative retrieval in industrial datasets* |
+| :-- | :-- |
+| **作者** | Fu et al. |
+| **会议** | KDD’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/forge.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/forge.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > FORGE 是基准与工业数据集而非新推荐模型：对比不同 SID 构建策略，提出无需训练生成器即可评估 ID 的指标，并开源淘宝数据集。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,11 +36,15 @@ flowchart LR
 | 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 在淘宝的在线 A/B 测试中，按基准结论选出的语义 ID（Semantic ID，SID）构建策略让成交笔数提升 0.35%（Abstract）。 |
 
+---
+
 ### 1. 为什么重要
 
 现有研究很少考察 SID 该怎样构建，评估 SID 通常还要花大成本训练生成式检索（GR）模型（Abstract）。FORGE 把这些选择做成一个基准。
 
 > "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings."（Abstract）（FORGE 给 SID 构建过程分类，并用离线实验检验各选择对 GR 的影响。）
+
+---
 
 ### 2. 方法
 
@@ -42,11 +52,16 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[多模态内容] --> B[物品表示]
-    C[共现物品对] --> B
-    B --> D[SID 编码器]
-    D --> E[冲突后处理]
-    E --> F[GR 模型]
+    A("CN-CLIP 特征") --> B["QFormer 融合"]
+    P("共现物品对") -.-> L1{{"可选的 InfoNCE"}}
+    L1 -.-> B
+    B --> C["SID 编码器：RQ-VAE、VQ、OPQ、RQ-Kmeans"]
+    C --> D["冲突后处理"]
+    D --> E("SID")
+    E --> F["GR 模型"]
+    F --> G["动态束宽 300 / 600 / 1,200"]
+    E --> Q["HitRate + Gini，不训练 GR"]:::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品表示
@@ -66,6 +81,8 @@ flowchart LR
 Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Sec. 3.4）。
 
 > "The Gini coefficient measures the deviation between a uniform SID distribution and the actual item distribution, where a lower value indicates a more balanced assignment."（Sec. 3.4）（Gini 系数衡量实际分布偏离均匀分布的程度，越低越均衡。）
+
+---
 
 ### 3. 实验发现
 
@@ -96,6 +113,8 @@ Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Se
 - 部署：这些策略已在淘宝全量上线（Abstract）。
 - 数据集：AL-GR 含 14 billion 次交互和 250 million 个带多模态特征的物品（Abstract）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
@@ -103,6 +122,8 @@ Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Se
 - 指标和 HR 的相关性是在本基准的数据上得到的。由此推断，换到别的物品库，先要重新验证，才能用这些指标替代 GR 训练。
 - 最后一步束宽 1,200，解码开销应当不小。
 - OneRec 用 `R-KM` 码，OneRec-V2 用 `R-KM†` 码；FORGE 的基础配置用 `RQ-VAE` 码。
+
+---
 
 ### 5. 相关工作
 

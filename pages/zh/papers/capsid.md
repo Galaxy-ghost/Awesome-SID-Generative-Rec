@@ -1,10 +1,14 @@
 # CapsID
 
-*Soft-Routed Variable-Length Semantic IDs for Generative Recommendation* — Cheng et al. · arXiv’26
+| **题目** | *Soft-Routed Variable-Length Semantic IDs for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Cheng et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2605.05096) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/capsid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Tokenization` · [论文](https://arxiv.org/abs/2605.05096) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/capsid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > CapsID 用胶囊路由替代硬残差量化，将物品软路由到多个胶囊并在置信度足够高时终止生成，使各物品的 SID 长度按需变化。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | CapsID 用胶囊路由替代硬残差量化，将物品软路由到多个胶囊并在置信度足够高时终止生成，使各物品的 SID 长度按需变化。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：Main table: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3); patching comparison: [S4.T4](https://arxiv.org/html/2605.05096v1#S4.T4); ablation: [S4.T5](https://arxiv.org/html/2605.05096v1#S4.T5); industrial: [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6); cold subset: [A2.SS2.p1](https://arxiv.org/html/2605.05096v1#A2.SS2.p1).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

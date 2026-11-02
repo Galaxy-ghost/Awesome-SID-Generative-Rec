@@ -1,10 +1,14 @@
 # ETEGRec
 
-*Generative recommender with end-to-end learnable item tokenization* — Liu et al. · SIGIR’25
+| **题目** | *Generative recommender with end-to-end learnable item tokenization* |
+| :-- | :-- |
+| **作者** | Liu et al. |
+| **会议** | SIGIR’25 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2409.05546) · [代码](https://github.com/RUCAIBox/ETEGRec) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/etegrec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Training` · [论文](https://arxiv.org/abs/2409.05546) · [代码](https://github.com/RUCAIBox/ETEGRec) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/etegrec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > ETEGRec 用序列-物品对齐损失与偏好-语义对齐损失交替训练物品编号器和生成器，替代先独立训练编号器再训练生成器的两阶段流程。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Training |
 | 局限 | 编号器只读协同嵌入，没有交互的物品就没有可编号的输入（Sec. 3.2.1）。 |
 
+---
+
 ### 1. 为什么重要
 
 现有做法通常把物品编号和生成式推荐分开训练（Abstract）。ETEGRec 用一个双编码器-解码器框架把两者连在一起（Abstract）。
 
 > "To enable synergistic interaction between these components, we propose a recommendation-oriented alignment strategy, which includes two key optimization objectives: sequence-item alignment and preference-semantic alignment."（Abstract）（面向推荐的对齐包括序列-物品对齐和偏好-语义对齐两个目标。）
+
+---
 
 ### 2. 方法
 
@@ -44,11 +54,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[协同嵌入] --> B[RQ-VAE 编号器]
-    B --> C[物品 token]
-    C --> D[生成器]
-    D --> E[对齐损失]
-    E --> B
+    A("协同嵌入") --> B["RQ-VAE 编号器"]
+    B --> C("物品 token")
+    C --> D["Enc-Dec 生成器"]
+    D --> L1{{"序列-物品对齐"}}:::key
+    D --> L2{{"偏好-语义对齐"}}:::key
+    L1 -.-> B
+    L2 -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品编号器
@@ -66,6 +79,19 @@ flowchart LR
 在编号器阶段，量化损失和两个对齐损失更新编号器，生成器保持不动（Sec. 3.4）。
 
 > "In order to improve the training stability, we propose an alternating optimization strategy to mutually train the item tokenizer and the generative recommender."（Sec. 3.4）（用交替优化提高训练稳定性。）
+
+```mermaid
+sequenceDiagram
+    participant T as 编号器
+    participant G as 生成器
+    loop 交替优化
+        Note over T: 量化损失 + 两个对齐损失
+        T->>T: 更新（生成器不动）
+        G->>G: 更新（编号器不动）
+    end
+```
+
+---
 
 ### 3. 实验发现
 
@@ -92,12 +118,16 @@ flowchart LR
 - 主实验：ETEGRec 好于序列推荐基线和生成式基线（Abstract）。
 - 新老用户：在 Instrument 和 Scientific 上，把交互最少的 5% 用户留作新用户，ETEGRec 在两组上都好于 LETTER 和 TIGER（Sec. 4.4.1，Fig. 2）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 更新编号器会在训练中改变物品的 token 序列。交替训练是论文对这种不稳定的处理办法。
 - LETTER 也用 `Learn. RQ` 码，但在训练生成器之前就训练好；ETEGRec 把码和生成器一起训练。
+
+---
 
 ### 5. 相关工作
 

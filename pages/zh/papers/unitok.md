@@ -1,10 +1,14 @@
 # UniTok
 
-*Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* — Hou and Shin · AAAI’26
+| **题目** | *Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* |
+| :-- | :-- |
+| **作者** | Hou and Shin |
+| **会议** | AAAI’26 |
+| **问题与阶段** | `VI. 泛化` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2511.12922) · [代码](https://github.com/jackfrost168/UniTok) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/unitok.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Tokenization` · [论文](https://arxiv.org/abs/2511.12922) · [代码](https://github.com/jackfrost168/UniTok) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/unitok.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UniTok 用共享编码器、域特定与共享专家以及码本对多域物品编号，并校准域间互信息，替代每个域单独训练编号器的做法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | UniTok 用共享编码器、域特定与共享专家以及码本对多域物品编号，并校准域间互信息，替代每个域单独训练编号器的做法。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Main: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1); parameters: [Sx4.T2](https://arxiv.org/html/2511.12922v1#Sx4.T2); unified training: [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3); zero-shot and ablation in later tables.
 
 </details>
+
+---
 
 ### 5. 相关工作
 

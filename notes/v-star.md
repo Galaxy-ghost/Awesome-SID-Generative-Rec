@@ -8,12 +8,14 @@ RL fine-tuning of generative recommenders samples candidates with likelihood-dri
 
 ```mermaid
 flowchart LR
-    A[User context] --> B[Policy]
-    B --> C[SID prefix tree]
-    C --> D[Value-guided expansion]
-    D --> E[Candidate set]
-    E --> F[Sibling-GRPO]
-    F --> B
+    A("User context") --> B["Policy"]
+    B --> C["Prefix tree from probability beam"]
+    V["Value head"]:::key --> D
+    C --> D["VED: expand nodes above depth-average priority"]:::key
+    D --> E("Candidate set")
+    E --> F{{"Sibling-GRPO"}}:::key
+    F -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Value Head
@@ -31,6 +33,16 @@ VED treats SID decoding as building a candidate set on the prefix tree under a f
 Sibling-GRPO groups the children of each parent prefix (Sec. 4.3). Each child's score is the mean reward of its descendant candidates, and advantages are normalized among siblings (Eq. 17).
 
 > "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates." (Sec. 1)
+
+```mermaid
+flowchart TD
+    P("Parent prefix") --> A("Child a: mean reward of its candidates")
+    P --> B("Child b: mean reward of its candidates")
+    P --> C("Child c: mean reward of its candidates")
+    A --> N{{"Normalize advantages among siblings"}}
+    B --> N
+    C --> N
+```
 
 ### 3. Experimental Findings
 

@@ -12,11 +12,13 @@ LLM-based generative recommenders already share one token space for language and
 
 ```mermaid
 flowchart LR
-    A[Teacher-enriched corpus] --> B[Multi-task alignment]
-    B --> C[Reasoning activation]
-    C --> D[Outcome-based GRPO]
-    D --> E[Reasoning text]
-    E --> F[SID]
+    A("Teacher-enriched corpus + general reasoning data") --> B["Multi-task SID-language alignment"]:::key
+    B --> C["Reasoning activation SFT"]
+    C --> D["Outcome-based GRPO"]
+    L1{{"Reward on the SID only"}} -.-> D
+    D --> E("Reasoning text")
+    E --> F("SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### SID-Language Alignment

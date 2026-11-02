@@ -12,12 +12,16 @@ Generative recommenders that build on pre-trained language models carry general 
 
 ```mermaid
 flowchart LR
-    A[Text and image] --> B[Quantitative translators]
-    B --> C[Quantitative language]
-    C --> D[Source-domain pre-training]
-    D --> E[Target-domain fine-tuning]
-    E --> F[Two-list re-ranking]
-    F --> G[Next item]
+    A("Text via LLaMA") --> C["Text translator RQ-VAE"]
+    B("Image via ViT") --> D["Image translator RQ-VAE"]
+    C --> E("Prefixed quantitative language")
+    D --> E
+    E --> F["Source pre-training: next-item tasks"]
+    F --> G["Target fine-tuning: all tasks"]:::key
+    G --> H("Text list + image list")
+    H --> I["Re-rank by item scores"]
+    I --> J("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Quantitative Translators

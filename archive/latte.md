@@ -1,9 +1,0 @@
-# Latte: archived card
-
-Moved from notes/latte.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-指出逐码解码树限制了表达能力，在每个 SID 前插入潜 token 重塑解码空间。

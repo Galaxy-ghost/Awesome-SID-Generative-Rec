@@ -1,10 +1,14 @@
 # Think2Go
 
-*Generative Next POI Recommendation with LLM Reasoning* — Zhuang et al. · KDD’26
+| **题目** | *Generative Next POI Recommendation with LLM Reasoning* |
+| :-- | :-- |
+| **作者** | Zhuang et al. |
+| **会议** | KDD’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Training` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2607.28997) · [代码](https://doi.org/10.5281/zenodo.18206701) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/think2go.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Training` · `POI` · [论文](https://arxiv.org/abs/2607.28997) · [代码](https://doi.org/10.5281/zenodo.18206701) · [矩阵](../../../README.zh.md#iii--training) · [English](../../papers/think2go.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,9 +38,13 @@ flowchart LR
 | 核心贡献 | Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。 |
 | 主要改动阶段 | Training |
 
+---
+
 ### 1. 为什么重要
 
 下一 POI 推荐要从稀疏而复杂的出行模式中学习（Abstract）。作者认为，不做推理的模型抓不到其中深层的意图；语义 ID（Semantic ID，SID）如果和模型分开训练，LLM 也读不懂它（Abstract，Sec. 5.8）。Think2Go 让 LLM 先推理再推荐，并在一个结构里同时训练记忆和推理，而不是先 SFT 再 RL（Sec. 4，Sec. 4.1）。
+
+---
 
 ### 2. 方法
 
@@ -42,12 +52,16 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[SID 历史与时间] --> B[Think]
-    B --> C[Go]
-    C --> D[自我纠正提示]
-    D --> E[Answer]
-    B -. RL .-> F[策略更新]
-    E -. SFT .-> F
+    A("SID 历史 + 时间") --> B("Think")
+    B --> C("Go：第一次预测")
+    C --> D("自我纠正提示")
+    D --> E("Answer")
+    B -.-> L1{{"RL：渐进奖励"}}
+    E -.-> L2{{"SFT"}}
+    L1 -.-> P["策略"]
+    L2 -.-> P
+    W["STEU + DRG 优势权重"]:::key -.-> L1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 统一 SFT 与 RL
@@ -67,6 +81,8 @@ flowchart LR
 > "challenging samples with high epistemic uncertainty and correct predictions receive larger updates to encourage exploration, while incorrect predictions are updated conservatively to ensure robustness."（Sec. 4.2.1）（认知不确定性高且预测正确的难样本更新更大，预测错误的更新保守。）
 
 第二个权重按奖励相对最大奖励的比例缩放组优势，保留绝对表现的信号（Sec. 4.2.4，Eq. 9）。作者把两者的组合称为一种隐式课程。
+
+---
 
 ### 3. 实验发现
 
@@ -99,12 +115,16 @@ flowchart LR
 - 域外：在域外数据集上，Think2Go 的下降比其他方法少（Sec. 5.8，Table 5）。
 - 效率：对比在 NYC 上训练的 Refine-POI，论文报告了每轮训练时间、测试时间和内存（Appendix E，Table 10）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - GNPR-SID 只用 `NTP` 在 `RQ-VAE` POI SID 上训练，没有报告推理策略（`–`）；Think2Go 加了强化学习阶段（`NTP → RL`），并在解码前推理（`CoT+Beam`）。
 - ROS 也在解码前推理（`CoT+C-Beam`），但把地理放进 SID 本身（`Geo-Prefix+RQ-VAE`）；Think2Go 保留普通 `RQ-VAE` SID，通过优势权重建模空间。
+
+---
 
 ### 5. 相关工作
 

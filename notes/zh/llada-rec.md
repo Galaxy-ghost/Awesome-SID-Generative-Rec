@@ -12,12 +12,14 @@ Limitation: 扩散步数少，生成快，但推荐效果下降；作者把更�
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[多头 VQ-VAE]
-    B --> C[并行 SID]
-    C --> D[掩码预测器]
-    E[用户历史] --> D
-    D --> F[改造的束搜索]
-    F --> G[下一物品]
+    A("物品文本嵌入") --> B["多头 VQ-VAE"]
+    B --> C("并行 SID")
+    C --> D["掩码预测器"]:::key
+    L1{{"用户历史掩码"}} -.-> D
+    L2{{"下一物品掩码"}} -.-> D
+    D --> E["改造的束搜索"]
+    E --> F("下一物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 并行编号
@@ -35,6 +37,16 @@ flowchart LR
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence."（Sec. 4.3.4）（未选中的位置重新遮住，让预测器在已生成部分的基础上重新判断。）
 
 步数可调，每一步可以预测多个 token（Sec. 4.4.2）。标准束搜索不适合扩散式生成，所以论文改造了束搜索，在这个过程中保留多个候选（Abstract）。
+
+```mermaid
+flowchart LR
+    S0("所有位置遮住") --> P["预测所有遮住的位置"]
+    P --> K["保留选中的位置"]:::key
+    K --> R["其余重新遮住"]
+    R -->|下一步| P
+    K --> D("最后一步得到完整 SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. 实验发现
 

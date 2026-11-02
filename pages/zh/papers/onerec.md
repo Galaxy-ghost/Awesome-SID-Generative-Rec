@@ -1,10 +1,14 @@
 # OneRec
 
-*Unifying retrieve and rank with generative recommender and iterative preference alignment* — Deng et al. · arXiv’25
+| **题目** | *Unifying retrieve and rank with generative recommender and iterative preference alignment* |
+| :-- | :-- |
+| **作者** | Deng et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2502.18965) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onerec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2502.18965) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onerec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > OneRec 用带稀疏 MoE 的单一编码器-解码器生成器替代召回-排序级联，整段生成视频会话，并通过奖励模型与迭代 DPO 对齐用户偏好。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 主要改动阶段 | 无单一阶段 |
 | 局限 | 在线测试中，OneRec 提升了观看时长，但在点赞等互动指标上较弱（Sec. 6）。 |
 
+---
+
 ### 1. 为什么重要
 
 多数推荐器是"召回-排序"的级联，生成式模型即使有，也只在召回阶段选候选（Abstract）。作者认为，每一级都给下一级设了上限。
@@ -39,18 +47,23 @@ flowchart LR
 
 OneRec 用一个单阶段生成式模型替代级联，并部署在快手主场景（Abstract，Sec. 1）。
 
+---
+
 ### 2. 方法
 
 ![OneRec architecture diagram](../../../architectures/onerec.png)
 
 ```mermaid
 flowchart LR
-    A[行为历史] --> B[编码器]
-    B --> C[会话解码器]
-    C --> D[会话列表]
-    D --> E[奖励模型]
-    E --> F[迭代 DPO]
-    F --> C
+    A("行为历史") --> B["编码器"]
+    B --> C["会话解码器"]:::key
+    C --> D("会话 SID 列表")
+    E["均衡 K-means"] --> F("SID") --> C
+    D --> G["束搜索采样"]
+    G --> H["奖励模型"]
+    H --> L{{"最好与最差配对的 DPO"}}
+    L -.->|下一轮| C
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 均衡的语义 ID
@@ -66,6 +79,8 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 #### 迭代偏好对齐
 
 推荐系统对每个请求只展示一次，同一请求下拿不到真正的正、负列表（Abstract）。OneRec 用束搜索采样多个结果，用预训练的奖励模型打分，把最高分和最低分的结果配成一对做 DPO（Sec. 3.3.2）。下一轮再由模型生成新样本。
+
+---
 
 ### 3. 实验发现
 
@@ -92,6 +107,8 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 - 按会话生成：在奖励模型指标上，OneRec 好于点积召回方法和 TIGER 这类逐点生成方法（Sec. 5.2，Table 1）。
 - 偏好对齐：加入 IPA 后，生成的会话进一步变好（Sec. 5.2，Table 1）。
 
+---
+
 ### 4. 局限与分析
 
 **Stated by the authors.**
@@ -102,6 +119,8 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 
 - DPO 样本对按奖励模型排序，而不是按用户对两个列表的真实反馈。由此推断，对齐质量受奖励模型限制。
 - MiniOneRec 在公开数据上复现这条流程，改用只基于文本（`Text`）的 `RQ-VAE` SID、`Dec-Only` 生成器，并用 RL 替代 DPO（`NTP → RL`）。
+
+---
 
 ### 5. 相关工作
 

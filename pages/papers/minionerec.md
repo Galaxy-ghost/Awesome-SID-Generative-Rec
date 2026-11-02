@@ -1,10 +1,14 @@
 # MiniOneRec
 
-*An Open-Source Framework for Scaling Generative Recommendation* — Kong et al. · arXiv’25
+| **Title** | *An Open-Source Framework for Scaling Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Kong et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2510.24431) · [Code](https://github.com/AkaliKong/MiniOneRec) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/minionerec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2510.24431) · [Code](https://github.com/AkaliKong/MiniOneRec) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/minionerec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -20,6 +24,8 @@ flowchart LR
 > [!NOTE]
 > MiniOneRec is an open-source framework for RQ-VAE Semantic ID construction, supervised fine-tuning of Qwen backbones, and reinforcement learning with constrained decoding, to test generative scaling on public benchmarks.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Modified Stage | No single stage |
 | Limitation | The scaling study measures training and evaluation losses as the model grows, not ranking metrics (Sec. 5.2, Fig. 1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Industrial generative recommenders that replace embedding tables with Semantic ID (SID) sequences are mostly proprietary (Abstract). The authors ask whether scaling laws hold on public benchmarks and which post-training recipe is enough for competitive performance.
@@ -37,18 +45,25 @@ Industrial generative recommenders that replace embedding tables with Semantic I
 
 MiniOneRec answers with an open framework that covers SID construction, supervised fine-tuning (SFT), and reinforcement learning (RL), and releases code, training pipelines, and checkpoints (Sec. 1).
 
+---
+
 ### 2. How It Works
 
 ![MiniOneRec architecture diagram](../../architectures/minionerec.png)
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[RQ-VAE]
-    B --> C[SIDs in vocabulary]
-    C --> D[SFT]
-    D --> E[GRPO]
-    E --> F[Constrained beam]
-    F --> G[Next item]
+    A("Titles and descriptions") --> B["Frozen text encoder"]
+    B --> C["RQ-VAE"]
+    C --> D("SIDs added to vocabulary")
+    D --> E["SFT"]
+    E --> F["GRPO"]:::key
+    L1{{"Next-item + alignment tasks"}} -.-> E
+    L1 -.-> F
+    L2{{"Correctness + ranking reward"}} -.-> F
+    F --> G["Constrained beam"]
+    G --> H("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Tokenization
@@ -66,6 +81,8 @@ The SID tokens are added to the LLM vocabulary. Next-item prediction and auxilia
 The RL stage uses GRPO with constrained beam search as the sampler, so every generated item is valid (Sec. 3.4.1). The default reward combines a binary correctness rule with a ranking term that penalizes hard negatives (Sec. 3.4.2).
 
 > "The mixed reward discussed combines binary correctness with a soft ranking term, helping the LLM tell hard negatives apart." (Sec. 3.4.2)
+
+---
 
 ### 3. Experimental Findings
 
@@ -94,12 +111,16 @@ The RL stage uses GRPO with constrained beam search as the sampler, so every gen
 - Cross-domain: a model trained only on Industrial is applied to the unseen Office domain without further tuning (Sec. 5.4, Table 2).
 - World knowledge: the paper compares pre-trained and randomly initialized backbones (Sec. 5.6, Table 3).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - LC-Rec also aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with auxiliary tasks (`Multi-task NTP`); MiniOneRec keeps such tasks in a following RL stage (`NTP → RL`).
 - OneRec builds SIDs from multimodal and collaborative signals (`MM+CF`) with `R-KM`; MiniOneRec uses text only (`Text`) with `RQ-VAE`.
+
+---
 
 ### 5. Connections to Related Work
 

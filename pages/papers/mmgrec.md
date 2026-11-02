@@ -1,10 +1,14 @@
 # MMGRec
 
-*Multimodal Generative Recommendation with Transformer Model* — Liu et al. · TOMM’26
+| **Title** | *Multimodal Generative Recommendation with Transformer Model* |
+| :-- | :-- |
+| **Authors** | Liu et al. |
+| **Venue** | TOMM’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mmgrec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mmgrec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer with relation-aware self-attention to generate it, instead of embed-and-retrieve.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,6 +37,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer with relation-aware self-attention to generate it, instead of embed-and-retrieve. |
 | Modified Stage | Tokenization |
+
+---
 
 ### 3. Experimental Findings
 
@@ -53,6 +61,8 @@ flowchart LR
   - Source: Tables 2-5, Figures 4-6 and baseline implementation statement: [S6.T2](https://arxiv.org/html/2404.16555v4#S6.T2) and [S6.T3](https://arxiv.org/html/2404.16555v4#S6.T3) and [S6.T4](https://arxiv.org/html/2404.16555v4#S6.T4) and [S6.T5](https://arxiv.org/html/2404.16555v4#S6.T5) and [S6.F4](https://arxiv.org/html/2404.16555v4#S6.F4) and [S6.F6](https://arxiv.org/html/2404.16555v4#S6.F6) and [S6.F5](https://arxiv.org/html/2404.16555v4#S6.F5) and [S5.SS2.p2](https://arxiv.org/html/2404.16555v4#S5.SS2.p2)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

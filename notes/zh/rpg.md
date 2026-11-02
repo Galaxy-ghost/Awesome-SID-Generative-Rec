@@ -15,10 +15,16 @@ TIGER 这类生成式推荐器用束搜索逐个 token 解码 SID，每次推荐
 
 ```mermaid
 flowchart LR
-    A[物品嵌入] -->|OPQ| B[长 SID]
-    B -->|池化, 解码器| C[序列向量]
-    C -->|MTP 预测头| D[token 分数]
-    D -->|图搜索| E[Top-K 物品]
+    A("物品嵌入") --> B["OPQ：m 个子向量"]
+    B --> C("无序的长 SID")
+    C --> D["按物品池化 token"]
+    D --> E["Transformer 解码器"]
+    E --> F["m 个并行预测头"]:::key
+    L1{{"MTP 损失"}} -.-> F
+    F --> G("缓存的 token 分数")
+    G --> H["图约束解码"]:::key
+    H --> I("Top-K 物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：用 OPQ 构建长 SID
@@ -118,6 +124,15 @@ def rpg_decode(s, heads, token_emb, item_codes, neighbors, b=10, q=2, tau=0.05):
 简化说明：代码在图搜索之前给物品库中每个物品都打了分；论文只给沿图的边访问到的节点打分（Sec. 2.3.3）。代码还把预测头、token 嵌入和图作为输入传入，省去了 OPQ、Transformer 解码器、MTP 训练和建图。
 
 > "Compared to generative models like TIGER (Rajput et al., 2023), RPG reduces the number of sequence encoder forward passes per input instance from approximately O(bm) to just O(1), greatly improving inference efficiency (Section 3.3)."（Sec. 2.4.2）（与 TIGER 相比，每个输入的编码器前向次数从约 O(bm) 降到 O(1)。）
+
+```mermaid
+flowchart LR
+    S1["1 采样 b 个 SID 作初始束"] --> S2["2 加入 b×k 个图邻居"]
+    S2 --> S3["3 用缓存值打分，保留 b 个"]:::key
+    S3 -->|重复 q 轮| S2
+    S3 --> S4("4 最终束即 top-K")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. 实验发现
 

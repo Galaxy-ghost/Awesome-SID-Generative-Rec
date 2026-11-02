@@ -1,10 +1,14 @@
 # SIDReasoner
 
-*Reasoning over Semantic IDs Enhances Generative Recommendation* — He et al. · KDD’26
+| **Title** | *Reasoning over Semantic IDs Enhances Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | He et al. |
+| **Venue** | KDD’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.23183) · [Code](https://github.com/HappyPointer/SIDReasoner) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/sidreasoner.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Training` · [Paper](https://arxiv.org/abs/2603.23183) · [Code](https://github.com/HappyPointer/SIDReasoner) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/sidreasoner.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Modified Stage | Training |
 | Limitation | The RL reward scores only the generated Semantic ID, by its longest correct prefix and whether it maps to a catalog item, and not the reasoning text (Sec. 3.3.2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 LLM-based generative recommenders already share one token space for language and Semantic IDs (SIDs), but reasoning over SIDs is hard: itemic tokens carry no native meaning for an LLM, and recommendation reasoning has little high-quality supervision (Abstract). SIDReasoner strengthens SID-language alignment first, so that the LLM's general reasoning can carry over to recommendation without many recommendation-specific reasoning traces.
 
 > "Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks." (Sec. 5)
+
+---
 
 ### 2. How It Works
 
@@ -44,11 +54,13 @@ LLM-based generative recommenders already share one token space for language and
 
 ```mermaid
 flowchart LR
-    A[Teacher-enriched corpus] --> B[Multi-task alignment]
-    B --> C[Reasoning activation]
-    C --> D[Outcome-based GRPO]
-    D --> E[Reasoning text]
-    E --> F[SID]
+    A("Teacher-enriched corpus + general reasoning data") --> B["Multi-task SID-language alignment"]:::key
+    B --> C["Reasoning activation SFT"]
+    C --> D["Outcome-based GRPO"]
+    L1{{"Reward on the SID only"}} -.-> D
+    D --> E("Reasoning text")
+    E --> F("SID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### SID-Language Alignment
@@ -64,6 +76,8 @@ A short supervised stage teaches the model to write reasoning before the recomme
 #### Outcome-Based GRPO
 
 GRPO samples groups of reasoning-and-prediction trajectories and optimizes them with rewards from recommendation accuracy (Sec. 3.3.2, Eqs. 6–8).
+
+---
 
 ### 3. Experimental Findings
 
@@ -94,12 +108,16 @@ GRPO samples groups of reasoning-and-prediction trajectories and optimizes them 
 
 - Reasoning length: the length of the reasoning text decreases during RL (Sec. 4.4.2, Fig. 6).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - LC-Rec aligns a `Dec-Only` LLM to `RQ-VAE` SIDs with `Multi-task NTP`; SIDReasoner keeps that kind of alignment and adds an RL stage (`NTP → RL`).
 - TIGER predicts `RQ-VAE` SIDs with a small `Enc-Dec` generator trained by `NTP`; SIDReasoner uses the same kind of SIDs with a `Dec-Only` LLM.
+
+---
 
 ### 5. Connections to Related Work
 

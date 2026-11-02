@@ -1,10 +1,14 @@
 # IDM/CMM
 
-*Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* — Xu et al. · arXiv’26
+| **Title** | *Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Xu et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.32943) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/idm-cmm.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2610.32943) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/idm-cmm.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution or per-position code marginals, instead of training on hard next-item labels alone.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution or per-position code marginals, instead of training on hard next-item labels alone. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Table 2: [S4.T2](https://arxiv.org/html/2610.32943v1#S4.T2)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

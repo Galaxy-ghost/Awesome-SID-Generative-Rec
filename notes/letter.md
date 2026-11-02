@@ -11,6 +11,20 @@ Earlier item identifiers, whether plain IDs, text, or codebook codes, fall short
 
 ### 2. How It Works
 
+```mermaid
+flowchart LR
+    A("Semantic embedding") --> B["RQ-VAE tokenizer"]:::key
+    L1{{"Semantic: RQ-VAE loss"}} -.-> B
+    L2{{"Collaborative: align with 32-dim SASRec"}} -.-> B
+    L3{{"Diversity: constrained k-means clusters"}} -.-> B
+    B --> C("Fixed identifiers")
+    C --> D["TIGER or LC-Rec generator"]
+    L4{{"Ranking-guided generation loss"}} -.-> D
+    D --> E["Trie-constrained generation"]
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
 #### Semantic Regularization
 
 An RQ-VAE quantizes the item's semantic embedding level by level, so the identifier keeps a coarse-to-fine semantic hierarchy (Sec. 3.1).

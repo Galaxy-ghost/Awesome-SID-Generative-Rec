@@ -1,10 +1,14 @@
 # LGRID
 
-*Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* — Zhang et al. · arXiv’26
+| **Title** | *Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* |
+| :-- | :-- |
+| **Authors** | Zhang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2607.27944) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/lgrid.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2607.27944) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/lgrid.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes the two streams separately, instead of quantizing one entangled representation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,9 +39,13 @@ flowchart LR
 | Key Findings | On Kuaishou and Foursquare, LGRID reports up to a 5.44% relative AUC gain over SID baselines, and reduces the full-SID collision rate to 39.9% against 97.0% for LGSID (Abstract). |
 | Limitation | The geographic slots mirror a fixed administrative hierarchy of province, city, district, and town (Sec. 3.4.1). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Existing Semantic ID (SID) frameworks build one representation and then quantize it (Abstract). The authors state that this mixes geography, brand, and category, causes information loss and collisions, and gives SID positions no clear meaning (Abstract). LGRID gives each SID position an explicit attribute.
+
+---
 
 ### 2. How It Works
 
@@ -43,12 +53,17 @@ Existing Semantic ID (SID) frameworks build one representation and then quantize
 
 ```mermaid
 flowchart LR
-    A[Item fields] --> B[Joint LLM encoding]
-    B --> C[SD-Block]
-    C --> D[Geographic slots]
-    C --> E[Semantic slots]
-    D --> F[Dual-stream quantization]
+    A("Item fields") --> B["Joint LLM encoding"]
+    B --> C["SD-Block"]:::key
+    C --> D("k geographic slots")
+    C --> E("N-k semantic slots")
+    L1{{"Hierarchical hard negatives"}} -.-> C
+    L2{{"LDR: orthogonal slots"}} -.-> C
+    D --> F["Dual-stream RQ"]
     E --> F
+    F --> G("Attribute-aligned SIDs")
+    G --> H["Discriminative ranker"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Structured Disentangled Block
@@ -64,6 +79,8 @@ Alignment learning makes the slots both decodable and discriminative (Abstract).
 #### Dual-Stream Residual Quantization
 
 The two streams are quantized separately, so SID positions correspond to item attributes (Abstract).
+
+---
 
 ### 3. Experimental Findings
 
@@ -92,12 +109,16 @@ The two streams are quantized separately, so SID positions correspond to item at
 
   > "In the SACL group, vanilla sampling yields limited fine-grained discrimination (Town: 37.17%), whereas hierarchical hard negatives raise it to 83.51%." (Sec. 4.4)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - A full-SID collision rate of 39.9% still leaves many items sharing an SID. This suggests that LGRID fits discriminative ranking, which tolerates shared SIDs, better than generation.
 - TIGER quantizes one representation with `RQ-VAE`; LGRID quantizes two streams (`DSRQ`) and feeds a discriminative ranker.
+
+---
 
 ### 5. Connections to Related Work
 

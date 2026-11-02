@@ -1,10 +1,14 @@
 # LIGER
 
-*Unifying generative and dense retrieval for sequential recommendation* — Yang et al. · arXiv’24
+| **题目** | *Unifying generative and dense retrieval for sequential recommendation* |
+| :-- | :-- |
+| **作者** | Yang et al. |
+| **会议** | arXiv’24 |
+| **问题与阶段** | `VI. 泛化` · `Inference` |
+| **链接** | [论文](https://arxiv.org/abs/2411.18814) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/liger.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`VI. 泛化` · `Inference` · [论文](https://arxiv.org/abs/2411.18814) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/liger.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > LIGER 在受控对比序列稠密检索与 SID 生成式检索后，将稠密检索融入生成式检索器，缩小二者性能差距并改善冷启动推荐。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Inference |
 | 局限 | 所有冷启动物品都进入候选集，设计前提是冷启动物品不多（Sec. 3）。 |
 
+---
+
 ### 1. 为什么重要
 
 序列稠密检索为每个物品存一个表示，内存随物品库增长（Abstract）。生成式检索改为预测语义 ID（Semantic ID，SID），但两者之间缺少公平的比较（Abstract）。
 
 > "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items."（Sec. 2.4）（模型学到的条件概率过拟合训练中见过的物品，很难生成冷启动物品。）
+
+---
 
 ### 2. 方法
 
@@ -44,11 +54,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[历史] --> B[T5 编码器]
-    B --> C[束搜索]
-    C --> D[候选]
-    E[冷启动物品] --> D
-    D --> F[稠密排序]
+    A("SID token + 文本 + 位置") --> B["T5 编码器-解码器"]
+    L1{{"下一 token 损失"}} -.-> B
+    L2{{"到下一物品文本的余弦损失"}} -.-> B
+    B --> D["束搜索：K 个物品"]
+    D --> E("候选")
+    F("冷启动物品") --> E
+    E --> G["按编码器嵌入排序"]:::key
+    G --> H("最终物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 输入与训练
@@ -64,6 +78,8 @@ flowchart LR
 这个设计建立在一个关于冷启动物品的假设上（Sec. 3）。
 
 > "This design choice is based on the hypothesis that cold-start items are relatively sparse compared to in-set items, as recommendation systems periodically update themselves to incorporate newly introduced items."（Sec. 3）（假设冷启动物品相对少，因为系统会定期把新物品纳入。）
+
+---
 
 ### 3. 实验发现
 
@@ -90,12 +106,16 @@ flowchart LR
 - 报告设置：生成式检索返回 20 个物品，再和冷启动物品一起排序（Sec. 4.2）。
 - 主结果：在所评估的数据集上，LIGER 缩小了和稠密检索的差距，并改善了冷启动推荐（Abstract）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 最终顺序由稠密嵌入决定。生成的 SID 只负责选候选，不决定顺序。
 - TIGER 只靠 `Beam` 搜索检索；LIGER 加了稠密损失（`NTP + Dense`）和 `Hybrid` 排序。
+
+---
 
 ### 5. 相关工作
 

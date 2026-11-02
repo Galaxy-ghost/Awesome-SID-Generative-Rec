@@ -13,12 +13,15 @@ Limitation: 作者把用 TF-IDF 选词表词和只用小号 T5 模型（T5-small
 
 ```mermaid
 flowchart LR
-    A[物品文本] --> B[文本 ID]
-    C[协同信号] --> D[物品提示]
-    B --> E[用户提示]
-    E --> F[独立编码器]
-    D --> F
-    F --> G[解码器融合]
+    A("物品文本") --> B["从 LLM 词表按 TF-IDF 选词"]:::key
+    B --> C("文本 ID，如 soap-mild-mango")
+    C --> D("用户提示：历史 ID")
+    E("属性 + 协同信号") --> F("物品提示")
+    D --> G["各自的编码器"]
+    F --> G
+    G --> I["解码器对全部输出做交叉注意力"]:::key
+    I --> J("下一个文本 ID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 语义到词汇的转换

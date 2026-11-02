@@ -1,10 +1,14 @@
 # ActionPiece
 
-*Contextually Tokenizing Action Sequences for Generative Recommendation* — Hou et al. · ICML’25
+| **Title** | *Contextually Tokenizing Action Sequences for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Hou et al. |
+| **Venue** | ICML’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/actionpiece.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/actionpiece.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens, so identical actions get context-dependent tokens instead of fixed independent ones.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Key Contribution | ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens, so identical actions get context-dependent tokens instead of fixed independent ones. |
 | Modified Stage | Tokenization |
 
+---
+
 ### 1. Why This Paper Matters
 
 Existing generative recommendation (GR) models tokenize each action on its own, so an action gets the same tokens in every sequence (Abstract). The authors argue that the same action can mean different things in different contexts (Abstract). ActionPiece lets the surrounding actions decide how an action is tokenized.
 
 > "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -43,10 +53,14 @@ Existing generative recommendation (GR) models tokenize each action on its own, 
 
 ```mermaid
 flowchart LR
-    A[Action sequences] --> B[Co-occurrence counts]
-    B --> C[Vocabulary]
-    C --> D[Segmentations]
-    D --> E[Generator]
+    A("Action sequences of feature sets") --> B["Count token pairs in a set and across adjacent sets"]
+    B --> C["Weighted merges"]:::key
+    C --> D("Context-dependent vocabulary")
+    D --> E["Set permutation regularization"]
+    E --> F("Several segmentations")
+    F --> G["Enc-Dec generator"]
+    G --> H("Ensembled ranking")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Actions as Feature Sets
@@ -62,6 +76,8 @@ Merges are counted both within individual sets and across adjacent sets (Abstrac
 #### Set Permutation Regularization
 
 Because feature sets are unordered, set permutation regularization produces multiple segmentations of the same action sequence with the same semantics (Abstract). These segmentations augment the training data and are ensembled at inference (Sec. 3.2.2).
+
+---
 
 ### 3. Experimental Findings
 
@@ -93,12 +109,16 @@ Because feature sets are unordered, set permutation regularization produces mult
 - Token usage: deriving different tokens for the same item from its neighbors improves token usage and acts as data augmentation (Sec. 4.3).
 - Other analyses: the paper studies token usage (Sec. 4.4.2), the ensemble size (Fig. 6), and case examples (Sec. 4.5).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - Inference ranks several segmentations and averages the scores. This suggests that decoding cost grows with the ensemble size unless the segmentations run in parallel.
 - VQ-Rec uses `OPQ` codes in an `Encoder` with `Scoring`; ActionPiece starts from the same kind of codes but generates merged tokens with an `Enc-Dec` generator.
+
+---
 
 ### 5. Connections to Related Work
 

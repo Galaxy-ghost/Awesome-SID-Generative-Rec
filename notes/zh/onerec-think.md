@@ -13,10 +13,12 @@ OneRec 这类生成式推荐器直接预测物品 token，不给出明确、可�
 
 ```mermaid
 flowchart LR
-    A[物品对齐] --> B[推理激活]
-    B --> C[推理增强]
-    C --> D[推理过程]
-    D --> E[物品 token]
+    A["物品对齐：token 预热，四个任务"] --> B["推理激活 SFT"]
+    B --> C["GRPO 推理增强"]:::key
+    L1{{"Rollout-Beam 奖励"}} -.-> C
+    C --> D("推理文本")
+    D --> E("物品 token")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品对齐
@@ -38,6 +40,15 @@ flowchart LR
 完整的 OneRec-Think 模型离线生成推理路径和前两个物品 token（Sec. 4.4）。
 
 > "It utilizes the pre-generated item-tokens as a constrained prefix to rapidly produce the final itemic token."（Sec. 4.4）（以预先生成的物品 token 作约束前缀，快速生成最后一个 token。）
+
+```mermaid
+sequenceDiagram
+    participant Offline as OneRec-Think，离线
+    participant Online as 实时 OneRec，线上
+    Offline->>Offline: 推理路径 + 前两个物品 token
+    Offline->>Online: 作为约束前缀
+    Online->>Online: 最后一个物品 token
+```
 
 ### 3. 实验发现
 

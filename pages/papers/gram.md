@@ -1,10 +1,14 @@
 # GRAM
 
-*Generative recommendation via semantic-aware multi-granular late fusion* — Lee et al. · ACL’25
+| **Title** | *Generative recommendation via semantic-aware multi-granular late fusion* |
+| :-- | :-- |
+| **Authors** | Lee et al. |
+| **Venue** | ACL’25 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gram.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gram.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular prompts separately, fusing them only at decoding, to use lengthy item text efficiently.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -34,11 +40,15 @@ flowchart LR
 | Key Findings | On four benchmark datasets, GRAM reports improvements of 11.5–16.0% in Recall@5 and 5.3–13.6% in NDCG@5 over eight generative recommendation models (Abstract). |
 | Limitation | The authors name the TF-IDF selection of vocabulary words and the small T5 models (T5-small and T5-base) as limitations (Sec. 7). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Generative recommenders built on large language models (LLMs) struggle to incorporate implicit item relationships and to use rich but lengthy item information (Abstract). GRAM addresses the first with textual IDs and the second with late fusion.
 
 > "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -46,12 +56,15 @@ Generative recommenders built on large language models (LLMs) struggle to incorp
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Textual IDs]
-    C[Collaborative signals] --> D[Item prompts]
-    B --> E[User prompt]
-    E --> F[Separate encoders]
-    D --> F
-    F --> G[Decoder fusion]
+    A("Item text") --> B["TF-IDF words from LLM vocabulary"]:::key
+    B --> C("Textual IDs, e.g. soap-mild-mango")
+    C --> D("User prompt: history IDs")
+    E("Attributes + collaborative signals") --> F("Item prompts")
+    D --> G["Separate encoders"]
+    F --> G
+    G --> I["Decoder cross-attention over all outputs"]:::key
+    I --> J("Next textual ID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic-to-Lexical Translation
@@ -67,6 +80,8 @@ A coarse-grained user prompt concatenates the item IDs of the history, and fine-
 #### Late Fusion
 
 The decoder uses the combined encoder outputs as the key-value matrix in cross-attention at every step (Sec. 3.3.2, Eq. 8-9).
+
+---
 
 ### 3. Experimental Findings
 
@@ -92,12 +107,16 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 
 - Efficiency: the authors analyze preprocessing and inference time in Appendix C.
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The IDs reuse vocabulary words instead of new tokens. This suggests that the words carry pretrained meanings, which can match or conflict with the item.
 - LC-Rec maps `RQ-VAE` codes to new tokens in a `Dec-Only` LLM; GRAM uses `H-KM` textual IDs in an `Enc-Dec` model.
+
+---
 
 ### 5. Connections to Related Work
 

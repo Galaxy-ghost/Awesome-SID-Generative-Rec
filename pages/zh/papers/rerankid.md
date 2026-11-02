@@ -1,10 +1,14 @@
 # ReRankID
 
-*Reasoning Reranking with Semantic IDs as the Sole Item Representation* — Tang et al. · arXiv’26
+| **题目** | *Reasoning Reranking with Semantic IDs as the Sole Item Representation* |
+| :-- | :-- |
+| **作者** | Tang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **链接** | [论文](https://arxiv.org/abs/2610.22797) · [代码](https://github.com/lilv98/ReRankID) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/rerankid.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`范式、系统与基准` · `无单一阶段` · [论文](https://arxiv.org/abs/2610.22797) · [代码](https://github.com/lilv98/ReRankID) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/rerankid.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -21,6 +25,8 @@ flowchart LR
 > [!NOTE]
 > ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -28,6 +34,8 @@ flowchart LR
 | 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | 核心贡献 | ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。 |
 | 主要改动阶段 | 无单一阶段 |
+
+---
 
 ### 3. 实验发现
 
@@ -50,6 +58,8 @@ flowchart LR
   - 出处：Tables 1/2/D.1 and Section 5.1: [S4.T1](https://arxiv.org/html/2610.22797v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.22797v1#S5.T2) and [A4.T1](https://arxiv.org/html/2610.22797v1#A4.T1) and [S5.SS1.p1](https://arxiv.org/html/2610.22797v1#S5.SS1.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

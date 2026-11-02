@@ -1,10 +1,14 @@
 # RecBase
 
-*Generative foundation model pretraining for zero-shot recommendation* — Zhou et al. · EMNLP’25
+| **题目** | *Generative foundation model pretraining for zero-shot recommendation* |
+| :-- | :-- |
+| **作者** | Zhou et al. |
+| **会议** | EMNLP’25 |
+| **问题与阶段** | `VI. 泛化` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2509.03131) · [代码](https://github.com/reczoo/RecBase) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/recbase.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`VI. 泛化` · `Training` · [论文](https://arxiv.org/abs/2509.03131) · [代码](https://github.com/reczoo/RecBase) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/recbase.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > RecBase 用层级概念标识统一编号器在跨域语料上预训练域无关基础模型，面向零样本推荐，替代以自然语言为中心的预训练。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
 | 核心贡献 | RecBase 用层级概念标识统一编号器在跨域语料上预训练域无关基础模型，面向零样本推荐，替代以自然语言为中心的预训练。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：Zero-shot: [S3.T1](https://arxiv.org/html/2509.03131v1#S3.T1); fine-tuning: [S4.T3](https://arxiv.org/html/2509.03131v1#S4.T3); ablation: [S5.T4](https://arxiv.org/html/2509.03131v1#S5.T4); codebook study: [S5.SS2.p1](https://arxiv.org/html/2509.03131v1#S5.SS2.p1).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -10,12 +10,14 @@ Most generative recommenders generate Semantic IDs (SIDs) directly from interact
 
 ```mermaid
 flowchart LR
-    A[Item co-occurrence graph] --> B[CoBa RQ-VAE]
-    B --> C[SIDs]
-    C --> D[Thinking token]
-    D --> E[SID code]
-    E --> D
-    E --> F[Next item]
+    A("Item co-occurrence graph") --> B["Propagate embeddings"]
+    B --> C["CoBa RQ-VAE"]
+    C --> D("SIDs")
+    D --> E["Enc-Dec generator"]
+    L1{{"Recommendation loss"}} -.-> E
+    L2{{"Thinking loss vs k-means centroid"}}:::key -.-> E
+    E --> F("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior-Aligned Codebook
@@ -29,6 +31,12 @@ The codebook-balanced RQ-VAE adds uniformity constraints and adaptive load balan
 #### Stepwise Latent Thinking
 
 Before each SID code, the generator outputs a thinking token, which is a continuous latent embedding rather than natural-language text (Sec. 4.3.2). A contrastive loss aligns it with the k-means cluster centroid of the next ground-truth code in the corresponding codebook. The generator objective adds this thinking loss to the recommendation loss (Eqs. 22–24). The tokenizer is optimized separately (Sec. 4.2).
+
+```mermaid
+flowchart LR
+    T1("Thinking token"):::key --> C1("Code") --> T2("Thinking token"):::key --> C2("Code") --> E("…")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### Decoding
 

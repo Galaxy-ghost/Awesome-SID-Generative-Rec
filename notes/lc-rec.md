@@ -12,11 +12,15 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[LLaMA embeddings]
-    B --> C[Vector quantization]
-    C --> D[Item indices]
-    D --> E[Instruction tuning]
-    E --> F[Generated index]
+    A("Item text") --> B["LLaMA embeddings"]
+    B --> C["Vector quantization + uniform semantic mapping"]
+    C --> D("Item indices")
+    D --> E["LLaMA instruction tuning"]:::key
+    L1{{"Sequential item prediction"}} -.-> E
+    L2{{"Explicit: text to index and back"}} -.-> E
+    L3{{"Implicit: asymmetric, intention, preference"}} -.-> E
+    E --> F("Generated index")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Indexing

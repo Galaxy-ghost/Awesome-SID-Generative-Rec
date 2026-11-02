@@ -12,11 +12,15 @@ The authors state that scaling generative retrieval to industry is hard because 
 
 ```mermaid
 flowchart LR
-    A[Four signals] --> B[Contrastive quantizer]
-    B --> C[POI SIDs]
-    C --> D[Continued pretraining]
-    D --> E[SFT]
-    E --> F[EAKTO]
+    A("Text, image, spatial, CF") --> B["Gumbel-softmax quantizer"]:::key
+    L1{{"NT-Xent, no reconstruction"}} -.-> B
+    B --> C("POI SIDs")
+    C --> D["Continued pretraining on two corpora"]
+    D --> E["SFT"]
+    E --> F["EAKTO"]
+    L2{{"Clicks vs non-clicks"}} -.-> F
+    F --> G("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Contrastive Item Tokenization

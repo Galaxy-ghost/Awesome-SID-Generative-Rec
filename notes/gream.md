@@ -12,11 +12,16 @@ The authors state that LLMs face two obstacles as generative reasoning recommend
 
 ```mermaid
 flowchart LR
-    A[Item text and reviews] --> B[Rewritten description]
-    B --> C[RQ-KMeans indices]
-    C --> D[Alignment SFT]
-    D --> E[Reasoning curriculum]
-    E --> F[SRPO]
+    A("Title, description, reviews") --> B["GPT-5 rewrite"]
+    B --> C["RQ-KMeans"]
+    C --> D("Item indices")
+    D --> E["Alignment SFT + auxiliary tasks"]
+    E --> F["Reasoning curriculum SFT"]
+    F --> G["SRPO"]:::key
+    L1{{"Residual-sensitive verifiable reward"}} -.-> G
+    L2{{"Bonus-calibrated group advantage"}} -.-> G
+    G --> H("Direct mode or reasoning mode")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Collaborative-Semantic Alignment
@@ -28,6 +33,11 @@ For each item, GPT-5 rewrites the title, the official description, and selected 
 An external LLM generates structured reasoning paths by reverse reasoning from the recommendation (Sec. 4.2).
 
 > "This process guides the model through a structured, five-stage logical chain—behavioral evidence extraction, latent preference modeling, intent inference, recommendation formulation, and denoised sequence rewriting" (Sec. 1)
+
+```mermaid
+flowchart LR
+    S1["1 Behavioral evidence"] --> S2["2 Latent preference"] --> S3["3 Intent"] --> S4["4 Recommendation"] --> S5["5 Denoised sequence"]
+```
 
 #### SRPO
 

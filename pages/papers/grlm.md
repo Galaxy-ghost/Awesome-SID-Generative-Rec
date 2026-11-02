@@ -1,10 +1,14 @@
 # GRLM
 
-*Unleashing the Native Recommendation Potential: LLM-Based Generative Recommendation via Structured Term Identifiers* — Zhang et al. · arXiv’26
+| **Title** | *Unleashing the Native Recommendation Potential: LLM-Based Generative Recommendation via Structured Term Identifiers* |
+| :-- | :-- |
+| **Authors** | Zhang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.06798) · [Code](https://github.com/ZY0025/GRLM) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/grlm.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Tokenization` · [Paper](https://arxiv.org/abs/2601.06798) · [Code](https://github.com/ZY0025/GRLM) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/grlm.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them, avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Modified Stage | Tokenization |
 | Limitation | A generated Term ID that matches no item is grounded by structural matching, so part of the final ranking comes from the grounding step, not from the generator (Sec. 3.3). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Text-based item identifiers expose the large output space of an LLM, while Semantic IDs (SIDs) need costly vocabulary expansion and alignment training (Abstract). GRLM takes a middle path with standardized keywords.
 
 > "Text-based methods introduce LLMs' vast output space, leading to hallucination, while methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring costly vocabulary expansion and alignment training." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -43,11 +53,15 @@ Text-based item identifiers expose the large output space of an LLM, while Seman
 
 ```mermaid
 flowchart LR
-    A[Item metadata] --> B[Term generation]
-    B --> C[Term IDs]
-    C --> D[Instruction fine-tuning]
-    D --> E[Generated Term ID]
-    E --> F[Grounding]
+    A("Item metadata") --> B["Context-aware term generation"]
+    B --> C("Term IDs")
+    C --> D["Integrative instruction fine-tuning"]
+    D --> E("Generated TID")
+    E --> F{"Exact match?"}
+    F -->|yes| G("Item")
+    F -->|no| H["EIG: weighted structural match"]:::key
+    H --> G
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Context-Aware Term Generation
@@ -63,6 +77,8 @@ Integrative Instruction Fine-tuning optimizes term internalization and sequentia
 If no exact match exists, Elastic Identifier Grounding (EIG) scores items by structural matching, where the $`j`$-th generated term has weight $`w_j = \frac{1}{j+1}`$ (Sec. 3.3).
 
 > "By exploiting the decompositional nature of TIDs, EIG combines direct mapping with structural mapping to ground TIDs into actual items efficiently." (Sec. 1)
+
+---
 
 ### 3. Experimental Findings
 
@@ -91,12 +107,16 @@ If no exact match exists, Elastic Identifier Grounding (EIG) scores items by str
 
   > "Moreover, through detailed analytical experiments, we provide evidence that our TID-based method exhibits robust scaling properties while significantly mitigating hallucination." (Sec. 1)
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - TIGER adds `RQ-VAE` codes as new tokens; GRLM uses `Term-ID` words already in the vocabulary.
 - IDGenRec also uses vocabulary words (`LLM-Vocab`) but updates its ID generator during training (`Altern.`); GRLM generates its TIDs once.
+
+---
 
 ### 5. Connections to Related Work
 

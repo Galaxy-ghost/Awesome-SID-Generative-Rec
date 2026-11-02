@@ -1,10 +1,14 @@
 # GEM-Rec
 
-*One Model, Two Markets: Bid-Aware Generative Recommendation* — Jiang et al. · arXiv’26
+| **题目** | *One Model, Two Markets: Bid-Aware Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Jiang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2603.22231) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/gem-rec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2603.22231) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/gem-rec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > GEM-Rec 加入决定是否展示广告的控制 token，以及在解码时注入实时出价的出价感知解码机制，用单一生成器兼顾语义相关性与广告收益。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -30,6 +36,8 @@ flowchart LR
 | 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | 核心贡献 | GEM-Rec 加入决定是否展示广告的控制 token，以及在解码时注入实时出价的出价感知解码机制，用单一生成器兼顾语义相关性与广告收益。 |
 | 主要改动阶段 | Training |
+
+---
 
 ### 3. 实验发现
 
@@ -52,6 +60,8 @@ flowchart LR
   - 出处：Main: [S5.T1](https://arxiv.org/html/2603.22231v1#S5.T1); full results: [A7.T3](https://arxiv.org/html/2603.22231v1#A7.T3); volatility: [S5.T2](https://arxiv.org/html/2603.22231v1#S5.T2), [A8.T5](https://arxiv.org/html/2603.22231v1#A8.T5), [A8.T6](https://arxiv.org/html/2603.22231v1#A8.T6), [A8.T7](https://arxiv.org/html/2603.22231v1#A8.T7), [A8.T8](https://arxiv.org/html/2603.22231v1#A8.T8).
 
 </details>
+
+---
 
 ### 5. 相关工作
 

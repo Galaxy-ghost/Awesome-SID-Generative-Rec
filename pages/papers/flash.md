@@ -1,10 +1,14 @@
 # FLASH
 
-*Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* — Liu et al. · NeurIPS’26
+| **Title** | *Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* |
+| :-- | :-- |
+| **Authors** | Liu et al. |
+| **Venue** | NeurIPS’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/flash.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Backbone` · [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/flash.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself. |
 | Modified Stage | Backbone |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Sections 3.1/3.2 and Figure 6: [S3.SS1.p4](https://arxiv.org/html/2610.07402v1#S3.SS1.p4) and [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1) and [S3.F6](https://arxiv.org/html/2610.07402v1#S3.F6)
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

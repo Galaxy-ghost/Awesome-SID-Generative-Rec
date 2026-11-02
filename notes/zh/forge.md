@@ -12,11 +12,16 @@ Key Findings: 在淘宝的在线 A/B 测试中，按基准结论选出的语义 
 
 ```mermaid
 flowchart LR
-    A[多模态内容] --> B[物品表示]
-    C[共现物品对] --> B
-    B --> D[SID 编码器]
-    D --> E[冲突后处理]
-    E --> F[GR 模型]
+    A("CN-CLIP 特征") --> B["QFormer 融合"]
+    P("共现物品对") -.-> L1{{"可选的 InfoNCE"}}
+    L1 -.-> B
+    B --> C["SID 编码器：RQ-VAE、VQ、OPQ、RQ-Kmeans"]
+    C --> D["冲突后处理"]
+    D --> E("SID")
+    E --> F["GR 模型"]
+    F --> G["动态束宽 300 / 600 / 1,200"]
+    E --> Q["HitRate + Gini，不训练 GR"]:::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品表示

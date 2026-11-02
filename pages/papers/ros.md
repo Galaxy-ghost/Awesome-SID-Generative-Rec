@@ -1,10 +1,14 @@
 # ROS
 
-*Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* — Lv et al. · ACL’26
+| **Title** | *Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* |
+| :-- | :-- |
+| **Authors** | Lv et al. |
+| **Venue** | ACL’26 |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.04562) · [Code](https://github.com/amap-cvlab/Reasoning-Over-Space) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/ros.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Tokenization` · `POI` · [Paper](https://arxiv.org/abs/2601.04562) · [Code](https://github.com/amap-cvlab/Reasoning-Over-Space) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/ros.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided reinforcement learning to LLM-based next-POI generation.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -34,11 +40,15 @@ flowchart LR
 | Key Findings | On NYC, ROS reports HR@1 of 0.4478 against 0.4027 for CoAST (+11.2%), and the paper reports gains of +11.0% on TKY and +15.7% on Gowalla-CA over the strongest LLM-based baselines (Table 1). |
 | Limitation | A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro rail or highway, especially near transit hubs (Limitations). |
 
+---
+
 ### 1. Why This Paper Matters
 
 LLM-based generative recommenders make limited use of geographic signals, which matter in mobility and local-service scenarios (Abstract). ROS models the next visit as a sequence of constrained decisions driven by time, intent, and geography (Sec. 2.3). It represents each POI with a hierarchical spatial Semantic ID (SID) that encodes locality and POI semantics (Abstract).
 
 > "We present ROS, a generative next POI recommendation framework that treats geography as an explicit decision variable." (Sec. 5)
+
+---
 
 ### 2. How It Works
 
@@ -46,11 +56,13 @@ LLM-based generative recommenders make limited use of geographic signals, which 
 
 ```mermaid
 flowchart LR
-    A[Check-ins] --> B[Spatial SID]
-    B --> C[SID grounding]
-    C --> D[Mobility CoT]
-    D --> E[Spatial RL]
-    E --> F[Next POI]
+    A("Check-ins") --> B["Spatial SID: S2 prefix + anchor + suffix"]:::key
+    B --> C["SID grounding + sequence pretraining"]
+    C --> D["Mobility CoT"]
+    D --> E["Spatial-guided GRPO"]
+    L1{{"Haversine + SID match + format"}} -.-> E
+    E --> F("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Spatial SID
@@ -69,9 +81,16 @@ Sequence pretraining then trains next-POI prediction on SID sequences, where the
 
 The model reasons in three deterministic stages: it profiles the user, builds an intent-aligned candidate space, and prunes candidates (Sec. 2.3). Pruning uses temporal consistency, semantic fit, and spatial feasibility from street addresses and transition distances.
 
+```mermaid
+flowchart LR
+    U["Profile the user"] --> C["Build intent-aligned candidates"] --> P["Prune: time, semantics, space"] --> A("Answer")
+```
+
 #### Spatial-Guided RL
 
 GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine distance between the predicted and true POI (Sec. 2.4.1), a hierarchical SID match with a bonus for an exact match (Sec. 2.4.2), and a format term.
+
+---
 
 ### 3. Experimental Findings
 
@@ -98,12 +117,16 @@ GRPO optimizes a unified reward (Sec. 2.4.3). The reward combines the Haversine 
 - CoT stages: the best result needs all three stages together (Sec. 3.3, Table 3).
 - Cross-city transfer: trained on one city and applied to two unseen cities, ROS achieves the best transfer results against LLM4POI and GA-LLM (Sec. 3.4, Table 6).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - GNPR-SID quantizes POI features with a plain `RQ-VAE`; ROS puts an explicit S2-cell prefix before the semantic codes (`Geo-Prefix+RQ-VAE`).
 - SpaceTime-GR uses geographic indices only (`Geo`, `Geo-Idx`); ROS adds category semantics to the SID and reasons before decoding (`CoT+C-Beam`).
+
+---
 
 ### 5. Connections to Related Work
 

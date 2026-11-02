@@ -1,10 +1,14 @@
 # ColaRec
 
-*Content-based collaborative generation for recommender systems* — Wang et al. · CIKM’24
+| **Title** | *Content-based collaborative generation for recommender systems* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | CIKM’24 |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Links** | [Paper](https://arxiv.org/abs/2403.18480) · [Code](https://github.com/Junewang0614/ColaRec) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/colarec.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Backbone` · [Paper](https://arxiv.org/abs/2403.18480) · [Code](https://github.com/Junewang0614/ColaRec) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/colarec.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > ColaRec builds generative identifiers from a pretrained collaborative filtering model and generates them from interacted-item content, with an item indexing task and a contrastive loss aligning both spaces.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -33,11 +39,15 @@ flowchart LR
 | Modified Stage | Backbone |
 | Limitation | The generative identifiers (GIDs) come from offline LightGCN embeddings and clustering, so items without interactions have no collaborative representation to cluster (Sec. 4.2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 Existing LLM-based methods fuse content and collaborative signals but rely on textual language generation, which the authors state is not fully aligned with recommendation (Abstract). ColaRec instead decodes item identifiers with a sequence-to-sequence model tailored to recommendation (Abstract).
 
 > "To model collaborative signals, the GIDs are constructed from a pretrained collaborative filtering model, and the user is represented as the content aggregation of interacted items." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -45,12 +55,18 @@ Existing LLM-based methods fuse content and collaborative signals but rely on te
 
 ```mermaid
 flowchart LR
-    A[Interactions] --> B[LightGCN]
-    B --> C[Constrained K-means]
-    C --> D[GIDs]
-    E[Item content] --> F[Encoder-decoder]
+    A("Interactions") --> B["LightGCN"]
+    B --> C["Hierarchical constrained K-means"]
+    C --> D("GIDs")
+    E("Item text + users") --> F["Shared encoder-decoder"]:::key
     D --> F
-    F --> G[Next-item GID]
+    F --> G["Constrained beam search"]
+    G --> H("Next-item GID")
+    L1{{"Recommendation loss"}} -.-> F
+    L2{{"Indexing loss"}} -.-> F
+    L3{{"BPR loss"}} -.-> F
+    L4{{"Weighted contrastive loss"}} -.-> F
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Generative Identifier Construction
@@ -72,6 +88,8 @@ The recommendation loss, the indexing loss, a BPR loss with one sampled negative
 #### Inference
 
 Constrained beam search limits each token to those valid under the prefix (Sec. 4.5).
+
+---
 
 ### 3. Experimental Findings
 
@@ -98,12 +116,16 @@ Constrained beam search limits each token to those valid under the prefix (Sec. 
 - Main comparison: ColaRec reports better performance than the baselines on four benchmark datasets (Abstract, Table 2).
 - Ablation: Table 4 removes the textual content, the indexing task, the BPR loss, or the contrastive loss, and replaces the GIDs with three other identifier types (Table 4).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The contrastive loss pulls content representations toward the GID structure. This suggests that content similarity is reshaped by collaborative clusters, which may hurt items whose clusters are noisy.
 - SEATER also uses tree-structured identifiers (`Tree-Clus.`) from `CF` input; ColaRec adds item content to the input (`Text+CF`).
+
+---
 
 ### 5. Connections to Related Work
 

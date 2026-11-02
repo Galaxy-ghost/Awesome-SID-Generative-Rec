@@ -1,10 +1,14 @@
 # SIDScope
 
-*A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* — Ding et al. · arXiv’26
+| **Title** | *A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Ding et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/sidscope.md) |
+| **Reading level** | Overview (Level 1) |
 
-`Paradigms, Systems and Benchmarks` · `No single stage` · [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/sidscope.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -18,6 +22,8 @@ flowchart LR
 > [!NOTE]
 > SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -25,6 +31,8 @@ flowchart LR
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
 | Key Contribution | SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh. |
 | Modified Stage | No single stage |
+
+---
 
 ### 3. Experimental Findings
 
@@ -47,6 +55,8 @@ flowchart LR
   - Source: The cited tables separate mapping diagnostics, candidate exposure, beam accounting, resolver outcomes, and lifecycle handoff; [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3), [S5.T4](https://arxiv.org/html/2608.18779v2#S5.T4), [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5), [S5.T6](https://arxiv.org/html/2608.18779v2#S5.T6), [S5.T7](https://arxiv.org/html/2608.18779v2#S5.T7), [S6.T8](https://arxiv.org/html/2608.18779v2#S6.T8), [S5.SS4.p1](https://arxiv.org/html/2608.18779v2#S5.SS4.p1), [A2.T11](https://arxiv.org/html/2608.18779v2#A2.T11), and [A2.T12](https://arxiv.org/html/2608.18779v2#A2.T12).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

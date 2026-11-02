@@ -6,12 +6,14 @@ Transferable recommenders encode item text with a pre-trained language model (PL
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Fixed BERT]
-    B --> C[OPQ codes]
-    C --> D[Code embeddings]
-    D --> E[Mean pooling]
-    E --> F[Transformer encoder]
-    F --> G[Item scores]
+    A("Item text") --> B["Fixed BERT"]
+    B --> C["OPQ"]
+    C --> D("Item code")
+    D --> E["Code embedding lookup + mean"]:::key
+    E --> F["Transformer encoder"]
+    L1{{"Contrastive: semi-synthetic + mixed-domain negatives"}} -.-> F
+    F --> G("Item scores")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Text to Code
@@ -35,6 +37,14 @@ In a new domain, VQ-Rec re-trains the PQ centroids and aligns them to the existi
 A new item in a known domain needs no retraining.
 
 > "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup." (Sec. 2.4.2)
+
+```mermaid
+flowchart LR
+    A("New-domain text") --> B["Re-train PQ centroids"]
+    B --> C["Differentiable permutation to old code embeddings"]:::key
+    C --> D["Fine-tune permuted table, Transformer fixed"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 ### 3. Experimental Findings
 

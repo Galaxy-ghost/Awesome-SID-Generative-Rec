@@ -1,10 +1,14 @@
 # GEM-Rec
 
-*One Model, Two Markets: Bid-Aware Generative Recommendation* — Jiang et al. · arXiv’26
+| **Title** | *One Model, Two Markets: Bid-Aware Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Jiang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `IV. Utility` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2603.22231) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/gem-rec.md) |
+| **Reading level** | Overview (Level 1) |
 
-`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2603.22231) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/gem-rec.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -30,6 +36,8 @@ flowchart LR
 | Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
 | Key Contribution | GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -52,6 +60,8 @@ flowchart LR
   - Source: Main: [S5.T1](https://arxiv.org/html/2603.22231v1#S5.T1); full results: [A7.T3](https://arxiv.org/html/2603.22231v1#A7.T3); volatility: [S5.T2](https://arxiv.org/html/2603.22231v1#S5.T2), [A8.T5](https://arxiv.org/html/2603.22231v1#A8.T5), [A8.T6](https://arxiv.org/html/2603.22231v1#A8.T6), [A8.T7](https://arxiv.org/html/2603.22231v1#A8.T7), [A8.T8](https://arxiv.org/html/2603.22231v1#A8.T8).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

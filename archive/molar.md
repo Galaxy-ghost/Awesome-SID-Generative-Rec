@@ -1,9 +1,0 @@
-# Molar: archived card
-
-Moved from notes/molar.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-用多模态 LLM 产出用户和物品嵌入，按相似度推荐，不使用 SID。

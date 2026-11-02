@@ -1,10 +1,14 @@
 # RecBase
 
-*Generative foundation model pretraining for zero-shot recommendation* — Zhou et al. · EMNLP’25
+| **Title** | *Generative foundation model pretraining for zero-shot recommendation* |
+| :-- | :-- |
+| **Authors** | Zhou et al. |
+| **Venue** | EMNLP’25 |
+| **Problem × Stage** | `VI. Generalization` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/recbase.md) |
+| **Reading level** | Overview (Level 1) |
 
-`VI. Generalization` · `Training` · [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/recbase.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical concept identifiers, for zero-shot recommendation instead of language-centric pretraining.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical concept identifiers, for zero-shot recommendation instead of language-centric pretraining. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Zero-shot: [S3.T1](https://arxiv.org/html/2509.03131v1#S3.T1); fine-tuning: [S4.T3](https://arxiv.org/html/2509.03131v1#S4.T3); ablation: [S5.T4](https://arxiv.org/html/2509.03131v1#S5.T4); codebook study: [S5.SS2.p1](https://arxiv.org/html/2509.03131v1#S5.SS2.p1).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

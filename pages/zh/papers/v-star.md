@@ -1,10 +1,14 @@
 # V-STAR
 
-*Spend Search Where It Pays: Value-Guided Structured Sampling and Optimization for Generative Recommendation* — Jiang et al. · KDD’26
+| **题目** | *Spend Search Where It Pays: Value-Guided Structured Sampling and Optimization for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Jiang et al. |
+| **会议** | KDD’26 |
+| **问题与阶段** | `IV. 实用目标` · `Training` |
+| **链接** | [论文](https://arxiv.org/abs/2602.10699) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/v-star.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2602.10699) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/v-star.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,11 +37,15 @@ flowchart LR
 | 核心贡献 | V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。 |
 | 主要改动阶段 | Training |
 
+---
+
 ### 1. 为什么重要
 
 对生成式推荐器做强化学习微调时，候选用束搜索这类按似然驱动的解码来采样（Abstract）。作者指出这样做的两个问题。低概率分支里的高奖励物品会被过早剪掉；共享高概率前缀的候选奖励相关，削弱了强化学习的比较信号。加大束宽也解决不了，多出的算力大多花在重复的高概率候选上（Sec. 1）。V-STAR 改的是强化学习候选的构造方式和优势的计算方式。
 
 > "Our V-STAR primarily focuses on training-time improvement."（Sec. 4.4）（V-STAR 主要改进训练阶段。）
+
+---
 
 ### 2. 方法
 
@@ -43,12 +53,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[用户上下文] --> B[策略]
-    B --> C[SID 前缀树]
-    C --> D[价值引导扩展]
-    D --> E[候选集]
-    E --> F[Sibling-GRPO]
-    F --> B
+    A("用户上下文") --> B["策略"]
+    B --> C["由概率束得到前缀树"]
+    V["价值头"]:::key --> D
+    C --> D["VED：扩展优先级高于同层平均的节点"]:::key
+    D --> E("候选集")
+    E --> F{{"Sibling-GRPO"}}:::key
+    F -.-> B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 价值头
@@ -66,6 +78,18 @@ VED 把 SID 解码看作在固定算力预算下、在前缀树上构建候选�
 Sibling-GRPO 把每个父前缀下的子节点分成一组（Sec. 4.3）。每个子节点的分数是其后代候选的平均奖励，优势在兄弟节点之间归一化（Eq. 17）。
 
 > "We introduce Sibling-GRPO, a tree-structured objective that uses sibling groups to mitigate advantage compression under correlated candidates."（Sec. 1）（用兄弟组缓解候选相关时的优势压缩。）
+
+```mermaid
+flowchart TD
+    P("父前缀") --> A("子节点 a：其候选的平均奖励")
+    P --> B("子节点 b：其候选的平均奖励")
+    P --> C("子节点 c：其候选的平均奖励")
+    A --> N{{"在兄弟节点间归一化优势"}}
+    B --> N
+    C --> N
+```
+
+---
 
 ### 3. 实验发现
 
@@ -92,11 +116,15 @@ Sibling-GRPO 把每个父前缀下的子节点分成一组（Sec. 4.3）。每�
 - 解码预算：在相同的训练期解码预算下，VED 在所测指标上好于束搜索（Sec. 5.5，Fig. 4）。预算按候选构建中模型计算的 token 数计，不是端到端延迟。
 - 训练目标：GRPO 加 Sibling-GRPO 在所试目标中 NDCG 和 HR 最高（Sec. 5.4，Table 4）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - MiniOneRec 用同样的 `RQ-VAE` SID、`Dec-Only` 生成器和 `NTP → RL` 训练；V-STAR 只改强化学习候选的采样方式和优势的计算方式。
+
+---
 
 ### 5. 相关工作
 

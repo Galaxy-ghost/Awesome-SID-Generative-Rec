@@ -13,12 +13,14 @@ Limitation: 语义 ID（Semantic ID，SID）按 LLM 的预测来更新，因此�
 
 ```mermaid
 flowchart LR
-    A[POI 描述] --> B[对比表示]
-    C[共访 POI 对] --> B
-    B --> D[RQ-Kmeans SID]
-    D --> E[迭代精修]
-    E --> F[CPT]
-    F --> G[SFT]
+    A("POI 描述") --> B["Qwen 编码器"]
+    C("共访 POI 对") -.-> L1{{"Swing 加权 NCE"}}
+    L1 -.-> B
+    B --> D["RQ-Kmeans"]
+    D --> E("SID")
+    E --> F["CPT"]
+    F --> G["SFT"]
+    G --> H("下一个 POI")
 ```
 
 #### 位置描述
@@ -34,6 +36,14 @@ flowchart LR
 RQ-Kmeans 把 LLM 嵌入离散成层级 SID（Sec. 1）。
 
 > "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions."（Sec. 4.1.3）（两阶段交替：固定 SID 微调 LLM；固定 LLM 按其预测更新 SID。）
+
+```mermaid
+flowchart LR
+    S("SID") --> P1["阶段 1：固定 SID，微调 LLM"]
+    P1 --> P2["阶段 2：固定 LLM，按其预测更新 SID"]:::key
+    P2 -->|重复| P1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### 多阶段 LLM 训练
 

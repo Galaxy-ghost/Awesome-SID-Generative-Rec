@@ -11,12 +11,17 @@ Limitation: 地理槽位照搬省、市、区、镇这一固定的行政层级�
 
 ```mermaid
 flowchart LR
-    A[物品字段] --> B[LLM 联合编码]
-    B --> C[SD-Block]
-    C --> D[地理槽位]
-    C --> E[语义槽位]
-    D --> F[双流量化]
+    A("物品字段") --> B["LLM 联合编码"]
+    B --> C["SD-Block"]:::key
+    C --> D("k 个地理槽位")
+    C --> E("N-k 个语义槽位")
+    L1{{"层级困难负例"}} -.-> C
+    L2{{"LDR：槽位正交"}} -.-> C
+    D --> F["双流 RQ"]
     E --> F
+    F --> G("与属性对齐的 SID")
+    G --> H["判别式排序模型"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 结构化解耦块

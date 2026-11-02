@@ -15,10 +15,15 @@ Limitation: 作者指出，由于束搜索，TIGER 在推理时可能比基于 A
 
 ```mermaid
 flowchart LR
-    A[物品文本] -->|Sentence-T5| B[嵌入]
-    B -->|RQ-VAE| C[SID]
-    C -->|Enc-Dec| D[下一个 SID]
-    D -->|查表| E[物品]
+    A("物品文本") --> B["Sentence-T5：768 维"]
+    B --> C["DNN 编码器：32 维"]
+    C --> D["RQ-VAE，3 层 × 256"]:::key
+    D --> E("SID + 冲突 token")
+    E --> F["Enc-Dec 生成器"]
+    L1{{"4 个 token 上的 NTP"}} -.-> F
+    F --> G["束搜索"]
+    G --> H("查表得到物品")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：物品文本到潜在向量
@@ -67,6 +72,17 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 ```
 
 简化说明：代码只写了量化循环和量化损失，省去了 DNN 编码器和解码器、重建损失，以及码本的 k-means 初始化。
+
+```mermaid
+flowchart TD
+    Z("z") --> L1["第 1 层：最近码字 c1"]
+    L1 --> R2("r2 = z - e(c1)")
+    R2 --> L2["第 2 层：最近码字 c2"]
+    L2 --> R3("r3 = r2 - e(c2)")
+    R3 --> L3["第 3 层：最近码字 c3"]
+    L3 --> S("(c1, c2, c3)"):::key
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
 
 #### 第 3 步：训练编号器
 

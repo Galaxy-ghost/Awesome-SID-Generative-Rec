@@ -1,10 +1,14 @@
 # OneLoc
 
-*Geo-Aware Generative Recommender Systems for Local Life Service* — Wei et al. · arXiv’25
+| **题目** | *Geo-Aware Generative Recommender Systems for Local Life Service* |
+| :-- | :-- |
+| **作者** | Wei et al. |
+| **会议** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `Representation` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2508.14646) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/oneloc.md) |
+| **阅读级别** | 代码级精读（第 3 级） |
 
-`I. 信息量` · `Representation` · `POI` · [论文](https://arxiv.org/abs/2508.14646) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/oneloc.md)
-
-阅读级别：代码级精读（第 3 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -33,11 +39,15 @@ flowchart LR
 | 主要发现 | 在 10% 流量上做了一周的在线 A/B 测试，相比线上多阶段推荐链路，OneLoc 的 GMV +21.016%，订单量 +17.891%（Sec. 5，Table 4）。 |
 | 局限 | 位置只通过残差 k-means 之前的一个融合嵌入进入语义 ID（Semantic ID，SID），SID 的任何一位都不直接对应地理（Sec. 2.2）。 |
 
+---
+
 ### 1. 为什么重要
 
 在快手本地生活服务里，每条推荐视频都关联一个门店位置，所以推荐既要符合用户兴趣，也要符合用户的实时位置（Abstract）。作者指出，OneRec 这类端到端生成式推荐器还没有为这个场景做过（Abstract）。
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives."（Abstract）（两个难点：怎样用好地理信息；怎样平衡用户兴趣、用户与门店的距离和其他业务目标。）
+
+---
 
 ### 2. 方法
 
@@ -47,11 +57,15 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[视频与位置] -->|多模态 LLM| B[嵌入]
-    B -->|残差 k-means| C[地理感知 SID]
-    C -->|GA-Attn 编码器| D[用户向量]
-    D -->|带提示的解码器, NTP| E[生成器]
-    E -->|奖励, DPO| F[对齐后的生成器]
+    A("视频 + 位置") --> B["多模态 LLM"]
+    B --> C["残差 k-means"]
+    C --> D("地理感知 SID")
+    D --> E["GA-Attn 编码器"]:::key
+    E --> F["带邻域提示的解码器"]:::key
+    L1{{"NTP 损失"}} -.-> F
+    L2{{"地理 + GMV 奖励上的 DPO"}} -.-> F
+    F --> G("下一个视频")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：地理感知的语义 ID
@@ -157,6 +171,19 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 
 简化说明：代码只画一个注意力头，省去了每个块的 RMSNorm、前馈网络和残差连接。投影矩阵、门 MLP 和对数概率都作为输入传入；代码不构造偏好对，也不跑束搜索。
 
+```mermaid
+flowchart LR
+    M("模型 θi") --> B["束搜索：N 个视频"]
+    B --> R["地理 + GMV 奖励"]
+    R --> P("最高为正例，最低为负例")
+    P --> L{{"L = NTP + 0.05 DPO"}}:::key
+    L --> N("模型 θi+1，参考 θi")
+    N -->|下一轮| M
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
+---
+
 ### 3. 实验发现
 
 <details>
@@ -189,6 +216,8 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 
 - 消融：涵盖邻域感知提示、地理感知自注意力和两种奖励（Sec. 4.3，Fig. 4，Table 3，Fig. 5）。指标是 Recall 和 NDCG，奖励部分另加 GMV。作者报告每个消融变体的分数都低于完整模型。
 
+---
+
 ### 4. 局限与分析
 
 **Stated by the authors.** 结论给出两个未来方向：模型规模和序列长度的扩展定律；适配本地生活服务的强化学习方法（Sec. 7）。
@@ -197,6 +226,8 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 
 - OneLoc 把位置混进输入（`Text+Img+Geo†`）。LGSID 改用地理索引加残差量化（`Geo-Idx+RQ`），LGRID 用 `DSRQ`，它们的 SID 各位直接带地理信息。GeoGR 在文本上加入地理和协同信号（`Text+Geo+CF`）。
 - KuaiLLSR、GMV 打分模型和在线测试都来自快手，只有 Foursquare 的结果能用公开数据复现（Sec. 4.1.1，Sec. 5）。
+
+---
 
 ### 5. 相关工作
 

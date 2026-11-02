@@ -1,10 +1,14 @@
 # ProGEO
 
-*Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* — He et al. · arXiv’26
+| **题目** | *Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* |
+| :-- | :-- |
+| **作者** | He et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Tokenization` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2604.23156) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/progeo.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`I. 信息量` · `Tokenization` · `POI` · [论文](https://arxiv.org/abs/2604.23156) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/progeo.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > ProGEO 结合地理质心局部坐标系与地理旋转位置编码构建邻近感知地理码本，使 SID 同时刻画语义与地理邻近性。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -33,6 +39,8 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 主要发现 | 在工业数据集上，ProGEO 的 Hit@50 为 0.4243，RQ-Kmeans 为 0.4056；平均地理聚类距离为 25.41 km，RQ-OPQ 为 46.71 km（Table 1）。 |
 
+---
+
 ### 1. 为什么重要
 
 本地服务平台的推荐既要相关，也要在地理上去得了（Abstract）。语义码本只按内容给物品聚类。
@@ -41,18 +49,23 @@ flowchart LR
 
 ProGEO 保留标准的语义码字，再加一个地理码字，编码每个 POI 相对其语义簇的位置。地理由此成为语义 ID（Semantic ID，SID）的一部分，而不是一个弱的辅助特征（Abstract，Sec. 1）。
 
+---
+
 ### 2. 方法
 
 ![ProGEO architecture diagram](../../../architectures/progeo.png)
 
 ```mermaid
 flowchart LR
-    A[POI 特征] --> B[两层语义码本]
-    B --> C[地理质心坐标]
-    C --> D[Geo-RoPE 层]
-    D --> E[SID]
-    E --> F[微调后的 LLM]
-    F --> G[附近的 POI]
+    A("POI 特征") --> B["第 1-2 层：余弦聚类"]
+    B --> C("前两层 SID 子集")
+    C --> D["地理质心，极坐标"]
+    D --> E["Geo-RoPE 旋转第 2 层残差"]:::key
+    E --> F("地理码字")
+    F --> G("三个 token 的 SID")
+    G --> H["微调的 LLM"]
+    H --> I("附近的 POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 语义层
@@ -72,6 +85,8 @@ Geo-RoPE 把每个 POI 相对质心的偏移，编码为对第二层残差的复
 #### 生成
 
 在工业场景中，LLM 的提示包含搜索词、城市和用户位置的 GeoHash（Table 4）。
+
+---
 
 ### 3. 实验发现
 
@@ -100,6 +115,8 @@ Geo-RoPE 把每个 POI 相对质心的偏移，编码为对第二层残差的复
 
   > "when Geo-RoPE is introduced, the recommended POIs are concentrated much closer to the user, typically within a 6-kilometer radius."（Sec. 4.5.2）（推荐的 POI 通常在用户 6 公里范围内。）
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
@@ -107,6 +124,8 @@ Geo-RoPE 把每个 POI 相对质心的偏移，编码为对第二层残差的复
 - 地理信号只进入 SID 的第三个 token。由此推断，生成器在用到任何空间信息之前，已经先选定了语义簇。
 - OneLoc 用普通 `R-KM` 码；ProGEO 在同类编号器上加了一层地理码本（`R-KM+Geo-CB`）。
 - GNPR-SID 也在 POI SID 中编码地理（`Attr+Geo+CF`），但用普通 `RQ-VAE`，没有专门的地理码本层。
+
+---
 
 ### 5. 相关工作
 

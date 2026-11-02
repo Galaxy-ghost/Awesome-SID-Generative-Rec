@@ -1,10 +1,14 @@
 # GREAM
 
-*Generative Reasoning Recommendation via LLMs* — Hong et al. · arXiv’25
+| **Title** | *Generative Reasoning Recommendation via LLMs* |
+| :-- | :-- |
+| **Authors** | Hong et al. |
+| **Venue** | arXiv’25 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2510.20815) · [Code](https://github.com/Indolent-Kawhi/GRRM) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/gream.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`III. SID–Model Alignment` · `Training` · [Paper](https://arxiv.org/abs/2510.20815) · [Code](https://github.com/Indolent-Kawhi/GRRM) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/gream.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > GREAM adapts an LLM into a reasoning recommender with collaborative-semantic item indices, a chain-of-thought curriculum, and SRPO post-training, and supports direct and reasoning-first inference modes.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -31,11 +37,15 @@ flowchart LR
 | Modified Stage | Training |
 | Limitation | The item indices depend on descriptions rewritten by GPT-5, and the reasoning data comes from an external LLM, so reproduction depends on access to those models (Sec. 4.1, Sec. 4.2). |
 
+---
+
 ### 1. Why This Paper Matters
 
 The authors state that LLMs face two obstacles as generative reasoning recommenders: the gap between textual semantics and collaborative filtering signals, and sparse, stochastic user feedback (Abstract). GREAM targets both while keeping a fast direct mode next to a reasoning mode.
 
 > "GREAM natively supports two complementary inference modes: Direct Sequence Recommendation for high-throughput, low-latency deployment, and Sequential Reasoning Recommendation that first emits an interpretable reasoning chain for causal transparency." (Abstract)
+
+---
 
 ### 2. How It Works
 
@@ -43,11 +53,16 @@ The authors state that LLMs face two obstacles as generative reasoning recommend
 
 ```mermaid
 flowchart LR
-    A[Item text and reviews] --> B[Rewritten description]
-    B --> C[RQ-KMeans indices]
-    C --> D[Alignment SFT]
-    D --> E[Reasoning curriculum]
-    E --> F[SRPO]
+    A("Title, description, reviews") --> B["GPT-5 rewrite"]
+    B --> C["RQ-KMeans"]
+    C --> D("Item indices")
+    D --> E["Alignment SFT + auxiliary tasks"]
+    E --> F["Reasoning curriculum SFT"]
+    F --> G["SRPO"]:::key
+    L1{{"Residual-sensitive verifiable reward"}} -.-> G
+    L2{{"Bonus-calibrated group advantage"}} -.-> G
+    G --> H("Direct mode or reasoning mode")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Collaborative-Semantic Alignment
@@ -60,11 +75,18 @@ An external LLM generates structured reasoning paths by reverse reasoning from t
 
 > "This process guides the model through a structured, five-stage logical chain—behavioral evidence extraction, latent preference modeling, intent inference, recommendation formulation, and denoised sequence rewriting" (Sec. 1)
 
+```mermaid
+flowchart LR
+    S1["1 Behavioral evidence"] --> S2["2 Latent preference"] --> S3["3 Intent"] --> S4["4 Recommendation"] --> S5["5 Denoised sequence"]
+```
+
 #### SRPO
 
 Sparse-Regularized Group Policy Optimization (SRPO) uses a Residual-Sensitive Verifiable Reward and Bonus-Calibrated Group Advantage Estimation to optimize despite sparse successes (Abstract).
 
 > "In the early stages of generative recommendation, exactly correct generations are typically rare." (Sec. 5.2)
+
+---
 
 ### 3. Experimental Findings
 
@@ -92,12 +114,16 @@ Sparse-Regularized Group Policy Optimization (SRPO) uses a Residual-Sensitive Ve
 - Index quality: RQ-KMeans on the enriched embeddings reduces index collision rates by about 50% (Sec. 4.1).
 - Reasoning scaling: more synthetic Chain-of-Thought data in Reasoning Activation raises Pass@Avg almost linearly across 10^16–10^19 training FLOPs (Sec. 6.4, Fig. 1).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - The reasoning mode emits a chain before the item index. This suggests higher latency than the direct mode.
 - LC-Rec and EAGER-LLM train their LLMs with `Multi-task NTP`; GREAM adds an RL stage (`NTP → RL`).
+
+---
 
 ### 5. Connections to Related Work
 

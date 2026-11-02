@@ -1,10 +1,14 @@
 # JevRec
 
-*Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* — Zhong et al. · arXiv’26
+| **题目** | *Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Zhong et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2610.36937) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/jevrec.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`V. 效率` · `Tokenization` · [论文](https://arxiv.org/abs/2610.36937) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/jevrec.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -24,6 +28,8 @@ flowchart LR
 > [!NOTE]
 > JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -31,6 +37,8 @@ flowchart LR
 | 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
 | 核心贡献 | JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。 |
 | 主要改动阶段 | Tokenization |
+
+---
 
 ### 3. 实验发现
 
@@ -53,6 +61,8 @@ flowchart LR
   - 出处：[S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2) ; #S4.T3 ; #S4.F4 ; #A3.p1
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -1,10 +1,14 @@
 # GeoGR
 
-*Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* — Wang et al. · arXiv’26
+| **Title** | *Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* |
+| :-- | :-- |
+| **Authors** | Wang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/geogr.md) |
+| **Reading level** | Reading Notes (Level 2) |
 
-`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/geogr.md)
-
-Reading level: Reading Notes (Level 2) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -32,11 +38,15 @@ flowchart LR
 | Key Findings | In a three-month deployment on the AMAP platform, GeoGR reports online gains of +2.91% in WINRATE and +5.55% in PV_CTR (Abstract). |
 | Limitation | The Semantic IDs (SIDs) are updated from the LLM's predictions, so they are tied to the LLM checkpoint used in refinement (Sec. 4.1.3). |
 
+---
+
 ### 1. Why This Paper Matters
 
 The authors state that SID-based point-of-interest (POI) recommenders lack SIDs that capture cross-category spatio-temporal collaborative relationships and align poorly with large language models (LLMs) (Abstract). GeoGR addresses both for navigation services such as AMAP.
 
 > "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs." (Sec. 4.1.1)
+
+---
 
 ### 2. How It Works
 
@@ -44,12 +54,14 @@ The authors state that SID-based point-of-interest (POI) recommenders lack SIDs 
 
 ```mermaid
 flowchart LR
-    A[POI description] --> B[Contrastive representation]
-    C[Co-visit pairs] --> B
-    B --> D[RQ-Kmeans SIDs]
-    D --> E[Iterative refinement]
-    E --> F[CPT]
-    F --> G[SFT]
+    A("POI description") --> B["Qwen encoder"]
+    C("Co-visit POI pairs") -.-> L1{{"Swing-weighted NCE"}}
+    L1 -.-> B
+    B --> D["RQ-Kmeans"]
+    D --> E("SIDs")
+    E --> F["CPT"]
+    F --> G["SFT"]
+    G --> H("Next POI")
 ```
 
 #### Location Description
@@ -66,11 +78,21 @@ RQ-Kmeans discretizes the LLM embeddings into hierarchical SIDs (Sec. 1).
 
 > "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions." (Sec. 4.1.3)
 
+```mermaid
+flowchart LR
+    S("SIDs") --> P1["Phase 1: fix SIDs, fine-tune LLM"]
+    P1 --> P2["Phase 2: fix LLM, update SIDs from its predictions"]:::key
+    P2 -->|repeat| P1
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
+```
+
 #### Multi-Stage LLM Training
 
 Continued pre-training (CPT) injects POI information and user behavior sequences through several prompt templates (Sec. 4.2.1). Supervised fine-tuning then trains POI generation (Abstract).
 
 > "Since the newly introduced SID tokens are out-of-vocabulary for the base LLM, we first perform Continued Pre-Training (CPT) to warm up these tokens and inject scenario-specific recommendation knowledge." (Sec. 4.2)
+
+---
 
 ### 3. Experimental Findings
 
@@ -97,12 +119,16 @@ Continued pre-training (CPT) injects POI information and user behavior sequences
 - Offline comparison: GeoGR reports better performance than the baselines on multiple real-world datasets (Abstract).
 - Online deployment: the three-month test served millions of users (Abstract).
 
+---
+
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
 - OneLoc adds images to its input and trains an `Enc-Dec` generator with DPO; GeoGR adds collaborative signals and trains a `Dec-Only` LLM with `Multi-task NTP`.
 - GNPR-SID keeps its `RQ-VAE` codes fixed; GeoGR refines its `R-KM+EM` codes against the generator.
+
+---
 
 ### 5. Connections to Related Work
 

@@ -12,12 +12,15 @@ Semantic IDs (SIDs) quantize item content features so that items can share knowl
 
 ```mermaid
 flowchart LR
-    A[Content and behavior] --> B[Mixture-of-quantization]
-    B --> C[Alignment controller]
-    B --> D[Weighting gate]
-    C --> E[SIDs]
-    D --> E
-    E --> F[Generator]
+    A("Content features") --> M["Shared and specific experts"]
+    B("Behavior features") --> M
+    M --> C["Alignment strength controller"]:::key
+    M --> D["Gate on L2 magnitude of CF embedding"]:::key
+    C --> L1{{"Adaptive alignment loss"}}
+    D --> W("Weighted behavioral SIDs")
+    W --> E("SIDs")
+    E --> G["Generator"]
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior-Content Mixture-of-Quantization

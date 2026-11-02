@@ -1,10 +1,14 @@
 # IDGenRec
 
-*Llm-recsys alignment with textual id learning* — Tan et al. · SIGIR’24
+| **题目** | *Llm-recsys alignment with textual id learning* |
+| :-- | :-- |
+| **作者** | Tan et al. |
+| **会议** | SIGIR’24 |
+| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
+| **链接** | [论文](https://arxiv.org/abs/2403.19021) · [代码](https://github.com/agiresearch/IDGenRec) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/idgenrec.md) |
+| **阅读级别** | 阅读笔记（第 2 级） |
 
-`III. SID 与模型对齐` · `Tokenization` · [论文](https://arxiv.org/abs/2403.19021) · [代码](https://github.com/agiresearch/IDGenRec) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/idgenrec.md)
-
-阅读级别：阅读笔记（第 2 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -23,6 +27,8 @@ flowchart LR
 > [!NOTE]
 > IDGenRec 将文本 ID 生成器与 LLM 推荐器协同训练，为每个物品生成由自然语言 token 组成的简短 ID，并测试向未见平台的零样本迁移。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -32,11 +38,15 @@ flowchart LR
 | 主要改动阶段 | Tokenization |
 | 局限 | ID 生成器一更新，物品 ID 就变，训练中要重建合法 ID 的前缀树（Sec. 2.4）。 |
 
+---
+
 ### 1. 为什么重要
 
 作者指出，在文本到文本的框架里，很难给物品编出既简短又有意义的 ID（Abstract）。IDGenRec 的 ID 都是普通词语，用户历史因此成了与平台无关的文本，可以做零样本迁移（Abstract）。
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned."（Sec. 1）（交替训练 ID 生成器和基础推荐器，让两者学到的知识对齐。）
+
+---
 
 ### 2. 方法
 
@@ -44,11 +54,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[物品元数据] --> B[ID 生成器]
-    B --> C[文本 ID]
-    C --> D[基础推荐器]
-    D --> E[前缀树]
-    E --> F[物品]
+    A("纯文本物品信息") --> B["T5 ID 生成器"]:::key
+    B --> C("文本 ID")
+    C --> D["T5 基础推荐器"]
+    D --> E["全部 ID 的前缀树"]
+    E --> F("物品")
+    D -.->|交替训练| B
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID 生成器
@@ -63,11 +75,23 @@ ID 生成器读入纯文本的物品信息，如标题、品类、价格、描�
 
 惩罚每轮加 1；加到 10 仍不唯一，就放宽长度上限（Sec. 3.2）。
 
+```mermaid
+flowchart LR
+    A["束搜索生成 ID"] --> B{"有重复？"}
+    B -->|否| C("唯一 ID")
+    B -->|是| D["多样性惩罚 + 1"]
+    D --> E{"惩罚到 10？"}
+    E -->|否| A
+    E -->|是| F["放宽长度上限"] --> A
+```
+
 #### 基础推荐器
 
 基础推荐器在前缀树约束下解码目标 ID（Sec. 2.4）。
 
 > "To ensure that the decoded ID corresponds to an actual existing item, we adopt a constrained sequence decoding strategy (De Cao et al., 2020). More specifically, a prefix tree is used to store all generated candidate IDs."（Sec. 2.4）（用前缀树存放所有候选 ID，做约束解码，保证解出的 ID 对应真实物品。）
+
+---
 
 ### 3. 实验发现
 
@@ -94,12 +118,16 @@ ID 生成器读入纯文本的物品信息，如标题、品类、价格、描�
 - 标准设置：在序列推荐上，IDGenRec 好于已有模型（Abstract）。
 - 零样本设置：在 19 个数据集上训练、在其他平台的 6 个未见数据集上测试，效果与部分有监督的传统推荐器相当或更好（Abstract）。
 
+---
+
 ### 4. 局限与分析
 
 **Our analysis.**
 
 - 唯一 ID 靠加大多样性惩罚和放宽长度得到。由此推断，相似物品的 ID 可能被随意的词拉开。
 - CID 从 `CF` 信号构建 `Spectral Clus.` ID 并保持不变；IDGenRec 从文本构建 `LLM-Vocab` ID，并会更新。
+
+---
 
 ### 5. 相关工作
 

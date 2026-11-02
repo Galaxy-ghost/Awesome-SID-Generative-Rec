@@ -1,10 +1,14 @@
 # PROMISE
 
-*Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* — Guo et al. · arXiv’26
+| **Title** | *Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* |
+| :-- | :-- |
+| **Authors** | Guo et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Inference` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.04674) · [Matrix](../../README.md#iii--inference) · [中文](../zh/papers/promise.md) |
+| **Reading level** | Overview (Level 1) |
 
-`III. SID–Model Alignment` · `Inference` · [Paper](https://arxiv.org/abs/2601.04674) · [Matrix](../../README.md#iii--inference) · [中文](../zh/papers/promise.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute. |
 | Modified Stage | Inference |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: Public: [S4.T1](https://arxiv.org/html/2601.04674v1#S4.T1); industrial: [S4.T2](https://arxiv.org/html/2601.04674v1#S4.T2); online: [S4.T3](https://arxiv.org/html/2601.04674v1#S4.T3); ablation: [S4.T4](https://arxiv.org/html/2601.04674v1#S4.T4); test-time scaling: [S4.SS5.p1](https://arxiv.org/html/2601.04674v1#S4.SS5.p1).
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

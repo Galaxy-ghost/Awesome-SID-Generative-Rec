@@ -1,10 +1,14 @@
 # UniSGR-V2
 
-*Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* — Yang et al. · arXiv’26
+| **题目** | *Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* |
+| :-- | :-- |
+| **作者** | Yang et al. |
+| **会议** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `Backbone` |
+| **链接** | [论文](https://arxiv.org/abs/2610.16132) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/unisgr-v2.md) |
+| **阅读级别** | 概览（第 1 级） |
 
-`I. 信息量` · `Backbone` · [论文](https://arxiv.org/abs/2610.16132) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/unisgr-v2.md)
-
-阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。
 
+---
+
 ### 速览
 
 | 维度 | 摘要 |
@@ -29,6 +35,8 @@ flowchart LR
 | 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | 核心贡献 | UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。 |
 | 主要改动阶段 | Backbone |
+
+---
 
 ### 3. 实验发现
 
@@ -51,6 +59,8 @@ flowchart LR
   - 出处：[S4.SS1.p2](https://arxiv.org/html/2610.16132v2#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2610.16132v2#S4.T1) ; [S4.SS5.p1](https://arxiv.org/html/2610.16132v2#S4.SS5.p1) ; [A2.p1](https://arxiv.org/html/2610.16132v2#A2.p1)
 
 </details>
+
+---
 
 ### 5. 相关工作
 

@@ -13,11 +13,13 @@ LLM-based generative recommenders make limited use of geographic signals, which 
 
 ```mermaid
 flowchart LR
-    A[Check-ins] --> B[Spatial SID]
-    B --> C[SID grounding]
-    C --> D[Mobility CoT]
-    D --> E[Spatial RL]
-    E --> F[Next POI]
+    A("Check-ins") --> B["Spatial SID: S2 prefix + anchor + suffix"]:::key
+    B --> C["SID grounding + sequence pretraining"]
+    C --> D["Mobility CoT"]
+    D --> E["Spatial-guided GRPO"]
+    L1{{"Haversine + SID match + format"}} -.-> E
+    E --> F("Next POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Spatial SID
@@ -35,6 +37,11 @@ Sequence pretraining then trains next-POI prediction on SID sequences, where the
 #### Mobility Chain-of-Thought
 
 The model reasons in three deterministic stages: it profiles the user, builds an intent-aligned candidate space, and prunes candidates (Sec. 2.3). Pruning uses temporal consistency, semantic fit, and spatial feasibility from street addresses and transition distances.
+
+```mermaid
+flowchart LR
+    U["Profile the user"] --> C["Build intent-aligned candidates"] --> P["Prune: time, semantics, space"] --> A("Answer")
+```
 
 #### Spatial-Guided RL
 

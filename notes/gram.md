@@ -13,12 +13,15 @@ Generative recommenders built on large language models (LLMs) struggle to incorp
 
 ```mermaid
 flowchart LR
-    A[Item text] --> B[Textual IDs]
-    C[Collaborative signals] --> D[Item prompts]
-    B --> E[User prompt]
-    E --> F[Separate encoders]
-    D --> F
-    F --> G[Decoder fusion]
+    A("Item text") --> B["TF-IDF words from LLM vocabulary"]:::key
+    B --> C("Textual IDs, e.g. soap-mild-mango")
+    C --> D("User prompt: history IDs")
+    E("Attributes + collaborative signals") --> F("Item prompts")
+    D --> G["Separate encoders"]
+    F --> G
+    G --> I["Decoder cross-attention over all outputs"]:::key
+    I --> J("Next textual ID")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic-to-Lexical Translation

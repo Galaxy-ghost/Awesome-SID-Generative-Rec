@@ -1,10 +1,14 @@
 # REGER
 
-*Modeling inter-item Relations with Semantic IDs for Generative Recommendation* — Huang et al. · arXiv’26
+| **Title** | *Modeling inter-item Relations with Semantic IDs for Generative Recommendation* |
+| :-- | :-- |
+| **Authors** | Huang et al. |
+| **Venue** | arXiv’26 |
+| **Problem × Stage** | `I. Informativeness` · `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2610.37584) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/reger.md) |
+| **Reading level** | Overview (Level 1) |
 
-`I. Informativeness` · `Training` · [Paper](https://arxiv.org/abs/2610.37584) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/reger.md)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,6 +26,8 @@ flowchart LR
 > [!NOTE]
 > REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combines global and ID-boundary local attention, and distills a discriminative teacher's next-token distributions along the target prefix path.
 
+---
+
 ### At a Glance
 
 | Aspect | Summary |
@@ -29,6 +35,8 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combines global and ID-boundary local attention, and distills a discriminative teacher's next-token distributions along the target prefix path. |
 | Modified Stage | Training |
+
+---
 
 ### 3. Experimental Findings
 
@@ -51,6 +59,8 @@ flowchart LR
   - Source: [S4.T1](https://arxiv.org/html/2610.37584v1#S4.T1) ; #S5.T2 ; #S5.T3 ; #A1.T6 ; #A1.SS3.p2
 
 </details>
+
+---
 
 ### 5. Connections to Related Work
 

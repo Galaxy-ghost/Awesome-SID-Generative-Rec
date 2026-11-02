@@ -1,9 +1,0 @@
-# AdaSID: archived card
-
-Moved from notes/adasid.md on 2026-11-01.
-
-## 旧目录说明
-
-迁自 `d61aa6c:README.md` 的条目说明，未沿用旧目录的收录分类。
-
-按碰撞情况自适应地学习多模态 SID，替代静态的碰撞处理。
