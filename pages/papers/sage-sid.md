@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SAGE-SID optimizes list-wise generators with a geometric-mean sequence ratio, decoupled multi-objective advantages, asymmetric adaptive bounds, and an entropy-aware penalty, replacing the symmetric bounds of GBPO.
 
 ### At a Glance
@@ -62,11 +61,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **前序工作** · [OneRec-V2](onerec-v2.md): SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
+- **Predecessor** · [OneRec-V2](onerec-v2.md): SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
   - Source: SAGE v3, Sections 3.4.1/4.1.2: https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1; https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4.
-- **同期对比** · [LC-Rec](lc-rec.md): Adapted to a Qwen3-8B backbone for the RecIF comparison.
+- **Competitor** · [LC-Rec](lc-rec.md): Adapted to a Qwen3-8B backbone for the RecIF comparison.
   - Source: SAGE v3, Section 4.1.2: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3.
-- **同期对比** · [TIGER](tiger.md): RecIF comparison reuses TIGER's reported benchmark numbers.
+- **Competitor** · [TIGER](tiger.md): RecIF comparison reuses TIGER's reported benchmark numbers.
   - Source: SAGE v3, Section 4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

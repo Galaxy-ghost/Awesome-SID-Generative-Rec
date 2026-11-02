@@ -1,0 +1,69 @@
+# OneRec-V2
+
+*Technical Report* — Zhou et al. · arXiv’25
+
+`V. 效率` · `Backbone` · [论文](https://arxiv.org/abs/2508.20900) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/onerec-v2.md)
+
+阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+
+```mermaid
+flowchart LR
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class B main
+```
+
+- `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+
+### TL;DR
+
+> [!NOTE]
+> OneRec-V2 用懒惰仅解码器架构替代 OneRec 的编码器-解码器以削减序列编码计算，并通过时长感知奖励塑形与自适应比率裁剪对齐真实反馈。
+
+### 速览
+
+| 维度 | 摘要 |
+| :-- | :-- |
+| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 核心贡献 | OneRec-V2 用懒惰仅解码器架构替代 OneRec 的编码器-解码器以削减序列编码计算，并通过时长感知奖励塑形与自适应比率裁剪对齐真实反馈。 |
+| 主要改动阶段 | Backbone |
+
+### 3. 实验发现
+
+<details>
+<summary>实验设置</summary>
+
+- **数据集**：Kuaishou impressions, August 10-14 2025, for streaming architecture experiments; Kuaishou and Kuaishou Lite feeds for online evaluation. Filtering and dataset sizes not reported.
+  - 出处：Sections 2.3/4: [S2.SS3.p1](https://arxiv.org/html/2508.20900v4#S2.SS3.p1) and [S4.p1](https://arxiv.org/html/2508.20900v4#S4.p1)
+- **切分**：Offline holdout allocation not reported. Online: one week, 5% experimental traffic; V2 serves 25% of degraded traffic within that group (Appendix D wording). Separate 1% group disables caching and serves V2 for every request.
+  - 出处：Sections 2.3/4 and Appendix D: [S2.SS3.p1](https://arxiv.org/html/2508.20900v4#S2.SS3.p1) and [S4.p1](https://arxiv.org/html/2508.20900v4#S4.p1) and [A4.p1](https://arxiv.org/html/2508.20900v4#A4.p1)
+- **候选集**：not reported
+  - 出处：Sections 2.3/4 describe training loss and online tests without candidate-enumeration protocol: [S2.SS3](https://arxiv.org/html/2508.20900v4#S2.SS3) and [S4](https://arxiv.org/html/2508.20900v4#S4)
+- **可见性**：warm; no unseen-item protocol is defined. Cold-start video-view metrics are reported, but subset criteria and tokenizer exposure are not reported.
+  - 出处：Sections 4/5 and Appendix D do not define a held-out unseen-item protocol: [S4](https://arxiv.org/html/2508.20900v4#S4) and [A4.p2](https://arxiv.org/html/2508.20900v4#A4.p2)
+- **SID 规格**：3 semantic tokens using the OneRec-V1 tokenizer; codebook sizes and collision handling not reported here.
+  - 出处：Section 2.2.2 Tokenizer: [S2.SS2.SSS2.Px1.p1](https://arxiv.org/html/2508.20900v4#S2.SS2.SSS2.Px1.p1)
+- **推理预算**：Online 1B model, context 3000, beam 512, L20 GPUs, latency 36ms, MFU 62%; inference batch size not reported.
+  - 出处：Section 4: [S4.p1](https://arxiv.org/html/2508.20900v4#S4.p1)
+- **结果来源**：Original Tables 2-5: architecture/scaling; Tables 6-8: online alignment/deployment comparisons; Table 9: caching disabled. Online improvements are relative to OneRec-V1.
+  - 出处：Original Tables 2-8 and Appendix D Table 9: [S2.T2](https://arxiv.org/html/2508.20900v4#S2.T2) and [S2.T5](https://arxiv.org/html/2508.20900v4#S2.T5) and [S3.T6](https://arxiv.org/html/2508.20900v4#S3.T6) and [S3.T8](https://arxiv.org/html/2508.20900v4#S3.T8) and [A4.T9](https://arxiv.org/html/2508.20900v4#A4.T9)
+
+</details>
+
+### 5. 相关工作
+
+```mermaid
+flowchart LR
+    P["OneRec-V2"]
+    P -->|alternative| A["TIGER"]
+    P -->|successor| B["OneRec-V2-Quantized"]
+```
+
+- **替代方案** · [TIGER](tiger.md): Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
+  - 出处：OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.20900v4#S1.p1; https://arxiv.org/html/2508.20900v4#S2.SS1.
+- **后续工作** · [OneRec-V2-Quantized](onerec-v2-quantized.md): Adds FP8 post-training quantization and an optimized inference stack.
+  - 出处：Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: https://arxiv.org/html/2603.11486v1#S4.SS1.p1.
+
+[查看同格全部论文](../../../README.zh.md#v--backbone)

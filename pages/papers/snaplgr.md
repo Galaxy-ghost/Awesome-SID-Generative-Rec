@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|predecessor| B["PLUM"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): SnapLGR replaces the deployed TIGER-style T5 retriever with a grounded decoder-only LLM.
+- **Predecessor** · [TIGER](tiger.md): SnapLGR replaces the deployed TIGER-style T5 retriever with a grounded decoder-only LLM.
   - Source: SnapLGR v4, Sections 4.1/4.5: https://arxiv.org/html/2607.28895v4#S4.SS1.p3; https://arxiv.org/html/2607.28895v4#S4.SS5.p1.
-- **前序工作** · [PLUM](plum.md): SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
+- **Predecessor** · [PLUM](plum.md): SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
   - Source: SnapLGR v4, Sections 2.1/5: https://arxiv.org/html/2607.28895v4#S2.SS1.p6; https://arxiv.org/html/2607.28895v4#S5.p2.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains an adapter to predict indices and strengths, instead of fitting a new vocabulary.
 
 ### At a Glance
@@ -66,13 +65,13 @@ flowchart LR
     P -->|competitor| D["HiD-VAE"]
 ```
 
-- **前序工作** · [GRID](grid.md): API keeps GRID's preprocessed data and its residual-quantization tokenizer baselines, and replaces learned codes with pretrained interpretable SAE feature IDs.
+- **Predecessor** · [GRID](grid.md): API keeps GRID's preprocessed data and its residual-quantization tokenizer baselines, and replaces learned codes with pretrained interpretable SAE feature IDs.
   - Source: API v1, benchmark and tokenization baselines aligned with GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1 and https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.
-- **同期对比** · [RPG](rpg.md): RPG's parallel-prediction implementation is the PR backbone; API swaps its OPQ codes for SAE feature indices with activation strengths.
+- **Competitor** · [RPG](rpg.md): RPG's parallel-prediction implementation is the PR backbone; API swaps its OPQ codes for SAE feature indices with activation strengths.
   - Source: API v1, PR implementation based on RPG: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1 and https://arxiv.org/html/2610.36763v1#S5.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER's autoregressive implementation is the AR backbone and RQ-VAE is a tokenizer baseline.
+- **Competitor** · [TIGER](tiger.md): TIGER's autoregressive implementation is the AR backbone and RQ-VAE is a tokenizer baseline.
   - Source: API v1, AR implementation based on TIGER: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1 and https://arxiv.org/html/2610.36763v1#S5.T2.
-- **同期对比** · [HiD-VAE](hid-vae.md): HiD-VAE supervises quantization levels with category tags for interpretability; API takes interpretability from labeled pretrained SAE features.
+- **Competitor** · [HiD-VAE](hid-vae.md): HiD-VAE supervises quantization levels with category tags for interpretability; API takes interpretability from labeled pretrained SAE features.
   - Source: API v1, tokenization baselines: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

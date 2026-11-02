@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["EAGER"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER builds identifiers by RQ-VAE over text embeddings; SEATER builds balanced tree identifiers from collaborative SASRec embeddings and adds alignment and ranking losses over the tree.
+- **Competitor** · [TIGER](tiger.md): TIGER builds identifiers by RQ-VAE over text embeddings; SEATER builds balanced tree identifiers from collaborative SASRec embeddings and adds alignment and ranking losses over the tree.
   - Source: SEATER v2, Section 4.1 related work: https://arxiv.org/html/2309.13375v2#S4.SS1.p2; Table 3 generative baseline: https://arxiv.org/html/2309.13375v2#S5.T3.
-- **替代方案** · [CID](cid.md): P5 with collaborative indexing uses spectral clustering of interactions for IDs; SEATER uses a balanced k-ary tree from constrained k-means.
+- **Alternative** · [CID](cid.md): P5 with collaborative indexing uses spectral clustering of interactions for IDs; SEATER uses a balanced k-ary tree from constrained k-means.
   - Source: SEATER v2, Section 4.1 cites Hua et al. (2023b): https://arxiv.org/html/2309.13375v2#S4.SS1.p2.
-- **替代方案** · [EAGER](eager.md): EAGER, a later paper that cites SEATER among generative recommenders, builds two tree-structured codes (behavior and semantic) with hierarchical k-means instead of one collaborative tree.
+- **Alternative** · [EAGER](eager.md): EAGER, a later paper that cites SEATER among generative recommenders, builds two tree-structured codes (behavior and semantic) with hierarchical k-means instead of one collaborative tree.
   - Source: Evidence is from the later EAGER paper, Section 1: https://arxiv.org/html/2406.14017v2#S1.p2.
 
-[查看同格全部论文](../../README.md#v--tokenization)
+[View all papers in this cell](../../README.md#v--tokenization)

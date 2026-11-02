@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Merge-and-Branch compresses each history item's Semantic ID and text into few learned tokens and predicts several target IDs from one shared history in a tree layout, reducing fine-tuning cost.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["AtSpeed"]
 ```
 
-- **同期对比** · [LETTER](letter.md): LETTER-TIGER is reproduced on Sports/Toys; its Beauty score comes from the original paper.
+- **Competitor** · [LETTER](letter.md): LETTER-TIGER is reproduced on Sports/Toys; its Beauty score comes from the original paper.
   - Source: M&B v1, Appendix B.1: https://arxiv.org/html/2610.37973v1#A2.SS1.p1; https://arxiv.org/html/2610.37973v1#A2.SS1.p2.
-- **同期对比** · [EAGER-LLM](eager-llm.md): EAGER-LLM is rerun on Toys; Beauty/Sports scores come from its original paper.
+- **Competitor** · [EAGER-LLM](eager-llm.md): EAGER-LLM is rerun on Toys; Beauty/Sports scores come from its original paper.
   - Source: M&B v1, Appendix B.1: https://arxiv.org/html/2610.37973v1#A2.SS1.p1.
-- **替代方案** · [AtSpeed](atspeed.md): AtSpeed uses tree masks for speculative beam verification; M&B shares history during training and decoding.
+- **Alternative** · [AtSpeed](atspeed.md): AtSpeed uses tree masks for speculative beam verification; M&B shares history during training and decoding.
   - Source: M&B v1, Section 2 and Table 1: https://arxiv.org/html/2610.37973v1#S2.SS0.SSS0.Px3.p1; https://arxiv.org/html/2610.37973v1#S2.T1.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

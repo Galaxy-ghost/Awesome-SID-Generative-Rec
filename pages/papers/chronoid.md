@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals enter the IDs, unlike existing time-agnostic Semantic ID learning.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|predecessor| D["TIGER"]
 ```
 
-- **前序工作** · [MiniOneRec](minionerec.md): ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
+- **Predecessor** · [MiniOneRec](minionerec.md): ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
   - Source: ChronoID v1, Introduction/Section 3 and Table 1: https://arxiv.org/html/2606.14260v1#S1.p2 ; https://arxiv.org/html/2606.14260v1#S3.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
-- **前序工作** · [TokenRec](tokenrec.md): ChronoID adopts parallel quantization as one temporal-tokenization design.
+- **Predecessor** · [TokenRec](tokenrec.md): ChronoID adopts parallel quantization as one temporal-tokenization design.
   - Source: ChronoID v1, Sections 3.3/6 and Table 1: https://arxiv.org/html/2606.14260v1#S3.SS3.p3 ; https://arxiv.org/html/2606.14260v1#S6.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece is a generative recommendation baseline in the temporal benchmark.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece is a generative recommendation baseline in the temporal benchmark.
   - Source: ChronoID v1, Section 5.1 and Table 1: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
-- **前序工作** · [TIGER](tiger.md): ChronoID extends the static residual-quantization paradigm with time-aware IDs.
+- **Predecessor** · [TIGER](tiger.md): ChronoID extends the static residual-quantization paradigm with time-aware IDs.
   - Source: ChronoID v1, Section 6: https://arxiv.org/html/2606.14260v1#S6.p1.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

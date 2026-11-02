@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignment reconstruction tasks, and an annealing adapter to a decoder-only LLM, instead of learning collaborative semantics from scratch.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|competitor| C["LETTER"]
 ```
 
-- **前序工作** · [EAGER](eager.md): The authors explicitly extend EAGER's dual-source modeling to an LLM backbone.
+- **Predecessor** · [EAGER](eager.md): The authors explicitly extend EAGER's dual-source modeling to an LLM backbone.
   - Source: EAGER-LLM v1, Section 2.1: https://arxiv.org/html/2502.14735v1#S2.SS1.p1.
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec supplies the compared vector-quantized IDs; EAGER-LLM separately clusters behavioral and semantic embeddings.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec supplies the compared vector-quantized IDs; EAGER-LLM separately clusters behavioral and semantic embeddings.
   - Source: EAGER-LLM v1, Sections 3.2/4.2.1 and Table 2: https://arxiv.org/html/2502.14735v1#S3.SS2.p5; https://arxiv.org/html/2502.14735v1#S4.SS2.SSS1.p5; https://arxiv.org/html/2502.14735v1#S4.T2.
-- **同期对比** · [LETTER](letter.md): LETTER regularizes collaborative coding; EAGER-LLM separates the two information sources before LLM fusion.
+- **Competitor** · [LETTER](letter.md): LETTER regularizes collaborative coding; EAGER-LLM separates the two information sources before LLM fusion.
   - Source: EAGER-LLM v1, Section 4.2.2 and Table 3: https://arxiv.org/html/2502.14735v1#S4.SS2.SSS2.p4; https://arxiv.org/html/2502.14735v1#S4.T3.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

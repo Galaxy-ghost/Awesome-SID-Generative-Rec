@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DASO reallocates part of each GRPO rollout group to prefix-guided completions at Semantic ID levels where candidates leave the target path and adds a graded prefix reward, unlike vanilla GRPO.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|competitor| B["V-STAR"]
 ```
 
-- **前序工作** · [MiniOneRec](minionerec.md): MiniOneRec supplies public SIDs and the baseline SFT-to-GRPO recipe.
+- **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies public SIDs and the baseline SFT-to-GRPO recipe.
   - Source: DASO v1, Experimental Setup and Appendix C: https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p2; https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p4; https://arxiv.org/html/2608.20611v1#A3.SSx1.p2.
-- **同期对比** · [V-STAR](v-star.md): V-STAR's Sibling-GRPO is a compared tree-structured training baseline.
+- **Competitor** · [V-STAR](v-star.md): V-STAR's Sibling-GRPO is a compared tree-structured training baseline.
   - Source: DASO v1, Related Work and Appendix D: https://arxiv.org/html/2608.20611v1#Sx2.SSx2.p2; https://arxiv.org/html/2608.20611v1#A4.SSx3.p2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

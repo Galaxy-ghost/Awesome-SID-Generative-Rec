@@ -1,5 +1,7 @@
 # Glossary
 
+English | [中文](glossary.zh.md)
+
 This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines the values in Table 1, the paper pages, and the indexes.
 
 ## Symbols

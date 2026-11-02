@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > R3-VAE stabilizes residual quantization with a reference vector as semantic anchor and a dot-product rating mechanism, and uses two Semantic ID quality metrics as training regularizers.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|alternative| D["FORGE"]
 ```
 
-- **同期对比** · [OneRec](onerec.md): OneRec's residual K-means is the main industrial baseline and the generation framework; R3-VAE adds a reference-vector projection, rating-weighted residual quantization, and SID-quality regularization.
+- **Competitor** · [OneRec](onerec.md): OneRec's residual K-means is the main industrial baseline and the generation framework; R3-VAE adds a reference-vector projection, rating-weighted residual quantization, and SID-quality regularization.
   - Source: R3-VAE v3, baselines and OneRec framework: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1 and https://arxiv.org/html/2604.11440v3#S4.SS3.SSS1.p1; Tables 1, 3, 4: https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T3, https://arxiv.org/html/2604.11440v3#S4.T4.
-- **同期对比** · [TokenRec](tokenrec.md): TokenRec's masked vector-quantized tokenizer (MQ) is a baseline; R3-VAE differs by reference-guided soft residual assignment.
+- **Competitor** · [TokenRec](tokenrec.md): TokenRec's masked vector-quantized tokenizer (MQ) is a baseline; R3-VAE differs by reference-guided soft residual assignment.
   - Source: R3-VAE v3, baseline MQ [26]: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1; Tables 1 and 4: https://arxiv.org/html/2604.11440v3#S3.T1 and https://arxiv.org/html/2604.11440v3#S4.T4.
-- **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec's OPQ-style codes appear as the OPQ-KMeans baseline; R3-VAE uses residual rather than product quantization.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec's OPQ-style codes appear as the OPQ-KMeans baseline; R3-VAE uses residual rather than product quantization.
   - Source: R3-VAE v3, baseline OPQ-KMeans [5, 7]: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1; Table 1: https://arxiv.org/html/2604.11440v3#S3.T1.
-- **替代方案** · [FORGE](forge.md): FORGE proposes Embedding HitRate and Gini to evaluate SIDs without full training; R3-VAE proposes semantic cohesion and preference discrimination for the same purpose.
+- **Alternative** · [FORGE](forge.md): FORGE proposes Embedding HitRate and Gini to evaluate SIDs without full training; R3-VAE proposes semantic cohesion and preference discrimination for the same purpose.
   - Source: R3-VAE v3, Section 3.4 draws on FORGE [4]: https://arxiv.org/html/2604.11440v3#S3.SS4.p1; Section 1: https://arxiv.org/html/2604.11440v3#S1.p3.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

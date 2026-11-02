@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates, the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["SpecGR"]
 ```
 
-- **前序工作** · [LC-Rec](lc-rec.md): DREAM adopts LC-Rec's LLaMA-7B setup, adding staged SID refinement.
+- **Predecessor** · [LC-Rec](lc-rec.md): DREAM adopts LC-Rec's LLaMA-7B setup, adding staged SID refinement.
   - Source: DREAM v1, Section 4.1: https://arxiv.org/html/2606.06947v1#S4.SS1.p4.
-- **同期对比** · [TIGER](tiger.md): TIGER is a single-index baseline against DREAM's multi-path retrieval.
+- **Competitor** · [TIGER](tiger.md): TIGER is a single-index baseline against DREAM's multi-path retrieval.
   - Source: DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
-- **同期对比** · [SpecGR](specgr.md): SpecGR drafts and verifies candidates; DREAM refines cold-item SID assignments.
+- **Competitor** · [SpecGR](specgr.md): SpecGR drafts and verifies candidates; DREAM refines cold-item SID assignments.
   - Source: DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
 
-[查看同格全部论文](../../README.md#vi--tokenization)
+[View all papers in this cell](../../README.md#vi--tokenization)

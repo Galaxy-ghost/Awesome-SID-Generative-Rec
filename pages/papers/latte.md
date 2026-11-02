@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees, to relax the probability coupling between items that are close in the tree.
 
 ### At a Glance
@@ -66,15 +65,15 @@ flowchart LR
     P -->|predecessor| E["GRID"]
 ```
 
-- **前序工作** · [PSI](psi.md): PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before the semantic ID.
+- **Predecessor** · [PSI](psi.md): PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before the semantic ID.
   - Source: Latte v1, base model and implementation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
-- **同期对比** · [TIGER](tiger.md): TIGER decodes items along one fixed SID tree; Latte relaxes the tree constraint with latent tokens so that close tree nodes need not share preference.
+- **Competitor** · [TIGER](tiger.md): TIGER decodes items along one fixed SID tree; Latte relaxes the tree constraint with latent tokens so that close tree nodes need not share preference.
   - Source: Latte v1, motivation study: https://arxiv.org/html/2605.06331v1#S3.SS2.SSS0.Px2.p1; baselines and Table 1: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1 and https://arxiv.org/html/2605.06331v1#S5.T1; Table 2: https://arxiv.org/html/2605.06331v1#S5.T2.
-- **同期对比** · [LETTER](letter.md): LETTER improves the tokenizer itself; Latte keeps the tokenizer and changes the decoding path.
+- **Competitor** · [LETTER](letter.md): LETTER improves the tokenizer itself; Latte keeps the tokenizer and changes the decoding path.
   - Source: Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece makes tokens context-dependent through merges; Latte adds latent prefix tokens on top of fixed SIDs.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece makes tokens context-dependent through merges; Latte adds latent prefix tokens on top of fixed SIDs.
   - Source: Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
-- **前序工作** · [GRID](grid.md): Latte follows GRID's recommendation to use RQ K-Means as the tokenizer.
+- **Predecessor** · [GRID](grid.md): Latte follows GRID's recommendation to use RQ K-Means as the tokenizer.
   - Source: Latte v1, Section 5.1 and Appendix D cite Ju et al. (2025): https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

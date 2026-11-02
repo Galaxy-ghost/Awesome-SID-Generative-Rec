@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["LC-Rec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
+- **Competitor** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
   - Source: https://arxiv.org/html/2610.17368v1#S6.p3 ; #S9.SS1.SSS4.p1.
-- **同期对比** · [IDGenRec](idgenrec.md): IDGenRec generates textual identifiers; HASTE supervises quantized SIDs.
+- **Competitor** · [IDGenRec](idgenrec.md): IDGenRec generates textual identifiers; HASTE supervises quantized SIDs.
   - Source: https://arxiv.org/html/2610.17368v1#S2.p2 ; #S6.p3.
-- **替代方案** · [LC-Rec](lc-rec.md): LC-Rec adds alignment tasks; HASTE changes losses.
+- **Alternative** · [LC-Rec](lc-rec.md): LC-Rec adds alignment tasks; HASTE changes losses.
   - Source: https://arxiv.org/html/2610.17368v1#S2.p2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

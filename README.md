@@ -1,23 +1,31 @@
 <!--lint disable awesome-github-->
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
+> Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes and the pipeline stage it changes.
+
+English | [中文](README.zh.md)
+
 ## Scope
 
-This list collects 181 papers on generative recommendation with Semantic IDs (SIDs). The matrix places 169 of them by the problem each paper fixes and the pipeline stage it mainly changes. The other 12 are paradigms, systems and benchmarks. It also includes methods that use SIDs as features. Papers on POI and local-life recommendation carry a `POI` tag and are listed in the [POI index](pages/index/poi.md).
+This list collects 181 papers on generative recommendation with Semantic IDs (SIDs). The matrix places 169 of them by problem and main stage; the other 12 are paradigms, systems and benchmarks. Methods that use SIDs as features are included. POI and local-life papers carry a `POI` tag and are listed in the [POI index](pages/index/poi.md).
 
 ## Where to Start
 
-- New to the topic: [Start Here](guides/start-here.md)
-- Looking for research problems: [Problem × Stage Matrix](#problem--stage-matrix)
-- Choosing a method by stage: [Papers by Stage](pages/index/stages.md)
-- Looking for code: [Papers with Code](pages/index/code.md)
-- LLMs and tools: [llms.txt](llms.txt)
+| Reader                        | Start with                                       |
+| :---------------------------- | :----------------------------------------------- |
+| New to the topic              | [Start Here](guides/start-here.md)               |
+| Looking for research problems | [Problem × Stage Matrix](#problem--stage-matrix) |
+| Choosing a method by stage    | [Papers by Stage](pages/index/stages.md)         |
+| Looking for code              | [Papers with Code](pages/index/code.md)          |
+| LLMs and tools                | [llms.txt](llms.txt)                             |
 
 ## Starter Papers
 
-- [TIGER][] - TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search.
-- [OneLoc][] - OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
-- [RPG][] - RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs.
+| Paper      | In one sentence                                                                                                                                                                                                 | Venue      |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
+| [TIGER][]  | TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search.                     | NeurIPS’23 |
+| [OneLoc][] | OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards. | arXiv’25   |
+| [RPG][]    | RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs.                        | KDD’25     |
 
 ## Problem × Stage Matrix
 

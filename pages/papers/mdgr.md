@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MDGR uses a parallel codebook, adaptive masking along time and samples, and warm-up two-stage parallel decoding for masked diffusion recommendation, instead of fixed-order autoregressive Semantic ID decoding.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["COBRA"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER generates residual-quantized IDs autoregressively; MDGR denoises parallel-codebook IDs and is also tested against production TIGER online.
+- **Competitor** · [TIGER](tiger.md): TIGER generates residual-quantized IDs autoregressively; MDGR denoises parallel-codebook IDs and is also tested against production TIGER online.
   - Source: MDGR v1, Sections 5.1.2/5.6 and Table 2: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S5.SS6.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
-- **同期对比** · [RPG](rpg.md): RPG uses multi-token prediction and graph-constrained parallel decoding; MDGR uses masked denoising with confidence-guided position scheduling.
+- **Competitor** · [RPG](rpg.md): RPG uses multi-token prediction and graph-constrained parallel decoding; MDGR uses masked denoising with confidence-guided position scheduling.
   - Source: MDGR v1, Sections 4.4/5.1.2 and Table 2: https://arxiv.org/html/2601.19501v1#S4.SS4; https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
-- **同期对比** · [COBRA](cobra.md): COBRA supplements sparse IDs with dense vectors; MDGR instead changes discrete-ID supervision and decoding through masked diffusion.
+- **Competitor** · [COBRA](cobra.md): COBRA supplements sparse IDs with dense vectors; MDGR instead changes discrete-ID supervision and decoding through masked diffusion.
   - Source: MDGR v1, Sections 2.1/5.1.2 and Table 2: https://arxiv.org/html/2601.19501v1#S2.SS1.p1; https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

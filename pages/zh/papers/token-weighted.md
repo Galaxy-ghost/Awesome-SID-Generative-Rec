@@ -1,0 +1,70 @@
+# Token-Weighted
+
+*Beyond Uniform Token Training: A Multi-Target Framework for Learning Token-Weighted Objectives in Generative Recommenders* — Chiu et al. · CIKM’26
+
+`IV. 实用目标` · `Training` · [论文](https://arxiv.org/abs/2601.17787) · [代码](https://github.com/CHIUWEINING/Token-Weighted-Multi-Target-Learning-for-Generative-Recommenders-with-Curriculum-Learning) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/token-weighted.md)
+
+阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+
+```mermaid
+flowchart LR
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class TR main
+```
+
+- `Enc-Dec`: Encoder-decoder.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `C-Beam`: Constrained beam search.
+
+### TL;DR
+
+> [!NOTE]
+> Token-Weighted 按前缀歧义消减量与 token 频率为 SID token 加权，在课程学习下与标准似然结合，替代对所有位置均匀加权的训练。
+
+### 速览
+
+| 维度 | 摘要 |
+| :-- | :-- |
+| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 核心贡献 | Token-Weighted 按前缀歧义消减量与 token 频率为 SID token 加权，在课程学习下与标准似然结合，替代对所有位置均匀加权的训练。 |
+| 主要改动阶段 | Training |
+
+### 3. 实验发现
+
+<details>
+<summary>实验设置</summary>
+
+- **数据集**：Amazon Musical Instruments and Industrial & Scientific, Yelp, MovieLens 1M; 5-core users/items. Maximum history length not reported.
+  - 出处：[S5.SS1.SSS1.p1](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p1) ; #S5.SS1.SSS1.p2
+- **切分**：Per-user leave-one-out: last interaction test, penultimate validation, others training. Additional head/tail analysis divides test items equally by interaction frequency; it does not redefine the training split.
+  - 出处：[S5.SS1.SSS1.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2) ; #S5.SS2.SSS5.p1
+- **候选集**：not reported
+  - 出处：[S5.SS1](https://arxiv.org/html/2601.17787v2#S5.SS1)
+- **可见性**：warm; no unseen-item protocol is defined. Tokenizer fitting exposure to test items not reported.
+  - 出处：[S5.SS1.SSS1.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS1.p2) ; #S5.SS1.SSS3.p2
+- **SID 规格**：RQ-VAE: 4 x 256 using LLaMA2-7B item embeddings; duplicate IDs resolved by random reassignment of the final token. PQ extension uses four independently quantized embedding segments; PQ codebook sizes not reported.
+  - 出处：[S5.SS1.SSS3.p2](https://arxiv.org/html/2601.17787v2#S5.SS1.SSS3.p2) ; #S5.SS2.SSS3.p1
+- **推理预算**：Constrained beam search; Hit/NDCG@5/10. Main backbone TIGER/T5; LLaMA3.2-3B extension uses 8-bit LoRA at training and inference. Beam width, inference batch size and latency not reported. General experiment pool: two RTX 3090s and one RTX A6000; inference allocation not reported.
+  - 出处：[S3.SS2.p2](https://arxiv.org/html/2601.17787v2#S3.SS2.p2) ; #S5.SS1.SSS3.p1 ; #S5.SS2.SSS3.p2
+- **结果来源**：Original Table 3: main comparison, five-run means; token-level baselines implemented on TIGER. Table 4: ablations; Table 5: PQ IDs; Table 6: larger backbone. Baseline-result reuse not stated.
+  - 出处：[S4.T3](https://arxiv.org/html/2601.17787v2#S4.T3) ; #S5.T4 ; #S5.T5 ; #S5.T6 ; #S5.SS1.SSS2.p1 ; #S5.SS1.SSS3.p1
+
+</details>
+
+### 5. 相关工作
+
+```mermaid
+flowchart LR
+    P["Token-Weighted"]
+    P -->|predecessor| A["TIGER"]
+    P -->|competitor| B["LETTER"]
+```
+
+- **前序工作** · [TIGER](tiger.md): The proposed curriculum combines token-weighted objectives with standard likelihood on the TIGER architecture.
+  - 出处：Token-Weighted v2, Section 5.1.2 and Table 3: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.17787v2#S4.T3.
+- **同期对比** · [LETTER](letter.md): The Rank baseline adapts LETTER ranking-guided loss to TIGER; the proposed method instead combines prefix-dispersion and token-frequency weights through a curriculum.
+  - 出处：Token-Weighted v2, Sections 4.1/5.1.2 and Table 3; comparison is to the adapted Rank objective, not the full LETTER system: https://arxiv.org/html/2601.17787v2#S4.SS1.p2; https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p2; https://arxiv.org/html/2601.17787v2#S4.T3.
+
+[查看同格全部论文](../../../README.zh.md#iv--training)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps.
 
 ### At a Glance
@@ -62,7 +61,7 @@ flowchart LR
     P -->|alternative| A["CoST"]
 ```
 
-- **替代方案** · [CoST](cost.md): CoST uses residual vector quantization; PCR-CA replaces its hierarchy with parallel codebooks for multiple-category app features and CTR prediction.
+- **Alternative** · [CoST](cost.md): CoST uses residual vector quantization; PCR-CA replaces its hierarchy with parallel codebooks for multiple-category app features and CTR prediction.
   - Source: PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): https://arxiv.org/html/2508.18166v1#S1.p4; https://arxiv.org/html/2508.18166v1#S2.SS2.p3.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

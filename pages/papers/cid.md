@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing, replacing random, title, and independent IDs that cause long outputs or hallucinated items.
 
 ### At a Glance
@@ -64,7 +63,7 @@ flowchart LR
     P -->|successor| A["LMIndexer"]
 ```
 
-- **后续工作** · [LMIndexer](lmindexer.md): LMIndexer cites this indexing study as earlier generative-recommendation work.
+- **Successor** · [LMIndexer](lmindexer.md): LMIndexer cites this indexing study as earlier generative-recommendation work.
   - Source: Evidence from LMIndexer v3, Section 2 and reference Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2 ; https://arxiv.org/html/2310.07815v3#bib.bib11.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|predecessor| D["ETEGRec"]
 ```
 
-- **前序工作** · [MiniOneRec](minionerec.md): MiniOneRec supplies the Qwen2.5-7B backbone for unlearning.
+- **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies the Qwen2.5-7B backbone for unlearning.
   - Source: TRACER v1, Sec.4 Models/Backbones: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1.
-- **前序工作** · [TIGER](tiger.md): TIGER is a tested separate-training backbone.
+- **Predecessor** · [TIGER](tiger.md): TIGER is a tested separate-training backbone.
   - Source: TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
-- **前序工作** · [LETTER](letter.md): LETTER supplies a tested joint-training backbone and the motivating retraining analysis.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies a tested joint-training backbone and the motivating retraining analysis.
   - Source: TRACER v1, Sec.3 motivation and Sec.4 Models: https://arxiv.org/html/2606.07688v1#S3.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1.
-- **前序工作** · [ETEGRec](etegrec.md): ETEGRec is a tested joint-training backbone.
+- **Predecessor** · [ETEGRec](etegrec.md): ETEGRec is a tested joint-training backbone.
   - Source: TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
 
-[查看同格全部论文](../../README.md#iv--tokenization)
+[View all papers in this cell](../../README.md#iv--tokenization)

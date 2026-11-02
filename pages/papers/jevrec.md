@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones, and predicts length and content with separate heads, instead of one ID length for all items.
 
 ### At a Glance
@@ -66,13 +65,13 @@ flowchart LR
     P -->|alternative| D["Pctx"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER uses fixed-length RQ-VAE SIDs; JevRec truncates shared residual-quantizer prefixes by item frequency and explicitly predicts target length.
+- **Competitor** · [TIGER](tiger.md): TIGER uses fixed-length RQ-VAE SIDs; JevRec truncates shared residual-quantizer prefixes by item frequency and explicitly predicts target length.
   - Source: JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
-- **同期对比** · [LETTER](letter.md): LETTER adds collaborative information and diversity constraints to learned tokenization; JevRec allocates SID length by interaction frequency.
+- **Competitor** · [LETTER](letter.md): LETTER adds collaborative information and diversity constraints to learned tokenization; JevRec allocates SID length by interaction frequency.
   - Source: JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges contextually co-occurring action features; JevRec uses shared semantic codebooks with frequency-dependent prefix lengths.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece merges contextually co-occurring action features; JevRec uses shared semantic codebooks with frequency-dependent prefix lengths.
   - Source: JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
-- **替代方案** · [Pctx](pctx.md): Pctx personalizes tokenization using user history; JevRec assigns context-invariant SID lengths from global training frequencies.
+- **Alternative** · [Pctx](pctx.md): Pctx personalizes tokenization using user history; JevRec assigns context-invariant SID lengths from global training frequencies.
   - Source: JevRec v1, Sections 2/3.2/3.3: https://arxiv.org/html/2610.36937v1#S2.p1; https://arxiv.org/html/2610.36937v1#S3.SS2.p1; https://arxiv.org/html/2610.36937v1#S3.SS3.p1.
 
-[查看同格全部论文](../../README.md#v--tokenization)
+[View all papers in this cell](../../README.md#v--tokenization)

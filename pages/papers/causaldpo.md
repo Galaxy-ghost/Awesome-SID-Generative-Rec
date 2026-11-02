@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
 
 ### At a Glance
@@ -61,7 +60,7 @@ flowchart LR
     P -->|alternative| A["OneRec"]
 ```
 
-- **替代方案** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
+- **Alternative** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
   - Source: CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: https://arxiv.org/html/2603.22335v2#S4.p2; not a baseline in Table 1.
 
-[查看同格全部论文](../../README.md#vi--training)
+[View all papers in this cell](../../README.md#vi--training)

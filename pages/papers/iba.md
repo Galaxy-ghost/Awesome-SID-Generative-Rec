@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > IBA allocates latent reasoning steps across Semantic ID positions by information gain, giving more refinement to the informative early positions, instead of a fixed number of steps per token.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["SIDReasoner"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): IBA adds learned latent refinement allocation to TIGER.
+- **Predecessor** · [TIGER](tiger.md): IBA adds learned latent refinement allocation to TIGER.
   - Source: IBA v1, Section IV-A2 and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.T2.
-- **前序工作** · [LETTER](letter.md): LETTER is the second tested base model for IBA.
+- **Predecessor** · [LETTER](letter.md): LETTER is the second tested base model for IBA.
   - Source: IBA v1, Sections IV-A2/IV-B and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.SS2.p2; https://arxiv.org/html/2607.12425v1#S4.T2.
-- **替代方案** · [SIDReasoner](sidreasoner.md): SIDReasoner aligns IDs with language; IBA allocates hidden refinement steps.
+- **Alternative** · [SIDReasoner](sidreasoner.md): SIDReasoner aligns IDs with language; IBA allocates hidden refinement steps.
   - Source: IBA v1, Section V-B2: https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2; https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

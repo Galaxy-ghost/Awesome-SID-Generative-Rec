@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MuSID-KD distills a generative teacher into lightweight students by aligning candidate distributions at successive Semantic ID prefix levels and weighting supervision by ranking impact, instead of uniform alignment.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|predecessor| B["SID-MLP"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): MuSID-KD uses TIGER as its frozen teacher and shares its history encoder.
+- **Predecessor** · [TIGER](tiger.md): MuSID-KD uses TIGER as its frozen teacher and shares its history encoder.
   - Source: MuSID-KD v1, Section 6.1: https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
-- **前序工作** · [SID-MLP](sid-mlp.md): SID-MLP supplies the Base KD objective and lightweight student design.
+- **Predecessor** · [SID-MLP](sid-mlp.md): SID-MLP supplies the Base KD objective and lightweight student design.
   - Source: MuSID-KD v1, Sections 2.3/6.1: https://arxiv.org/html/2610.35218v1#S2.SS3.p1; https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding with shared item tokens instead of opaque tokens tied to embedding tables.
 
 ### At a Glance
@@ -65,9 +64,9 @@ flowchart LR
     P -->|predecessor| B["GRID"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): SPRIG adopts TIGER's content-derived SID formulation and evaluates its GRID variant.
+- **Predecessor** · [TIGER](tiger.md): SPRIG adopts TIGER's content-derived SID formulation and evaluates its GRID variant.
   - Source: SPRIG v1, Sec.1 and Table2: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S4.T2.
-- **前序工作** · [GRID](grid.md): GRID supplies the residual K-means quantization choice.
+- **Predecessor** · [GRID](grid.md): GRID supplies the residual K-means quantization choice.
   - Source: SPRIG v1, Sec.1 and Sec.3: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S3.p4.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

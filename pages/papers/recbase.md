@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical concept identifiers, for zero-shot recommendation instead of language-centric pretraining.
 
 ### At a Glance
@@ -62,9 +61,9 @@ flowchart LR
     P -->|alternative| B["LC-Rec"]
 ```
 
-- **替代方案** · [TIGER](tiger.md): TIGER builds RQ-VAE semantic IDs per dataset for next-item generation; RecBase pre-trains a recommendation foundation model over concept IDs shared across many domains.
+- **Alternative** · [TIGER](tiger.md): TIGER builds RQ-VAE semantic IDs per dataset for next-item generation; RecBase pre-trains a recommendation foundation model over concept IDs shared across many domains.
   - Source: RecBase v1, Section 2.2 cites Rajput et al. (2023): https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
-- **替代方案** · [LC-Rec](lc-rec.md): LC-Rec adapts an existing LLM to one domain's item indices; RecBase pre-trains from scratch on recommendation corpora for zero-shot transfer.
+- **Alternative** · [LC-Rec](lc-rec.md): LC-Rec adapts an existing LLM to one domain's item indices; RecBase pre-trains from scratch on recommendation corpora for zero-shot transfer.
   - Source: RecBase v1, Section 2.2: https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
 
-[查看同格全部论文](../../README.md#vi--training)
+[View all papers in this cell](../../README.md#vi--training)

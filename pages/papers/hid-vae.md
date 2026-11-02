@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
 
 ### At a Glance
@@ -115,13 +114,13 @@ flowchart LR
     P -->|alternative| D["AdaSID"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER resolves collisions by appending an integer after unsupervised RQ-VAE; HiD-VAE supervises each level with category tags and adds a uniqueness loss so that fewer items collide.
+- **Competitor** · [TIGER](tiger.md): TIGER resolves collisions by appending an integer after unsupervised RQ-VAE; HiD-VAE supervises each level with category tags and adds a uniqueness loss so that fewer items collide.
   - Source: HiD-VAE v2, baselines and Table 1: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.T1; TIGER-style suffix in the ablation: https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1 and https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1.
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to RQ-VAE codes; HiD-VAE changes the tokenizer and keeps a small encoder-decoder; LC-Rec is run with a T5-base backbone for scale parity.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to RQ-VAE codes; HiD-VAE changes the tokenizer and keeps a small encoder-decoder; LC-Rec is run with a T5-base backbone for scale parity.
   - Source: HiD-VAE v2, baselines: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.SS1.p7; Table 1: https://arxiv.org/html/2508.04618v2#S4.T1.
-- **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec's product-quantized codes are adapted to generation here and collide more often (21.2% on Beauty) than HiD-VAE's hierarchical codes.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec's product-quantized codes are adapted to generation here and collide more often (21.2% on Beauty) than HiD-VAE's hierarchical codes.
   - Source: HiD-VAE v2, baselines and adaptation: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.I3.i2.p1; Tables 1 and 3: https://arxiv.org/html/2508.04618v2#S4.T1 and https://arxiv.org/html/2508.04618v2#S4.T3.
-- **替代方案** · [AdaSID](adasid.md): AdaSID later argues that HiD-VAE's overlap-aware objective treats collisions under a fixed standard, and makes the repulsion adaptive.
+- **Alternative** · [AdaSID](adasid.md): AdaSID later argues that HiD-VAE's overlap-aware objective treats collisions under a fixed standard, and makes the repulsion adaptive.
   - Source: Evidence is from the later AdaSID paper, Sections 1 and 2.2: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

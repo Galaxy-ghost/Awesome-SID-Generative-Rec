@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|alternative| C["LIGER"]
 ```
 
-- **前序工作** · [MiniOneRec](minionerec.md): MiniOneRec supplies a frozen backbone and released Amazon checkpoints.
+- **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies a frozen backbone and released Amazon checkpoints.
   - Source: CAPE v1, Sec.5.1 and Appendix B: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#A2.p2.
-- **前序工作** · [TIGER](tiger.md): TIGER supplies the second backbone for cross-architecture evaluation.
+- **Predecessor** · [TIGER](tiger.md): TIGER supplies the second backbone for cross-architecture evaluation.
   - Source: CAPE v1, Sec.5.1 and Table3: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#S5.T3.
-- **替代方案** · [LIGER](liger.md): LIGER is contrasted as a trained hybrid retrieval approach.
+- **Alternative** · [LIGER](liger.md): LIGER is contrasted as a trained hybrid retrieval approach.
   - Source: CAPE v1, Sec.6: https://arxiv.org/html/2610.29298v1#S6.p1.
 
-[查看同格全部论文](../../README.md#i--inference)
+[View all papers in this cell](../../README.md#i--inference)

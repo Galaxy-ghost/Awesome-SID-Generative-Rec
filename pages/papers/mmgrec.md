@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer with relation-aware self-attention to generate it, instead of embed-and-retrieve.
 
 ### At a Glance
@@ -63,7 +62,7 @@ flowchart LR
     P -->|predecessor| A["TIGER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): MMGRec extends TIGER's RQ-VAE idea with multimodal/CF inputs and popularity-based collision suffixes; TIGER is not evaluated.
+- **Predecessor** · [TIGER](tiger.md): MMGRec extends TIGER's RQ-VAE idea with multimodal/CF inputs and popularity-based collision suffixes; TIGER is not evaluated.
   - Source: MMGRec v4, Sections 1, 3 and 5.2: https://arxiv.org/html/2404.16555v4#S1.p4; https://arxiv.org/html/2404.16555v4#S3.p1; https://arxiv.org/html/2404.16555v4#S5.SS2.p2.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

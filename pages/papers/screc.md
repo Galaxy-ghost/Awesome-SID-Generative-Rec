@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["LIGER"]
 ```
 
-- **前序工作** · [RPG](rpg.md): SCRec adopts a decoder-only backbone following RPG but replaces tokenization with collaborative-enhanced RQ-VAE and adds semantic/manifold alignment modules.
+- **Predecessor** · [RPG](rpg.md): SCRec adopts a decoder-only backbone following RPG but replaces tokenization with collaborative-enhanced RQ-VAE and adds semantic/manifold alignment modules.
   - Source: SCRec v1, Sections 3.1/4.1: https://arxiv.org/html/2609.13678v1#S3.SS1.p9; https://arxiv.org/html/2609.13678v1#S4.SS1.p5.
-- **前序工作** · [TIGER](tiger.md): SCRec is also added to TIGER as a reusable module, improving collaborative input to tokenization and semantic guidance during generation.
+- **Predecessor** · [TIGER](tiger.md): SCRec is also added to TIGER as a reusable module, improving collaborative input to tokenization and semantic guidance during generation.
   - Source: SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.T3.
-- **前序工作** · [LIGER](liger.md): SCRec augments the hybrid LIGER backbone with the same reusable cross-stage supplementation module and measures its inference overhead.
+- **Predecessor** · [LIGER](liger.md): SCRec augments the hybrid LIGER backbone with the same reusable cross-stage supplementation module and measures its inference overhead.
   - Source: SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.SS5.p2; https://arxiv.org/html/2609.13678v1#S4.T3.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

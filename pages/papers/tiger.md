@@ -18,7 +18,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search.
 
 ### At a Glance
@@ -212,11 +211,11 @@ flowchart LR
     P -->|alternative| C["RPG"]
 ```
 
-- **替代方案** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized content codes for transferable recommendation without generative retrieval; TIGER uses RQ-VAE codes for autoregressive retrieval.
+- **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized content codes for transferable recommendation without generative retrieval; TIGER uses RQ-VAE codes for autoregressive retrieval.
   - Source: TIGER, Section 2, Semantic IDs paragraph: https://arxiv.org/html/2305.05065v3#S2.SS0.SSS0.Px2.p1; Section 3.2: https://arxiv.org/html/2305.05065v3#S3.SS2.p1.
-- **后续工作** · [LETTER](letter.md): LETTER extends TIGER's semantic-only tokenization with collaborative and diversity regularization, and adds a ranking-guided generation loss.
+- **Successor** · [LETTER](letter.md): LETTER extends TIGER's semantic-only tokenization with collaborative and diversity regularization, and adds a ranking-guided generation loss.
   - Source: Evidence is from the later LETTER paper, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1 explicitly builds the LETTER-TIGER variants: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.
-- **替代方案** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
+- **Alternative** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
   - Source: Evidence is from the later RPG paper: Section 2 overview, https://arxiv.org/html/2506.05781v1#S2.p1; Section 2.1.1, https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1; its TIGER baseline description in Section 3.1, https://arxiv.org/html/2506.05781v1#S3.SS1.p4.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > QT-Mob tokenizes locations into compact semantic tokens and fine-tunes an LLM with complementary objectives that align the tokens with its representations, for next-location prediction and mobility recovery.
 
 ### At a Glance
@@ -62,7 +61,7 @@ flowchart LR
     P -->|predecessor| A["LC-Rec"]
 ```
 
-- **前序工作** · [LC-Rec](lc-rec.md): Its cited RQ-VAE tokenization approach informs QT-Mob's hierarchical location tokens.
+- **Predecessor** · [LC-Rec](lc-rec.md): Its cited RQ-VAE tokenization approach informs QT-Mob's hierarchical location tokens.
   - Source: QT-Mob v1, Section 4.2, citing Zheng et al. (2024): https://arxiv.org/html/2506.11109v1#S4.SS2.p1; https://arxiv.org/html/2506.11109v1#S4.SS2.p4.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

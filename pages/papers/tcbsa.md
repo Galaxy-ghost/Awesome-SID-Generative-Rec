@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds them, gated by confidence, to path scores before beam pruning, without retraining.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["APAO"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Frozen generative backbone used with SASRec and GRU4Rec guidance.
+- **Predecessor** · [TIGER](tiger.md): Frozen generative backbone used with SASRec and GRU4Rec guidance.
   - Source: TCBSA v1, Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1.
-- **前序工作** · [MiniOneRec](minionerec.md): Final RL checkpoint supplies the second frozen generative backbone.
+- **Predecessor** · [MiniOneRec](minionerec.md): Final RL checkpoint supplies the second frozen generative backbone.
   - Source: TCBSA v1, Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1.
-- **同期对比** · [APAO](apao.md): Prefix-aware training comparator against test-time beam adaptation.
+- **Competitor** · [APAO](apao.md): Prefix-aware training comparator against test-time beam adaptation.
   - Source: TCBSA v1, Section 5.1 and Table 1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.32098v1#S5.T1.
 
-[查看同格全部论文](../../README.md#iv--inference)
+[View all papers in this cell](../../README.md#iv--inference)

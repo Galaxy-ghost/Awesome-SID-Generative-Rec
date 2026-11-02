@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
 
 ### At a Glance
@@ -63,13 +62,13 @@ flowchart LR
     P -->|competitor| D["CID"]
 ```
 
-- **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.
+- **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.
   - Source: Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): https://arxiv.org/html/2512.02474v2#S3.SS4.p7; Table 2 baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER decodes SIDs left to right with an encoder-decoder; Q-BERT4Rec uses a BERT-style encoder with multi-mask pre-training.
+- **Competitor** · [TIGER](tiger.md): TIGER decodes SIDs left to right with an encoder-decoder; Q-BERT4Rec uses a BERT-style encoder with multi-mask pre-training.
   - Source: Q-BERT4Rec v2, Table 2 semantic-ID baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A baselines: https://arxiv.org/html/2512.02474v2#A1.I5.i1.p1.
-- **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes for transfer; Q-BERT4Rec quantizes fused text-image features with RQ-VAE and pre-trains on six source domains.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes for transfer; Q-BERT4Rec quantizes fused text-image features with RQ-VAE and pre-trains on six source domains.
   - Source: Q-BERT4Rec v2, Table 2 VQ/multimodal baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
-- **同期对比** · [CID](cid.md): P5-CID uses collaborative IDs in a prompt-based LLM; Q-BERT4Rec uses multimodal semantic IDs in a small masked Transformer.
+- **Competitor** · [CID](cid.md): P5-CID uses collaborative IDs in a prompt-based LLM; Q-BERT4Rec uses multimodal semantic IDs in a small masked Transformer.
   - Source: Q-BERT4Rec v2, Table 2 prompt-LLM baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A: https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

@@ -18,7 +18,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.
 
 ### At a Glance
@@ -61,11 +60,11 @@ flowchart LR
     P -->|alternative| C["LIGER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): PLUM extends TIGER's SID construction and adapts pretrained LLMs.
+- **Predecessor** · [TIGER](tiger.md): PLUM extends TIGER's SID construction and adapts pretrained LLMs.
   - Source: PLUM v1, Sections 1.1.2/2.1.2: https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p1; https://arxiv.org/html/2510.07784v1#S2.SS1.SSS2.p2.
-- **替代方案** · [MMQ](mmq.md): MMQ generates modality-specific tokens; PLUM fuses embeddings before quantization.
+- **Alternative** · [MMQ](mmq.md): MMQ generates modality-specific tokens; PLUM fuses embeddings before quantization.
   - Source: PLUM v1, Section 1.1.2: https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p2.
-- **替代方案** · [LIGER](liger.md): LIGER mixes generated IDs with dense retrieval; PLUM emphasizes SID-LLM adaptation.
+- **Alternative** · [LIGER](liger.md): LIGER mixes generated IDs with dense retrieval; PLUM emphasizes SID-LLM adaptation.
   - Source: PLUM v1, Section 1.1.3 (Yang et al., 2024): https://arxiv.org/html/2510.07784v1#S1.SS1.SSS3.p1.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

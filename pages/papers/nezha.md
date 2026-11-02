@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set of valid IDs, instead of separate draft models and model-based verifiers.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["RPG"]
 ```
 
-- **替代方案** · [AtSpeed](atspeed.md): AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head and hash-set validation. AtSpeed is omitted from public comparisons.
+- **Alternative** · [AtSpeed](atspeed.md): AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head and hash-set validation. AtSpeed is omitted from public comparisons.
   - Source: NEZHA v1, Sections 2.2/4.1: https://arxiv.org/html/2511.18793v1#S2.SS2.p2; https://arxiv.org/html/2511.18793v1#S4.SS1.p2.
-- **替代方案** · [SpecGR](specgr.md): SpecGR supports out-of-vocabulary recommendation with speculative inference; NEZHA removes separate drafting and costly target-model verification for fast catalog-valid generation.
+- **Alternative** · [SpecGR](specgr.md): SpecGR supports out-of-vocabulary recommendation with speculative inference; NEZHA removes separate drafting and costly target-model verification for fast catalog-valid generation.
   - Source: NEZHA v1, Sections 1/6, citing Ding et al. (2024): https://arxiv.org/html/2511.18793v1#S1.p4; https://arxiv.org/html/2511.18793v1#S6.p2; https://arxiv.org/html/2511.18793v1#S6.p6.
-- **替代方案** · [RPG](rpg.md): RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight autoregressive draft head.
+- **Alternative** · [RPG](rpg.md): RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight autoregressive draft head.
   - Source: NEZHA v1, Sections 3.2/6: https://arxiv.org/html/2511.18793v1#S3.SS2.p7; https://arxiv.org/html/2511.18793v1#S6.p2.
 
-[查看同格全部论文](../../README.md#v--inference)
+[View all papers in this cell](../../README.md#v--inference)

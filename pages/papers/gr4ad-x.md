@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking.
 
 ### At a Glance
@@ -66,11 +65,11 @@ flowchart LR
     P -->|alternative| C["MMQ"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): GR4AD-X places its multi-path residual SID construction in the lineage of TIGER's residual-quantized identifiers.
+- **Predecessor** · [TIGER](tiger.md): GR4AD-X places its multi-path residual SID construction in the lineage of TIGER's residual-quantized identifiers.
   - Source: GR4AD-X v1, Sections 2.1 and 3.2: https://arxiv.org/html/2610.38378v1#S2.SS1.p1; https://arxiv.org/html/2610.38378v1#S3.SS2.p3.
-- **替代方案** · [RPG](rpg.md): RPG is cited for parallel generation; GR4AD-X instead scales capacity under a fixed serving budget.
+- **Alternative** · [RPG](rpg.md): RPG is cited for parallel generation; GR4AD-X instead scales capacity under a fixed serving budget.
   - Source: GR4AD-X v1, Section 2.3 (Hou et al., 2025): https://arxiv.org/html/2610.38378v1#S2.SS3.p1.
-- **替代方案** · [MMQ](mmq.md): MMQ is cited among multimodal quantization studies; GR4AD-X targets SID reliability with alternative first-level paths.
+- **Alternative** · [MMQ](mmq.md): MMQ is cited among multimodal quantization studies; GR4AD-X targets SID reliability with alternative first-level paths.
   - Source: GR4AD-X v1, Section 2.1 (Xu et al., 2026): https://arxiv.org/html/2610.38378v1#S2.SS1.p1.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

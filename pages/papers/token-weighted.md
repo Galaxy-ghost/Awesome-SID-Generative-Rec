@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Token-Weighted weights Semantic ID tokens by prefix ambiguity reduction and by token frequency, combining both with the standard likelihood under curriculum learning, instead of uniform token training.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|competitor| B["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): The proposed curriculum combines token-weighted objectives with standard likelihood on the TIGER architecture.
+- **Predecessor** · [TIGER](tiger.md): The proposed curriculum combines token-weighted objectives with standard likelihood on the TIGER architecture.
   - Source: Token-Weighted v2, Section 5.1.2 and Table 3: https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.17787v2#S4.T3.
-- **同期对比** · [LETTER](letter.md): The Rank baseline adapts LETTER ranking-guided loss to TIGER; the proposed method instead combines prefix-dispersion and token-frequency weights through a curriculum.
+- **Competitor** · [LETTER](letter.md): The Rank baseline adapts LETTER ranking-guided loss to TIGER; the proposed method instead combines prefix-dispersion and token-frequency weights through a curriculum.
   - Source: Token-Weighted v2, Sections 4.1/5.1.2 and Table 3; comparison is to the adapted Rank objective, not the full LETTER system: https://arxiv.org/html/2601.17787v2#S4.SS1.p2; https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p2; https://arxiv.org/html/2601.17787v2#S4.T3.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

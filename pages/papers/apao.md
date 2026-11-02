@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > APAO adds prefix-level losses and an adaptive worst-prefix strategy to training, so correct items survive beam-search pruning, closing the gap between token-level cross-entropy training and beam-search inference.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TIGER is the encoder-decoder backbone; APAO adds prefix-level losses so that training matches beam-search pruning.
+- **Predecessor** · [TIGER](tiger.md): TIGER is the encoder-decoder backbone; APAO adds prefix-level losses so that training matches beam-search pruning.
   - Source: APAO v4, backbones: https://arxiv.org/html/2603.02730v4#S5.SS1.SSS2.p3; Table 1: https://arxiv.org/html/2603.02730v4#S5.T1; beam-search analysis: https://arxiv.org/html/2603.02730v4#S3.SS3.p3.
-- **前序工作** · [LC-Rec](lc-rec.md): APAO follows LC-Rec and LETTER for data processing and LLM-embedding tokenization, then changes only the training objective.
+- **Predecessor** · [LC-Rec](lc-rec.md): APAO follows LC-Rec and LETTER for data processing and LLM-embedding tokenization, then changes only the training objective.
   - Source: APAO v4, Section 5.1.1 and 5.1.3 follow Zheng et al. (2024): https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1 and https://arxiv.org/html/2603.02730v4#S5.SS1.SSS3.p1.
-- **前序工作** · [LETTER](letter.md): APAO follows LETTER's preprocessing protocol; LETTER also adds a ranking-guided loss, whereas APAO supervises every prefix level.
+- **Predecessor** · [LETTER](letter.md): APAO follows LETTER's preprocessing protocol; LETTER also adds a ranking-guided loss, whereas APAO supervises every prefix level.
   - Source: APAO v4, Section 5.1.1 follows Wang et al. (2024): https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1; Section 1: https://arxiv.org/html/2603.02730v4#S1.p2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["AtSpeed"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): SpecGR uses TIGER as its generative verifier and adds inductive drafting; SpecGR++ reuses the same encoder for self-drafting.
+- **Predecessor** · [TIGER](tiger.md): SpecGR uses TIGER as its generative verifier and adds inductive drafting; SpecGR++ reuses the same encoder for self-drafting.
   - Source: SpecGR v2, Implementation Details and Drafting Strategies: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1; https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1.
-- **同期对比** · [LIGER](liger.md): LIGER blends dense-retrieved candidates with generated items; SpecGR filters and orders inductive drafts using generative target-aware likelihoods.
+- **Competitor** · [LIGER](liger.md): LIGER blends dense-retrieved candidates with generated items; SpecGR filters and orders inductive drafts using generative target-aware likelihoods.
   - Source: SpecGR v2, Performance Analysis and Table 2: https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p2.
-- **替代方案** · [AtSpeed](atspeed.md): AtSpeed adapts speculative decoding to accelerate top-K generative recommendation; SpecGR uses draft-and-verify to introduce unseen-item recommendation capability.
+- **Alternative** · [AtSpeed](atspeed.md): AtSpeed adapts speculative decoding to accelerate top-K generative recommendation; SpecGR uses draft-and-verify to introduce unseen-item recommendation capability.
   - Source: SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: https://arxiv.org/html/2410.02939v2#Sx2.p3.
 
-[查看同格全部论文](../../README.md#vi--inference)
+[View all papers in this cell](../../README.md#vi--inference)

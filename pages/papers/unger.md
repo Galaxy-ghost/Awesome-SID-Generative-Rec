@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > UNGER learns one integrated semantic-collaborative embedding through cross-modality alignment and next-item prediction, quantizes it into a unified code, and adds intra-modality distillation, instead of separate codes per modality.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["ColaRec"]
 ```
 
-- **前序工作** · [EAGER](eager.md): Its dual-code design motivates UNGER's unified code.
+- **Predecessor** · [EAGER](eager.md): Its dual-code design motivates UNGER's unified code.
   - Source: https://arxiv.org/html/2502.06269v3#S1.p3 ; §3.3.5 follows its quantization approach; §4.2 baseline.
-- **同期对比** · [TIGER](tiger.md): Semantic-only generative baseline reimplemented in Table 3.
+- **Competitor** · [TIGER](tiger.md): Semantic-only generative baseline reimplemented in Table 3.
   - Source: https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3 ; https://arxiv.org/html/2502.06269v3#S4.T3
-- **同期对比** · [ColaRec](colarec.md): Collaborative/content baseline reimplemented in Table 3.
+- **Competitor** · [ColaRec](colarec.md): Collaborative/content baseline reimplemented in Table 3.
   - Source: https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3 ; https://arxiv.org/html/2502.06269v3#S4.T3
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

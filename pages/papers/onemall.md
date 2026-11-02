@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.
 
 ### At a Glance
@@ -61,9 +60,9 @@ flowchart LR
     P -->|predecessor| B["OneRec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is the equally sized encoder-decoder replay baseline.
+- **Competitor** · [TIGER](tiger.md): TIGER is the equally sized encoder-decoder replay baseline.
   - Source: OneMall v1, Section 4.2 and Table 2: https://arxiv.org/html/2601.21770v1#S4.SS2.p1; https://arxiv.org/html/2601.21770v1#S4.T2.
-- **前序工作** · [OneRec](onerec.md): OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
+- **Predecessor** · [OneRec](onerec.md): OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
   - Source: OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): https://arxiv.org/html/2601.21770v1#S1.p5.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

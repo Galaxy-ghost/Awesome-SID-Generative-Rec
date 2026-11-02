@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DiGR uses Semantic ID tokens as item representations and scores items with one item-level function, instead of generating tokens, after showing that token decoding adds no ranking expressiveness.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **同期对比** · [LC-Rec](lc-rec.md): Matched-backbone baseline and exhaustive-ranking reference.
+- **Competitor** · [LC-Rec](lc-rec.md): Matched-backbone baseline and exhaustive-ranking reference.
   - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1
-- **同期对比** · [RPG](rpg.md): Parallel SID-generation baseline in the main comparison.
+- **Competitor** · [RPG](rpg.md): Parallel SID-generation baseline in the main comparison.
   - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T2
-- **同期对比** · [TIGER](tiger.md): Autoregressive SID-generation baseline in the main comparison.
+- **Competitor** · [TIGER](tiger.md): Autoregressive SID-generation baseline in the main comparison.
   - Source: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T2
 
-[查看同格全部论文](../../README.md#iv--backbone)
+[View all papers in this cell](../../README.md#iv--backbone)

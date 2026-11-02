@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning.
 
 ### At a Glance
@@ -118,13 +117,13 @@ flowchart LR
     P -->|predecessor| D["OneRec"]
 ```
 
-- **同期对比** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
+- **Competitor** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
   - Source: GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3; discussion in Section 5.2.2: https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3.
-- **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI semantic IDs for next-POI generation; GeoGR follows its preprocessing and adds co-visitation alignment, EM-style SID refinement, and CPT plus SFT.
+- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI semantic IDs for next-POI generation; GeoGR follows its preprocessing and adds co-visitation alignment, EM-style SID refinement, and CPT plus SFT.
   - Source: GeoGR v2, follows the GNPR-SID preprocessing: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; Tables 2, 3, 5, and 6: https://arxiv.org/html/2602.10411v2#S5.T2, https://arxiv.org/html/2602.10411v2#S5.T3, https://arxiv.org/html/2602.10411v2#S5.T5, https://arxiv.org/html/2602.10411v2#S5.T6.
-- **同期对比** · [TIGER](tiger.md): TIGER uses content RQ-VAE SIDs with a small Transformer; GeoGR uses geo-aware RQ-Kmeans SIDs with an LLM aligned through continued pre-training.
+- **Competitor** · [TIGER](tiger.md): TIGER uses content RQ-VAE SIDs with a small Transformer; GeoGR uses geo-aware RQ-Kmeans SIDs with an LLM aligned through continued pre-training.
   - Source: GeoGR v2, Tables 2 and 3: https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3.
-- **前序工作** · [OneRec](onerec.md): GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
+- **Predecessor** · [OneRec](onerec.md): GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
   - Source: GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): https://arxiv.org/html/2602.10411v2#S4.SS1.p1.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

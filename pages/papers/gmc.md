@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GMC assigns domain-shared Semantic IDs with a domain-aware contrastive loss and trains one sequence-to-sequence generator across domains, instead of relying on users or items shared between domains.
 
 ### At a Glance
@@ -108,13 +107,13 @@ flowchart LR
     P -->|competitor| D["IDGenRec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER learns one-domain RQ-VAE identifiers; GMC learns a domain-shared codebook with a domain-aware contrastive loss and adds domain-specific LoRA tuning to a unified generator.
+- **Competitor** · [TIGER](tiger.md): TIGER learns one-domain RQ-VAE identifiers; GMC learns a domain-shared codebook with a domain-aware contrastive loss and adds domain-specific LoRA tuning to a unified generator.
   - Source: GMC v3, generative baselines: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i2.p1; Table 1 comparison: https://arxiv.org/html/2507.12871v3#S3.T1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.
-- **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec transfers across domains through vector-quantized codes for a discriminative model, pre-trained here on the five target domains; GMC generates shared semantic identifiers.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec transfers across domains through vector-quantized codes for a discriminative model, pre-trained here on the five target domains; GMC generates shared semantic identifiers.
   - Source: GMC v3, pre-training baselines with the adapted setting: https://arxiv.org/html/2507.12871v3#S5.I1.i3.p1 and https://arxiv.org/html/2507.12871v3#S5.I1.i3.I1.i2.p1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.
-- **同期对比** · [CID](cid.md): P5-CID builds collaborative identifiers by spectral clustering within a domain; GMC builds semantic identifiers shared across domains.
+- **Competitor** · [CID](cid.md): P5-CID builds collaborative identifiers by spectral clustering within a domain; GMC builds semantic identifiers shared across domains.
   - Source: GMC v3, generative baselines: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i1.p1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.
-- **同期对比** · [IDGenRec](idgenrec.md): IDGenRec learns textual IDs with an ID generator; GMC quantizes LLM embeddings into codebook IDs shared across domains.
+- **Competitor** · [IDGenRec](idgenrec.md): IDGenRec learns textual IDs with an ID generator; GMC quantizes LLM embeddings into codebook IDs shared across domains.
   - Source: GMC v3, generative baselines: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i3.p1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.
 
-[查看同格全部论文](../../README.md#vi--tokenization)
+[View all papers in this cell](../../README.md#vi--tokenization)

@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|competitor| C["VQ-Rec"]
 ```
 
-- **前序工作** · [RPG](rpg.md): CITE adds transition scoring to a frozen reproduced RPG generator.
+- **Predecessor** · [RPG](rpg.md): CITE adds transition scoring to a frozen reproduced RPG generator.
   - Source: Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. https://doi.org/10.3390/electronics15204749
-- **同期对比** · [TIGER](tiger.md): Autoregressive semantic-ID baseline with published reference scores.
+- **Competitor** · [TIGER](tiger.md): Autoregressive semantic-ID baseline with published reference scores.
   - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
-- **同期对比** · [VQ-Rec](vq-rec.md): Quantized-text recommendation reference in the main comparison.
+- **Competitor** · [VQ-Rec](vq-rec.md): Quantized-text recommendation reference in the main comparison.
   - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
 
-[查看同格全部论文](../../README.md#i--inference)
+[View all papers in this cell](../../README.md#i--inference)

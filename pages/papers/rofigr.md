@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > RoFiGR aligns coarse Semantic ID code vectors with collaborative embeddings and distills a sequential teacher over legal branches with level-adaptive weights, to reduce early routing errors.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["MQL4GRec"]
 ```
 
-- **前序工作** · [MACRec](macrec.md): RoFiGR retains MACRec's two-tree quantizer and adds coarse collaborative alignment.
+- **Predecessor** · [MACRec](macrec.md): RoFiGR retains MACRec's two-tree quantizer and adds coarse collaborative alignment.
   - Source: RoFiGR v1, Section 3.2 and Table 3: https://arxiv.org/html/2610.39470v1#S3.SS2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
-- **同期对比** · [SynGR](syngr.md): SynGR promotes cross-modal synergy; RoFiGR adds collaborative coarse routing supervision.
+- **Competitor** · [SynGR](syngr.md): SynGR promotes cross-modal synergy; RoFiGR adds collaborative coarse routing supervision.
   - Source: RoFiGR v1, Section 2 and Table 3: https://arxiv.org/html/2610.39470v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
-- **同期对比** · [MQL4GRec](mql4grec.md): RoFiGR adopts MQL4GRec's domain data setting and compares against it.
+- **Competitor** · [MQL4GRec](mql4grec.md): RoFiGR adopts MQL4GRec's domain data setting and compares against it.
   - Source: RoFiGR v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39470v1#S4.SS1.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

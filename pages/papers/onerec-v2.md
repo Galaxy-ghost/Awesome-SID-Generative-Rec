@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneRec-V2 replaces the OneRec encoder-decoder with a lazy decoder-only architecture that cuts sequence-encoding compute, and aligns with real user feedback through duration-aware reward shaping and adaptive ratio clipping.
 
 ### At a Glance
@@ -62,9 +61,9 @@ flowchart LR
     P -->|successor| B["OneRec-V2-Quantized"]
 ```
 
-- **替代方案** · [TIGER](tiger.md): Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
+- **Alternative** · [TIGER](tiger.md): Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
   - Source: OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.20900v4#S1.p1; https://arxiv.org/html/2508.20900v4#S2.SS1.
-- **后续工作** · [OneRec-V2-Quantized](onerec-v2-quantized.md): Adds FP8 post-training quantization and an optimized inference stack.
+- **Successor** · [OneRec-V2-Quantized](onerec-v2-quantized.md): Adds FP8 post-training quantization and an optimized inference stack.
   - Source: Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: https://arxiv.org/html/2603.11486v1#S4.SS1.p1.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

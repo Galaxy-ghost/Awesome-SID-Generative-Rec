@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Evo-Rec aligns Semantic IDs with text and behavior, fine-tunes on sampled reasoning traces that improve target prediction, and then refines reasoning with catalog-constrained reinforcement learning.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **同期对比** · [SIDReasoner](sidreasoner.md): Evo-Rec compares against SIDReasoner and adds utility-selected reasoning plus ranking-aware RL.
+- **Competitor** · [SIDReasoner](sidreasoner.md): Evo-Rec compares against SIDReasoner and adds utility-selected reasoning plus ranking-aware RL.
   - Source: Evo-Rec v1, Sections 2.2/4.1.2 and Table 2: https://arxiv.org/html/2609.29973v1#S2.SS2.p1; https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2609.29973v1#S4.T2.
-- **前序工作** · [LC-Rec](lc-rec.md): The SID-language alignment stage explicitly follows LC-Rec before adding reasoning optimization.
+- **Predecessor** · [LC-Rec](lc-rec.md): The SID-language alignment stage explicitly follows LC-Rec before adding reasoning optimization.
   - Source: Evo-Rec v1, Section 3.2: https://arxiv.org/html/2609.29973v1#S3.SS2.p1.
-- **同期对比** · [TIGER](tiger.md): TIGER directly generates SIDs; Evo-Rec generates and optimizes an intermediate reasoning sequence.
+- **Competitor** · [TIGER](tiger.md): TIGER directly generates SIDs; Evo-Rec generates and optimizes an intermediate reasoning sequence.
   - Source: Evo-Rec v1, Sections 2.1/3.1 and Table 2: https://arxiv.org/html/2609.29973v1#S2.SS1; https://arxiv.org/html/2609.29973v1#S3.SS1.p1; https://arxiv.org/html/2609.29973v1#S4.T2.
 
-[查看同格全部论文](../../README.md#iii--training)
+[View all papers in this cell](../../README.md#iii--training)

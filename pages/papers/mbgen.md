@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MBGen interleaves behavior tokens and item tokens in one sequence, predicts the next behavior type and then the next item, and scales with a position-routed sparse architecture.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["LMIndexer"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is a reproduced generative baseline; MBGen balances item tokens and jointly predicts behavior types and items.
+- **Competitor** · [TIGER](tiger.md): TIGER is a reproduced generative baseline; MBGen balances item tokens and jointly predicts behavior types and items.
   - Source: MBGen v1, Sections 3.2/4.1.2 and Table 3: https://arxiv.org/html/2405.16871v1#S3.SS2.p1; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS2.p2; https://arxiv.org/html/2405.16871v1#S4.T3.
-- **替代方案** · [MMGRec](mmgrec.md): MBGen cites MMGRec among RQ-VAE tokenizers whose code imbalance motivates its bucket-specific residual quantization.
+- **Alternative** · [MMGRec](mmgrec.md): MBGen cites MMGRec among RQ-VAE tokenizers whose code imbalance motivates its bucket-specific residual quantization.
   - Source: MBGen v1, Section 3.2, citing Liu et al. (2024): https://arxiv.org/html/2405.16871v1#S3.SS2.p1; https://arxiv.org/html/2405.16871v1#S3.SS2.p2.
-- **替代方案** · [LMIndexer](lmindexer.md): LMIndexer learns language-model semantic indices; MBGen instead uses pretrained collaborative embeddings for balanced item tokens.
+- **Alternative** · [LMIndexer](lmindexer.md): LMIndexer learns language-model semantic indices; MBGen instead uses pretrained collaborative embeddings for balanced item tokens.
   - Source: MBGen v1, Sections 2/4.1.4, citing Jin et al. (2023): https://arxiv.org/html/2405.16871v1#S2.p2; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS4.p2.
 
-[查看同格全部论文](../../README.md#i--training)
+[View all papers in this cell](../../README.md#i--training)

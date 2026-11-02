@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GTI maps new Semantic ID tokens to distinct locations in the pretrained embedding space with paired linguistic supervision before fine-tuning, instead of initializing them as the mean of existing embeddings.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|competitor| B["LC-Rec"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): GTI adopts TIGER-style RQ-VAE semantic identifiers.
+- **Predecessor** · [TIGER](tiger.md): GTI adopts TIGER-style RQ-VAE semantic identifiers.
   - Source: https://arxiv.org/html/2604.02324v1#S7.SS3.p2 (Appendix 7.3).
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec uses multi-task alignment; GTI adds grounding before fine-tuning.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec uses multi-task alignment; GTI adds grounding before fine-tuning.
   - Source: https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px2.p3 ; #S4.T1 ; #S7.T4.
 
-[查看同格全部论文](../../README.md#iii--training)
+[View all papers in this cell](../../README.md#iii--training)

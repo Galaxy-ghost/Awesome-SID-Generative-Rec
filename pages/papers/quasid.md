@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds a dual-tower contrastive objective, instead of treating all collisions equally.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["HiD-VAE"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Supplies the shared downstream backbone for tokenizer comparisons.
+- **Predecessor** · [TIGER](tiger.md): Supplies the shared downstream backbone for tokenizer comparisons.
   - Source: QuaSID v1, Section 5.1.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1.
-- **替代方案** · [LETTER](letter.md): Assignment balancing contrasts with QuaSID's qualified, severity-scaled collision repulsion.
+- **Alternative** · [LETTER](letter.md): Assignment balancing contrasts with QuaSID's qualified, severity-scaled collision repulsion.
   - Source: QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
-- **替代方案** · [HiD-VAE](hid-vae.md): Overlap regularization is contrasted with selectively repelling qualified conflicts.
+- **Alternative** · [HiD-VAE](hid-vae.md): Overlap regularization is contrasted with selectively repelling qualified conflicts.
   - Source: QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DiscRec adds item-level position embeddings and splits semantic and collaborative signals into two gated branches, one with attention inside each item, instead of fusing them in one embedding space.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["EAGER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): DiscRec-T inserts disentangled modeling into TIGER.
+- **Predecessor** · [TIGER](tiger.md): DiscRec-T inserts disentangled modeling into TIGER.
   - Source: https://arxiv.org/html/2506.15576v2#S1.p5 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2
-- **前序工作** · [LETTER](letter.md): DiscRec-L uses LETTER's collaboratively regularized tokenizer.
+- **Predecessor** · [LETTER](letter.md): DiscRec-L uses LETTER's collaboratively regularized tokenizer.
   - Source: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p2
-- **同期对比** · [EAGER](eager.md): Two-stream baseline compared with DiscRec's single-workflow disentanglement.
+- **Competitor** · [EAGER](eager.md): Two-stream baseline compared with DiscRec's single-workflow disentanglement.
   - Source: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS2.p2 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1
 
-[查看同格全部论文](../../README.md#i--backbone)
+[View all papers in this cell](../../README.md#i--backbone)

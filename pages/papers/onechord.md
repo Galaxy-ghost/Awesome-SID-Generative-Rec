@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-matching scores for supervision, distillation, and inference in a parallel decoder, so training targets the ranking used in serving.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["LLaDA-Rec"]
 ```
 
-- **同期对比** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
+- **Competitor** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
   - Source: OneChord v1, Section 2 and Table 1: https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.25805v1#S3.T1.
-- **同期对比** · [RPG](rpg.md): RPG is compared for full-catalog accuracy and complete-test generation cost.
+- **Competitor** · [RPG](rpg.md): RPG is compared for full-catalog accuracy and complete-test generation cost.
   - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
-- **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
+- **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
   - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

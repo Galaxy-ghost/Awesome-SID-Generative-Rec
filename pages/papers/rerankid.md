@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.
 
 ### At a Glance
@@ -61,9 +60,9 @@ flowchart LR
     P -->|predecessor| B["TIGER"]
 ```
 
-- **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think reasons before catalog-item generation; ReRankID reasons over a supplied candidate slate.
+- **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think reasons before catalog-item generation; ReRankID reasons over a supplied candidate slate.
   - Source: ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
-- **前序工作** · [TIGER](tiger.md): TIGER's SID-generation paradigm is the background contrasted with SID-only slate reranking.
+- **Predecessor** · [TIGER](tiger.md): TIGER's SID-generation paradigm is the background contrasted with SID-only slate reranking.
   - Source: ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

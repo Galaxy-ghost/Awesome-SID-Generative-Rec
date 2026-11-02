@@ -3,10 +3,13 @@
 1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + 3 hard content rules)
 2. Global uniqueness (file stem, id, name, links.arxiv)
 3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
-4. Relative Markdown links, reference definitions, and anchors across README.md, CONTRIBUTING.md, schema/README.md,
-   notes/, pages/papers/, pages/index/, guides/, comparisons/ (archive/ is not checked)
+4. Relative Markdown links, reference definitions, and anchors across README.md, README.zh.md, CONTRIBUTING.md,
+   schema/README.md, notes/, notes/zh/, pages/papers/, pages/zh/papers/, pages/index/, pages/zh/index/, guides/,
+   comparisons/ (archive/ is not checked)
 6. No constraint-*.md or tension-*.md file anywhere in the repository
 5. data/updates.yaml entries (date, change, papers)
+7. Chinese notes sync: each notes/zh/<id>.md has notes/<id>.md with the same number of ### and #### headings,
+   every English quotation verbatim, and every English number
 """
 import argparse
 import json
@@ -16,6 +19,10 @@ import sys
 from pathlib import Path
 import yaml
 from build import ROOT, SETUP_KEYS, TECH_COLS, na_to_dash, parse_table1_tex, slugify_heading
+
+QUOTE_RE = re.compile(r'"([^"\n]*\s[^"\n]*)"')  # double-quoted text with at least two words
+NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)*")
+FENCE_RE = re.compile(r"^\s*```.*?^\s*```", re.S | re.M)
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
 RELATIONS = {"predecessor", "successor", "competitor", "alternative"}
@@ -29,7 +36,7 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     ev_req = set(ev_item_schema["required"])
     ev_keys = list(ev_item_schema["properties"].keys())
     ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
-    ev_fields = allowed_keys - {"evidence", "tldr", "setup", "related", "setup_where"}
+    ev_fields = allowed_keys - {"evidence", "tldr", "tldr_zh", "setup", "related", "setup_where"}
 
     vocab_sets = {
         "problem": {e["value"] for e in vocab["problem"]},
@@ -96,8 +103,9 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
                     elif item.get("field") not in ev_fields:
                         errors.append(f"[schema] {p.name}: evidence[{idx}].field={item.get('field')!r} invalid")
 
-        if "tldr" in rec and (not isinstance(rec["tldr"], str) or not rec["tldr"].strip()):
-            errors.append(f"[schema] {p.name}: tldr must be a non-empty string")
+        for tk in ("tldr", "tldr_zh"):
+            if tk in rec and (not isinstance(rec[tk], str) or not rec[tk].strip()):
+                errors.append(f"[schema] {p.name}: {tk} must be a non-empty string")
 
         if "setup" in rec:
             st = rec["setup"]
@@ -193,11 +201,15 @@ def check_table1_roundtrip(records: dict, table1_paths: list, errors: list):
 def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
     md_files = [
         root / "README.md",
+        root / "README.zh.md",
         root / "CONTRIBUTING.md",
         root / "schema/README.md",
         *sorted((root / "notes").glob("*.md")),
+        *sorted((root / "notes/zh").glob("*.md")),
         *sorted((root / "pages/papers").glob("*.md")),
+        *sorted((root / "pages/zh/papers").glob("*.md")),
         *sorted((root / "pages/index").glob("*.md")),
+        *sorted((root / "pages/zh/index").glob("*.md")),
         *sorted((root / "guides").glob("*.md")),
         *sorted((root / "comparisons").glob("*.md")),
     ]
@@ -219,7 +231,7 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
         for wn in wrong_names:
             if wn in txt:
                 errors.append(f"[content-rule-1] forbidden non-vocab problem name {wn!r} found in {mf.relative_to(root)}")
-        if mf.parent.name == "notes":
+        if mf.parent in (root / "notes", root / "notes/zh"):
             # GitHub math: Markdown eats \| \{ \, inside $...$ and $$...$$, and rejects \operatorname.
             # Use ```math blocks and $`...`$ inline; write \gt / \lt inline.
             if "\\operatorname" in txt or "$$" in txt or re.search(r"(?<!`)\$(?!`)", txt) \
@@ -250,6 +262,33 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
             if anchor and target_file in headings_cache:
                 if anchor not in headings_cache[target_file]:
                     errors.append(f"[links] broken anchor in {mf.relative_to(root)}: #{anchor}")
+
+
+def body_text(txt: str) -> str:
+    """Text outside fenced blocks and inline code, where quotations are written."""
+    return re.sub(r"`[^`\n]*`", "", FENCE_RE.sub("", txt))
+
+
+def check_zh_notes(root: Path, errors: list):
+    """Each Chinese note mirrors its English note: heading counts, verbatim quotations, and numbers."""
+    for zp in sorted((root / "notes/zh").glob("*.md")):
+        ep = root / "notes" / zp.name
+        name = f"notes/zh/{zp.name}"
+        if not ep.exists():
+            errors.append(f"[sync] {name}: no English note notes/{zp.name}")
+            continue
+        en, zh = ep.read_text(encoding="utf-8"), zp.read_text(encoding="utf-8")
+        for depth in ("###", "####"):
+            count = lambda t: len(re.findall(rf"^{depth}\s", FENCE_RE.sub("", t), re.M))
+            if count(en) != count(zh):
+                errors.append(f"[sync] {name}: {count(zh)} '{depth}' headings, English has {count(en)}")
+        for q in dict.fromkeys(QUOTE_RE.findall(body_text(en))):
+            if q not in zh:
+                errors.append(f"[sync] {name}: missing quotation \"{q[:60]}\"")
+        zh_nums = set(NUMBER_RE.findall(zh))
+        missing = [x for x in dict.fromkeys(NUMBER_RE.findall(en)) if x not in zh_nums]
+        if missing:
+            errors.append(f"[sync] {name}: missing numbers {missing}")
 
 
 def check_updates(root: Path, records: dict, errors: list):
@@ -289,6 +328,7 @@ def main():
         print("SKIP: external Table 1 round-trip (supply --table1 PATH... or TABLE1).")
     check_links_and_content_rules(args.root, vocab, errors)
     check_updates(args.root, records, errors)
+    check_zh_notes(args.root, errors)
 
     if errors:
         for e in errors:
@@ -298,7 +338,7 @@ def main():
 
     print(
         f"OK: {len(records)} records passed schema, vocab, uniqueness, "
-        f"relative link, and updates checks."
+        f"relative link, updates, and Chinese notes sync checks."
         + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if table1_paths else "")
     )
 

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SID-MLP distills an autoregressive Transformer decoder into position-specific MLP heads over a single user-context computation, replacing repeated attention steps in Semantic ID decoding.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|competitor| D["NEZHA"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TIGER supplies the main frozen teacher and fixed SID space.
+- **Predecessor** · [TIGER](tiger.md): TIGER supplies the main frozen teacher and fixed SID space.
   - Source: SID-MLP v1, Sec.4.1: https://arxiv.org/html/2605.12617v1#S4.SS1.p1; https://arxiv.org/html/2605.12617v1#S4.SS1.p2.
-- **前序工作** · [LC-Rec](lc-rec.md): LC-Rec supplies the second, LLaMA-2 teacher for the extension.
+- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies the second, LLaMA-2 teacher for the extension.
   - Source: SID-MLP v1, Appendix D.1: https://arxiv.org/html/2605.12617v1#A4.SS1.p2.
-- **同期对比** · [AtSpeed](atspeed.md): Strict and relaxed AtSpeed variants are adapted to TIGER and compared.
+- **Competitor** · [AtSpeed](atspeed.md): Strict and relaxed AtSpeed variants are adapted to TIGER and compared.
   - Source: SID-MLP v1, Appendix D.2: https://arxiv.org/html/2605.12617v1#A4.SS2.p2; https://arxiv.org/html/2605.12617v1#S4.T3.
-- **同期对比** · [NEZHA](nezha.md): NEZHA is reproduced on both TIGER and LC-Rec.
+- **Competitor** · [NEZHA](nezha.md): NEZHA is reproduced on both TIGER and LC-Rec.
   - Source: SID-MLP v1, Appendix D.4: https://arxiv.org/html/2605.12617v1#A4.SS4.p1; https://arxiv.org/html/2605.12617v1#A4.SS4.p5.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

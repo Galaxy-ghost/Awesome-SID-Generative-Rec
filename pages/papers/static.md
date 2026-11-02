@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized operations for constrained decoding on TPUs and GPUs.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["LIGER"]
 ```
 
-- **前序工作** · [PLUM](plum.md): STATIC adds production decoding constraints to a PLUM-based YouTube retriever.
+- **Predecessor** · [PLUM](plum.md): STATIC adds production decoding constraints to a PLUM-based YouTube retriever.
   - Source: STATIC v3, Sections 5.1/5.4: https://arxiv.org/html/2602.22647v3#S5.SS1.p2; https://arxiv.org/html/2602.22647v3#S5.SS4.p1.
-- **前序工作** · [TIGER](tiger.md): STATIC retains hierarchical SID retrieval and accelerates validity masking.
+- **Predecessor** · [TIGER](tiger.md): STATIC retains hierarchical SID retrieval and accelerates validity masking.
   - Source: STATIC v3, Sections 2.1/6.1: https://arxiv.org/html/2602.22647v3#S2.SS1.p2; https://arxiv.org/html/2602.22647v3#S6.SS1.p1.
-- **替代方案** · [LIGER](liger.md): LIGER motivates the cold-start limitation; STATIC restricts decoding to cold items.
+- **Alternative** · [LIGER](liger.md): LIGER motivates the cold-start limitation; STATIC restricts decoding to cold items.
   - Source: STATIC v3, Section 2.1 (Yang et al., 2024) and Section 6: https://arxiv.org/html/2602.22647v3#S2.SS1.p3; https://arxiv.org/html/2602.22647v3#S6.SS2.p1.
 
-[查看同格全部论文](../../README.md#v--inference)
+[View all papers in this cell](../../README.md#v--inference)

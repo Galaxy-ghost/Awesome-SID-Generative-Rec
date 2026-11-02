@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["MMQ"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): OneLive extends SID generation to dynamic live-streaming content.
+- **Predecessor** · [TIGER](tiger.md): OneLive extends SID generation to dynamic live-streaming content.
   - Source: OneLive v1, Appendix A.2 and Table 2: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.T2.
-- **同期对比** · [OneRec](onerec.md): OneRec is adapted as the encoder-decoder live-streaming baseline.
+- **Competitor** · [OneRec](onerec.md): OneRec is adapted as the encoder-decoder live-streaming baseline.
   - Source: OneLive v1, Section 3.1.2 and Table 2; cited Deng et al. (2025) is arXiv:2502.18965: https://arxiv.org/html/2602.08612v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2602.08612v1#S2.T2.
-- **替代方案** · [MMQ](mmq.md): MMQ aligns content with behavior; OneLive additionally updates author SIDs in real time.
+- **Alternative** · [MMQ](mmq.md): MMQ aligns content with behavior; OneLive additionally updates author SIDs in real time.
   - Source: OneLive v1, Appendix A.2 and Section 2.1: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.SS1.
 
-[查看同格全部论文](../../README.md#vi--tokenization)
+[View all papers in this cell](../../README.md#vi--tokenization)

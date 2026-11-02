@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > ACERec compresses long Semantic IDs into compact latent tokens with an Attentive Token Merger and adds an Intent Token with a dual-granularity objective, to keep long-ID expressiveness at short-ID cost.
 
 ### At a Glance
@@ -65,15 +64,15 @@ flowchart LR
     P -->|predecessor| E["VQ-Rec"]
 ```
 
-- **同期对比** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent tokens for sequence modeling and scores all items exactly.
+- **Competitor** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent tokens for sequence modeling and scores all items exactly.
   - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2; ID-length comparison: https://arxiv.org/html/2602.13573v2#S4.SS3.p3.
-- **同期对比** · [TIGER](tiger.md): TIGER generates short RQ-VAE IDs by beam search; ACERec uses long OPQ IDs with parallel scoring.
+- **Competitor** · [TIGER](tiger.md): TIGER generates short RQ-VAE IDs by beam search; ACERec uses long OPQ IDs with parallel scoring.
   - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Table 1 (numbers copied from TIGER): https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#A1.SS4.p1.
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens contextually; ACERec merges long OPQ codes into latent tokens with attention.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens contextually; ACERec merges long OPQ codes into latent tokens with attention.
   - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
-- **同期对比** · [ETEGRec](etegrec.md): ETEGRec learns the tokenizer end to end; ACERec keeps fixed OPQ codes and compresses them.
+- **Competitor** · [ETEGRec](etegrec.md): ETEGRec learns the tokenizer end to end; ACERec keeps fixed OPQ codes and compresses them.
   - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
-- **前序工作** · [VQ-Rec](vq-rec.md): ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
+- **Predecessor** · [VQ-Rec](vq-rec.md): ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
   - Source: ACERec v2, Section 4.1 protocol follows Hou et al. (2023): https://arxiv.org/html/2602.13573v2#S4.SS1.p1; related work: https://arxiv.org/html/2602.13573v2#S2.p1.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CogRec grounds reasoning in Semantic ID structure through intra-layer graphs, item neighborhoods, and Match, LateralJump, and Explore routing steps, instead of a natural-language rationale weakly tied to the IDs.
 
 ### At a Glance
@@ -66,13 +65,13 @@ flowchart LR
     P -->|competitor| D["OneRec-Think"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Hierarchical SID recommendation provides the identifier-generation foundation; TIGER also appears in the broad baseline comparison.
+- **Predecessor** · [TIGER](tiger.md): Hierarchical SID recommendation provides the identifier-generation foundation; TIGER also appears in the broad baseline comparison.
   - Source: https://arxiv.org/html/2607.24402v1#S2.p2 ; #S4.SS2.p3
-- **同期对比** · [LETTER](letter.md): Non-reasoning tokenization baseline; scores are standalone LETTER results reported by RAGR, not LETTER+RAGR.
+- **Competitor** · [LETTER](letter.md): Non-reasoning tokenization baseline; scores are standalone LETTER results reported by RAGR, not LETTER+RAGR.
   - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p3
-- **同期对比** · [EAGER](eager.md): Behavioral/semantic generative baseline in the broad cross-method comparison.
+- **Competitor** · [EAGER](eager.md): Behavioral/semantic generative baseline in the broad cross-method comparison.
   - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p3
-- **同期对比** · [OneRec-Think](onerec-think.md): Textual rationale before item generation contrasts with SID-grounded routing; original scores enter Table 3 and reproduced Direct/CoT branches enter controlled comparisons.
+- **Competitor** · [OneRec-Think](onerec-think.md): Textual rationale before item generation contrasts with SID-grounded routing; original scores enter Table 3 and reproduced Direct/CoT branches enter controlled comparisons.
   - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p4 ; #S4.SS5.p1
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **前序工作** · [UniRec](unirec.md): Its discrete attribute chain is the closest motivation and a same-backbone baseline.
+- **Predecessor** · [UniRec](unirec.md): Its discrete attribute chain is the closest motivation and a same-backbone baseline.
   - Source: https://arxiv.org/html/2610.16132v2#S1.p5 ; https://arxiv.org/html/2610.16132v2#S4.SS1.p2
-- **同期对比** · [OneRec-V2](onerec-v2.md): Industrial generative retrieval baseline in Table 1.
+- **Competitor** · [OneRec-V2](onerec-v2.md): Industrial generative retrieval baseline in Table 1.
   - Source: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; bibliography identifies Zhou et al. (2025) as arXiv:2508.20900.
-- **同期对比** · [TIGER](tiger.md): Semantic-ID generative retrieval baseline in Table 1.
+- **Competitor** · [TIGER](tiger.md): Semantic-ID generative retrieval baseline in Table 1.
   - Source: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; https://arxiv.org/html/2610.16132v2#S4.T1
 
-[查看同格全部论文](../../README.md#i--backbone)
+[View all papers in this cell](../../README.md#i--backbone)

@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters.
 
 ### At a Glance
@@ -62,11 +61,11 @@ flowchart LR
     P -->|alternative| C["GMC"]
 ```
 
-- **前序工作** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
+- **Predecessor** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
   - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2
-- **同期对比** · [TIGER](tiger.md): Generative recommendation baseline trained on the common partition.
+- **Competitor** · [TIGER](tiger.md): Generative recommendation baseline trained on the common partition.
   - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1
-- **替代方案** · [GMC](gmc.md): Shared-token cross-domain transfer contrasted with data-level code mixing.
+- **Alternative** · [GMC](gmc.md): Shared-token cross-domain transfer contrasted with data-level code mixing.
   - Source: https://arxiv.org/html/2609.28972v1#S1.p2
 
-[查看同格全部论文](../../README.md#vi--training)
+[View all papers in this cell](../../README.md#vi--training)

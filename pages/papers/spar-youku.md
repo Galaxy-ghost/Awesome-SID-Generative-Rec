@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence from compressed user memory and balances interaction loads among sibling branches with RQ-PIB, to reduce branch errors and popularity bias.
 
 ### At a Glance
@@ -66,11 +65,11 @@ flowchart LR
     P -->|alternative| C["UniRec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is a residual-SID retrieval baseline; SPAR jointly changes prefix-local branch balance and prefix-conditioned user evidence.
+- **Competitor** · [TIGER](tiger.md): TIGER is a residual-SID retrieval baseline; SPAR jointly changes prefix-local branch balance and prefix-conditioned user evidence.
   - Source: SPAR-Youku v1, Section 3.5.1 and Table 1: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1; https://arxiv.org/html/2610.27898v1#S3.T1.
-- **同期对比** · [OneRec](onerec.md): OneRec is the strongest measured generative baseline; SPAR adds stepwise memory retrieval and prefix-balanced SID construction.
+- **Competitor** · [OneRec](onerec.md): OneRec is the strongest measured generative baseline; SPAR adds stepwise memory retrieval and prefix-balanced SID construction.
   - Source: SPAR-Youku v1, Sections 3.5.1/3.5.2 and Table 1: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1; https://arxiv.org/html/2610.27898v1#S3.SS5.SSS2.p1; https://arxiv.org/html/2610.27898v1#S3.T1.
-- **替代方案** · [UniRec](unirec.md): UniRec is cited for load-regulated SID assignment; SPAR regulates sibling-branch loads conditioned on parent prefixes and couples this with stepwise personalization.
+- **Alternative** · [UniRec](unirec.md): UniRec is cited for load-regulated SID assignment; SPAR regulates sibling-branch loads conditioned on parent prefixes and couples this with stepwise personalization.
   - Source: SPAR-Youku v1, Introduction and Section 2.1; cited alternative, not an evaluated baseline: https://arxiv.org/html/2610.27898v1#S1.p2; https://arxiv.org/html/2610.27898v1#S2.SS1.p2.
 
-[查看同格全部论文](../../README.md#i--backbone)
+[View all papers in this cell](../../README.md#i--backbone)

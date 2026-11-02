@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > UniSID optimizes embeddings and Semantic IDs end to end from raw advertising data with multi-granularity contrastive learning and summary-based reconstruction, instead of embedding first and quantizing afterwards.
 
 ### At a Glance
@@ -62,9 +61,9 @@ flowchart LR
     P -->|competitor| B["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): On Beauty, UniSID replaces TIGER RQ-VAE tokenization with direct multimodal SID heads while retaining the TIGER training and evaluation framework.
+- **Predecessor** · [TIGER](tiger.md): On Beauty, UniSID replaces TIGER RQ-VAE tokenization with direct multimodal SID heads while retaining the TIGER training and evaluation framework.
   - Source: UniSID v3, Section 4.2 and Table 4: https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
-- **同期对比** · [LETTER](letter.md): LETTER supplies the published Beauty baseline results, including TIGER-LETTER; UniSID jointly learns embeddings and direct SIDs from raw features.
+- **Competitor** · [LETTER](letter.md): LETTER supplies the published Beauty baseline results, including TIGER-LETTER; UniSID jointly learns embeddings and direct SIDs from raw features.
   - Source: UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: https://arxiv.org/html/2602.10445v3#S3.p1; https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

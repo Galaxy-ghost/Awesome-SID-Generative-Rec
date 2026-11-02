@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.
 
 ### At a Glance
@@ -62,11 +61,11 @@ flowchart LR
     P -->|predecessor| C["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TrieRec adds trie-aware positional encodings to TIGER.
+- **Predecessor** · [TIGER](tiger.md): TrieRec adds trie-aware positional encodings to TIGER.
   - Source: TrieRec v1, Sections 1/4.1: https://arxiv.org/html/2602.21677v1#S1.p5; https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1.
-- **前序工作** · [CoST](cost.md): CoST is the contrastive-tokenization backbone augmented by TrieRec.
+- **Predecessor** · [CoST](cost.md): CoST is the contrastive-tokenization backbone augmented by TrieRec.
   - Source: TrieRec v1, Section 4.2 and Related Work: https://arxiv.org/html/2602.21677v1#S4.SS2.p2; https://arxiv.org/html/2602.21677v1#S5.p3.
-- **前序工作** · [LETTER](letter.md): LETTER supplies the backbone for TrieRec's main ablations and efficiency comparison.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies the backbone for TrieRec's main ablations and efficiency comparison.
   - Source: TrieRec v1, Table 3 and Section 4.4: https://arxiv.org/html/2602.21677v1#S4.T3; https://arxiv.org/html/2602.21677v1#S4.SS4.p1.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

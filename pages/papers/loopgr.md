@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills a low-budget student, to scale computation without proportionally growing model size.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["ActionPiece"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): Encoder-decoder baseline; LoopGR adds shared recurrent context refinement.
+- **Competitor** · [TIGER](tiger.md): Encoder-decoder baseline; LoopGR adds shared recurrent context refinement.
   - Source: LoopGR v1, Section 5.1 and Tables 1/2: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.34157v1#S5.T1; https://arxiv.org/html/2610.34157v1#S5.T2.
-- **同期对比** · [RPG](rpg.md): Parallel graph-guided decoding contrasts with LoopGR's recurrent RQ-VAE SID generation.
+- **Competitor** · [RPG](rpg.md): Parallel graph-guided decoding contrasts with LoopGR's recurrent RQ-VAE SID generation.
   - Source: LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.
-- **同期对比** · [ActionPiece](actionpiece.md): Context-dependent action tokens contrast with LoopGR's standard RQ-VAE identifiers.
+- **Competitor** · [ActionPiece](actionpiece.md): Context-dependent action tokens contrast with LoopGR's standard RQ-VAE identifiers.
   - Source: LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

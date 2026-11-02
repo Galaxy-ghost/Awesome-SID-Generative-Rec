@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SAPO computes a separate group-relative advantage for each reasoning step, one thinking block plus one Semantic ID token, instead of broadcasting one exact-match advantage to the whole response.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **前序工作** · [SIDReasoner](sidreasoner.md): SAPO shares SIDReasoner Stage 1/2 checkpoints but replaces rollout-level Stage 3 credit with rewards and advantages for thinking-block/SID-token pairs.
+- **Predecessor** · [SIDReasoner](sidreasoner.md): SAPO shares SIDReasoner Stage 1/2 checkpoints but replaces rollout-level Stage 3 credit with rewards and advantages for thinking-block/SID-token pairs.
   - Source: SAPO v1, Appendix G and Section 5.2: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.SS2.p2.
-- **同期对比** · [OneRec-Think](onerec-think.md): OneRec-Think is a reasoning-based generative baseline with outcome-level feedback; SAPO localizes RL credit to individual SID reasoning steps.
+- **Competitor** · [OneRec-Think](onerec-think.md): OneRec-Think is a reasoning-based generative baseline with outcome-level feedback; SAPO localizes RL credit to individual SID reasoning steps.
   - Source: SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.T1.
-- **同期对比** · [TIGER](tiger.md): TIGER is the non-reasoning residual-SID generation baseline; SAPO adds structured reasoning and step-aligned policy optimization.
+- **Competitor** · [TIGER](tiger.md): TIGER is the non-reasoning residual-SID generation baseline; SAPO adds structured reasoning and step-aligned policy optimization.
   - Source: SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p2; https://arxiv.org/html/2605.17648v1#S5.T1.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

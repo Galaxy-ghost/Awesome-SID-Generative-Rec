@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 
 ### At a Glance
@@ -209,11 +208,11 @@ flowchart LR
     P -->|competitor| C["GNPR-SID"]
 ```
 
-- **前序工作** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
+- **Predecessor** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
   - Source: OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and preference alignment: https://arxiv.org/html/2508.14646v1#S6.SS2.p1; Section 2 describes OneLoc's geographic modules and rewards: https://arxiv.org/html/2508.14646v1#S2.p1.
-- **同期对比** · [TIGER](tiger.md): TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers together with geographic sequence modeling and neighborhood prompts.
+- **Competitor** · [TIGER](tiger.md): TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers together with geographic sequence modeling and neighborhood prompts.
   - Source: OneLoc v1, Section 4.1.2 identifies TIGER as a baseline: https://arxiv.org/html/2508.14646v1#S4.SS1.SSS2.p1; Table 1 reports its comparison with OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1; Sections 2 and 2.2 describe OneLoc's added geographic mechanisms: https://arxiv.org/html/2508.14646v1#S2.p1 and https://arxiv.org/html/2508.14646v1#S2.SS2.p1.
-- **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling into attention, neighborhood prompting, and rewards for local-life video consumption.
+- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling into attention, neighborhood prompting, and rewards for local-life video consumption.
   - Source: OneLoc v1, Section 1 explains the geographic-modeling difference: https://arxiv.org/html/2508.14646v1#S1.p2, https://arxiv.org/html/2508.14646v1#S1.p3, and https://arxiv.org/html/2508.14646v1#S1.p4; Table 1 directly compares GNPR-SID and OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

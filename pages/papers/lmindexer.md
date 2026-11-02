@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > LMIndexer learns sequential Semantic IDs with a generative language model through progressive training, contrastive learning, and self-supervised reconstruction, instead of quantizing embeddings from an off-the-shelf encoder.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|alternative| B["CID"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): Its RQ-VAE indexing approach is adapted as a matched T5-base baseline.
+- **Competitor** · [TIGER](tiger.md): Its RQ-VAE indexing approach is adapted as a matched T5-base baseline.
   - Source: LMIndexer v3, Section 5.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p3; https://arxiv.org/html/2310.07815v3#S5.SS1.p4.
-- **替代方案** · [CID](cid.md): Cited task-informed item indexing; LMIndexer learns IDs by self-supervised text reconstruction.
+- **Alternative** · [CID](cid.md): Cited task-informed item indexing; LMIndexer learns IDs by self-supervised text reconstruction.
   - Source: LMIndexer v3, Section 2, citing Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

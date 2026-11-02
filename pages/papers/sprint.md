@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SPRINT predicts all Semantic ID token probabilities in one forward pass of a bidirectional Transformer, based on average probability velocity, and restores token coherence with a dual-level flow contrastive objective.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|competitor| C["SID-MLP"]
 ```
 
-- **同期对比** · [RPG](rpg.md): RPG is the compared single-step baseline with longer SIDs.
+- **Competitor** · [RPG](rpg.md): RPG is the compared single-step baseline with longer SIDs.
   - Source: SPRINT v1, Sec.1 and Sec.4.2: https://arxiv.org/html/2609.34306v1#S1.p2; https://arxiv.org/html/2609.34306v1#S4.SS2.p2.
-- **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is compared under one-step and four-step generation.
+- **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is compared under one-step and four-step generation.
   - Source: SPRINT v1, Table1 and Sec.4.1: https://arxiv.org/html/2609.34306v1#S1.T1; https://arxiv.org/html/2609.34306v1#S4.SS1.p2.
-- **同期对比** · [SID-MLP](sid-mlp.md): SID-MLP is the closest compared efficiency-oriented baseline.
+- **Competitor** · [SID-MLP](sid-mlp.md): SID-MLP is the closest compared efficiency-oriented baseline.
   - Source: SPRINT v1, Appendix D.6: https://arxiv.org/html/2609.34306v1#A4.SS6.p2; https://arxiv.org/html/2609.34306v1#A4.T10.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

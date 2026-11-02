@@ -16,7 +16,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.
 
 ### At a Glance
@@ -61,15 +60,15 @@ flowchart LR
     P -->|predecessor| E["LC-Rec"]
 ```
 
-- **前序工作** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
+- **Predecessor** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
   - Source: SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: https://arxiv.org/html/2608.18779v2#S3.T2; Table 3 gives its diagnostic profile: https://arxiv.org/html/2608.18779v2#S4.T3; Tables 5 and 7 report the fixed-budget and resolver tests: https://arxiv.org/html/2608.18779v2#S5.T5 and https://arxiv.org/html/2608.18779v2#S5.T7.
-- **前序工作** · [CARD](card.md): CARD supplies an upstream Beauty/P5 SID mapping inspected by SIDScope through a code-derived export and budget-matched prefix retrieval controls on the same catalog as GRID.
+- **Predecessor** · [CARD](card.md): CARD supplies an upstream Beauty/P5 SID mapping inspected by SIDScope through a code-derived export and budget-matched prefix retrieval controls on the same catalog as GRID.
   - Source: SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: https://arxiv.org/html/2608.18779v2#S3.T2; Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: https://arxiv.org/html/2608.18779v2#S5.SS2.p1 and https://arxiv.org/html/2608.18779v2#S5.T5.
-- **前序工作** · [DIGER](diger.md): DIGER supplies upstream checkpoint-derived SID mappings for Beauty and Yelp that SIDScope profiles separately and uses in a last-event beam-accounting portability case.
+- **Predecessor** · [DIGER](diger.md): DIGER supplies upstream checkpoint-derived SID mappings for Beauty and Yelp that SIDScope profiles separately and uses in a last-event beam-accounting portability case.
   - Source: SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: https://arxiv.org/html/2608.18779v2#S3.T2 and https://arxiv.org/html/2608.18779v2#S4.T3; Section 5.5 and Table 6 identify the last-event sensitivity route: https://arxiv.org/html/2608.18779v2#S5.SS5.p1 and https://arxiv.org/html/2608.18779v2#S5.T6.
-- **前序工作** · [LETTER](letter.md): LETTER supplies a released Instruments SID index that SIDScope re-audits under its common bounded diagnostic protocol as an upstream mapping source.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies a released Instruments SID index that SIDScope re-audits under its common bounded diagnostic protocol as an upstream mapping source.
   - Source: SIDScope v2, Table 2 identifies LETTER's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 states that LETTER is recomputed under the common C3 protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports the resulting profile: https://arxiv.org/html/2608.18779v2#S4.T3.
-- **前序工作** · [LC-Rec](lc-rec.md): LC-Rec supplies a released Instruments SID index that SIDScope re-audits alongside LETTER to distinguish mapping addressability from prefix behavioral alignment.
+- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies a released Instruments SID index that SIDScope re-audits alongside LETTER to distinguish mapping addressability from prefix behavioral alignment.
   - Source: SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p2 and https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports both profiles: https://arxiv.org/html/2608.18779v2#S4.T3.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

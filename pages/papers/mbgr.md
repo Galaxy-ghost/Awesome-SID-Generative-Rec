@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|alternative| B["OneRec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.
+- **Competitor** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.
   - Source: MBGR v1, Table 1 baseline Tiger: https://arxiv.org/html/2604.02684v1#S6.T1; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
-- **替代方案** · [OneRec](onerec.md): OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business generation for recall.
+- **Alternative** · [OneRec](onerec.md): OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business generation for recall.
   - Source: MBGR v1, Section 6.6 contrasts with OneRec: https://arxiv.org/html/2604.02684v1#S6.SS6.p2; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
 
-[查看同格全部论文](../../README.md#vi--tokenization)
+[View all papers in this cell](../../README.md#vi--tokenization)

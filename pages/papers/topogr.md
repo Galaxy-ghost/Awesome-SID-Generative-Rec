@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["LLaDA-Rec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER decodes residual SIDs autoregressively; TopoGR exposes binary SID geometry and predicts all positions in parallel before full-corpus scoring.
+- **Competitor** · [TIGER](tiger.md): TIGER decodes residual SIDs autoregressively; TopoGR exposes binary SID geometry and predicts all positions in parallel before full-corpus scoring.
   - Source: TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p4.
-- **同期对比** · [RPG](rpg.md): RPG uses parallel SID prediction with graph-constrained decoding; TopoGR instead uses vectorized full-corpus scoring and Hamming-consistent reranking.
+- **Competitor** · [RPG](rpg.md): RPG uses parallel SID prediction with graph-constrained decoding; TopoGR instead uses vectorized full-corpus scoring and Hamming-consistent reranking.
   - Source: TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p5.
-- **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses discrete diffusion for bidirectional SID generation; TopoGR predicts SID positions simultaneously and adds binary-topology supervision and reranking.
+- **Alternative** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses discrete diffusion for bidirectional SID generation; TopoGR predicts SID positions simultaneously and adds binary-topology supervision and reranking.
   - Source: TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: https://arxiv.org/html/2607.25216v1#S2.p2; https://arxiv.org/html/2607.25216v1#S4.SS3.p1.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

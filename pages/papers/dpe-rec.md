@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and pseudo-trajectory distillation to reveal more tokens per denoising step.
 
 ### At a Glance
@@ -64,7 +63,7 @@ flowchart LR
     P -->|alternative| A["TIGER"]
 ```
 
-- **替代方案** · [TIGER](tiger.md): Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional diffusion for unordered bundle construction.
+- **Alternative** · [TIGER](tiger.md): Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional diffusion for unordered bundle construction.
   - Source: https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

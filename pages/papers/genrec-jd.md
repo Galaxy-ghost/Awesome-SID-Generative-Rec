@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|alternative| C["LETTER"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is trained with point-wise next-item prediction; GenRec trains on page-wise target lists with a decoder-only LLM and aligns it with GRPO-SR.
+- **Competitor** · [TIGER](tiger.md): TIGER is trained with point-wise next-item prediction; GenRec trains on page-wise target lists with a decoder-only LLM and aligns it with GRPO-SR.
   - Source: GenRec v1, Section 3.1 baselines: https://arxiv.org/html/2604.14878v1#S3.SS1.p1; Table 1: https://arxiv.org/html/2604.14878v1#S3.T1.
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec also fine-tunes an LLM on SIDs but with point-wise NTP; GenRec adds page-wise supervision, a token merger, and RL alignment.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec also fine-tunes an LLM on SIDs but with point-wise NTP; GenRec adds page-wise supervision, a token merger, and RL alignment.
   - Source: GenRec v1, Section 3.1 baselines: https://arxiv.org/html/2604.14878v1#S3.SS1.p1; Table 1: https://arxiv.org/html/2604.14878v1#S3.T1.
-- **替代方案** · [LETTER](letter.md): LETTER improves the tokenizer, whereas GenRec keeps RQ K-means SIDs and changes the supervision and alignment of the generator.
+- **Alternative** · [LETTER](letter.md): LETTER improves the tokenizer, whereas GenRec keeps RQ K-means SIDs and changes the supervision and alignment of the generator.
   - Source: GenRec v1, Section 4 cites Wang et al. (2025), LETTER: https://arxiv.org/html/2604.14878v1#S4.p1; not a baseline in Table 1.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

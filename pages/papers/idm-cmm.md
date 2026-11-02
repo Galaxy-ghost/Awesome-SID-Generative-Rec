@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution or per-position code marginals, instead of training on hard next-item labels alone.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["LLaDA-Rec"]
 ```
 
-- **同期对比** · [RPG](rpg.md): Reproduced parallel baseline with graph-guided decoding; IDM/CMM add soft teacher supervision.
+- **Competitor** · [RPG](rpg.md): Reproduced parallel baseline with graph-guided decoding; IDM/CMM add soft teacher supervision.
   - Source: IDM/CMM v1, Section 4.1 and Table 2: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2; https://arxiv.org/html/2610.32943v1#S4.T2.
-- **同期对比** · [TIGER](tiger.md): Autoregressive baseline; its comparison scores are taken from RPG.
+- **Competitor** · [TIGER](tiger.md): Autoregressive baseline; its comparison scores are taken from RPG.
   - Source: IDM/CMM v1, Sections 2.2/4.1 and Table 2: https://arxiv.org/html/2610.32943v1#S2.SS2.p2; https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.32943v1#S4.T2.
-- **替代方案** · [LLaDA-Rec](llada-rec.md): Iterative diffusion contrasts with the single-pass parallel predictor.
+- **Alternative** · [LLaDA-Rec](llada-rec.md): Iterative diffusion contrasts with the single-pass parallel predictor.
   - Source: IDM/CMM v1, Section 2.3: https://arxiv.org/html/2610.32943v1#S2.SS3.p1.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

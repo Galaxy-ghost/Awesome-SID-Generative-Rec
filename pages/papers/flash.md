@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|competitor| D["DIGER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): FLASH revisits TIGER's SimHash ablation with parallel decoding and semantic alignment.
+- **Predecessor** · [TIGER](tiger.md): FLASH revisits TIGER's SimHash ablation with parallel decoding and semantic alignment.
   - Source: FLASH v1, Introduction and Table 1: https://arxiv.org/html/2610.07402v1#S1.p2; https://arxiv.org/html/2610.07402v1#S1.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
-- **前序工作** · [RPG](rpg.md): FLASH follows RPG's cached-logit scoring, replacing learned OPQ codes with training-free SimHash.
+- **Predecessor** · [RPG](rpg.md): FLASH follows RPG's cached-logit scoring, replacing learned OPQ codes with training-free SimHash.
   - Source: FLASH v1, Sections 2.3 and A.2: https://arxiv.org/html/2610.07402v1#S2.SS3.p2; https://arxiv.org/html/2610.07402v1#A1.SS2.p4.
-- **同期对比** · [LETTER](letter.md): LETTER learns regularized residual codes; FLASH uses fixed hashing with parallel prediction and alignment.
+- **Competitor** · [LETTER](letter.md): LETTER learns regularized residual codes; FLASH uses fixed hashing with parallel prediction and alignment.
   - Source: FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
-- **同期对比** · [DIGER](diger.md): DIGER jointly learns residual quantization and recommendation; FLASH uses a fixed tokenizer.
+- **Competitor** · [DIGER](diger.md): DIGER jointly learns residual quantization and recommendation; FLASH uses a fixed tokenizer.
   - Source: FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

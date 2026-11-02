@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SLIDE concatenates a teacher's offline beam-search candidates into list-wise Semantic ID targets, so a student generates the whole top-K list in one greedy pass instead of item-level beam search.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|predecessor| C["TIGER"]
 ```
 
-- **前序工作** · [FORGE](forge.md): SLIDE reuses FORGE's S3 split and SID vocabulary.
+- **Predecessor** · [FORGE](forge.md): SLIDE reuses FORGE's S3 split and SID vocabulary.
   - Source: SLIDE v1, Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1; https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1.
-- **替代方案** · [OneRec](onerec.md): OneRec models session dependencies; SLIDE focuses on search-to-greedy list distillation.
+- **Alternative** · [OneRec](onerec.md): OneRec models session dependencies; SLIDE focuses on search-to-greedy list distillation.
   - Source: SLIDE v1, Section 2.1 (Deng et al., 2025, arXiv:2502.18965): https://arxiv.org/html/2610.34764v1#S2.SS1.p2.
-- **前序工作** · [TIGER](tiger.md): SLIDE replaces the conventional item-level search interface with a distilled list rollout.
+- **Predecessor** · [TIGER](tiger.md): SLIDE replaces the conventional item-level search interface with a distilled list rollout.
   - Source: SLIDE v1, Introduction and Section 2.1: https://arxiv.org/html/2610.34764v1#S1.p1; https://arxiv.org/html/2610.34764v1#S2.SS1.p1.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

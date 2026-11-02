@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Spacetime-GR indexes POIs with a geographic hierarchy, encodes spatiotemporal context into action sequences, adds multimodal POI embeddings, and post-trains for embeddings, ranking scores, and candidates.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|alternative| B["OneRec"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Semantic-ID generation inspires the geographic two-token POI indexing design.
+- **Predecessor** · [TIGER](tiger.md): Semantic-ID generation inspires the geographic two-token POI indexing design.
   - Source: Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2.
-- **替代方案** · [OneRec](onerec.md): Cited MoE/DPO recommender; Spacetime-GR specializes generation for spatiotemporal POI contexts.
+- **Alternative** · [OneRec](onerec.md): Cited MoE/DPO recommender; Spacetime-GR specializes generation for spatiotemporal POI contexts.
   - Source: Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): https://arxiv.org/html/2508.16126v1#S2.SS1.p3.
 
-[查看同格全部论文](../../README.md#i--backbone)
+[View all papers in this cell](../../README.md#i--backbone)

@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|alternative| C["OneRec-V2"]
 ```
 
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds a process reward model to steer beam search.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds a process reward model to steer beam search.
   - Source: Promise v1, generative baselines: https://arxiv.org/html/2601.04674v1#S4.I2.i3.p1; Table 1 and Section 4.1.5: https://arxiv.org/html/2601.04674v1#S4.T1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS5.p2.
-- **同期对比** · [TIGER](tiger.md): TIGER decodes with standard fixed-width beam search, which Promise argues suffers semantic drift; Promise rescores expanded paths at each step with a PRM.
+- **Competitor** · [TIGER](tiger.md): TIGER decodes with standard fixed-width beam search, which Promise argues suffers semantic drift; Promise rescores expanded paths at each step with a PRM.
   - Source: Promise v1, baselines and protocol: https://arxiv.org/html/2601.04674v1#S4.I2.i1.p1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; Table 1: https://arxiv.org/html/2601.04674v1#S4.T1.
-- **替代方案** · [OneRec-V2](onerec-v2.md): OneRec-V2 introduces a lazy decoder and scales parameters; Promise argues that scaling inference compute with PRM-guided search is a cheaper way to scale.
+- **Alternative** · [OneRec-V2](onerec-v2.md): OneRec-V2 introduces a lazy decoder and scales parameters; Promise argues that scaling inference compute with PRM-guided search is a cheaper way to scale.
   - Source: Promise v1, Section 6.1 describes OneRec V2 (Zhou et al., 2025c): https://arxiv.org/html/2601.04674v1#S6.SS1.p1; Section 4.6.1 contrasts parameter scaling with test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS6.SSS1.p1.
 
-[查看同格全部论文](../../README.md#iii--inference)
+[View all papers in this cell](../../README.md#iii--inference)

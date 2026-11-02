@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in the user sequence and uses DPO to favor item tokens at prediction positions, instead of modeling item-only sequences.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|predecessor| B["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): RAGR augments TIGER with interleaved review SIDs, review-generation supervision and DPO alignment toward item generation.
+- **Predecessor** · [TIGER](tiger.md): RAGR augments TIGER with interleaved review SIDs, review-generation supervision and DPO alignment toward item generation.
   - Source: RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.
-- **前序工作** · [LETTER](letter.md): LETTER is the second backbone receiving the same review augmentation and item-centric DPO alignment.
+- **Predecessor** · [LETTER](letter.md): LETTER is the second backbone receiving the same review augmentation and item-centric DPO alignment.
   - Source: RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.
 
-[查看同格全部论文](../../README.md#i--training)
+[View all papers in this cell](../../README.md#i--training)

@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|competitor| B["COBRA"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): GRC augments TIGER with structured reflection-correction supervision, followed by GRPO optimization.
+- **Predecessor** · [TIGER](tiger.md): GRC augments TIGER with structured reflection-correction supervision, followed by GRPO optimization.
   - Source: GRC v1, Section 5.2 and Table 1: https://arxiv.org/html/2602.23639v1#S5.SS2.p1; https://arxiv.org/html/2602.23639v1#S5.T1.
-- **同期对比** · [COBRA](cobra.md): COBRA supplements token generation with dense retrieval; GRC explicitly detects and corrects token trajectories.
+- **Competitor** · [COBRA](cobra.md): COBRA supplements token generation with dense retrieval; GRC explicitly detects and corrects token trajectories.
   - Source: GRC v1, Sections 2.1/5.1 and Table 1: https://arxiv.org/html/2602.23639v1#S2.SS1.p1; https://arxiv.org/html/2602.23639v1#S5.SS1.p2; https://arxiv.org/html/2602.23639v1#S5.T1.
 
-[查看同格全部论文](../../README.md#iii--inference)
+[View all papers in this cell](../../README.md#iii--inference)

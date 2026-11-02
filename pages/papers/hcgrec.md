@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **前序工作** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
+- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
   - Source: HCGRec v2, Section 4.2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2.
-- **同期对比** · [MiniOneRec](minionerec.md): MiniOneRec shares the SFT checkpoint and controlled post-training budget.
+- **Competitor** · [MiniOneRec](minionerec.md): MiniOneRec shares the SFT checkpoint and controlled post-training budget.
   - Source: HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p1; https://arxiv.org/html/2608.11980v2#S4.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER is the semantic-ID generative baseline in the main comparison.
+- **Competitor** · [TIGER](tiger.md): TIGER is the semantic-ID generative baseline in the main comparison.
   - Source: HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2; https://arxiv.org/html/2608.11980v2#S4.T2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

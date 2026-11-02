@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions.
 
 ### At a Glance
@@ -60,7 +59,7 @@ flowchart LR
     P -->|predecessor| A["TIGER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): LION adds sparse evolving memory to TIGER's continual fine-tuning baseline.
+- **Predecessor** · [TIGER](tiger.md): LION adds sparse evolving memory to TIGER's continual fine-tuning baseline.
   - Source: LION v1, Sections 5.1.3/5.1.4 and Table 1: https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1; https://arxiv.org/html/2609.15598v1#S5.SS1.SSS4.p1; https://arxiv.org/html/2609.15598v1#S5.T1.
 
-[查看同格全部论文](../../README.md#vi--backbone)
+[View all papers in this cell](../../README.md#vi--backbone)

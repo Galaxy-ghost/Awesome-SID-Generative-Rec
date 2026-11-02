@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
+- **Predecessor** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
   - Source: VarLenRec v2, Sections III-D/IV-B: https://arxiv.org/html/2605.17779v2#S3.SS4.p3; https://arxiv.org/html/2605.17779v2#S4.SS2.p1.
-- **同期对比** · [ETEGRec](etegrec.md): ETEGRec is a fixed-length generative baseline with joint-training optimization; VarLenRec changes the per-item encoding budget and target decoding length.
+- **Competitor** · [ETEGRec](etegrec.md): ETEGRec is a fixed-length generative baseline with joint-training optimization; VarLenRec changes the per-item encoding budget and target decoding length.
   - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
-- **同期对比** · [LETTER](letter.md): LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares against LETTER-TIGER.
+- **Competitor** · [LETTER](letter.md): LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares against LETTER-TIGER.
   - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

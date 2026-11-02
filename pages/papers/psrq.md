@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PSRQ generates modality-specific and modality-joint Semantic IDs that preserve prefix semantic features and models music interests with multi-codebook cross-attention, to reduce semantic drift in residual quantization.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|alternative| C["OneRec"]
 ```
 
-- **替代方案** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive semantic residual K-means and uses the IDs as ranking features for cold-start items.
+- **Alternative** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive semantic residual K-means and uses the IDs as ranking features for cold-start items.
   - Source: PSRQ v1, Section 1 and Section 2.2 cite Rajput et al. (2023): https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1; RQ-VAE is a quantizer baseline in Table 3: https://arxiv.org/html/2508.20359v1#S5.T3.
-- **替代方案** · [VQ-Rec](vq-rec.md): VQ-Rec framed vector quantization for transferable recommenders; PSRQ adds modal-specific and modal-joint codebooks for multimodal cold-start ranking.
+- **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec framed vector quantization for transferable recommenders; PSRQ adds modal-specific and modal-joint codebooks for multimodal cold-start ranking.
   - Source: PSRQ v1, Section 1 and Section 2.2: https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.
-- **替代方案** · [OneRec](onerec.md): OneRec uses residual K-means SIDs inside an end-to-end generator; PSRQ keeps a discriminative ranker and feeds it multimodal SID embeddings.
+- **Alternative** · [OneRec](onerec.md): OneRec uses residual K-means SIDs inside an end-to-end generator; PSRQ keeps a discriminative ranker and feeds it multimodal SID embeddings.
   - Source: PSRQ v1, contribution list and Section 2.2 cite OneRec: https://arxiv.org/html/2508.20359v1#S1.I1.i2.p1 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

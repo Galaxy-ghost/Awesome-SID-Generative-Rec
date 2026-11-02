@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DAS optimizes quantization and collaborative alignment in one stage, with multi-view contrastive alignment and dual quantization of users and ads, instead of two-stage alignment that loses information.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|alternative| C["ADC-SID"]
 ```
 
-- **同期对比** · [LETTER](letter.md): LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly in one stage and aligns user and ad SIDs dually.
+- **Competitor** · [LETTER](letter.md): LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly in one stage and aligns user and ad SIDs dually.
   - Source: DAS v2, Section 4.2 variant (4) +ASID (LETTER): https://arxiv.org/html/2508.10584v2#S4.SS2.p2; Table 1: https://arxiv.org/html/2508.10584v2#S4.T1.
-- **同期对比** · [TIGER](tiger.md): TIGER with unaligned RQ-VAE ad SIDs is the generative baseline; DAS replaces them with aligned ad SIDs (TIGER+) and adds aligned user SIDs (TIGER++).
+- **Competitor** · [TIGER](tiger.md): TIGER with unaligned RQ-VAE ad SIDs is the generative baseline; DAS replaces them with aligned ad SIDs (TIGER+) and adds aligned user SIDs (TIGER++).
   - Source: DAS v2, Section 4.2: https://arxiv.org/html/2508.10584v2#S4.SS2.p4; Table 2: https://arxiv.org/html/2508.10584v2#S4.T2.
-- **替代方案** · [ADC-SID](adc-sid.md): ADC-SID compares against DAS and adds adaptive alignment strength and dynamic behavioral weighting to denoise long-tail collaborative signals.
+- **Alternative** · [ADC-SID](adc-sid.md): ADC-SID compares against DAS and adds adaptive alignment strength and dynamic behavioral weighting to denoise long-tail collaborative signals.
   - Source: Evidence is from the later ADC-SID paper: DAS is a baseline in Section 4.1.2 and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1 and https://arxiv.org/html/2510.25622v3#S4.T2.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

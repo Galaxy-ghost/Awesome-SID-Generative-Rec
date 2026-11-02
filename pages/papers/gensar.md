@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GenSAR unifies search and recommendation in one generator with dual-purpose identifiers carrying semantic and collaborative signals and task-specific training, to reduce the trade-off between the two tasks.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["CID"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is a recommendation baseline; GenSAR extends RQ-VAE identifiers with shared and task-specific codes for joint search/recommendation.
+- **Competitor** · [TIGER](tiger.md): TIGER is a recommendation baseline; GenSAR extends RQ-VAE identifiers with shared and task-specific codes for joint search/recommendation.
   - Source: GenSAR v2, Sections 1 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S1.p6; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec is a generative recommendation baseline; GenSAR learns separate semantic/collaborative identifiers and joint search/recommendation tasks.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec is a generative recommendation baseline; GenSAR learns separate semantic/collaborative identifiers and joint search/recommendation tasks.
   - Source: GenSAR v2, Sections 3.2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S3.SS2.p1; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
-- **同期对比** · [CID](cid.md): P5-CID is a generative recommendation baseline; GenSAR uses learned shared/task-specific codebooks.
+- **Competitor** · [CID](cid.md): P5-CID is a generative recommendation baseline; GenSAR uses learned shared/task-specific codebooks.
   - Source: GenSAR v2, Sections 2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S2.p2; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

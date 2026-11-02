@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost.
 
 ### At a Glance
@@ -64,13 +63,13 @@ flowchart LR
     P -->|alternative| D["NEZHA"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): The single-head arm follows TIGER-style autoregressive SID generation with constrained beam search in a multitask streaming-media LLM.
+- **Predecessor** · [TIGER](tiger.md): The single-head arm follows TIGER-style autoregressive SID generation with constrained beam search in a multitask streaming-media LLM.
   - Source: Netflix comparison v1, Introduction and Section 3.2.1: https://arxiv.org/html/2610.15864v1#S1.p3; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS1.p1.
-- **替代方案** · [RPG](rpg.md): RPG pairs parallel SID prediction with graph-constrained decoding; this study strengthens its MTP arm with an auxiliary item-ranking loss and tests moderate four-token SIDs.
+- **Alternative** · [RPG](rpg.md): RPG pairs parallel SID prediction with graph-constrained decoding; this study strengthens its MTP arm with an auxiliary item-ranking loss and tests moderate four-token SIDs.
   - Source: Netflix comparison v1, Sections 2/3.2.2/4.2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1; https://arxiv.org/html/2610.15864v1#S4.SS2.SSS0.Px3.p1.
-- **替代方案** · [STAMP](stamp.md): STAMP uses auxiliary multi-token prediction to densify training supervision; this study compares MTP and autoregressive decoding as generation paradigms.
+- **Alternative** · [STAMP](stamp.md): STAMP uses auxiliary multi-token prediction to densify training supervision; this study compares MTP and autoregressive decoding as generation paradigms.
   - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1.
-- **替代方案** · [NEZHA](nezha.md): NEZHA accelerates SID beam search using self-drafting and hash-set verification; this study addresses generation quality and cost rather than only decoding acceleration.
+- **Alternative** · [NEZHA](nezha.md): NEZHA accelerates SID beam search using self-drafting and hash-set verification; this study addresses generation quality and cost rather than only decoding acceleration.
   - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px3.p1.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

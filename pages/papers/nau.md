@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["TRACER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
+- **Predecessor** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
   - Source: NAU v1, Section 4: https://arxiv.org/html/2610.27232v1#S4.p2.
-- **前序工作** · [LETTER](letter.md): Its collaboratively regularized tokenizer is used to test NAU across SID constructions.
+- **Predecessor** · [LETTER](letter.md): Its collaboratively regularized tokenizer is used to test NAU across SID constructions.
   - Source: NAU v1, Section 4 and Appendix D: https://arxiv.org/html/2610.27232v1#S4.p2; https://arxiv.org/html/2610.27232v1#A4.p5.
-- **同期对比** · [TRACER](tracer.md): Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
+- **Competitor** · [TRACER](tracer.md): Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
   - Source: NAU v1, Sections 4/6: https://arxiv.org/html/2610.27232v1#S4.p4; https://arxiv.org/html/2610.27232v1#S6.p2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

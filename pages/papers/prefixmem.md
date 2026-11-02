@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets a prefix-conditioned representation instead of a plain vocabulary embedding.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["OneRec-Think"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
+- **Predecessor** · [TIGER](tiger.md): PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
   - Source: PrefixMem v1, Section 5.2 and Table 10: https://arxiv.org/html/2606.00324v1#S5.SS2.p5; https://arxiv.org/html/2606.00324v1#S5.T10.
-- **前序工作** · [PLUM](plum.md): PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
+- **Predecessor** · [PLUM](plum.md): PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
   - Source: PrefixMem v1, Sections 2/3.1: https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.00324v1#S3.SS1.p1.
-- **前序工作** · [OneRec-Think](onerec-think.md): PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
+- **Predecessor** · [OneRec-Think](onerec-think.md): PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
   - Source: PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

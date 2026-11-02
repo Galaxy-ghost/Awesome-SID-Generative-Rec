@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CARD fuses text, image, and collaborative signals into a visual semantic unit before encoding and quantizes it with NU-RQ-VAE, whose learnable non-uniform transformation balances skewed embeddings.
 
 ### At a Glance
@@ -67,15 +66,15 @@ flowchart LR
     P -->|competitor| E["VQ-Rec"]
 ```
 
-- **同期对比** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.
+- **Competitor** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Section 2.1: https://arxiv.org/html/2604.26427v1#S2.SS1.p1.
-- **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec quantizes each modality into its own SIDs with pre-training; CARD uses one unified visual semantic unit, and the comparison disables MQL4GRec's extra-category pre-training.
+- **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec quantizes each modality into its own SIDs with pre-training; CARD uses one unified visual semantic unit, and the comparison disables MQL4GRec's extra-category pre-training.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i8.p1; implementation note on pre-training: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
-- **同期对比** · [LETTER](letter.md): LETTER regularizes a uniform RQ-VAE with collaborative and diversity terms; CARD changes the quantizer to a non-uniform one and the input to a rendered multimodal card.
+- **Competitor** · [LETTER](letter.md): LETTER regularizes a uniform RQ-VAE with collaborative and diversity terms; CARD changes the quantizer to a non-uniform one and the input to a rendered multimodal card.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i7.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER quantizes text embeddings with a uniform RQ-VAE; CARD keeps the same codebook shape and generator but replaces the input and the quantization rule.
+- **Competitor** · [TIGER](tiger.md): TIGER quantizes text embeddings with a uniform RQ-VAE; CARD keeps the same codebook shape and generator but replaces the input and the quantization rule.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i6.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Table 6 text-only TIGER variants: https://arxiv.org/html/2604.26427v1#S4.T6.
-- **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized code embeddings in a discriminative model; CARD generates hierarchical non-uniform RQ codes autoregressively.
+- **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized code embeddings in a discriminative model; CARD generates hierarchical non-uniform RQ codes autoregressively.
   - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

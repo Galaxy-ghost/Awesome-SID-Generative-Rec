@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained decoding, to unify search, recommendation, and reasoning without tools.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["EAGER-LLM"]
 ```
 
-- **替代方案** · [PLUM](plum.md): Concurrent SID-LLM adaptation; NEO emphasizes mixed text-ID outputs and multiple item types.
+- **Alternative** · [PLUM](plum.md): Concurrent SID-LLM adaptation; NEO emphasizes mixed text-ID outputs and multiple item types.
   - Source: NEO v1, Section 2 and Table 1: https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2; https://arxiv.org/html/2603.17533v1#S2.T1.
-- **前序工作** · [TIGER](tiger.md): Prior SID-based generative retrieval informs NEO's catalog-grounded item representation.
+- **Predecessor** · [TIGER](tiger.md): Prior SID-based generative retrieval informs NEO's catalog-grounded item representation.
   - Source: NEO v1, Introduction and Section 2, citing Rajput et al. (2024): https://arxiv.org/html/2603.17533v1#S1.p4; https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p1.
-- **替代方案** · [EAGER-LLM](eager-llm.md): Motivates testing collaborative SID signals; NEO favors content-derived SIDs in its experiments.
+- **Alternative** · [EAGER-LLM](eager-llm.md): Motivates testing collaborative SID signals; NEO favors content-derived SIDs in its experiments.
   - Source: NEO v1, Section 4.2.1, citing Hong et al. (2025): https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PinGER interleaves Semantic ID and dense tokens with an asymmetric attention mask so serving uses one token per item, and steers retrieval by goal conditioning, reinforcement learning, and diversity penalties.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["COBRA"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is compared at matched training context and serving-token budgets.
+- **Competitor** · [TIGER](tiger.md): TIGER is compared at matched training context and serving-token budgets.
   - Source: PinGER v1, Section 5.2.1 and Table 2: https://arxiv.org/html/2610.33435v1#S5.SS2.SSS1.p1; https://arxiv.org/html/2610.33435v1#S5.T2.
-- **前序工作** · [STATIC](static.md): PinGER adopts STATIC's vectorized trie for valid-SID constrained decoding.
+- **Predecessor** · [STATIC](static.md): PinGER adopts STATIC's vectorized trie for valid-SID constrained decoding.
   - Source: PinGER v1, Section 4.2: https://arxiv.org/html/2610.33435v1#S4.SS2.p2.
-- **前序工作** · [COBRA](cobra.md): PinGER retains COBRA-style SID/dense interleaving during training and removes past SIDs at serving.
+- **Predecessor** · [COBRA](cobra.md): PinGER retains COBRA-style SID/dense interleaving during training and removes past SIDs at serving.
   - Source: PinGER v1, Section 2: https://arxiv.org/html/2610.33435v1#S2.SS0.SSS0.Px1.p1.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

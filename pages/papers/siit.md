@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|predecessor| D["LC-Rec"]
 ```
 
-- **同期对比** · [LETTER](letter.md): LETTER fixes its regularized RQ-VAE identifiers before generator training; SIIT starts from such identifiers and lets the LLM regenerate them iteratively with alignment tasks.
+- **Competitor** · [LETTER](letter.md): LETTER fixes its regularized RQ-VAE identifiers before generator training; SIIT starts from such identifiers and lets the LLM regenerate them iteratively with alignment tasks.
   - Source: SIIT v1, advanced-tokenization baselines and initializer: https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; data from LETTER: https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Table 2: https://arxiv.org/html/2412.17171v1#S4.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER's RQ-VAE codes are both a baseline and one of SIIT's initializations, which SIIT then refines.
+- **Competitor** · [TIGER](tiger.md): TIGER's RQ-VAE codes are both a baseline and one of SIIT's initializations, which SIIT then refines.
   - Source: SIIT v1, https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; Tables 2 and 4: https://arxiv.org/html/2412.17171v1#S4.T2 and https://arxiv.org/html/2412.17171v1#S4.T4.
-- **同期对比** · [CID](cid.md): CID's spectral-clustering IDs (and the simple TID/SID variants) are baselines and an initializer; SIIT replaces fixed IDs with model-generated ones.
+- **Competitor** · [CID](cid.md): CID's spectral-clustering IDs (and the simple TID/SID variants) are baselines and an initializer; SIIT replaces fixed IDs with model-generated ones.
   - Source: SIIT v1, baselines: https://arxiv.org/html/2412.17171v1#S4.I3.i2.p1 and https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; Table 2: https://arxiv.org/html/2412.17171v1#S4.T2.
-- **前序工作** · [LC-Rec](lc-rec.md): SIIT follows LC-Rec's preprocessing and its idea of aligning LLMs to item identifiers through auxiliary tasks.
+- **Predecessor** · [LC-Rec](lc-rec.md): SIIT follows LC-Rec's preprocessing and its idea of aligning LLMs to item identifiers through auxiliary tasks.
   - Source: SIIT v1, Section 4.1.1 follows Zheng et al. (2024): https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Section 5.2 related work: https://arxiv.org/html/2412.17171v1#S5.SS2.p1.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > LESSRec encodes the history separately at each Semantic ID level and restricts attention to the target token's level, adding an item-level semantic sequence, instead of attending to all levels.
 
 ### At a Glance
@@ -67,13 +66,13 @@ flowchart LR
     P -->|competitor| D["RPG"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): LESSRec reorganizes TIGER's history encoding by semantic level.
+- **Predecessor** · [TIGER](tiger.md): LESSRec reorganizes TIGER's history encoding by semantic level.
   - Source: LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
-- **前序工作** · [LETTER](letter.md): LETTER supplies one of the three fixed tokenizers tested with LESSRec.
+- **Predecessor** · [LETTER](letter.md): LETTER supplies one of the three fixed tokenizers tested with LESSRec.
   - Source: LESSRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
-- **同期对比** · [DiscRec](discrec.md): DiscRec models intra-item structure; LESSRec separates same-level histories across items.
+- **Competitor** · [DiscRec](discrec.md): DiscRec models intra-item structure; LESSRec separates same-level histories across items.
   - Source: LESSRec v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.37286v1#S5.SS3.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
-- **同期对比** · [RPG](rpg.md): RPG predicts long unordered codes in parallel; LESSRec models hierarchical level-specific histories.
+- **Competitor** · [RPG](rpg.md): RPG predicts long unordered codes in parallel; LESSRec models hierarchical level-specific histories.
   - Source: LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)

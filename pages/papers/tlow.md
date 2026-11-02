@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Tlow maps semantic embeddings with a normalizing flow into a standard normal latent space before independent quantization, and aligns codebook and token embedding spaces, unlike RQ-VAE or OPQ.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["ETEGRec"]
 ```
 
-- **前序工作** · [RPG](rpg.md): Supplies the parallel prediction setup and the rerun controlled baseline.
+- **Predecessor** · [RPG](rpg.md): Supplies the parallel prediction setup and the rerun controlled baseline.
   - Source: Tlow v1, Section 3.1.4: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1.
-- **同期对比** · [TIGER](tiger.md): Autoregressive RQ-VAE comparator against independent flow-space tokenization.
+- **Competitor** · [TIGER](tiger.md): Autoregressive RQ-VAE comparator against independent flow-space tokenization.
   - Source: Tlow v1, Introduction and Section 3.1.2: https://arxiv.org/html/2608.24176v1#S1.p2; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1.
-- **同期对比** · [ETEGRec](etegrec.md): Included tokenizer comparator; general baseline scores are reused from the RPG paper.
+- **Competitor** · [ETEGRec](etegrec.md): Included tokenizer comparator; general baseline scores are reused from the RPG paper.
   - Source: Tlow v1, Sections 3.1.2/3.1.4 and Table 2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1; https://arxiv.org/html/2608.24176v1#S3.T2.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

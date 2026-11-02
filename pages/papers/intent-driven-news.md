@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Intent-Driven-News trains an LLM to map implicit conversational intents to hierarchical Semantic ID prefixes and fuzzy-matches them to the current news pool, instead of retrieving articles first.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["DiscRec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): Compared on cold-start news users; the proposed method generates conversational SID prefixes.
+- **Competitor** · [TIGER](tiger.md): Compared on cold-start news users; the proposed method generates conversational SID prefixes.
   - Source: Intent-Driven News v1, Section 4.5 and Table 6: https://arxiv.org/html/2605.07613v1#S4.SS5.SSS0.Px2.p1; https://arxiv.org/html/2605.07613v1#S4.T6.
-- **替代方案** · [OneRec-Think](onerec-think.md): Cited SID reasoning approach; this work targets six conversational intents.
+- **Alternative** · [OneRec-Think](onerec-think.md): Cited SID reasoning approach; this work targets six conversational intents.
   - Source: Intent-Driven News v1, Section 2: https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1.
-- **替代方案** · [DiscRec](discrec.md): Disentangles semantic and collaborative signals; this work focuses on conversational intent grounding.
+- **Alternative** · [DiscRec](discrec.md): Disentangles semantic and collaborative signals; this work focuses on conversational intent grounding.
   - Source: Intent-Driven News v1, Section 2: https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1.
 
-[查看同格全部论文](../../README.md#iii--training)
+[View all papers in this cell](../../README.md#iii--training)

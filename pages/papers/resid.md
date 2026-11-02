@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > ReSID learns item representations from structured features with field-aware masked autoencoding and quantizes them with globally aligned orthogonal quantization, instead of LLM embeddings and generic quantizers.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|competitor| C["UNGER"]
 ```
 
-- **同期对比** · [LETTER](letter.md): LETTER is the strongest compared SID baseline and a quantization-runtime reference.
+- **Competitor** · [LETTER](letter.md): LETTER is the strongest compared SID baseline and a quantization-runtime reference.
   - Source: ReSID v1, Sections 5.1/5.4: https://arxiv.org/html/2602.02338v1#S5.SS1.p4; https://arxiv.org/html/2602.02338v1#S5.SS4.p1.
-- **同期对比** · [TIGER](tiger.md): TIGER's semantic RQ-VAE tokenizer is compared under the common downstream generator.
+- **Competitor** · [TIGER](tiger.md): TIGER's semantic RQ-VAE tokenizer is compared under the common downstream generator.
   - Source: ReSID v1, Appendix D/E: https://arxiv.org/html/2602.02338v1#A4.p3; https://arxiv.org/html/2602.02338v1#A5.p4.
-- **同期对比** · [UNGER](unger.md): UNGER aligns semantic/collaborative representations; ReSID uses structured-field masked prediction.
+- **Competitor** · [UNGER](unger.md): UNGER aligns semantic/collaborative representations; ReSID uses structured-field masked prediction.
   - Source: ReSID v1, Section 3.1 and Appendix D: https://arxiv.org/html/2602.02338v1#S3.SS1.p3; https://arxiv.org/html/2602.02338v1#A4.p3.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

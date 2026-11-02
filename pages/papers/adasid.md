@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repulsion for semantically compatible items and scaling the rest by local collision load, instead of fixed overlap regularization.
 
 ### At a Glance
@@ -66,13 +65,13 @@ flowchart LR
     P -->|alternative| D["ETEGRec"]
 ```
 
-- **前序工作** · [QuaSID](quasid.md): QuaSID applies a fixed qualification-aware collision regularizer; AdaSID instantiates its collision term following QuaSID and makes the repulsion adaptive to semantic compatibility, local load, and training progress.
+- **Predecessor** · [QuaSID](quasid.md): QuaSID applies a fixed qualification-aware collision regularizer; AdaSID instantiates its collision term following QuaSID and makes the repulsion adaptive to semantic compatibility, local load, and training progress.
   - Source: AdaSID v1, Section 4.1 follows Hu et al. (2026) for the collision term: https://arxiv.org/html/2604.23522v1#S4.SS1.p2; QuaSID is the collision-aware baseline in Section 5.1.3 and Table 2: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2604.23522v1#S5.T2.
-- **前序工作** · [TIGER](tiger.md): TIGER is the shared downstream generative backbone; AdaSID changes only how the SIDs are learned.
+- **Predecessor** · [TIGER](tiger.md): TIGER is the shared downstream generative backbone; AdaSID changes only how the SIDs are learned.
   - Source: AdaSID v1, Section 5.1.2: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1; Section 5.1.4: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1.
-- **替代方案** · [HiD-VAE](hid-vae.md): HiD-VAE suppresses SID overlaps with an explicit objective under a fixed standard, while AdaSID relaxes or strengthens repulsion adaptively.
+- **Alternative** · [HiD-VAE](hid-vae.md): HiD-VAE suppresses SID overlaps with an explicit objective under a fixed standard, while AdaSID relaxes or strengthens repulsion adaptively.
   - Source: AdaSID v1, Section 1 and Section 2.2 cite Fang et al. (2025) among static overlap-aware objectives: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1; not a baseline in Table 2.
-- **替代方案** · [ETEGRec](etegrec.md): ETEGRec aligns the tokenizer with downstream recommendation through end-to-end supervision, whereas AdaSID keeps a pre-trained tokenizer and regulates code overlaps adaptively.
+- **Alternative** · [ETEGRec](etegrec.md): ETEGRec aligns the tokenizer with downstream recommendation through end-to-end supervision, whereas AdaSID keeps a pre-trained tokenizer and regulates code overlaps adaptively.
   - Source: AdaSID v1, Section 2.2 cites Liu et al. (2025) for end-to-end downstream supervision: https://arxiv.org/html/2604.23522v1#S2.SS2.p1; not a baseline in Table 2.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

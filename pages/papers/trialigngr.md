@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss.
 
 ### At a Glance
@@ -66,15 +65,15 @@ flowchart LR
     P -->|competitor| E["LC-Rec"]
 ```
 
-- **同期对比** · [SIDReasoner](sidreasoner.md): SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds visual captions and mined interests before quantization and eight alignment tasks.
+- **Competitor** · [SIDReasoner](sidreasoner.md): SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds visual captions and mined interests before quantization and eight alignment tasks.
   - Source: TriAlignGR v3, Section 4.1: https://arxiv.org/html/2605.05249v3#S4.SS1.p1; Table 2: https://arxiv.org/html/2605.05249v3#S4.T2.
-- **前序工作** · [MiniOneRec](minionerec.md): TriAlignGR shares MiniOneRec's backbone, training protocol, and RQ-VAE configuration and isolates the effect of its SID enrichment against it.
+- **Predecessor** · [MiniOneRec](minionerec.md): TriAlignGR shares MiniOneRec's backbone, training protocol, and RQ-VAE configuration and isolates the effect of its SID enrichment against it.
   - Source: TriAlignGR v3, Section 4.1 comparison: https://arxiv.org/html/2605.05249v3#S4.SS1.p3; Appendix Table 8: https://arxiv.org/html/2605.05249v3#A5.T8.
-- **同期对比** · [LETTER](letter.md): LETTER regularizes a text tokenizer; TriAlignGR changes the tokenizer input to multimodal, interest-enriched embeddings.
+- **Competitor** · [LETTER](letter.md): LETTER regularizes a text tokenizer; TriAlignGR changes the tokenizer input to multimodal, interest-enriched embeddings.
   - Source: TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
-- **同期对比** · [ETEGRec](etegrec.md): ETEGRec trains tokenizer and generator jointly; TriAlignGR keeps a fixed tokenizer and adds multitask alignment.
+- **Competitor** · [ETEGRec](etegrec.md): ETEGRec trains tokenizer and generator jointly; TriAlignGR keeps a fixed tokenizer and adds multitask alignment.
   - Source: TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec uses text-only SIDs with alignment tasks; TriAlignGR extends the task set with visual-semantic tasks.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec uses text-only SIDs with alignment tasks; TriAlignGR extends the task set with visual-semantic tasks.
   - Source: TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partition of an item graph with collaborative edges, recovering RQ-VAE and RQ-KMeans as the empty-graph case.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["MMGRec"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): Uses TIGER's T5 backbone to isolate improvements from graph-informed SID construction.
+- **Predecessor** · [TIGER](tiger.md): Uses TIGER's T5 backbone to isolate improvements from graph-informed SID construction.
   - Source: GrIS v1, Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1.
-- **同期对比** · [LETTER](letter.md): LETTER aligns codes with pretrained CF embeddings; GrIS explicitly constructs and partitions item graphs.
+- **Competitor** · [LETTER](letter.md): LETTER aligns codes with pretrained CF embeddings; GrIS explicitly constructs and partitions item graphs.
   - Source: GrIS v1, Sections 2.2/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS2.p1; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.01533v1#S5.T3.
-- **同期对比** · [MMGRec](mmgrec.md): MMGRec supplies a graph-aware tokenizer baseline; GrIS also studies recursive graph pooling and graph-reconstruction quantization.
+- **Competitor** · [MMGRec](mmgrec.md): MMGRec supplies a graph-aware tokenizer baseline; GrIS also studies recursive graph pooling and graph-reconstruction quantization.
   - Source: GrIS v1, Sections 2.3/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS3.p2; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.01533v1#S5.T3.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

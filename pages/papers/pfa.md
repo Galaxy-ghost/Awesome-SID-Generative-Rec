@@ -19,7 +19,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink the attended history at later steps, accelerating long-sequence generative decoding.
 
 ### At a Glance
@@ -61,9 +60,9 @@ flowchart LR
     P -->|competitor| B["DualGR"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is the standard generative full-history baseline.
+- **Competitor** · [TIGER](tiger.md): TIGER is the standard generative full-history baseline.
   - Source: PFA v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S4.T3.
-- **同期对比** · [DualGR](dualgr.md): DualGR retrieves coarse-SID history buckets; PFA shares and reuses an attention-derived history ranking.
+- **Competitor** · [DualGR](dualgr.md): DualGR retrieves coarse-SID history buckets; PFA shares and reuses an attention-derived history ranking.
   - Source: PFA v1, Sections 4.1/5 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S5.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.39273v1#S4.T3.
 
-[查看同格全部论文](../../README.md#v--inference)
+[View all papers in this cell](../../README.md#v--inference)

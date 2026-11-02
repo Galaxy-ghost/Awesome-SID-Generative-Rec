@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends its Semantic ID once confidence is high, so ID length varies per item.
 
 ### At a Glance
@@ -67,15 +66,15 @@ flowchart LR
     P -->|competitor| E["ReSID"]
 ```
 
-- **同期对比** · [COBRA](cobra.md): COBRA patches incomplete sparse IDs with a dense vector and BeamFusion at inference; CapsID instead makes the SID itself soft-routed and variable-length, without a dense path.
+- **Competitor** · [COBRA](cobra.md): COBRA patches incomplete sparse IDs with a dense vector and BeamFusion at inference; CapsID instead makes the SID itself soft-routed and variable-length, without a dense path.
   - Source: CapsID v1, Section 4.1 baselines and fairness controls: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px4.p1; Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3, https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6.
-- **同期对比** · [TIGER](tiger.md): TIGER uses fixed-length hard RQ-VAE codes; CapsID routes residuals softly across capsules and stops at an item-specific length.
+- **Competitor** · [TIGER](tiger.md): TIGER uses fixed-length hard RQ-VAE codes; CapsID routes residuals softly across capsules and stops at an item-specific length.
   - Source: CapsID v1, Section 4.1 baselines: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1; Tables 3 and 6: https://arxiv.org/html/2605.05096v1#S4.T3 and https://arxiv.org/html/2605.05096v1#S4.T6.
-- **同期对比** · [ADC-SID](adc-sid.md): CapsID labels this baseline ADA-SID and cites arXiv:2510.25622; it adapts behavior-content quantization with fixed-length codes, whereas CapsID varies code length per item.
+- **Competitor** · [ADC-SID](adc-sid.md): CapsID labels this baseline ADA-SID and cites arXiv:2510.25622; it adapts behavior-content quantization with fixed-length codes, whereas CapsID varies code length per item.
   - Source: CapsID v1, Table 1 and Section 2 cite it as ADA-SID [34] (arXiv:2510.25622): https://arxiv.org/html/2605.05096v1#S2.T1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
-- **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens by co-occurrence frequency; CapsID's SemanticBPE uses a differentiable merge gate over learned capsule codes.
+- **Competitor** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens by co-occurrence frequency; CapsID's SemanticBPE uses a differentiable merge gate over learned capsule codes.
   - Source: CapsID v1, Section 2 capsule-routing and subword paragraph: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px6.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
-- **同期对比** · [ReSID](resid.md): ReSID uses adaptive semantic quantization with residual knowledge transfer; CapsID uses capsule routing with confidence-driven stopping.
+- **Competitor** · [ReSID](resid.md): ReSID uses adaptive semantic quantization with residual knowledge transfer; CapsID uses capsule routing with confidence-driven stopping.
   - Source: CapsID v1, Section 2: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3; cold-start protocol follows ReSID: https://arxiv.org/html/2605.05096v1#A2.SS2.p1.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

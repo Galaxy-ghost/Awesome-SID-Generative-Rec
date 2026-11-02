@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > MMQ trains a multimodal tokenizer with modality-shared and modality-specific experts under orthogonal regularization, then fine-tunes its Semantic IDs on behavior objectives with a multimodal reconstruction loss.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["LC-Rec"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): MMQ replaces TIGER's separated tokenizer training with behavior-aware joint adaptation.
+- **Predecessor** · [TIGER](tiger.md): MMQ replaces TIGER's separated tokenizer training with behavior-aware joint adaptation.
   - Source: MMQ v1, Section 3.3: https://arxiv.org/html/2508.15281v1#S3.SS3.p1.
-- **替代方案** · [OneRec](onerec.md): OneRec aligns modalities before quantization; MMQ separates shared and specific experts.
+- **Alternative** · [OneRec](onerec.md): OneRec aligns modalities before quantization; MMQ separates shared and specific experts.
   - Source: MMQ v1, Section 2: https://arxiv.org/html/2508.15281v1#S2.p3.
-- **替代方案** · [LC-Rec](lc-rec.md): LC-Rec aligns indices through multitask fine-tuning; MMQ adapts multimodal tokenization directly.
+- **Alternative** · [LC-Rec](lc-rec.md): LC-Rec aligns indices through multitask fine-tuning; MMQ adapts multimodal tokenization directly.
   - Source: MMQ v1, Sections 2 and 3.3: https://arxiv.org/html/2508.15281v1#S2.p2; https://arxiv.org/html/2508.15281v1#S3.SS3.p1.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

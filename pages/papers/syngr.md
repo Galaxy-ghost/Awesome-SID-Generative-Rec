@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.
 
 ### At a Glance
@@ -65,13 +64,13 @@ flowchart LR
     P -->|competitor| D["CID"]
 ```
 
-- **同期对比** · [MACRec](macrec.md): MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts and adds a synergy-focused contrastive objective, with lower training cost.
+- **Competitor** · [MACRec](macrec.md): MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts and adds a synergy-focused contrastive objective, with lower training cost.
   - Source: SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency comparison: https://arxiv.org/html/2605.18920v2#S5.SS3.p2.
-- **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec translates each modality into its own quantitative language; SynGR follows its decoding and pre-training protocol but targets synergistic information between modalities.
+- **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec translates each modality into its own quantitative language; SynGR follows its decoding and pre-training protocol but targets synergistic information between modalities.
   - Source: SynGR v2, baselines and protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p2, https://arxiv.org/html/2605.18920v2#S5.SS1.p3, https://arxiv.org/html/2605.18920v2#S4.SS3.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
-- **同期对比** · [TIGER](tiger.md): TIGER uses unimodal text SIDs; SynGR fuses text and image codes and regularizes their synergy.
+- **Competitor** · [TIGER](tiger.md): TIGER uses unimodal text SIDs; SynGR fuses text and image codes and regularizes their synergy.
   - Source: SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
-- **同期对比** · [CID](cid.md): P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
+- **Competitor** · [CID](cid.md): P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
   - Source: SynGR v2, sequential baselines (P5-CID): https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
 
-[查看同格全部论文](../../README.md#i--training)
+[View all papers in this cell](../../README.md#i--training)

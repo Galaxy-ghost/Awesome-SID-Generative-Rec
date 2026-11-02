@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Retrieval-Grounded-Credit splits each reasoning trace into interest hypotheses, runs each as a query through a frozen retriever, and rewards hypotheses that hit the target, not only the decoded Semantic ID.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["SAPO"]
 ```
 
-- **前序工作** · [SIDReasoner](sidreasoner.md): Reuses SIDReasoner's tokenizer, alignment data, and evaluator; adds retrieval-grounded trace credit.
+- **Predecessor** · [SIDReasoner](sidreasoner.md): Reuses SIDReasoner's tokenizer, alignment data, and evaluator; adds retrieval-grounded trace credit.
   - Source: Retrieval-Grounded-Credit v1, Sections 3.1/3.2 and 4.1, pp. 3/6: https://arxiv.org/pdf/2609.29983v1#page=3; https://arxiv.org/pdf/2609.29983v1#page=6.
-- **替代方案** · [PROMISE](promise.md): PROMISE rewards intermediate SID paths; this method verifies language interests through retrieval.
+- **Alternative** · [PROMISE](promise.md): PROMISE rewards intermediate SID paths; this method verifies language interests through retrieval.
   - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.
-- **替代方案** · [SAPO](sapo.md): SAPO aligns reasoning blocks with SID tokens; this method attributes query hits to interest lines.
+- **Alternative** · [SAPO](sapo.md): SAPO aligns reasoning blocks with SID tokens; this method attributes query hits to interest lines.
   - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SST represents history items as variable-length subwords merged from stable adjacent Semantic ID tokens while keeping fixed-length target decoding, to reduce intra-item attention in the encoder.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|predecessor| B["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): SST compresses TIGER-VAE/TIGER-KM histories while retaining fixed-length target SIDs.
+- **Predecessor** · [TIGER](tiger.md): SST compresses TIGER-VAE/TIGER-KM histories while retaining fixed-length target SIDs.
   - Source: SST v1, Sections 3.1.2/3.1.4 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
-- **前序工作** · [LETTER](letter.md): LETTER is the collaborative-tokenization backbone used for the third SST configuration.
+- **Predecessor** · [LETTER](letter.md): LETTER is the collaborative-tokenization backbone used for the third SST configuration.
   - Source: SST v1, Section 3.1.2 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

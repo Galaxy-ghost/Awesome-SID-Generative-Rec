@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to speed up beam-search generation of top-K items in LLM-based generative recommendation.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["PAD-Rec"]
 ```
 
-- **前序工作** · [LC-Rec](lc-rec.md): AtSpeed accelerates an LC-Rec target model: it trains a small draft model aligned to LC-Rec's top-K beams and verifies drafted beams in parallel.
+- **Predecessor** · [LC-Rec](lc-rec.md): AtSpeed accelerates an LC-Rec target model: it trains a small draft model aligned to LC-Rec's top-K beams and verifies drafted beams in parallel.
   - Source: AtSpeed v3, instantiated on LC-Rec: https://arxiv.org/html/2410.05165v3#S4.SS1.p1 and https://arxiv.org/html/2410.05165v3#S4.SS1.p4; Figure 1 inference cost of LC-Rec: https://arxiv.org/html/2410.05165v3#S1.F1.
-- **替代方案** · [SpecGR](specgr.md): SpecGR uses speculative drafting to recommend new items inductively, whereas AtSpeed uses it only to speed up decoding while keeping the target model's top-K.
+- **Alternative** · [SpecGR](specgr.md): SpecGR uses speculative drafting to recommend new items inductively, whereas AtSpeed uses it only to speed up decoding while keeping the target model's top-K.
   - Source: AtSpeed v3, Section 5 related work cites SpecGR: https://arxiv.org/html/2410.05165v3#S5.p1.
-- **替代方案** · [PAD-Rec](pad-rec.md): PAD-Rec later also applies speculative decoding to LLM generative recommendation, targeting list-wise generation with position-aware drafts.
+- **Alternative** · [PAD-Rec](pad-rec.md): PAD-Rec later also applies speculative decoding to LLM generative recommendation, targeting list-wise generation with position-aware drafts.
   - Source: Evidence is from the later PAD-Rec paper, Sections 1 and 2.3: https://arxiv.org/html/2604.27747v1#S1.p2 and https://arxiv.org/html/2604.27747v1#S2.SS3.p1.
 
-[查看同格全部论文](../../README.md#v--inference)
+[View all papers in this cell](../../README.md#v--inference)

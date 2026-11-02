@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GEM-Rec adds control tokens that decide whether to show an ad and bid-aware decoding that injects real-time bids, so one generator serves both semantic relevance and ad revenue.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|predecessor| B["LIGER"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.
+- **Competitor** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.
   - Source: GEM-Rec v1, Section 5.3: https://arxiv.org/html/2603.22231v1#S5.SS3.p1; Table 1 and Appendix Table 3: https://arxiv.org/html/2603.22231v1#S5.T1 and https://arxiv.org/html/2603.22231v1#A7.T3.
-- **前序工作** · [LIGER](liger.md): GEM-Rec builds on LIGER's reproduction of the TIGER architecture and 5-core preprocessing, without LIGER's own training objectives.
+- **Predecessor** · [LIGER](liger.md): GEM-Rec builds on LIGER's reproduction of the TIGER architecture and 5-core preprocessing, without LIGER's own training objectives.
   - Source: GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): https://arxiv.org/html/2603.22231v1#S5.SS4.p1; Appendix B.1 follows its 5-core filtering: https://arxiv.org/html/2603.22231v1#A2.SS1.p1; Appendix F matches its model scale: https://arxiv.org/html/2603.22231v1#A6.p1.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

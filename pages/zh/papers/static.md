@@ -1,0 +1,74 @@
+# STATIC
+
+*Vectorizing the Trie: Efficient Constrained Decoding for LLM-based Generative Retrieval on Accelerators* — Su et al. · KDD’26 ADS
+
+`V. 效率` · `Inference` · [论文](https://arxiv.org/abs/2602.22647) · [代码](https://github.com/youtube/static-constraint-decoding) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/static.md)
+
+阅读级别：概览（第 1 级） · 本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+
+```mermaid
+flowchart LR
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Vec. C-Beam"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    class I main
+```
+
+- `–`: Not reported in the paper.
+- `Dec-Only`: Decoder-only.
+- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Vec. C-Beam`: Vectorized constrained beam search.
+
+### TL;DR
+
+> [!NOTE]
+> STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。
+
+### 速览
+
+| 维度 | 摘要 |
+| :-- | :-- |
+| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 核心贡献 | STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。 |
+| 主要改动阶段 | Inference |
+
+### 3. 实验发现
+
+<details>
+<summary>实验设置</summary>
+
+- **数据集**：YouTube corpus (100M-1B items); Amazon Beauty, Sports and Outdoors, Toys and Games (10K-20K items/domain). Filtering rules not reported.
+  - 出处：Sections 5.1/6.1 and Table 3: [S5.SS1.p1](https://arxiv.org/html/2602.22647v3#S5.SS1.p1) and [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1) and [S6.T3](https://arxiv.org/html/2602.22647v3#S6.T3)
+- **切分**：Amazon cold targets: newest 2% or 5% of items by oldest-review date. Training-sequence exclusion wording is internally contradictory; exact temporal/validation split not reported. YouTube training split not reported.
+  - 出处：Section 6.2 and Appendix F: [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1) and [A6.p2](https://arxiv.org/html/2602.22647v3#A6.p2)
+- **候选集**：Restricted catalog: YouTube about 20M high-quality videos uploaded within 7 days; Amazon only the selected cold-item set. Unconstrained baselines can access the full catalog.
+  - 出处：Sections 5.2/6.2: [S5.SS2.p1](https://arxiv.org/html/2602.22647v3#S5.SS2.p1) and [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1)
+- **可见性**：Amazon generator exclusion is ambiguous; tokenizer cold-item exposure is not reported. Section 6.2 calls training sequences no-cold-start but says to remove sequences without cold items. Unseen by generator only versus unseen by tokenizer too cannot be established.
+  - 出处：Sections 6.1/6.2: [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1) and [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1)
+- **SID 规格**：YouTube: 8 levels x 2048 codes; Amazon: separate RQ-VAE per domain, 4 levels x 256. Collision handling not reported.
+  - 出处：Sections 5.1/6.1: [S5.SS1.p1](https://arxiv.org/html/2602.22647v3#S5.SS1.p1) and [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1)
+- **推理预算**：TPU v6e. YouTube: Gemini-based dense 3B, batch 2/chip, beam 70; added constraint overhead 0.033 ms/step, 0.25% of inference time. Amazon: Gemma-based dense 1B, batch 16, beam 20, Recall@1.
+  - 出处：Sections 5.1/5.2/6.1: [S5.SS1.p2](https://arxiv.org/html/2602.22647v3#S5.SS1.p2) and [S5.SS2.p3](https://arxiv.org/html/2602.22647v3#S5.SS2.p3) and [S6.SS1.p2](https://arxiv.org/html/2602.22647v3#S6.SS1.p2)
+- **结果来源**：Original Table 1: constraint-enforcement latency (100 trials); Table 2: STATIC-enabled PLUM deployment A/B; Table 3: Amazon cold-start Recall@1, reported as peak over 70 training epochs.
+  - 出处：Tables 1-3 and Appendix F: [S5.T1](https://arxiv.org/html/2602.22647v3#S5.T1) and [S5.T2](https://arxiv.org/html/2602.22647v3#S5.T2) and [S6.T3](https://arxiv.org/html/2602.22647v3#S6.T3) and [A6.p2](https://arxiv.org/html/2602.22647v3#A6.p2)
+
+</details>
+
+### 5. 相关工作
+
+```mermaid
+flowchart LR
+    P["STATIC"]
+    P -->|predecessor| A["PLUM"]
+    P -->|predecessor| B["TIGER"]
+    P -->|alternative| C["LIGER"]
+```
+
+- **前序工作** · [PLUM](plum.md): STATIC adds production decoding constraints to a PLUM-based YouTube retriever.
+  - 出处：STATIC v3, Sections 5.1/5.4: https://arxiv.org/html/2602.22647v3#S5.SS1.p2; https://arxiv.org/html/2602.22647v3#S5.SS4.p1.
+- **前序工作** · [TIGER](tiger.md): STATIC retains hierarchical SID retrieval and accelerates validity masking.
+  - 出处：STATIC v3, Sections 2.1/6.1: https://arxiv.org/html/2602.22647v3#S2.SS1.p2; https://arxiv.org/html/2602.22647v3#S6.SS1.p1.
+- **替代方案** · [LIGER](liger.md): LIGER motivates the cold-start limitation; STATIC restricts decoding to cold items.
+  - 出处：STATIC v3, Section 2.1 (Yang et al., 2024) and Section 6: https://arxiv.org/html/2602.22647v3#S2.SS1.p3; https://arxiv.org/html/2602.22647v3#S6.SS2.p1.
+
+[查看同格全部论文](../../../README.zh.md#v--inference)

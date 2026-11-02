@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict code reassignment, to update Semantic IDs without full retraining or mass ID changes.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): T5-based SID generator is a backbone for testing DACT under period-wise tokenizer and recommender updates.
+- **Predecessor** · [TIGER](tiger.md): T5-based SID generator is a backbone for testing DACT under period-wise tokenizer and recommender updates.
   - Source: https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T2
-- **前序工作** · [LC-Rec](lc-rec.md): LLM-based generative framework is adapted with Qwen2.5-1.5B-Instruct and continual LoRA updates to evaluate DACT.
+- **Predecessor** · [LC-Rec](lc-rec.md): LLM-based generative framework is adapted with Qwen2.5-1.5B-Instruct and continual LoRA updates to evaluate DACT.
   - Source: https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T3
-- **前序工作** · [LETTER](letter.md): DACT follows LETTER's CF-to-quantized-embedding collaborative regularization, then adds drift-aware continual adaptation.
+- **Predecessor** · [LETTER](letter.md): DACT follows LETTER's CF-to-quantized-embedding collaborative regularization, then adds drift-aware continual adaptation.
   - Source: https://arxiv.org/html/2603.29705v1#S2.SS1.p5
 
-[查看同格全部论文](../../README.md#vi--tokenization)
+[View all papers in this cell](../../README.md#vi--tokenization)

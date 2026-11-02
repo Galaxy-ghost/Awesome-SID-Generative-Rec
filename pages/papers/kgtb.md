@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > KGTB organizes POI data as a knowledge graph, quantizes each node into a structural ID under graph supervision, and fine-tunes an LLM on POI, category, and region visit tasks.
 
 ### At a Glance
@@ -64,7 +63,7 @@ flowchart LR
     P -->|competitor| A["GNPR-SID"]
 ```
 
-- **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
+- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
   - Source: KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2; https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.
 
-[查看同格全部论文](../../README.md#i--tokenization)
+[View all papers in this cell](../../README.md#i--tokenization)

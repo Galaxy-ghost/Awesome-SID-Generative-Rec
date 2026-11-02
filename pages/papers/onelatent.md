@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged alignment, and curriculum post-training, instead of generating long reasoning traces at inference.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|alternative| B["OneRec-Think"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is a SID-based generative baseline in the reported comparison.
+- **Competitor** · [TIGER](tiger.md): TIGER is a SID-based generative baseline in the reported comparison.
   - Source: OneLatent v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.30675v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.30675v1#S4.T2.
-- **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think uses explicit CoT plus RL; OneLatent trains a compact latent interface.
+- **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think uses explicit CoT plus RL; OneLatent trains a compact latent interface.
   - Source: OneLatent v1, Section 2.2: https://arxiv.org/html/2610.30675v1#S2.SS2.p1.
 
-[查看同格全部论文](../../README.md#v--training)
+[View all papers in this cell](../../README.md#v--training)

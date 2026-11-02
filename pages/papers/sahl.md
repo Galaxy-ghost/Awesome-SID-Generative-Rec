@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SAHL quantizes items with SRBQ into a balanced token-subspace-item hierarchy and reconstructs user history at those granularities, moving by curriculum to next-item prediction, instead of next-item prediction alone.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **前序工作** · [RPG](rpg.md): Supplies the parallel backbone and graph-constrained decoder retained by SAHL.
+- **Predecessor** · [RPG](rpg.md): Supplies the parallel backbone and graph-constrained decoder retained by SAHL.
   - Source: SAHL v1, Sections 5.3/6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3.
-- **同期对比** · [Tlow](tlow.md): Tokenizer-oriented comparator; its scores follow the published matched protocol.
+- **Competitor** · [Tlow](tlow.md): Tokenizer-oriented comparator; its scores follow the published matched protocol.
   - Source: SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S5.T2.
-- **同期对比** · [TIGER](tiger.md): Included semantic-ID baseline; SAHL adds quantizer-aligned history reconstruction.
+- **Competitor** · [TIGER](tiger.md): Included semantic-ID baseline; SAHL adds quantizer-aligned history reconstruction.
   - Source: SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p1; https://arxiv.org/html/2610.25093v1#S5.T2.
 
-[查看同格全部论文](../../README.md#iv--training)
+[View all papers in this cell](../../README.md#iv--training)

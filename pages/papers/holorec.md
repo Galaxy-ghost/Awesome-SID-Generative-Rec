@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities and generates chain-of-thought steps inside decoding, instead of using external annotated rationales.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["OneRec-Think"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): HoloRec retains TIGER's T5 backbone and adds nested semantic granularities.
+- **Predecessor** · [TIGER](tiger.md): HoloRec retains TIGER's T5 backbone and adds nested semantic granularities.
   - Source: HoloRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2606.15331v1#S4.T2.
-- **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses parallel diffusion; HoloRec interleaves autoregressive semantic reasoning.
+- **Alternative** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses parallel diffusion; HoloRec interleaves autoregressive semantic reasoning.
   - Source: HoloRec v1, Sections 2.2 and 3.3: https://arxiv.org/html/2606.15331v1#S2.SS2.p1; https://arxiv.org/html/2606.15331v1#S3.SS3.
-- **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think reasons in natural language; HoloRec uses endogenous semantic codes.
+- **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think reasons in natural language; HoloRec uses endogenous semantic codes.
   - Source: HoloRec v1, Section 2.3: https://arxiv.org/html/2606.15331v1#S2.SS3.p1.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

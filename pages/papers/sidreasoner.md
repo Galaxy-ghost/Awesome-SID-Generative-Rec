@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces.
 
 ### At a Glance
@@ -115,13 +114,13 @@ flowchart LR
     P -->|alternative| D["OneRec-Think"]
 ```
 
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to SIDs with multi-task tuning; SIDReasoner enriches SID-language alignment with teacher-written corpora and adds reasoning activation and GRPO.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to SIDs with multi-task tuning; SIDReasoner enriches SID-language alignment with teacher-written corpora and adds reasoning activation and GRPO.
   - Source: SIDReasoner v2, generative baselines: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS2.p1; Table 2: https://arxiv.org/html/2603.23183v2#S4.T2; multi-task alignment is ablation S1 in Table 3: https://arxiv.org/html/2603.23183v2#S4.T3.
-- **同期对比** · [LETTER](letter.md): LETTER improves the tokenizer; SIDReasoner keeps RQ-VAE IDs and changes how the LLM reasons over them.
+- **Competitor** · [LETTER](letter.md): LETTER improves the tokenizer; SIDReasoner keeps RQ-VAE IDs and changes how the LLM reasons over them.
   - Source: SIDReasoner v2, generative baselines: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS2.p1; Table 2: https://arxiv.org/html/2603.23183v2#S4.T2.
-- **同期对比** · [TIGER](tiger.md): TIGER predicts SIDs directly with a small generator; SIDReasoner reasons in language before predicting SIDs.
+- **Competitor** · [TIGER](tiger.md): TIGER predicts SIDs directly with a small generator; SIDReasoner reasons in language before predicting SIDs.
   - Source: SIDReasoner v2, generative baselines: https://arxiv.org/html/2603.23183v2#S4.SS1.SSS2.p1; Table 2: https://arxiv.org/html/2603.23183v2#S4.T2.
-- **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think also interleaves reasoning with itemic tokens; SIDReasoner relies on enriched SID-language alignment and outcome-reward GRPO.
+- **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think also interleaves reasoning with itemic tokens; SIDReasoner relies on enriched SID-language alignment and outcome-reward GRPO.
   - Source: SIDReasoner v2, Sections 1 and 2.2 cite OneRec-Think: https://arxiv.org/html/2603.23183v2#S1.p2 and https://arxiv.org/html/2603.23183v2#S2.SS2.p2; not a baseline in Table 2.
 
-[查看同格全部论文](../../README.md#iii--training)
+[View all papers in this cell](../../README.md#iii--training)

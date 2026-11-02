@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training.
 
 ### At a Glance
@@ -64,7 +63,7 @@ flowchart LR
     P -->|competitor| A["TIGER"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
+- **Competitor** · [TIGER](tiger.md): TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
   - Source: DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.
 
-[查看同格全部论文](../../README.md#vi--backbone)
+[View all papers in this cell](../../README.md#vi--backbone)

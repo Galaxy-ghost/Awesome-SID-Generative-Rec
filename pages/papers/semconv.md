@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > SemConv converts item IDs into token sequences aligned with the LLM space through Alignment Tokenization, adds tasks linking collaborative signals and language, and pre-caches top-K results for serving.
 
 ### At a Glance
@@ -63,9 +62,9 @@ flowchart LR
     P -->|predecessor| B["TIGER"]
 ```
 
-- **同期对比** · [LC-Rec](lc-rec.md): LC-Rec supplies the alignment-task/inference template and is the strongest evaluated baseline.
+- **Competitor** · [LC-Rec](lc-rec.md): LC-Rec supplies the alignment-task/inference template and is the strongest evaluated baseline.
   - Source: SemConv v1, Alignment Task, Inference and Table1: https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p1; https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1; https://arxiv.org/html/2412.13771v1#Sx3.T1.
-- **前序工作** · [TIGER](tiger.md): SemConv draws on TIGER's residual codebooks while removing autoencoder reconstruction.
+- **Predecessor** · [TIGER](tiger.md): SemConv draws on TIGER's residual codebooks while removing autoencoder reconstruction.
   - Source: SemConv v1, Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p2; https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p11.
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

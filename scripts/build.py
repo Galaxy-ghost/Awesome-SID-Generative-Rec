@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build README.md, per-paper pages (pages/papers/<id>.md), index pages (pages/index/), comparison tables (comparisons/),
-guides/glossary.md, llms.txt, and llms-full.txt, or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
+guides/glossary.md, llms.txt, and llms-full.txt, plus the Chinese views README.zh.md, pages/zh/papers/, pages/zh/index/,
+and guides/glossary.zh.md, or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
 """
 import argparse
 import os
@@ -35,7 +36,8 @@ def load_papers(root: Path):
 
 
 def slugify_heading(title: str) -> str:
-    return re.sub(r"[^a-z0-9 _-]", "", title.strip().lower()).replace(" ", "-")
+    """GitHub heading anchor: lowercase, keep letters (including CJK), digits, spaces, '_' and '-'."""
+    return re.sub(r"[^\w -]", "", title.strip().lower()).replace(" ", "-")
 
 
 def norm_tex(s: str) -> str:
@@ -132,8 +134,10 @@ ZH_LABELS = {
     "source": "出处",
     "levels": ["概览", "阅读笔记", "代码级精读"],
     "reading_level": "阅读级别",
+    "level_n": "第 {n} 级",
+    "glance_title": "速览",
+    "colon": "：",
     "on_this_page": "本页目录",
-    "glance_title": "At a Glance",
     "glance_head": ("维度", "摘要"),
     "glance_rows": {
         "Research Problem": "研究问题",
@@ -160,6 +164,53 @@ ZH_LABELS = {
         "IV": "IV. 实用目标",
         "V": "V. 效率",
         "VI": "VI. 泛化",
+    },
+    "readme": {
+        "intro": "按要解决的问题和改动的流程阶段整理的语义 ID 生成式推荐论文清单。",
+        "scope_title": "范围",
+        "scope": "本清单收录 {n} 篇用语义 ID（Semantic ID，SID）做生成式推荐的论文。矩阵按问题和主要改动的阶段放置其中 {m} 篇，"
+                 "其余 {k} 篇属于范式、系统与基准。清单也收录把 SID 当作特征的方法。POI 与本地生活推荐的论文带 `POI` 标签，"
+                 "汇总在 [POI 索引](pages/zh/index/poi.md)。",
+        "start_title": "从哪里开始",
+        "start_head": ("读者", "入口"),
+        "start": [("初次接触", "[入门指南](guides/start-here.zh.md)"),
+                  ("找研究问题", "[问题 × 阶段矩阵](#问题--阶段矩阵)"),
+                  ("按阶段选方法", "[按阶段索引](pages/zh/index/stages.md)"),
+                  ("找代码", "[有代码的论文](pages/zh/index/code.md)"),
+                  ("LLM 与工具", "[llms.txt](llms.txt)（英文）")],
+        "starter_title": "入门论文",
+        "starter_head": ("论文", "一句话", "会议"),
+        "matrix_title": "问题 × 阶段矩阵",
+        "problem": "问题",
+        "total": "合计",
+        "click": "点击数字跳到对应论文，颜色越深论文越多。",
+        "legend_head": ("标记", "含义"),
+        "glossary": "[术语表](guides/glossary.zh.md) 定义论文页中的全部取值。",
+        "updates_title": "最近更新",
+        "papers": "论文：",
+        "all_title": "全部论文",
+        "contrib_title": "参与贡献",
+        "contrib": "新增一条 YAML 记录，然后运行 `make build && make check`。详见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。",
+    },
+    "index": {
+        "stages_title": "按阶段索引",
+        "stages_intro": "每张表列出主要改动落在某一阶段的论文，以及该阶段在 Table 1 中的取值。"
+                        "范式、系统与基准类论文不对应单一阶段，见 [README]({readme}#{anchor})。",
+        "compare": "并排比较（英文）：",
+        "head": ("论文", "会议", "问题"),
+        "cell": "问题 × 阶段",
+        "code": "代码",
+        "pipeline": "流程",
+        "code_title": "有代码的论文",
+        "code_intro": "{n} 篇论文附有代码。`代码` 是作者仓库，`代码（第三方）` 是他人实现。",
+        "poi_title": "POI 与本地生活论文",
+        "poi_intro": "{n} 篇论文面向 POI、本地生活或空间推荐。加粗的是各论文主要改动的阶段。",
+    },
+    "glossary": {
+        "title": "术语表",
+        "intro": "本页由 [`data/vocab.yaml`](../data/vocab.yaml) 生成，定义 Table 1、论文页和索引中的取值。定义保留英文原文。",
+        "symbols": "符号",
+        "problems": "问题",
     },
     "legend": [
         ("`†`", "由论文点名的配置推断得到。"),
@@ -293,122 +344,70 @@ def short_links(text: str) -> str:
 
 
 def setup_card(rec: dict, folded: bool = False, zh: bool = False) -> str:
-    """Setup card; folded wraps the entire card in a collapsible <details> block."""
+    """Setup card; folded wraps the card in a collapsed <details> block with short source links."""
     st, sw = rec.get("setup"), rec.get("setup_where", {})
     if not st:
         return ""
     labels = ZH_LABELS["setup"] if zh else SETUP_LABELS
     title = ZH_LABELS["setup_title"] if zh else "Experimental setup"
-    src_lab = ZH_LABELS["source"] if zh else "Source"
-    pairs = list(zip(SETUP_KEYS, labels))
-    if not folded:
-        return f"**{title}**\n\n" + "\n".join(
-            f"- **{lab}**: {st[k]}" + (f"\n  - {src_lab}: {sw[k]}" if sw.get(k) else "") for k, lab in pairs)
-    items = "\n".join(
-        f"- **{lab}**: {st[k]}" + (f"\n  - {src_lab}: {short_links(sw[k])}" if sw.get(k) else "") for k, lab in pairs)
-    return f"<details>\n<summary>{title}</summary>\n\n{items}\n\n</details>"
+    src = f"{ZH_LABELS['source']}{ZH_LABELS['colon']}" if zh else "Source: "
+    colon = ZH_LABELS["colon"] if zh else ": "
+    fmt = short_links if folded else str
+    items = "\n".join(f"- **{lab}**{colon}{st[k]}" + (f"\n  - {src}{fmt(sw[k])}" if sw.get(k) else "")
+                      for k, lab in zip(SETUP_KEYS, labels))
+    return f"<details>\n<summary>{title}</summary>\n\n{items}\n\n</details>" if folded else f"**{title}**\n\n{items}"
 
 
 def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: bool = False) -> str:
+    Z = ZH_LABELS
+    up = "../../../" if zh else "../../"
+    readme = f"{up}README.zh.md" if zh else f"{up}README.md"
     probs = {e["value"]: e for e in vocab["problem"]}
     prob = probs[rec["problem"]]
-    anchor = slugify_heading(cell_label(rec, probs))
+    anchor = slugify_heading(cell_label(rec, probs, zh))
     sections = SECTIONS_ZH if zh else SECTIONS
     level = reading_level(n, sections)
     defs = {c: {e["value"]: e.get("description") for e in vocab.get(c, [])} for c in TECH_COLS}
-    
-    if zh:
-        glance_rows_map = ZH_LABELS["glance_rows"]
-        glance = [
-            (glance_rows_map["Research Problem"], f"{band(prob, True)}: {prob['description']}"),
-            (glance_rows_map["Key Contribution"], rec.get("tldr_zh") or rec.get("tldr")),
-            (glance_rows_map["Modified Stage"], stage_label(rec, True)),
-        ]
-        for k in GLANCE_KEYS:
-            val = (n or {}).get("glance", {}).get(k)
-            if val:
-                glance.append((glance_rows_map[k], val))
-        table_headers = ZH_LABELS["glance_head"]
-    else:
-        glance = [
-            ("Research Problem", f"{band(prob)}: {prob['description']}"),
-            ("Key Contribution", rec.get("tldr")),
-            ("Modified Stage", stage_label(rec)),
-            *((k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS),
-        ]
-        table_headers = ("Aspect", "Summary")
-
-    rows = [f"| {a} | {v.strip().replace('|', chr(92) + '|')} |" for a, v in glance if v]
-    
-    tldr_text = (rec.get("tldr_zh") if zh else rec.get("tldr")) or ""
-    tldr_block = ["> [!NOTE]", f"> {tldr_text}"] if tldr_text else []
-    
-    glance_block = ["\n".join([f"| {table_headers[0]} | {table_headers[1]} |", "| :-- | :-- |", *rows])] if rows else []
-    
-    blocks = [("TL;DR", tldr_block)] if tldr_block else []
-    blocks += [("At a Glance" if not zh else ZH_LABELS["glance_title"], glance_block)] if glance_block else []
-    
+    tldr = ((rec.get("tldr_zh") if zh else rec.get("tldr")) or "").strip()
+    glance = [("Research Problem", f"{band(prob, zh)}{Z['colon'] if zh else ': '}{prob['description']}"), ("Key Contribution", tldr),
+              ("Modified Stage", stage_label(rec, zh)), *((k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS)]
+    head = Z["glance_head"] if zh else ("Aspect", "Summary")
+    rows = [f"| {Z['glance_rows'][a] if zh else a} | {v.strip().replace('|', chr(92) + '|')} |" for a, v in glance if v]
+    colon = Z["colon"] if zh else ": "
+    blocks = [("TL;DR", [f"> [!NOTE]\n> {tldr}"])] if tldr else []
+    blocks += [(Z["glance_title"] if zh else "At a Glance", ["\n".join([f"| {head[0]} | {head[1]} |", "| :-- | :-- |", *rows])])] if rows else []
     image = root / "architectures" / f"{rec['id']}.png"
-    setup_card_str = setup_card(rec, folded=True, zh=zh)
-    inserts = {
-        sections[1]: f"![{rec['name']} architecture diagram](../../architectures/{image.name})" if image.is_file() else "",
-        sections[2]: setup_card_str,
-    }
+    inserts = {sections[1]: f"![{rec['name']} architecture diagram]({up}architectures/{image.name})" if image.is_file() else "",
+               sections[2]: setup_card(rec, folded=True, zh=zh)}
     for t in sections:
         parts = [p for p in (inserts.get(t), (n or {}).get("sections", {}).get(t)) if p]
         blocks += [(t, parts)] if parts else []
     blocks += [(None, [n["rest"]])] if n and n["rest"] else []
-    
-    rel_title = ZH_LABELS["related_title"] if zh else RELATED_TITLE
-    rel_rels = ZH_LABELS["relations"]
-    rel_view_all = ZH_LABELS["view_cell"]
-    rel_matrix_link = f"../../README.zh.md#{anchor}" if zh else f"../../README.md#{anchor}"
-    
-    rel_items = []
-    for r in rec.get("related", []):
-        rel_type = rel_rels.get(r['relation'], r['relation'].capitalize())
-        target_name = by_id[r['id']]['name']
-        target_file = f"{r['id']}.md"
-        note = r['note']
-        where = r['where']
-        rel_items.append(f"- **{rel_type}** · [{target_name}]({target_file}): {note}\n  - Source: {where}")
-    rel_str = "\n".join(rel_items)
-    
-    blocks.append((rel_title, [p for p in (related_chart(rec, by_id), rel_str, f"[{rel_view_all}]({rel_matrix_link})") if p]))
-    
+    rel_lab = (lambda r: Z["relations"][r]) if zh else (lambda r: r.capitalize())
+    src_lab = Z["source"] if zh else "Source"
+    rel = "\n".join(f"- **{rel_lab(r['relation'])}** · [{by_id[r['id']]['name']}]({r['id']}.md): {r['note']}"
+                    f"\n  - {src_lab}{colon}{r['where']}" for r in rec.get("related", []))
+    view = Z["view_cell"] if zh else "View all papers in this cell"
+    blocks.append((Z["related_title"] if zh else RELATED_TITLE,
+                   [p for p in (related_chart(rec, by_id), rel, f"[{view}]({readme}#{anchor})") if p]))
     tags = [band(prob, zh), stage_label(rec, zh)] + (["POI"] if rec.get("poi") else [])
-    
-    toc_links = []
-    for t, _ in blocks:
-        if not t:
-            continue
-        short_t = TOC_SHORT.get(t, t) if not zh else t
-        toc_links.append(f"[{short_t}](#{slugify_heading(t)})")
-    toc = " · ".join(toc_links)
-    
+    toc = " · ".join(f"[{t if zh else TOC_SHORT.get(t, t)}](#{slugify_heading(t)})" for t, _ in blocks if t)
     vals = dict.fromkeys(f"- `{rec[c]}`: {defs[c][rec[c]]}" for c in TECH_COLS if defs[c].get(rec[c]))
-    
-    switch_link = f"[中文](../zh/papers/{rec['id']}.md)" if not zh else f"[English](../../papers/{rec['id']}.md)"
-    matrix_link = f"[Matrix](../../README.md#{anchor})" if not zh else f"[矩阵](../../../README.zh.md#{anchor})"
-    
-    line1_links = link_line(rec, [matrix_link, switch_link], zh=zh)
-    
-    level_name = LEVELS[level - 1] if not zh else ZH_LABELS["levels"][level - 1]
-    level_label_str = ZH_LABELS["reading_level"] if zh else "Reading level"
-    on_this_page_str = ZH_LABELS["on_this_page"] if zh else "On this page"
-    
+    switch = f"[English](../../papers/{rec['id']}.md)" if zh else f"[中文](../zh/papers/{rec['id']}.md)"
+    matrix = f"[{Z['links']['Matrix'] if zh else 'Matrix'}]({readme}#{anchor})"
+    level_name = (Z["levels"] if zh else LEVELS)[level - 1]
     lines = [
         f"# {rec['name']}", "",
         f"*{title_of(rec)}* — {rec['authors']} · {rec['venue']}", "",
-        " · ".join(f"`{t}`" for t in tags) + " · " + line1_links, "",
-        f"{level_label_str}: {level_name} (Level {level}) · {on_this_page_str}: {toc}", "",
+        " · ".join([*(f"`{t}`" for t in tags), link_line(rec, [matrix, switch], zh=zh)]), "",
+        (f"{Z['reading_level']}：{level_name}（{Z['level_n'].format(n=level)}） · {Z['on_this_page']}：{toc}" if zh else
+         f"Reading level: {level_name} (Level {level}) · On this page: {toc}"), "",
         *flow_chart(rec), "",
         *vals, "",
     ]
     for t, parts in blocks:
         lines += ([f"### {t}", ""] if t else []) + [x for p in parts for x in (p, "")]
     return "\n".join(lines)
-
 
 
 def heat(n: int, anchor: str) -> str:
@@ -429,88 +428,122 @@ def ref(rec: dict) -> str:
     return f"[{rec['name']}][{'' if rec['name'].lower() == rec['id'] else rec['id']}]"
 
 
-def format_item(rec: dict) -> str:
+def format_item(rec: dict, zh: bool = False) -> str:
     first = f"- {ref(rec)} - {rec['venue']}" + (" · `POI`" if rec.get("poi") else "")
-    return "<br>\n  ".join([first, *[x for x in ((rec.get("tldr") or "").strip(), link_line(rec)) if x]])
+    tldr = ((rec.get("tldr_zh") if zh else rec.get("tldr")) or "").strip()
+    return "<br>\n  ".join([first, *[x for x in (tldr, link_line(rec, zh=zh)) if x]])
 
 
-def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list) -> str:
+def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, zh: bool = False) -> str:
+    R = ZH_LABELS["readme"]
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
     psb = next(p for p in vocab["problem"] if p["value"] == "psb")
     ordered = by_year(papers)
     cell = {(p["value"], s): [r for r in ordered if (r["problem"], r["stage"]) == (p["value"], s)] for p in problems for s in STAGES}
     psb_list = [r for r in ordered if r["problem"] == "psb"]
-    table = [f"| Problem | {' | '.join(STAGES)} | Total |", "| :-- |" + " :-: |" * (len(STAGES) + 1)]
+    pname = lambda p: ZH_LABELS["problems"][p["value"]].split(". ", 1)[1] if zh else p["name"]
+    table = [f"| {R['problem'] if zh else 'Problem'} | {' | '.join(STAGES)} | {R['total'] if zh else 'Total'} |",
+             "| :-- |" + " :-: |" * (len(STAGES) + 1)]
     for p in problems:
         counts = [len(cell[(p["value"], s)]) for s in STAGES]
         anchors = [slugify_heading(f"{p['value']} × {s}") for s in STAGES]
-        table.append(f"| **{p['value']}.** {p['name']} | " + " | ".join(map(heat, counts, anchors)) + f" | **{sum(counts)}** |")
+        table.append(f"| **{p['value']}.** {pname(p)} | " + " | ".join(map(heat, counts, anchors)) + f" | **{sum(counts)}** |")
     totals = [sum(len(cell[(p["value"], s)]) for p in problems) for s in STAGES]
-    table.append("| **Total** | " + " | ".join(f"**{t}**" for t in totals) + f" | **{sum(totals)}** |")
+    table.append(f"| **{R['total'] if zh else 'Total'}** | " + " | ".join(f"**{t}**" for t in totals) + f" | **{sum(totals)}** |")
     starters = [r for r in ordered if levels[r["id"]] == 3]
+    tl = lambda r: ((r.get("tldr_zh") if zh else r.get("tldr")) or "").strip()
+    two = lambda head, rows: align([f"| {' | '.join(head)} |", "|" + " :-- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]])
+    n, m, k = len(papers), sum(totals), len(psb_list)
+    if zh:
+        top = [f"> {R['intro']}", "", "[English](README.md) | 中文", "",
+               f"## {R['scope_title']}", "", R["scope"].format(n=n, m=m, k=k), "",
+               f"## {R['start_title']}", "", *two(R["start_head"], R["start"]), "",
+               f"## {R['starter_title']}", ""]
+    else:
+        top = ["> Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes "
+               "and the pipeline stage it changes.", "", "English | [中文](README.zh.md)", "",
+               "## Scope", "",
+               f"This list collects {n} papers on generative recommendation with Semantic IDs (SIDs). "
+               f"The matrix places {m} of them by problem and main stage; the other {k} are {psb['name'].lower()}. "
+               "Methods that use SIDs as features are included. POI and local-life papers carry a `POI` tag "
+               "and are listed in the [POI index](pages/index/poi.md).", "",
+               "## Where to Start", "",
+               *two(("Reader", "Start with"), [
+                   ("New to the topic", "[Start Here](guides/start-here.md)"),
+                   ("Looking for research problems", "[Problem × Stage Matrix](#problem--stage-matrix)"),
+                   ("Choosing a method by stage", "[Papers by Stage](pages/index/stages.md)"),
+                   ("Looking for code", "[Papers with Code](pages/index/code.md)"),
+                   ("LLMs and tools", "[llms.txt](llms.txt)")]), "",
+               "## Starter Papers", ""]
     lines = [
         "<!--lint disable awesome-github-->",
         "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)", "",
-        "## Scope", "",
-        f"This list collects {len(papers)} papers on generative recommendation with Semantic IDs (SIDs). "
-        f"The matrix places {sum(totals)} of them by the problem each paper fixes and the pipeline stage it mainly changes. "
-        f"The other {len(psb_list)} are {psb['name'].lower()}. It also includes methods that use SIDs as features. "
-        "Papers on POI and local-life recommendation carry a `POI` tag and are listed in the [POI index](pages/index/poi.md).", "",
-        "## Where to Start", "",
-        "- New to the topic: [Start Here](guides/start-here.md)",
-        "- Looking for research problems: [Problem × Stage Matrix](#problem--stage-matrix)",
-        "- Choosing a method by stage: [Papers by Stage](pages/index/stages.md)",
-        "- Looking for code: [Papers with Code](pages/index/code.md)",
-        "- LLMs and tools: [llms.txt](llms.txt)", "",
-        "## Starter Papers", "",
-        *[f"- {ref(r)}" + (f" - {r['tldr'].strip()}" if r.get("tldr") else "") for r in starters], "",
-        "## Problem × Stage Matrix", "",
+        *top,
+        *two(R["starter_head"] if zh else ("Paper", "In one sentence", "Venue"),
+             [(ref(r), tl(r).replace("|", "\\|"), r["venue"]) for r in starters]), "",
+        f"## {R['matrix_title'] if zh else 'Problem × Stage Matrix'}", "",
         *align(table), "",
-        "Click a count to jump to its papers; darker means more papers.", "",
-        *align(["| Mark | Meaning |", "| :-- | :-- |", *[f"| {m} | {t} |" for m, t in LEGEND]]), "",
-        "The [glossary](guides/glossary.md) defines every value in the paper pages.", "",
-        "## Recent Updates", "",
-        *[f"- {u['date']}: {u['change'].strip()}" + (f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}." if u["papers"] else "")
+        R["click"] if zh else "Click a count to jump to its papers; darker means more papers.", "",
+        *align([f"| {' | '.join(R['legend_head'] if zh else ('Mark', 'Meaning'))} |", "| :-- | :-- |",
+                *[f"| {mk} | {t} |" for mk, t in (ZH_LABELS["legend"] if zh else LEGEND)]]), "",
+        R["glossary"] if zh else "The [glossary](guides/glossary.md) defines every value in the paper pages.", "",
+        f"## {R['updates_title'] if zh else 'Recent Updates'}", "",
+        *[f"- {u['date']}: {u['change'].strip()}" + ((f" {R['papers']}{'、'.join(ref(by_id[x]) for x in u['papers'])}。" if zh else
+                                                     f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}.") if u["papers"] else "")
           for u in sorted(updates, key=lambda u: u["date"], reverse=True)], "",
-        "## All Papers", "",
-        *[f"- [{band(p)}][]" for p in [psb, *problems]], "",
-        f"## {band(psb)}", "", f"> {psb['description']}", "", *map(format_item, psb_list), "",
+        f"## {R['all_title'] if zh else 'All Papers'}", "",
+        *[f"- [{band(p, zh)}][]" for p in [psb, *problems]], "",
+        f"## {band(psb, zh)}", "", f"> {psb['description']}", "", *(format_item(r, zh) for r in psb_list), "",
     ]
     for p in problems:
-        lines += [f"## {band(p)}", "", f"> {p['description']}", ""]
+        lines += [f"## {band(p, zh)}", "", f"> {p['description']}", ""]
         for s in STAGES:
             if cell[(p["value"], s)]:
-                lines += [f"### {p['value']} × {s}", "", *map(format_item, cell[(p["value"], s)]), ""]
-    lines += ["## Contributing", "", "Add one YAML record and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).", "",
-              *[f"[{band(p).lower()}]: #{slugify_heading(band(p))}" for p in [psb, *problems]],
-              *[f"[{r['id']}]: pages/papers/{r['id']}.md" for r in sorted(papers, key=lambda x: x["id"])], ""]
+                lines += [f"### {p['value']} × {s}", "", *(format_item(r, zh) for r in cell[(p["value"], s)]), ""]
+    page_dir = "pages/zh/papers" if zh else "pages/papers"
+    lines += [f"## {R['contrib_title'] if zh else 'Contributing'}", "",
+              R["contrib"] if zh else "Add one YAML record and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).", "",
+              *[f"[{band(p, zh).lower()}]: #{slugify_heading(band(p, zh))}" for p in [psb, *problems]],
+              *[f"[{r['id']}]: {page_dir}/{r['id']}.md" for r in sorted(papers, key=lambda x: x["id"])], ""]
     return "\n".join(lines)
 
 
-def build_indexes(vocab: dict, papers: list) -> dict:
+def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
+    X = ZH_LABELS["index"]
+    up = "../../../" if zh else "../../"
     probs = {e["value"]: e for e in vocab["problem"]}
     ordered = by_year(papers)
     link = lambda r: f"[{r['name']}](../papers/{r['id']}.md)"
     table = lambda head, rows: [f"| {' | '.join(head)} |", "|" + " :-- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]]
-    stages = ["# Papers by Stage", "",
+    readme = f"{up}README.zh.md" if zh else f"{up}README.md"
+    psb_anchor = slugify_heading(band(probs["psb"], zh))
+    head = X["head"] if zh else ("Paper", "Venue", "Problem")
+    cell_h = X["cell"] if zh else "Problem × Stage"
+    compare = " · ".join(f"[{t}]({up}comparisons/{f}.md)" for f, t, *_ in COMPARISONS)
+    switch = lambda f: f"[English](../../index/{f}) | 中文" if zh else f"English | [中文](../zh/index/{f})"
+    stages = [f"# {X['stages_title'] if zh else 'Papers by Stage'}", "", switch("stages.md"), "",
+              X["stages_intro"].format(readme=readme, anchor=psb_anchor) if zh else
               "Each table lists the papers whose main change sits in one stage, with that stage's Table 1 value. "
-              f"Papers on {probs['psb']['name'].lower()} change no single stage; the "
-              f"[README](../../README.md#{slugify_heading(probs['psb']['name'])}) lists them.", "",
-              "Side-by-side tables: " + " · ".join(f"[{t}](../../comparisons/{f}.md)" for f, t, *_ in COMPARISONS), ""]
+              f"Papers on {probs['psb']['name'].lower()} change no single stage; the [README]({readme}#{psb_anchor}) lists them.", "",
+              (X["compare"] if zh else "Side-by-side tables: ") + compare, ""]
     for s in STAGES:
-        rows = [[link(r), r["venue"], band(probs[r["problem"]]),
+        rows = [[link(r), r["venue"], band(probs[r["problem"]], zh),
                  f"`{r['tokenizer']} / {r['objective']}`" if s == "Training" else f"`{r[s.lower()]}`"]
                 for r in ordered if r["stage"] == s]
-        stages += [f"## {s}", "", *table(["Paper", "Venue", "Problem", s], rows), ""]
+        stages += [f"## {s}", "", *table([*head, s], rows), ""]
     coded = [r for r in ordered if code_links(r)]
-    code = ["# Papers with Code", "",
+    code = [f"# {X['code_title'] if zh else 'Papers with Code'}", "", switch("code.md"), "",
+            X["code_intro"].format(n=len(coded)) if zh else
             f"{len(coded)} papers link to code. `Code` is the authors' repository; `Code (third-party)` is an implementation by others.", "",
-            *table(["Paper", "Venue", "Problem × Stage", "Code"],
-                   [[link(r), r["venue"], cell_label(r, probs), " · ".join(f"[{l}]({u})" for l, u in code_links(r))] for r in coded]), ""]
+            *table([head[0], head[1], cell_h, X["code"] if zh else "Code"],
+                   [[link(r), r["venue"], cell_label(r, probs, zh), " · ".join(f"[{l}]({u})" for l, u in code_links(r, zh))]
+                    for r in coded]), ""]
     poi = [r for r in ordered if r.get("poi")]
-    poi_page = ["# POI and Local-Life Papers", "",
+    poi_page = [f"# {X['poi_title'] if zh else 'POI and Local-Life Papers'}", "", switch("poi.md"), "",
+                X["poi_intro"].format(n=len(poi)) if zh else
                 f"{len(poi)} papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper mainly changes.", "",
-                *table(["Paper", "Venue", "Problem × Stage", "Pipeline"], [[link(r), r["venue"], cell_label(r, probs), pipeline(r)] for r in poi]), ""]
+                *table([head[0], head[1], cell_h, X["pipeline"] if zh else "Pipeline"],
+                       [[link(r), r["venue"], cell_label(r, probs, zh), pipeline(r)] for r in poi]), ""]
     return {"stages.md": "\n".join(stages), "code.md": "\n".join(code), "poi.md": "\n".join(poi_page)}
 
 
@@ -545,13 +578,17 @@ def build_comparisons(papers: list, by_id: dict) -> dict:
     return out
 
 
-def build_glossary(vocab: dict) -> str:
+def build_glossary(vocab: dict, zh: bool = False) -> str:
+    G = ZH_LABELS["glossary"]
     entry = lambda v, d: f"- `{v}`: {d}" if d else f"- `{v}`"
-    lines = ["# Glossary", "",
-             "This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). "
+    pname = lambda p: band(p, True).split(". ", 1)[-1] + "。" if zh else p["name"] + "."
+    lines = [f"# {G['title'] if zh else 'Glossary'}", "",
+             "[English](glossary.md) | 中文" if zh else "English | [中文](glossary.zh.md)", "",
+             G["intro"] if zh else "This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). "
              "It defines the values in Table 1, the paper pages, and the indexes.", "",
-             "## Symbols", "", *[f"- {m}: {t}" for m, t in LEGEND[:4]], "",
-             "## Problems", "", *[entry(p["value"], f"**{p['name']}.** {p['description']}") for p in vocab["problem"]], ""]
+             f"## {G['symbols'] if zh else 'Symbols'}", "", *[f"- {m}{'：' if zh else ': '}{t}" for m, t in (ZH_LABELS["legend"] if zh else LEGEND)[:4]], "",
+             f"## {G['problems'] if zh else 'Problems'}", "",
+             *[entry(p["value"], f"**{pname(p)}** {p['description']}") for p in vocab["problem"]], ""]
     for c, s in zip(TECH_COLS, COL_STAGES):
         head = c.capitalize() + ("" if s == c.capitalize() else f" ({s})")
         lines += [f"## {head}", "", *[entry(e["value"], e.get("description")) for e in vocab[c]], ""]
@@ -614,12 +651,18 @@ def main():
     root = args.root
     vocab, papers = load_vocab(root), load_papers(root)
     by_id = {r["id"]: r for r in papers}
-    notes = {p.stem: parse_notes(p.read_text(encoding="utf-8")) for p in sorted((root / "notes").glob("*.md"))}
+    read_notes = lambda d, sec: {p.stem: parse_notes(p.read_text(encoding="utf-8"), sec) for p in sorted((root / d).glob("*.md"))}
+    notes, notes_zh = read_notes("notes", SECTIONS), read_notes("notes/zh", SECTIONS_ZH)
     levels = {r["id"]: reading_level(notes.get(r["id"])) for r in papers}
     updates = yaml.safe_load((root / "data/updates.yaml").read_text(encoding="utf-8")) or []
-    (root / "README.md").write_text(build_readme(vocab, papers, by_id, levels, updates), encoding="utf-8")
-    for sub, files in (("pages/papers", {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes.get(r["id"]), root) for r in papers}),
-                       ("pages/index", build_indexes(vocab, papers)), ("comparisons", build_comparisons(papers, by_id))):
+    outputs = {
+        "pages/papers": {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes.get(r["id"]), root) for r in papers},
+        "pages/zh/papers": {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes_zh.get(r["id"]), root, zh=True) for r in papers},
+        "pages/index": build_indexes(vocab, papers),
+        "pages/zh/index": build_indexes(vocab, papers, zh=True),
+        "comparisons": build_comparisons(papers, by_id),
+    }
+    for sub, files in outputs.items():
         out = root / sub
         out.mkdir(parents=True, exist_ok=True)
         for existing in out.glob("*.md"):
@@ -627,11 +670,17 @@ def main():
         for name, text in files.items():
             (out / name).write_text(text, encoding="utf-8")
     (root / "guides").mkdir(exist_ok=True)
-    (root / "guides/glossary.md").write_text(build_glossary(vocab), encoding="utf-8")
-    short, full = build_llms(vocab, papers, notes)
-    (root / "llms.txt").write_text(short, encoding="utf-8")
-    (root / "llms-full.txt").write_text(full, encoding="utf-8")
-    print(f"Built README.md, {len(papers)} paper pages, 3 index pages, 3 comparison tables, guides/glossary.md, llms.txt, and llms-full.txt.")
+    singles = {
+        "README.md": build_readme(vocab, papers, by_id, levels, updates),
+        "README.zh.md": build_readme(vocab, papers, by_id, levels, updates, zh=True),
+        "guides/glossary.md": build_glossary(vocab),
+        "guides/glossary.zh.md": build_glossary(vocab, zh=True),
+    }
+    singles["llms.txt"], singles["llms-full.txt"] = build_llms(vocab, papers, notes)
+    for name, text in singles.items():
+        (root / name).write_text(text, encoding="utf-8")
+    print(f"Built README.md, README.zh.md, {len(papers)} paper pages in English and Chinese, 3 index pages in English and Chinese, "
+          "3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
 
 
 if __name__ == "__main__":

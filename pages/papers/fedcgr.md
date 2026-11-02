@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > FedCGR performs federated cross-domain recommendation over shared Semantic IDs from public metadata, injects local collaborative evidence, and aggregates parameters by domain relatedness, without exchanging private interactions.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|predecessor| C["VQ-Rec"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER and its FedAvg/FedProx variants are full-ranking baselines.
+- **Competitor** · [TIGER](tiger.md): TIGER and its FedAvg/FedProx variants are full-ranking baselines.
   - Source: FedCGR v1, Section 4.1.2 and Table 3: https://arxiv.org/html/2608.10929v1#S4.SS1.SSS2.p2; https://arxiv.org/html/2608.10929v1#S4.T3.
-- **替代方案** · [GenCDR](gencdr.md): GenCDR uses centralized semantic CDR; FedCGR keeps interactions local.
+- **Alternative** · [GenCDR](gencdr.md): GenCDR uses centralized semantic CDR; FedCGR keeps interactions local.
   - Source: FedCGR v1, Section 5: https://arxiv.org/html/2608.10929v1#S5.p1; https://arxiv.org/html/2608.10929v1#S5.p2.
-- **前序工作** · [VQ-Rec](vq-rec.md): Related work identifies VQ-Rec as an earlier transferable quantized-item representation method.
+- **Predecessor** · [VQ-Rec](vq-rec.md): Related work identifies VQ-Rec as an earlier transferable quantized-item representation method.
   - Source: FedCGR v1, Section 5: https://arxiv.org/html/2608.10929v1#S5.p2.
 
-[查看同格全部论文](../../README.md#vi--backbone)
+[View all papers in this cell](../../README.md#vi--backbone)

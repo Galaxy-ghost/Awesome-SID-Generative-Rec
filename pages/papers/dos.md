@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization.
 
 ### At a Glance
@@ -62,9 +61,9 @@ flowchart LR
     P -->|alternative| B["TIGER"]
 ```
 
-- **同期对比** · [DAS](das.md): Industrial SID baseline compared offline and within HSTU; DOS contrasts direct sequence-target modeling with DAS's indirect collaborative alignment.
+- **Competitor** · [DAS](das.md): Industrial SID baseline compared offline and within HSTU; DOS contrasts direct sequence-target modeling with DAS's indirect collaborative alignment.
   - Source: https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1 ; #S3.SS2.SSS2.p1
-- **替代方案** · [TIGER](tiger.md): Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
+- **Alternative** · [TIGER](tiger.md): Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
   - Source: https://arxiv.org/html/2602.04460v1#S1.p2 (Rajput et al., 2023)
 
-[查看同格全部论文](../../README.md#iii--tokenization)
+[View all papers in this cell](../../README.md#iii--tokenization)

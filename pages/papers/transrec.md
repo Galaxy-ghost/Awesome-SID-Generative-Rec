@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > TransRec indexes items with multi-facet identifiers combining ID, title, and attributes, constrains generation with FM-index substring indexing, and aggregates generated identifiers to rank catalog items.
 
 ### At a Glance
@@ -64,9 +63,9 @@ flowchart LR
     P -->|competitor| B["TIGER"]
 ```
 
-- **同期对比** · [CID](cid.md): CID+IID and the other Hua et al. indexing variants are compared baselines.
+- **Competitor** · [CID](cid.md): CID+IID and the other Hua et al. indexing variants are compared baselines.
   - Source: TransRec v2, Sec.4.1 Baselines and Appendix A.3: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#A1.SS3.p1.
-- **同期对比** · [TIGER](tiger.md): TIGER is compared as a quantized semantic-identifier baseline.
+- **Competitor** · [TIGER](tiger.md): TIGER is compared as a quantized semantic-identifier baseline.
   - Source: TransRec v2, Sec.4.1 Baselines and Sec.4.2: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#S4.SS2.p1.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

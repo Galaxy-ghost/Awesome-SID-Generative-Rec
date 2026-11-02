@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > HF-SID restores geographic, numerical, and structural detail in POI representations before quantization, through Cartesian coordinates, unit-encoded numbers, and residual contrastive learning, instead of lengthening the Semantic ID.
 
 ### At a Glance
@@ -66,11 +65,11 @@ flowchart LR
     P -->|competitor| C["GNPR-SID"]
 ```
 
-- **同期对比** · [ProGEO](progeo.md): Pro-GEO injects geography during quantization; HF-SID improves representations before quantization.
+- **Competitor** · [ProGEO](progeo.md): Pro-GEO injects geography during quantization; HF-SID improves representations before quantization.
   - Source: HF-SID v1, Sections 2 and 4.1, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS1.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
-- **同期对比** · [GeoGR](geogr.md): GeoGR uses co-visit alignment; HF-SID directly encodes coordinates and numerical attributes.
+- **Competitor** · [GeoGR](geogr.md): GeoGR uses co-visit alignment; HF-SID directly encodes coordinates and numerical attributes.
   - Source: HF-SID v1, Sections 2 and 4.2, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
-- **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID regularizes codeword diversity; HF-SID focuses on representation fidelity.
+- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID regularizes codeword diversity; HF-SID focuses on representation fidelity.
   - Source: HF-SID v1, Section 4.2 and Table 2: https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
 
-[查看同格全部论文](../../README.md#i--representation)
+[View all papers in this cell](../../README.md#i--representation)

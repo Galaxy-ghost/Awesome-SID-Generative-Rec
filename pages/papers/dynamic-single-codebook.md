@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Dynamic-Single-Codebook replaces multi-level residual codes with one token from a large single-level codebook plus a collaborative disambiguation token, and updates the codebook as exposure changes.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["LETTER"]
 ```
 
-- **替代方案** · [RPG](rpg.md): RPG parallelizes long SIDs; this method shortens SIDs.
+- **Alternative** · [RPG](rpg.md): RPG parallelizes long SIDs; this method shortens SIDs.
   - Source: Dynamic-Single-Codebook v1, Section 2.2: https://arxiv.org/html/2608.21012v1#S2.SS2.p2.
-- **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses diffusion with adapted beam search; this method reduces token count.
+- **Alternative** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses diffusion with adapted beam search; this method reduces token count.
   - Source: Dynamic-Single-Codebook v1, Sections 1 and 2.2: https://arxiv.org/html/2608.21012v1#S1.p4; https://arxiv.org/html/2608.21012v1#S2.SS2.p2.
-- **替代方案** · [LETTER](letter.md): LETTER regularizes residual quantization; this method changes semantic codebook width and depth.
+- **Alternative** · [LETTER](letter.md): LETTER regularizes residual quantization; this method changes semantic codebook width and depth.
   - Source: Dynamic-Single-Codebook v1, Section 2.1: https://arxiv.org/html/2608.21012v1#S2.SS1.p2.
 
-[查看同格全部论文](../../README.md#v--tokenization)
+[View all papers in this cell](../../README.md#v--tokenization)

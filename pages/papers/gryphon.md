@@ -22,7 +22,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated Semantic ID to its items and re-scoring them, instead of ranking by token likelihood.
 
 ### At a Glance
@@ -65,11 +64,11 @@ flowchart LR
     P -->|alternative| C["PROMISE"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TIGER's extra collision-resolution token motivates the resolved-GR baseline; Gryphon instead scores colliding items separately.
+- **Predecessor** · [TIGER](tiger.md): TIGER's extra collision-resolution token motivates the resolved-GR baseline; Gryphon instead scores colliding items separately.
   - Source: Gryphon v1, Sections 2.2/4.1.2: https://arxiv.org/html/2606.08604v1#S2.SS2.p1; https://arxiv.org/html/2606.08604v1#S4.SS1.SSS2.p3.
-- **替代方案** · [QuaSID](quasid.md): Cited collision-focused SID-learning work; Gryphon retains shared SIDs and distinguishes their items through ILSM.
+- **Alternative** · [QuaSID](quasid.md): Cited collision-focused SID-learning work; Gryphon retains shared SIDs and distinguishes their items through ILSM.
   - Source: Gryphon v1, Sections 1/3.2, citing Hu et al. (2026): https://arxiv.org/html/2606.08604v1#S1.SS0.SSS0.Px2.p2; https://arxiv.org/html/2606.08604v1#S3.SS2.p2.
-- **替代方案** · [PROMISE](promise.md): Cited for autoregressive prefix errors; Gryphon addresses candidate ordering with jointly trained item-level scoring.
+- **Alternative** · [PROMISE](promise.md): Cited for autoregressive prefix errors; Gryphon addresses candidate ordering with jointly trained item-level scoring.
   - Source: Gryphon v1, Section 2.3, citing Guo et al. (2026): https://arxiv.org/html/2606.08604v1#S2.SS3.p1.
 
-[查看同格全部论文](../../README.md#iv--backbone)
+[View all papers in this cell](../../README.md#iv--backbone)

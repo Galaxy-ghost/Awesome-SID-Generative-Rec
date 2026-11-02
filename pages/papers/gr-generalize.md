@@ -17,7 +17,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.
 
 ### At a Glance
@@ -61,13 +60,13 @@ flowchart LR
     P -->|predecessor| D["ETEGRec"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.
+- **Predecessor** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.
   - Source: GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: https://arxiv.org/html/2603.19809v1#S1.p6 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2; Table 1: https://arxiv.org/html/2603.19809v1#S2.T1.
-- **替代方案** · [LIGER](liger.md): LIGER treats cold-start items as the out-of-distribution case for generative recommendation; this paper defines generalization by history-to-target transitions instead of target-item rarity.
+- **Alternative** · [LIGER](liger.md): LIGER treats cold-start items as the out-of-distribution case for generative recommendation; this paper defines generalization by history-to-target transitions instead of target-item rarity.
   - Source: GR-Generalize v1, Section 1 cites Yang et al. (2025): https://arxiv.org/html/2603.19809v1#S1.p3.
-- **替代方案** · [SpecGR](specgr.md): SpecGR also studies cold-start items as the generalization case; this paper argues that a popular target can still require generalization.
+- **Alternative** · [SpecGR](specgr.md): SpecGR also studies cold-start items as the generalization case; this paper argues that a popular target can still require generalization.
   - Source: GR-Generalize v1, Section 1 cites Ding et al. (2026): https://arxiv.org/html/2603.19809v1#S1.p3.
-- **前序工作** · [ETEGRec](etegrec.md): The paper follows ETEGRec in training SASRec with full cross-entropy for a fair comparison and uses its datasets.
+- **Predecessor** · [ETEGRec](etegrec.md): The paper follows ETEGRec in training SASRec with full cross-entropy for a fair comparison and uses its datasets.
   - Source: GR-Generalize v1, Section 3.1: https://arxiv.org/html/2603.19809v1#S3.SS1.p1 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2.
 
-[查看同格全部论文](../../README.md#paradigms-systems-and-benchmarks)
+[View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

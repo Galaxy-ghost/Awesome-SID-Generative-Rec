@@ -23,7 +23,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > Deco reads each history item as one fused token, condenses the history into a next-item concept, and runs beam search in a light KV-cached decoder instead of the full backbone.
 
 ### At a Glance
@@ -67,13 +66,13 @@ flowchart LR
     P -->|competitor| D["NEZHA"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): KV-cached TIGER is retrained as an autoregressive comparison.
+- **Competitor** · [TIGER](tiger.md): KV-cached TIGER is retrained as an autoregressive comparison.
   - Source: Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
-- **同期对比** · [RPG](rpg.md): RPG is compared with both graph search and full-catalog scoring.
+- **Competitor** · [RPG](rpg.md): RPG is compared with both graph search and full-catalog scoring.
   - Source: Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
-- **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a retrained diffusion-based comparison.
+- **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a retrained diffusion-based comparison.
   - Source: Deco v2, Related Work and Table3: https://arxiv.org/html/2610.32980v2#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
-- **同期对比** · [NEZHA](nezha.md): NEZHA is a retrained efficient-generation comparison.
+- **Competitor** · [NEZHA](nezha.md): NEZHA is a retrained efficient-generation comparison.
   - Source: Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
 
-[查看同格全部论文](../../README.md#v--backbone)
+[View all papers in this cell](../../README.md#v--backbone)

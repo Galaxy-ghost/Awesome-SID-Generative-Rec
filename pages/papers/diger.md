@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DIGER makes Semantic IDs differentiable so recommendation gradients update the tokenizer, and adds decaying Gumbel noise against codebook collapse, instead of a tokenizer trained only for reconstruction.
 
 ### At a Glance
@@ -63,11 +62,11 @@ flowchart LR
     P -->|competitor| C["LETTER"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): TIGER supplies the reference two-stage framework for differentiable-ID training.
+- **Predecessor** · [TIGER](tiger.md): TIGER supplies the reference two-stage framework for differentiable-ID training.
   - Source: DIGER v3, Sections 3/5 and Table 3: https://arxiv.org/html/2601.19711v3#S3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
-- **替代方案** · [ETEGRec](etegrec.md): DIGER replaces alternating distillation with direct recommendation gradients through indexing.
+- **Alternative** · [ETEGRec](etegrec.md): DIGER replaces alternating distillation with direct recommendation gradients through indexing.
   - Source: DIGER v3, Sections 2/6.2: https://arxiv.org/html/2601.19711v3#S2.p3 ; https://arxiv.org/html/2601.19711v3#S2.p4 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p2.
-- **同期对比** · [LETTER](letter.md): LETTER is a comparison method and the source of most quoted baseline results.
+- **Competitor** · [LETTER](letter.md): LETTER is a comparison method and the source of most quoted baseline results.
   - Source: DIGER v3, Sections 5/6.2 and Table 3: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
 
-[查看同格全部论文](../../README.md#ii--tokenization)
+[View all papers in this cell](../../README.md#ii--tokenization)

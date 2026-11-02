@@ -21,7 +21,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores.
 
 ### At a Glance
@@ -64,11 +63,11 @@ flowchart LR
     P -->|alternative| C["CapsID"]
 ```
 
-- **同期对比** · [TIGER](tiger.md): TIGER retrieves items from sparse semantic IDs alone; COBRA follows TIGER's SID construction but generates a dense vector after each sparse ID and fuses beam and ANN scores.
+- **Competitor** · [TIGER](tiger.md): TIGER retrieves items from sparse semantic IDs alone; COBRA follows TIGER's SID construction but generates a dense vector after each sparse ID and fuses beam and ANN scores.
   - Source: COBRA v1, baselines and SID setting: https://arxiv.org/html/2503.02453v1#S4.I1.i9.p1 and https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2503.02453v1#S4.T2; the w/o Dense variant mirrors TIGER: https://arxiv.org/html/2503.02453v1#S4.I2.i2.p1.
-- **替代方案** · [LIGER](liger.md): LIGER (Yang et al., 2024) unifies generative and dense retrieval as a hybrid, while COBRA cascades sparse-ID generation and dense-vector generation inside one decoder.
+- **Alternative** · [LIGER](liger.md): LIGER (Yang et al., 2024) unifies generative and dense retrieval as a hybrid, while COBRA cascades sparse-ID generation and dense-vector generation inside one decoder.
   - Source: COBRA v1, Section 1 cites Yang et al. (2024), Unifying Generative and Dense Retrieval, for the fine-grained similarity gap of generative methods: https://arxiv.org/html/2503.02453v1#S1.p3; not a baseline in Table 2.
-- **替代方案** · [CapsID](capsid.md): CapsID removes the dense patch and instead makes the SID soft-routed and variable-length, reporting about half of COBRA's per-query latency at similar Recall@100.
+- **Alternative** · [CapsID](capsid.md): CapsID removes the dense patch and instead makes the SID soft-routed and variable-length, reporting about half of COBRA's per-query latency at similar Recall@100.
   - Source: Evidence is from the later CapsID paper: COBRA is a patch-route baseline in Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3, https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6; latency comparison: https://arxiv.org/html/2605.05096v1#S4.SS5.SSS0.Px5.p2.
 
-[查看同格全部论文](../../README.md#i--backbone)
+[View all papers in this cell](../../README.md#i--backbone)

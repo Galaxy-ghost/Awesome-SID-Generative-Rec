@@ -20,7 +20,6 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-
 > DECOR refines Semantic ID token embeddings by interaction context and fuses pretrained codebook embeddings with learned collaborative embeddings, instead of static token assignments that overwrite pretrained semantics.
 
 ### At a Glance
@@ -64,13 +63,13 @@ flowchart LR
     P -->|competitor| D["CID"]
 ```
 
-- **前序工作** · [TIGER](tiger.md): DECOR augments TIGER's fixed tokenization with contextual token embeddings.
+- **Predecessor** · [TIGER](tiger.md): DECOR augments TIGER's fixed tokenization with contextual token embeddings.
   - Source: DECOR v2, Sections 3.2/4.1.2 and Table 2: https://arxiv.org/html/2509.10468v2#S3.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
-- **替代方案** · [ETEGRec](etegrec.md): DECOR adapts embeddings without ETEGRec's repeated re-tokenization.
+- **Alternative** · [ETEGRec](etegrec.md): DECOR adapts embeddings without ETEGRec's repeated re-tokenization.
   - Source: DECOR v2, Sections 3.4/4.7: https://arxiv.org/html/2509.10468v2#S3.SS4.p2 ; https://arxiv.org/html/2509.10468v2#S4.SS7.p1.
-- **同期对比** · [LETTER](letter.md): LETTER is a tokenizer-enhancement baseline in the shared evaluation.
+- **Competitor** · [LETTER](letter.md): LETTER is a tokenizer-enhancement baseline in the shared evaluation.
   - Source: DECOR v2, Sections 1/4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S1.p6 ; https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
-- **同期对比** · [CID](cid.md): P5-CID is a collaborative-indexing baseline.
+- **Competitor** · [CID](cid.md): P5-CID is a collaborative-indexing baseline.
   - Source: DECOR v2, Section 4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
 
-[查看同格全部论文](../../README.md#iii--backbone)
+[View all papers in this cell](../../README.md#iii--backbone)
