@@ -32,6 +32,7 @@ summary: 'Generative recommendation (GR) reformulates item retrieval as autoregr
   satisfying strict latency and throughput constraints.'
 tldr: GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper
   backbones, and value-guided generation with beam pruning and discriminative reranking.
+tldr_zh: GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。
 setup:
   datasets: Kuaishou production advertising; 7.556M advertisement embeddings in the SID analysis. Dates and filtering rules
     not reported.

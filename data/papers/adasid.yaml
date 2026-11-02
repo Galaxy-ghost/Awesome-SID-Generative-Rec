@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "effective SID learning is hindered by collisions".'
 tldr: AdaSID regulates Semantic ID overlaps during tokenizer training by relaxing repulsion for semantically compatible items
   and scaling the rest by local collision load, instead of fixed overlap regularization.
+tldr_zh: AdaSID 在编号器训练中对语义相近物品放松排斥，并按局部冲突负载缩放其余排斥项，替代固定强度的重叠正则。
 evidence:
 - field: problem
   where: arXiv:2604.23522v1, abstract

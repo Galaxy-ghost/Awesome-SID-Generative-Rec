@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "fails to capture the essential neighborhood relationships".'
 tldr: CoST trains the item tokenizer with a contrastive quantization objective that captures neighborhood relationships between
   items, instead of the reconstruction loss used by RQ-VAE.
+tldr_zh: CoST 用刻画物品邻域关系的对比量化目标训练物品编号器，替代 RQ-VAE 使用的重构损失。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2404.14774v2#abstract1

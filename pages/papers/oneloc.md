@@ -2,11 +2,9 @@
 
 *Geo-Aware Generative Recommender Systems for Local Life Service* — Wei et al. · arXiv’25
 
-`I. Informativeness` · `Representation` · `POI`
+`I. Informativeness` · `Representation` · `POI` · [Paper](https://arxiv.org/abs/2508.14646) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/oneloc.md)
 
-[Paper](https://arxiv.org/abs/2508.14646) · [Matrix](../../README.md#i--representation)
-
-Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why This Paper Matters](#1-why-this-paper-matters) · [2. How It Works](#2-how-it-works) · [3. Experimental Findings](#3-experimental-findings) · [4. Limitations & Critical Analysis](#4-limitations--critical-analysis) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Annotated Deep Dive (Level 3) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,7 +20,9 @@ flowchart LR
 
 ### TL;DR
 
-OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
+> [!NOTE]
+
+> OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 
 ### At a Glance
 
@@ -160,26 +160,23 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 ### 3. Experimental Findings
 
-**Experimental setup**
+<details>
+<summary>Experimental setup</summary>
 
 - **Datasets**: KuaiLLSR: eight days of uniformly sampled Kuaishou local-life-service short-video interactions, with 60 million users, 900,000 videos, and 440 million interactions; additional filtering rules not reported. Foursquare NYC: 1,042 users, 36,359 POIs, 212,347 interactions; Tokyo: 2,187 users, 59,472 POIs, 545,301 interactions. The public subsets use LibCity preprocessing to filter users and POIs; numerical filtering thresholds not reported.
+  - Source: Section 4.1.1 and Table 2 identify the original industrial/public datasets and preprocessing, without numerical LibCity filter thresholds; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S4.T2](https://arxiv.org/html/2508.14646v1#S4.T2).
 - **Split**: KuaiLLSR: streaming training on the first seven days and evaluation on the final day. NYC and Tokyo: each user's check-ins are sorted chronologically, with interaction sequences split 80%/10%/10% for training/validation/testing.
+  - Source: Section 4.1.1 states streaming seven-day training plus next-day evaluation and the public 80/10/10 sequence split; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1).
 - **Candidates**: not reported
+  - Source: Offline metrics do not disclose full-catalog versus sampled evaluation, and the online statement of identical candidate pools does not determine their size; [S4.SS1.SSS3.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS3.p1) and [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1).
 - **Visibility**: not reported
+  - Source: The paper claims cold-start benefits but does not define generator/tokenizer visibility for a cold-start evaluation; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S5.p2](https://arxiv.org/html/2508.14646v1#S5.p2).
 - **SID**: 3 layers x 8,192 codes per layer, using geo-aware residual K-means; collision handling not reported.
+  - Source: Sections 2.2 and 4.1.4 specify three residual-K-means layers of 8,192 codes, but no SID collision-resolution rule; [S2.SS2.p1](https://arxiv.org/html/2508.14646v1#S2.SS2.p1), [S2.SS2.p3](https://arxiv.org/html/2508.14646v1#S2.SS2.p3), and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
 - **Inference budget**: Production serving uses beam search on NVIDIA A10 GPUs, followed by SID-to-video mapping, GMV scoring, rule-based filtering, and top-K output. Beam width and output K not reported. Dynamic batching, mixed precision, KV caching, and TensorRT are used; numerical inference batch size and latency not reported.
+  - Source: Section 3 gives serving hardware and optimizations but no numerical beam width, output K, batch size, or latency; the A800 hardware in Section 4.1.4 is for training; [S3.p1](https://arxiv.org/html/2508.14646v1#S3.p1) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
 - **Results from**: Table 1: offline Recall/NDCG at K=5, 10, and 20 on KuaiLLSR, NYC, and Tokyo. Table 3 and Figures 4-5: module/reward ablations. Table 4 and Section 5: one-week online A/B test with 10% treatment traffic, compared with the production multi-stage system.
-
-<details>
-<summary>Sources</summary>
-
-- **Datasets**: Section 4.1.1 and Table 2 identify the original industrial/public datasets and preprocessing, without numerical LibCity filter thresholds; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S4.T2](https://arxiv.org/html/2508.14646v1#S4.T2).
-- **Split**: Section 4.1.1 states streaming seven-day training plus next-day evaluation and the public 80/10/10 sequence split; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1).
-- **Candidates**: Offline metrics do not disclose full-catalog versus sampled evaluation, and the online statement of identical candidate pools does not determine their size; [S4.SS1.SSS3.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS3.p1) and [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1).
-- **Visibility**: The paper claims cold-start benefits but does not define generator/tokenizer visibility for a cold-start evaluation; [S4.SS1.SSS1.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS1.p1) and [S5.p2](https://arxiv.org/html/2508.14646v1#S5.p2).
-- **SID**: Sections 2.2 and 4.1.4 specify three residual-K-means layers of 8,192 codes, but no SID collision-resolution rule; [S2.SS2.p1](https://arxiv.org/html/2508.14646v1#S2.SS2.p1), [S2.SS2.p3](https://arxiv.org/html/2508.14646v1#S2.SS2.p3), and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
-- **Inference budget**: Section 3 gives serving hardware and optimizations but no numerical beam width, output K, batch size, or latency; the A800 hardware in Section 4.1.4 is for training; [S3.p1](https://arxiv.org/html/2508.14646v1#S3.p1) and [S4.SS1.SSS4.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS4.p1).
-- **Results from**: Main offline comparisons and online outcomes are in Tables 1 and 4, with module ablations in Table 3 and Figures 4-5; [S2.T1](https://arxiv.org/html/2508.14646v1#S2.T1), [S4.T3](https://arxiv.org/html/2508.14646v1#S4.T3), [S4.F4](https://arxiv.org/html/2508.14646v1#S4.F4), [S4.F5](https://arxiv.org/html/2508.14646v1#S4.F5), [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1), and [S5.T4](https://arxiv.org/html/2508.14646v1#S5.T4).
+  - Source: Main offline comparisons and online outcomes are in Tables 1 and 4, with module ablations in Table 3 and Figures 4-5; [S2.T1](https://arxiv.org/html/2508.14646v1#S2.T1), [S4.T3](https://arxiv.org/html/2508.14646v1#S4.T3), [S4.F4](https://arxiv.org/html/2508.14646v1#S4.F4), [S4.F5](https://arxiv.org/html/2508.14646v1#S4.F5), [S5.p1](https://arxiv.org/html/2508.14646v1#S5.p1), and [S5.T4](https://arxiv.org/html/2508.14646v1#S5.T4).
 
 </details>
 
@@ -212,11 +209,11 @@ flowchart LR
     P -->|competitor| C["GNPR-SID"]
 ```
 
-- **Predecessor** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
+- **前序工作** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
   - Source: OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and preference alignment: https://arxiv.org/html/2508.14646v1#S6.SS2.p1; Section 2 describes OneLoc's geographic modules and rewards: https://arxiv.org/html/2508.14646v1#S2.p1.
-- **Competitor** · [TIGER](tiger.md): TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers together with geographic sequence modeling and neighborhood prompts.
+- **同期对比** · [TIGER](tiger.md): TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers together with geographic sequence modeling and neighborhood prompts.
   - Source: OneLoc v1, Section 4.1.2 identifies TIGER as a baseline: https://arxiv.org/html/2508.14646v1#S4.SS1.SSS2.p1; Table 1 reports its comparison with OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1; Sections 2 and 2.2 describe OneLoc's added geographic mechanisms: https://arxiv.org/html/2508.14646v1#S2.p1 and https://arxiv.org/html/2508.14646v1#S2.SS2.p1.
-- **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling into attention, neighborhood prompting, and rewards for local-life video consumption.
+- **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling into attention, neighborhood prompting, and rewards for local-life video consumption.
   - Source: OneLoc v1, Section 1 explains the geographic-modeling difference: https://arxiv.org/html/2508.14646v1#S1.p2, https://arxiv.org/html/2508.14646v1#S1.p3, and https://arxiv.org/html/2508.14646v1#S1.p4; Table 1 directly compares GNPR-SID and OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1.
 
-[View all papers in this cell](../../README.md#i--representation)
+[查看同格全部论文](../../README.md#i--representation)

@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "may not align with the LLM''s internal pretrained tokenization schema".'
 tldr: SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns
   during training, so tokenization matches the LLM's internal item understanding.
+tldr_zh: SIIT 从任意外部模型给出的物品编号出发，在训练过程中周期性地按 LLM 学到的模式调整编号，使物品编号匹配 LLM 内部的物品理解。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2412.17171v1#abstract1 (Abstract; excerpt)

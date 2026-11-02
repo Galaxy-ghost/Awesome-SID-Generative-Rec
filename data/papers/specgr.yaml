@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "struggle to recommend unseen items".'
 tldr: SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the
   model can recommend items unseen in training.
+tldr_zh: SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2410.02939v2#abstract1 (Abstract; excerpt)

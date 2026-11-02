@@ -19,6 +19,7 @@ poi: false
 summary: 提出时间显式构码框架及配套基准，系统对照时间编码、融合和量化三维设计。
 tldr: ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals
   enter the IDs, unlike existing time-agnostic Semantic ID learning.
+tldr_zh: ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。
 setup:
   datasets: Amazon Industrial and Office; Mercari. Item text plus interaction timestamps; interaction-count filtering not
     reported.

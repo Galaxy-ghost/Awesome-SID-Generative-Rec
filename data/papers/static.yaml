@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "incur severe latency penalties on hardware accelerators (TPUs/GPUs)".'
 tldr: STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized
   operations for constrained decoding on TPUs and GPUs.
+tldr_zh: STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2602.22647v3#abstract1 (Abstract; excerpt)

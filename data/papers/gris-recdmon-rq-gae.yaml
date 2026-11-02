@@ -19,6 +19,7 @@ poi: false
 summary: 明确仅文本嵌入，边来自训练交互相邻共现。
 tldr: GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partition of an item graph with collaborative
   edges, recovering RQ-VAE and RQ-KMeans as the empty-graph case.
+tldr_zh: GrIS (RecDMoN / RQ-GAE) 将 SID 构建视为带协同边的物品图层级划分；当图为空集时，RQ-VAE 与 RQ-KMeans 是它的退化特例。
 setup:
   datasets: Amazon Reviews 2014 Beauty, Toys, Sports, Books; MIND-Small; Yelp 2018. Iterative 5-core filtering on all datasets.
   split: 'Per-user leave-one-out: last interaction test, second-to-last validation; maximum sequence length 20.'

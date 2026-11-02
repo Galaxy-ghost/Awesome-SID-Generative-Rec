@@ -20,6 +20,7 @@ summary: 'Abstract: "mitigating performance differences and enhancing cold-start
   (rule: complaint fits none of the six classes; judged by the new design).'
 tldr: LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of
   both approaches, to narrow their performance gap and improve cold-start recommendation.
+tldr_zh: LIGER 在受控对比序列稠密检索与 SID 生成式检索后，将稠密检索融入生成式检索器，缩小二者性能差距并改善冷启动推荐。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2411.18814v2#abstract1

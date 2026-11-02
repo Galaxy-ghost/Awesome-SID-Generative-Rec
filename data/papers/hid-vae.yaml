@@ -20,6 +20,7 @@ summary: 'Abstract: "semantically flat and uninterpretable, lacking a coherent h
   (i.e., ``ID collisions'''')". Candidates: I / II (rule: tie broken by the majority of new designs).'
 tldr: HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and
   adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
+tldr_zh: HiD-VAE 通过层级监督量化将各 SID 层与多级物品标签对齐，并加入防冲突唯一性损失，替代扁平的无监督编号。
 evidence:
 - field: problem
   where: arXiv:2508.04618v2, abstract

@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "underexplore synergistic information across modalities".'
 tldr: SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information
   beyond shared or modality-specific signals, instead of alignment-centric fusion.
+tldr_zh: SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2605.18920v2#abstract1 (Abstract; excerpt)

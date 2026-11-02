@@ -30,6 +30,7 @@ summary: 'Generative recommendation predicts items by autoregressively generatin
   controlling this redistribution can mitigate its effects.'
 tldr: NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level
   unlearning, because shared tokens let unlearning degrade neighboring items.
+tldr_zh: NAU 针对共享 token 导致遗忘操作波及邻近物品的问题，在交互级机器遗忘中显式控制被遗忘物品 SID 邻域上的概率质量。
 setup:
   datasets: Amazon Beauty, Sports, Toys using released five-core preprocessing. Table 24 additionally lists Food k5 SID diagnostics;
     its source and preprocessing details not reported.

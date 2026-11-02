@@ -21,6 +21,7 @@ summary: 'Abstract: "semantic entanglement ... causing key attributes to be insu
   (I). The interpretability complaint fits none of the six problems.'
 tldr: LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes
   the two streams separately, instead of quantizing one entangled representation.
+tldr_zh: LGRID 用 LLM 联合编码物品各字段，将隐状态路由到地理与语义槽位并分别量化两路表示，替代对混杂表示做单一量化。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2607.27944v1#abstract1

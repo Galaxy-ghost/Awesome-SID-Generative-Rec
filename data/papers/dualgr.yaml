@@ -20,6 +20,7 @@ summary: 'Abstract: "long-short interest interference, context-induced noise in 
   of explicit learning from exposed-but-unclicked feedback". Candidates: I / III / VI (rule: tie broken by the title).'
 tldr: DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket,
   and treats unclicked exposures as coarse-level hard negatives in training.
+tldr_zh: DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.12518v3#abstract1

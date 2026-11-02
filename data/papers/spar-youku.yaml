@@ -30,6 +30,7 @@ summary: Semantic ID (SID)-based generative recommendation retrieves items throu
   balanced SID branches, and improved user engagement in industrial recommendation.
 tldr: SPAR-Youku guides each Semantic ID decoding step with prefix-relevant evidence from compressed user memory and balances
   interaction loads among sibling branches with RQ-PIB, to reduce branch errors and popularity bias.
+tldr_zh: SPAR-Youku 从压缩用户记忆中提取前缀相关证据引导每步 SID 解码，并用 RQ-PIB 均衡兄弟分支间的交互负载，减少分支错误与流行度偏差。
 setup:
   datasets: Youku homepage production playback logs spanning several months; daily DPO uses recent request contexts. Dataset
     size, dates and filtering not reported.

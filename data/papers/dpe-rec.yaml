@@ -32,6 +32,7 @@ summary: 'Generative bundle construction completes a partially observed bundle b
   inference on average than existing generative recommendation arts, with minimal loss in recommendation quality.'
 tldr: DPE-Rec completes bundles with a diffusion language model, adding semantic-fork-aware GRPO to keep bundles diverse and
   pseudo-trajectory distillation to reveal more tokens per denoising step.
+tldr_zh: DPE-Rec 用扩散语言模型做捆绑包补全，加入语义分叉感知的 GRPO 保持组合多样性，并用伪轨迹蒸馏在每步去噪中揭示更多 token。
 setup:
   datasets: Spotify playlists (K=30/60/90), POG outfits (K=4), IQON3000 outfits (K=8). Remove bundles shorter than K, truncate
     longer bundles; IQON3000 also drops outfits with missing images. User/item-frequency filtering not reported.

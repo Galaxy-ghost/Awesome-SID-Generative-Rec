@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "may be unavailable in non-overlapped recommendation scenarios".'
 tldr: GMC assigns domain-shared Semantic IDs with a domain-aware contrastive loss and trains one sequence-to-sequence generator
   across domains, instead of relying on users or items shared between domains.
+tldr_zh: GMC 用域感知对比损失分配跨域共享 SID，并在多个域上训练单一序列到序列生成器，不依赖域间重叠的用户或物品。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2507.12871v3#abstract1

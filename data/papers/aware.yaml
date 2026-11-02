@@ -19,6 +19,7 @@ poi: true
 summary: 沿用ROS的SID生成骨干，增量是有原文机制和实验支撑的世界知识获取及历史选择。
 tldr: AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior,
   to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training.
+tldr_zh: AWARE 将智能体结合用户行为生成的本地活动、文化与时令叙事融入基于 LLM 的下一 POI 生成，弥补模型参数训练后知识固定的局限。
 setup:
   datasets: Foursquare-NYC, Foursquare-TKY and Gowalla-CA; filter users/POIs with fewer than 10 check-ins; segment chronological
     trajectories at a 24-hour gap; reverse-geocode street addresses.

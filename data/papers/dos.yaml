@@ -21,6 +21,7 @@ summary: The abstract identifies the codebook-generation gap (III) and semantic 
   of alignment.
 tldr: DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals
   and rotates the semantic space with orthogonal residual quantization.
+tldr_zh: DOS 通过协同信号上的用户-物品双向流将 SID 码本与生成空间对齐，并用正交残差量化旋转语义空间。
 evidence:
 - field: problem
   where: abstract, p1; contribution list, p2

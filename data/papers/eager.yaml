@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "focus solely on either behavioral or semantic aspects of item information".'
 tldr: EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided
   transfer tasks, instead of using only one type of item information.
+tldr_zh: EAGER 用共享编码器和两个解码器分别解码行为 token 与语义 token，并加入对比学习与语义引导迁移任务，替代仅用单一物品信息的做法。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2406.14017v2#abstract1

@@ -20,6 +20,7 @@ summary: 'Abstract: "item ID tokenization dilemma"; "insufficient domain-specifi
   broken by the majority of new designs).'
 tldr: GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes
   over a domain-aware prefix tree, instead of relying on shared user or item IDs.
+tldr_zh: GenCDR 在通用编码器与域适配器之间路由以生成域解耦的 SID，并在域感知前缀树上解码，不依赖跨域共享的用户或物品 ID。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.08006v2#abstract1

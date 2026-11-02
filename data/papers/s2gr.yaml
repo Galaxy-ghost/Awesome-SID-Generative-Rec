@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "degrading quality for SID codes". Candidates: III / none (rule: judged by the abstract''s complaint first).'
 tldr: S2GR inserts a thinking token before each Semantic ID step, supervised contrastively with codebook cluster distributions,
   and builds the codebook with co-occurrence, load-balancing, and uniformity objectives.
+tldr_zh: S2GR 在每个 SID 解码步前插入受码本簇分布对比监督的思考 token，并用共现、负载均衡与均匀性目标构建码本。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2601.18664v3#abstract1 (Abstract)

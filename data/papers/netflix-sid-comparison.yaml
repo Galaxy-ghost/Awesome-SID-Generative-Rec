@@ -19,6 +19,7 @@ poi: false
 summary: End-to-end paradigm or benchmark using RQ-VAE tokenization and Dec-Only / Non-AR backbone.
 tldr: 'Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam
   search with multi-token prediction for LLM Semantic ID generation on quality and cost.'
+tldr_zh: Netflix-SID-Comparison 是工业界对比研究而非新推荐模型：在生成质量与计算开销上对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测。
 setup:
   datasets: Proprietary streaming-media member histories, synthetic content QA, and open instruction-following data; >=10M
     examples/task. Catalog size, exact corpus sizes and filtering not reported.

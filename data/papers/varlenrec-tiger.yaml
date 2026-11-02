@@ -19,6 +19,7 @@ poi: false
 summary: 提出可变长度离散 SID 并接入生成推荐器。
 tldr: VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization
   and a soft length controller, instead of fixed-length tokenization.
+tldr_zh: VarLenRec (TIGER) 通过双曲残差量化与软长度控制器为热门物品分配较短 SID、为长尾物品分配较长 SID，替代固定长度编号。
 setup:
   datasets: Amazon Beauty, Sports and Outdoors, Toys and Games, and Yelp; exclude users/items with fewer than five interactions.
     Maximum history length not reported.

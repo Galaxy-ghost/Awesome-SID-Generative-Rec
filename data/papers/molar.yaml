@@ -20,6 +20,7 @@ summary: 'Abstract: "inherently lack collaborative filtering information, relyin
   other modalities".'
 tldr: Molar builds item representations from text and images with a multimodal LLM and aligns its user representations with
   an ID-based model, to add collaborative signals that LLM recommenders lack.
+tldr_zh: Molar 用多模态 LLM 从文本与图像构建物品表示，并将用户表示与基于 ID 的协同过滤模型对齐，补足 LLM 推荐器缺失的协同信号。
 evidence:
 - field: problem
   where: 'Abstract, CF and modality limitations (fragment), arXiv v2: https://arxiv.org/html/2412.18176v2#abstract1.1'

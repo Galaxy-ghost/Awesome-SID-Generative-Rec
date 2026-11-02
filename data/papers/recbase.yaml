@@ -20,6 +20,7 @@ summary: 'Abstract: "cross-domain generalization is hindered by a fundamental mi
   and the recommendation task".'
 tldr: RecBase pretrains a domain-agnostic foundation model on a cross-domain corpus with a unified tokenizer of hierarchical
   concept identifiers, for zero-shot recommendation instead of language-centric pretraining.
+tldr_zh: RecBase 用层级概念标识统一编号器在跨域语料上预训练域无关基础模型，面向零样本推荐，替代以自然语言为中心的预训练。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2509.03131v1#abstract1 (Abstract)

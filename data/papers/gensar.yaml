@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "integrating both semantic and collaborative signals into item representations"; "区分搜索和推荐的需求".'
 tldr: GenSAR unifies search and recommendation in one generator with dual-purpose identifiers carrying semantic and collaborative
   signals and task-specific training, to reduce the trade-off between the two tasks.
+tldr_zh: GenSAR 用同时承载语义与协同信号的双用途标识和任务特定训练，把搜索与推荐统一到单个生成器中，缓解两项任务之间的冲突。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2504.05730v2#abstract1

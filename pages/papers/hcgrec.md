@@ -2,11 +2,9 @@
 
 *Learning from Unreachable Rewards: Hint-Conditioned Reinforcement Learning for Generative Recommendation* — Zhang et al. · CIKM’26
 
-`IV. Utility` · `Training`
+`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2608.11980) · [Code](https://github.com/WncFht/GRec) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/hcgrec.md)
 
-[Paper](https://arxiv.org/abs/2608.11980) · [Code](https://github.com/WncFht/GRec) · [Matrix](../../README.md#iv--training)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,7 +21,9 @@ flowchart LR
 
 ### TL;DR
 
-HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
+> [!NOTE]
+
+> HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
 
 ### At a Glance
 
@@ -35,26 +35,23 @@ HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct it
 
 ### 3. Experimental Findings
 
-**Experimental setup**
+<details>
+<summary>Experimental setup</summary>
 
 - **Datasets**: Amazon Musical Instruments, Arts/Crafts/Sewing, Video Games; maximum history 50. Filtering: not reported.
+  - Source: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
 - **Split**: Per-user chronological leave-one-out: last item test, penultimate validation, remaining interactions training.
+  - Source: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
 - **Candidates**: full catalog
+  - Source: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
 - **Visibility**: warm; no unseen-item protocol is defined.
+  - Source: Section 4.1 defines no unseen-item evaluation: [S4.SS1](https://arxiv.org/html/2608.11980v2#S4.SS1)
 - **SID**: Four-token residual-quantization SIDs, shared across variants; codebook sizes and collision handling: not reported.
+  - Source: Sections 3.1 and 4.1.1: [S3.SS1.p1](https://arxiv.org/html/2608.11980v2#S3.SS1.p1) and [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
 - **Inference budget**: Beam 50; HR/NDCG@5/10/50; no target-prefix hints at inference. Inference hardware, batch size, latency: not reported.
+  - Source: Sections 3.5 and 4.1.2: [S3.SS5.p1](https://arxiv.org/html/2608.11980v2#S3.SS5.p1) and [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
 - **Results from**: Original Table 2: main comparison; Figures 2-6 and Sections 4.3-4.5: reachability, hint policy, task/loss ablations, credit weight.
-
-<details>
-<summary>Sources</summary>
-
-- **Datasets**: Section 4.1.1: [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
-- **Split**: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
-- **Candidates**: Section 4.1.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
-- **Visibility**: Section 4.1 defines no unseen-item evaluation: [S4.SS1](https://arxiv.org/html/2608.11980v2#S4.SS1)
-- **SID**: Sections 3.1 and 4.1.1: [S3.SS1.p1](https://arxiv.org/html/2608.11980v2#S3.SS1.p1) and [S4.SS1.SSS1.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1)
-- **Inference budget**: Sections 3.5 and 4.1.2: [S3.SS5.p1](https://arxiv.org/html/2608.11980v2#S3.SS5.p1) and [S4.SS1.SSS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS1.SSS2.p1)
-- **Results from**: Table 2 and Figures 2-6: [S4.T2](https://arxiv.org/html/2608.11980v2#S4.T2) and [S4.F2](https://arxiv.org/html/2608.11980v2#S4.F2) and [S4.F6](https://arxiv.org/html/2608.11980v2#S4.F6)
+  - Source: Table 2 and Figures 2-6: [S4.T2](https://arxiv.org/html/2608.11980v2#S4.T2) and [S4.F2](https://arxiv.org/html/2608.11980v2#S4.F2) and [S4.F6](https://arxiv.org/html/2608.11980v2#S4.F6)
 
 </details>
 
@@ -68,11 +65,11 @@ flowchart LR
     P -->|competitor| C["TIGER"]
 ```
 
-- **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
+- **前序工作** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
   - Source: HCGRec v2, Section 4.2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2.
-- **Competitor** · [MiniOneRec](minionerec.md): MiniOneRec shares the SFT checkpoint and controlled post-training budget.
+- **同期对比** · [MiniOneRec](minionerec.md): MiniOneRec shares the SFT checkpoint and controlled post-training budget.
   - Source: HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p1; https://arxiv.org/html/2608.11980v2#S4.T2.
-- **Competitor** · [TIGER](tiger.md): TIGER is the semantic-ID generative baseline in the main comparison.
+- **同期对比** · [TIGER](tiger.md): TIGER is the semantic-ID generative baseline in the main comparison.
   - Source: HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2; https://arxiv.org/html/2608.11980v2#S4.T2.
 
-[View all papers in this cell](../../README.md#iv--training)
+[查看同格全部论文](../../README.md#iv--training)

@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "prohibitive training overhead due to sequence expansion".'
 tldr: STAMP prunes redundant Semantic ID tokens adaptively in the forward pass and adds a multi-step auxiliary prediction
   objective, to cut training cost and densify supervision for long Semantic IDs.
+tldr_zh: STAMP 在前向传播中自适应剪除冗余 SID token，并加入多步辅助预测目标，降低训练开销并加密长 SID 的监督信号。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.05329v3#abstract1 (Abstract; excerpt)

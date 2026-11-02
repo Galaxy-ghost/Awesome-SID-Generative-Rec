@@ -33,6 +33,7 @@ summary: Semantic-ID-based generative recommendation unifies retrieval and ranki
   UniRec, and UniSGR. Online A/B testing improves IPV, Order, and GMV by 0.79%, 5.55%, and 3.09%, respectively.
 tldr: UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic
   prefix and user behavior inside the decoder, using it for generation and ranking.
+tldr_zh: UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。
 setup:
   datasets: 'Lazada recommendation logs with impression, click, add-to-cart and pay behaviors; training: 2.42 billion samples,
     6.46 million users, 7.53 million items.'

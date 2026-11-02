@@ -30,6 +30,7 @@ summary: Generative recommendation (GR) represents items as semantic identifiers
   analyses show lower training and inference time than TIGER and reduced gradient conflict between length and content prediction.
 tldr: JevRec gives frequent items shorter Semantic IDs and long-tail items longer ones, and predicts length and content with
   separate heads, instead of one ID length for all items.
+tldr_zh: JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。
 setup:
   datasets: 'Amazon Reviews 2023: Musical Instruments, Industrial & Scientific, Video Games; exclude users/items with fewer
     than five interactions; maximum history 20 items.'

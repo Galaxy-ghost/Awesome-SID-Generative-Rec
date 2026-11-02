@@ -33,6 +33,7 @@ summary: Generative recommendation (GR) predicts the next item through its seman
   retrieval.
 tldr: API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains
   an adapter to predict indices and strengths, instead of fitting a new vocabulary.
+tldr_zh: API 直接复用预训练稀疏自编码器的特征下标作为可解释 SID 词表，并训练适配器预测下标与激活强度，无需重新拟合词表。
 setup:
   datasets: 'Amazon Beauty, Sports, and Toys as preprocessed in prior work (P5, GRID), keeping their splits; item text from
     title, brand, category, and price. Sizes: Appendix A (not restated here).'

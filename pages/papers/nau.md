@@ -2,11 +2,9 @@
 
 *Neighborhood-Aware Unlearning for Generative Recommendation* — Lubitzsch et al. · arXiv’26
 
-`IV. Utility` · `Training`
+`IV. Utility` · `Training` · [Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/nau.md)
 
-[Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) · [Matrix](../../README.md#iv--training)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -22,7 +20,9 @@ flowchart LR
 
 ### TL;DR
 
-NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items.
+> [!NOTE]
+
+> NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level unlearning, because shared tokens let unlearning degrade neighboring items.
 
 ### At a Glance
 
@@ -34,26 +34,23 @@ NAU adds explicit control over the probability mass on forgotten items' Semantic
 
 ### 3. Experimental Findings
 
-**Experimental setup**
+<details>
+<summary>Experimental setup</summary>
 
 - **Datasets**: Amazon Beauty, Sports, Toys using released five-core preprocessing. Table 24 additionally lists Food k5 SID diagnostics; its source and preprocessing details not reported.
+  - Source: Section 4 and Appendix H Table 24: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2) and [A8.T24](https://arxiv.org/html/2610.27232v1#A8.T24)
 - **Split**: Chronological train/validation/test; allocation sizes not reported. Training histories capped at 20 items; all unlearning methods start from the same original model.
+  - Source: Appendix A: [A1.p1](https://arxiv.org/html/2610.27232v1#A1.p1)
 - **Candidates**: not reported; no items are filtered from generated candidates during unlearning evaluation.
+  - Source: Section 4 and Appendix A: [S4.p6](https://arxiv.org/html/2610.27232v1#S4.p6) and [A1.p1](https://arxiv.org/html/2610.27232v1#A1.p1)
 - **Visibility**: warm; no unseen-item protocol is defined. Users, items and SIDs remain fixed during NAU.
+  - Source: Sections 2/4 study interaction deletion with existing items, without an unseen-item protocol: [S2](https://arxiv.org/html/2610.27232v1#S2) and [S4](https://arxiv.org/html/2610.27232v1#S4)
 - **SID**: RQ-KMeans/RQ-VAE diagnostics: 3 semantic levels plus fourth deduplication level. Codebook sizes not reported; Table 24 shows 256 occupied first-level RQ-KMeans codes. LETTER and TRACER-compatible tokenizers also evaluated; their sizes not reported.
+  - Source: Section 4 and Appendix H Table 24: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2) and [A8.T24](https://arxiv.org/html/2610.27232v1#A8.T24)
 - **Inference budget**: Top-10 utility/exposure metrics; beam width, inference hardware, inference batch size and recommendation latency not reported. One H200 and NAU's 3.9s measure unlearning per request, not recommendation inference.
+  - Source: Section 4 and Appendix D Table 9: [S4.p6](https://arxiv.org/html/2610.27232v1#S4.p6) and [A4.T9](https://arxiv.org/html/2610.27232v1#A4.T9)
 - **Results from**: Original Tables 1/3/4: spam/unwanted-item removal; Appendices D/F: extended results. Five data seeds. RQ-KMeans selection uses validation; other-tokenizer operating-point selection uses test results.
-
-<details>
-<summary>Sources</summary>
-
-- **Datasets**: Section 4 and Appendix H Table 24: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2) and [A8.T24](https://arxiv.org/html/2610.27232v1#A8.T24)
-- **Split**: Appendix A: [A1.p1](https://arxiv.org/html/2610.27232v1#A1.p1)
-- **Candidates**: Section 4 and Appendix A: [S4.p6](https://arxiv.org/html/2610.27232v1#S4.p6) and [A1.p1](https://arxiv.org/html/2610.27232v1#A1.p1)
-- **Visibility**: Sections 2/4 study interaction deletion with existing items, without an unseen-item protocol: [S2](https://arxiv.org/html/2610.27232v1#S2) and [S4](https://arxiv.org/html/2610.27232v1#S4)
-- **SID**: Section 4 and Appendix H Table 24: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2) and [A8.T24](https://arxiv.org/html/2610.27232v1#A8.T24)
-- **Inference budget**: Section 4 and Appendix D Table 9: [S4.p6](https://arxiv.org/html/2610.27232v1#S4.p6) and [A4.T9](https://arxiv.org/html/2610.27232v1#A4.T9)
-- **Results from**: Section 5 and Appendix D: [S5.p1](https://arxiv.org/html/2610.27232v1#S5.p1) and [S5.p8](https://arxiv.org/html/2610.27232v1#S5.p8) and [S5.p9](https://arxiv.org/html/2610.27232v1#S5.p9) and [A4.p1](https://arxiv.org/html/2610.27232v1#A4.p1)
+  - Source: Section 5 and Appendix D: [S5.p1](https://arxiv.org/html/2610.27232v1#S5.p1) and [S5.p8](https://arxiv.org/html/2610.27232v1#S5.p8) and [S5.p9](https://arxiv.org/html/2610.27232v1#S5.p9) and [A4.p1](https://arxiv.org/html/2610.27232v1#A4.p1)
 
 </details>
 
@@ -67,11 +64,11 @@ flowchart LR
     P -->|competitor| C["TRACER"]
 ```
 
-- **Predecessor** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
+- **前序工作** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
   - Source: NAU v1, Section 4: https://arxiv.org/html/2610.27232v1#S4.p2.
-- **Predecessor** · [LETTER](letter.md): Its collaboratively regularized tokenizer is used to test NAU across SID constructions.
+- **前序工作** · [LETTER](letter.md): Its collaboratively regularized tokenizer is used to test NAU across SID constructions.
   - Source: NAU v1, Section 4 and Appendix D: https://arxiv.org/html/2610.27232v1#S4.p2; https://arxiv.org/html/2610.27232v1#A4.p5.
-- **Competitor** · [TRACER](tracer.md): Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
+- **同期对比** · [TRACER](tracer.md): Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
   - Source: NAU v1, Sections 4/6: https://arxiv.org/html/2610.27232v1#S4.p4; https://arxiv.org/html/2610.27232v1#S6.p2.
 
-[View all papers in this cell](../../README.md#iv--training)
+[查看同格全部论文](../../README.md#iv--training)

@@ -19,6 +19,7 @@ poi: false
 summary: 提出 token 加权生成训练目标，而非只报告分析。
 tldr: Token-Weighted weights Semantic ID tokens by prefix ambiguity reduction and by token frequency, combining both with
   the standard likelihood under curriculum learning, instead of uniform token training.
+tldr_zh: Token-Weighted 按前缀歧义消减量与 token 频率为 SID token 加权，在课程学习下与标准似然结合，替代对所有位置均匀加权的训练。
 setup:
   datasets: Amazon Musical Instruments and Industrial & Scientific, Yelp, MovieLens 1M; 5-core users/items. Maximum history
     length not reported.

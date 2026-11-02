@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "poor integration of traditional RS features"; "补信息算 I".'
 tldr: EAGER-LLM adds dual-source behavior and semantic item indices, multiscale alignment reconstruction tasks, and an annealing
   adapter to a decoder-only LLM, instead of learning collaborative semantics from scratch.
+tldr_zh: EAGER-LLM 为仅解码器 LLM 加入行为与语义双源物品索引、多尺度对齐重构任务以及退火适配器，无需从头学习协同语义。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2502.14735v1#abstract1

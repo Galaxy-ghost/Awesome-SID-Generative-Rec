@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "exaggerating the negative impact of domain gap".'
 tldr: VQ-Rec maps item text to discrete codes and looks up code embeddings as item representations, with contrastive pre-training
   and cross-domain fine-tuning, to loosen the binding between text and representation.
+tldr_zh: VQ-Rec 将物品文本映射为离散码并查表组合码嵌入作为物品表示，配合对比预训练与跨域微调，解除文本与物品表示之间的强绑定。
 evidence:
 - field: problem
   where: 'https://arxiv.org/html/2210.12316v2#S1.p3 (Introduction: text representations and domain gap)'

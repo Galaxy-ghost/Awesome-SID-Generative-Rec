@@ -20,6 +20,7 @@ summary: 'Abstract: "To avoid generating excessively long text and hallucinated 
   item IDs to uniquely identify each item is essential". Candidates: II / I (rule: judged by the abstract''s complaint first).'
 tldr: CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing,
   replacing random, title, and independent IDs that cause long outputs or hallucinated items.
+tldr_zh: CID 研究 P5 基础模型的物品编号方式，提出顺序、协同、语义与混合索引，替代容易产生长输出或虚构物品的随机、标题和独立 ID。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2305.06569v6#abstract1

@@ -19,6 +19,7 @@ poi: false
 summary: 评论 SID 作为上下文与生成监督，目标仍是物品 SID，属于新推荐训练设计。
 tldr: RAGR interleaves item Semantic IDs and review Semantic IDs chronologically in the user sequence and uses DPO to favor
   item tokens at prediction positions, instead of modeling item-only sequences.
+tldr_zh: RAGR 在用户序列中按时间交错排列物品 SID 与评论 SID，并用 DPO 在预测位置偏好物品 token，替代仅建模物品序列的做法。
 setup:
   datasets: Amazon Beauty, Sports and Outdoors, Toys and Games, with historical review text; remove users/items with fewer
     than five interactions; maximum history 20, truncating oldest interactions.

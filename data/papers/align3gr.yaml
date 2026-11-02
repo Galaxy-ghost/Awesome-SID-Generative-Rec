@@ -20,6 +20,7 @@ summary: 'Abstract: "fundamental challenges arise when transforming LLMs into re
   and behavioral misalignment". Candidates: III / I (rule: judged by the abstract''s complaint first).'
 tldr: Align3GR aligns an LLM recommender at three levels, with dual semantic and collaborative tokenization, bidirectional
   semantic alignment in behavior modeling, and progressive DPO from self-play and real-world feedback.
+tldr_zh: Align3GR 从双语义-协同编号、行为建模中的双向语义对齐，以及结合自博弈与真实反馈的渐进式 DPO 三个层面，对齐 LLM 推荐模型。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.11255v2#abstract1

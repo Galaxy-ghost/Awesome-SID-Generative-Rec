@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "the generative model functions only as a selector during the retrieval stage".'
 tldr: OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions
   of videos, and aligns preferences by iterative DPO with a reward model.
+tldr_zh: OneRec 用带稀疏 MoE 的单一编码器-解码器生成器替代召回-排序级联，整段生成视频会话，并通过奖励模型与迭代 DPO 对齐用户偏好。
 evidence:
 - field: problem
   where: 'OneRec v1 (2502.18965), Abstract, quoted clause: https://arxiv.org/html/2502.18965v1#abstract1'

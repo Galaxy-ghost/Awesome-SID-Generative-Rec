@@ -19,6 +19,7 @@ poi: true
 summary: 完整四位 SI-SID 含显式消歧码，三项空间机制独立可定位。
 tldr: SPAR fuses sinusoidal coordinate embeddings into Semantic ID construction, continually pre-trains the LLM on geospatial
   data, and anchors that knowledge as a frozen task vector during behavioral fine-tuning.
+tldr_zh: SPAR 将正弦坐标嵌入融入 SID 构建，在地理空间数据上持续预训练 LLM，并在行为微调期间将该知识固定为冻结任务向量。
 setup:
   datasets: Public NYC/TKY; one month of AMAP logs from Beijing, Shanghai, Tianjin and Zhejiang. MG-CPT adds 25 geospatial
     datasets per city. Cleaning details not reported.

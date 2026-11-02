@@ -33,6 +33,7 @@ summary: Generative recommendation models have shown promising results by repres
   objective, substantially improving training efficiency while maintaining strong recommendation quality.
 tldr: HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence
   and improve tail items beyond a standard causal cross-entropy objective.
+tldr_zh: HASTE 在生成器训练中加入各 SID 层级损失与属性特定损失，加快收敛并改善长尾物品表现，优于标准自回归交叉熵目标。
 setup:
   datasets: 'Amazon-2014 Sports/Beauty/Toys: P5 5-core; Fashion-140k: 5-core, minimum sequence length 3, cap 100; internal-fashion:
     six deliberate engagement types, deduplication, length 3-100, resolved location, single profile; consecutive events with

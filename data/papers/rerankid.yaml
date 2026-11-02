@@ -19,6 +19,7 @@ poi: false
 summary: End-to-end paradigm or benchmark using R-KM† tokenization and Dec-Only backbone.
 tldr: 'ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic
   IDs, and the paper compares post-training methods for this task.'
+tldr_zh: ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。
 setup:
   datasets: Kuaishou OpenOneRec-RecIF short-video release, 162074 source users; evaluation requires a renderable positive
     and >=256 items with both SID/caption histories.

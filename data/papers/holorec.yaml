@@ -19,6 +19,7 @@ poi: false
 summary: 构造多粒度语义码并交错推理，使编号结构支持推荐推理。
 tldr: HoloRec builds hierarchical Semantic IDs by nested residual quantization with a reconstruction loss over all granularities
   and generates chain-of-thought steps inside decoding, instead of using external annotated rationales.
+tldr_zh: HoloRec 用带全粒度重构损失的嵌套残差量化构建层级 SID，并在解码过程中直接生成思维链步骤，不依赖外部标注的推理文本。
 setup:
   datasets: Amazon Beauty and Instruments; user/item five-core filtering.
   split: Leave-one-out; exact validation/test allocation not reported.

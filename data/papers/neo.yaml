@@ -19,6 +19,7 @@ poi: false
 summary: End-to-end paradigm or benchmark using R-KM tokenization and Dec-Only backbone.
 tldr: NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained
   decoding, to unify search, recommendation, and reasoning without tools.
+tldr_zh: NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。
 setup:
   datasets: 'Industrial media logs: >10M episodes, shows, audiobooks and artists; about 15M users; 5M grounding examples,
     10M instruction-training examples, 100K test examples. Filtering not reported.'

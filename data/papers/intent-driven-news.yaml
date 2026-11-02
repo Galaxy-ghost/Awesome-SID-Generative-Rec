@@ -19,6 +19,7 @@ poi: false
 summary: 明确生成离散 SID 前缀并接目录解析，适合广义 SID 生成综述；不属于完整唯一 SID 直接生成子集。
 tldr: Intent-Driven-News trains an LLM to map implicit conversational intents to hierarchical Semantic ID prefixes and fuzzy-matches
   them to the current news pool, instead of retrieving articles first.
+tldr_zh: Intent-Driven-News 训练 LLM 将对话中的隐含意图映射为层级 SID 前缀，再与当前新闻池做模糊匹配，替代先检索文章的流程。
 setup:
   datasets: 'Industrial Chinese news: 163560 articles, 50000 profiles, 9982 test samples across six tasks. Filtering not reported.'
   split: 'Temporal: training articles before cutoff, test articles after; zero item overlap. Matching tolerance selected on

@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "their SID assessment typically relies on costly GR training".'
 tldr: 'FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies,
   adds metrics that assess IDs without generator training, and releases Taobao data.'
+tldr_zh: FORGE 是基准与工业数据集而非新推荐模型：对比不同 SID 构建策略，提出无需训练生成器即可评估 ID 的指标，并开源淘宝数据集。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2509.20904v3#abstract1

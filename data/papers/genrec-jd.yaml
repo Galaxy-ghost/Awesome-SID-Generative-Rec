@@ -20,6 +20,7 @@ summary: 'Abstract: "aligning the generative policy with nuanced user preference
   a flawed training objective counts).'
 tldr: GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with
   a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards.
+tldr_zh: GenRec-JD 用按页下一 token 预测训练仅解码器生成器，用 Token Merger 压缩提示中的 SID，并在混合奖励下用 GRPO-SR 对齐输出。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2604.14878v1#abstract1

@@ -27,6 +27,7 @@ summary: 'LLM-based generative recommendation reads long, text-rich interaction 
   strong recommendation baselines while substantially improving training and decoding efficiency.'
 tldr: Merge-and-Branch compresses each history item's Semantic ID and text into few learned tokens and predicts several target
   IDs from one shared history in a tree layout, reducing fine-tuning cost.
+tldr_zh: Merge-and-Branch 将每个历史物品的 SID 与文本压缩为少量可学习 token，并以树状布局从共享历史同时预测多个目标 ID，降低微调开销。
 setup:
   datasets: Amazon 2014 5-core Beauty, Sports and Outdoors, Toys and Games.
   split: Per-user chronological last/penultimate interactions test/validation; earlier interactions training. Main M&B result

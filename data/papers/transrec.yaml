@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "either lose semantics or lack adequate distinctiveness"; "might generate invalid identifiers".'
 tldr: TransRec indexes items with multi-facet identifiers combining ID, title, and attributes, constrains generation with
   FM-index substring indexing, and aggregates generated identifiers to rank catalog items.
+tldr_zh: TransRec 用结合 ID、标题与属性的多面标识索引物品，通过 FM-index 子串索引约束生成，并聚合生成的标识为物品库打分排序。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2310.06491v2#abstract1 (Abstract; first limitation excerpt)

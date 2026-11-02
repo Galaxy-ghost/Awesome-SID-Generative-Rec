@@ -19,6 +19,7 @@ poi: false
 summary: 提出 Binary SID 与拓扑感知生成推荐组件，既非单纯分析亦非连续标识。
 tldr: TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training
   targets, and reranking, instead of treating Semantic ID tokens as independent symbols.
+tldr_zh: TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。
 setup:
   datasets: Amazon Review Sports & Outdoors, Beauty, Toys & Games, CDs & Vinyl; reviews treated as chronological interactions.
     Filtering and maximum history length not reported.

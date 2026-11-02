@@ -29,6 +29,7 @@ summary: Generative retrieval replaces nearest-neighbor search with token-by-tok
   reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.
 tldr: PinGER interleaves Semantic ID and dense tokens with an asymmetric attention mask so serving uses one token per item,
   and steers retrieval by goal conditioning, reinforcement learning, and diversity penalties.
+tldr_zh: PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。
 setup:
   datasets: 'Pinterest session-centric UniPinRec data: historical cross-surface actions paired with target-surface session
     engagements; session sampling reflects traffic. Filtering rules: not reported.'

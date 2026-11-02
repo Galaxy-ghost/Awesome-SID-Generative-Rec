@@ -21,6 +21,7 @@ summary: 'Abstract: "challenges remain in efficiently capturing high-order colla
   first new design).'
 tldr: TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items
   without autoregressive decoding or beam search, to generalize to new users and items.
+tldr_zh: TokenRec 将掩码协同用户与物品表示量化为离散 token，无需自回归解码或束搜索即可检索 top-K 物品，并泛化到新用户与新物品。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2406.10450v3#abstract1 (Abstract; verified excerpt) ; https://arxiv.org/html/2406.10450v3#S1.p4

@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "collapses multi-faceted item semantics at cluster boundaries".'
 tldr: CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends
   its Semantic ID once confidence is high, so ID length varies per item.
+tldr_zh: CapsID 用胶囊路由替代硬残差量化，将物品软路由到多个胶囊并在置信度足够高时终止生成，使各物品的 SID 长度按需变化。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2605.05096v1#abstract1

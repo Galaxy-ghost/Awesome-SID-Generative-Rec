@@ -33,6 +33,7 @@ summary: Generative recommendation with semantic IDs represents each item as a s
   for parallel generative recommendation.
 tldr: IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution
   or per-position code marginals, instead of training on hard next-item labels alone.
+tldr_zh: IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。
 setup:
   datasets: Amazon Reviews 2014 Beauty, Toys and Games, Sports and Outdoors; existing 5-core data verified without further
     filtering or deduplication.

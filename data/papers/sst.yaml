@@ -19,6 +19,7 @@ poi: false
 summary: Sentence-T5抽取物品文字语义向量用于四层基础RQ；BCA在推荐样本侧注入行为，不自动把基础SID输入记CF。
 tldr: SST represents history items as variable-length subwords merged from stable adjacent Semantic ID tokens while keeping
   fixed-length target decoding, to reduce intra-item attention in the encoder.
+tldr_zh: SST 将历史物品表示为由稳定相邻 SID token 合并而成的变长子词，同时保持目标侧定长解码，以减少编码器在单个物品内部的注意力开销。
 setup:
   datasets: Amazon Beauty/Instruments and Yelp; user/item 5-core filtering, chronological histories capped at 20.
   split: Per-user last interaction test, penultimate validation, earlier interactions training.

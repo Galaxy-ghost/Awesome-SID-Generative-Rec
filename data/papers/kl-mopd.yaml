@@ -34,6 +34,7 @@ summary: Coordinating multiple recommendation objectives (e.g., click and conver
   The anonymous code is provided for peer review.
 tldr: KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its
   initial KL divergence from the student, instead of vanilla on-policy distillation.
+tldr_zh: KL-MOPD 按教师与学生的初始 KL 散度加权，将点击与转化教师逐 token 蒸馏到学生生成器，改进标准在线策略蒸馏。
 setup:
   datasets: 'TencentGR (CTR/CVR), YooChoose (CTR/GMV), Taobao (CTR/CVR), industrial advertising (CTR/eCPM). Filtering: not
     reported.'

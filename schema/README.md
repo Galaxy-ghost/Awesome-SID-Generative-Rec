@@ -47,6 +47,7 @@ summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregress
   a T5 encoder-decoder.
 tldr: TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's
   ID, instead of retrieving items by approximate nearest neighbor search.
+tldr_zh: TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。
 setup:
   ...
   inference_budget: 'Autoregressive beam search; numerical beam width not reported. ...'
@@ -68,10 +69,11 @@ related:
 - Technical columns (`representation`, `tokenization`, `backbone`, `tokenizer`, `objective`, `inference`) are stored verbatim as in Table 1, including `†` (inferred) and `A / B` (dual-branch setups).
 - `poi`: `true` when the paper targets POI, local-life, or spatial recommendation.
 - `links.code` is the authors' repository or `null`; `links.code_third_party` is an optional implementation by others.
-- `tldr`: one English sentence that the README, the paper page, and `llms.txt` copy verbatim.
+- `tldr`: one English sentence that `README.md`, the English paper page, and `llms.txt` copy verbatim.
+- `tldr_zh`: one Chinese sentence corresponding to `tldr`, used in `README.zh.md` and the Chinese paper page.
 - `setup`: the setup card with seven fixed keys in this order: `datasets`, `split`, `candidates`, `visibility`, `sid`, `inference_budget`, `results_from`.
 - `setup_where`: the paper location for each `setup` key; it appears only with `setup`.
 - `related`: 1–5 links to other records, each with `id`, `relation` (`predecessor`, `successor`, `competitor`, or `alternative`), `note`, and `where`.
 - `evidence`: an optional list of `{field, where, quote?, reason?}` items; each item has at least one of `quote` and `reason`.
-- Optional notes are stored in `notes/<id>.md` and embedded into `pages/papers/<id>.md` during `make build`.
+- Optional notes are stored in `notes/<id>.md` (and `notes/zh/<id>.md` in Chinese) and embedded into `pages/papers/<id>.md` (and `pages/zh/papers/<id>.md`) during `make build`.
 - Optional architecture diagrams are stored as `architectures/<id>.png`, matching the record ID exactly. `make build` embeds each existing diagram into its paper page; no YAML field is needed.

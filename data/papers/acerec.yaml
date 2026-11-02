@@ -19,6 +19,7 @@ poi: false
 summary: 有完整离散 SID、并行预测和全物品聚合检索，不因最终评分排除。
 tldr: ACERec compresses long Semantic IDs into compact latent tokens with an Attentive Token Merger and adds an Intent Token
   with a dual-granularity objective, to keep long-ID expressiveness at short-ID cost.
+tldr_zh: ACERec 用注意力 token 合并器将长 SID 压缩为紧凑隐 token，并加入意图 token 与双粒度训练目标，以短 ID 的开销保留长 ID 的表达力。
 setup:
   datasets: 'Nine Amazon domains: Sports, Beauty, Toys, CDs, Office, Pets, Baby (2014 edition) and Science, Instruments (2023
     edition); users with fewer than 5 interactions excluded; training histories truncated to the 50 most recent items. Sizes:

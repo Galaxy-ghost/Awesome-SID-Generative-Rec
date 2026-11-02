@@ -20,6 +20,7 @@ summary: 'Abstract: "these methods fall short in efficiency and effectiveness fo
   V / III (rule: judged by the abstract''s complaint first).'
 tldr: SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and
   triplet losses, to learn token hierarchy with equal inference cost for all items.
+tldr_zh: SEATER 在平衡 k 叉树上构建物品标识，并结合生成损失、InfoNCE 损失与三元组损失训练编码器-解码器，以相等的推理开销学习层级 token。
 evidence:
 - field: problem
   where: https://arxiv.org/abs/2309.13375v2 (Abstract on the versioned abstract page)

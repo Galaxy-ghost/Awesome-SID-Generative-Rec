@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "severely hindered by high inference latency".'
 tldr: NEZHA adds an autoregressive draft head inside the main model for self-drafting and checks drafts against a hash set
   of valid IDs, instead of separate draft models and model-based verifiers.
+tldr_zh: NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。
 evidence:
 - field: problem
   where: 'Abstract, inference-latency complaint (fragment), arXiv v2: https://arxiv.org/html/2511.18793v2#abstract1.1'

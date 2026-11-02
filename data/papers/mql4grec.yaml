@@ -20,6 +20,7 @@ summary: 'Abstract: "rarely consider the complementary knowledge between the mul
   I / VI (rule: judged by the abstract''s complaint first).'
 tldr: MQL4GRec translates item text and images from several domains into a shared quantitative language and pre-trains generation
   tasks over it, to transfer recommendation knowledge across domains and modalities.
+tldr_zh: MQL4GRec 将多个域的物品文本与图像转化为共享量化语言并在其上预训练多类生成任务，跨领域和模态迁移推荐知识。
 evidence:
 - field: problem
   where: 'Abstract, complementary multimodal knowledge, arXiv v1: https://arxiv.org/html/2504.05314v1#abstract1.1'

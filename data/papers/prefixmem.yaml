@@ -19,6 +19,7 @@ poi: false
 summary: 给固定SID码位加入前缀条件记忆表示，让生成器识别同一码在不同前缀下的含义。
 tldr: PrefixMem gives an LLM a pre-trainable Semantic ID encoder built from prefix n-gram memory tables, so each token gets
   a prefix-conditioned representation instead of a plain vocabulary embedding.
+tldr_zh: PrefixMem 用前缀 n-gram 记忆表为 LLM 构建可预训练的 SID 编码器，使每个 token 获得以前缀为条件的表示，替代普通词表嵌入。
 setup:
   datasets: 'Pinterest: about 10M engagement subsequences (<=32 events), 240M item occurrences, tens of millions of unique
     items. Filtering rules not reported.'

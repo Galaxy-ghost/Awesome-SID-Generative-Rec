@@ -30,6 +30,7 @@ summary: Generative recommendation formulates item recommendation as autoregress
   for generative recommendation.
 tldr: LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills
   a low-budget student, to scale computation without proportionally growing model size.
+tldr_zh: LoopGR 交替运行共享生成解码器与轻量上下文更新器以增加循环深度，并蒸馏出低开销学生模型，在不按比例扩大参数量的前提下扩展计算。
 setup:
   datasets: Amazon Reviews 2014 Beauty, Sports and Outdoors, CDs and Vinyl; Tencent industrial data. Filtering and industrial
     dataset statistics not reported.

@@ -34,6 +34,7 @@ summary: 'Long user behavioral sequences improve the performance of generative r
   at https://anonymous.4open.science/r/PFA-review-088D.'
 tldr: PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink
   the attended history at later steps, accelerating long-sequence generative decoding.
+tldr_zh: PFA 在首个解码步保留完整注意力，随后在各束之间复用共享的重要性排序以缩减后续步关注的历史长度，加速长序列生成式解码。
 setup:
   datasets: Amazon 2023 Kindle Store (rating>=4, users>=128 positives); Tmall IJCAI-15 clicks; industrial advertising clicks.
     Click data retain earliest repeated user-item event; public items require >=5 training-instance occurrences, removing

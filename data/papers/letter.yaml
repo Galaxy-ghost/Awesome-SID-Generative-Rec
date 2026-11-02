@@ -20,6 +20,7 @@ summary: 'Abstract: "shortcomings in encoding semantic information, incorporatin
   assignment bias".'
 tldr: LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic
   IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
+tldr_zh: LETTER 用协同对齐损失与多样性损失约束 RQ-VAE 编号器，使物品 SID 融入协同信号并减轻早期标识中的码分配偏置。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2405.07314v3#abstract1

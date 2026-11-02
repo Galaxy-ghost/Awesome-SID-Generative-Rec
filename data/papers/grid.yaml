@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "the absence of an open-source, unified framework hinders systematic benchmarking and extension".'
 tldr: 'GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders
   swappable and ablates them on public benchmarks.'
+tldr_zh: GRID 是开源模块化框架而非新推荐模型：支持替换 SID 生成式推荐器的各个组件，并在公开基准上开展消融对比。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2507.22224v1#abstract1

@@ -20,6 +20,7 @@ summary: 'Abstract: "Text-based methods introduce LLMs'' vast output space, lead
   gap between SIDs and LLMs'' native vocabulary". Candidates: II / III (rule: tie broken by the majority of new designs).'
 tldr: GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them,
   avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
+tldr_zh: GRLM 用从元数据生成的标准化文本关键词（Term ID）标识物品并据此微调 LLM，避免自由文本幻觉以及 SID 带来的词表扩张。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2601.06798v1#abstract1

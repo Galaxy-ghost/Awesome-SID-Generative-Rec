@@ -22,7 +22,9 @@
     "objective",
     "inference",
     "poi",
-    "summary"
+    "summary",
+    "tldr",
+    "tldr_zh"
   ],
   "properties": {
     "id": {
@@ -144,6 +146,11 @@
     },
     "tldr": {
       "description": "One-sentence English summary stating the problem, core mechanism, and difference from prior work.",
+      "type": "string",
+      "minLength": 1
+    },
+    "tldr_zh": {
+      "description": "One-sentence Chinese summary corresponding to tldr.",
       "type": "string",
       "minLength": 1
     },

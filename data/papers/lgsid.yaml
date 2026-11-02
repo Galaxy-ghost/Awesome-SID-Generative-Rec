@@ -20,6 +20,7 @@ summary: 'Abstract: "simply injecting location information into prompts fails to
   and real-world distance awareness among items".'
 tldr: LGSID aligns an LLM to spatial relationships with a reward model and G-DPO, then builds Semantic IDs from spatial and
   content attributes plus residual tokens from the aligned LLM representation.
+tldr_zh: LGSID 用奖励模型与 G-DPO 将 LLM 对齐到空间关系，再由空间与内容属性加上对齐后 LLM 表示的残差 token 构建 SID。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2511.14221v1#abstract1

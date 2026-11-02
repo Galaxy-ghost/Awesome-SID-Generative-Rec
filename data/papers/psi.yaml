@@ -19,6 +19,7 @@ poi: false
 summary: 已有不收判定，按任务书维持；原理由见Table1收录筛选对应行。
 tldr: PSI assigns unique, semantic-preserving IDs by relaxing nearest-centroid selection with exhaustive candidate matching
   or recursive residual searching, instead of appending a non-semantic token to resolve conflicts.
+tldr_zh: PSI 通过穷举候选匹配或递归残差搜索放宽最近质心选择，直接分配唯一且保语义的 ID，避免靠追加无语义后缀 token 消解冲突。
 evidence:
 - field: problem
   where: 'PSI v1, Abstract, quoted clause: https://arxiv.org/html/2509.16446v1#abstract1'

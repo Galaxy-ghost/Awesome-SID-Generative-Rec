@@ -21,6 +21,7 @@ summary: 'Abstract: non-reasoning models "limit the computational capacity ... t
   reasoning does not form a problem of its own.'
 tldr: Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages
   by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.
+tldr_zh: Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2607.28997v1#abstract1 (Abstract; author excerpt and organizer classification)

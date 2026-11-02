@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "there is few systematic way to verify this hypothesis".'
 tldr: 'GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares
   generative and item ID models on each, and combines both per instance.'
+tldr_zh: GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.19809v1#abstract1

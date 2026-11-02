@@ -20,6 +20,7 @@ summary: 'Abstract: "item tokenization is largely dominated by textual semantics
   signals"; "the generation stage tends to overlook the original semantic information".'
 tldr: SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable
   code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages.
+tldr_zh: SCRec 将文本化的协同信号注入语义编号，在生成时用可学习码嵌入校准语义先验，并对齐码本与语义空间以耦合两个阶段。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2609.13678v1#abstract1 (Abstract)

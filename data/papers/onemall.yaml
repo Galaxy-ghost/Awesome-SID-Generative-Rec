@@ -19,6 +19,7 @@ poi: false
 summary: End-to-end paradigm or benchmark using R-KM+FSQ tokenization and Enc-Dec backbone.
 tldr: OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer,
   Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.
+tldr_zh: OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。
 setup:
   datasets: 'Kuaishou product-card, short-video, and live-streaming logs; dates/sample counts not reported. Tokenizer: 70M
     product-product pairs (<=40 occurrences/item), 12M video-product pairs from long views 1-5 minutes before product clicks,

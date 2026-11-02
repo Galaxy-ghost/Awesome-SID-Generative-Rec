@@ -20,6 +20,7 @@ summary: 'Abstract: "Both methods ignore the exploration of possible positive un
   to as the exposure bias problem". Candidates: IV / none (rule: IV threshold: a flawed training objective counts).'
 tldr: GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNets, using a collaborative trajectory
   sampler and reward model to explore unobserved positives, instead of next-token or DPO fine-tuning.
+tldr_zh: GFlowGR 用 GFlowNets 将生成式推荐微调建模为多步生成，借助协同轨迹采样器与奖励模型探索未观测正例，替代下一 token 或 DPO 微调。
 evidence:
 - field: problem
   where: arXiv:2506.16114v3, abstract

@@ -2,11 +2,9 @@
 
 *Learning Variable-Length Tokenization for Generative Recommendation* — Wang et al. · arXiv’26
 
-`I. Informativeness` · `Tokenization`
+`I. Informativeness` · `Tokenization` · [Paper](https://arxiv.org/abs/2605.17779) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/varlenrec-tiger.md)
 
-[Paper](https://arxiv.org/abs/2605.17779) · [Matrix](../../README.md#i--tokenization)
-
-Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experimental Findings](#3-experimental-findings) · [5. Connections to Related Work](#5-connections-to-related-work)
+Reading level: Overview (Level 1) · On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
@@ -23,7 +21,9 @@ flowchart LR
 
 ### TL;DR
 
-VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.
+> [!NOTE]
+
+> VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.
 
 ### At a Glance
 
@@ -35,26 +35,23 @@ VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer
 
 ### 3. Experimental Findings
 
-**Experimental setup**
+<details>
+<summary>Experimental setup</summary>
 
 - **Datasets**: Amazon Beauty, Sports and Outdoors, Toys and Games, and Yelp; exclude users/items with fewer than five interactions. Maximum history length not reported.
+  - Source: [S4.SS1.SSS1.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS1.p1)
 - **Split**: Per-user leave-one-out: most recent item test, second most recent validation, all remaining items training.
+  - Source: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1)
 - **Candidates**: full catalog; full ranking without negative sampling.
+  - Source: [S4.SS1.SSS3.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS3.p1)
 - **Visibility**: warm; no unseen-item protocol is defined. Cold-start maximum-length assignment is discussed for deployment, not evaluated as a held-out-item protocol; tokenizer exposure to test items not reported.
+  - Source: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1) ; #S3.SS4.p6
 - **SID**: HARQ on Sentence-T5 embeddings: variable semantic length up to 10 levels x 256 codes, in hyperbolic space with curvature 1. Colliding IDs receive unique appended tokens from a disjoint 256-entry auxiliary vocabulary.
+  - Source: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1) ; #S3.SS4.p2
 - **Inference budget**: VarLenRec-TIGER uses T5, a user-side target-length predictor and trie-constrained beam 30, decoding exactly the predicted length; Recall/NDCG@5/10. Table III test seconds/epoch on Beauty/Sports/Toys/Yelp: 63.7/81.2/70.0/83.3. Experiments use A800 GPUs; count, inference batch size and per-request latency not reported.
+  - Source: [S3.SS4.p4](https://arxiv.org/html/2605.17779v2#S3.SS4.p4) ; #S3.SS4.p5 ; #S4.SS1.SSS4.p1 ; #S4.T3
 - **Results from**: Original v2 Table I: VarLenRec-TIGER and VarLenRec-LCRec comparisons; Table II: VarLenRec-TIGER ablations; Table III: timing. Baseline-result reuse not stated. This record covers the TIGER generative branch; SASRec is only a baseline in v2.
-
-<details>
-<summary>Sources</summary>
-
-- **Datasets**: [S4.SS1.SSS1.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS1.p1)
-- **Split**: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1)
-- **Candidates**: [S4.SS1.SSS3.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS3.p1)
-- **Visibility**: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1) ; #S3.SS4.p6
-- **SID**: [S4.SS1.SSS4.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS4.p1) ; #S3.SS4.p2
-- **Inference budget**: [S3.SS4.p4](https://arxiv.org/html/2605.17779v2#S3.SS4.p4) ; #S3.SS4.p5 ; #S4.SS1.SSS4.p1 ; #S4.T3
-- **Results from**: [S4.SS2.p1](https://arxiv.org/html/2605.17779v2#S4.SS2.p1) ; #S4.T2 ; #S4.T3 ; #S4.SS1.SSS2.p1
+  - Source: [S4.SS2.p1](https://arxiv.org/html/2605.17779v2#S4.SS2.p1) ; #S4.T2 ; #S4.T3 ; #S4.SS1.SSS2.p1
 
 </details>
 
@@ -68,11 +65,11 @@ flowchart LR
     P -->|competitor| C["LETTER"]
 ```
 
-- **Predecessor** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
+- **前序工作** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
   - Source: VarLenRec v2, Sections III-D/IV-B: https://arxiv.org/html/2605.17779v2#S3.SS4.p3; https://arxiv.org/html/2605.17779v2#S4.SS2.p1.
-- **Competitor** · [ETEGRec](etegrec.md): ETEGRec is a fixed-length generative baseline with joint-training optimization; VarLenRec changes the per-item encoding budget and target decoding length.
+- **同期对比** · [ETEGRec](etegrec.md): ETEGRec is a fixed-length generative baseline with joint-training optimization; VarLenRec changes the per-item encoding budget and target decoding length.
   - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
-- **Competitor** · [LETTER](letter.md): LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares against LETTER-TIGER.
+- **同期对比** · [LETTER](letter.md): LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares against LETTER-TIGER.
   - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
 
-[View all papers in this cell](../../README.md#i--tokenization)
+[查看同格全部论文](../../README.md#i--tokenization)

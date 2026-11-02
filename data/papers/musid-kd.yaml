@@ -31,6 +31,7 @@ summary: 'Generative recommendation with semantic IDs (SIDs) represents each ite
   at https://anonymous.4open.science/r/m7k2-review-83f9/.'
 tldr: MuSID-KD distills a generative teacher into lightweight students by aligning candidate distributions at successive Semantic
   ID prefix levels and weighting supervision by ranking impact, instead of uniform alignment.
+tldr_zh: MuSID-KD 在逐层 SID 前缀上对齐候选分布，并按排序影响为监督信号加权，将生成式教师蒸馏到轻量学生模型，替代均匀对齐蒸馏。
 setup:
   datasets: Amazon Reviews 2014 Beauty/Toys, Amazon Reviews 2023 Video Games, and Steam-100K; histories capped at 20. Filtering
     rules not reported.

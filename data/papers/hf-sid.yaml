@@ -19,6 +19,7 @@ poi: true
 summary: 直接研究 POI SID 质量并用于下游 next-POI 生成，建议保留方法；完整码到多 POI 的物化仍须明确标未知。
 tldr: HF-SID restores geographic, numerical, and structural detail in POI representations before quantization, through Cartesian
   coordinates, unit-encoded numbers, and residual contrastive learning, instead of lengthening the Semantic ID.
+tldr_zh: HF-SID 在量化前通过笛卡尔坐标、带单位数值编码与残差对比学习恢复 POI 表示中的地理、数值与结构细节，无需加长 SID。
 setup:
   datasets: 'AMap-L (one day), AMap-S; remove POIs without interaction sequences and sessions without authenticated users.
     Foursquare NYC/TKY use Geo-CPT only; public-data filtering: not reported.'

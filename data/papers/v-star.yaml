@@ -20,6 +20,7 @@ summary: 'Abstract: "fine-tuning these models with Reinforcement Learning (RL) o
   mismatch".'
 tldr: V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative
   advantages with Sibling-GRPO, instead of likelihood-driven beam search.
+tldr_zh: V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2602.10699v2#abstract1 (Abstract)

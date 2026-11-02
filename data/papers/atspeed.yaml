@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "excessive inference latency caused by autoregressive decoding".'
 tldr: AtSpeed aligns a draft model with the target LLM on top-K sequences and relaxes speculative-decoding verification, to
   speed up beam-search generation of top-K items in LLM-based generative recommendation.
+tldr_zh: AtSpeed 在 top-K 序列上对齐草稿模型与目标 LLM，并放宽投机解码的验证条件，以加速 LLM 生成式推荐中 top-K 物品的束搜索解码。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2410.05165v3#abstract1

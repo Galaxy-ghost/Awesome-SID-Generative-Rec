@@ -20,6 +20,7 @@ summary: 'Abstract: "suboptimal static tokenization"; "discarded pretrained sema
   by the first new design).'
 tldr: DECOR refines Semantic ID token embeddings by interaction context and fuses pretrained codebook embeddings with learned
   collaborative embeddings, instead of static token assignments that overwrite pretrained semantics.
+tldr_zh: DECOR 按交互上下文修正 SID token 嵌入，并融合预训练码本嵌入与可学习协同嵌入，避免静态 token 分配覆盖预训练语义。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2509.10468v2#abstract1

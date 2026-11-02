@@ -30,6 +30,7 @@ summary: 'Generative recommenders replace the retrieve-then-rank cascade with a 
   candidates, preserves or improves overall accuracy, and adds a small fraction of the latency.'
 tldr: CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence
   evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
+tldr_zh: CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。
 setup:
   datasets: 'Amazon Industrial & Scientific, Office Products and Beauty (5-core), plus LastFM-1K (987 users, 40429 tracks).
     LastFM filtering thresholds: not reported. Histories contain the latest ten items.'

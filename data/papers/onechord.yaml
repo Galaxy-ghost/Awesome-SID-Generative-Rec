@@ -30,6 +30,7 @@ summary: 'Accurate product discovery on the Web requires recommendation models t
   distribution the common object of recommendation learning and distillation.'
 tldr: OneChord uses one catalog-normalized fusion of Semantic ID evidence and item-matching scores for supervision, distillation,
   and inference in a parallel decoder, so training targets the ranking used in serving.
+tldr_zh: OneChord 在并行解码器中用经全库归一化的 SID 证据与物品匹配分数融合形式统一监督、蒸馏与推理，使训练目标与线上排序一致。
 setup:
   datasets: Amazon 2014 5-core Sports/Beauty/Toys; Amazon 2023 5core/last_out_w_his Scientific/Instruments/Games, reconstructing
     each user's longest chronological sequence.

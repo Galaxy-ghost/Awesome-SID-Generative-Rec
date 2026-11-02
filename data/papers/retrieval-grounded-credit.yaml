@@ -19,6 +19,7 @@ poi: false
 summary: 用冻结检索器逐条核验兴趣查询，把奖励分配到产生有效召回的推理片段。
 tldr: Retrieval-Grounded-Credit splits each reasoning trace into interest hypotheses, runs each as a query through a frozen
   retriever, and rewards hypotheses that hit the target, not only the decoded Semantic ID.
+tldr_zh: Retrieval-Grounded-Credit 将每条推理轨迹拆为多个兴趣假设，分别作为查询送入冻结检索器，对命中目标的假设直接给予奖励而非仅奖励最终解码的 SID。
 setup:
   datasets: Amazon Video Games, Office Products, Industrial and Scientific; October 2016-November 2018 interactions, 5-core
     filtering, histories capped at 10 items.

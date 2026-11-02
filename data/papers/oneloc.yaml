@@ -22,6 +22,7 @@ summary: 'Abstract: "how to make full use of geographic information"; "how to ba
   paper is not in the top block (unlike OneRec).'
 tldr: OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization,
   encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
+tldr_zh: OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。
 evidence:
 - field: problem
   where: 'OneLoc v1, Abstract and contribution list: https://arxiv.org/html/2508.14646v1#abstract1 ; https://arxiv.org/html/2508.14646v1#S1'

@@ -19,6 +19,7 @@ poi: false
 summary: 本篇§3.1明确复用SIDReasoner的SID管线；另核2603.23183v2 §3.2.1 PDF p4明确item textual metadata构码，本文未重述的输入标Text†。
 tldr: SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then
   improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces.
+tldr_zh: SIDReasoner 在教师合成语料上用多任务训练加强 SID 与自然语言的对齐，再通过结果驱动的强化学习改进推理，不依赖人工标注的推荐推理轨迹。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.23183v2#abstract1 (Abstract; clause)

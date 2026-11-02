@@ -19,6 +19,7 @@ poi: false
 summary: 'Abstract: "Collision problem".'
 tldr: QuaSID repels only qualified conflicting Semantic ID pairs with Hamming-scaled margins, masks benign overlaps, and adds
   a dual-tower contrastive objective, instead of treating all collisions equally.
+tldr_zh: QuaSID 用按汉明距离缩放的间隔仅排斥判定为有害的冲突 SID 对，屏蔽良性重叠并加入双塔对比目标，不再对所有冲突一视同仁。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2603.00632v1#abstract1 (Abstract)

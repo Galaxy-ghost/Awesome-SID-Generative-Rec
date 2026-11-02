@@ -20,6 +20,7 @@ summary: 'Abstract: "token-item misalignment"; "semantic-collaborative signal en
   broken by the title).'
 tldr: DiscRec adds item-level position embeddings and splits semantic and collaborative signals into two gated branches, one
   with attention inside each item, instead of fusing them in one embedding space.
+tldr_zh: DiscRec 加入物品级位置嵌入，并将语义与协同信号拆分为两个门控分支（其一在物品内部做注意力计算），而非在单一嵌入空间直接混合。
 evidence:
 - field: problem
   where: https://arxiv.org/html/2506.15576v2#abstract1

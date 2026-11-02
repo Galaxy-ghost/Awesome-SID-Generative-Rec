@@ -19,6 +19,7 @@ poi: false
 summary: 既有诊断也提出 Ghost 新方法，不能按纯分析排除。
 tldr: Ghost reduces popularity bias in generative recommenders with an asymmetric unlikelihood loss and skeleton-founded tokenization,
   addressing token-level optimization and undifferentiated item tokenization as its causes.
+tldr_zh: Ghost 将流行度偏差归因于 token 级优化和无差别的物品编号，结合非对称负似然损失与骨架支撑的编号方法加以缓解。
 setup:
   datasets: 'Amazon Product Review 2018: Musical Instruments; Arts, Crafts and Sewing; Video Games. Users/items with fewer
     than five interactions are filtered out.'

@@ -33,6 +33,7 @@ summary: Personalized recommendation depends on learning semantic and collaborat
   distillation.
 tldr: REGER pretrains a generator to produce semantic neighbors' Semantic IDs, combines global and ID-boundary local attention,
   and distills a discriminative teacher's next-token distributions along the target prefix path.
+tldr_zh: REGER 预训练生成器以产出语义近邻的 SID，结合全局与 ID 边界局部注意力，并沿目标前缀路径蒸馏判别式教师的下一 token 分布。
 setup:
   datasets: Amazon Reviews 2014 Beauty/Sports/Toys and 2023 Instruments/Scientific/Games; 5-core filtering and maximum history
     20 items.

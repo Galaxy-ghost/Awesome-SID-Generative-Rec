@@ -110,6 +110,10 @@ HEAT = [(1, "c6dbef"), (4, "6baed6"), (9, "2171b5"), (16, "08306b")]
 SETUP_KEYS = ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"]
 SETUP_LABELS = ["Datasets", "Split", "Candidates", "Visibility", "SID", "Inference budget", "Results from"]
 SECTIONS = ["1. Why This Paper Matters", "2. How It Works", "3. Experimental Findings", "4. Limitations & Critical Analysis"]
+SECTIONS_ZH = ["1. 为什么重要", "2. 方法", "3. 实验发现", "4. 局限与分析"]
+TOC_SHORT = {"1. Why This Paper Matters": "1. Why It Matters", "2. How It Works": "2. Method",
+             "3. Experimental Findings": "3. Experiments", "4. Limitations & Critical Analysis": "4. Limitations",
+             "5. Connections to Related Work": "5. Related Work"}
 RELATED_TITLE = "5. Connections to Related Work"
 LEVELS = ["Overview", "Reading Notes", "Annotated Deep Dive"]
 GLANCE_KEYS = ["Key Findings", "Limitation"]
@@ -122,6 +126,51 @@ LEGEND = [  # (mark, meaning); the first four are the cell symbols listed in the
     ("Empty cell", "No paper yet."),
     ("`warm`", "Protocol label in setup cards."),
 ]
+ZH_LABELS = {
+    "setup": ["数据集", "切分", "候选集", "可见性", "SID 规格", "推理预算", "结果来源"],
+    "setup_title": "实验设置",
+    "source": "出处",
+    "levels": ["概览", "阅读笔记", "代码级精读"],
+    "reading_level": "阅读级别",
+    "on_this_page": "本页目录",
+    "glance_title": "At a Glance",
+    "glance_head": ("维度", "摘要"),
+    "glance_rows": {
+        "Research Problem": "研究问题",
+        "Key Contribution": "核心贡献",
+        "Modified Stage": "主要改动阶段",
+        "Key Findings": "主要发现",
+        "Limitation": "局限",
+    },
+    "related_title": "5. 相关工作",
+    "relations": {
+        "predecessor": "前序工作",
+        "successor": "后续工作",
+        "competitor": "同期对比",
+        "alternative": "替代方案",
+    },
+    "view_cell": "查看同格全部论文",
+    "no_single_stage": "无单一阶段",
+    "links": {"Paper": "论文", "Code": "代码", "Code (third-party)": "代码（第三方）", "Matrix": "矩阵"},
+    "problems": {
+        "psb": "范式、系统与基准",
+        "I": "I. 信息量",
+        "II": "II. 唯一性与合法性",
+        "III": "III. SID 与模型对齐",
+        "IV": "IV. 实用目标",
+        "V": "V. 效率",
+        "VI": "VI. 泛化",
+    },
+    "legend": [
+        ("`†`", "由论文点名的配置推断得到。"),
+        ("`A / B`", "两个分支或两种配置。"),
+        ("`–`", "原文未报告。"),
+        ("`n/a`", "不适用。"),
+        ("**加粗**", "该论文主要改动的阶段。"),
+        ("空格", "主标签下暂无条目。"),
+        ("`warm`", "条件卡中的协议标签。"),
+    ],
+}
 FLOW_IDS = ["R", "T", "B", "TR", "I"]
 MAIN_STYLE = "fill:#eaf2fb,stroke:#6b8fc7"
 
@@ -160,32 +209,37 @@ def related_chart(rec: dict, by_id: dict) -> str:
     return "\n".join(["```mermaid", "flowchart LR", f"    P[{mm_label(rec['name'])}]", *edges, "```"])
 
 
-def band(p: dict) -> str:
+def band(p: dict, zh: bool = False) -> str:
+    if zh:
+        return ZH_LABELS["problems"][p["value"]]
     return p["name"] if p["value"] == "psb" else f"{p['value']}. {p['name']}"
 
 
-def stage_label(rec: dict) -> str:
-    return "No single stage" if rec["problem"] == "psb" else rec["stage"]
+def stage_label(rec: dict, zh: bool = False) -> str:
+    if rec["problem"] == "psb":
+        return ZH_LABELS["no_single_stage"] if zh else "No single stage"
+    return rec["stage"]
 
 
-def cell_label(rec: dict, probs: dict) -> str:
-    return band(probs["psb"]) if rec["problem"] == "psb" else f"{rec['problem']} × {rec['stage']}"
+def cell_label(rec: dict, probs: dict, zh: bool = False) -> str:
+    return band(probs["psb"], zh) if rec["problem"] == "psb" else f"{rec['problem']} × {rec['stage']}"
 
 
-def code_links(rec: dict) -> list:
-    return [(lab, rec["links"][k]) for k, lab in (("code", "Code"), ("code_third_party", "Code (third-party)"))
-            if rec["links"].get(k)]
+def code_links(rec: dict, zh: bool = False) -> list:
+    return [(ZH_LABELS["links"][lab] if zh else lab, rec["links"][k])
+            for k, lab in (("code", "Code"), ("code_third_party", "Code (third-party)")) if rec["links"].get(k)]
 
 
-def link_line(rec: dict, extra=()) -> str:
-    return " · ".join([f"[Paper]({rec['links']['arxiv']})", *(f"[{l}]({u})" for l, u in code_links(rec)), *extra])
+def link_line(rec: dict, extra=(), zh: bool = False) -> str:
+    paper_lab = ZH_LABELS["links"]["Paper"] if zh else "Paper"
+    return " · ".join([f"[{paper_lab}]({rec['links']['arxiv']})", *(f"[{l}]({u})" for l, u in code_links(rec, zh)), *extra])
 
 
 def by_year(papers: list) -> list:
     return sorted(papers, key=lambda x: (x["year"], x["id"]))
 
 
-def parse_notes(text: str) -> dict:
+def parse_notes(text: str, sections=SECTIONS) -> dict:
     """Split notes into the At a Glance lines, the standard sections, and the remaining text."""
     out = {"glance": {}, "sections": {}, "rest": [], "fences": [], "text": text}
     cur, fence = None, False
@@ -201,7 +255,7 @@ def parse_notes(text: str) -> dict:
             if depth == 2 and title == "At a Glance":
                 cur = "glance"
                 continue
-            if depth == 3 and title in SECTIONS:
+            if depth == 3 and title in sections:
                 cur = title
                 out["sections"][title] = []
                 continue
@@ -220,12 +274,12 @@ def parse_notes(text: str) -> dict:
     return out
 
 
-def reading_level(n) -> int:
+def reading_level(n, sections=SECTIONS) -> int:
     if not n:
         return 1
-    has = lambda idx: all(SECTIONS[i] in n["sections"] for i in idx)
+    has = lambda idx: all(sections[i] in n["sections"] for i in idx)
     if (has(range(4)) and "math" in n["fences"] and any(f != "math" for f in n["fences"])
-            and re.search(r"^Simplifications:", n["text"], re.M)):
+            and re.search(r"^(Simplifications|简化说明)[：:]", n["text"], re.M)):
         return 3
     return 2 if has((0, 2, 3)) else 1
 
@@ -238,56 +292,123 @@ def short_links(text: str) -> str:
     return re.sub(r"https?://\S+", sub, text)
 
 
-def setup_card(rec: dict, folded: bool = False) -> str:
-    """Setup card; folded puts the sources in one collapsible block with short links, otherwise one Source line per key."""
+def setup_card(rec: dict, folded: bool = False, zh: bool = False) -> str:
+    """Setup card; folded wraps the entire card in a collapsible <details> block."""
     st, sw = rec.get("setup"), rec.get("setup_where", {})
     if not st:
         return ""
-    pairs = list(zip(SETUP_KEYS, SETUP_LABELS))
+    labels = ZH_LABELS["setup"] if zh else SETUP_LABELS
+    title = ZH_LABELS["setup_title"] if zh else "Experimental setup"
+    src_lab = ZH_LABELS["source"] if zh else "Source"
+    pairs = list(zip(SETUP_KEYS, labels))
     if not folded:
-        return "**Experimental setup**\n\n" + "\n".join(
-            f"- **{lab}**: {st[k]}" + (f"\n  - Source: {sw[k]}" if sw.get(k) else "") for k, lab in pairs)
-    card = "**Experimental setup**\n\n" + "\n".join(f"- **{lab}**: {st[k]}" for k, lab in pairs)
-    src = [f"- **{lab}**: {short_links(sw[k])}" for k, lab in pairs if sw.get(k)]
-    return card + ("\n\n<details>\n<summary>Sources</summary>\n\n" + "\n".join(src) + "\n\n</details>" if src else "")
+        return f"**{title}**\n\n" + "\n".join(
+            f"- **{lab}**: {st[k]}" + (f"\n  - {src_lab}: {sw[k]}" if sw.get(k) else "") for k, lab in pairs)
+    items = "\n".join(
+        f"- **{lab}**: {st[k]}" + (f"\n  - {src_lab}: {short_links(sw[k])}" if sw.get(k) else "") for k, lab in pairs)
+    return f"<details>\n<summary>{title}</summary>\n\n{items}\n\n</details>"
 
 
-def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path) -> str:
+def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: bool = False) -> str:
     probs = {e["value"]: e for e in vocab["problem"]}
     prob = probs[rec["problem"]]
     anchor = slugify_heading(cell_label(rec, probs))
-    level = reading_level(n)
+    sections = SECTIONS_ZH if zh else SECTIONS
+    level = reading_level(n, sections)
     defs = {c: {e["value"]: e.get("description") for e in vocab.get(c, [])} for c in TECH_COLS}
-    glance = [("Research Problem", f"{band(prob)}: {prob['description']}"), ("Key Contribution", rec.get("tldr")),
-              ("Modified Stage", stage_label(rec)), *((k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS)]
+    
+    if zh:
+        glance_rows_map = ZH_LABELS["glance_rows"]
+        glance = [
+            (glance_rows_map["Research Problem"], f"{band(prob, True)}: {prob['description']}"),
+            (glance_rows_map["Key Contribution"], rec.get("tldr_zh") or rec.get("tldr")),
+            (glance_rows_map["Modified Stage"], stage_label(rec, True)),
+        ]
+        for k in GLANCE_KEYS:
+            val = (n or {}).get("glance", {}).get(k)
+            if val:
+                glance.append((glance_rows_map[k], val))
+        table_headers = ZH_LABELS["glance_head"]
+    else:
+        glance = [
+            ("Research Problem", f"{band(prob)}: {prob['description']}"),
+            ("Key Contribution", rec.get("tldr")),
+            ("Modified Stage", stage_label(rec)),
+            *((k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS),
+        ]
+        table_headers = ("Aspect", "Summary")
+
     rows = [f"| {a} | {v.strip().replace('|', chr(92) + '|')} |" for a, v in glance if v]
-    blocks = [("TL;DR", [rec["tldr"].strip()])] if rec.get("tldr") else []
-    blocks += [("At a Glance", ["\n".join(["| Aspect | Summary |", "| :-- | :-- |", *rows])])] if rows else []
+    
+    tldr_text = (rec.get("tldr_zh") if zh else rec.get("tldr")) or ""
+    tldr_block = ["> [!NOTE]", f"> {tldr_text}"] if tldr_text else []
+    
+    glance_block = ["\n".join([f"| {table_headers[0]} | {table_headers[1]} |", "| :-- | :-- |", *rows])] if rows else []
+    
+    blocks = [("TL;DR", tldr_block)] if tldr_block else []
+    blocks += [("At a Glance" if not zh else ZH_LABELS["glance_title"], glance_block)] if glance_block else []
+    
     image = root / "architectures" / f"{rec['id']}.png"
-    inserts = {SECTIONS[1]: f"![{rec['name']} architecture diagram](../../architectures/{image.name})" if image.is_file() else "",
-               SECTIONS[2]: setup_card(rec, folded=True)}
-    for t in SECTIONS:
+    setup_card_str = setup_card(rec, folded=True, zh=zh)
+    inserts = {
+        sections[1]: f"![{rec['name']} architecture diagram](../../architectures/{image.name})" if image.is_file() else "",
+        sections[2]: setup_card_str,
+    }
+    for t in sections:
         parts = [p for p in (inserts.get(t), (n or {}).get("sections", {}).get(t)) if p]
         blocks += [(t, parts)] if parts else []
     blocks += [(None, [n["rest"]])] if n and n["rest"] else []
-    rel = "\n".join(f"- **{r['relation'].capitalize()}** · [{by_id[r['id']]['name']}]({r['id']}.md): {r['note']}"
-                    f"\n  - Source: {r['where']}" for r in rec.get("related", []))
-    blocks.append((RELATED_TITLE, [p for p in (related_chart(rec, by_id), rel, f"[View all papers in this cell](../../README.md#{anchor})") if p]))
-    tags = [band(prob), stage_label(rec)] + (["POI"] if rec.get("poi") else [])
-    toc = " · ".join(f"[{t}](#{slugify_heading(t)})" for t, _ in blocks if t)
+    
+    rel_title = ZH_LABELS["related_title"] if zh else RELATED_TITLE
+    rel_rels = ZH_LABELS["relations"]
+    rel_view_all = ZH_LABELS["view_cell"]
+    rel_matrix_link = f"../../README.zh.md#{anchor}" if zh else f"../../README.md#{anchor}"
+    
+    rel_items = []
+    for r in rec.get("related", []):
+        rel_type = rel_rels.get(r['relation'], r['relation'].capitalize())
+        target_name = by_id[r['id']]['name']
+        target_file = f"{r['id']}.md"
+        note = r['note']
+        where = r['where']
+        rel_items.append(f"- **{rel_type}** · [{target_name}]({target_file}): {note}\n  - Source: {where}")
+    rel_str = "\n".join(rel_items)
+    
+    blocks.append((rel_title, [p for p in (related_chart(rec, by_id), rel_str, f"[{rel_view_all}]({rel_matrix_link})") if p]))
+    
+    tags = [band(prob, zh), stage_label(rec, zh)] + (["POI"] if rec.get("poi") else [])
+    
+    toc_links = []
+    for t, _ in blocks:
+        if not t:
+            continue
+        short_t = TOC_SHORT.get(t, t) if not zh else t
+        toc_links.append(f"[{short_t}](#{slugify_heading(t)})")
+    toc = " · ".join(toc_links)
+    
     vals = dict.fromkeys(f"- `{rec[c]}`: {defs[c][rec[c]]}" for c in TECH_COLS if defs[c].get(rec[c]))
+    
+    switch_link = f"[中文](../zh/papers/{rec['id']}.md)" if not zh else f"[English](../../papers/{rec['id']}.md)"
+    matrix_link = f"[Matrix](../../README.md#{anchor})" if not zh else f"[矩阵](../../../README.zh.md#{anchor})"
+    
+    line1_links = link_line(rec, [matrix_link, switch_link], zh=zh)
+    
+    level_name = LEVELS[level - 1] if not zh else ZH_LABELS["levels"][level - 1]
+    level_label_str = ZH_LABELS["reading_level"] if zh else "Reading level"
+    on_this_page_str = ZH_LABELS["on_this_page"] if zh else "On this page"
+    
     lines = [
         f"# {rec['name']}", "",
         f"*{title_of(rec)}* — {rec['authors']} · {rec['venue']}", "",
-        " · ".join(f"`{t}`" for t in tags), "",
-        link_line(rec, [f"[Matrix](../../README.md#{anchor})"]), "",
-        f"Reading level: {LEVELS[level - 1]} (Level {level}) · On this page: {toc}", "",
+        " · ".join(f"`{t}`" for t in tags) + " · " + line1_links, "",
+        f"{level_label_str}: {level_name} (Level {level}) · {on_this_page_str}: {toc}", "",
         *flow_chart(rec), "",
         *vals, "",
     ]
     for t, parts in blocks:
         lines += ([f"### {t}", ""] if t else []) + [x for p in parts for x in (p, "")]
     return "\n".join(lines)
+
 
 
 def heat(n: int, anchor: str) -> str:
