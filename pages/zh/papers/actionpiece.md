@@ -1,26 +1,32 @@
 # ActionPiece
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/actionpiece.md) | 中文
+
 | **题目** | *Contextually Tokenizing Action Sequences for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Hou et al. |
-| **会议** | ICML’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2502.13581) · [代码](https://github.com/google-deepmind/action_piece) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/actionpiece.md) |
+| **发表** | ICML’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2502.13581) · [代码](https://github.com/google-deepmind/action_piece) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Ensemble"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>OPQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Ensemble"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `OPQ`: Optimized product quantization.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `OPQ`：优化乘积量化（Optimized Product Quantization）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Ensemble`：对同一历史的多种随机切分或多路径解码结果聚合排序。
 
 ### TL;DR
 
@@ -33,17 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | ActionPiece 将每次交互表示为物品特征集合，把共现特征模式合并为新 token，使相同动作获得随上下文变化的 token，而非固定独立的 token。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在 Amazon Sports and Outdoors、Beauty 和 CDs and Vinyl 上，将 OPQ 物品特征集合合并为 40,000 token 的上下文相关词表提升了 Recall@5/10 与 NDCG@5/10 并缩短归一化序列长度，而单纯缩放 TIGER 词表规模无法取得同等收益（Sec. 4.3，Sec. 4.4.1，Table 4，Table 5，Fig. 4）。 |
+| 局限 | 推理需对 q = 5 种随机集合置换切分分别执行束宽 50 的束搜索再平均得分，且论文未报告实测推理延迟及评测是否覆盖全量物品目录（Sec. 3.3.2，Sec. 3.4，Sec. 4.1）。 |
 
 ---
 
 ### 1. 为什么重要
 
-现有的生成式推荐（GR）模型对每个行为单独编号，同一个行为在任何序列里都得到相同的 token（Abstract）。作者认为，同一个行为放在不同的上下文里，意思可以不同（Abstract）。ActionPiece 让前后的行为决定一个行为怎样被编号。
+常规生成式推荐（GR）模型孤立地将每个物品映射为固定的语义 ID（Semantic ID，SID），使同一交互动作在任何历史序列中都获得相同的固定 token（Abstract）。由于同一物品在不同交互上下文中承载的意图不同，ActionPiece 将每次动作表示为无序的 OPQ 特征码集合，并将相邻动作间的共现特征模式合并为随上下文变化的 token。
 
-> "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships."（Abstract）（现有 GR 模型孤立地给每个行为编号，不看上下文。）
+> "However, existing GR models tokenize each action independently, assigning the same fixed tokens to identical actions across all sequences without considering contextual relationships."（Abstract）
 
 ---
 
@@ -53,29 +61,43 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("特征集合组成的行为序列") --> B["统计集合内和相邻集合间的 token 对"]
-    B --> C["加权合并"]:::key
-    C --> D("依赖上下文的词表")
-    D --> E["集合置换正则"]
-    E --> F("多种切分")
-    F --> G["Enc-Dec 生成器"]
-    G --> H("集成后的排序")
+    subgraph Vocab["构建上下文相关词表"]
+        A("Sentence-T5 物品文本") --> B["4×256 OPQ + 1 个消歧码"]
+        B --> C("无序特征集合组成的动作序列")
+        C --> D1["集合内 token 对计数"]
+        C --> D2["相邻集合间 token 对计数"]
+        D1 --> M["按结构加权合并"]:::key
+        D2 --> M
+        M --> V("40,000 token 词表")
+    end
+    subgraph TrainInf["集合置换正则与集成解码"]
+        C --> P["集合置换正则"]:::key
+        V --> P
+        P -->|"训练"| S1("随机采样切分")
+        S1 --> G["Enc-Dec 生成器"]
+        L1{{"NTP 损失"}} -.-> G
+        P -->|"推理"| S2("q = 5 种切分")
+        S2 --> G
+        G --> BM["束搜索（束宽 50）"]
+        BM --> E["对 q = 5 份列表平均得分"]:::key
+        E --> R("Top-K 排序物品")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 行为即特征集合
 
-每个行为是一组无序的物品特征，用户历史就是一串特征集合（Abstract）。
+ActionPiece 将 Sentence-T5 物品文本嵌入量化为 4 个无序 OPQ 码（每个码本含 256 个码字）加 1 个防冲突标识码，把每次交互表示为含 5 个特征的无序集合，用户历史随之表示为特征集合序列（Abstract，Appendix F）。
 
 #### 构建词表
 
-合并计数既在单个集合内部做，也在相邻集合之间做（Abstract）。两类 token 对的权重不同（Sec. 1）。
+从基础特征 token 出发，ActionPiece 同时统计单个动作集合内部和相邻动作集合之间的共现 token 对，迭代合并构建含 40,000 个 token 的上下文相关词表（Abstract，Appendix G）。集合内与跨集合两类 token 对按结构差异赋予不同合并权重（Sec. 1）。
 
-> "Considering the structural differences between token pairs, e.g., whether they occur within a single set or between two adjacent sets, we assign different weights to different pairs."（Sec. 1）（集合内和跨集合的 token 对权重不同。）
+> "Considering the structural differences between token pairs, e.g., whether they occur within a single set or between two adjacent sets, we assign different weights to different pairs."（Sec. 1）
 
 #### 集合置换正则
 
-特征集合没有顺序，所以集合置换正则可以把同一条行为序列切成多种语义相同的切分（Abstract）。这些切分在训练时用作数据增强，在推理时做集成（Sec. 3.2.2）。
+由于单个动作的特征集合无内在顺序，在应用合并规则前随机置换集合元素，能为同一动作序列生成多份语义等价的 token 切分（Abstract）。训练时随机采样切分增强下一 token 预测；推理时生成 $`q = 5`$ 份置换切分，以束宽 50 解码并对 5 份候选列表的物品得分取平均（Sec. 3.2.2，Sec. 3.3.2）。
 
 ---
 
@@ -101,22 +123,24 @@ flowchart LR
 
 </details>
 
-- 词表大小：词表越大，推荐效果越好，归一化序列长度（NSL）越短（Sec. 4.4.1，Fig. 4）。作者把词表大小看作效果、序列长度和内存之间的权衡（Sec. 4.4.1）。
-- 消融：提升不只来自词表变大（Sec. 4.3，Table 5）。
+- 主实验与词表规模：在 Sports and Outdoors、Beauty 和 CDs and Vinyl 上（5 个随机种子平均），将合并词表扩大至 40,000 token 可提升 Recall@5/10 与 NDCG@5/10 并缩短归一化序列长度（NSL），以更大的嵌入表换取更短的解码序列（Sec. 4.2，Sec. 4.4.1，Table 4，Fig. 4）。
+- 词表缩放消融：仅调整 TIGER 的词表大小无法复现 ActionPiece 的提升，说明收益来自上下文相关合并而非词表容量本身（Sec. 4.3，Table 5）。
 
-  > "These results suggest that the performance improvement of ActionPiece is not simply due to scaling the vocabulary size up or down."（Sec. 4.3）（提升不是单纯调大或调小词表带来的。）
+  > "These results suggest that the performance improvement of ActionPiece is not simply due to scaling the vocabulary size up or down."（Sec. 4.3）
 
-- token 使用：同一物品按邻居得到不同的 token，提高了 token 的使用率，也起到数据增强的作用（Sec. 4.3）。
-- 其他分析：论文还研究了 token 使用（Sec. 4.4.2）、集成数（Fig. 6）和案例（Sec. 4.5）。
+- token 利用与案例分析：根据相邻历史为同一物品分配不同 token 提高了词表 token 使用率，兼具序列级数据增强效果，并在案例分析中捕获跨动作组合模式（Sec. 4.3，Sec. 4.4.2，Sec. 4.5）。
+- 集成规模：随 $`q`$ 增大，对 $`q = 5`$ 份置换切分平均排序得分稳定优于单一切分解码（Sec. 3.3.2，Fig. 6）。
 
 ---
 
 ### 4. 局限与分析
 
+**Stated by the authors.** 仅当 $`q = 5`$ 份置换切分并行推理时，整体延迟才与单切分解码相当（Sec. 3.4）。
+
 **Our analysis.**
 
-- 推理时要对多种切分分别排序再平均分数。由此推断，除非并行处理，解码开销会随集成数增长。
-- VQ-Rec 在 `Encoder` 上用 `OPQ` 码做 `Scoring`；ActionPiece 从同类的码出发，但用 `Enc-Dec` 生成器生成合并后的 token。
+- 对 $`q = 5`$ 路束宽 50 的解码做集成会使计算量与显存开销随 $`q`$ 线性增加，在线服务吞吐受限时开销更为突出。
+- VQ-Rec 将无序 `OPQ` 码输入双向 `Encoder` 做判别式 `Scoring`；ActionPiece 同样从无序 `OPQ` 特征集合出发，但通过跨动作合并由 `Enc-Dec` 生成器自回归生成合并 token。
 
 ---
 
@@ -125,19 +149,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ActionPiece"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["VQ-Rec"]
-    P -->|competitor| C["LMIndexer"]
-    P -->|competitor| D["CID"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"前序工作"| B["VQ-Rec"]
+    P -->|"同期对比"| C["LMIndexer"]
+    P -->|"同期对比"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER tokenizes each item independently into ordered RQ-VAE codes, whereas ActionPiece merges unordered feature sets into context-dependent tokens; both use the same encoder-decoder and beam search.
-  - 出处：ActionPiece v3, Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4; same architecture statement: https://arxiv.org/html/2502.13581v3#A8.p2.
+  - 出处：ActionPiece v3, Section 4.1 baselines: [S4.SS1.p2](https://arxiv.org/html/2502.13581v3#S4.SS1.p2); Table 4: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4); same architecture statement: [A8.p2](https://arxiv.org/html/2502.13581v3#A8.p2).
 - **前序工作** · [VQ-Rec](vq-rec.md): ActionPiece follows VQ-Rec in quantizing sentence embeddings with OPQ into unordered codes, then builds a merged contextual vocabulary over those codes for generation.
-  - 出处：ActionPiece v3, Appendix F follows Hou et al. (2023) for OPQ features: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; VQ-Rec is a Table 4 baseline: https://arxiv.org/html/2502.13581v3#S3.T4.
+  - 出处：ActionPiece v3, Appendix F follows Hou et al. (2023) for OPQ features: [A6.I1.i3.p1](https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1); VQ-Rec is a Table 4 baseline: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4).
 - **同期对比** · [LMIndexer](lmindexer.md): LMIndexer learns text-based semantic indexes item by item, while ActionPiece tokenizes whole action sequences with context-aware merges.
-  - 出处：ActionPiece v3, Table 1 and Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S1.T1 and https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4.
+  - 出处：ActionPiece v3, Table 1 and Section 4.1 baselines: [S1.T1](https://arxiv.org/html/2502.13581v3#S1.T1) and [S4.SS1.p2](https://arxiv.org/html/2502.13581v3#S4.SS1.p2); Table 4: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4).
 - **同期对比** · [CID](cid.md): P5-CID builds item IDs by hierarchical clustering, independent of sequence context; ActionPiece's tokens depend on neighboring actions.
-  - 出处：ActionPiece v3, Table 1 and Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S1.T1 and https://arxiv.org/html/2502.13581v3#S4.SS1.p2; Table 4: https://arxiv.org/html/2502.13581v3#S3.T4.
+  - 出处：ActionPiece v3, Table 1 and Section 4.1 baselines: [S1.T1](https://arxiv.org/html/2502.13581v3#S1.T1) and [S4.SS1.p2](https://arxiv.org/html/2502.13581v3#S4.SS1.p2); Table 4: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

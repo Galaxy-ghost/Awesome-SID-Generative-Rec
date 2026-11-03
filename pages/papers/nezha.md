@@ -1,22 +1,28 @@
 # NEZHA
 
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/nezha.md)
+
 | **Title** | *A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | WWW’26 Industry |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2511.18793) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/nezha.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2511.18793) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Self-Draft+Hash"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["NEZHA"]
-    P -->|alternative| A["AtSpeed"]
-    P -->|alternative| B["SpecGR"]
-    P -->|alternative| C["RPG"]
+    P -->|"alternative"| A["AtSpeed"]
+    P -->|"alternative"| B["SpecGR"]
+    P -->|"alternative"| C["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head and hash-set validation. AtSpeed is omitted from public comparisons.
-  - Source: NEZHA v1, Sections 2.2/4.1: https://arxiv.org/html/2511.18793v1#S2.SS2.p2; https://arxiv.org/html/2511.18793v1#S4.SS1.p2.
+  - Source: NEZHA v1, Sections 2.2/4.1: [S2.SS2.p2](https://arxiv.org/html/2511.18793v1#S2.SS2.p2); [S4.SS1.p2](https://arxiv.org/html/2511.18793v1#S4.SS1.p2).
 - **Alternative** · [SpecGR](specgr.md): SpecGR supports out-of-vocabulary recommendation with speculative inference; NEZHA removes separate drafting and costly target-model verification for fast catalog-valid generation.
-  - Source: NEZHA v1, Sections 1/6, citing Ding et al. (2024): https://arxiv.org/html/2511.18793v1#S1.p4; https://arxiv.org/html/2511.18793v1#S6.p2; https://arxiv.org/html/2511.18793v1#S6.p6.
+  - Source: NEZHA v1, Sections 1/6, citing Ding et al. (2024): [S1.p4](https://arxiv.org/html/2511.18793v1#S1.p4); [S6.p2](https://arxiv.org/html/2511.18793v1#S6.p2); [S6.p6](https://arxiv.org/html/2511.18793v1#S6.p6).
 - **Alternative** · [RPG](rpg.md): RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight autoregressive draft head.
-  - Source: NEZHA v1, Sections 3.2/6: https://arxiv.org/html/2511.18793v1#S3.SS2.p7; https://arxiv.org/html/2511.18793v1#S6.p2.
+  - Source: NEZHA v1, Sections 3.2/6: [S3.SS2.p7](https://arxiv.org/html/2511.18793v1#S3.SS2.p7); [S6.p2](https://arxiv.org/html/2511.18793v1#S6.p2).
 
 [View all papers in this cell](../../README.md#v--inference)

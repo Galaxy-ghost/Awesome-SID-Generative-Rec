@@ -1,22 +1,27 @@
 # CARD
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/card.md)
+
 | **Title** | *Non-Uniform Quantization of Visual Semantic Unit for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Wei et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.26427) · [Code](https://github.com/HAI-UESTC/CARD) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/card.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.26427) · [Code](https://github.com/HAI-UESTC/CARD) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>NU-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
 - `NU-RQ`: Non-uniform RQ variant.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CARD"]
-    P -->|competitor| A["MACRec"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["TIGER"]
-    P -->|competitor| E["VQ-Rec"]
+    P -->|"competitor"| A["MACRec"]
+    P -->|"competitor"| B["MQL4GRec"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["TIGER"]
+    P -->|"competitor"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.
-  - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Section 2.1: https://arxiv.org/html/2604.26427v1#S2.SS1.p1.
+  - Source: CARD v1, Section 4.1.4 baselines: [S4.I1.i9.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2); Section 2.1: [S2.SS1.p1](https://arxiv.org/html/2604.26427v1#S2.SS1.p1).
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec quantizes each modality into its own SIDs with pre-training; CARD uses one unified visual semantic unit, and the comparison disables MQL4GRec's extra-category pre-training.
-  - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i8.p1; implementation note on pre-training: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - Source: CARD v1, Section 4.1.4 baselines: [S4.I1.i8.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i8.p1); implementation note on pre-training: [S4.SS1.SSS3.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 - **Competitor** · [LETTER](letter.md): LETTER regularizes a uniform RQ-VAE with collaborative and diversity terms; CARD changes the quantizer to a non-uniform one and the input to a rendered multimodal card.
-  - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i7.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - Source: CARD v1, Section 4.1.4 baselines: [S4.I1.i7.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i7.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 - **Competitor** · [TIGER](tiger.md): TIGER quantizes text embeddings with a uniform RQ-VAE; CARD keeps the same codebook shape and generator but replaces the input and the quantization rule.
-  - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i6.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Table 6 text-only TIGER variants: https://arxiv.org/html/2604.26427v1#S4.T6.
+  - Source: CARD v1, Section 4.1.4 baselines: [S4.I1.i6.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i6.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2); Table 6 text-only TIGER variants: [S4.T6](https://arxiv.org/html/2604.26427v1#S4.T6).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized code embeddings in a discriminative model; CARD generates hierarchical non-uniform RQ codes autoregressively.
-  - Source: CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - Source: CARD v1, Section 4.1.4 baselines: [S4.I1.i5.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

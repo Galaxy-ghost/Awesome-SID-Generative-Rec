@@ -1,26 +1,32 @@
 # TRACER
 
+[← Problem × Stage Matrix](../../README.md#iv--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tracer.md)
+
 | **Title** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | NeurIPS’26 |
 | **Problem × Stage** | `IV. Utility` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2606.07688) · [Matrix](../../README.md#iv--tokenization) · [中文](../zh/papers/tracer.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2606.07688) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Soft Reassign. RQ"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Joint / NTP + Aux."] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Soft Reassign. RQ`: Residual quantization with differentiable soft code reassignment.
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TRACER"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TIGER"]
-    P -->|predecessor| C["LETTER"]
-    P -->|predecessor| D["ETEGRec"]
+    P -->|"predecessor"| A["MiniOneRec"]
+    P -->|"predecessor"| B["TIGER"]
+    P -->|"predecessor"| C["LETTER"]
+    P -->|"predecessor"| D["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies the Qwen2.5-7B backbone for unlearning.
-  - Source: TRACER v1, Sec.4 Models/Backbones: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1.
+  - Source: TRACER v1, Sec.4 Models/Backbones: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [S4.SS0.SSS0.Px4.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1).
 - **Predecessor** · [TIGER](tiger.md): TIGER is a tested separate-training backbone.
-  - Source: TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
+  - Source: TRACER v1, Sec.4 Models and Appendix D.2: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1).
 - **Predecessor** · [LETTER](letter.md): LETTER supplies a tested joint-training backbone and the motivating retraining analysis.
-  - Source: TRACER v1, Sec.3 motivation and Sec.4 Models: https://arxiv.org/html/2606.07688v1#S3.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1.
+  - Source: TRACER v1, Sec.3 motivation and Sec.4 Models: [S3.SS0.SSS0.Px1.p1](https://arxiv.org/html/2606.07688v1#S3.SS0.SSS0.Px1.p1); [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1).
 - **Predecessor** · [ETEGRec](etegrec.md): ETEGRec is a tested joint-training backbone.
-  - Source: TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
+  - Source: TRACER v1, Sec.4 Models and Appendix D.2: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1).
 
 [View all papers in this cell](../../README.md#iv--tokenization)

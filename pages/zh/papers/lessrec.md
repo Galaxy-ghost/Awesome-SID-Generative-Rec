@@ -1,28 +1,32 @@
 # LESSRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/lessrec.md) | 中文
+
 | **题目** | *Level-Specific History Modeling for Semantic ID-Based Recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2610.37286) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/lessrec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.37286) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / R-KM / LETTER"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text / Text+CF"] --> T["编号 Tokenization<br/>RQ-VAE / R-KM / LETTER"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
-- `RQ-VAE / R-KM / LETTER`: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text / Text+CF`：不同配置下分别采用纯文本表征或文本加协同信号。
+- `RQ-VAE / R-KM / LETTER`：评测涵盖 RQ-VAE、残差 k-means 与 LETTER 等多种编号器配置。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -35,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | LESSRec 按各 SID 层级分别编码交互历史，将注意力限制在目标 token 所在层级并加入物品级语义序列，替代跨全部层级的全局注意力。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -70,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LESSRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
-    P -->|competitor| C["DiscRec"]
-    P -->|competitor| D["RPG"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LETTER"]
+    P -->|"同期对比"| C["DiscRec"]
+    P -->|"同期对比"| D["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): LESSRec reorganizes TIGER's history encoding by semantic level.
-  - 出处：LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - 出处：LESSRec v1, Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **前序工作** · [LETTER](letter.md): LETTER supplies one of the three fixed tokenizers tested with LESSRec.
-  - 出处：LESSRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - 出处：LESSRec v1, Section 4.1.4 and Table 2: [S4.SS1.SSS4.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS4.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **同期对比** · [DiscRec](discrec.md): DiscRec models intra-item structure; LESSRec separates same-level histories across items.
-  - 出处：LESSRec v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.37286v1#S5.SS3.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - 出处：LESSRec v1, Section 5.3 and Table 2: [S5.SS3.p1](https://arxiv.org/html/2610.37286v1#S5.SS3.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **同期对比** · [RPG](rpg.md): RPG predicts long unordered codes in parallel; LESSRec models hierarchical level-specific histories.
-  - 出处：LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - 出处：LESSRec v1, Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#iii--backbone)

@@ -1,25 +1,32 @@
 # DAS
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/das.md) | 中文
+
 | **题目** | *Dual-Aligned Semantic IDs Empowered Industrial Recommender System* |
 | :-- | :-- |
 | **作者** | Ye et al. |
-| **会议** | CIKM’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2508.10584) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/das.md) |
+| **发表** | CIKM’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2508.10584) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Dual RQ`：面向双表征流或双侧实体的双路残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | DAS 通过多视图对比对齐以及用户与广告的双重量化，在单阶段内同步优化量化与协同对齐，避免两阶段对齐带来的信息损失。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DAS"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["TIGER"]
-    P -->|alternative| C["ADC-SID"]
+    P -->|"同期对比"| A["LETTER"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"替代方案"| C["ADC-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [LETTER](letter.md): LETTER aligns the quantizer with CF embeddings in a two-stage pipeline; DAS trains quantization and debiased CF jointly in one stage and aligns user and ad SIDs dually.
-  - 出处：DAS v2, Section 4.2 variant (4) +ASID (LETTER): https://arxiv.org/html/2508.10584v2#S4.SS2.p2; Table 1: https://arxiv.org/html/2508.10584v2#S4.T1.
+  - 出处：DAS v2, Section 4.2 variant (4) +ASID (LETTER): [S4.SS2.p2](https://arxiv.org/html/2508.10584v2#S4.SS2.p2); Table 1: [S4.T1](https://arxiv.org/html/2508.10584v2#S4.T1).
 - **同期对比** · [TIGER](tiger.md): TIGER with unaligned RQ-VAE ad SIDs is the generative baseline; DAS replaces them with aligned ad SIDs (TIGER+) and adds aligned user SIDs (TIGER++).
-  - 出处：DAS v2, Section 4.2: https://arxiv.org/html/2508.10584v2#S4.SS2.p4; Table 2: https://arxiv.org/html/2508.10584v2#S4.T2.
+  - 出处：DAS v2, Section 4.2: [S4.SS2.p4](https://arxiv.org/html/2508.10584v2#S4.SS2.p4); Table 2: [S4.T2](https://arxiv.org/html/2508.10584v2#S4.T2).
 - **替代方案** · [ADC-SID](adc-sid.md): ADC-SID compares against DAS and adds adaptive alignment strength and dynamic behavioral weighting to denoise long-tail collaborative signals.
-  - 出处：Evidence is from the later ADC-SID paper: DAS is a baseline in Section 4.1.2 and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1 and https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：Evidence is from the later ADC-SID paper: DAS is a baseline in Section 4.1.2 and Table 2: [S4.I3.i4.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1) and [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

@@ -1,26 +1,32 @@
 # SemConv
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/semconv.md) | 中文
+
 | **题目** | *Semantic Convergence: Harmonizing Recommender Systems via Two-Stage Alignment and Behavioral Semantic Tokenization* |
 | :-- | :-- |
 | **作者** | Li et al. |
-| **会议** | AAAI’25 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2412.13771) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/semconv.md) |
+| **发表** | AAAI’25 |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2412.13771) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Align. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Align. RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Align. RQ`: Residual quantization trained with alignment objectives.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Align. RQ`：带对齐目标训练的残差量化。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | SemConv 通过对齐编号将物品 ID 转化为与 LLM 空间对齐的 token 序列，加入连接协同信号与自然语言的任务，并预缓存 top-K 结果用于线上服务。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SemConv"]
-    P -->|competitor| A["LC-Rec"]
-    P -->|predecessor| B["TIGER"]
+    P -->|"同期对比"| A["LC-Rec"]
+    P -->|"前序工作"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec supplies the alignment-task/inference template and is the strongest evaluated baseline.
-  - 出处：SemConv v1, Alignment Task, Inference and Table1: https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p1; https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1; https://arxiv.org/html/2412.13771v1#Sx3.T1.
+  - 出处：SemConv v1, Alignment Task, Inference and Table1: [Sx3.SSx2.p1](https://arxiv.org/html/2412.13771v1#Sx3.SSx2.p1); [Sx3.SSx3.p1](https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1); [Sx3.T1](https://arxiv.org/html/2412.13771v1#Sx3.T1).
 - **前序工作** · [TIGER](tiger.md): SemConv draws on TIGER's residual codebooks while removing autoencoder reconstruction.
-  - 出处：SemConv v1, Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p2; https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p11.
+  - 出处：SemConv v1, Alignment Tokenization: [Sx3.SSx1.p2](https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p2); [Sx3.SSx1.p11](https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p11).
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

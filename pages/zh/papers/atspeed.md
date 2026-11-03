@@ -1,26 +1,32 @@
 # AtSpeed
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/atspeed.md) | 中文
+
 | **题目** | *Efficient Inference for Large Language Model-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Lin et al. |
-| **会议** | ICLR’25 |
-| **问题与阶段** | `V. 效率` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2410.05165) · [代码](https://github.com/Linxyhaha/AtSpeed) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/atspeed.md) |
+| **发表** | ICLR’25 |
+| **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2410.05165) · [代码](https://github.com/Linxyhaha/AtSpeed) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Spec. Dec."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Spec. Dec."]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Spec. Dec.`: Speculative decoding.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Spec. Dec.`：草稿模型与目标模型协同的投机解码（Speculative decoding）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | AtSpeed 在 top-K 序列上对齐草稿模型与目标 LLM，并放宽投机解码的验证条件，以加速 LLM 生成式推荐中 top-K 物品的束搜索解码。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["AtSpeed"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|alternative| B["SpecGR"]
-    P -->|alternative| C["PAD-Rec"]
+    P -->|"前序工作"| A["LC-Rec"]
+    P -->|"替代方案"| B["SpecGR"]
+    P -->|"替代方案"| C["PAD-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [LC-Rec](lc-rec.md): AtSpeed accelerates an LC-Rec target model: it trains a small draft model aligned to LC-Rec's top-K beams and verifies drafted beams in parallel.
-  - 出处：AtSpeed v3, instantiated on LC-Rec: https://arxiv.org/html/2410.05165v3#S4.SS1.p1 and https://arxiv.org/html/2410.05165v3#S4.SS1.p4; Figure 1 inference cost of LC-Rec: https://arxiv.org/html/2410.05165v3#S1.F1.
+  - 出处：AtSpeed v3, instantiated on LC-Rec: [S4.SS1.p1](https://arxiv.org/html/2410.05165v3#S4.SS1.p1) and [S4.SS1.p4](https://arxiv.org/html/2410.05165v3#S4.SS1.p4); Figure 1 inference cost of LC-Rec: [S1.F1](https://arxiv.org/html/2410.05165v3#S1.F1).
 - **替代方案** · [SpecGR](specgr.md): SpecGR uses speculative drafting to recommend new items inductively, whereas AtSpeed uses it only to speed up decoding while keeping the target model's top-K.
-  - 出处：AtSpeed v3, Section 5 related work cites SpecGR: https://arxiv.org/html/2410.05165v3#S5.p1.
+  - 出处：AtSpeed v3, Section 5 related work cites SpecGR: [S5.p1](https://arxiv.org/html/2410.05165v3#S5.p1).
 - **替代方案** · [PAD-Rec](pad-rec.md): PAD-Rec later also applies speculative decoding to LLM generative recommendation, targeting list-wise generation with position-aware drafts.
-  - 出处：Evidence is from the later PAD-Rec paper, Sections 1 and 2.3: https://arxiv.org/html/2604.27747v1#S1.p2 and https://arxiv.org/html/2604.27747v1#S2.SS3.p1.
+  - 出处：Evidence is from the later PAD-Rec paper, Sections 1 and 2.3: [S1.p2](https://arxiv.org/html/2604.27747v1#S1.p2) and [S2.SS3.p1](https://arxiv.org/html/2604.27747v1#S2.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--inference)

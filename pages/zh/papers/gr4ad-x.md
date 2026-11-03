@@ -1,28 +1,31 @@
 # GR4AD-X
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gr4ad-x.md) | 中文
+
 | **题目** | *Towards Reliable, Scalable, and Value-Aligned Generative Recommendation for Large-Scale Advertising* |
 | :-- | :-- |
 | **作者** | Xiao et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2610.38378) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/gr4ad-x.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.38378) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>Multi-Path R-KM+Hash"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + PV-RSPO + Rank + Aux."] --> I["Inference<br/>PV-Beam+Rerank"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Multi-Path R-KM+Hash"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + PV-RSPO + Rank + Aux."] --> I["推理 Inference<br/>PV-Beam+Rerank"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `–`: Not reported in the paper.
-- `Multi-Path R-KM+Hash`: Multiple residual-k-means code paths combined with a hash-based identifier component.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + PV-RSPO + Rank + Aux.`: Next-token prediction jointly optimized with prefix-value RSPO, ranking, and auxiliary objectives.
-- `PV-Beam+Rerank`: Prefix-value-guided beam search followed by reranking.
+- `Multi-Path R-KM+Hash`：多路径残差 k-means 结合哈希消歧组件。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + PV-RSPO + Rank + Aux.`：下一 token 预测联合前缀价值 RSPO、排序损失与辅助损失。
+- `PV-Beam+Rerank`：前缀价值引导束搜索后接候选重排。
 
 ### TL;DR
 
@@ -35,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -70,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GR4AD-X"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["RPG"]
-    P -->|alternative| C["MMQ"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["RPG"]
+    P -->|"替代方案"| C["MMQ"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): GR4AD-X places its multi-path residual SID construction in the lineage of TIGER's residual-quantized identifiers.
-  - 出处：GR4AD-X v1, Sections 2.1 and 3.2: https://arxiv.org/html/2610.38378v1#S2.SS1.p1; https://arxiv.org/html/2610.38378v1#S3.SS2.p3.
+  - 出处：GR4AD-X v1, Sections 2.1 and 3.2: [S2.SS1.p1](https://arxiv.org/html/2610.38378v1#S2.SS1.p1); [S3.SS2.p3](https://arxiv.org/html/2610.38378v1#S3.SS2.p3).
 - **替代方案** · [RPG](rpg.md): RPG is cited for parallel generation; GR4AD-X instead scales capacity under a fixed serving budget.
-  - 出处：GR4AD-X v1, Section 2.3 (Hou et al., 2025): https://arxiv.org/html/2610.38378v1#S2.SS3.p1.
+  - 出处：GR4AD-X v1, Section 2.3 (Hou et al., 2025): [S2.SS3.p1](https://arxiv.org/html/2610.38378v1#S2.SS3.p1).
 - **替代方案** · [MMQ](mmq.md): MMQ is cited among multimodal quantization studies; GR4AD-X targets SID reliability with alternative first-level paths.
-  - 出处：GR4AD-X v1, Section 2.1 (Xu et al., 2026): https://arxiv.org/html/2610.38378v1#S2.SS1.p1.
+  - 出处：GR4AD-X v1, Section 2.1 (Xu et al., 2026): [S2.SS1.p1](https://arxiv.org/html/2610.38378v1#S2.SS1.p1).
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

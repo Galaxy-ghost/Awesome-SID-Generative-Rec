@@ -1,27 +1,32 @@
 # Pctx
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pctx.md) | 中文
+
 | **题目** | *Tokenizing Personalized Context for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhong et al. |
-| **会议** | CIKM’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2510.21276) · [代码](https://github.com/YoungZ365/Pctx) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/pctx.md) |
+| **发表** | CIKM’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2510.21276) · [代码](https://github.com/YoungZ365/Pctx) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam+Agg."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam+Agg."]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `RQ`: Residual quantization.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Beam+Agg.`: Beam search followed by aggregation of predictions that refer to the same item.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam+Agg.`：束搜索后对指向同一物品的多条标识符预测聚合得分。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | Pctx 将用户交互历史作为上下文对物品编号，使同一物品面向不同用户可获得不同 SID，替代静态的纯物品映射。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Pctx"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|alternative| D["LC-Rec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LETTER"]
+    P -->|"同期对比"| C["ActionPiece"]
+    P -->|"替代方案"| D["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER assigns static semantic IDs; Pctx conditions item tokenization on user context and aggregates probabilities across personalized IDs.
-  - 出处：Pctx v1, Section 2.4 and Table 1; TIGER results are reused from prior work per Appendix C.4: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1; https://arxiv.org/html/2510.21276v1#S3.T1; https://arxiv.org/html/2510.21276v1#A3.SS4.p1.
+  - 出处：Pctx v1, Section 2.4 and Table 1; TIGER results are reused from prior work per Appendix C.4: [S2.SS4.SSS0.Px1.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1); [A3.SS4.p1](https://arxiv.org/html/2510.21276v1#A3.SS4.p1).
 - **同期对比** · [LETTER](letter.md): LETTER injects collaborative information and diversity constraints into item quantization; Pctx adds history-conditioned user interpretations.
-  - 出处：Pctx v1, Appendix C.2 and Table 1; LETTER results are reused per Appendix C.4: https://arxiv.org/html/2510.21276v1#A3.SS2.p1; https://arxiv.org/html/2510.21276v1#S3.T1; https://arxiv.org/html/2510.21276v1#A3.SS4.p1.
+  - 出处：Pctx v1, Appendix C.2 and Table 1; LETTER results are reused per Appendix C.4: [A3.SS2.p1](https://arxiv.org/html/2510.21276v1#A3.SS2.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1); [A3.SS4.p1](https://arxiv.org/html/2510.21276v1#A3.SS4.p1).
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece uses adjacent action context; Pctx extends tokenization context to the full user interaction history.
-  - 出处：Pctx v1, Section 2.4 and Table 1: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px3.p1; https://arxiv.org/html/2510.21276v1#S3.T1.
+  - 出处：Pctx v1, Section 2.4 and Table 1: [S2.SS4.SSS0.Px3.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px3.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1).
 - **替代方案** · [LC-Rec](lc-rec.md): LC-Rec is discussed as static tokenization under a universal item-similarity assumption; Pctx maps an item to personalized IDs under different user contexts.
-  - 出处：Pctx v1, Section 2.4: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1.
+  - 出处：Pctx v1, Section 2.4: [S2.SS4.SSS0.Px1.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

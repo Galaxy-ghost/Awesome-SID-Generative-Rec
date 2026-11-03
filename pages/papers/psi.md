@@ -1,25 +1,32 @@
 # PSI
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/psi.md)
+
 | **Title** | *Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2509.16446) · [Code](https://github.com/wangshanyw/PurelySemanticIndexing) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/psi.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2509.16446) · [Code](https://github.com/wangshanyw/PurelySemanticIndexing) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Post-hoc RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Post-hoc RQ`: Residual quantization with post-hoc collision-free code assignment.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PSI"]
-    P -->|predecessor| A["LMIndexer"]
-    P -->|alternative| B["TIGER"]
-    P -->|alternative| C["LIGER"]
-    P -->|successor| D["Latte"]
+    P -->|"predecessor"| A["LMIndexer"]
+    P -->|"alternative"| B["TIGER"]
+    P -->|"alternative"| C["LIGER"]
+    P -->|"successor"| D["Latte"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [LMIndexer](lmindexer.md): PSID follows LMIndexer's tasks, datasets, and setup, and replaces conflict tokens with conflict-free semantic assignment.
-  - Source: PSID v1, Section 4.1 follows Jin et al. (2023): https://arxiv.org/html/2509.16446v1#Sx4.SSx1.p1; dataset tables: https://arxiv.org/html/2509.16446v1#Sx4.T2 and https://arxiv.org/html/2509.16446v1#Sx4.T3.
+  - Source: PSID v1, Section 4.1 follows Jin et al. (2023): [Sx4.SSx1.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx1.p1); dataset tables: [Sx4.T2](https://arxiv.org/html/2509.16446v1#Sx4.T2) and [Sx4.T3](https://arxiv.org/html/2509.16446v1#Sx4.T3).
 - **Alternative** · [TIGER](tiger.md): TIGER appends a non-semantic conflict token to colliding IDs and uses a heuristic quota for cold-start items; PSID reassigns colliding items to non-nearest centroids so IDs stay fully semantic.
-  - Source: PSID v1, Section 1 on fallback tokens: https://arxiv.org/html/2509.16446v1#Sx1.p2; cold-start discussion citing Rajput et al. (2023): https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1.
+  - Source: PSID v1, Section 1 on fallback tokens: [Sx1.p2](https://arxiv.org/html/2509.16446v1#Sx1.p2); cold-start discussion citing Rajput et al. (2023): [Sx4.SSx10.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1).
 - **Alternative** · [LIGER](liger.md): LIGER adds dense retrieval to recover cold-start items; PSID improves cold-start generation by removing unpredictable conflict tokens.
-  - Source: PSID v1, Section 4.10 cites Yang et al. (2024): https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1.
+  - Source: PSID v1, Section 4.10 cites Yang et al. (2024): [Sx4.SSx10.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1).
 - **Successor** · [Latte](latte.md): Latte later uses PSID as its base model and its ESM conflict resolution, and adds latent prefix tokens.
-  - Source: Evidence is from the later Latte paper: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.
+  - Source: Evidence is from the later Latte paper: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1) and [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

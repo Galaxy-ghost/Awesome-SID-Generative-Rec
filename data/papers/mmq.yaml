@@ -16,7 +16,6 @@ tokenizer: Joint
 objective: MTP
 inference: –
 poi: false
-summary: 'Abstract: "balancing cross-modal synergy with modality-specific uniqueness"; "bridging the semantic-behavioral gap".'
 tldr: MMQ trains a multimodal tokenizer with modality-shared and modality-specific experts under orthogonal regularization,
   then fine-tunes its Semantic IDs on behavior objectives with a multimodal reconstruction loss.
 tldr_zh: MMQ 在正交正则下训练含模态共享与模态特定专家的多模态编号器，再结合多模态重构损失在行为目标上微调 SID。

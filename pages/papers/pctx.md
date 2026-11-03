@@ -1,22 +1,27 @@
 # Pctx
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pctx.md)
+
 | **Title** | *Tokenizing Personalized Context for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhong et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2510.21276) · [Code](https://github.com/YoungZ365/Pctx) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/pctx.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2510.21276) · [Code](https://github.com/YoungZ365/Pctx) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam+Agg."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `RQ`: Residual quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Pctx"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|alternative| D["LC-Rec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    P -->|"competitor"| C["ActionPiece"]
+    P -->|"alternative"| D["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER assigns static semantic IDs; Pctx conditions item tokenization on user context and aggregates probabilities across personalized IDs.
-  - Source: Pctx v1, Section 2.4 and Table 1; TIGER results are reused from prior work per Appendix C.4: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1; https://arxiv.org/html/2510.21276v1#S3.T1; https://arxiv.org/html/2510.21276v1#A3.SS4.p1.
+  - Source: Pctx v1, Section 2.4 and Table 1; TIGER results are reused from prior work per Appendix C.4: [S2.SS4.SSS0.Px1.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1); [A3.SS4.p1](https://arxiv.org/html/2510.21276v1#A3.SS4.p1).
 - **Competitor** · [LETTER](letter.md): LETTER injects collaborative information and diversity constraints into item quantization; Pctx adds history-conditioned user interpretations.
-  - Source: Pctx v1, Appendix C.2 and Table 1; LETTER results are reused per Appendix C.4: https://arxiv.org/html/2510.21276v1#A3.SS2.p1; https://arxiv.org/html/2510.21276v1#S3.T1; https://arxiv.org/html/2510.21276v1#A3.SS4.p1.
+  - Source: Pctx v1, Appendix C.2 and Table 1; LETTER results are reused per Appendix C.4: [A3.SS2.p1](https://arxiv.org/html/2510.21276v1#A3.SS2.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1); [A3.SS4.p1](https://arxiv.org/html/2510.21276v1#A3.SS4.p1).
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece uses adjacent action context; Pctx extends tokenization context to the full user interaction history.
-  - Source: Pctx v1, Section 2.4 and Table 1: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px3.p1; https://arxiv.org/html/2510.21276v1#S3.T1.
+  - Source: Pctx v1, Section 2.4 and Table 1: [S2.SS4.SSS0.Px3.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px3.p1); [S3.T1](https://arxiv.org/html/2510.21276v1#S3.T1).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec is discussed as static tokenization under a universal item-similarity assumption; Pctx maps an item to personalized IDs under different user contexts.
-  - Source: Pctx v1, Section 2.4: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1.
+  - Source: Pctx v1, Section 2.4: [S2.SS4.SSS0.Px1.p1](https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

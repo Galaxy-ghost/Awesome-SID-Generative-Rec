@@ -1,22 +1,28 @@
 # Evo-Rec
 
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/evo-rec.md)
+
 | **Title** | *Learning Better Reasoning for Generative Recommendation with Semantic IDs* |
 | :-- | :-- |
 | **Authors** | Zhu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.29973) · [Code](https://github.com/mengdanzhu/evo-rec) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/evo-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.29973) · [Code](https://github.com/mengdanzhu/evo-rec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Evo-Rec"]
-    P -->|competitor| A["SIDReasoner"]
-    P -->|predecessor| B["LC-Rec"]
-    P -->|competitor| C["TIGER"]
+    P -->|"competitor"| A["SIDReasoner"]
+    P -->|"predecessor"| B["LC-Rec"]
+    P -->|"competitor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [SIDReasoner](sidreasoner.md): Evo-Rec compares against SIDReasoner and adds utility-selected reasoning plus ranking-aware RL.
-  - Source: Evo-Rec v1, Sections 2.2/4.1.2 and Table 2: https://arxiv.org/html/2609.29973v1#S2.SS2.p1; https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2609.29973v1#S4.T2.
+  - Source: Evo-Rec v1, Sections 2.2/4.1.2 and Table 2: [S2.SS2.p1](https://arxiv.org/html/2609.29973v1#S2.SS2.p1); [S4.SS1.SSS2.p1](https://arxiv.org/html/2609.29973v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2609.29973v1#S4.T2).
 - **Predecessor** · [LC-Rec](lc-rec.md): The SID-language alignment stage explicitly follows LC-Rec before adding reasoning optimization.
-  - Source: Evo-Rec v1, Section 3.2: https://arxiv.org/html/2609.29973v1#S3.SS2.p1.
+  - Source: Evo-Rec v1, Section 3.2: [S3.SS2.p1](https://arxiv.org/html/2609.29973v1#S3.SS2.p1).
 - **Competitor** · [TIGER](tiger.md): TIGER directly generates SIDs; Evo-Rec generates and optimizes an intermediate reasoning sequence.
-  - Source: Evo-Rec v1, Sections 2.1/3.1 and Table 2: https://arxiv.org/html/2609.29973v1#S2.SS1; https://arxiv.org/html/2609.29973v1#S3.SS1.p1; https://arxiv.org/html/2609.29973v1#S4.T2.
+  - Source: Evo-Rec v1, Sections 2.1/3.1 and Table 2: [S2.SS1](https://arxiv.org/html/2609.29973v1#S2.SS1); [S3.SS1.p1](https://arxiv.org/html/2609.29973v1#S3.SS1.p1); [S4.T2](https://arxiv.org/html/2609.29973v1#S4.T2).
 
 [View all papers in this cell](../../README.md#iii--training)

@@ -1,22 +1,30 @@
 # LC-Rec
 
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lc-rec.md)
+
 | **Title** | *Adapting large language models by integrating collaborative semantics for recommendation* |
 | :-- | :-- |
 | **Authors** | Zheng et al. |
 | **Venue** | ICDE’24 |
-| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/lc-rec.md) |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` — Also: `II. Uniqueness and Validity` × `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
@@ -36,13 +44,14 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists. |
 | Modified Stage | Training |
-| Limitation | The item indices come from text embeddings only, so collaborative semantics enter only through the tuning tasks (Sec. III-B). |
+| Key Findings | Across Amazon Instruments, Arts, and Games under full-catalog evaluation, LC-Rec outperforms traditional sequential recommenders, TIGER, and prior LLM-based recommenders (Abstract, Table 3). |
+| Limitation | Item indices are quantized solely from LLaMA text embeddings, so collaborative signals enter only indirectly during instruction tuning (Sec. III-B). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Items in recommender systems are often indexed by IDs outside the vocabulary of a large language model (LLM), which leaves a semantic gap between the two (Abstract).
+Indexing catalog items with out-of-vocabulary code tokens leaves a semantic gap between natural-language pretraining and collaborative user histories in large language models (LLMs) (Abstract). LC-Rec bridges this gap by resolving final-level RQ-VAE collisions via uniform semantic mapping and co-training explicit index-text translation alongside implicit collaborative alignment tasks.
 
 > "In essence, LLMs capture language semantics while recommender systems imply collaborative semantics, making it difficult to sufficiently leverage the model capacity of LLMs for recommendation." (Abstract)
 
@@ -54,30 +63,35 @@ Items in recommender systems are often indexed by IDs outside the vocabulary of 
 
 ```mermaid
 flowchart LR
-    A("Item text") --> B["LLaMA embeddings"]
-    B --> C["Vector quantization + uniform semantic mapping"]
-    C --> D("Item indices")
-    D --> E["LLaMA instruction tuning"]:::key
-    L1{{"Sequential item prediction"}} -.-> E
-    L2{{"Explicit: text to index and back"}} -.-> E
-    L3{{"Implicit: asymmetric, intention, preference"}} -.-> E
-    E --> F("Generated index")
+    subgraph Tok["4-Level RQ-VAE + Uniform Mapping"]
+        A("Item title & description") --> B["LLaMA text encoder"]
+        B --> C["Levels 1–3 residual quantization (256/level)"]
+        C --> U["Level 4 uniform optimal-transport assignment"]:::key
+        U --> D("4-token SIDs added to LLaMA vocab")
+    end
+    subgraph Align["Multi-Task Instruction Tuning"]
+        D --> E["LLaMA Dec-Only generator"]:::key
+        L1{{"Main: sequential next-index NTP"}} -.-> E
+        L2{{"Explicit: title/desc <-> SID translation"}}:::key -.-> E
+        L3{{"Implicit: asymmetric, intention & preference"}}:::key -.-> E
+    end
+    E --> G["Valid-index constrained beam (width 20)"] --> F("Top-K items")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Item Indexing
 
-LC-Rec encodes item text with LLaMA and quantizes the embeddings (Sec. III-B). Uniform semantic mapping redistributes the last-level codewords of items that would otherwise share an index (Sec. III-B2).
+LC-Rec encodes item titles and descriptions with LLaMA and quantizes the pooled embeddings through a 4-level × 256 RQ-VAE (Sec. III-B). Rather than appending an arbitrary fifth integer to separate colliding items, uniform semantic mapping solves a uniform-distribution assignment over the final codebook level so colliding items receive distinct residual-nearest codewords (Sec. III-B2).
 
 #### Alignment Tuning
 
-Sequential item prediction is the main objective (Sec. III-C1). Two explicit tasks map titles or descriptions to indices and back (Sec. III-C2). Implicit tasks add asymmetric item prediction, intention-based prediction, and preference inference (Sec. III-C3).
+Instruction tuning combines three task families: sequential next-item index prediction as the primary task (Sec. III-C1), two explicit bidirectional alignment tasks mapping item titles or descriptions to their discrete indices and back (Sec. III-C2), and implicit alignment tasks covering asymmetric item prediction, intention-based prediction, and preference inference (Sec. III-C3).
 
 > "On the one hand, the LLM should be capable of accurately identifying the item indices based on the associated title or description. On the other hand, it is expected that LLM can naturally capture relevant item information from its indices." (Sec. III-C2)
 
 #### Training
 
-All tasks are formatted as conditional language generation for one instruction-tuned model (Sec. III-D).
+All alignment and recommendation tasks are formatted as conditional natural-language instructions sharing one LLaMA decoder-only model and decoded with constrained beam search that masks invalid index prefixes (Sec. III-D).
 
 > "To this end, we employ LLaMA [25] as our backbone model and then optimize it via instruction tuning." (Sec. III-D)
 
@@ -105,7 +119,7 @@ All tasks are formatted as conditional language generation for one instruction-t
 
 </details>
 
-- Main comparison: LC-Rec outperforms traditional recommenders and existing LLM-based recommenders (Abstract).
+- Main comparison: under full-catalog ranking on Amazon Instruments, Arts, and Games, LC-Rec outperforms traditional sequential models, TIGER, and prior LLM recommenders, while ablations confirm consistent gains from both uniform semantic mapping and each alignment task family (Abstract, Tables 3 and 4).
 
 ---
 
@@ -113,7 +127,7 @@ All tasks are formatted as conditional language generation for one instruction-t
 
 **Our analysis.**
 
-- TIGER uses the same `RQ-VAE` codes with an `Enc-Dec` generator; LC-Rec uses a `Dec-Only` LLM trained with `Multi-task NTP`.
+- TIGER pairs `RQ-VAE` codes with a lightweight from-scratch `Enc-Dec` Transformer under single-task `NTP`; LC-Rec appends `RQ-VAE` tokens to a pretrained `Dec-Only` LLaMA vocabulary and grounds them through `Multi-task NTP` instruction tuning.
 
 ---
 
@@ -122,19 +136,23 @@ All tasks are formatted as conditional language generation for one instruction-t
 ```mermaid
 flowchart LR
     P["LC-Rec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["CID"]
-    P -->|predecessor| C["VQ-Rec"]
-    P -->|alternative| D["TransRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["CID"]
+    P -->|"predecessor"| C["VQ-Rec"]
+    P -->|"alternative"| D["TransRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER resolves leaf conflicts with an extra index level and uses a small seq2seq model; LC-Rec redistributes conflicting last-level codes uniformly and tunes LLaMA with language-collaborative alignment tasks.
-  - Source: LC-Rec v4, conflict discussion: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1; baselines and Table 3: https://arxiv.org/html/2311.09049v4#S4.I1.i10.p1 and https://arxiv.org/html/2311.09049v4#S4.T3.
+  - Source: LC-Rec v4, conflict discussion: [S3.SS2.SSS2.p1](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1); baselines and Table 3: [S4.I1.i10.p1](https://arxiv.org/html/2311.09049v4#S4.I1.i10.p1) and [S4.T3](https://arxiv.org/html/2311.09049v4#S4.T3).
 - **Competitor** · [CID](cid.md): P5-CID builds collaborative indices and also adds a supplementary index for conflicts; LC-Rec learns semantic RQ indices from LLM text embeddings.
-  - Source: LC-Rec v4, conflict discussion: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1; baselines and Table 3: https://arxiv.org/html/2311.09049v4#S4.I1.i9.p1 and https://arxiv.org/html/2311.09049v4#S4.T3.
+  - Source: LC-Rec v4, conflict discussion: [S3.SS2.SSS2.p1](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS2.p1); baselines and Table 3: [S4.I1.i9.p1](https://arxiv.org/html/2311.09049v4#S4.I1.i9.p1) and [S4.T3](https://arxiv.org/html/2311.09049v4#S4.T3).
 - **Predecessor** · [VQ-Rec](vq-rec.md): LC-Rec borrows the idea of learned semantic indices from VQ-Rec and TIGER, then adapts it for LLM tuning.
-  - Source: LC-Rec v4, Section 3.2.1: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4.
+  - Source: LC-Rec v4, Section 3.2.1: [S3.SS2.SSS1.p1](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1) and [S3.SS2.SSS1.p4](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4).
 - **Alternative** · [TransRec](transrec.md): TransRec also builds LLM-based generative recommendation with multi-facet identifiers; LC-Rec uses learned VQ indices with alignment tuning.
-  - Source: LC-Rec v4, Section 2.2 and Section 3.5 related work: https://arxiv.org/html/2311.09049v4#S2.SS2.p3 and https://arxiv.org/html/2311.09049v4#S3.SS5.p3.
+  - Source: LC-Rec v4, Section 2.2 and Section 3.5 related work: [S2.SS2.p3](https://arxiv.org/html/2311.09049v4#S2.SS2.p3) and [S3.SS5.p3](https://arxiv.org/html/2311.09049v4#S3.SS5.p3).
 
 [View all papers in this cell](../../README.md#iii--training)

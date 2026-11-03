@@ -16,7 +16,6 @@ tokenizer: Fixed†
 objective: NTP → RL
 inference: –
 poi: false
-summary: 明确将 SAGE 应用于 OneRec-SAGE 的 SID 分支，并与原 GBPO 比较；文本分支不能代填 SID 配置。
 tldr: SAGE-SID optimizes list-wise generators with a geometric-mean sequence ratio, decoupled multi-objective advantages,
   asymmetric adaptive bounds, and an entropy-aware penalty, replacing the symmetric bounds of GBPO.
 tldr_zh: SAGE-SID 用几何平均序列比率、解耦的多目标优势、非对称自适应裁剪界与熵感知惩罚优化列表级生成器，替代 GBPO 的对称裁剪界。

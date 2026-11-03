@@ -1,26 +1,32 @@
 # GEM-Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gem-rec.md) | 中文
+
 | **题目** | *One Model, Two Markets: Bid-Aware Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Jiang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2603.22231) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/gem-rec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2603.22231) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Bid-Aware Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Bid-Aware Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Bid-Aware Beam`: Beam search whose scores incorporate bid information.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Bid-Aware Beam`：在束搜索打分中融合广告出价（Bid）信息的解码。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | GEM-Rec 加入决定是否展示广告的控制 token，以及在解码时注入实时出价的出价感知解码机制，用单一生成器兼顾语义相关性与广告收益。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GEM-Rec"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["LIGER"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"前序工作"| B["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.
-  - 出处：GEM-Rec v1, Section 5.3: https://arxiv.org/html/2603.22231v1#S5.SS3.p1; Table 1 and Appendix Table 3: https://arxiv.org/html/2603.22231v1#S5.T1 and https://arxiv.org/html/2603.22231v1#A7.T3.
+  - 出处：GEM-Rec v1, Section 5.3: [S5.SS3.p1](https://arxiv.org/html/2603.22231v1#S5.SS3.p1); Table 1 and Appendix Table 3: [S5.T1](https://arxiv.org/html/2603.22231v1#S5.T1) and [A7.T3](https://arxiv.org/html/2603.22231v1#A7.T3).
 - **前序工作** · [LIGER](liger.md): GEM-Rec builds on LIGER's reproduction of the TIGER architecture and 5-core preprocessing, without LIGER's own training objectives.
-  - 出处：GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): https://arxiv.org/html/2603.22231v1#S5.SS4.p1; Appendix B.1 follows its 5-core filtering: https://arxiv.org/html/2603.22231v1#A2.SS1.p1; Appendix F matches its model scale: https://arxiv.org/html/2603.22231v1#A6.p1.
+  - 出处：GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): [S5.SS4.p1](https://arxiv.org/html/2603.22231v1#S5.SS4.p1); Appendix B.1 follows its 5-core filtering: [A2.SS1.p1](https://arxiv.org/html/2603.22231v1#A2.SS1.p1); Appendix F matches its model scale: [A6.p1](https://arxiv.org/html/2603.22231v1#A6.p1).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

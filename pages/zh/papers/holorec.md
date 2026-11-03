@@ -1,27 +1,30 @@
 # HoloRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/holorec.md) | 中文
+
 | **题目** | *Holistic Encoding and Interleaved Reasoning for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhao et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2606.15331) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/holorec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.15331) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>Nested RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Nested RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `–`: Not reported in the paper.
-- `Nested RQ`: Residual quantization across nested representation granularities.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
+- `Nested RQ`：跨嵌套表征粒度的残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
 
 ### TL;DR
 
@@ -34,9 +37,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | HoloRec 用带全粒度重构损失的嵌套残差量化构建层级 SID，并在解码过程中直接生成思维链步骤，不依赖外部标注的推理文本。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HoloRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LLaDA-Rec"]
-    P -->|alternative| C["OneRec-Think"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["LLaDA-Rec"]
+    P -->|"替代方案"| C["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): HoloRec retains TIGER's T5 backbone and adds nested semantic granularities.
-  - 出处：HoloRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2606.15331v1#S4.T2.
+  - 出处：HoloRec v1, Section 4.1.4 and Table 2: [S4.SS1.SSS4.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1); [S4.T2](https://arxiv.org/html/2606.15331v1#S4.T2).
 - **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses parallel diffusion; HoloRec interleaves autoregressive semantic reasoning.
-  - 出处：HoloRec v1, Sections 2.2 and 3.3: https://arxiv.org/html/2606.15331v1#S2.SS2.p1; https://arxiv.org/html/2606.15331v1#S3.SS3.
+  - 出处：HoloRec v1, Sections 2.2 and 3.3: [S2.SS2.p1](https://arxiv.org/html/2606.15331v1#S2.SS2.p1); [S3.SS3](https://arxiv.org/html/2606.15331v1#S3.SS3).
 - **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think reasons in natural language; HoloRec uses endogenous semantic codes.
-  - 出处：HoloRec v1, Section 2.3: https://arxiv.org/html/2606.15331v1#S2.SS3.p1.
+  - 出处：HoloRec v1, Section 2.3: [S2.SS3.p1](https://arxiv.org/html/2606.15331v1#S2.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

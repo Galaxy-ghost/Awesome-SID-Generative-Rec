@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: 提出完整 SID 构造方法并在统一生成推荐器上验证。
 tldr: ReSID learns item representations from structured features with field-aware masked autoencoding and quantizes them with
   globally aligned orthogonal quantization, instead of LLM embeddings and generic quantizers.
 tldr_zh: ReSID 用字段感知掩码自编码从结构化特征学习物品表示，并用全局对齐正交量化将它转为离散码，替代 LLM 嵌入与通用量化器。

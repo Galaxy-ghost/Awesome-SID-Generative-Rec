@@ -1,27 +1,31 @@
 # GRC
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/grc.md) | 中文
+
 | **题目** | *Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xing et al. |
-| **会议** | CIKM’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2602.23639) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/grc.md) |
+| **发表** | CIKM’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.23639) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>GRC+Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>GRC+Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `–`: Not reported in the paper.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `GRC+Beam`: Generation, reflection and correction combined with beam search.
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → RL`：先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
+- `GRC+Beam`：生成-反思-修正（GRC）配合束搜索解码。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | GRC 将单遍解码扩展为语义 token 空间中的“生成-反思-修正”流程，用 GRPO 训练轨迹，并在束搜索中按熵分配修正预算。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GRC"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["COBRA"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"同期对比"| B["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): GRC augments TIGER with structured reflection-correction supervision, followed by GRPO optimization.
-  - 出处：GRC v1, Section 5.2 and Table 1: https://arxiv.org/html/2602.23639v1#S5.SS2.p1; https://arxiv.org/html/2602.23639v1#S5.T1.
+  - 出处：GRC v1, Section 5.2 and Table 1: [S5.SS2.p1](https://arxiv.org/html/2602.23639v1#S5.SS2.p1); [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1).
 - **同期对比** · [COBRA](cobra.md): COBRA supplements token generation with dense retrieval; GRC explicitly detects and corrects token trajectories.
-  - 出处：GRC v1, Sections 2.1/5.1 and Table 1: https://arxiv.org/html/2602.23639v1#S2.SS1.p1; https://arxiv.org/html/2602.23639v1#S5.SS1.p2; https://arxiv.org/html/2602.23639v1#S5.T1.
+  - 出处：GRC v1, Sections 2.1/5.1 and Table 1: [S2.SS1.p1](https://arxiv.org/html/2602.23639v1#S2.SS1.p1); [S5.SS1.p2](https://arxiv.org/html/2602.23639v1#S5.SS1.p2); [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1).
 
 [查看同格全部论文](../../../README.zh.md#iii--inference)

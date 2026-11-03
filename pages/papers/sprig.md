@@ -1,19 +1,23 @@
 # SPRIG
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sprig.md)
+
 | **Title** | *Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Hangoebl et al. |
 | **Venue** | CIKM’26 Short |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/sprig.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Div. Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
@@ -70,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPRIG"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["GRID"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["GRID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): SPRIG adopts TIGER's content-derived SID formulation and evaluates its GRID variant.
-  - Source: SPRIG v1, Sec.1 and Table2: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S4.T2.
+  - Source: SPRIG v1, Sec.1 and Table2: [S1.p2](https://arxiv.org/html/2610.06590v1#S1.p2); [S4.T2](https://arxiv.org/html/2610.06590v1#S4.T2).
 - **Predecessor** · [GRID](grid.md): GRID supplies the residual K-means quantization choice.
-  - Source: SPRIG v1, Sec.1 and Sec.3: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S3.p4.
+  - Source: SPRIG v1, Sec.1 and Sec.3: [S1.p2](https://arxiv.org/html/2610.06590v1#S1.p2); [S3.p4](https://arxiv.org/html/2610.06590v1#S3.p4).
 
 [View all papers in this cell](../../README.md#i--tokenization)

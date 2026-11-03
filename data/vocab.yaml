@@ -1,465 +1,922 @@
 # Allowed vocabulary values for data/papers/<id>.yaml, aligned with Table 1 in the survey paper (main.tex and supplementary.tex).
-# Checked by scripts/check.py. Problem names and stage names are defined here only.
+# Checked by scripts/check.py. Problem names, stage names, and bilingual descriptions are defined here only.
 
 problem:
 - value: psb
   name: Paradigms, Systems and Benchmarks
   description: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources.
+  description_zh: 基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。
 - value: I
   name: Informativeness
   description: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs?
+  description_zh: SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？
 - value: II
   name: Uniqueness and Validity
   description: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
+  description_zh: 每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？
 - value: III
   name: SID–Model Alignment
   description: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same
     goal?
+  description_zh: 生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？
 - value: IV
   name: Utility
   description: Are training and search aimed at what users and the platform value, rather than at token likelihood?
+  description_zh: 训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？
 - value: V
   name: Efficiency
   description: Can it be trained and served within latency and cost budgets?
+  description_zh: 训练与在线服务能否满足实际的延迟、显存与吞吐预算？
 - value: VI
   name: Generalization
   description: Does it still work for new items, new domains, and shifting interests?
+  description_zh: 面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？
 stage:
 - value: Representation
   name: Representation
   description: The primary design change sits in the Representation stage.
+  description_zh: 核心改动位于物品表征（Representation）阶段。
 - value: Tokenization
   name: Tokenization
   description: The primary design change sits in the Tokenization stage.
+  description_zh: 核心改动位于离散编号（Tokenization）阶段。
 - value: Backbone
   name: Generative Backbone
   description: The primary design change sits in the Generative Backbone stage.
+  description_zh: 核心改动位于生成骨干（Backbone）阶段。
 - value: Training
   name: Training
   description: The primary design change sits in the Training stage (Tokenizer update schedule or training Objective).
+  description_zh: 核心改动位于训练（Training）阶段（编号器更新策略或训练损失）。
 - value: Inference
   name: Inference
   description: The primary design change sits in the Inference stage.
+  description_zh: 核心改动位于推理与解码（Inference）阶段。
 - value: n/a
   name: Not Applicable
   description: Used for Paradigms, Systems and Benchmarks (psb) rows that are not assigned to a single stage.
+  description_zh: 用于范式、系统与基准（psb）类工作，不归入单一流程阶段。
 representation:
 - value: Attr+CF
   description: Structured item attributes combined with collaborative signals.
+  description_zh: 结构化物品属性结合协同过滤信号。
+  modality:
+  - content: other
+    cf: true
 - value: Attr+Geo+CF
   description: Category and other attributes, plus geography, plus CF (POI).
+  description_zh: 类目等结构化属性、地理空间特征与协同过滤信号融合（POI 场景）。
+  modality:
+  - content: other
+    cf: true
+    signals:
+    - Geo
 - value: Attr+Geo+CF†
   description: Structured item attributes, geographic information, and collaborative signals (inferred).
+  description_zh: 结构化属性、地理信息与协同信号融合（由配置推断）。
+  modality:
+  - content: other
+    cf: true
+    signals:
+    - Geo
 - value: CF
   description: Collaborative filtering signal.
+  description_zh: 纯协同过滤交互信号。
+  modality:
+  - content: other
+    cf: true
 - value: Cross-Dom
+  description: Item representations transferred or shared across multiple domains.
+  description_zh: 跨多个领域迁移或共享的物品表征。
+  modality:
+  - content: unknown
+    cf: null
 - value: Geo
   description: Geographic coordinates or spatial features.
+  description_zh: 地理坐标或空间拓扑特征。
+  modality:
+  - content: other
+    cf: false
+    signals:
+    - Geo
 - value: MM
   description: Multimodal item representations.
+  description_zh: 多模态物品表征。
+  modality:
+  - content: multi
+    cf: false
 - value: MM+CF
   description: Multimodal item representations aligned with collaborative signals.
+  description_zh: 与协同过滤信号对齐的多模态物品表征。
+  modality:
+  - content: multi
+    cf: true
 - value: Multi-Dom
+  description: Unified item representations built jointly across multiple domains.
+  description_zh: 面向多领域联合构建的统一物品表征。
+  modality:
+  - content: unknown
+    cf: null
 - value: Text
+  description: Textual item metadata (titles, descriptions, categories, or prompts).
+  description_zh: 物品文本元数据（标题、描述、类目或提示词）。
+  modality:
+  - content: single
+    cf: false
 - value: Text + CF
   description: Text representations combined with collaborative signals.
+  description_zh: 文本表征结合协同过滤信号。
+  modality:
+  - content: single
+    cf: true
 - value: Text + Img + CF
   description: Text and image representations combined with collaborative signals.
+  description_zh: 文本、图像表征结合协同过滤信号。
+  modality:
+  - content: multi
+    cf: true
 - value: Text / Audio
   description: Text or audio representations in different branches or evaluation settings.
+  description_zh: 不同分支或评测设置下分别采用文本或音频表征。
+  modality:
+  - content: single
+    cf: false
+  - content: single
+    cf: false
 - value: Text / MM
   description: Text-only or multimodal representations in different configurations.
+  description_zh: 不同配置下分别采用纯文本或多模态表征。
+  modality:
+  - content: single
+    cf: false
+  - content: multi
+    cf: false
 - value: Text / Text+CF
   description: Text-only representations or text representations combined with collaborative signals.
+  description_zh: 不同配置下分别采用纯文本表征或文本加协同信号。
+  modality:
+  - content: single
+    cf: false
+  - content: single
+    cf: true
 - value: Text / –
   description: Text representations in one configuration; the representation source is not reported in another.
+  description_zh: 一种配置采用文本表征，另一种配置未报告表征来源。
+  modality:
+  - content: single
+    cf: false
+  - content: unknown
+    cf: null
 - value: Text+Attr+Geo
   description: Text, structured attributes, and geographic information.
+  description_zh: 文本、结构化属性与地理空间信息融合。
+  modality:
+  - content: single
+    cf: false
+    signals:
+    - Geo
 - value: Text+CF
+  description: Text representations combined with collaborative signals.
+  description_zh: 文本表征结合协同过滤信号。
+  modality:
+  - content: single
+    cf: true
 - value: Text+CF / Text
   description: Text with collaborative signals, or text-only representations, in different configurations.
+  description_zh: 不同配置下分别采用文本加协同信号或纯文本表征。
+  modality:
+  - content: single
+    cf: true
+  - content: single
+    cf: false
 - value: Text+Geo
+  description: Text representations combined with geographic or spatial features.
+  description_zh: 文本表征结合地理空间特征。
+  modality:
+  - content: single
+    cf: false
+    signals:
+    - Geo
 - value: Text+Geo+CF
+  description: Text representations combined with geographic features and collaborative signals.
+  description_zh: 文本表征结合地理空间特征与协同信号。
+  modality:
+  - content: single
+    cf: true
+    signals:
+    - Geo
 - value: Text+Img
+  description: Text and visual item representations.
+  description_zh: 文本与视觉图像表征。
+  modality:
+  - content: multi
+    cf: false
 - value: Text+Img+Attr
   description: Text, images, and structured item attributes.
+  description_zh: 文本、图像与结构化物品属性。
+  modality:
+  - content: multi
+    cf: false
 - value: Text+Img+Audio+CF
   description: Text, visual, and audio content combined with collaborative signals.
+  description_zh: 文本、视觉、音频内容结合协同过滤信号。
+  modality:
+  - content: multi
+    cf: true
 - value: Text+Img+CF
+  description: Text and image representations combined with collaborative signals.
+  description_zh: 文本、图像表征结合协同过滤信号。
+  modality:
+  - content: multi
+    cf: true
 - value: Text+Img+CF†
+  description: Text, image, and collaborative representations (inferred).
+  description_zh: 文本、图像与协同信号融合表征（由配置推断）。
+  modality:
+  - content: multi
+    cf: true
 - value: Text+Img+Geo
   description: Text, images, and geographic information.
+  description_zh: 文本、图像与地理空间信息。
+  modality:
+  - content: multi
+    cf: false
+    signals:
+    - Geo
 - value: Text+Img+Geo+CF
+  description: Text, image, geographic, and collaborative representations.
+  description_zh: 文本、图像、地理空间与协同信号融合表征。
+  modality:
+  - content: multi
+    cf: true
+    signals:
+    - Geo
 - value: Text+Img+Geo†
+  description: Text, image, and geographic representations (inferred).
+  description_zh: 文本、图像与地理空间表征（由配置推断）。
+  modality:
+  - content: multi
+    cf: false
+    signals:
+    - Geo
 - value: Text+Img†
+  description: Text and image representations (inferred).
+  description_zh: 文本与图像多模态表征（由配置推断）。
+  modality:
+  - content: multi
+    cf: false
 - value: Text+SID
   description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+  description_zh: 稠密文本表征拼接离散语义 ID（稠密与生成式混合检索）。
+  modality:
+  - content: single
+    cf: false
+    signals:
+    - SID
 - value: Text+Time
   description: Text representations combined with interaction timestamps.
+  description_zh: 文本表征结合交互时间戳信息。
+  modality:
+  - content: single
+    cf: false
+    signals:
+    - Time
 - value: Text†
+  description: Textual item representations (inferred).
+  description_zh: 物品文本表征（由配置推断）。
+  modality:
+  - content: single
+    cf: false
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
+  modality:
+  - content: na
+    cf: null
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。
+  modality:
+  - content: unknown
+    cf: null
 - value: – / Text+Img
   description: The representation source is unreported in one configuration; text and image representations are used in another.
+  description_zh: 一种配置未报告表征来源，另一种配置采用文本与图像表征。
+  modality:
+  - content: unknown
+    cf: null
+  - content: multi
+    cf: false
 tokenization:
 - value: Align. RQ
   description: Residual quantization trained with alignment objectives.
+  description_zh: 带对齐目标训练的残差量化。
 - value: BDQ
   description: Bit-Decomposable Quantizer.
+  description_zh: 比特可分解量化器（Bit-Decomposable Quantizer）。
 - value: Bal. VQ+KM
   description: Balanced tokenization combining vector quantization and k-means clustering.
+  description_zh: 结合向量量化与均衡 k-means 聚类的编号方法。
 - value: C-RQ
+  description: Contrastive residual quantization.
+  description_zh: 对比学习残差量化（Contrastive RQ）。
 - value: CART
   description: Collaborative-Aware Refined Tokenization.
+  description_zh: 协同感知精化编号（Collaborative-Aware Refined Tokenization）。
 - value: CF-Aligned MM RQ
   description: Multimodal residual quantization aligned with collaborative signals.
+  description_zh: 与协同信号对齐的多模态残差量化。
 - value: Casc. RQ
+  description: Cascaded sparse-to-dense residual quantization.
+  description_zh: 稀疏到稠密级联残差量化。
 - value: CoBa RQ-VAE
   description: Collaborative and Balanced RQ-VAE.
+  description_zh: 兼顾协同对齐与码本均衡的 RQ-VAE。
 - value: Contr. RQ
   description: Residual quantization trained with contrastive objectives.
+  description_zh: 采用对比损失训练的残差量化。
 - value: Cross RQ
+  description: Cross-modal residual quantization.
+  description_zh: 跨模态交互残差量化。
 - value: Curr. RQ
+  description: Curriculum-trained hierarchical residual quantization.
+  description_zh: 课程式训练的层级残差量化。
 - value: DSRQ
   description: Dual-stream residual quantization.
+  description_zh: 双流残差量化（Dual-Stream Residual Quantization）。
 - value: Direct SID Heads
   description: Prediction heads that directly assign semantic-ID codes.
+  description_zh: 直接输出语义 ID 码位的预测头。
 - value: Dual H-KM
+  description: Dual-source hierarchical k-means over behavioral and semantic embeddings.
+  description_zh: 分别在行为与语义嵌入上构建的双源层级 k-means。
 - value: Dual RQ
+  description: Dual residual quantization over two representation streams or entity types.
+  description_zh: 面向双表征流或双侧实体的双路残差量化。
 - value: Dual RQ-VAE
   description: Two residual-quantized variational autoencoders for separate representation streams.
+  description_zh: 面向两条独立表征流的双路 RQ-VAE。
 - value: Dyn. KM+Disamb.
   description: Dynamically updated k-means codes combined with disambiguation codes.
+  description_zh: 动态更新的 k-means 编码加冲突消歧后缀码。
 - value: Flow+PQ
   description: Flow-based representation transformation followed by product quantization.
+  description_zh: 归一化流表征变换后接乘积量化（PQ）。
 - value: Freq. R-KM
   description: Frequency-aware residual k-means tokenization.
+  description_zh: 频率感知的残差 k-means 编号。
 - value: GAOQ
   description: Globally Aligned Orthogonal Quantization.
+  description_zh: 全局对齐正交量化（Globally Aligned Orthogonal Quantization）。
 - value: Geo-Idx
   description: Identifiers constructed from geographic indexing.
+  description_zh: 基于地理网格或空间索引构建的标识符。
 - value: Geo-Idx+RQ
   description: Geographic indexing combined with residual quantization.
+  description_zh: 地理空间索引前缀结合残差量化。
 - value: Geo-Prefix+HClus
   description: Geographic prefixes combined with hierarchical clustering codes.
+  description_zh: 地理空间前缀结合层级聚类编码。
 - value: Geo-Prefix+RQ-VAE
   description: Geographic prefixes combined with residual-quantized variational codes.
+  description_zh: 地理空间前缀结合 RQ-VAE 残差码。
 - value: Graph RQ-VAE
   description: A graph-informed residual-quantized variational autoencoder.
+  description_zh: 融合图结构传播的残差量化变分自编码器。
 - value: H-KM
   description: Hierarchical k-means.
+  description_zh: 层级 k-means 聚类（Hierarchical k-means）。
 - value: HARQ
   description: Hyperbolic Adaptive Residual Quantization.
+  description_zh: 双曲空间自适应残差量化（Hyperbolic Adaptive RQ）。
 - value: Hier. RQ
+  description: Hierarchically supervised residual quantization.
+  description_zh: 带多级标签监督的层级残差量化。
 - value: KG-RQ
   description: Residual quantization informed by knowledge-graph structure.
+  description_zh: 融合知识图谱结构的残差量化。
 - value: LLM-Vocab
+  description: Item identifiers composed directly from tokens in the language model vocabulary.
+  description_zh: 直接从大语言模型原生词表 token 组合出的物品标识符。
 - value: Learn. RQ
+  description: End-to-end or alternatingly updated learnable residual quantization.
+  description_zh: 端到端或交替更新的可学习残差量化。
 - value: MM-RQ
+  description: Multimodal residual quantization.
+  description_zh: 多模态残差量化（Multimodal RQ）。
 - value: Masked VQ
+  description: Masked vector quantization over collaborative representations.
+  description_zh: 面向掩码协同表征的向量量化。
 - value: MoE-VQ
+  description: Mixture-of-experts vector quantization.
+  description_zh: 混合专家向量量化（Mixture-of-Experts VQ）。
 - value: Multi-Facet ID
   description: Identifiers representing multiple facets of an item.
+  description_zh: 同时刻画物品多个语义切面的多维标识符。
 - value: Multi-Path R-KM+Hash
   description: Multiple residual-k-means code paths combined with a hash-based identifier component.
+  description_zh: 多路径残差 k-means 结合哈希消歧组件。
 - value: NU-RQ
   description: Non-uniform RQ variant.
+  description_zh: 带可学习非均匀变换的残差量化（Non-Uniform RQ）。
 - value: Nested RQ
   description: Residual quantization across nested representation granularities.
+  description_zh: 跨嵌套表征粒度的残差量化。
 - value: OPQ
   description: Optimized product quantization.
+  description_zh: 优化乘积量化（Optimized Product Quantization）。
 - value: Orth. RQ
   description: Orthogonal residual quantization.
+  description_zh: 带正交约束的残差量化。
 - value: PC-AE
   description: Parallel Codebook Auto-Encoder
+  description_zh: 并行码本自编码器（Parallel Codebook Auto-Encoder）。
 - value: PID (P-SAE)
   description: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
+  description_zh: 基于预训练稀疏自编码器的可解释标识符（Pretrained Interpretable ID）。
 - value: Par. OPQ
+  description: Parallel optimized product quantization into unordered sub-codes.
+  description_zh: 并行优化乘积量化，生成无序多子空间码。
 - value: Par. VQ
+  description: Parallel multi-codebook vector quantization without sequential residual dependency.
+  description_zh: 无顺序残差依赖的并行多码本向量量化。
 - value: Post-hoc RQ
+  description: Residual quantization with post-hoc collision-free code assignment.
+  description_zh: 残差量化后接无冲突全局/递归重分配。
 - value: Prog. RQ
   description: Progressive RQ variant.
+  description_zh: 渐进式残差量化变体（Progressive RQ）。
 - value: QA-RQ
   description: Qualification-Aware RQ-VAE.
+  description_zh: 资质感知残差量化（Qualification-Aware RQ-VAE）。
 - value: R-KM
   description: Residual k-means.
+  description_zh: 残差 k-means 量化（Residual k-means）。
 - value: R-KM+EM
   description: Residual k-means with expectation-maximization-style refinement.
+  description_zh: 带期望最大化（EM）精化的残差 k-means。
 - value: R-KM+FSQ
   description: Residual k-means combined with finite scalar quantization.
+  description_zh: 残差 k-means 结合有限标量量化（FSQ）。
 - value: R-KM+Geo-CB
   description: Residual k-means combined with a geographic codebook.
+  description_zh: 残差 k-means 结合独立地理码本。
 - value: R-KM+Graph
   description: Residual k-means combined with a graph over semantic codes.
+  description_zh: 残差 k-means 结合语义码关联图。
 - value: R-KM†
+  description: Residual k-means tokenization (inferred).
+  description_zh: 残差 k-means 编号（由配置推断）。
 - value: RQ
   description: Residual quantization.
+  description_zh: 残差向量量化（Residual Quantization）。
 - value: RQ+IST
   description: Residual quantization combined with item-level subword tokenization.
+  description_zh: 残差量化结合序列内子词合并（Item-level Subword Tokenization）。
 - value: RQ+LoRA
+  description: Residual quantization adapted per domain with LoRA modules.
+  description_zh: 带领域自适应 LoRA 模块的残差量化。
 - value: RQ-KM
+  description: Residual k-means quantization.
+  description_zh: 残差 k-means 量化。
 - value: RQ-PIB
   description: Residual Quantization with Prefix-aware Interaction Balancing
+  description_zh: 前缀交互负载均衡残差量化（RQ with Prefix-aware Interaction Balancing）。
 - value: RQ-VAE
+  description: Residual-Quantized Variational AutoEncoder.
+  description_zh: 残差量化变分自编码器（Residual-Quantized VAE）。
 - value: RQ-VAE / Learn. RQ
   description: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
+  description_zh: 不同配置下分别采用固定 RQ-VAE 或可学习残差量化。
 - value: RQ-VAE / Par. VQ
   description: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
+  description_zh: 不同配置下分别采用层级 RQ-VAE 或并行向量量化。
 - value: RQ-VAE / R-KM / LETTER
   description: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
+  description_zh: 评测涵盖 RQ-VAE、残差 k-means 与 LETTER 等多种编号器配置。
 - value: RQ-VAE+DINO
+  description: RQ-VAE combined with self-supervised DINO visual quantization.
+  description_zh: RQ-VAE 结合自监督 DINO 视觉特征量化。
 - value: RQ-VAE+PPR
   description: Residual-quantized variational codes informed by Personalized PageRank signals.
+  description_zh: 融合个性化 PageRank 图传播信号的 RQ-VAE。
 - value: RQ-VAE†
+  description: Residual-Quantized Variational AutoEncoder (inferred).
+  description_zh: 残差量化变分自编码器（由配置推断）。
 - value: RecDMoN / RQ-GAE
-  description: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
+  description: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph
+    reconstruction loss.
+  description_zh: 递归 DMoN 图划分，或基于图重构损失的图自编码残差量化。
 - value: Ref.-RQ
   description: Reference-vector RQ variant.
+  description_zh: 引入参考锚点向量的残差量化。
 - value: SRBQ
   description: Semantic Residual Balanced Quantization
+  description_zh: 语义残差均衡量化（Semantic Residual Balanced Quantization）。
 - value: Self-Imp.
+  description: Self-improving tokenization refined iteratively from the generator's learned representations.
+  description_zh: 训练过程中根据生成模型内部表征周期性自优化的编号。
 - value: Self-Sup. ID
   description: Semantic identifiers learned through self-supervision.
+  description_zh: 通过自监督任务直接学习的离散语义标识符。
 - value: Shared/Spec. RQ
   description: Residual quantization using shared and task-specific codebooks.
+  description_zh: 由跨域共享码本与领域专有码本组成的残差量化。
 - value: SimHash
   description: Locality-sensitive hashing with random hyperplanes.
+  description_zh: 基于随机超平面的局部敏感哈希（SimHash）编码。
 - value: Skeleton R-KM
   description: Residual k-means organized around a shared semantic skeleton.
+  description_zh: 围绕共享语义骨架组织的残差 k-means。
 - value: Soft Reassign. RQ
   description: Residual quantization with differentiable soft code reassignment.
+  description_zh: 带可微软重分配机制的残差量化。
 - value: Soft-RQ
   description: Soft-routed RQ variant.
+  description_zh: 软路由残差量化变体。
 - value: Spectral Clus.
   description: Spectral clustering-based tokenization.
+  description_zh: 基于谱聚类的层级编号。
 - value: Subspace RQ
   description: Residual quantization applied separately within embedding subspaces.
+  description_zh: 在嵌入子空间内分别执行的残差量化。
 - value: Term-ID
+  description: Standardized textual keyword identifiers generated from item metadata.
+  description_zh: 由物品元数据提炼的标准化文本关键词标识符。
 - value: TokenMoE
+  description: Mixture-of-experts tokenizer with shared and domain-specific experts.
+  description_zh: 包含共享专家与领域专家的混合专家编号器。
 - value: Tree
+  description: Tree-structured hierarchical codebook tokenization.
+  description_zh: 树状层级码本编号。
 - value: Tree-Clus.
+  description: Balanced k-ary tree clustering tokenization.
+  description_zh: 均衡 k 叉树聚类编号。
 - value: Unified RQ
+  description: Domain-unified residual quantization.
+  description_zh: 多领域共享空间的统一残差量化。
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。
 backbone:
 - value: Dec-Only
   description: Decoder-only.
+  description_zh: 仅解码器（Decoder-only）自回归架构。
 - value: Dec-Only / Enc-Dec
   description: Decoder-only and encoder–decoder backbone variants.
+  description_zh: 涵盖仅解码器与编码器-解码器两种骨干变体。
 - value: Dec-Only / Non-AR
   description: Decoder-only autoregressive and non-autoregressive prediction variants.
+  description_zh: 涵盖仅解码器自回归与非自回归并行预测两种变体。
 - value: Dec-Only†
+  description: Decoder-only autoregressive backbone (inferred).
+  description_zh: 仅解码器自回归架构（由配置推断）。
 - value: Disc.
   description: A discriminative recommendation model that scores candidates.
+  description_zh: 对候选物品打分的判别式推荐骨干。
 - value: Disc. / Enc-Dec
   description: Discriminative scoring and encoder–decoder generation variants.
+  description_zh: 涵盖判别式打分与编码器-解码器生成两种变体。
 - value: Dual Enc-Dec
+  description: Shared encoder paired with two parallel decoders for dual token streams.
+  description_zh: 共享编码器配合双并行解码器的双流架构。
 - value: Enc-Dec
   description: Encoder-decoder.
+  description_zh: 编码器-解码器（Encoder-decoder）架构。
 - value: Enc-Dec / Dec-Only
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+  description_zh: 同时在编码器-解码器与仅解码器两种骨干上验证。
 - value: Enc-Dec / Dec-Only (AR); Non-AR (PR)
   description: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
+  description_zh: 自回归分支采用编码器-解码器或仅解码器，并行分支采用非自回归骨干。
 - value: Enc-Dec / Lazy Dec-Only
   description: Encoder–decoder and lazy decoder-only backbone variants.
+  description_zh: 涵盖编码器-解码器与延迟解码（Lazy Decoder-only）两种变体。
 - value: Enc-Dec†
+  description: Encoder–decoder backbone (inferred).
+  description_zh: 编码器-解码器架构（由配置推断）。
 - value: Enc-Dec† / Dec-Only
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+  description_zh: 同时在推断的编码器-解码器与仅解码器骨干上验证。
 - value: Enc-Dec† / Dec-Only†
   description: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
+  description_zh: 同时在编码器-解码器与仅解码器骨干上验证（由配置推断）。
 - value: Enc-MLP
   description: A history encoder followed by MLP-based prediction heads.
+  description_zh: 序列历史编码器后接多层感知机（MLP）预测头。
 - value: Encoder
+  description: Bidirectional encoder backbone without autoregressive token generation.
+  description_zh: 双向编码器骨干，不进行逐位自回归解码。
 - value: Encoder (Non-AR)
+  description: Bidirectional encoder trained for non-autoregressive parallel prediction.
+  description_zh: 面向非自回归并行预测训练的双向编码器。
 - value: HeterRec
   description: HeterRec, the named recommendation backbone used in the paper.
+  description_zh: 论文命名的异构推荐骨干网络 HeterRec。
 - value: Lazy Dec-Only
   description: A lazy decoder-only architecture that concentrates decoder computation on target generation.
+  description_zh: 将计算集中在目标生成阶段的延迟仅解码器架构。
 - value: Lazy Dec-Only†
   description: A lazy decoder-only backbone inferred from the adopted model.
+  description_zh: 由所沿用基座推断的延迟仅解码器架构。
 - value: Non-AR
   description: Non-autoregressive.
+  description_zh: 非自回归（Non-autoregressive）并行预测架构。
 - value: Non-AR / Enc-Dec
   description: Non-autoregressive and encoder–decoder backbone variants.
+  description_zh: 涵盖非自回归与编码器-解码器两种骨干变体。
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。
 tokenizer:
 - value: Altern.
   description: Tokenizer and generator are updated in turns.
+  description_zh: 编号器与生成器在训练过程中交替迭代更新。
 - value: Altern.†
+  description: Tokenizer and generator updated in alternation (inferred).
+  description_zh: 编号器与生成器交替迭代更新（由配置推断）。
 - value: Fixed
   description: SIDs are built first and not changed while the generator trains.
+  description_zh: 先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
 - value: Fixed†
+  description: Tokenizer frozen before generator training (inferred).
+  description_zh: 生成器训练期间冻结编号器（由配置推断）。
 - value: Joint
   description: The generator loss updates the tokenizer directly.
+  description_zh: 推荐生成损失通过可微路径直接反传更新编号器。
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。
 objective:
 - value: (MTP + Masked Rec.) → MTP
   description: Joint multi-token prediction and masked reconstruction, followed by multi-token prediction alone.
+  description_zh: 先联合训练多 token 预测与掩码重构，再单独微调多 token 预测。
 - value: (NTP + Ctr.) → RL
   description: Joint next-token and contrastive training, followed by a reinforcement-learning stage; retained losses are
     specified per paper.
+  description_zh: 先联合训练下一 token 预测与对比损失，再执行强化学习后训练。
 - value: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
   description: Inferred next-token-based initialization variants followed by KL-weighted on-policy distillation.
+  description_zh: 先进行下一 token 预训练初始化，再执行 KL 加权的同策略蒸馏（OPD）。
 - value: Discrim.
   description: Scores items; does not generate SIDs.
+  description_zh: 判别式候选物品打分损失，不直接生成 SID。
 - value: Discrim. / NTP
   description: Discriminative scoring or next-token prediction in different configurations.
+  description_zh: 不同配置下分别采用判别式打分损失或下一 token 预测损失。
 - value: Dual-level Flow Ctr.
   description: Contrastive training at token and complete-identifier levels in a flow-based model.
+  description_zh: 流模型中在 token 级与完整标识符级同时施加的双层对比损失。
 - value: MTP
   description: Predicts several codes in parallel at once.
+  description_zh: 多 token 并行预测损失（Multi-Token Prediction），一次前向同时预测多个码位。
 - value: MTP + Aux.
   description: Multi-token prediction jointly optimized with auxiliary objectives.
+  description_zh: 多 token 预测与辅助损失联合优化。
 - value: MTP + Ctr.
   description: MTP plus a contrastive loss.
+  description_zh: 多 token 预测结合对比学习损失。
 - value: MTP + Ctr. + Aux.
   description: Multi-token prediction jointly optimized with contrastive and auxiliary objectives.
+  description_zh: 多 token 预测、对比损失与辅助目标联合优化。
 - value: MTP + Rel.MSE
   description: Multi-token prediction jointly optimized with a mean-squared-error objective on relations.
+  description_zh: 多 token 预测结合关系均方误差（MSE）损失。
 - value: Masked
   description: Masks part of the codes and reconstructs them (includes masked diffusion).
+  description_zh: 掩码部分码位并重构（含离散掩码扩散目标）。
 - value: Masked → RL (→ Masked KD for Fast)
   description: Masked-prediction pretraining, followed by reinforcement learning and optional masked-prediction distillation
     for a faster variant.
+  description_zh: 先做掩码预测预训练，再接强化学习对齐，快速变体进一步做掩码蒸馏。
 - value: Multi-task NTP
   description: The same NTP loss over several tasks.
+  description_zh: 在多个对齐或推荐子任务上联合优化下一 token 预测损失。
 - value: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT
   description: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task
     reinforcement learning follows supervised fine-tuning.
+  description_zh: 多任务下一 token 预测，或文本 NTP 加多 token 预测与排序损失；SFT 后接语言任务强化学习。
 - value: Multi-task NTP†
+  description: Multi-task next-token prediction (inferred).
+  description_zh: 多任务下一 token 预测（由配置推断）。
 - value: Multi-task NTP† / NTP
+  description: Inferred multi-task next-token prediction or standard next-token prediction across variants.
+  description_zh: 不同变体下采用推断的多任务下一 token 预测或标准下一 token 预测。
 - value: Multi-task NTP† / NTP†
   description: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
+  description_zh: 不同骨干下采用推断的多任务或单任务下一 token 预测初始化。
 - value: NTP
   description: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+  description_zh: 标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 - value: NTP + Aux.
   description: NTP plus another auxiliary loss.
+  description_zh: 下一 token 预测结合辅助正则或对齐损失。
 - value: NTP + Ctr.
   description: NTP plus a contrastive loss.
+  description_zh: 下一 token 预测结合对比学习损失。
 - value: NTP + Dense
   description: NTP plus dense-vector prediction.
+  description_zh: 离散 SID 的下一 token 预测结合稠密向量回归/对比损失。
 - value: NTP + PV-RSPO + Rank + Aux.
   description: Next-token prediction jointly optimized with prefix-value RSPO, ranking, and auxiliary objectives.
+  description_zh: 下一 token 预测联合前缀价值 RSPO、排序损失与辅助损失。
 - value: NTP + RL
   description: Next-token prediction jointly optimized with reinforcement learning.
+  description_zh: 下一 token 预测与强化学习目标联合训练。
 - value: NTP + Rank
   description: NTP plus a ranking loss.
+  description_zh: 下一 token 预测结合显式排序损失。
 - value: NTP + Rank + Aux. / MTP + Rank + Aux.
   description: Autoregressive or parallel token prediction jointly optimized with ranking and auxiliary objectives.
+  description_zh: 自回归或并行 token 预测联合排序损失与辅助损失。
 - value: NTP / NTP + Aux.
   description: Next-token prediction alone or jointly optimized with auxiliary objectives.
+  description_zh: 单独使用下一 token 预测，或与辅助损失联合优化。
 - value: NTP → (NTP + Aux.)
   description: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
+  description_zh: 先进行下一 token 预测预训练，再联合优化下一 token 预测与辅助目标。
 - value: NTP → (NTP + DPO)
   description: Next-token prediction, followed by joint next-token prediction and direct preference optimization.
+  description_zh: 先进行下一 token 预测微调，再联合优化下一 token 预测与直接偏好优化（DPO）。
 - value: NTP → (RL + Rank)
   description: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
+  description_zh: 先进行下一 token 预测微调，再联合优化强化学习与排序目标。
 - value: NTP → DPO
   description: NTP, then preference optimization.
+  description_zh: 先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
 - value: NTP → RL
   description: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+  description_zh: 先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
 - value: NTP → RL†
+  description: Next-token prediction followed by reinforcement learning (inferred).
+  description_zh: 先进行下一 token 预测微调，再执行强化学习（由配置推断）。
 - value: NTP†
+  description: Next-token prediction loss (inferred).
+  description_zh: 下一 token 预测损失（由配置推断）。
 - value: NTP† / NTP → RL
   description: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning
     in another.
+  description_zh: 一种配置采用下一 token 预测，另一种配置后接强化学习微调。
 - value: Next-item CE + Cons. KD + Rank KD
   description: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
+  description_zh: 下一物品交叉熵联合一致性知识蒸馏与排序蒸馏。
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。
 inference:
 - value: Beam
+  description: Autoregressive beam search over Semantic ID tokens.
+  description_zh: 在 SID token 上执行自回归束搜索（Beam search）。
 - value: Beam+Agg.
   description: Beam search followed by aggregation of predictions that refer to the same item.
+  description_zh: 束搜索后对指向同一物品的多条标识符预测聚合得分。
 - value: Beam+Geo-Filter
   description: Beam search with geographically restricted candidates.
+  description_zh: 结合地理位置范围过滤候选的束搜索。
 - value: BeamFusion
+  description: Joint decoding combining autoregressive SID beam search with dense nearest-neighbor scoring.
+  description_zh: 融合自回归 SID 束搜索得分与稠密最近邻检索得分的联合解码。
 - value: Beam†
+  description: Autoregressive beam search (inferred).
+  description_zh: 自回归束搜索（由配置推断）。
 - value: Beam† / C-Beam
+  description: Inherited beam search or prefix-constrained beam search across configurations.
+  description_zh: 不同配置下采用自回归束搜索或前缀约束束搜索。
 - value: Beam† / C-Beam†
   description: Beam search or constrained beam search in the respective inherited configurations.
+  description_zh: 所沿用基座中的束搜索或约束束搜索。
 - value: Beam† / –
   description: Inherited beam search in one configuration; decoding not reported in the other.
+  description_zh: 一种配置沿用束搜索，另一种配置未报告解码方式。
 - value: Bid-Aware Beam
   description: Beam search whose scores incorporate bid information.
+  description_zh: 在束搜索打分中融合广告出价（Bid）信息的解码。
 - value: C-Beam
   description: Constrained beam search.
+  description_zh: 受合法物品集合约束的束搜索（Constrained beam search）。
 - value: C-Beam / Scoring
   description: Constrained beam search or direct item scoring, depending on the configuration.
+  description_zh: 依配置采用约束束搜索或直接候选打分。
 - value: CF-Guided C-Beam
   description: Constrained beam search guided by collaborative signals.
+  description_zh: 由协同过滤信号引导剪枝与打分的约束束搜索。
 - value: CoT
   description: Chain-of-thought before the SID.
+  description_zh: 先生成思维链（Chain-of-Thought）推理文本，再输出目标 SID。
 - value: CoT+Beam
   description: Reasoning followed by beam-search decoding.
+  description_zh: 显式推理后接束搜索解码。
 - value: CoT+C-Beam
   description: Reasoning followed by constrained beam-search decoding.
+  description_zh: 显式推理后接合法前缀约束束搜索。
 - value: CoT+Fuzzy Match
   description: Reasoning-guided identifier generation followed by fuzzy matching to available items.
+  description_zh: 推理引导生成标识符后通过模糊匹配映射至真实物品。
 - value: CoT+Greedy
   description: Reasoning with greedy decoding.
+  description_zh: 显式推理配合贪心解码。
 - value: Diff.
   description: Diffusion decoding.
+  description_zh: 迭代去噪扩散解码。
 - value: Diff.+Beam
   description: Diffusion-based decoding combined with beam search.
+  description_zh: 离散扩散解码结合束搜索。
 - value: Diff.+Legalize
   description: Diffusion-based decoding followed by mapping generated codes to valid items.
+  description_zh: 扩散生成码序列后映射合法化为目录中的真实物品。
 - value: Div. Beam
   description: Beam search with an explicit diversity mechanism.
+  description_zh: 引入显式多样性重排或惩罚项的束搜索。
 - value: Div. C-Beam
   description: Constrained beam search with an explicit diversity mechanism.
+  description_zh: 引入显式多样性机制的约束束搜索。
 - value: Dual Beam
   description: Beam-search decoding in two branches with merged candidates.
+  description_zh: 在双分支上分别束搜索并融合候选结果。
 - value: Dyn. Beam
   description: Dynamic beam search.
+  description_zh: 按步或按样本动态调整束宽的束搜索。
 - value: Ensemble
+  description: Score aggregation across multiple randomized token segmentations or decoding paths.
+  description_zh: 对同一历史的多种随机切分或多路径解码结果聚合排序。
 - value: FM-Index+Agg.
   description: FM-index-constrained generation followed by identifier-to-item score aggregation.
+  description_zh: 基于 FM-index 约束生成并聚合指向同一物品的多标识符得分。
 - value: FP8+RecoGEM
   description: FP8 inference with the RecoGEM execution framework.
+  description_zh: 采用 FP8 低精度量化与 RecoGEM 推理引擎部署解码。
 - value: Fusion
+  description: Fusion of candidate scores decoded from parallel token branches.
+  description_zh: 融合并行双解码分支输出的候选得分。
 - value: GRC+Beam
   description: Generation, reflection and correction combined with beam search.
+  description_zh: 生成-反思-修正（GRC）配合束搜索解码。
 - value: Graph
+  description: Iterative decoding over a proximity graph of valid item Semantic IDs.
+  description_zh: 在合法物品 SID 近邻图上做迭代图搜索解码。
 - value: Greedy
   description: Select the highest-scoring next token at each decoding step.
+  description_zh: 每步直接选取概率最高 token 的贪心解码。
 - value: Hybrid
+  description: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
+  description_zh: 结合生成式 SID 解码与稠密/共现检索的混合召回。
 - value: ISD Beam
   description: Item-supported beam search.
+  description_zh: 由用户侧物品打分支撑前缀保留的束搜索（Item-Supported Beam）。
 - value: Length-Quota Beam
   description: Beam search with recommendation quotas allocated across output lengths.
+  description_zh: 按可变 SID 长度分配候选配额的束搜索。
 - value: Non-AR
+  description: Single-pass non-autoregressive parallel decoding.
+  description_zh: 单次前向非自回归并行解码。
 - value: PRM-Beam
   description: Process-reward-model guided beam search.
+  description_zh: 由过程奖励模型（PRM）逐步引导的束搜索。
 - value: PV-Beam+Rerank
   description: Prefix-value-guided beam search followed by reranking.
+  description_zh: 前缀价值引导束搜索后接候选重排。
 - value: Scoring
+  description: Direct candidate scoring without step-by-step SID generation.
+  description_zh: 直接计算候选物品得分，不逐位生成 SID。
 - value: Scoring / Beam
+  description: Direct candidate scoring or autoregressive beam search across configurations.
+  description_zh: 不同配置下采用候选直接打分或自回归束搜索。
 - value: Scoring / Beam†
   description: Discriminative candidate scoring vs. generative beam search.
+  description_zh: 判别式候选打分与生成式束搜索对比。
 - value: Scoring+Rerank
   description: Score candidate items and then rerank a selected subset.
+  description_zh: 先对候选集打分筛选，再对头部子集精细重排。
 - value: Self-Draft+Hash
   description: Self-drafted candidate generation with hash-set validity checking.
+  description_zh: 自草稿投机生成配合哈希集合合法性校验。
 - value: Sess. Beam
+  description: Session-wise beam search generating a multi-item slate in one pass.
+  description_zh: 单次生成包含多个物品的整段会话列表（Session-wise beam search）。
 - value: Spec. Dec.
   description: Speculative decoding.
+  description_zh: 草稿模型与目标模型协同的投机解码（Speculative decoding）。
 - value: Trie/C-Beam
+  description: Prefix-tree (trie) constrained beam search restricted to valid catalog SIDs.
+  description_zh: 基于前缀树（Trie）约束的束搜索，仅允许解码真实存在的物品前缀。
 - value: Vec. C-Beam
   description: Vectorized constrained beam search.
+  description_zh: 向量化并行前缀约束束搜索。
 - value: n/a
   description: Not applicable to this method.
+  description_zh: 不适用于该方法。
 - value: –
   description: Not reported in the paper.
+  description_zh: 论文未报告。

@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "neglecting the value of integrating the target behavior type into the learning objective".'
 tldr: MBGen interleaves behavior tokens and item tokens in one sequence, predicts the next behavior type and then the next
   item, and scales with a position-routed sparse architecture.
 tldr_zh: MBGen 在同一序列中交错排列行为 token 与物品 token，先预测下一行为类型再预测下一物品，并用按位置路由的稀疏架构扩展规模。

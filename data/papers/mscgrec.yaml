@@ -16,8 +16,6 @@ tokenizer: Fixed†
 objective: NTP
 inference: Trie/C-Beam
 poi: false
-summary: 'Abstract: "these methods have yet to surpass traditional sequential recommenders on large item sets". Candidates:
-  I / none (rule: complaint fits none of the six classes; judged by the new design).'
 tldr: MSCGRec quantizes images with self-supervised DINO-based learning, adds collaborative features as a separate modality,
   and restricts training outputs to permissible tokens, to scale generative recommendation to large catalogs.
 tldr_zh: MSCGRec 用基于 DINO 的自监督学习量化图像，把协同特征作为独立模态引入，并将训练输出限制在合法 token 集合内，以扩展到大物品库。

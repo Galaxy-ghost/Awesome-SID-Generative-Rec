@@ -1,25 +1,32 @@
 # VQ-Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/vq-rec.md) | 中文
+
 | **题目** | *Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* |
 | :-- | :-- |
 | **作者** | Hou et al. |
-| **会议** | WWW’23 |
-| **问题与阶段** | `VI. 泛化` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2210.12316) · [代码](https://github.com/RUCAIBox/VQ-Rec) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/vq-rec.md) |
+| **发表** | WWW’23 |
+| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2210.12316) · [代码](https://github.com/RUCAIBox/VQ-Rec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Multi-Dom"] --> T["编号 Tokenization<br/>OPQ"] --> B["骨干 Backbone<br/>Encoder"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `OPQ`: Optimized product quantization.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Discrim.`: Scores items; does not generate SIDs.
+- `Multi-Dom`：面向多领域联合构建的统一物品表征。
+- `OPQ`：优化乘积量化（Optimized Product Quantization）。
+- `Encoder`：双向编码器骨干，不进行逐位自回归解码。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Discrim.`：判别式候选物品打分损失，不直接生成 SID。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,15 +39,17 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | VQ-Rec 将物品文本映射为离散码并查表组合码嵌入作为物品表示，配合对比预训练与跨域微调，解除文本与物品表示之间的强绑定。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在五个 Amazon 源领域预训练后，VQ-Rec 在六个跨领域与跨平台下游基准上均位列第一或第二，并在所有热度分组（尤其是冷启动长尾组）上全面优于 SASRec（Sec. 3.4.3，Table 2，Fig. 4）。 |
+| 局限 | 若跳过目标领域的码嵌入表微调而直接零样本评估预训练编码器，下游推荐精度会大幅下滑（Sec. 3.3，Table 3）。 |
 
 ---
 
 ### 1. 为什么重要
 
-可迁移推荐器用预训练语言模型（PLM）编码物品文本，把编码直接当作物品表示（Abstract）。作者认为，这种紧绑定过于强调文本特征，放大了领域差异的影响（Abstract，Sec. 4）。VQ-Rec 在文本和表示之间插入离散码：物品文本先映射成一个离散索引向量，即物品码，再用这个码到嵌入表里查出物品表示（Sec. 2.1）。VQ-Rec 是判别式序列推荐器，不是生成式的；后来的语义 ID（Semantic ID，SID）论文沿用了它的编码方案。
+直接将预训练语言模型（PLM）的连续文本向量送入可迁移序列推荐器，会使表征过度耦合表面文本风格并放大跨领域分布差异（Abstract，Sec. 4）。VQ-Rec 在文本编码与序列编码器之间插入优化乘积量化（`OPQ`）离散物品码，通过查表池化配合双向编码器完成全库判别打分（`Scoring`），其并行子空间离散编码机制被后续众多语义 ID（Semantic ID，SID）生成模型沿用（Sec. 2.1）。
 
 ---
 
@@ -50,45 +59,42 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("物品文本") --> B["固定的 BERT"]
-    B --> C["OPQ"]
-    C --> D("物品码")
-    D --> E["查码嵌入 + 取平均"]:::key
-    E --> F["Transformer 编码器"]
-    L1{{"对比：半合成负例 + 混合领域负例"}} -.-> F
-    F --> G("物品分数")
+    subgraph Pre["多源域对比预训练"]
+        A("源领域物品文本") --> B["冻结 BERT 编码器"]
+        B --> C["OPQ 正交子空间量化（Eq. 2）"]
+        C --> D("离散多子空间物品码")
+        D --> E["按位查独立码嵌入表 + 均值池化（Eq. 3）"]:::key
+        E --> F["双向 Transformer 序列编码器"]
+        N("半合成扰动码负例 + 批内跨域混合负例") --> L1{{"下一物品对比学习损失"}}
+        L1 -.-> E & F
+    end
+    subgraph Adapt["目标域轻量适配（冻结 Transformer）"]
+        T("新领域文本 -> BERT") --> NPQ["重拟合目标域 OPQ 聚类中心"]
+        NPQ --> Perm["可微置换矩阵对齐预训练码嵌入"]:::key
+        Perm --> FT["仅微调置换后的码嵌入表 -> 全库内积打分"]
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 文本到码
 
-固定的 BERT 编码器嵌入物品文本，优化乘积量化（OPQ）把嵌入切成若干子空间，在每个子空间里独立分配一个索引（Sec. 2.2.1，Eq. 2）。PQ 中心从所有训练领域的文本编码中学得。
+冻结的 BERT 提取物品文本向量后，优化乘积量化（OPQ）将向量切分为多个正交子空间，在每个子空间内独立分配聚类中心索引（Sec. 2.2.1，Eq. 2），初始中心在全部源域文本上联合学得。
 
 #### 码到表示
 
-码的每一位有自己的码嵌入表，物品表示是查出的各嵌入的平均（Sec. 2.2.2，Eq. 3）。码嵌入和 PQ 中心是两套独立的参数。
+每个码位维护一张与 OPQ 聚类中心解耦的可学习码嵌入表，查出各子空间码嵌入后取均值即得物品表征（Sec. 2.2.2，Eq. 3）。
 
 #### 对比预训练
 
-Transformer 编码物品表示组成的序列（Sec. 2.3.1）。真实的下一物品是正例。半合成负例随机替换物品码的一部分，混合领域负例是同批的其他物品（Sec. 2.3）。预训练更新码嵌入和 Transformer；BERT 固定，PQ 事先算好（Sec. 2.4）。
+Transformer 序列编码器编码历史物品表征序列，以真实下一物品为正例，结合随机替换部分码位的半合成负例与同批跨领域负例做对比预训练（Sec. 2.3，Sec. 2.3.1）；预训练期间 BERT 与 OPQ 索引固定，联合更新码嵌入表与 Transformer（Sec. 2.4）。
 
 #### 跨域微调
 
-到新领域时，VQ-Rec 重新训练 PQ 中心，用可微的置换网络把它们和已有的码嵌入对齐，再微调置换后的嵌入表（Sec. 2.4.1）。
+迁移至新领域时，VQ-Rec 重新拟合目标域 OPQ 中心，用可微置换网络将其与已有码嵌入表对齐，随后冻结跨领域共享的 Transformer 编码器、仅微调置换后的码嵌入表（Sec. 2.4，Sec. 2.4.1）。同一领域内新上架物品只需编码文本并查表即可获得表征，无需重新训练（Sec. 2.4.2）。
 
-> "During fine-tuning, we fix the Transformer sequence encoder (transferred across different domains), and only optimize the parameters involved in item representations, enabling parameter-efficient fine-tuning."（Sec. 2.4）（微调时固定跨领域迁移的 Transformer，只优化物品表示相关的参数。）
+> "During fine-tuning, we fix the Transformer sequence encoder (transferred across different domains), and only optimize the parameters involved in item representations, enabling parameter-efficient fine-tuning."（Sec. 2.4）
 
-已知领域里出现新物品时不需要重训。
-
-> "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup."（Sec. 2.4.2）（新物品的文本编码成离散索引，查嵌入表即得表示。）
-
-```mermaid
-flowchart LR
-    A("新领域文本") --> B["重训 PQ 中心"]
-    B --> C["可微置换，对齐旧码嵌入"]:::key
-    C --> D["微调置换后的嵌入表，Transformer 固定"]
-    classDef key fill:#eaf2fb,stroke:#6b8fc7
-```
+> "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup."（Sec. 2.4.2）
 
 ---
 
@@ -114,11 +120,11 @@ flowchart LR
 
 </details>
 
-- 主实验：在跨领域和跨平台设置下，VQ-Rec 在六个下游数据集上都是最好或第二好（Table 2）。
-- 消融：不微调预训练模型，效果大幅下降；去掉预训练，所有测试数据集上的结果也都下降（Sec. 3.3，Table 3）。
-- 热度分组：在每个物品热度分组中，VQ-Rec 都好于 SASRec（Sec. 3.4.3，Fig. 4）。
+- 跨域与跨平台迁移：在六个 Amazon 与 Online Retail 下游数据集上，VQ-Rec 相比基于 ID、基于文本及既有可迁移序列推荐基线全部取得最优或次优表现（Table 2）。
+- 预训练与微调消融：省去下游码表微调会导致性能骤降；去掉多源域预训练在全部六个测试集上同样造成一致退化（Sec. 3.3，Table 3）。
+- 热度分组分析：在按交互频次划分的所有物品热度组中，VQ-Rec 均优于 SASRec，在低频冷启动组优势最大（Sec. 3.4.3，Fig. 4）。
 
-  > "VQ-Rec has better performance than SASRec in all groups, especially in cold-start groups."（Sec. 3.4.3）（各组都好于 SASRec，冷启动组尤其明显。）
+  > "VQ-Rec has better performance than SASRec in all groups, especially in cold-start groups."（Sec. 3.4.3）
 
 ---
 
@@ -126,8 +132,8 @@ flowchart LR
 
 **Our analysis.**
 
-- ActionPiece 从同类的 `OPQ` 码出发，但把码合并成依赖上下文的 token，用 `Enc-Dec` 生成器生成；VQ-Rec 用 `Encoder` 给物品打分（`Scoring`）。
-- UTGRec 也面向多领域迁移（`Multi-Dom`），但用 `Tree` 编号器替代乘积量化，用 `Beam` 解码。
+- ActionPiece 与 RPG 同样建立在无序 `OPQ` 子空间码之上：ActionPiece 合并共现码片做 `Enc-Dec` 生成，RPG 在合法物品图上并行解码长 `OPQ` 码；VQ-Rec 则用 `Encoder` 对池化码嵌入做全库判别打分（`Scoring`）。
+- UTGRec 同样面向多领域迁移（`Multi-Dom`），但以树结构码本（`Tree`）与自回归 `Beam` 解码替代了 OPQ 查表打分。
 
 ---
 
@@ -136,16 +142,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["VQ-Rec"]
-    P -->|successor| A["ActionPiece"]
-    P -->|successor| B["LC-Rec"]
-    P -->|alternative| C["UTGRec"]
+    P -->|"后续工作"| A["ActionPiece"]
+    P -->|"后续工作"| B["LC-Rec"]
+    P -->|"替代方案"| C["UTGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **后续工作** · [ActionPiece](actionpiece.md): ActionPiece later follows VQ-Rec in quantizing sentence embeddings with OPQ into unordered codes and merges them into context-dependent tokens for generation.
-  - 出处：Evidence is from the later ActionPiece paper, Appendix F: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; VQ-Rec is a Table 4 baseline: https://arxiv.org/html/2502.13581v3#S3.T4.
+  - 出处：Evidence is from the later ActionPiece paper, Appendix F: [A6.I1.i3.p1](https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1); VQ-Rec is a Table 4 baseline: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4).
 - **后续工作** · [LC-Rec](lc-rec.md): LC-Rec later borrows VQ-Rec's idea of learned discrete indices for items and builds RQ indices for LLM tuning.
-  - 出处：Evidence is from the later LC-Rec paper, Section 3.2.1: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4.
+  - 出处：Evidence is from the later LC-Rec paper, Section 3.2.1: [S3.SS2.SSS1.p1](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1) and [S3.SS2.SSS1.p4](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4).
 - **替代方案** · [UTGRec](utgrec.md): UTGRec later compares against VQ-Rec for cross-domain transfer and replaces PQ codes with a universal tree tokenizer for generative recommendation.
-  - 出处：Evidence is from the later UTGRec paper: content-based baselines and Table 2: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11 and https://arxiv.org/html/2504.04405v3#S3.T2.
+  - 出处：Evidence is from the later UTGRec paper: content-based baselines and Table 2: [S3.SS1.SSS2.p11](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11) and [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2).
 
 [查看同格全部论文](../../../README.zh.md#vi--tokenization)

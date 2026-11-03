@@ -16,7 +16,6 @@ tokenizer: Joint
 objective: Discrim.
 inference: Scoring
 poi: false
-summary: 沿VQ-Rec/LGRID先例收录推荐用离散构码新设计；实际任务为CTR，非逐码生成SID。
 tldr: PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively
   with collaborative signals for CTR prediction on multiple-category apps.
 tldr_zh: PCR-CA 不同于层级 RQ-VAE，学习应用文本的并行码本表示，并通过对比学习将它与协同信号对齐，用于多类目应用的点击率预测。

@@ -1,22 +1,28 @@
 # LLaDA-Rec
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/llada-rec.md)
+
 | **Title** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Shi et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/llada-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Par. VQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Diff."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Par. VQ`: Parallel multi-codebook vector quantization without sequential residual dependency.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
@@ -36,13 +42,14 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level masking, and an adapted beam search, instead of left-to-right autoregressive decoding. |
 | Modified Stage | Backbone |
+| Key Findings | On Amazon Industrial Scientific, Musical Instruments, and Video Games, LLaDA-Rec outperforms ID-based, diffusion, and autoregressive SID baselines, with adaptive-order unmasking beating fixed left-to-right decoding (Table 3, Sec. 5.4.2, Fig. 4). |
 | Limitation | Fewer diffusion steps improve generation efficiency but lower recommendation performance, and the authors leave a better trade-off as an open question (Sec. 5.4.3, Fig. 5). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Autoregressive generative recommenders decode a Semantic ID (SID) one token at a time with causal attention. The authors name two limitations of this setup: each token attends only to its predecessors, and errors in early tokens propagate through the fixed left-to-right order (Abstract). LLaDA-Rec replaces left-to-right decoding with discrete diffusion over all SID positions.
+Autoregressive generative recommenders decode a Semantic ID (SID) one token at a time under causal attention, which restricts each token to attend only to earlier positions and propagates early prediction errors along the fixed left-to-right order. LLaDA-Rec replaces causal left-to-right decoding with discrete masked diffusion and bidirectional attention over parallel SID tokens.
 
 > "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation." (Abstract)
 
@@ -54,39 +61,43 @@ Autoregressive generative recommenders decode a Semantic ID (SID) one token at a
 
 ```mermaid
 flowchart LR
-    A("Item text embedding") --> B["Multi-Head VQ-VAE"]
-    B --> C("Parallel SIDs")
-    C --> D["Mask predictor"]:::key
-    L1{{"User-history masking"}} -.-> D
-    L2{{"Next-item masking"}} -.-> D
-    D --> E["Adapted beam search"]
-    E --> F("Next item")
+    subgraph TOK["Stage 1: Parallel VQ Tokenization"]
+        A("Sentence-T5 item text embedding") --> B["Split into 4 sub-vectors"]
+        B --> C["Multi-Head VQ-VAE (4 heads × 256 codes, 32-dim)"]
+        C --> D("4-token parallel SID")
+    end
+    subgraph DIFF["Stage 2: Bidirectional Discrete Diffusion"]
+        D --> E["Bidirectional Transformer mask predictor"]:::key
+        L1{{"User-history item-level masking"}} -.-> E
+        L2{{"Next-item token-level masking"}} -.-> E
+        E --> F["Adapted diffusion beam search"]:::key
+        F --> G("Top-K next items")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Parallel Tokenization
 
-A Multi-Head VQ-VAE splits the item's text embedding into sub-vectors and quantizes each sub-vector independently, one head per SID position (Sec. 4.1). The authors use this scheme because residual quantization does not match a bidirectional architecture (Abstract).
+Instead of coarse-to-fine residual quantization—which imposes a sequential hierarchy mismatched to bidirectional attention—a Multi-Head VQ-VAE splits each item's Sentence-T5 text embedding into 4 sub-vectors and quantizes each sub-vector independently with its own codebook of 256 codewords (dimension 32), assigning one head per SID slot (Sec. 4.1, Sec. 5.1.4).
 
 #### Masked Training
 
-Training uses two masking mechanisms (Abstract). User-history masking captures sequential dependencies between items. Next-item masking masks tokens of the target item's SID while the user history stays visible, so the predictor learns relationships between tokens of the same item (Sec. 4.2.3).
+A bidirectional Transformer mask predictor (4 layers on Scientific and Instrument; 6 layers on Game) is trained with two complementary masking schemes: user-history item-level masking masks entire historical items to capture sequential transitions across items, while next-item token-level masking masks subsets of the target item's 4 SID tokens with the user history visible, teaching the predictor intra-item token co-occurrence (Sec. 4.2.3).
 
 #### Adaptive-Order Decoding
 
-Inference starts from a fully masked SID and fills it over several steps (Sec. 4.3.4). At each step the model selects positions to keep and remasks the rest.
+Inference starts at step $`t = 0`$ with all 4 target SID positions masked and unmasks them over a configurable number of steps (Sec. 4.3.4, Sec. 4.4.2). At each step, the predictor scores all masked slots in parallel, keeps the highest-confidence positions, and remasks the remaining slots for re-evaluation in the next step; an adapted beam search tracks multiple candidate trajectories across unmasking steps (Sec. 4.3.3–4.3.4).
 
 > "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence." (Sec. 4.3.4)
 
-The number of steps is controllable, and each step can predict several tokens (Sec. 4.4.2). An adapted beam search keeps several candidates during this process, because standard beam search does not fit diffusion-based generation (Abstract).
-
 ```mermaid
 flowchart LR
-    S0("All positions masked") --> P["Predict all masked positions"]
-    P --> K["Keep selected positions"]:::key
-    K --> R["Remask the rest"]
-    R -->|next step| P
-    K --> D("Full SID after the last step")
+    S0("Step t = 0: all 4 SID slots masked") --> P["Bidirectional predictor scores all masked slots"]
+    P --> K["Select highest-confidence positions & expand beams"]:::key
+    K --> C{"All 4 slots unmasked?"}
+    C -->|"No"| R["Remask remaining slots"]
+    R -->|"next step"| P
+    C -->|"Yes"| D("Complete 4-token SID")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -114,8 +125,9 @@ flowchart LR
 
 </details>
 
-- Main comparison: LLaDA-Rec outperforms ID-based and generative recommenders on three real-world datasets (Abstract).
-- Generation order: the adaptive order performs best, and left-to-right sometimes performs worst (Sec. 5.4.2, Fig. 4).
+- Main comparison: across Amazon Industrial Scientific, Musical Instruments, and Video Games, LLaDA-Rec outperforms item-ID, continuous diffusion, and autoregressive SID baselines (including TIGER, LETTER, LC-Rec, RPG, and VQ-Rec) on Recall@1/5/10 and NDCG@5/10, with statistically significant improvements under paired t-tests (Table 3).
+- Ablations on tokenization and attention: replacing Multi-Head VQ-VAE with hierarchical RQ-VAE, replacing adapted beam search with greedy decoding, or replacing bidirectional attention with causal attention all lower accuracy (Table 4, Fig. 3).
+- Unmasking order: adaptive confidence-based unmasking consistently outperforms random and fixed orders, whereas fixed left-to-right decoding occasionally yields the lowest accuracy (Sec. 5.4.2, Fig. 4).
 
   > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme." (Sec. 5.4.2)
 
@@ -125,8 +137,8 @@ flowchart LR
 
 **Our analysis.**
 
-- The tokenizer is trained once and kept fixed (`Fixed`), and it encodes item text only (`Text`). This suggests that collaborative signals enter only through the generator.
-- RPG also generates parallel codes with a `Non-AR` generator; RPG uses `Par. OPQ` codes and `Graph` decoding, while LLaDA-Rec uses `Par. VQ` codes and `Diff.` decoding.
+- The Multi-Head VQ-VAE tokenizer is trained once on item text embeddings and held fixed (`Fixed`, `Text`), which suggests that collaborative filtering signals enter only through the bidirectional diffusion generator rather than the SID assignment itself.
+- RPG also predicts unordered parallel codes with a `Non-AR` backbone; RPG uses `Par. OPQ` codes and single-pass `Graph`-constrained decoding, whereas LLaDA-Rec uses `Par. VQ` codes and multi-step iterative `Diff.` unmasking.
 
 ---
 
@@ -135,22 +147,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LLaDA-Rec"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["LC-Rec"]
-    P -->|competitor| E["VQ-Rec"]
+    P -->|"competitor"| A["RPG"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["LC-Rec"]
+    P -->|"competitor"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [RPG](rpg.md): RPG predicts long unordered OPQ codes in parallel with multi-token prediction; LLaDA-Rec generates parallel VQ codes by discrete diffusion with an adapted beam search.
-  - Source: LLaDA-Rec v1, Table 1 comparison and semantic-ID baselines: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - Source: LLaDA-Rec v1, Table 1 comparison and semantic-ID baselines: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **Competitor** · [TIGER](tiger.md): TIGER generates hierarchical RQ-VAE codes left to right with causal attention; LLaDA-Rec uses bidirectional attention and fills code positions in any order.
-  - Source: LLaDA-Rec v1, Table 1 and baselines (TIGER and TIGER-SAS): https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - Source: LLaDA-Rec v1, Table 1 and baselines (TIGER and TIGER-SAS): [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **Competitor** · [LETTER](letter.md): LETTER improves a hierarchical tokenizer for left-to-right generation; LLaDA-Rec replaces the hierarchy with parallel codes suited to diffusion.
-  - Source: LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S4.T3.
+  - Source: LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to semantic IDs with auxiliary tasks and causal decoding; LLaDA-Rec trains a bidirectional masked predictor with history-level and item-level masking.
-  - Source: LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S4.T3.
+  - Source: LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized codes into an item representation for discriminative ranking; LLaDA-Rec generates parallel codes directly.
-  - Source: LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - Source: LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 
 [View all papers in this cell](../../README.md#iii--backbone)

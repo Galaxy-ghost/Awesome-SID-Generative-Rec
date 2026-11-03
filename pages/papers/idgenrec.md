@@ -1,22 +1,28 @@
 # IDGenRec
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/idgenrec.md)
+
 | **Title** | *Llm-recsys alignment with textual id learning* |
 | :-- | :-- |
 | **Authors** | Tan et al. |
 | **Venue** | SIGIR’24 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/idgenrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `LLM-Vocab`: Item identifiers composed directly from tokens in the language model vocabulary.
 - `Enc-Dec`: Encoder-decoder.
 - `Altern.`: Tokenizer and generator are updated in turns.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -36,13 +42,14 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language tokens, and tests zero-shot transfer to unseen platforms. |
 | Modified Stage | Tokenization |
-| Limitation | Item IDs change whenever the ID generator is updated, so the prefix tree of valid IDs must be rebuilt during training (Sec. 2.4). |
+| Key Findings | Pre-trained on a 19-dataset corpus and evaluated zero-shot on 6 unseen datasets across platforms, IDGenRec matches or surpasses supervised traditional recommenders while outperforming sequential baselines in standard evaluation (Abstract, Tables 4 and 7). |
+| Limitation | Updating the textual ID generator changes item IDs across the catalog, requiring periodic prefix-tree reconstruction during alternating training (Sec. 2.4). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-The authors state that generative recommendation struggles to encode items in the text-to-text framework with concise yet meaningful IDs (Abstract). Because IDGenRec's IDs are plain words, user histories become platform-agnostic text, which opens zero-shot transfer (Abstract).
+Out-of-vocabulary numeric codebooks tie a generative recommender to a single catalog, whereas raw item titles are long and noisy (Abstract). IDGenRec trains a T5 ID generator to compress item metadata into short, unique natural-language token sequences (`LLM-Vocab`), turning user histories into platform-agnostic text that transfers zero-shot across domains.
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
 
@@ -54,40 +61,37 @@ The authors state that generative recommendation struggles to encode items in th
 
 ```mermaid
 flowchart LR
-    A("Plain-text item information") --> B["T5 ID generator"]:::key
-    B --> C("Textual IDs")
-    C --> D["T5 base recommender"]
-    D --> E["Prefix tree of all IDs"]
-    E --> F("Item")
-    D -.->|alternate training| B
+    subgraph Uniq["Collision-Free Diverse Beam Decoding"]
+        A("Item metadata text") --> IG["T5 ID generator"]:::key
+        IG --> DB["Diverse beam search (penalty p)"]
+        DB --> Dup{"Duplicate ID?"}
+        Dup -->|no| UID("Unique natural-language ID")
+        Dup -->|yes| Pen["Raise penalty p + 1"]
+        Pen --> Lim{"p reached 10?"}
+        Lim -->|no| DB
+        Lim -->|yes| Ext["Extend token length cap"] --> DB
+    end
+    UID --> Trie["Catalog prefix tree"]
+    UID --> Rec["T5 base recommender"]
+    Trie --> CDec["Prefix-constrained decoding"]
+    Rec --> CDec --> Out("Target item")
+    Rec -.->|asynchronous alternating loop| IG
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID Generator
 
-The generator reads plain-text item information, such as title, category, price, description, creation time, popularity, and location (Sec. 2.2). T5 is the backbone of both models (Sec. 2.6).
+Both the ID generator and the base recommender use T5 backbones (Sec. 2.6). The ID generator reads plain-text item metadata—title, category, price, description, creation time, popularity, and location—and decodes concise word-piece identifiers from the native vocabulary (Sec. 2.2).
 
 #### Unique ID Generation
 
-The generator keeps generating until each item has a unique ID (Sec. 2.3).
+Diverse beam search enforces strict catalog uniqueness at generation time: whenever a candidate ID collides with an existing item, the diversity penalty increments by 1 up to 10, after which the maximum token length is extended until a unique ID emerges (Sec. 2.3, Sec. 3.2).
 
 > "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search." (Sec. 2.3)
 
-The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
-
-```mermaid
-flowchart LR
-    A["Generate IDs by beam search"] --> B{"Duplicates?"}
-    B -->|no| C("Unique IDs")
-    B -->|yes| D["Diversity penalty + 1"]
-    D --> E{"Penalty reached 10?"}
-    E -->|no| A
-    E -->|yes| F["Extend length limit"] --> A
-```
-
 #### Base Recommender
 
-The base recommender decodes the target ID under a prefix-tree constraint (Sec. 2.4).
+The base T5 recommender formats user histories as sequences of textual item IDs and decodes the next item's ID over a prefix tree storing all valid catalog identifiers, alternating updates asynchronously with the ID generator (Sec. 1, Sec. 2.4).
 
 > "To ensure that the decoded ID corresponds to an actual existing item, we adopt a constrained sequence decoding strategy (De Cao et al., 2020). More specifically, a prefix tree is used to store all generated candidate IDs." (Sec. 2.4)
 
@@ -115,8 +119,8 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 
 </details>
 
-- Standard setting: IDGenRec reports better performance than existing models in sequential recommendation (Abstract).
-- Zero-shot setting: a model trained on 19 datasets and tested on 6 unseen datasets from other platforms performs comparably to or better than some supervised traditional recommenders (Abstract).
+- Standard sequential setting: IDGenRec outperforms traditional and P5-family sequential baselines on standard benchmarks (Abstract, Table 4).
+- Zero-shot cross-platform transfer: trained once on 19 datasets and tested directly on 6 unseen datasets including cross-platform benchmarks, IDGenRec matches or outperforms supervised traditional recommenders trained in-domain (Abstract, Table 7).
 
 ---
 
@@ -124,8 +128,8 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 
 **Our analysis.**
 
-- Unique IDs come from raising the diversity penalty and the length limit. This suggests that IDs of similar items can be pushed apart by arbitrary words.
-- CID builds `Spectral Clus.` IDs from `CF` signals and keeps them fixed; IDGenRec builds `LLM-Vocab` IDs from text and updates them.
+- Enforcing uniqueness by raising beam diversity penalties and extending token length suggests that dense clusters of similar items receive increasingly divergent surface words in later iterations.
+- CID constructs fixed `Spectral Clus.` numeric IDs from `CF` graphs; IDGenRec generates `LLM-Vocab` natural-language IDs from item text and updates them in alternation (`Altern.`).
 
 ---
 
@@ -134,19 +138,23 @@ The base recommender decodes the target ID under a prefix-tree constraint (Sec. 
 ```mermaid
 flowchart LR
     P["IDGenRec"]
-    P -->|competitor| A["CID"]
-    P -->|alternative| B["GRAM"]
-    P -->|alternative| C["GRLM"]
-    P -->|alternative| D["GMC"]
+    P -->|"competitor"| A["CID"]
+    P -->|"alternative"| B["GRAM"]
+    P -->|"alternative"| C["GRLM"]
+    P -->|"alternative"| D["GMC"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [CID](cid.md): P5-SID, P5-CID, and P5-SemID assign sequential, collaborative, or category IDs; IDGenRec learns a textual ID generator jointly with the recommender.
-  - Source: IDGenRec v2, baselines: https://arxiv.org/html/2403.19021v2#S3.I1.i2.p1; Table 4: https://arxiv.org/html/2403.19021v2#S3.T4.
+  - Source: IDGenRec v2, baselines: [S3.I1.i2.p1](https://arxiv.org/html/2403.19021v2#S3.I1.i2.p1); Table 4: [S3.T4](https://arxiv.org/html/2403.19021v2#S3.T4).
 - **Alternative** · [GRAM](gram.md): GRAM later builds hierarchical textual IDs by clustering and reports that IDGenRec's user IDs concatenate validation and test items; it reruns IDGenRec without user IDs.
-  - Source: Evidence is from the later GRAM paper: Table 9 and Appendix E: https://arxiv.org/html/2506.01673v1#A4.T9 and https://arxiv.org/html/2506.01673v1#A5.p3; Table 2: https://arxiv.org/html/2506.01673v1#S4.T2.
+  - Source: Evidence is from the later GRAM paper: Table 9 and Appendix E: [A4.T9](https://arxiv.org/html/2506.01673v1#A4.T9) and [A5.p3](https://arxiv.org/html/2506.01673v1#A5.p3); Table 2: [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2).
 - **Alternative** · [GRLM](grlm.md): GRLM later replaces free textual IDs with a fixed number of standardized vocabulary terms to reduce synonym ambiguity.
-  - Source: Evidence is from the later GRLM paper: baselines and Table 2: https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1 and https://arxiv.org/html/2601.06798v1#S5.T2; case study: https://arxiv.org/html/2601.06798v1#A3.p1.
+  - Source: Evidence is from the later GRLM paper: baselines and Table 2: [S4.I1.i3.p1](https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1) and [S5.T2](https://arxiv.org/html/2601.06798v1#S5.T2); case study: [A3.p1](https://arxiv.org/html/2601.06798v1#A3.p1).
 - **Alternative** · [GMC](gmc.md): GMC later compares against IDGenRec in a multi-domain setting with codebook IDs shared across domains.
-  - Source: Evidence is from the later GMC paper: generative baselines and Table 3: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i3.p1 and https://arxiv.org/html/2507.12871v3#S5.T3.
+  - Source: Evidence is from the later GMC paper: generative baselines and Table 3: [S5.I1.i4.I1.i3.p1](https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i3.p1) and [S5.T3](https://arxiv.org/html/2507.12871v3#S5.T3).
 
 [View all papers in this cell](../../README.md#iii--tokenization)

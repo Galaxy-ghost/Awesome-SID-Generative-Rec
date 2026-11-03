@@ -1,25 +1,32 @@
 # SPRINT
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sprint.md)
+
 | **Title** | *Single-Step Generative Recommendation via Average Probability Velocity* |
 | :-- | :-- |
 | **Authors** | Cai et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.34306) · [Code](https://github.com/iamZhuoCai/SPRINT) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/sprint.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.34306) · [Code](https://github.com/iamZhuoCai/SPRINT) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Dual-level Flow Ctr."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Dual-level Flow Ctr.`: Contrastive training at token and complete-identifier levels in a flow-based model.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPRINT"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["LLaDA-Rec"]
-    P -->|competitor| C["SID-MLP"]
+    P -->|"competitor"| A["RPG"]
+    P -->|"competitor"| B["LLaDA-Rec"]
+    P -->|"competitor"| C["SID-MLP"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [RPG](rpg.md): RPG is the compared single-step baseline with longer SIDs.
-  - Source: SPRINT v1, Sec.1 and Sec.4.2: https://arxiv.org/html/2609.34306v1#S1.p2; https://arxiv.org/html/2609.34306v1#S4.SS2.p2.
+  - Source: SPRINT v1, Sec.1 and Sec.4.2: [S1.p2](https://arxiv.org/html/2609.34306v1#S1.p2); [S4.SS2.p2](https://arxiv.org/html/2609.34306v1#S4.SS2.p2).
 - **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is compared under one-step and four-step generation.
-  - Source: SPRINT v1, Table1 and Sec.4.1: https://arxiv.org/html/2609.34306v1#S1.T1; https://arxiv.org/html/2609.34306v1#S4.SS1.p2.
+  - Source: SPRINT v1, Table1 and Sec.4.1: [S1.T1](https://arxiv.org/html/2609.34306v1#S1.T1); [S4.SS1.p2](https://arxiv.org/html/2609.34306v1#S4.SS1.p2).
 - **Competitor** · [SID-MLP](sid-mlp.md): SID-MLP is the closest compared efficiency-oriented baseline.
-  - Source: SPRINT v1, Appendix D.6: https://arxiv.org/html/2609.34306v1#A4.SS6.p2; https://arxiv.org/html/2609.34306v1#A4.T10.
+  - Source: SPRINT v1, Appendix D.6: [A4.SS6.p2](https://arxiv.org/html/2609.34306v1#A4.SS6.p2); [A4.T10](https://arxiv.org/html/2609.34306v1#A4.T10).
 
 [View all papers in this cell](../../README.md#v--backbone)

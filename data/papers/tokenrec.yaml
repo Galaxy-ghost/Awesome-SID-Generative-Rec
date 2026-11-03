@@ -16,9 +16,6 @@ tokenizer: Fixed
 objective: Discrim.
 inference: Scoring
 poi: false
-summary: 'Abstract: "challenges remain in efficiently capturing high-order collaborative knowledge into discrete tokens";
-  "difficulties in generalizing effectively to new/unseen users or items". Candidates: I / VI / V (rule: tie broken by the
-  first new design).'
 tldr: TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items
   without autoregressive decoding or beam search, to generalize to new users and items.
 tldr_zh: TokenRec 将掩码协同用户与物品表示量化为离散 token，无需自回归解码或束搜索即可检索 top-K 物品，并泛化到新用户与新物品。

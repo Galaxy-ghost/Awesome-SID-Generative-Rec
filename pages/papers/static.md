@@ -1,23 +1,27 @@
 # STATIC
 
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/static.md)
+
 | **Title** | *Vectorizing the Trie: Efficient Constrained Decoding for LLM-based Generative Retrieval on Accelerators* |
 | :-- | :-- |
 | **Authors** | Su et al. |
 | **Venue** | KDD’26 ADS |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/static.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Vec. C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `–`: Not reported in the paper.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["STATIC"]
-    P -->|predecessor| A["PLUM"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["LIGER"]
+    P -->|"predecessor"| A["PLUM"]
+    P -->|"predecessor"| B["TIGER"]
+    P -->|"alternative"| C["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [PLUM](plum.md): STATIC adds production decoding constraints to a PLUM-based YouTube retriever.
-  - Source: STATIC v3, Sections 5.1/5.4: https://arxiv.org/html/2602.22647v3#S5.SS1.p2; https://arxiv.org/html/2602.22647v3#S5.SS4.p1.
+  - Source: STATIC v3, Sections 5.1/5.4: [S5.SS1.p2](https://arxiv.org/html/2602.22647v3#S5.SS1.p2); [S5.SS4.p1](https://arxiv.org/html/2602.22647v3#S5.SS4.p1).
 - **Predecessor** · [TIGER](tiger.md): STATIC retains hierarchical SID retrieval and accelerates validity masking.
-  - Source: STATIC v3, Sections 2.1/6.1: https://arxiv.org/html/2602.22647v3#S2.SS1.p2; https://arxiv.org/html/2602.22647v3#S6.SS1.p1.
+  - Source: STATIC v3, Sections 2.1/6.1: [S2.SS1.p2](https://arxiv.org/html/2602.22647v3#S2.SS1.p2); [S6.SS1.p1](https://arxiv.org/html/2602.22647v3#S6.SS1.p1).
 - **Alternative** · [LIGER](liger.md): LIGER motivates the cold-start limitation; STATIC restricts decoding to cold items.
-  - Source: STATIC v3, Section 2.1 (Yang et al., 2024) and Section 6: https://arxiv.org/html/2602.22647v3#S2.SS1.p3; https://arxiv.org/html/2602.22647v3#S6.SS2.p1.
+  - Source: STATIC v3, Section 2.1 (Yang et al., 2024) and Section 6: [S2.SS1.p3](https://arxiv.org/html/2602.22647v3#S2.SS1.p3); [S6.SS2.p1](https://arxiv.org/html/2602.22647v3#S6.SS2.p1).
 
 [View all papers in this cell](../../README.md#v--inference)

@@ -1,25 +1,32 @@
 # CausalDPO
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/causaldpo.md) | 中文
+
 | **题目** | *Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhao et al. |
-| **会议** | ICML’26 |
-| **问题与阶段** | `VI. 泛化` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2603.22335) · [代码](https://github.com/user683/CausalDPO) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/causaldpo.md) |
+| **发表** | ICML’26 |
+| **问题与阶段** | `VI. 泛化` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2603.22335) · [代码](https://github.com/user683/CausalDPO) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>LLM-Vocab"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → DPO`: NTP, then preference optimization.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `LLM-Vocab`：直接从大语言模型原生词表 token 组合出的物品标识符。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | CausalDPO 为基于 LLM 的推荐扩展 DPO，加入后门调整、隐环境软聚类与不变性约束，消除分布偏移下被 DPO 放大的虚假相关。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -67,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CausalDPO"]
-    P -->|alternative| A["OneRec"]
+    P -->|"替代方案"| A["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **替代方案** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
-  - 出处：CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: https://arxiv.org/html/2603.22335v2#S4.p2; not a baseline in Table 1.
+  - 出处：CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: [S4.p2](https://arxiv.org/html/2603.22335v2#S4.p2); not a baseline in Table 1.
 
 [查看同格全部论文](../../../README.zh.md#vi--training)

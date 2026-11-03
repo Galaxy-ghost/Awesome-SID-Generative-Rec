@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Masked
 inference: Diff.+Beam
 poi: false
-summary: OPQ 离散 SID + 双向掩码扩散 + 完整 SID 候选映射构成新方法。
 tldr: MDGR uses a parallel codebook, adaptive masking along time and samples, and warm-up two-stage parallel decoding for
   masked diffusion recommendation, instead of fixed-order autoregressive Semantic ID decoding.
 tldr_zh: MDGR 采用并行码本、沿时间步与样本自适应的掩码策略以及预热两阶段并行解码做掩码扩散推荐，替代固定顺序的自回归 SID 解码。

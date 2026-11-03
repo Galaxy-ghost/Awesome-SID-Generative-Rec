@@ -1,26 +1,34 @@
 # OneLoc
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/oneloc.md)
+
 | **Title** | *Geo-Aware Generative Recommender Systems for Local Life Service* |
 | :-- | :-- |
 | **Authors** | Wei et al. |
 | **Venue** | arXiv’25 |
-| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.14646) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/oneloc.md) |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` — Also: `I. Informativeness` × `Backbone`; `IV. Utility` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.14646) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+Geo†"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
+- `Text+Img+Geo†`: Text, image, and geographic representations (inferred).
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -43,7 +51,7 @@ flowchart LR
 
 ### 1. Why This Paper Matters
 
-In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location (Abstract). The authors state that end-to-end generative recommenders such as OneRec had not yet been built for this setting (Abstract).
+In Kuaishou's local-life service, each recommended video is linked to a store location, so a recommendation must match both the user's interest and the user's real-time location. Earlier end-to-end generative recommenders such as OneRec do not model geographic proximity or multi-objective local-service rewards (Abstract).
 
 > "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives." (Abstract)
 
@@ -57,14 +65,15 @@ In Kuaishou's local-life service, each recommended video is linked to a store lo
 
 ```mermaid
 flowchart LR
-    A("Video + location") --> B["Multimodal LLM"]
-    B --> C["Residual k-means"]
-    C --> D("Geo-aware SID")
-    D --> E["GA-Attn encoder"]:::key
-    E --> F["Decoder with neighbor-aware prompt"]:::key
-    L1{{"NTP loss"}} -.-> F
-    L2{{"DPO on geo + GMV rewards"}} -.-> F
-    F --> G("Next video")
+    A("Video v + GeoHash context l") --> B["Multimodal LLM r0"]
+    B --> C["3-level residual k-means (Nc centroids)"]
+    C --> D("Geo-aware SID (q1, q2, q3)")
+    U("Watch / click / purchase Z + Elc") --> E["GA-Attn encoder (loc similarity + gate gi)"]:::key
+    N8("Real-time lu + 8 neighbors Es") --> P["Cross-attn prompt es"]:::key
+    D & E & P --> F["Causal + cross-attn decoder"]:::key
+    L1{{"L_ntp over 3 tokens"}} -.-> F
+    L2{{"Iterative DPO: R_geo + R_gmv"}} -.-> F
+    F --> G("Next local-life video")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -111,7 +120,7 @@ Each encoder block applies GA-Attn and a feed-forward network, both with RMSNorm
 
 #### Step 3: Neighbor-Aware Prompt and Next-Token Prediction
 
-The decoder starts from a prompt that summarizes the area around the user.
+The decoder starts from a prompt that summarizes the brands, categories, and popular items in the area surrounding the user.
 
 > "In local life service, it is vital to model location contexts surrounding the user, such as surrounding brands, bestselling products, etc. Thus, we use cross-attention to capture the surrounding information." (Sec. 2.4.1)
 
@@ -125,7 +134,7 @@ where $`H^{K}_{j-1}`$ is the last-layer decoder output at position $`j-1`$, and 
 
 #### Step 4: Geographic and GMV Rewards with DPO
 
-Next-token prediction only fits the videos that the previous system exposed (Sec. 2.5). OneLoc therefore defines two rewards. The geographic reward is the inverse distance within a threshold (Eq. 22), and the GMV reward is the output of a GMV scoring model (Eq. 23):
+Next-token prediction only fits the videos that the previous system exposed (Sec. 2.5). OneLoc therefore defines two rewards. The geographic reward is the inverse distance within a threshold $`D`$ (Eq. 22), and the GMV reward is the output of a GMV scoring model (Eq. 23):
 
 ```math
 R^{geo}(v, l_u) = \begin{cases} 0 & \text{if } \mathrm{Dis}(v, l_u) \gt D, \\ 1 / \mathrm{Dis}(v, l_u) & \text{otherwise}, \end{cases} \qquad R^{gmv}(v, S, l_u) = \mathrm{GMV}(v, S, l_u)
@@ -144,7 +153,7 @@ where:
 - the previous iterate $`\theta_i`$ serves as the reference model;
 - $`\sigma`$ is the sigmoid function, and $`\lambda = 0.05`$ (Sec. 4.1.4).
 
-Eq. 25 in v1 is printed without $`\sigma`$; the form above follows standard DPO.
+Eq. 25 in the arXiv v1 preprint omits $`\sigma`$; the expression above writes out the standard DPO logistic loss.
 
 ```python
 import torch
@@ -173,12 +182,12 @@ Simplifications: The code shows one attention head and leaves out RMSNorm, the f
 
 ```mermaid
 flowchart LR
-    M("Model θi") --> B["Beam search: N videos"]
-    B --> R["Geo + GMV rewards"]
-    R --> P("Highest = positive, lowest = negative")
-    P --> L{{"L = NTP + 0.05 DPO"}}:::key
-    L --> N("Model θi+1, reference θi")
-    N -->|next round| M
+    M("Reference iterate θi") --> B["Beam search: N candidate SIDs"]
+    B --> R["Score R_geo (1/Dis ≤ D) + R_gmv"]
+    R --> P("Preference pair: highest Qp vs. lowest Qn")
+    P --> L{{"Joint loss: L_ntp + 0.05 L_dpo"}}:::key
+    L --> N("Updated policy θi+1")
+    N -->|"advance reference"| M
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -206,7 +215,7 @@ flowchart LR
 
 </details>
 
-- Foursquare: OneLoc outperforms the baselines in Table 1, which include TIGER and GNPR-SID, on the NYC and Tokyo subsets (Table 1).
+- Foursquare: OneLoc outperforms all baselines in Table 1, including TIGER and GNPR-SID, on both the NYC and Tokyo subsets as well as the global dataset (Table 1).
 
   > "Similarly, on the Foursquare global dataset, it attains an average performance boost of 13.18% in Recall@5 and 16.34% in NDCG@5." (Sec. 4.2)
 
@@ -214,7 +223,7 @@ flowchart LR
 
   > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline" (Sec. 5)
 
-- Ablations: the study covers the neighbor-aware prompt, geo-aware self-attention, and the two rewards (Sec. 4.3, Fig. 4, Table 3, Fig. 5). It measures Recall and NDCG, and adds GMV for the rewards. The authors report lower scores for every ablated variant than for the full model.
+- Ablations: removing the neighbor-aware prompt, geo-aware self-attention, or either of the two rewards lowers Recall, NDCG, and GMV across all ablated variants compared with the full model (Sec. 4.3, Fig. 4, Table 3, Fig. 5).
 
 ---
 
@@ -234,16 +243,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneLoc"]
-    P -->|predecessor| A["OneRec"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["GNPR-SID"]
+    P -->|"predecessor"| A["OneRec"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["GNPR-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [OneRec](onerec.md): OneRec establishes unified generative retrieval and ranking with preference alignment, while OneLoc develops this direction for local-life video recommendation through geographic modeling and geographic/GMV rewards.
-  - Source: OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and preference alignment: https://arxiv.org/html/2508.14646v1#S6.SS2.p1; Section 2 describes OneLoc's geographic modules and rewards: https://arxiv.org/html/2508.14646v1#S2.p1.
+  - Source: OneLoc v1, Section 6.2 explicitly cites Deng et al. (2025), OneRec arXiv:2502.18965, for unified generation and preference alignment: [S6.SS2.p1](https://arxiv.org/html/2508.14646v1#S6.SS2.p1); Section 2 describes OneLoc's geographic modules and rewards: [S2.p1](https://arxiv.org/html/2508.14646v1#S2.p1).
 - **Competitor** · [TIGER](tiger.md): TIGER is an evaluated generative baseline using RQ-VAE identifiers; OneLoc uses geo-aware residual-K-means identifiers together with geographic sequence modeling and neighborhood prompts.
-  - Source: OneLoc v1, Section 4.1.2 identifies TIGER as a baseline: https://arxiv.org/html/2508.14646v1#S4.SS1.SSS2.p1; Table 1 reports its comparison with OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1; Sections 2 and 2.2 describe OneLoc's added geographic mechanisms: https://arxiv.org/html/2508.14646v1#S2.p1 and https://arxiv.org/html/2508.14646v1#S2.SS2.p1.
+  - Source: OneLoc v1, Section 4.1.2 identifies TIGER as a baseline: [S4.SS1.SSS2.p1](https://arxiv.org/html/2508.14646v1#S4.SS1.SSS2.p1); Table 1 reports its comparison with OneLoc: [S2.T1](https://arxiv.org/html/2508.14646v1#S2.T1); Sections 2 and 2.2 describe OneLoc's added geographic mechanisms: [S2.p1](https://arxiv.org/html/2508.14646v1#S2.p1) and [S2.SS2.p1](https://arxiv.org/html/2508.14646v1#S2.SS2.p1).
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is an evaluated next-POI baseline with geographic semantic identifiers; OneLoc extends geographic modeling into attention, neighborhood prompting, and rewards for local-life video consumption.
-  - Source: OneLoc v1, Section 1 explains the geographic-modeling difference: https://arxiv.org/html/2508.14646v1#S1.p2, https://arxiv.org/html/2508.14646v1#S1.p3, and https://arxiv.org/html/2508.14646v1#S1.p4; Table 1 directly compares GNPR-SID and OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1.
+  - Source: OneLoc v1, Section 1 explains the geographic-modeling difference: [S1.p2](https://arxiv.org/html/2508.14646v1#S1.p2), [S1.p3](https://arxiv.org/html/2508.14646v1#S1.p3), and [S1.p4](https://arxiv.org/html/2508.14646v1#S1.p4); Table 1 directly compares GNPR-SID and OneLoc: [S2.T1](https://arxiv.org/html/2508.14646v1#S2.T1).
 
 [View all papers in this cell](../../README.md#i--representation)

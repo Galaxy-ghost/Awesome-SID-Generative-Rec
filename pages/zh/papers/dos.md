@@ -1,25 +1,31 @@
 # DOS
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dos.md) | 中文
+
 | **题目** | *Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* |
 | :-- | :-- |
 | **作者** | Yin et al. |
-| **会议** | WWW’26 Short |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2602.04460) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/dos.md) |
+| **发表** | WWW’26 Short |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2602.04460) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Orth. RQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Orth. RQ"] --> B["骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>Fixed† / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Orth. RQ`: Orthogonal residual quantization.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Orth. RQ`：带正交约束的残差量化。
+- `Dec-Only†`：仅解码器自回归架构（由配置推断）。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -32,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | DOS 通过协同信号上的用户-物品双向流将 SID 码本与生成空间对齐，并用正交残差量化旋转语义空间。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DOS"]
-    P -->|competitor| A["DAS"]
-    P -->|alternative| B["TIGER"]
+    P -->|"同期对比"| A["DAS"]
+    P -->|"替代方案"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [DAS](das.md): Industrial SID baseline compared offline and within HSTU; DOS contrasts direct sequence-target modeling with DAS's indirect collaborative alignment.
-  - 出处：https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1 ; #S3.SS2.SSS2.p1
+  - 出处：[S3.SS2.SSS1.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1) ; #S3.SS2.SSS2.p1
 - **替代方案** · [TIGER](tiger.md): Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
-  - 出处：https://arxiv.org/html/2602.04460v1#S1.p2 (Rajput et al., 2023)
+  - 出处：[S1.p2](https://arxiv.org/html/2602.04460v1#S1.p2) (Rajput et al., 2023)
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

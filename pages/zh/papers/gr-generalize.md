@@ -1,27 +1,35 @@
 # GR-Generalize
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gr-generalize.md) | 中文
+
 | **题目** | *How Well Does Generative Recommendation Generalize?* |
 | :-- | :-- |
 | **作者** | Ding et al. |
-| **会议** | arXiv’26 |
+| **发表** | arXiv’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2603.19809) · [代码](https://github.com/Jamesding000/MemGen-GR) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/gr-generalize.md) |
+| **链接** | [论文](https://arxiv.org/abs/2603.19809) · [代码](https://github.com/Jamesding000/MemGen-GR) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>Hybrid"]
+    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP†"] --> I["推理 Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
-- `Enc-Dec`: Encoder-decoder.
+- `Text+SID`：稠密文本表征拼接离散语义 ID（稠密与生成式混合检索）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP†`：下一 token 预测损失（由配置推断）。
+- `Hybrid`：结合生成式 SID 解码与稠密/共现检索的混合召回。
 
 ### TL;DR
 
 > [!NOTE]
-> GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。
+> GR-Generalize 将测试样本划分为记忆型与泛化型子集，分别对比生成式模型与传统物品 ID 模型的表现，并按样本自适应集成二者。
 
 ---
 
@@ -29,8 +37,8 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| 核心贡献 | GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。 |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
+| 核心贡献 | GR-Generalize 将测试样本划分为记忆型与泛化型子集，分别对比生成式模型与传统物品 ID 模型的表现，并按样本自适应集成二者。 |
 | 主要改动阶段 | 无单一阶段 |
 
 ---
@@ -64,19 +72,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GR-Generalize"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LIGER"]
-    P -->|alternative| C["SpecGR"]
-    P -->|predecessor| D["ETEGRec"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["LIGER"]
+    P -->|"替代方案"| C["SpecGR"]
+    P -->|"前序工作"| D["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.
-  - 出处：GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: https://arxiv.org/html/2603.19809v1#S1.p6 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2; Table 1: https://arxiv.org/html/2603.19809v1#S2.T1.
+  - 出处：GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: [S1.p6](https://arxiv.org/html/2603.19809v1#S1.p6) and [S3.SS1.p2](https://arxiv.org/html/2603.19809v1#S3.SS1.p2); Table 1: [S2.T1](https://arxiv.org/html/2603.19809v1#S2.T1).
 - **替代方案** · [LIGER](liger.md): LIGER treats cold-start items as the out-of-distribution case for generative recommendation; this paper defines generalization by history-to-target transitions instead of target-item rarity.
-  - 出处：GR-Generalize v1, Section 1 cites Yang et al. (2025): https://arxiv.org/html/2603.19809v1#S1.p3.
+  - 出处：GR-Generalize v1, Section 1 cites Yang et al. (2025): [S1.p3](https://arxiv.org/html/2603.19809v1#S1.p3).
 - **替代方案** · [SpecGR](specgr.md): SpecGR also studies cold-start items as the generalization case; this paper argues that a popular target can still require generalization.
-  - 出处：GR-Generalize v1, Section 1 cites Ding et al. (2026): https://arxiv.org/html/2603.19809v1#S1.p3.
+  - 出处：GR-Generalize v1, Section 1 cites Ding et al. (2026): [S1.p3](https://arxiv.org/html/2603.19809v1#S1.p3).
 - **前序工作** · [ETEGRec](etegrec.md): The paper follows ETEGRec in training SASRec with full cross-entropy for a fair comparison and uses its datasets.
-  - 出处：GR-Generalize v1, Section 3.1: https://arxiv.org/html/2603.19809v1#S3.SS1.p1 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2.
+  - 出处：GR-Generalize v1, Section 3.1: [S3.SS1.p1](https://arxiv.org/html/2603.19809v1#S3.SS1.p1) and [S3.SS1.p2](https://arxiv.org/html/2603.19809v1#S3.SS1.p2).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

@@ -16,7 +16,16 @@ tokenizer: Fixed
 objective: MTP + Ctr. + Aux.
 inference: Scoring
 poi: false
-summary: 有完整离散 SID、并行预测和全物品聚合检索，不因最终评分排除。
+also:
+- problem: I
+  stage: Backbone
+  quote: compact yet faithful latent tokens
+  where: '2602.13573v2 Abstract https://arxiv.org/html/2602.13573v2#abstract1；语义被平均池化模糊的问题：Introduction https://arxiv.org/html/2602.13573v2#S1.p2；ATM
+    与第一条贡献 #S1.p3；§3.1 https://arxiv.org/html/2602.13573v2#S3.SS1.SSSx2'
+- stage: Training
+  quote: We introduce a context-conditioned Intent Token to capture evolving user preferences, together with a dual-granularity
+    objective that combines fine-grained semantic ID prediction with item-level intent–target alignment.
+  where: '2602.13573v2 §1 贡献第 2 条 #S1.I1.i2；设计在 #S3.SS2'
 tldr: ACERec compresses long Semantic IDs into compact latent tokens with an Attentive Token Merger and adds an Intent Token
   with a dual-granularity objective, to keep long-ID expressiveness at short-ID cost.
 tldr_zh: ACERec 用注意力 token 合并器将长 SID 压缩为紧凑隐 token，并加入意图 token 与双粒度训练目标，以短 ID 的开销保留长 ID 的表达力。

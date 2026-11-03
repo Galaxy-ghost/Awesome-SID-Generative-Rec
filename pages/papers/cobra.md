@@ -1,26 +1,34 @@
 # COBRA
 
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cobra.md)
+
 | **Title** | *Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | NeurIPS’25 |
-| **Problem × Stage** | `I. Informativeness` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2503.02453) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/cobra.md) |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` — Also: `I. Informativeness` × `Inference`; `I. Informativeness` × `Representation`; `I. Informativeness` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2503.02453) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+SID"] --> T["Tokenization<br/>Casc. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>BeamFusion"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,TR,I also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `Casc. RQ`: Cascaded sparse-to-dense residual quantization.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Dense`: NTP plus dense-vector prediction.
+- `BeamFusion`: Joint decoding combining autoregressive SID beam search with dense nearest-neighbor scoring.
 
 ### TL;DR
 
@@ -68,16 +76,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["COBRA"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["LIGER"]
-    P -->|alternative| C["CapsID"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["LIGER"]
+    P -->|"alternative"| C["CapsID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER retrieves items from sparse semantic IDs alone; COBRA follows TIGER's SID construction but generates a dense vector after each sparse ID and fuses beam and ANN scores.
-  - Source: COBRA v1, baselines and SID setting: https://arxiv.org/html/2503.02453v1#S4.I1.i9.p1 and https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2503.02453v1#S4.T2; the w/o Dense variant mirrors TIGER: https://arxiv.org/html/2503.02453v1#S4.I2.i2.p1.
+  - Source: COBRA v1, baselines and SID setting: [S4.I1.i9.p1](https://arxiv.org/html/2503.02453v1#S4.I1.i9.p1) and [S4.SS1.SSS3.p1](https://arxiv.org/html/2503.02453v1#S4.SS1.SSS3.p1); Table 2: [S4.T2](https://arxiv.org/html/2503.02453v1#S4.T2); the w/o Dense variant mirrors TIGER: [S4.I2.i2.p1](https://arxiv.org/html/2503.02453v1#S4.I2.i2.p1).
 - **Alternative** · [LIGER](liger.md): LIGER (Yang et al., 2024) unifies generative and dense retrieval as a hybrid, while COBRA cascades sparse-ID generation and dense-vector generation inside one decoder.
-  - Source: COBRA v1, Section 1 cites Yang et al. (2024), Unifying Generative and Dense Retrieval, for the fine-grained similarity gap of generative methods: https://arxiv.org/html/2503.02453v1#S1.p3; not a baseline in Table 2.
+  - Source: COBRA v1, Section 1 cites Yang et al. (2024), Unifying Generative and Dense Retrieval, for the fine-grained similarity gap of generative methods: [S1.p3](https://arxiv.org/html/2503.02453v1#S1.p3); not a baseline in Table 2.
 - **Alternative** · [CapsID](capsid.md): CapsID removes the dense patch and instead makes the SID soft-routed and variable-length, reporting about half of COBRA's per-query latency at similar Recall@100.
-  - Source: Evidence is from the later CapsID paper: COBRA is a patch-route baseline in Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3, https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6; latency comparison: https://arxiv.org/html/2605.05096v1#S4.SS5.SSS0.Px5.p2.
+  - Source: Evidence is from the later CapsID paper: COBRA is a patch-route baseline in Tables 3, 4, and 6: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3), [S4.T4](https://arxiv.org/html/2605.05096v1#S4.T4), [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6); latency comparison: [S4.SS5.SSS0.Px5.p2](https://arxiv.org/html/2605.05096v1#S4.SS5.SSS0.Px5.p2).
 
 [View all papers in this cell](../../README.md#i--backbone)

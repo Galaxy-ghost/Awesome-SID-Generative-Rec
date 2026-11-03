@@ -1,23 +1,31 @@
 # OneRec-V2-Quantized
 
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec-v2-quantized.md)
+
 | **Title** | *Quantized Inference for OneRec-V2* |
 | :-- | :-- |
 | **Authors** | Su et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.11486) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/onerec-v2-quantized.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.11486) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL†"] --> I["Inference<br/>FP8+RecoGEM"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
+- `Text+Img+CF†`: Text, image, and collaborative representations (inferred).
+- `R-KM†`: Residual k-means tokenization (inferred).
 - `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
+- `NTP → RL†`: Next-token prediction followed by reinforcement learning (inferred).
 - `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
 
 ### TL;DR
@@ -66,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneRec-V2-Quantized"]
-    P -->|predecessor| A["OneRec-V2"]
+    P -->|"predecessor"| A["OneRec-V2"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Predecessor** · [OneRec-V2](onerec-v2.md): Provides the unchanged base architecture and training procedure for FP8 deployment.
-  - Source: Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: https://arxiv.org/html/2603.11486v1#S1.p3; https://arxiv.org/html/2603.11486v1#S4.SS1.p1.
+  - Source: Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: [S1.p3](https://arxiv.org/html/2603.11486v1#S1.p3); [S4.SS1.p1](https://arxiv.org/html/2603.11486v1#S4.SS1.p1).
 
 [View all papers in this cell](../../README.md#v--inference)

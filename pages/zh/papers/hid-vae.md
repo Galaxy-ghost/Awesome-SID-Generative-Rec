@@ -1,26 +1,32 @@
 # HiD-VAE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/hid-vae.md) | 中文
+
 | **题目** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
 | :-- | :-- |
 | **作者** | Fang et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2508.04618) · [代码](https://anonymous.4open.science/r/HiD-VAE-84B2) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/hid-vae.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` — 补充：`I. 信息量` × `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2508.04618) · [代码](https://anonymous.4open.science/r/HiD-VAE-84B2) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Hier. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Hier. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Hier. RQ`：带多级标签监督的层级残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,18 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | HiD-VAE 通过层级监督量化将各 SID 层与多级物品标签对齐，并加入防冲突唯一性损失，替代扁平的无监督编号。 |
-| 主要改动阶段 | Tokenization |
-| 局限 | 编号器需要多级物品标签，没有标签的数据集要靠 LLM 生成，所以 ID 质量取决于标签质量（Sec. 3.4）。 |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | HiD-VAE 将 Beauty、Sports 与 KuaiRand 上的 SID 冲突率从无监督 RQ-VAE 的 18.7%、19.5%、17.8% 降至 2.1%、2.8%、1.9%，并在三个基准上全面优于对比基线（Abstract，Table 1，Table 3）。 |
+| 局限 | 层级监督量化依赖多级类目标签，缺失类目树的物品库需依赖 LLM 合成标签（Sec. 3.4）。 |
 
 ---
 
 ### 1. 为什么重要
 
-作者指出，无监督编号让语义 ID（Semantic ID，SID）有两个缺陷：语义上是扁平的；不同物品的表示纠缠在一起，会发生冲突（Abstract）。
+无监督残差量化生成的语义 ID（Semantic ID，SID）缺乏明确的层级语义，且不同物品的潜在表征纠缠在一起，极易产生编码冲突（Abstract）。HiD-VAE 用多级类目标签逐层监督码本，并在离散化前对潜在表征施加排斥惩罚。
 
-> "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items."（Sec. 1）（唯一性损失直接惩罚不同物品潜在表示的重叠，从源头防止 ID 冲突。）
+> "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items."（Sec. 1）
 
 ---
 
@@ -54,36 +61,42 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("物品文本") --> C["层级监督量化器"]:::key
-    B("多级标签，缺失时由 LLM 生成") --> C
-    L1{{"逐层预测标签"}} -.-> C
-    L2{{"唯一性损失"}} -.-> C
-    C --> D("SID")
-    D --> E["Enc-Dec 生成器"]
-    E --> F["约束解码"]
-    F --> G("下一物品")
+    subgraph Tag["层级标签准备"]
+        T0("原始标题与粗类目") --> LLM["LLM 先检索再分类两步生成"]
+        LLM --> Tags("多级类目标签")
+    end
+    subgraph Quant["HiD-VAE 编号器（3 层 x 256）"]
+        X("物品文本（768 维）") --> Q["层级监督残差量化器"]:::key
+        Tags --> L1{{"逐层标签对齐与预测损失"}}
+        L1 -.-> Q
+        L2{{"潜在表征唯一性排斥损失"}}:::key -.-> Q
+    end
+    Q --> SID("低冲突 SID")
+    SID --> Gen["6 层 Enc-Dec 生成器"]
+    Gen --> CD{"命中合法物品前缀？"}
+    CD -->|是| Out("下一物品")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 生成层级标签
 
-KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分类"两步生成标签（Sec. 3.4，Sec. 1）。
+对于 KuaiRand 这类缺少现成类目树的数据集，HiD-VAE 用 LLM 按“先检索、再分类”（`"retrieval-then-classification"`）两步流程从标题与原始类目合成多级标签（Sec. 1，Sec. 3.4）。
 
 #### 层级监督量化
 
-训练好的码本能预测物品标签，于是每条推荐都有一条可追溯的语义路径（Abstract）。
+RQ-VAE 每一层码本分别对齐并预测对应层级的物品标签，使生成的离散码序列具备可追溯的粗到细类目路径（Abstract）。
 
 #### 唯一性损失
 
-唯一性损失惩罚不同物品之间的潜在重叠（Sec. 1）。作者认为，这个损失也提高了推荐多样性（Abstract）。
+唯一性损失在量化取整前直接惩罚不同物品在潜在空间中的重叠，在压低 ID 冲突率的同时促使物品更均匀地覆盖码本空间（Abstract，Sec. 1）。
 
-> "This mechanism not only resolves the critical ID collision problem but also promotes recommendation diversity by ensuring a more comprehensive utilization of the item representation space."（Abstract）（既解决 ID 冲突，也因表示空间用得更充分而提高多样性。）
+> "This mechanism not only resolves the critical ID collision problem but also promotes recommendation diversity by ensuring a more comprehensive utilization of the item representation space."（Abstract）
 
 #### 生成
 
-生成器根据用户历史预测下一物品的 SID（Sec. 3.3）。
+6 层编码器-解码器根据用户历史预测下一物品的 SID，并在推理时通过前缀约束解码过滤非法码序列（Sec. 3.3）。
 
-> "During inference, constrained decoding ensures that generated IDs correspond to valid items."（Sec. 3.3）（推理时用约束解码保证生成的 ID 对应真实物品。）
+> "During inference, constrained decoding ensures that generated IDs correspond to valid items."（Sec. 3.3）
 
 ---
 
@@ -109,7 +122,7 @@ KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分�
 
 </details>
 
-- 主实验：在三个公开基准上，HiD-VAE 好于对比方法（Abstract）。
+- 主结果与冲突率：在 Amazon Beauty、Sports and Outdoors 与 KuaiRand 三个公开基准上，HiD-VAE 均优于传统、序列与生成式基线，并将 SID 冲突率从 RQ-VAE 的 18.7%、19.5%、17.8% 分别降至 2.1%、2.8%、1.9%（Abstract，Table 1，Table 3）。
 
 ---
 
@@ -117,7 +130,7 @@ KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分�
 
 **Our analysis.**
 
-- TIGER 用无监督的 `RQ-VAE` 码和普通 `Beam` 搜索；HiD-VAE 用标签监督的 `Hier. RQ` 码，生成器同为 `Enc-Dec`，并加约束解码。
+- TIGER 使用无监督 `RQ-VAE` 码、整数后缀消歧与无约束 `Beam` 搜索；HiD-VAE 在相同类型的 `Enc-Dec` 生成器前端改用多级标签监督的 `Hier. RQ` 码与唯一性损失，并配合约束解码。
 
 ---
 
@@ -126,19 +139,23 @@ KuaiRand 这类没有层级标签的数据集，由 LLM 按"先检索、再分�
 ```mermaid
 flowchart LR
     P["HiD-VAE"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["VQ-Rec"]
-    P -->|alternative| D["AdaSID"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LC-Rec"]
+    P -->|"同期对比"| C["VQ-Rec"]
+    P -->|"替代方案"| D["AdaSID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER resolves collisions by appending an integer after unsupervised RQ-VAE; HiD-VAE supervises each level with category tags and adds a uniqueness loss so that fewer items collide.
-  - 出处：HiD-VAE v2, baselines and Table 1: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.T1; TIGER-style suffix in the ablation: https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1 and https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1.
+  - 出处：HiD-VAE v2, baselines and Table 1: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1); TIGER-style suffix in the ablation: [S4.I4.i4.p1](https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1) and [S4.I5.i2.p1](https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to RQ-VAE codes; HiD-VAE changes the tokenizer and keeps a small encoder-decoder; LC-Rec is run with a T5-base backbone for scale parity.
-  - 出处：HiD-VAE v2, baselines: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.SS1.p7; Table 1: https://arxiv.org/html/2508.04618v2#S4.T1.
+  - 出处：HiD-VAE v2, baselines: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.SS1.p7](https://arxiv.org/html/2508.04618v2#S4.SS1.p7); Table 1: [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1).
 - **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec's product-quantized codes are adapted to generation here and collide more often (21.2% on Beauty) than HiD-VAE's hierarchical codes.
-  - 出处：HiD-VAE v2, baselines and adaptation: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.I3.i2.p1; Tables 1 and 3: https://arxiv.org/html/2508.04618v2#S4.T1 and https://arxiv.org/html/2508.04618v2#S4.T3.
+  - 出处：HiD-VAE v2, baselines and adaptation: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.I3.i2.p1](https://arxiv.org/html/2508.04618v2#S4.I3.i2.p1); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1) and [S4.T3](https://arxiv.org/html/2508.04618v2#S4.T3).
 - **替代方案** · [AdaSID](adasid.md): AdaSID later argues that HiD-VAE's overlap-aware objective treats collisions under a fixed standard, and makes the repulsion adaptive.
-  - 出处：Evidence is from the later AdaSID paper, Sections 1 and 2.2: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1.
+  - 出处：Evidence is from the later AdaSID paper, Sections 1 and 2.2: [S1.p3](https://arxiv.org/html/2604.23522v1#S1.p3) and [S2.SS2.p1](https://arxiv.org/html/2604.23522v1#S2.SS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

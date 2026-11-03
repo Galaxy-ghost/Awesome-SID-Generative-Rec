@@ -1,22 +1,27 @@
 # API
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/api.md)
+
 | **Title** | *The Vocabulary Is Already Here: Adapting Pretrained Interpretable Features for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Luo et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.36763) · [Code](https://anonymous.4open.science/r/API-C1F9/) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/api.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.36763) · [Code](https://anonymous.4open.science/r/API-C1F9/) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>PID (P-SAE)"] --> B["Backbone<br/>Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["Training<br/>Fixed / NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["Inference<br/>C-Beam / Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `PID (P-SAE)`: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
 - `Enc-Dec / Dec-Only (AR); Non-AR (PR)`: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["API"]
-    P -->|predecessor| A["GRID"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["TIGER"]
-    P -->|competitor| D["HiD-VAE"]
+    P -->|"predecessor"| A["GRID"]
+    P -->|"competitor"| B["RPG"]
+    P -->|"competitor"| C["TIGER"]
+    P -->|"competitor"| D["HiD-VAE"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [GRID](grid.md): API keeps GRID's preprocessed data and its residual-quantization tokenizer baselines, and replaces learned codes with pretrained interpretable SAE feature IDs.
-  - Source: API v1, benchmark and tokenization baselines aligned with GRID: https://arxiv.org/html/2610.36763v1#S5.SS1.p1 and https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.
+  - Source: API v1, benchmark and tokenization baselines aligned with GRID: [S5.SS1.p1](https://arxiv.org/html/2610.36763v1#S5.SS1.p1) and [S5.SS1.p2](https://arxiv.org/html/2610.36763v1#S5.SS1.p2); Table 2: [S5.T2](https://arxiv.org/html/2610.36763v1#S5.T2).
 - **Competitor** · [RPG](rpg.md): RPG's parallel-prediction implementation is the PR backbone; API swaps its OPQ codes for SAE feature indices with activation strengths.
-  - Source: API v1, PR implementation based on RPG: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1 and https://arxiv.org/html/2610.36763v1#S5.T2.
+  - Source: API v1, PR implementation based on RPG: [S5.SS1.p2](https://arxiv.org/html/2610.36763v1#S5.SS1.p2); Tables 1-2: [S4.T1](https://arxiv.org/html/2610.36763v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.36763v1#S5.T2).
 - **Competitor** · [TIGER](tiger.md): TIGER's autoregressive implementation is the AR backbone and RQ-VAE is a tokenizer baseline.
-  - Source: API v1, AR implementation based on TIGER: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Tables 1-2: https://arxiv.org/html/2610.36763v1#S4.T1 and https://arxiv.org/html/2610.36763v1#S5.T2.
+  - Source: API v1, AR implementation based on TIGER: [S5.SS1.p2](https://arxiv.org/html/2610.36763v1#S5.SS1.p2); Tables 1-2: [S4.T1](https://arxiv.org/html/2610.36763v1#S4.T1) and [S5.T2](https://arxiv.org/html/2610.36763v1#S5.T2).
 - **Competitor** · [HiD-VAE](hid-vae.md): HiD-VAE supervises quantization levels with category tags for interpretability; API takes interpretability from labeled pretrained SAE features.
-  - Source: API v1, tokenization baselines: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.
+  - Source: API v1, tokenization baselines: [S5.SS1.p2](https://arxiv.org/html/2610.36763v1#S5.SS1.p2); Table 2: [S5.T2](https://arxiv.org/html/2610.36763v1#S5.T2).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

@@ -1,27 +1,32 @@
 # GRAM
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gram.md) | 中文
+
 | **题目** | *Generative recommendation via semantic-aware multi-granular late fusion* |
 | :-- | :-- |
 | **作者** | Lee et al. |
-| **会议** | ACL’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2506.01673) · [代码](https://github.com/skleee/GRAM) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/gram.md) |
+| **发表** | ACL’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2506.01673) · [代码](https://github.com/skleee/GRAM) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>H-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `H-KM`: Hierarchical k-means.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `H-KM`：层级 k-means 聚类（Hierarchical k-means）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,19 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | GRAM 将层级与协同物品关系转化为 LLM 词表中的词，分别编码多粒度提示并仅在解码时融合，以利用长物品文本。 |
-| 主要改动阶段 | Tokenization |
-| 主要发现 | 在四个基准数据集上，GRAM 比八个生成式推荐模型的 Recall@5 高 11.5–16.0%，NDCG@5 高 5.3–13.6%（Abstract）。 |
-| 局限 | 作者把用 TF-IDF 选词表词和只用小号 T5 模型（T5-small 和 T5-base）列为局限（Sec. 7）。 |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在四个基准数据集上，GRAM 的 Recall@5 比八个生成式推荐模型高 11.5–16.0%，NDCG@5 高 5.3–13.6%（Abstract）。 |
+| 局限 | 作者指出，用 TF-IDF 挑选词表词以及仅在大模型架构上测试小规模 T5（T5-small 和 T5-base）是主要局限（Sec. 7）。 |
 
 ---
 
 ### 1. 为什么重要
 
-基于大语言模型（LLM）的生成式推荐难以纳入物品之间的隐含关系，也难以用好丰富但冗长的物品信息（Abstract）。GRAM 用文本 ID 解决前者，用后期融合解决后者。
+基于大语言模型（LLM）的生成式推荐难以纳入物品间的隐含协同关联，同时直接拼接冗长的物品描述会带来编码瓶颈（Abstract）。GRAM 从 LLM 原生词表中挑选词元构建层级词汇语义 ID（Semantic ID，SID），并在独立编码多粒度提示后推迟到解码阶段融合。
 
-> "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage."（Abstract）（不同粒度的提示用各自的编码器，融合推迟到解码阶段。）
+> "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
 
 ---
 
@@ -56,30 +61,35 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("物品文本") --> B["从 LLM 词表按 TF-IDF 选词"]:::key
-    B --> C("文本 ID，如 soap-mild-mango")
-    C --> D("用户提示：历史 ID")
-    E("属性 + 协同信号") --> F("物品提示")
-    D --> G["各自的编码器"]
-    F --> G
-    G --> I["解码器对全部输出做交叉注意力"]:::key
-    I --> J("下一个文本 ID")
+    subgraph Tok["1. 语义到词汇 SID 构建"]
+        A("物品文本 + 提取的协同属性") --> B["递归层级 k-means (l, k, c)"]
+        B --> C["按 TF-IDF 从 LLM 词表选词"]:::key
+        C --> D("词汇 SID，如 soap-mild-mango")
+    end
+    subgraph Gen["2. 多粒度后期融合"]
+        D --> E("粗粒度用户提示：历史 SID")
+        F("细粒度物品提示：属性 + 协同信号") --> H["独立 T5 编码器"]
+        E --> H
+        H --> I["解码器拼接键值矩阵做交叉注意力"]:::key
+        I --> J["Trie 约束束搜索 (束宽 50)"]
+        J --> K("下一词汇 SID")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 语义到词汇的转换
 
-层级 ID 由文字组成，例如 "soap-mild-mango"，这些词用 TF-IDF 从 LLM 词表里挑出（Sec. 7）。
+GRAM 对物品嵌入执行递归层级 k-means 聚类（当簇内物品少于 $`c`$ 个或深度达到 $`l`$ 时停止），并通过 TF-IDF 将每个簇映射为 LLM 词表中的原生词，生成形如 `"soap-mild-mango"` 的层级词汇 SID，重复 ID 追加数字区分（Sec. 3.2.1，Sec. 7）。协同共现信号被提取并转化为附加文本属性。
 
-> "To bridge collaborative semantics to LLMs, we extract collaborative signals and convert them as an additional item attribute."（Sec. 3.2.2）（把协同信号提取出来，当作物品的一个额外属性。）
+> "To bridge collaborative semantics to LLMs, we extract collaborative signals and convert them as an additional item attribute." (Sec. 3.2.2)
 
 #### 多粒度提示
 
-粗粒度的用户提示把历史物品的 ID 拼起来；细粒度的物品提示带物品属性和协同语义（Sec. 3.3.1）。
+粗粒度用户提示直接拼接历史交互物品的词汇 SID；细粒度物品提示则分别承载单个物品的属性文本与协同语义（Sec. 3.3.1）。
 
 #### 后期融合
 
-解码器每一步都把各编码器输出拼起来，作为交叉注意力的键值矩阵（Sec. 3.3.2，Eq. 8-9）。
+独立编码器分别处理粗粒度用户提示和各条细粒度物品提示，解码器在每一步将所有编码器输出拼接为交叉注意力的键值矩阵，并结合束宽为 50 的 Trie 约束束搜索解码目标 SID（Sec. 3.3.2，Eq. 8–9）。
 
 ---
 
@@ -105,7 +115,9 @@ flowchart LR
 
 </details>
 
-- 效率：作者在 Appendix C 分析了预处理和推理时间。
+- 主实验对比：在 Amazon Beauty、Toys and Games、Sports and Outdoors 和 Yelp 四个数据集上，GRAM 的 Recall@5 比八个生成式基线高 11.5–16.0%，NDCG@5 高 5.3–13.6%（Abstract，Table 2）。
+- 组件与 ID 消融：Table 3 消融了层级聚类、协同属性和多粒度后期融合；Table 4 显示在 GRAM 框架内，层级词汇 SID 优于 RQ-VAE 码和扁平 ID。
+- 推理效率：在单张 NVIDIA A6000 GPU 上单批评估全部测试序列时，GRAM 在 Beauty 和 Toys 上平均每条用户序列推理耗时分别为 0.2008 s 和 0.1605 s，而 LC-Rec 分别为 1.8312 s 和 1.8125 s（Appendix C，Tables 6–7）。
 
 ---
 
@@ -113,8 +125,8 @@ flowchart LR
 
 **Our analysis.**
 
-- ID 复用词表里的已有词，而不是新 token。由此推断，这些词带着预训练的含义，可能和物品吻合，也可能冲突。
-- LC-Rec 在 `Dec-Only` LLM 里把 `RQ-VAE` 码映射成新 token；GRAM 在 `Enc-Dec` 模型里用 `H-KM` 文本 ID。
+- 直接复用词表中的原生词而非新增词表外 token，意味着预训练词义可能与物品语义吻合，也可能产生语义冲突。
+- LC-Rec 在 `Dec-Only` LLM 中把 `RQ-VAE` 码映射为词表外新 token；GRAM 则在 `Enc-Dec` 生成器中用词表已有词构建 `H-KM` 词汇 SID。
 
 ---
 
@@ -123,22 +135,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GRAM"]
-    P -->|competitor| A["LC-Rec"]
-    P -->|competitor| B["IDGenRec"]
-    P -->|competitor| C["TIGER"]
-    P -->|competitor| D["CID"]
-    P -->|competitor| E["LETTER"]
+    P -->|"同期对比"| A["LC-Rec"]
+    P -->|"同期对比"| B["IDGenRec"]
+    P -->|"同期对比"| C["TIGER"]
+    P -->|"同期对比"| D["CID"]
+    P -->|"同期对比"| E["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec maps RQ-VAE codes to new out-of-vocabulary tokens; GRAM builds hierarchical IDs from existing vocabulary tokens and verbalizes collaborative signals in item prompts.
-  - 出处：GRAM v1, Section 3.2.1 contrasts the token choice: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; inference time in Table 7: https://arxiv.org/html/2506.01673v1#A3.T7.
+  - 出处：GRAM v1, Section 3.2.1 contrasts the token choice: [S3.SS2.SSS1.p3](https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3); baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); inference time in Table 7: [A3.T7](https://arxiv.org/html/2506.01673v1#A3.T7).
 - **同期对比** · [IDGenRec](idgenrec.md): IDGenRec generates textual IDs with a learned ID generator; GRAM derives hierarchical textual IDs by clustering, and the authors rerun IDGenRec without user IDs that leak test items.
-  - 出处：GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; reproduction in Table 9 and Appendix E: https://arxiv.org/html/2506.01673v1#A4.T9 and https://arxiv.org/html/2506.01673v1#A5.p3.
+  - 出处：GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); reproduction in Table 9 and Appendix E: [A4.T9](https://arxiv.org/html/2506.01673v1#A4.T9) and [A5.p3](https://arxiv.org/html/2506.01673v1#A5.p3).
 - **同期对比** · [TIGER](tiger.md): TIGER uses RQ-VAE codes as new tokens; GRAM's ID-type study also tests RQ-VAE IDs inside GRAM against hierarchical textual IDs.
-  - 出处：GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; Table 4 ID types: https://arxiv.org/html/2506.01673v1#S5.T4 and https://arxiv.org/html/2506.01673v1#S5.SS3.p1.
+  - 出处：GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); Table 4 ID types: [S5.T4](https://arxiv.org/html/2506.01673v1#S5.T4) and [S5.SS3.p1](https://arxiv.org/html/2506.01673v1#S5.SS3.p1).
 - **同期对比** · [CID](cid.md): P5-CID, P5-SID, and P5-SemID are fixed indexing schemes for P5; GRAM adds hierarchical semantic text IDs and collaborative prompts.
-  - 出处：GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; 5-core setting follows Hua et al. (2023): https://arxiv.org/html/2506.01673v1#S4.p1.
+  - 出处：GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); 5-core setting follows Hua et al. (2023): [S4.p1](https://arxiv.org/html/2506.01673v1#S4.p1).
 - **同期对比** · [LETTER](letter.md): LETTER learns a regularized RQ-VAE tokenizer; GRAM avoids learned codebooks and uses text clustering mapped to vocabulary tokens.
-  - 出处：GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2.
+  - 出处：GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

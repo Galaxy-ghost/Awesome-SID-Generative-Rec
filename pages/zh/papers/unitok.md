@@ -1,25 +1,32 @@
 # UniTok
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/unitok.md) | 中文
+
 | **题目** | *Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* |
 | :-- | :-- |
 | **作者** | Hou and Shin |
-| **会议** | AAAI’26 |
-| **问题与阶段** | `VI. 泛化` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2511.12922) · [代码](https://github.com/jackfrost168/UniTok) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/unitok.md) |
+| **发表** | AAAI’26 |
+| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.12922) · [代码](https://github.com/jackfrost168/UniTok) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>TokenMoE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Multi-Dom"] --> T["编号 Tokenization<br/>TokenMoE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam†"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Multi-Dom`：面向多领域联合构建的统一物品表征。
+- `TokenMoE`：包含共享专家与领域专家的混合专家编号器。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam†`：自回归束搜索（由配置推断）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | UniTok 用共享编码器、域特定与共享专家以及码本对多域物品编号，并校准域间互信息，替代每个域单独训练编号器的做法。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniTok"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["LC-Rec"]
-    P -->|competitor| D["CID"]
+    P -->|"同期对比"| A["LETTER"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["LC-Rec"]
+    P -->|"同期对比"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [LETTER](letter.md): LETTER trains one regularized RQ-VAE tokenizer per dataset; UniTok shares one tokenizer across ten domains with a mixture of quantization experts.
-  - 出处：UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1-3: https://arxiv.org/html/2511.12922v1#Sx3.T1, https://arxiv.org/html/2511.12922v1#Sx4.T2, https://arxiv.org/html/2511.12922v1#Sx4.T3.
+  - 出处：UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Tables 1-3: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1), [Sx4.T2](https://arxiv.org/html/2511.12922v1#Sx4.T2), [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3).
 - **同期对比** · [TIGER](tiger.md): TIGER is both a tokenizer baseline and the downstream T5 recommender; UniTok replaces per-domain RQ codebooks with routed experts.
-  - 出处：UniTok v1, baselines and backbone: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1 and https://arxiv.org/html/2511.12922v1#A4.SSx4.p1; Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.
+  - 出处：UniTok v1, baselines and backbone: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1) and [A4.SSx4.p1](https://arxiv.org/html/2511.12922v1#A4.SSx4.p1); Table 1: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to per-domain indices; UniTok targets one tokenizer for many domains.
-  - 出处：UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1 and 3: https://arxiv.org/html/2511.12922v1#Sx3.T1 and https://arxiv.org/html/2511.12922v1#Sx4.T3.
+  - 出处：UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Tables 1 and 3: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1) and [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3).
 - **同期对比** · [CID](cid.md): P5-TID and P5-SemID (Hua et al., 2023) use titles or categories as IDs; UniTok learns codebook IDs.
-  - 出处：UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.
+  - 出处：UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Table 1: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1).
 
 [查看同格全部论文](../../../README.zh.md#vi--tokenization)

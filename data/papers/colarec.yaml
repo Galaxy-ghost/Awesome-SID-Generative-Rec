@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: NTP + Ctr.
 inference: C-Beam
 poi: false
-summary: 'Abstract: "How to integrate content knowledge and collaborative interaction signals in a generative framework tailored
-  for item recommendation is still an open research challenge".'
 tldr: ColaRec builds generative identifiers from a pretrained collaborative filtering model and generates them from interacted-item
   content, with an item indexing task and a contrastive loss aligning both spaces.
 tldr_zh: ColaRec 从预训练协同过滤模型构造生成式标识，结合物品索引任务与对比损失对齐协同与内容空间，从交互物品内容生成目标 ID。

@@ -1,26 +1,34 @@
 # LIGER
 
+[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/liger.md)
+
 | **Title** | *Unifying generative and dense retrieval for sequential recommendation* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | arXiv’24 |
-| **Problem × Stage** | `VI. Generalization` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2411.18814) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/liger.md) |
+| **Problem × Stage** | `VI. Generalization` · `Inference` — Also: `VI. Generalization` × `Backbone`; `VI. Generalization` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2411.18814) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Dense`: NTP plus dense-vector prediction.
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 
 ### TL;DR
 
@@ -36,13 +44,14 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of both approaches, to narrow their performance gap and improve cold-start recommendation. |
 | Modified Stage | Inference |
+| Key Findings | By combining K = 20 beam-searched SID candidates with cold-start items for dense re-ranking, LIGER narrows the performance gap to full-catalog dense retrieval and improves cold-start recommendation across Amazon Beauty, Sports, Toys, and Steam (Abstract, Sec. 4.2, Table 2). |
 | Limitation | Every cold-start item joins the candidate set, and the design assumes that cold-start items are few (Sec. 3). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Sequential dense retrieval stores one representation per item, so memory grows with the catalog (Abstract). Generative retrieval predicts Semantic IDs (SIDs) instead, but a fair comparison of the two was missing (Abstract).
+Sequential dense retrieval stores a continuous vector per item so memory and inference cost scale linearly with catalog size, whereas generative retrieval decodes compact Semantic IDs (SIDs) via beam search (Abstract, Table 1). Through a controlled comparison, the paper shows that generative retrieval lags behind dense retrieval on warm items and almost never generates unseen cold-start items because its token probabilities overfit to training items (Sec. 2.4). LIGER bridges both regimes by training one encoder-decoder with joint generative and dense objectives and ranking beam candidates together with cold-start items.
 
 > "Our findings indicate that the model's learned conditional probabilities tends to overfit to items seen during training, leading to a significantly reduced capability to generate cold-start items." (Sec. 2.4)
 
@@ -54,28 +63,35 @@ Sequential dense retrieval stores one representation per item, so memory grows w
 
 ```mermaid
 flowchart LR
-    A("SID tokens + text + positions") --> B["T5 encoder-decoder"]
-    L1{{"Next-token loss"}} -.-> B
-    L2{{"Cosine loss to next item text"}} -.-> B
-    B --> D["Beam search: K items"]
-    D --> E("Candidates")
-    F("Cold-start items") --> E
-    E --> G["Rank by encoder embedding"]:::key
-    G --> H("Top items")
+    subgraph TR["Joint Training (6-layer T5 Encoder-Decoder)"]
+        A("History: SID tokens + Sentence-T5 text + 2 pos embeddings") --> B["T5 Encoder"]
+        B --> U("Dense user embedding")
+        B --> C["T5 Decoder"]
+        L2{{"Cosine similarity loss to target text"}} -.-> U
+        L1{{"Next-token loss on 4-token SID"}} -.-> C
+    end
+    subgraph INF["Hybrid Inference (O(tK) + Cold-Start Ranking)"]
+        C --> D["Beam search: K = 20 in-set items"]
+        D --> E("Merged candidate pool")
+        F("Unseen cold-start items") --> E
+        U --> G["Dense score & re-rank"]:::key
+        E --> G
+        G --> H("Top-K recommendations")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Input and Training
 
-Each SID token embedding adds the item's text representation and two position embeddings (Sec. 3). Training combines a cosine-similarity loss toward the next item's text representation with next-token prediction on its SID (Sec. 3).
+Each item in the user history is represented by summing its SID token embeddings, its frozen Sentence-T5-XXL text embedding, and two position embeddings (item position and token position; Sec. 3, Sec. 4.1). A 6-layer T5 encoder-decoder is trained jointly with next-token prediction over the target item's 4-token SID (3 RQ-VAE levels of 256 codewords plus a uniqueness token) and a cosine-similarity loss aligning the encoder output with the target item's text embedding (Sec. 3, Sec. 4.1).
 
 #### Hybrid Inference
 
-The decoder proposes candidates, and the encoder output ranks them together with the cold-start items (Sec. 3, Algorithm 1).
+At inference, the decoder runs beam search to propose $`K`$ in-set candidates ($`K = 20`$ in the main experiments), appends all cold-start items to form a compact candidate pool, and ranks the combined pool by dot-product similarity against the encoder's dense output embedding (Sec. 3, Algorithm 1).
 
 > "During inference, the decoder retrieves K items by beam search, then supplemented with cold-start items and ranked with the encoder's output embeddings." (Sec. 3)
 
-The authors base this design on an assumption about cold-start items (Sec. 3).
+Appending the entire cold-start set avoids full-catalog scoring as long as cold-start items remain a small fraction of the catalog between periodic system updates (Sec. 3).
 
 > "This design choice is based on the hypothesis that cold-start items are relatively sparse compared to in-set items, as recommendation systems periodically update themselves to incorporate newly introduced items." (Sec. 3)
 
@@ -103,8 +119,8 @@ The authors base this design on an assumption about cold-start items (Sec. 3).
 
 </details>
 
-- Reporting setup: generative retrieval returns 20 items, which are ranked with the cold-start items (Sec. 4.2).
-- Main result: LIGER narrows the gap to dense retrieval and improves cold-start recommendation on the evaluated datasets (Abstract).
+- Controlled gap and cold-start failure: when cold-start items are held out from RQ-VAE training (43 items on Beauty, 56 on Toys, 81 on Sports, and 400 on Steam; Table 3), TIGER-style generative retrieval assigns them near-zero generation probability, whereas LIGER recovers cold-start Recall@10 and NDCG@10 across all four datasets over 3 random seeds (Sec. 2.4, Sec. 4.2, Table 2, Figs. 3–4).
+- Hybrid candidate sweep: retrieving $`K = 20`$ candidates via beam search and ranking them with cold-start items matches or approaches full-catalog ($`K = N`$) dense ranking at a fraction of the scoring cost, with further gains as $`K`$ increases from 20 to 100 (Sec. 4.2, Table 4, Fig. 1).
 
 ---
 
@@ -112,8 +128,9 @@ The authors base this design on an assumption about cold-start items (Sec. 3).
 
 **Our analysis.**
 
-- The final order comes from the dense embedding. The generated SID selects candidates but does not decide their order.
-- TIGER retrieves by `Beam` search only; LIGER adds a dense loss (`NTP + Dense`) and `Hybrid` ranking.
+- In LIGER's hybrid stage, the generated SID acts only as a coarse candidate filter ($`K = 20`$), while the dense dot product determines the final ranking order and all cold-start placements.
+- If a streaming platform ingests thousands of new items between tokenizer rebuilds, scoring every cold-start item on each request erodes the $`O(tK)`$ complexity advantage over $`O(N)`$ dense retrieval (Table 1).
+- TIGER retrieves by `Beam` search with `NTP` alone; LIGER trains with `NTP + Dense` and performs `Hybrid` generative-plus-dense inference.
 
 ---
 
@@ -122,19 +139,23 @@ The authors base this design on an assumption about cold-start items (Sec. 3).
 ```mermaid
 flowchart LR
     P["LIGER"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["VQ-Rec"]
-    P -->|alternative| C["COBRA"]
-    P -->|successor| D["GEM-Rec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["VQ-Rec"]
+    P -->|"alternative"| C["COBRA"]
+    P -->|"successor"| D["GEM-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER retrieves only by beam search over semantic IDs and almost never generates cold-start items; LIGER reranks TIGER-style beam candidates plus cold-start items with a dense head trained jointly.
-  - Source: LIGER v2, faithful TIGER implementation: https://arxiv.org/html/2411.18814v2#S1.p5; Table 2: https://arxiv.org/html/2411.18814v2#S4.T2; cold-start analysis of TIGER's epsilon quota: https://arxiv.org/html/2411.18814v2#S2.SS4.p3; LIGER builds on TIGER: https://arxiv.org/html/2411.18814v2#S4.SS2.p2.
+  - Source: LIGER v2, faithful TIGER implementation: [S1.p5](https://arxiv.org/html/2411.18814v2#S1.p5); Table 2: [S4.T2](https://arxiv.org/html/2411.18814v2#S4.T2); cold-start analysis of TIGER's epsilon quota: [S2.SS4.p3](https://arxiv.org/html/2411.18814v2#S2.SS4.p3); LIGER builds on TIGER: [S4.SS2.p2](https://arxiv.org/html/2411.18814v2#S4.SS2.p2).
 - **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec uses vector-quantized codes inside a dense retriever; LIGER keeps generative beam search and adds dense ranking only over a small candidate set.
-  - Source: LIGER v2, Appendix A related work: https://arxiv.org/html/2411.18814v2#A1.p2.
+  - Source: LIGER v2, Appendix A related work: [A1.p2](https://arxiv.org/html/2411.18814v2#A1.p2).
 - **Alternative** · [COBRA](cobra.md): COBRA later cascades sparse-ID generation with a generated dense vector inside one decoder and cites LIGER for the fine-grained similarity gap of generative methods.
-  - Source: Evidence is from the later COBRA paper, Section 1: https://arxiv.org/html/2503.02453v1#S1.p3.
+  - Source: Evidence is from the later COBRA paper, Section 1: [S1.p3](https://arxiv.org/html/2503.02453v1#S1.p3).
 - **Successor** · [GEM-Rec](gem-rec.md): GEM-Rec later builds on LIGER's reproduction of the TIGER architecture and its 5-core preprocessing.
-  - Source: Evidence is from the later GEM-Rec paper, Section 5.4 and Appendix B.1: https://arxiv.org/html/2603.22231v1#S5.SS4.p1 and https://arxiv.org/html/2603.22231v1#A2.SS1.p1.
+  - Source: Evidence is from the later GEM-Rec paper, Section 5.4 and Appendix B.1: [S5.SS4.p1](https://arxiv.org/html/2603.22231v1#S5.SS4.p1) and [A2.SS1.p1](https://arxiv.org/html/2603.22231v1#A2.SS1.p1).
 
 [View all papers in this cell](../../README.md#vi--inference)

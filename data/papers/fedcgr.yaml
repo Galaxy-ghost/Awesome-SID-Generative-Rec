@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP + Aux.
 inference: C-Beam
 poi: false
-summary: BGE-base-en-v1.5 编码公共 title/category/description；本地 SASRec CF 是后加输入，不进入冻结 tokenizer。
 tldr: FedCGR performs federated cross-domain recommendation over shared Semantic IDs from public metadata, injects local collaborative
   evidence, and aggregates parameters by domain relatedness, without exchanging private interactions.
 tldr_zh: FedCGR 在基于公开元数据构建的共享 SID 上做联邦跨域推荐，注入本地协同证据并按域相关性聚合参数，无需交换私有交互数据。

@@ -1,27 +1,32 @@
 # DREAM
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dream.md) | 中文
+
 | **题目** | *Dynamic Refinement of Early Assignment Mappings* |
 | :-- | :-- |
 | **作者** | Guan et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `VI. 泛化` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2606.06947) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/dream.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.06947) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>CART"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern. / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>CART"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Altern. / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `CART`: Collaborative-Aware Refined Tokenization.
-- `Dec-Only`: Decoder-only.
-- `Altern.`: Tokenizer and generator are updated in turns.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `C-Beam`: Constrained beam search.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `CART`：协同感知精化编号（Collaborative-Aware Refined Tokenization）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Altern.`：编号器与生成器在训练过程中交替迭代更新。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | DREAM 在冷启动物品初始分配 SID 后，由意图感知编号器提议候选、冻结生成器择优，并用动态束保留加权 ID 假设，逐步修正冷启动 SID。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DREAM"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["SpecGR"]
+    P -->|"前序工作"| A["LC-Rec"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["SpecGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [LC-Rec](lc-rec.md): DREAM adopts LC-Rec's LLaMA-7B setup, adding staged SID refinement.
-  - 出处：DREAM v1, Section 4.1: https://arxiv.org/html/2606.06947v1#S4.SS1.p4.
+  - 出处：DREAM v1, Section 4.1: [S4.SS1.p4](https://arxiv.org/html/2606.06947v1#S4.SS1.p4).
 - **同期对比** · [TIGER](tiger.md): TIGER is a single-index baseline against DREAM's multi-path retrieval.
-  - 出处：DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
+  - 出处：DREAM v1, Section 4.1 and Table 2: [S4.SS1.p2](https://arxiv.org/html/2606.06947v1#S4.SS1.p2); [S4.T2](https://arxiv.org/html/2606.06947v1#S4.T2).
 - **同期对比** · [SpecGR](specgr.md): SpecGR drafts and verifies candidates; DREAM refines cold-item SID assignments.
-  - 出处：DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
+  - 出处：DREAM v1, Section 4.1 and Table 2: [S4.SS1.p2](https://arxiv.org/html/2606.06947v1#S4.SS1.p2); [S4.T2](https://arxiv.org/html/2606.06947v1#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#vi--tokenization)

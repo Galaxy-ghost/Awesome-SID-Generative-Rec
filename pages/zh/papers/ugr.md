@@ -1,25 +1,32 @@
 # UGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/ugr.md) | 中文
+
 | **题目** | *Uncertainty-aware Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Fan et al. |
-| **会议** | KDD’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2602.11719) · [代码](https://github.com/cxfann/UGR) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/ugr.md) |
+| **发表** | KDD’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.11719) · [代码](https://github.com/cxfann/UGR) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → (RL + Rank)"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → (RL + Rank)"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → (RL + Rank)`: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → (RL + Rank)`：先进行下一 token 预测微调，再联合优化强化学习与排序目标。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | UGR 通过不确定性加权奖励、难度感知优化与显式置信度对齐将不确定性引入偏好优化，替代仅依赖二元结果正误的奖励设计。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -67,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UGR"]
-    P -->|competitor| A["MiniOneRec"]
-    P -->|competitor| B["TIGER"]
+    P -->|"同期对比"| A["MiniOneRec"]
+    P -->|"同期对比"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [MiniOneRec](minionerec.md): UGR and MiniOneRec share the backbone; UGR adds uncertainty-aware optimization.
-  - 出处：UGR v2, Section 4.2: https://arxiv.org/html/2602.11719v2#S4.SS2.p2.
+  - 出处：UGR v2, Section 4.2: [S4.SS2.p2](https://arxiv.org/html/2602.11719v2#S4.SS2.p2).
 - **同期对比** · [TIGER](tiger.md): TIGER supplies the standard SID-based baseline for UGR's uncertainty-aware alignment.
-  - 出处：UGR v2, Section 4.1.3 and Table 1: https://arxiv.org/html/2602.11719v2#S4.SS1.SSS3.p1; https://arxiv.org/html/2602.11719v2#S3.T1.
+  - 出处：UGR v2, Section 4.1.3 and Table 1: [S4.SS1.SSS3.p1](https://arxiv.org/html/2602.11719v2#S4.SS1.SSS3.p1); [S3.T1](https://arxiv.org/html/2602.11719v2#S3.T1).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

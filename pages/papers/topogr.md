@@ -1,22 +1,27 @@
 # TopoGR
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/topogr.md)
+
 | **Title** | *Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zheng et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2607.25216) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/topogr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2607.25216) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>BDQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring+Rerank"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `BDQ`: Bit-Decomposable Quantizer.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TopoGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["RPG"]
-    P -->|alternative| C["LLaDA-Rec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["RPG"]
+    P -->|"alternative"| C["LLaDA-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes residual SIDs autoregressively; TopoGR exposes binary SID geometry and predicts all positions in parallel before full-corpus scoring.
-  - Source: TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p4.
+  - Source: TopoGR v1, Section 5.1 and Appendix A.4: [S5.SS1.p2](https://arxiv.org/html/2607.25216v1#S5.SS1.p2); [A1.SS4.p4](https://arxiv.org/html/2607.25216v1#A1.SS4.p4).
 - **Competitor** · [RPG](rpg.md): RPG uses parallel SID prediction with graph-constrained decoding; TopoGR instead uses vectorized full-corpus scoring and Hamming-consistent reranking.
-  - Source: TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p5.
+  - Source: TopoGR v1, Section 5.1 and Appendix A.4: [S5.SS1.p2](https://arxiv.org/html/2607.25216v1#S5.SS1.p2); [A1.SS4.p5](https://arxiv.org/html/2607.25216v1#A1.SS4.p5).
 - **Alternative** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses discrete diffusion for bidirectional SID generation; TopoGR predicts SID positions simultaneously and adds binary-topology supervision and reranking.
-  - Source: TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: https://arxiv.org/html/2607.25216v1#S2.p2; https://arxiv.org/html/2607.25216v1#S4.SS3.p1.
+  - Source: TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: [S2.p2](https://arxiv.org/html/2607.25216v1#S2.p2); [S4.SS3.p1](https://arxiv.org/html/2607.25216v1#S4.SS3.p1).
 
 [View all papers in this cell](../../README.md#iii--tokenization)

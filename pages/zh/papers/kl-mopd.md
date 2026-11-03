@@ -1,27 +1,32 @@
 # KL-MOPD
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/kl-mopd.md) | 中文
+
 | **题目** | *Discrepancy-Aware Multi-Objective On-Policy Distillation for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.36973) · [代码](https://github.com/Yandorn/KL-MOPD) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/kl-mopd.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.36973) · [代码](https://github.com/Yandorn/KL-MOPD) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / (NTP† / (NTP + Aux.)†) → KL-weighted OPD"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>CF"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / (NTP† / (NTP + Aux.)†) → KL-weighted OPD"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `CF`: Collaborative filtering signal.
-- `R-KM`: Residual k-means.
-- `Enc-Dec`: Encoder-decoder.
-- `(NTP† / (NTP + Aux.)†) → KL-weighted OPD`: Inferred next-token-based initialization variants followed by KL-weighted on-policy distillation.
-- `C-Beam`: Constrained beam search.
+- `CF`：纯协同过滤交互信号。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `(NTP† / (NTP + Aux.)†) → KL-weighted OPD`：先进行下一 token 预训练初始化，再执行 KL 加权的同策略蒸馏（OPD）。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | KL-MOPD 按教师与学生的初始 KL 散度加权，将点击与转化教师逐 token 蒸馏到学生生成器，改进标准在线策略蒸馏。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -69,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["KL-MOPD"]
-    P -->|predecessor| A["TIGER"]
+    P -->|"前序工作"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER is a backbone for token-wise multi-teacher distillation, with CF-derived SIDs in this study.
-  - 出处：KL-MOPD v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.36973v1#S4.SS1.p2; https://arxiv.org/html/2610.36973v1#S2.T3.
+  - 出处：KL-MOPD v1, Section 4.1 and Table 3: [S4.SS1.p2](https://arxiv.org/html/2610.36973v1#S4.SS1.p2); [S2.T3](https://arxiv.org/html/2610.36973v1#S2.T3).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

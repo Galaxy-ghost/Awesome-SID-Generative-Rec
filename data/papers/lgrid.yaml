@@ -16,9 +16,6 @@ tokenizer: Fixed
 objective: Discrim.
 inference: Scoring
 poi: true
-summary: 'Abstract: "semantic entanglement ... causing key attributes to be insufficiently preserved during quantization,
-  degrading SID quality, and leading to severe SID collisions". Collisions are the consequence; the cause is lost key attributes
-  (I). The interpretability complaint fits none of the six problems.'
 tldr: LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes
   the two streams separately, instead of quantizing one entangled representation.
 tldr_zh: LGRID 用 LLM 联合编码物品各字段，将隐状态路由到地理与语义槽位并分别量化两路表示，替代对混杂表示做单一量化。

@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: C-Beam
 poi: true
-summary: 四 token 位置编号是 next-location 生成目标，语义构码与文本双向对齐有明确全文证据。
 tldr: QT-Mob tokenizes locations into compact semantic tokens and fine-tunes an LLM with complementary objectives that align
   the tokens with its representations, for next-location prediction and mobility recovery.
 tldr_zh: QT-Mob 将位置编码为紧凑语义 token，并用将 token 对齐到 LLM 表示的互补目标微调模型，用于下一地点预测与移动轨迹恢复。

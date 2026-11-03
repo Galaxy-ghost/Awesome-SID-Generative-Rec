@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: Beam
 poi: false
-summary: 提出有限 rollout 可达性诊断与 hint-aware 信用分配的 SID 推荐训练方法。
 tldr: HCGRec gives a minimal target-prefix hint when GRPO rollouts miss the correct item, training hinted tokens with supervised
   loss and sampled suffixes with GRPO, to recover signal from zero-reward groups.
 tldr_zh: HCGRec 在 GRPO 采样全部偏离正确物品时提供最小目标前缀提示，对提示 token 用监督损失、对采样后缀用 GRPO，从零奖励组中恢复训练信号。

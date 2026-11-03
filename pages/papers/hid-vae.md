@@ -1,22 +1,28 @@
 # HiD-VAE
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/hid-vae.md)
+
 | **Title** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
 | :-- | :-- |
 | **Authors** | Fang et al. |
 | **Venue** | arXiv’25 |
-| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/hid-vae.md) |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` — Also: `I. Informativeness` × `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Hier. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Hier. RQ`: Hierarchically supervised residual quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -36,13 +42,14 @@ flowchart LR
 | Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
 | Key Contribution | HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization. |
 | Modified Stage | Tokenization |
-| Limitation | The tokenizer needs multi-level item tags, which an LLM must generate for datasets without them, so ID quality depends on tag quality (Sec. 3.4). |
+| Key Findings | HiD-VAE cuts Semantic ID collision rates to 2.1% on Beauty, 2.8% on Sports, and 1.9% on KuaiRand versus 18.7%, 19.5%, and 17.8% for unsupervised RQ-VAE, outperforming baselines across all three benchmarks (Abstract, Table 1, Table 3). |
+| Limitation | Hierarchically supervised quantization requires multi-level category tags, forcing datasets without taxonomies to rely on LLM-synthesized tags (Sec. 3.4). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two flaws: they are semantically flat, and different items collide on entangled representations (Abstract).
+Unsupervised residual quantization produces flat code hierarchies whose entangled latent spaces map distinct items to identical Semantic IDs (SIDs) (Abstract). HiD-VAE supervises each quantization depth with explicit category tags and penalizes latent overlap before discretization.
 
 > "Concurrently, to combat representation entanglement and prevent ID collisions at the source, we design a novel uniqueness loss that directly penalizes the latent representation overlap between distinct items." (Sec. 1)
 
@@ -54,34 +61,40 @@ The authors state that unsupervised tokenization gives Semantic IDs (SIDs) two f
 
 ```mermaid
 flowchart LR
-    A("Item text") --> C["Hierarchically supervised quantizer"]:::key
-    B("Multi-level tags, LLM-made if missing") --> C
-    L1{{"Tag prediction per level"}} -.-> C
-    L2{{"Uniqueness loss"}} -.-> C
-    C --> D("SIDs")
-    D --> E["Enc-Dec generator"]
-    E --> F["Constrained decoding"]
-    F --> G("Next item")
+    subgraph Tag["Taxonomy Preparation"]
+        T0("Raw item titles & categories") --> LLM["2-stage LLM retrieval-then-classification"]
+        LLM --> Tags("Multi-level category tags")
+    end
+    subgraph Quant["HiD-VAE Tokenizer (3 levels x 256)"]
+        X("Item text (768-d)") --> Q["Hierarchical residual quantizer"]:::key
+        Tags --> L1{{"Per-level tag alignment & prediction"}}
+        L1 -.-> Q
+        L2{{"Latent uniqueness repulsion loss"}}:::key -.-> Q
+    end
+    Q --> SID("Low-collision SIDs")
+    SID --> Gen["6-layer Enc-Dec generator"]
+    Gen --> CD{"Valid corpus prefix?"}
+    CD -->|yes| Out("Next item")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Hierarchical Tag Generation
 
-For datasets without hierarchical tags, such as KuaiRand, an LLM produces them in a two-stage "retrieval-then-classification" workflow (Sec. 3.4, Sec. 1).
+When a catalog lacks multi-level taxonomies (such as KuaiRand), an LLM synthesizes hierarchical tags through a two-stage "retrieval-then-classification" pipeline over item titles and raw categories (Sec. 1, Sec. 3.4).
 
 #### Hierarchically Supervised Quantization
 
-The trained codebooks can predict the item tags, which gives each recommendation a traceable semantic path (Abstract).
+Each RQ-VAE codebook depth aligns with and predicts the corresponding level of item tags, turning the discrete code prefix into an interpretable coarse-to-fine category path (Abstract).
 
 #### Uniqueness Loss
 
-The uniqueness loss penalizes latent overlap between different items (Sec. 1). The authors state that the loss also raises recommendation diversity (Abstract).
+A uniqueness repulsion loss penalizes latent proximity between distinct items prior to nearest-codeword rounding, reducing collisions while spreading items across the codebook (Abstract, Sec. 1).
 
 > "This mechanism not only resolves the critical ID collision problem but also promotes recommendation diversity by ensuring a more comprehensive utilization of the item representation space." (Abstract)
 
 #### Generation
 
-A generator predicts the next item's SID from the user history (Sec. 3.3).
+A 6-layer encoder-decoder predicts the target SID from the user's interaction history under valid-prefix constrained decoding (Sec. 3.3).
 
 > "During inference, constrained decoding ensures that generated IDs correspond to valid items." (Sec. 3.3)
 
@@ -109,7 +122,7 @@ A generator predicts the next item's SID from the user history (Sec. 3.3).
 
 </details>
 
-- Main comparison: on three public benchmarks, HiD-VAE reports better performance than the compared methods (Abstract).
+- Main comparison and collisions: across Amazon Beauty, Sports and Outdoors, and KuaiRand, HiD-VAE outperforms traditional, sequential, and generative baselines while lowering SID collision rates from 18.7% / 19.5% / 17.8% (RQ-VAE) to 2.1% / 2.8% / 1.9% (Abstract, Table 1, Table 3).
 
 ---
 
@@ -117,7 +130,7 @@ A generator predicts the next item's SID from the user history (Sec. 3.3).
 
 **Our analysis.**
 
-- TIGER uses unsupervised `RQ-VAE` codes with plain `Beam` search; HiD-VAE uses tag-supervised `Hier. RQ` codes with the same `Enc-Dec` generator and constrained decoding.
+- TIGER pairs unsupervised `RQ-VAE` codes with unconstrained `Beam` search and integer collision suffixes; HiD-VAE supervises `Hier. RQ` codebooks with category tags, repels colliding latents during training, and applies constrained decoding.
 
 ---
 
@@ -126,19 +139,23 @@ A generator predicts the next item's SID from the user history (Sec. 3.3).
 ```mermaid
 flowchart LR
     P["HiD-VAE"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["VQ-Rec"]
-    P -->|alternative| D["AdaSID"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LC-Rec"]
+    P -->|"competitor"| C["VQ-Rec"]
+    P -->|"alternative"| D["AdaSID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER resolves collisions by appending an integer after unsupervised RQ-VAE; HiD-VAE supervises each level with category tags and adds a uniqueness loss so that fewer items collide.
-  - Source: HiD-VAE v2, baselines and Table 1: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.T1; TIGER-style suffix in the ablation: https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1 and https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1.
+  - Source: HiD-VAE v2, baselines and Table 1: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1); TIGER-style suffix in the ablation: [S4.I4.i4.p1](https://arxiv.org/html/2508.04618v2#S4.I4.i4.p1) and [S4.I5.i2.p1](https://arxiv.org/html/2508.04618v2#S4.I5.i2.p1).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to RQ-VAE codes; HiD-VAE changes the tokenizer and keeps a small encoder-decoder; LC-Rec is run with a T5-base backbone for scale parity.
-  - Source: HiD-VAE v2, baselines: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.SS1.p7; Table 1: https://arxiv.org/html/2508.04618v2#S4.T1.
+  - Source: HiD-VAE v2, baselines: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.SS1.p7](https://arxiv.org/html/2508.04618v2#S4.SS1.p7); Table 1: [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec's product-quantized codes are adapted to generation here and collide more often (21.2% on Beauty) than HiD-VAE's hierarchical codes.
-  - Source: HiD-VAE v2, baselines and adaptation: https://arxiv.org/html/2508.04618v2#S4.SS1.p4 and https://arxiv.org/html/2508.04618v2#S4.I3.i2.p1; Tables 1 and 3: https://arxiv.org/html/2508.04618v2#S4.T1 and https://arxiv.org/html/2508.04618v2#S4.T3.
+  - Source: HiD-VAE v2, baselines and adaptation: [S4.SS1.p4](https://arxiv.org/html/2508.04618v2#S4.SS1.p4) and [S4.I3.i2.p1](https://arxiv.org/html/2508.04618v2#S4.I3.i2.p1); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2508.04618v2#S4.T1) and [S4.T3](https://arxiv.org/html/2508.04618v2#S4.T3).
 - **Alternative** · [AdaSID](adasid.md): AdaSID later argues that HiD-VAE's overlap-aware objective treats collisions under a fixed standard, and makes the repulsion adaptive.
-  - Source: Evidence is from the later AdaSID paper, Sections 1 and 2.2: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1.
+  - Source: Evidence is from the later AdaSID paper, Sections 1 and 2.2: [S1.p3](https://arxiv.org/html/2604.23522v1#S1.p3) and [S2.SS2.p1](https://arxiv.org/html/2604.23522v1#S2.SS2.p1).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

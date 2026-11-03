@@ -1,26 +1,32 @@
 # TriAlignGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/trialigngr.md) | 中文
+
 | **题目** | *Triangular Multitask Alignment with Multimodal Deep Interest Mining for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zeng et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Representation` |
-| **链接** | [论文](https://arxiv.org/abs/2605.05249) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/trialigngr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **链接** | [论文](https://arxiv.org/abs/2605.05249) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
-- `C-Beam`: Constrained beam search.
+- `Text+Img`：文本与视觉图像表征。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | TriAlignGR 在 SID 构建中引入视觉内容与 LLM 挖掘的用户意图，并在统一自回归损失下训练连接 SID、文本与图像的多项生成任务。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 
@@ -68,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TriAlignGR"]
-    P -->|competitor| A["SIDReasoner"]
-    P -->|predecessor| B["MiniOneRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["ETEGRec"]
-    P -->|competitor| E["LC-Rec"]
+    P -->|"同期对比"| A["SIDReasoner"]
+    P -->|"前序工作"| B["MiniOneRec"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["ETEGRec"]
+    P -->|"同期对比"| E["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [SIDReasoner](sidreasoner.md): SIDReasoner is the strongest baseline, aligning SIDs and language through enriched corpora and RL; TriAlignGR adds visual captions and mined interests before quantization and eight alignment tasks.
-  - 出处：TriAlignGR v3, Section 4.1: https://arxiv.org/html/2605.05249v3#S4.SS1.p1; Table 2: https://arxiv.org/html/2605.05249v3#S4.T2.
+  - 出处：TriAlignGR v3, Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2605.05249v3#S4.SS1.p1); Table 2: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2).
 - **前序工作** · [MiniOneRec](minionerec.md): TriAlignGR shares MiniOneRec's backbone, training protocol, and RQ-VAE configuration and isolates the effect of its SID enrichment against it.
-  - 出处：TriAlignGR v3, Section 4.1 comparison: https://arxiv.org/html/2605.05249v3#S4.SS1.p3; Appendix Table 8: https://arxiv.org/html/2605.05249v3#A5.T8.
+  - 出处：TriAlignGR v3, Section 4.1 comparison: [S4.SS1.p3](https://arxiv.org/html/2605.05249v3#S4.SS1.p3); Appendix Table 8: [A5.T8](https://arxiv.org/html/2605.05249v3#A5.T8).
 - **同期对比** · [LETTER](letter.md): LETTER regularizes a text tokenizer; TriAlignGR changes the tokenizer input to multimodal, interest-enriched embeddings.
-  - 出处：TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
+  - 出处：TriAlignGR v3, Table 2 baseline: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2).
 - **同期对比** · [ETEGRec](etegrec.md): ETEGRec trains tokenizer and generator jointly; TriAlignGR keeps a fixed tokenizer and adds multitask alignment.
-  - 出处：TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
+  - 出处：TriAlignGR v3, Table 2 baseline: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec uses text-only SIDs with alignment tasks; TriAlignGR extends the task set with visual-semantic tasks.
-  - 出处：TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.
+  - 出处：TriAlignGR v3, Table 2 baseline: [S4.T2](https://arxiv.org/html/2605.05249v3#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

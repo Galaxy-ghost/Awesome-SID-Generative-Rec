@@ -1,25 +1,32 @@
 # UTGRec
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/utgrec.md)
+
 | **Title** | *Universal Item Tokenization for Transferable Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zheng et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2504.04405) · [Code](https://github.com/RUCAIBox/UTGRec) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/utgrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2504.04405) · [Code](https://github.com/RUCAIBox/UTGRec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>Tree"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Multi-Dom`: Unified item representations built jointly across multiple domains.
+- `Tree`: Tree-structured hierarchical codebook tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UTGRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["VQ-Rec"]
-    P -->|alternative| D["GenCDR"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    P -->|"competitor"| C["VQ-Rec"]
+    P -->|"alternative"| D["GenCDR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER trains a domain-specific RQ-VAE on text embeddings and appends an extra code for conflicts; UTGRec learns one MLLM-based tree tokenizer across domains and reassigns conflicting last-level codes.
-  - Source: UTGRec v3, baselines TIGER and TIGER-M: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p14 and https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p16; conflict handling: https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.
+  - Source: UTGRec v3, baselines TIGER and TIGER-M: [S3.SS1.SSS2.p14](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p14) and [S3.SS1.SSS2.p16](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p16); conflict handling: [S2.SS4.SSS1.p2](https://arxiv.org/html/2504.04405v3#S2.SS4.SSS1.p2); Table 2: [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2).
 - **Competitor** · [LETTER](letter.md): LETTER regularizes RQ-VAE with collaborative and diversity terms per domain; UTGRec injects collaborative knowledge through co-occurring item alignment in a universal tokenizer.
-  - Source: UTGRec v3, baselines: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p15; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.
+  - Source: UTGRec v3, baselines: [S3.SS1.SSS2.p15](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p15); Table 2: [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec transfers text codes across domains for discriminative sequence modeling; UTGRec transfers a generative tokenizer and recommender across domains.
-  - Source: UTGRec v3, content-based baselines: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11; Table 2: https://arxiv.org/html/2504.04405v3#S3.T2.
+  - Source: UTGRec v3, content-based baselines: [S3.SS1.SSS2.p11](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11); Table 2: [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2).
 - **Alternative** · [GenCDR](gencdr.md): GenCDR later cites UTGRec as single-domain-oriented tokenization and adds domain-specific adapters and routing for cross-domain generation.
-  - Source: Evidence is from the later GenCDR paper, Related Work: https://arxiv.org/html/2511.08006v2#Sx2.p2.
+  - Source: Evidence is from the later GenCDR paper, Related Work: [Sx2.p2](https://arxiv.org/html/2511.08006v2#Sx2.p2).
 
 [View all papers in this cell](../../README.md#vi--tokenization)

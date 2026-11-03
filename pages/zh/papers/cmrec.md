@@ -1,24 +1,30 @@
 # CMRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cmrec.md) | 中文
+
 | **题目** | *Cross-Country Code-Mixing for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Gao et al. |
-| **会议** | CIKM’26 Short |
-| **问题与阶段** | `VI. 泛化` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2609.28972) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/cmrec.md) |
+| **发表** | CIKM’26 Short |
+| **问题与阶段** | `VI. 泛化` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2609.28972) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>– / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>– / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only†`：仅解码器自回归架构（由配置推断）。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -31,9 +37,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -66,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CMRec"]
-    P -->|predecessor| A["GenCDR"]
-    P -->|competitor| B["TIGER"]
-    P -->|alternative| C["GMC"]
+    P -->|"前序工作"| A["GenCDR"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"替代方案"| C["GMC"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
-  - 出处：https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+  - 出处：[S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2)
 - **同期对比** · [TIGER](tiger.md): Generative recommendation baseline trained on the common partition.
-  - 出处：https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1
+  - 出处：[S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2609.28972v1#S4.T1)
 - **替代方案** · [GMC](gmc.md): Shared-token cross-domain transfer contrasted with data-level code mixing.
-  - 出处：https://arxiv.org/html/2609.28972v1#S1.p2
+  - 出处：[S1.p2](https://arxiv.org/html/2609.28972v1#S1.p2)
 
 [查看同格全部论文](../../../README.zh.md#vi--training)

@@ -1,31 +1,37 @@
 # ChronoID
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/chronoid.md)
+
 | **Title** | *Infusing Explicit Temporal Signals into Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Nian et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2606.14260) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/chronoid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2606.14260) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Time"] --> T["Tokenization<br/>RQ-VAE / Par. VQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
 - `Text+Time`: Text representations combined with interaction timestamps.
 - `RQ-VAE / Par. VQ`: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
+- `Dec-Only†`: Decoder-only autoregressive backbone (inferred).
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam†`: Autoregressive beam search (inferred).
 
 ### TL;DR
 
 > [!NOTE]
-> ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals enter the IDs, unlike existing time-agnostic Semantic ID learning.
+> ChronoID benchmarks time-aware Semantic ID construction across temporal encoding, fusion, and quantization choices, replacing static time-agnostic IDs.
 
 ---
 
@@ -34,7 +40,7 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals enter the IDs, unlike existing time-agnostic Semantic ID learning. |
+| Key Contribution | ChronoID benchmarks time-aware Semantic ID construction across temporal encoding, fusion, and quantization choices, replacing static time-agnostic IDs. |
 | Modified Stage | Tokenization |
 
 ---
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ChronoID"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TokenRec"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|predecessor| D["TIGER"]
+    P -->|"predecessor"| A["MiniOneRec"]
+    P -->|"predecessor"| B["TokenRec"]
+    P -->|"competitor"| C["ActionPiece"]
+    P -->|"predecessor"| D["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
-  - Source: ChronoID v1, Introduction/Section 3 and Table 1: https://arxiv.org/html/2606.14260v1#S1.p2 ; https://arxiv.org/html/2606.14260v1#S3.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - Source: ChronoID v1, Introduction/Section 3 and Table 1: [S1.p2](https://arxiv.org/html/2606.14260v1#S1.p2) ; [S3.p1](https://arxiv.org/html/2606.14260v1#S3.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **Predecessor** · [TokenRec](tokenrec.md): ChronoID adopts parallel quantization as one temporal-tokenization design.
-  - Source: ChronoID v1, Sections 3.3/6 and Table 1: https://arxiv.org/html/2606.14260v1#S3.SS3.p3 ; https://arxiv.org/html/2606.14260v1#S6.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - Source: ChronoID v1, Sections 3.3/6 and Table 1: [S3.SS3.p3](https://arxiv.org/html/2606.14260v1#S3.SS3.p3) ; [S6.p1](https://arxiv.org/html/2606.14260v1#S6.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece is a generative recommendation baseline in the temporal benchmark.
-  - Source: ChronoID v1, Section 5.1 and Table 1: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - Source: ChronoID v1, Section 5.1 and Table 1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **Predecessor** · [TIGER](tiger.md): ChronoID extends the static residual-quantization paradigm with time-aware IDs.
-  - Source: ChronoID v1, Section 6: https://arxiv.org/html/2606.14260v1#S6.p1.
+  - Source: ChronoID v1, Section 6: [S6.p1](https://arxiv.org/html/2606.14260v1#S6.p1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

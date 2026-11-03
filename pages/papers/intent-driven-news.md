@@ -1,22 +1,28 @@
 # Intent-Driven-News
 
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/intent-driven-news.md)
+
 | **Title** | *Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* |
 | :-- | :-- |
 | **Authors** | Su et al. |
 | **Venue** | ACL’26 Industry |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.07613) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/intent-driven-news.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.07613) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>CoT+Fuzzy Match"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Intent-Driven-News"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["OneRec-Think"]
-    P -->|alternative| C["DiscRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["OneRec-Think"]
+    P -->|"alternative"| C["DiscRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): Compared on cold-start news users; the proposed method generates conversational SID prefixes.
-  - Source: Intent-Driven News v1, Section 4.5 and Table 6: https://arxiv.org/html/2605.07613v1#S4.SS5.SSS0.Px2.p1; https://arxiv.org/html/2605.07613v1#S4.T6.
+  - Source: Intent-Driven News v1, Section 4.5 and Table 6: [S4.SS5.SSS0.Px2.p1](https://arxiv.org/html/2605.07613v1#S4.SS5.SSS0.Px2.p1); [S4.T6](https://arxiv.org/html/2605.07613v1#S4.T6).
 - **Alternative** · [OneRec-Think](onerec-think.md): Cited SID reasoning approach; this work targets six conversational intents.
-  - Source: Intent-Driven News v1, Section 2: https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1.
+  - Source: Intent-Driven News v1, Section 2: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1).
 - **Alternative** · [DiscRec](discrec.md): Disentangles semantic and collaborative signals; this work focuses on conversational intent grounding.
-  - Source: Intent-Driven News v1, Section 2: https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1.
+  - Source: Intent-Driven News v1, Section 2: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1).
 
 [View all papers in this cell](../../README.md#iii--training)

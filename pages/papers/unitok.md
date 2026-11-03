@@ -1,25 +1,32 @@
 # UniTok
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unitok.md)
+
 | **Title** | *Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* |
 | :-- | :-- |
 | **Authors** | Hou and Shin |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/unitok.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>TokenMoE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Multi-Dom`: Unified item representations built jointly across multiple domains.
+- `TokenMoE`: Mixture-of-experts tokenizer with shared and domain-specific experts.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam†`: Autoregressive beam search (inferred).
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniTok"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["LC-Rec"]
-    P -->|competitor| D["CID"]
+    P -->|"competitor"| A["LETTER"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["LC-Rec"]
+    P -->|"competitor"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [LETTER](letter.md): LETTER trains one regularized RQ-VAE tokenizer per dataset; UniTok shares one tokenizer across ten domains with a mixture of quantization experts.
-  - Source: UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1-3: https://arxiv.org/html/2511.12922v1#Sx3.T1, https://arxiv.org/html/2511.12922v1#Sx4.T2, https://arxiv.org/html/2511.12922v1#Sx4.T3.
+  - Source: UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Tables 1-3: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1), [Sx4.T2](https://arxiv.org/html/2511.12922v1#Sx4.T2), [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3).
 - **Competitor** · [TIGER](tiger.md): TIGER is both a tokenizer baseline and the downstream T5 recommender; UniTok replaces per-domain RQ codebooks with routed experts.
-  - Source: UniTok v1, baselines and backbone: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1 and https://arxiv.org/html/2511.12922v1#A4.SSx4.p1; Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.
+  - Source: UniTok v1, baselines and backbone: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1) and [A4.SSx4.p1](https://arxiv.org/html/2511.12922v1#A4.SSx4.p1); Table 1: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to per-domain indices; UniTok targets one tokenizer for many domains.
-  - Source: UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Tables 1 and 3: https://arxiv.org/html/2511.12922v1#Sx3.T1 and https://arxiv.org/html/2511.12922v1#Sx4.T3.
+  - Source: UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Tables 1 and 3: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1) and [Sx4.T3](https://arxiv.org/html/2511.12922v1#Sx4.T3).
 - **Competitor** · [CID](cid.md): P5-TID and P5-SemID (Hua et al., 2023) use titles or categories as IDs; UniTok learns codebook IDs.
-  - Source: UniTok v1, baselines: https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1; Table 1: https://arxiv.org/html/2511.12922v1#Sx3.T1.
+  - Source: UniTok v1, baselines: [Sx4.SSx1.SSSx2.p1](https://arxiv.org/html/2511.12922v1#Sx4.SSx1.SSSx2.p1); Table 1: [Sx3.T1](https://arxiv.org/html/2511.12922v1#Sx3.T1).
 
 [View all papers in this cell](../../README.md#vi--tokenization)

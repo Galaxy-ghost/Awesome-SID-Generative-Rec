@@ -1,27 +1,32 @@
 # AdaSID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/adasid.md) | 中文
+
 | **题目** | *Beyond Static Collision Handling: Adaptive Semantic ID Learning for Multimodal Recommendation at Industrial Scale* |
 | :-- | :-- |
 | **作者** | Pan et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2604.23522) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/adasid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2604.23522) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `RQ`: Residual quantization.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text+Img`：文本与视觉图像表征。
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | AdaSID 在编号器训练中对语义相近物品放松排斥，并按局部冲突负载缩放其余排斥项，替代固定强度的重叠正则。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["AdaSID"]
-    P -->|predecessor| A["QuaSID"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["HiD-VAE"]
-    P -->|alternative| D["ETEGRec"]
+    P -->|"前序工作"| A["QuaSID"]
+    P -->|"前序工作"| B["TIGER"]
+    P -->|"替代方案"| C["HiD-VAE"]
+    P -->|"替代方案"| D["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [QuaSID](quasid.md): QuaSID applies a fixed qualification-aware collision regularizer; AdaSID instantiates its collision term following QuaSID and makes the repulsion adaptive to semantic compatibility, local load, and training progress.
-  - 出处：AdaSID v1, Section 4.1 follows Hu et al. (2026) for the collision term: https://arxiv.org/html/2604.23522v1#S4.SS1.p2; QuaSID is the collision-aware baseline in Section 5.1.3 and Table 2: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS3.p1 and https://arxiv.org/html/2604.23522v1#S5.T2.
+  - 出处：AdaSID v1, Section 4.1 follows Hu et al. (2026) for the collision term: [S4.SS1.p2](https://arxiv.org/html/2604.23522v1#S4.SS1.p2); QuaSID is the collision-aware baseline in Section 5.1.3 and Table 2: [S5.SS1.SSS3.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS3.p1) and [S5.T2](https://arxiv.org/html/2604.23522v1#S5.T2).
 - **前序工作** · [TIGER](tiger.md): TIGER is the shared downstream generative backbone; AdaSID changes only how the SIDs are learned.
-  - 出处：AdaSID v1, Section 5.1.2: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1; Section 5.1.4: https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1.
+  - 出处：AdaSID v1, Section 5.1.2: [S5.SS1.SSS2.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS2.p1); Section 5.1.4: [S5.SS1.SSS4.p1](https://arxiv.org/html/2604.23522v1#S5.SS1.SSS4.p1).
 - **替代方案** · [HiD-VAE](hid-vae.md): HiD-VAE suppresses SID overlaps with an explicit objective under a fixed standard, while AdaSID relaxes or strengthens repulsion adaptively.
-  - 出处：AdaSID v1, Section 1 and Section 2.2 cite Fang et al. (2025) among static overlap-aware objectives: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1; not a baseline in Table 2.
+  - 出处：AdaSID v1, Section 1 and Section 2.2 cite Fang et al. (2025) among static overlap-aware objectives: [S1.p3](https://arxiv.org/html/2604.23522v1#S1.p3) and [S2.SS2.p1](https://arxiv.org/html/2604.23522v1#S2.SS2.p1); not a baseline in Table 2.
 - **替代方案** · [ETEGRec](etegrec.md): ETEGRec aligns the tokenizer with downstream recommendation through end-to-end supervision, whereas AdaSID keeps a pre-trained tokenizer and regulates code overlaps adaptively.
-  - 出处：AdaSID v1, Section 2.2 cites Liu et al. (2025) for end-to-end downstream supervision: https://arxiv.org/html/2604.23522v1#S2.SS2.p1; not a baseline in Table 2.
+  - 出处：AdaSID v1, Section 2.2 cites Liu et al. (2025) for end-to-end downstream supervision: [S2.SS2.p1](https://arxiv.org/html/2604.23522v1#S2.SS2.p1); not a baseline in Table 2.
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

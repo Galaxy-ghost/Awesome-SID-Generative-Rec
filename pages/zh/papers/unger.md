@@ -1,26 +1,32 @@
 # UNGER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/unger.md) | 中文
+
 | **题目** | *Generative Recommendation with A Unified Code via Semantic and Collaborative Integration* |
 | :-- | :-- |
 | **作者** | Xiao et al. |
-| **会议** | TOIS’25 |
-| **问题与阶段** | `I. 信息量` · `Representation` |
-| **链接** | [论文](https://arxiv.org/abs/2502.06269) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/unger.md) |
+| **发表** | TOIS’25 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **链接** | [论文](https://arxiv.org/abs/2502.06269) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `R-KM`: Residual k-means.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Ctr.`: NTP plus a contrastive loss.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Ctr.`：下一 token 预测结合对比学习损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | UNGER 通过跨模态对齐与下一物品预测学习统一的语义-协同嵌入并量化为单一码，同时加入模态内蒸馏，替代各模态分别编码的做法。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UNGER"]
-    P -->|predecessor| A["EAGER"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ColaRec"]
+    P -->|"前序工作"| A["EAGER"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["ColaRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [EAGER](eager.md): Its dual-code design motivates UNGER's unified code.
-  - 出处：https://arxiv.org/html/2502.06269v3#S1.p3 ; §3.3.5 follows its quantization approach; §4.2 baseline.
+  - 出处：[S1.p3](https://arxiv.org/html/2502.06269v3#S1.p3) ; §3.3.5 follows its quantization approach; §4.2 baseline.
 - **同期对比** · [TIGER](tiger.md): Semantic-only generative baseline reimplemented in Table 3.
-  - 出处：https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3 ; https://arxiv.org/html/2502.06269v3#S4.T3
+  - 出处：[S4.SS2.SSS1.p3](https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3) ; [S4.T3](https://arxiv.org/html/2502.06269v3#S4.T3)
 - **同期对比** · [ColaRec](colarec.md): Collaborative/content baseline reimplemented in Table 3.
-  - 出处：https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3 ; https://arxiv.org/html/2502.06269v3#S4.T3
+  - 出处：[S4.SS2.SSS1.p3](https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3) ; [S4.T3](https://arxiv.org/html/2502.06269v3#S4.T3)
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

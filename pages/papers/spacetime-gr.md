@@ -1,19 +1,23 @@
 # Spacetime-GR
 
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/spacetime-gr.md)
+
 | **Title** | *A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* |
 | :-- | :-- |
 | **Authors** | Lin et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Backbone` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.16126) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/spacetime-gr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2508.16126) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Geo"] --> T["Tokenization<br/>Geo-Idx"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
@@ -22,6 +26,7 @@ flowchart LR
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Spacetime-GR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): Semantic-ID generation inspires the geographic two-token POI indexing design.
-  - Source: Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2.
+  - Source: Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): [S3.SS2.SSS1.Px2.p2](https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2).
 - **Alternative** · [OneRec](onerec.md): Cited MoE/DPO recommender; Spacetime-GR specializes generation for spatiotemporal POI contexts.
-  - Source: Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): https://arxiv.org/html/2508.16126v1#S2.SS1.p3.
+  - Source: Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): [S2.SS1.p3](https://arxiv.org/html/2508.16126v1#S2.SS1.p3).
 
 [View all papers in this cell](../../README.md#i--backbone)

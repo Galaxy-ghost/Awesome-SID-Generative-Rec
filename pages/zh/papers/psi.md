@@ -1,25 +1,32 @@
 # PSI
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/psi.md) | 中文
+
 | **题目** | *Purely Semantic Indexing for LLM-based Generative Recommendation and Retrieval* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2509.16446) · [代码](https://github.com/wangshanyw/PurelySemanticIndexing) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/psi.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2509.16446) · [代码](https://github.com/wangshanyw/PurelySemanticIndexing) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Post-hoc RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Post-hoc RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Post-hoc RQ`：残差量化后接无冲突全局/递归重分配。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | PSI 通过穷举候选匹配或递归残差搜索放宽最近质心选择，直接分配唯一且保语义的 ID，避免靠追加无语义后缀 token 消解冲突。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PSI"]
-    P -->|predecessor| A["LMIndexer"]
-    P -->|alternative| B["TIGER"]
-    P -->|alternative| C["LIGER"]
-    P -->|successor| D["Latte"]
+    P -->|"前序工作"| A["LMIndexer"]
+    P -->|"替代方案"| B["TIGER"]
+    P -->|"替代方案"| C["LIGER"]
+    P -->|"后续工作"| D["Latte"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [LMIndexer](lmindexer.md): PSID follows LMIndexer's tasks, datasets, and setup, and replaces conflict tokens with conflict-free semantic assignment.
-  - 出处：PSID v1, Section 4.1 follows Jin et al. (2023): https://arxiv.org/html/2509.16446v1#Sx4.SSx1.p1; dataset tables: https://arxiv.org/html/2509.16446v1#Sx4.T2 and https://arxiv.org/html/2509.16446v1#Sx4.T3.
+  - 出处：PSID v1, Section 4.1 follows Jin et al. (2023): [Sx4.SSx1.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx1.p1); dataset tables: [Sx4.T2](https://arxiv.org/html/2509.16446v1#Sx4.T2) and [Sx4.T3](https://arxiv.org/html/2509.16446v1#Sx4.T3).
 - **替代方案** · [TIGER](tiger.md): TIGER appends a non-semantic conflict token to colliding IDs and uses a heuristic quota for cold-start items; PSID reassigns colliding items to non-nearest centroids so IDs stay fully semantic.
-  - 出处：PSID v1, Section 1 on fallback tokens: https://arxiv.org/html/2509.16446v1#Sx1.p2; cold-start discussion citing Rajput et al. (2023): https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1.
+  - 出处：PSID v1, Section 1 on fallback tokens: [Sx1.p2](https://arxiv.org/html/2509.16446v1#Sx1.p2); cold-start discussion citing Rajput et al. (2023): [Sx4.SSx10.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1).
 - **替代方案** · [LIGER](liger.md): LIGER adds dense retrieval to recover cold-start items; PSID improves cold-start generation by removing unpredictable conflict tokens.
-  - 出处：PSID v1, Section 4.10 cites Yang et al. (2024): https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1.
+  - 出处：PSID v1, Section 4.10 cites Yang et al. (2024): [Sx4.SSx10.p1](https://arxiv.org/html/2509.16446v1#Sx4.SSx10.p1).
 - **后续工作** · [Latte](latte.md): Latte later uses PSID as its base model and its ESM conflict resolution, and adds latent prefix tokens.
-  - 出处：Evidence is from the later Latte paper: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.
+  - 出处：Evidence is from the later Latte paper: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1) and [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

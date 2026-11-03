@@ -1,28 +1,32 @@
 # Deco
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/deco.md) | 中文
+
 | **题目** | *Separating Thinking from Spelling for Efficient Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Gusak et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2610.32980) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/deco.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.32980) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / –"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text / –"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Text / –`: Text representations in one configuration; the representation source is not reported in another.
-- `R-KM`: Residual k-means.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `C-Beam`: Constrained beam search.
+- `Text / –`：一种配置采用文本表征，另一种配置未报告表征来源。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -35,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | Deco 将每个历史物品读作单个融合 token，把交互历史浓缩为下一物品概念，并在带 KV 缓存的轻量解码器而非完整骨干网络中执行束搜索。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -70,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Deco"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["LLaDA-Rec"]
-    P -->|competitor| D["NEZHA"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["RPG"]
+    P -->|"同期对比"| C["LLaDA-Rec"]
+    P -->|"同期对比"| D["NEZHA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): KV-cached TIGER is retrained as an autoregressive comparison.
-  - 出处：Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
+  - 出处：Deco v2, Sec.4.1.3 and Table3: [S4.SS1.SSS3.p2](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2); [S4.T3](https://arxiv.org/html/2610.32980v2#S4.T3).
 - **同期对比** · [RPG](rpg.md): RPG is compared with both graph search and full-catalog scoring.
-  - 出处：Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
+  - 出处：Deco v2, Sec.4.1.3 and Table3: [S4.SS1.SSS3.p2](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2); [S4.T3](https://arxiv.org/html/2610.32980v2#S4.T3).
 - **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a retrained diffusion-based comparison.
-  - 出处：Deco v2, Related Work and Table3: https://arxiv.org/html/2610.32980v2#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
+  - 出处：Deco v2, Related Work and Table3: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.32980v2#S2.SS0.SSS0.Px2.p1); [S4.SS1.SSS3.p2](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2); [S4.T3](https://arxiv.org/html/2610.32980v2#S4.T3).
 - **同期对比** · [NEZHA](nezha.md): NEZHA is a retrained efficient-generation comparison.
-  - 出处：Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.
+  - 出处：Deco v2, Sec.4.1.3 and Table3: [S4.SS1.SSS3.p2](https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2); [S4.T3](https://arxiv.org/html/2610.32980v2#S4.T3).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

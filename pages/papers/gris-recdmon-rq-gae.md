@@ -1,26 +1,30 @@
 # GrIS (RecDMoN / RQ-GAE)
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gris-recdmon-rq-gae.md)
+
 | **Title** | *Graph-Informed Semantic IDs (RecDMoN / RQ-GAE) for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Medvedev et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.01533) · [Code](https://github.com/hirc-airecs/graph-informed-sids) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gris-recdmon-rq-gae.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.01533) · [Code](https://github.com/hirc-airecs/graph-informed-sids) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RecDMoN / RQ-GAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / –"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `RecDMoN / RQ-GAE`: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GrIS (RecDMoN / RQ-GAE)"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["MMGRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    P -->|"competitor"| C["MMGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): Uses TIGER's T5 backbone to isolate improvements from graph-informed SID construction.
-  - Source: GrIS v1, Section 5.2.1: https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1.
+  - Source: GrIS v1, Section 5.2.1: [S5.SS2.SSS1.p1](https://arxiv.org/html/2610.01533v1#S5.SS2.SSS1.p1).
 - **Competitor** · [LETTER](letter.md): LETTER aligns codes with pretrained CF embeddings; GrIS explicitly constructs and partitions item graphs.
-  - Source: GrIS v1, Sections 2.2/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS2.p1; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.01533v1#S5.T3.
+  - Source: GrIS v1, Sections 2.2/5.1 and Table 3: [S2.SS2.p1](https://arxiv.org/html/2610.01533v1#S2.SS2.p1); [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1); [S5.T3](https://arxiv.org/html/2610.01533v1#S5.T3).
 - **Competitor** · [MMGRec](mmgrec.md): MMGRec supplies a graph-aware tokenizer baseline; GrIS also studies recursive graph pooling and graph-reconstruction quantization.
-  - Source: GrIS v1, Sections 2.3/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS3.p2; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.01533v1#S5.T3.
+  - Source: GrIS v1, Sections 2.3/5.1 and Table 3: [S2.SS3.p2](https://arxiv.org/html/2610.01533v1#S2.SS3.p2); [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1); [S5.T3](https://arxiv.org/html/2610.01533v1#S5.T3).
 
 [View all papers in this cell](../../README.md#i--tokenization)

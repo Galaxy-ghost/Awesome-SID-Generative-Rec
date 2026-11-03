@@ -1,22 +1,28 @@
 # SAPO
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sapo.md)
+
 | **Title** | *Step-Aligned Policy Optimization for Reasoning-Based Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zheng et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.17648) · [Code](https://github.com/zhengzaiyi/SAPO) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/sapo.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.17648) · [Code](https://github.com/zhengzaiyi/SAPO) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SAPO"]
-    P -->|predecessor| A["SIDReasoner"]
-    P -->|competitor| B["OneRec-Think"]
-    P -->|competitor| C["TIGER"]
+    P -->|"predecessor"| A["SIDReasoner"]
+    P -->|"competitor"| B["OneRec-Think"]
+    P -->|"competitor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [SIDReasoner](sidreasoner.md): SAPO shares SIDReasoner Stage 1/2 checkpoints but replaces rollout-level Stage 3 credit with rewards and advantages for thinking-block/SID-token pairs.
-  - Source: SAPO v1, Appendix G and Section 5.2: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.SS2.p2.
+  - Source: SAPO v1, Appendix G and Section 5.2: [A7.p3](https://arxiv.org/html/2605.17648v1#A7.p3); [S5.SS2.p2](https://arxiv.org/html/2605.17648v1#S5.SS2.p2).
 - **Competitor** · [OneRec-Think](onerec-think.md): OneRec-Think is a reasoning-based generative baseline with outcome-level feedback; SAPO localizes RL credit to individual SID reasoning steps.
-  - Source: SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.T1.
+  - Source: SAPO v1, Appendix G and Table 1: [A7.p3](https://arxiv.org/html/2605.17648v1#A7.p3); [S5.T1](https://arxiv.org/html/2605.17648v1#S5.T1).
 - **Competitor** · [TIGER](tiger.md): TIGER is the non-reasoning residual-SID generation baseline; SAPO adds structured reasoning and step-aligned policy optimization.
-  - Source: SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p2; https://arxiv.org/html/2605.17648v1#S5.T1.
+  - Source: SAPO v1, Appendix G and Table 1: [A7.p2](https://arxiv.org/html/2605.17648v1#A7.p2); [S5.T1](https://arxiv.org/html/2605.17648v1#S5.T1).
 
 [View all papers in this cell](../../README.md#iv--training)

@@ -1,26 +1,31 @@
 # DACT
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dact.md) | 中文
+
 | **题目** | *Drift-Aware Continual Tokenization for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Feng et al. |
-| **会议** | SIGIR’26 |
-| **问题与阶段** | `VI. 泛化` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2603.29705) · [代码](https://github.com/HomesAmaranta/DACT) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/dact.md) |
+| **发表** | SIGIR’26 |
+| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2603.29705) · [代码](https://github.com/HomesAmaranta/DACT) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec / Dec-Only`：同时在编码器-解码器与仅解码器两种骨干上验证。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -33,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DACT"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LC-Rec"]
-    P -->|predecessor| C["LETTER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LC-Rec"]
+    P -->|"前序工作"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): T5-based SID generator is a backbone for testing DACT under period-wise tokenizer and recommender updates.
-  - 出处：https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T2
+  - 出处：[S4.SS1.SSS2.p1](https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1) ; #S4.T2
 - **前序工作** · [LC-Rec](lc-rec.md): LLM-based generative framework is adapted with Qwen2.5-1.5B-Instruct and continual LoRA updates to evaluate DACT.
-  - 出处：https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T3
+  - 出处：[S4.SS1.SSS2.p1](https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1) ; #S4.T3
 - **前序工作** · [LETTER](letter.md): DACT follows LETTER's CF-to-quantized-embedding collaborative regularization, then adds drift-aware continual adaptation.
-  - 出处：https://arxiv.org/html/2603.29705v1#S2.SS1.p5
+  - 出处：[S2.SS1.p5](https://arxiv.org/html/2603.29705v1#S2.SS1.p5)
 
 [查看同格全部论文](../../../README.zh.md#vi--tokenization)

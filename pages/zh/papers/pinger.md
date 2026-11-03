@@ -1,26 +1,31 @@
 # PinGER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pinger.md) | 中文
+
 | **题目** | *Token-Efficient Generative Retrieval with Semantic IDs* |
 | :-- | :-- |
 | **作者** | Li et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2610.33435) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/pinger.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.33435) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>– / NTP → DPO"] --> I["Inference<br/>Div. C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>– / NTP → DPO"] --> I["推理 Inference<br/>Div. C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `–`: Not reported in the paper.
-- `NTP → DPO`: NTP, then preference optimization.
-- `Div. C-Beam`: Constrained beam search with an explicit diversity mechanism.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `Div. C-Beam`：引入显式多样性机制的约束束搜索。
 
 ### TL;DR
 
@@ -33,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PinGER"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["STATIC"]
-    P -->|predecessor| C["COBRA"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"前序工作"| B["STATIC"]
+    P -->|"前序工作"| C["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is compared at matched training context and serving-token budgets.
-  - 出处：PinGER v1, Section 5.2.1 and Table 2: https://arxiv.org/html/2610.33435v1#S5.SS2.SSS1.p1; https://arxiv.org/html/2610.33435v1#S5.T2.
+  - 出处：PinGER v1, Section 5.2.1 and Table 2: [S5.SS2.SSS1.p1](https://arxiv.org/html/2610.33435v1#S5.SS2.SSS1.p1); [S5.T2](https://arxiv.org/html/2610.33435v1#S5.T2).
 - **前序工作** · [STATIC](static.md): PinGER adopts STATIC's vectorized trie for valid-SID constrained decoding.
-  - 出处：PinGER v1, Section 4.2: https://arxiv.org/html/2610.33435v1#S4.SS2.p2.
+  - 出处：PinGER v1, Section 4.2: [S4.SS2.p2](https://arxiv.org/html/2610.33435v1#S4.SS2.p2).
 - **前序工作** · [COBRA](cobra.md): PinGER retains COBRA-style SID/dense interleaving during training and removes past SIDs at serving.
-  - 出处：PinGER v1, Section 2: https://arxiv.org/html/2610.33435v1#S2.SS0.SSS0.Px1.p1.
+  - 出处：PinGER v1, Section 2: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.33435v1#S2.SS0.SSS0.Px1.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

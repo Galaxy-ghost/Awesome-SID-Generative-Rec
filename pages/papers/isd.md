@@ -1,23 +1,31 @@
 # ISD
 
+[← Problem × Stage Matrix](../../README.md#iv--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/isd.md)
+
 | **Title** | *Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2607.24995) · [Code](https://anonymous.4open.science/r/ISD-CF7C) · [Matrix](../../README.md#iv--inference) · [中文](../zh/papers/isd.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2607.24995) · [Code](https://anonymous.4open.science/r/ISD-CF7C) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP†"] --> I["Inference<br/>ISD Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
+- `Text†`: Textual item representations (inferred).
+- `RQ-VAE†`: Residual-Quantized Variational AutoEncoder (inferred).
+- `Enc-Dec†`: Encoder–decoder backbone (inferred).
 - `Fixed`: SIDs are built first and not changed while the generator trains.
+- `NTP†`: Next-token prediction loss (inferred).
 - `ISD Beam`: Item-supported beam search.
 
 ### TL;DR
@@ -66,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ISD"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LIGER"]
-    P -->|competitor| C["ETEGRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LIGER"]
+    P -->|"competitor"| C["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): ISD augments a frozen TIGER decoder with item-supported prefix selection and final ordering, without changing its SIDs or retraining.
-  - Source: ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - Source: ISD v1, Sections 5.2/6.1.2 and Table 3: [S5.SS2](https://arxiv.org/html/2607.24995v1#S5.SS2); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 - **Predecessor** · [LIGER](liger.md): ISD also operates inside LIGER before beam reduction; LIGER already combines SID generation with dense retrieval and ranking.
-  - Source: ISD v1, Sections 4/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S4.p3; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - Source: ISD v1, Sections 4/6.1.2 and Table 3: [S4.p3](https://arxiv.org/html/2607.24995v1#S4.p3); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 - **Competitor** · [ETEGRec](etegrec.md): ETEGRec jointly trains the tokenizer and recommender; ISD instead changes inference with the SID assignment and decoder fixed.
-  - Source: ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - Source: ISD v1, Sections 5.2/6.1.2 and Table 3: [S5.SS2](https://arxiv.org/html/2607.24995v1#S5.SS2); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 
 [View all papers in this cell](../../README.md#iv--inference)

@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → (RL + Rank)
 inference: Beam
 poi: false
-summary: 提出 SID 推荐专属不确定性对齐目标，完整生成 SID 并以置信度支持风险应用。
 tldr: UGR adds uncertainty to preference optimization through an uncertainty-weighted reward, difficulty-aware optimization,
   and explicit confidence alignment, instead of rewards based only on binary outcome correctness.
 tldr_zh: UGR 通过不确定性加权奖励、难度感知优化与显式置信度对齐将不确定性引入偏好优化，替代仅依赖二元结果正误的奖励设计。

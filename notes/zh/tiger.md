@@ -1,13 +1,13 @@
 ## At a Glance
 
 Key Findings: 在 Amazon Beauty 上，TIGER 的 Recall@5 为 0.0454，SASRec 为 0.0387；RQ-VAE 语义 ID（Semantic ID，SID）好于 LSH ID 和随机 ID（Tables 1 and 2）。
-Limitation: 作者指出，由于束搜索，TIGER 在推理时可能比基于 ANN 的检索更费算力（Appendix E）。
+Limitation: 在语义 ID token 上执行自回归束搜索，使 TIGER 在推理时的计算开销高于基于 ANN 的检索模型（Appendix E）。
 
 ### 1. 为什么重要
 
-大规模推荐器通常把用户和物品嵌入同一个空间，再用近似最近邻（ANN）搜索选候选（Abstract）。作者称 TIGER 是第一个基于语义 ID 的生成式推荐模型（Sec. 2）。本清单中很多后来的论文沿用这条 SID 流程，只改其中一个阶段。
+大规模推荐器通常把用户和物品嵌入同一个空间，再用近似最近邻（ANN）搜索选候选（Abstract）。TIGER 作为首个基于语义 ID 的序列生成式推荐模型（Sec. 2），确立了后续生成式推荐普遍沿用的残差量化语义 ID（SID）两阶段流程。
 
-> "We propose a new paradigm of building generative retrieval models for sequential recommendation."（Sec. 1）（为序列推荐提出构建生成式检索模型的新范式。）
+> "We propose a new paradigm of building generative retrieval models for sequential recommendation."（Sec. 1）
 
 ### 2. 方法
 
@@ -15,14 +15,15 @@ Limitation: 作者指出，由于束搜索，TIGER 在推理时可能比基于 A
 
 ```mermaid
 flowchart LR
-    A("物品文本") --> B["Sentence-T5：768 维"]
-    B --> C["DNN 编码器：32 维"]
-    C --> D["RQ-VAE，3 层 × 256"]:::key
-    D --> E("SID + 冲突 token")
-    E --> F["Enc-Dec 生成器"]
-    L1{{"4 个 token 上的 NTP"}} -.-> F
-    F --> G["束搜索"]
-    G --> H("查表得到物品")
+    A("物品标题 + 价格 + 品牌 + 品类") --> B["Sentence-T5：768 维 x"]
+    B --> C["DNN 编码器 E (512-256-128)：32 维 z"]
+    C --> D["RQ-VAE：M=3 层 × K=256 码字"]:::key
+    D --> E("4-token SID (c1, c2, c3, c4)")
+    U("哈希用户 token (2,000) + 历史 SID") --> F["4 层 T5X Enc-Dec 生成器"]:::key
+    E --> F
+    L1{{"4 个 token 上的 L_NTP"}} -.-> F
+    F --> G["自回归束搜索"]
+    G --> H("冻结 SID-物品映射表")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -32,9 +33,9 @@ TIGER 用每个物品的标题、价格、品牌和品类拼成一句话，由�
 
 #### 第 2 步：残差量化成码
 
-RQ-VAE 量化上一层留下的残差，每一层都在细化上一层的码。
+RQ-VAE 逐层对上一层留下的残差做向量量化，将连续表示离散化为由粗到细的码字元组（即语义 ID）。
 
-> "Residual-Quantized Variational AutoEncoder (RQ-VAE) [40] is a multi-level vector quantizer that applies quantization on residuals to generate a tuple of codewords (aka Semantic IDs)."（Sec. 3.1）（RQ-VAE 是多层向量量化器，对残差量化，得到一组码字，即语义 ID。）
+> "Residual-Quantized Variational AutoEncoder (RQ-VAE) [40] is a multi-level vector quantizer that applies quantization on residuals to generate a tuple of codewords (aka Semantic IDs)."（Sec. 3.1）
 
 TIGER 用 $`M = 3`$ 层，每层的码本有 $`K = 256`$ 个 32 维码字（Sec. 4）。在第 $`m`$ 层：
 
@@ -75,12 +76,14 @@ def rqvae_quantize(z, codebooks, beta=0.25):
 
 ```mermaid
 flowchart TD
-    Z("z") --> L1["第 1 层：最近码字 c1"]
-    L1 --> R2("r2 = z - e(c1)")
-    R2 --> L2["第 2 层：最近码字 c2"]
-    L2 --> R3("r3 = r2 - e(c2)")
-    R3 --> L3["第 3 层：最近码字 c3"]
-    L3 --> S("(c1, c2, c3)"):::key
+    Z("潜在向量 z = r1 (32 维)") --> L1["第 1 层码本 E^(1) (256 × 32)：最近码字 c1"]:::key
+    L1 --> R2("残差 r2 = r1 - e_c1^(1)")
+    R2 --> L2["第 2 层码本 E^(2) (256 × 32)：最近码字 c2"]:::key
+    L2 --> R3("残差 r3 = r2 - e_c2^(2)")
+    R3 --> L3["第 3 层码本 E^(3) (256 × 32)：最近码字 c3"]:::key
+    L1 & L2 & L3 --> Zhat("量化和 z_hat = e_c1 + e_c2 + e_c3")
+    Zhat --> Dec["DNN 解码器 D(z_hat) + VQ 损失 (beta = 0.25)"]
+    L3 --> S("语义码元组 (c1, c2, c3) + 冲突位 c4"):::key
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -100,9 +103,9 @@ flowchart TD
 
 #### 第 4 步：冲突 token
 
-几个物品可能得到相同的三个码。TIGER 再加第四个 token，让每个物品的 SID 唯一：共用 (12, 24, 52) 的两个物品变成 (12, 24, 52, 0) 和 (12, 24, 52, 1)（Sec. 3.1）。
+多个物品可能落入相同的三个码字。TIGER 在有序语义码末尾追加第四个冲突消解 token，使每个物品的 SID 唯一：共用 (12, 24, 52) 的两个物品分别变为 (12, 24, 52, 0) 和 (12, 24, 52, 1)（Sec. 3.1）。
 
-> "To remove the collisions, we append an extra token at the end of the ordered semantic codes to make them unique."（Sec. 3.1）（在码序列末尾加一个 token 消除冲突。）
+> "To remove the collisions, we append an extra token at the end of the ordered semantic codes to make them unique."（Sec. 3.1）
 
 ```python
 from collections import defaultdict
@@ -121,9 +124,9 @@ def append_collision_token(code_tuples):
 
 #### 第 5 步：序列到序列生成
 
-TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。原始用户 ID 被哈希到 2,000 个用户 token 之一（Sec. 4）。生成器是用 T5X 框架搭的 Transformer 编码器-解码器，编码器和解码器各 4 层，6 个自注意力头，每头 64 维（Sec. 4）。
+TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。原始用户 ID 被哈希到 2,000 个用户 token 之一（Sec. 4）。生成器是用 T5X 框架搭的 Transformer 编码器-解码器，编码器和解码器各 4 层，6 个自注意力头，每头 64 维（Sec. 4），根据历史序列预测下一交互物品的语义 ID。
 
-> "Given Semantic IDs for items in a user session, a Transformer-based sequence-to-sequence model is trained to predict the Semantic ID of the next item that the user will interact with."（Abstract）（给定会话中物品的语义 ID，训练 Transformer 序列到序列模型预测下一物品的语义 ID。）
+> "Given Semantic IDs for items in a user session, a Transformer-based sequence-to-sequence model is trained to predict the Semantic ID of the next item that the user will interact with."（Abstract）
 
 生成器在目标 SID 的四个 token 上做下一 token 预测：
 
@@ -144,22 +147,22 @@ TIGER 把用户历史展开成 SID token 序列，前面加一个用户 token。
 - Beauty：TIGER 的 Recall@5 = 0.0454，NDCG@5 = 0.0321，Recall@10 = 0.0648，NDCG@10 = 0.0384；SASRec 分别为 0.0387、0.0249、0.0605 和 0.0318（Table 1）。
 - Sports and Outdoors：TIGER 的 Recall@5 = 0.0264，NDCG@5 = 0.0181，Recall@10 = 0.0400，NDCG@10 = 0.0225；SASRec 分别为 0.0233、0.0154、0.0350 和 0.0192（Table 1）。
 - Toys and Games：TIGER 的 Recall@5 = 0.0521，NDCG@5 = 0.0371，Recall@10 = 0.0712，NDCG@10 = 0.0432；SASRec 分别为 0.0463、0.0306、0.0675 和 0.0374（Table 1）。
-- ID 消融：Table 2 比较随机 ID、LSH 语义 ID 和 RQ-VAE 语义 ID。在全部十二列指标上，RQ-VAE ID 最高，随机 ID 最低（Table 2）。
+- ID 消融：Table 2 比较随机 ID、LSH 语义 ID 和 RQ-VAE 语义 ID。在全部十二列指标上，RQ-VAE ID 均取得最高分，随机 ID 最低（Sec. 4.2，Table 2）。
 
-  > "Our results show that RQ-VAE consistently outperforms LSH."（Sec. 4.2）（RQ-VAE 始终好于 LSH。）
+  > "Our results show that RQ-VAE consistently outperforms LSH."（Sec. 4.2）
 
 - 非法 ID：取 top-10 预测时，三个数据集上有 0.1%–1.6% 的生成 ID 对应不到物品（Sec. 4.5，Fig. 6）。
-- 冷启动：作者指出，SID 改善了对没有历史交互的物品的检索（Abstract，Fig. 5）。
+- 冷启动：共享语义前缀使生成器在混合冷热候选集时能够召回无历史交互的新物品（Abstract，Fig. 5）。
 - 多样性：解码时基于温度的采样可以控制预测的多样性（Sec. 4.3）。
-- ID 长度与码本大小：作者还试过其他设置，例如从大小为 64 的码本取 6 个码字（Appendix E）。
+- ID 长度与码本大小：改变 SID 结构配置（例如从大小为 64 的码本取 6 个码字）对推荐指标影响很小（Appendix E）。
 
-  > "We noticed that the recommendation metrics for TIGER were robust to these changes."（Appendix E）（TIGER 的推荐指标对这些改动不敏感。）
+  > "We noticed that the recommendation metrics for TIGER were robust to these changes."（Appendix E）
 
 ### 4. 局限与分析
 
 **Stated by the authors.**
 
-> "we note that our model can be more computationally expensive than ANN-based models during inference due to the use of beam search for autoregressive decoding."（Appendix E）（由于自回归解码用束搜索，推理时可能比基于 ANN 的模型更费算力。）
+> "we note that our model can be more computationally expensive than ANN-based models during inference due to the use of beam search for autoregressive decoding."（Appendix E）
 
 **Our analysis.**
 

@@ -1,22 +1,28 @@
 # SID-MLP
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sid-mlp.md)
+
 | **Title** | *MLPs are Efficient Distilled Generative Recommenders* |
 | :-- | :-- |
 | **Authors** | Guo et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.12617) · [Code](https://github.com/ztguo715/SID-MLP.git) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/sid-mlp.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.12617) · [Code](https://github.com/ztguo715/SID-MLP.git) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-MLP"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE†`: Residual-Quantized Variational AutoEncoder (inferred).
 - `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SID-MLP"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LC-Rec"]
-    P -->|competitor| C["AtSpeed"]
-    P -->|competitor| D["NEZHA"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LC-Rec"]
+    P -->|"competitor"| C["AtSpeed"]
+    P -->|"competitor"| D["NEZHA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER supplies the main frozen teacher and fixed SID space.
-  - Source: SID-MLP v1, Sec.4.1: https://arxiv.org/html/2605.12617v1#S4.SS1.p1; https://arxiv.org/html/2605.12617v1#S4.SS1.p2.
+  - Source: SID-MLP v1, Sec.4.1: [S4.SS1.p1](https://arxiv.org/html/2605.12617v1#S4.SS1.p1); [S4.SS1.p2](https://arxiv.org/html/2605.12617v1#S4.SS1.p2).
 - **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies the second, LLaMA-2 teacher for the extension.
-  - Source: SID-MLP v1, Appendix D.1: https://arxiv.org/html/2605.12617v1#A4.SS1.p2.
+  - Source: SID-MLP v1, Appendix D.1: [A4.SS1.p2](https://arxiv.org/html/2605.12617v1#A4.SS1.p2).
 - **Competitor** · [AtSpeed](atspeed.md): Strict and relaxed AtSpeed variants are adapted to TIGER and compared.
-  - Source: SID-MLP v1, Appendix D.2: https://arxiv.org/html/2605.12617v1#A4.SS2.p2; https://arxiv.org/html/2605.12617v1#S4.T3.
+  - Source: SID-MLP v1, Appendix D.2: [A4.SS2.p2](https://arxiv.org/html/2605.12617v1#A4.SS2.p2); [S4.T3](https://arxiv.org/html/2605.12617v1#S4.T3).
 - **Competitor** · [NEZHA](nezha.md): NEZHA is reproduced on both TIGER and LC-Rec.
-  - Source: SID-MLP v1, Appendix D.4: https://arxiv.org/html/2605.12617v1#A4.SS4.p1; https://arxiv.org/html/2605.12617v1#A4.SS4.p5.
+  - Source: SID-MLP v1, Appendix D.4: [A4.SS4.p1](https://arxiv.org/html/2605.12617v1#A4.SS4.p1); [A4.SS4.p5](https://arxiv.org/html/2605.12617v1#A4.SS4.p5).
 
 [View all papers in this cell](../../README.md#v--backbone)

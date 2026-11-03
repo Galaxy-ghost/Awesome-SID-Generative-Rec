@@ -1,22 +1,27 @@
 # ProGEO
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/progeo.md)
+
 | **Title** | *Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* |
 | :-- | :-- |
 | **Authors** | He et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.23156) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/progeo.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.23156) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM+Geo-CB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam+Geo-Filter"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Geo`: Text representations combined with geographic or spatial features.
 - `R-KM+Geo-CB`: Residual k-means combined with a geographic codebook.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -38,16 +43,17 @@ flowchart LR
 | Key Contribution | ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding, so Semantic IDs model semantics and geography jointly. |
 | Modified Stage | Tokenization |
 | Key Findings | On the industrial dataset, ProGEO reports Hit@50 of 0.4243 against 0.4056 for RQ-Kmeans, and an average geographic clustering distance of 25.41 km against 46.71 km for RQ-OPQ (Table 1). |
+| Limitation | Geographic encoding enters only at the third quantization layer, and resolving SID collisions by closest user distance requires real-time user coordinates that are unavailable on the public Foursquare benchmarks (Sec. 3.3, Table 3). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Local service platforms need recommendations that are relevant and also geographically reachable (Abstract). Semantic codebooks cluster items by content alone.
+Local service platforms require recommendations that are both semantically relevant and geographically reachable, whereas standard semantic codebooks cluster items by content alone.
 
 > "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are semantically relevant yet geographically unreachable." (Abstract)
 
-ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes each POI's position relative to its semantic cluster, so geography becomes part of the Semantic ID (SID) instead of a weak auxiliary feature (Abstract, Sec. 1).
+ProGEO retains standard semantic codewords in the first two layers and appends a third-layer geo-codeword that encodes each POI's spatial offset relative to its semantic cluster, integrating geography directly into the Semantic ID (SID) rather than treating location as a weak auxiliary feature (Sec. 1).
 
 ---
 
@@ -57,34 +63,40 @@ ProGEO keeps standard semantic codewords and adds a geo-codeword that encodes ea
 
 ```mermaid
 flowchart LR
-    A("POI features") --> B["Layer 1-2: cosine clustering"]
-    B --> C("Two-layer SID subset")
-    C --> D["Geographic centroid, polar coordinates"]
-    D --> E["Geo-RoPE rotation of layer-2 residual"]:::key
-    E --> F("Geo-codeword")
-    F --> G("Three-token SID")
-    G --> H["Fine-tuned LLM"]
-    H --> I("Nearby POIs")
+    A("POI text features") --> B["Layer 1–2 cosine residual clustering"]
+    B --> C("Semantic prefix (c1, c2)")
+    B --> R("Layer-2 residual r2")
+    C --> S("Cluster POI subset")
+    L("POI coordinates (lat, lon)") --> D["Cluster geographic centroid & polar offset (rho, theta)"]
+    S --> D
+    R --> E["Geo-RoPE complex rotation of r2"]:::key
+    D --> E
+    E --> F["Layer 3 geo-codebook clustering"]:::key
+    F --> G("3-token SID (c1, c2, c3)")
+    C --> G
+    G --> H["Fine-tuned LLM (query + city + GeoHash)"]
+    H --> I["Closest-distance conflict filter"]
+    I --> J("Nearby POIs")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic Layers
 
-The first two codebook layers cluster mixed feature vectors with cosine similarity as the metric and pass projection residuals to the next layer (Sec. 3.1). The SID has two standard codebook layers and one geo-codebook layer (Fig. 2).
+The first two codebook layers cluster mixed feature vectors using cosine similarity and pass the projection residual $`\mathbf{r}_2`$ to the next layer (Sec. 3.1). The resulting SID consists of two standard semantic codebook layers followed by one geo-codebook layer (Fig. 2).
 
 #### Geo-Centroid Local Coordinates
 
-POIs that share the same two-layer SID form a subset. The actual latitudes and longitudes of these POIs define a geographic centroid, and each POI's global position becomes polar coordinates around it (Sec. 1, Sec. 3.2).
+All POIs that share the same two-layer semantic prefix $`(c_1, c_2)`$ form a semantic cluster subset. The latitudes and longitudes of these POIs define the cluster's geographic centroid, and each POI's global coordinates are converted into local polar coordinates $`(\rho, \theta)`$ around that centroid (Sec. 1, Sec. 3.2).
 
 #### Geo-RoPE
 
-Geo-RoPE encodes each POI's offset from the centroid as complex-valued rotations of the residual from the second layer (Sec. 1, Sec. 3.3). The similarity between two rotated vectors then depends on both their semantic factors and their spatial relation.
+Geo-RoPE encodes each POI's polar offset from its cluster centroid as a complex-valued rotation applied to the second-layer semantic residual $`\mathbf{r}_2`$ before third-layer clustering (Sec. 1, Sec. 3.3). Cosine similarity between two rotated residuals therefore reflects both semantic similarity and spatial proximity.
 
 > "We extend RoPE to the spatial domain, formalizing geographic proximity as rotary operations in high-dimensional feature space." (Sec. 3.3)
 
 #### Generation
 
-In the industrial setting, the LLM prompt contains the search query, the city, and a GeoHash of the user's location (Table 4).
+In the industrial setting, the fine-tuned LLM prompt takes the search query, the city name, and a GeoHash of the user's real-time location (Table 4), and resolves SID collisions by selecting the candidate POIs closest to the user (Table 3).
 
 ---
 
@@ -110,8 +122,8 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 
 </details>
 
-- Geo-RoPE layer: applying Geo-RoPE only at the third clustering layer gives the highest CUR (7.67%) and ICR (57.08%) among the tested placements (Sec. 4.3.2, Fig. 5).
-- Case study: with Geo-RoPE, the recommended POIs lie close to the user, while the variant without it returns a POI in another city (Sec. 4.5.2).
+- Geo-RoPE layer placement: applying Geo-RoPE only at the third clustering layer achieves the highest codebook usage rate (CUR = 7.67%) and independent coding rate (ICR = 57.08%) among the tested layer placements (Sec. 4.3.2, Fig. 5).
+- Spatial reachability case study: adding Geo-RoPE concentrates recommended POIs near the user, whereas removing it can return a semantically similar POI in another city (Sec. 4.5.2).
 
   > "when Geo-RoPE is introduced, the recommended POIs are concentrated much closer to the user, typically within a 6-kilometer radius." (Sec. 4.5.2)
 
@@ -121,9 +133,9 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 
 **Our analysis.**
 
-- The geographic signal enters only the third SID token. This suggests that the generator still chooses the semantic cluster before it uses any spatial information.
-- OneLoc uses plain `R-KM` codes; ProGEO adds a geo-codebook layer to the same kind of tokenizer (`R-KM+Geo-CB`).
-- GNPR-SID also encodes geography in POI SIDs (`Attr+Geo+CF`) but uses a plain `RQ-VAE`, without a dedicated geo-codebook layer.
+- The geographic signal enters only the third SID token, so the generator commits to a two-layer semantic cluster before conditioning on any spatial cue inside the SID.
+- OneLoc uses plain `R-KM` codes; ProGEO adds a dedicated geo-codebook layer to the same residual K-means tokenizer family (`R-KM+Geo-CB`).
+- GNPR-SID also encodes geography in POI SIDs (`Attr+Geo+CF`) but quantizes fused features with a plain `RQ-VAE` rather than a spatial rotation layer.
 
 ---
 
@@ -132,22 +144,26 @@ In the industrial setting, the LLM prompt contains the search query, the city, a
 ```mermaid
 flowchart LR
     P["ProGEO"]
-    P -->|competitor| A["OneRec"]
-    P -->|competitor| B["TIGER"]
-    P -->|predecessor| C["GNPR-SID"]
-    P -->|alternative| D["OneLoc"]
-    P -->|alternative| E["LGSID"]
+    P -->|"competitor"| A["OneRec"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"predecessor"| C["GNPR-SID"]
+    P -->|"alternative"| D["OneLoc"]
+    P -->|"alternative"| E["LGSID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [OneRec](onerec.md): OneRec's RQ-Kmeans is the second-best tokenizer in Table 1; Pro-GEO injects geographic rotary encoding at the third quantization layer and resolves SID conflicts by user distance.
-  - Source: Pro-GEO v1, baseline RQ-Kmeans (Deng et al., 2025): https://arxiv.org/html/2604.23156v1#A2.SS4.p1; Table 1 and public Table 6: https://arxiv.org/html/2604.23156v1#S4.T1 and https://arxiv.org/html/2604.23156v1#A2.T6.
+  - Source: Pro-GEO v1, baseline RQ-Kmeans (Deng et al., 2025): [A2.SS4.p1](https://arxiv.org/html/2604.23156v1#A2.SS4.p1); Table 1 and public Table 6: [S4.T1](https://arxiv.org/html/2604.23156v1#S4.T1) and [A2.T6](https://arxiv.org/html/2604.23156v1#A2.T6).
 - **Competitor** · [TIGER](tiger.md): TIGER's RQ-VAE is a tokenizer baseline; Pro-GEO also borrows TIGER's fourth-layer code for conflicts on public data where user location is missing.
-  - Source: Pro-GEO v1, baseline RQ-VAE: https://arxiv.org/html/2604.23156v1#A2.SS4.p1; Table 1: https://arxiv.org/html/2604.23156v1#S4.T1; Layer-4 coding follows TIGER: https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1.
+  - Source: Pro-GEO v1, baseline RQ-VAE: [A2.SS4.p1](https://arxiv.org/html/2604.23156v1#A2.SS4.p1); Table 1: [S4.T1](https://arxiv.org/html/2604.23156v1#S4.T1); Layer-4 coding follows TIGER: [A2.SS2.SSS2.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1).
 - **Predecessor** · [GNPR-SID](gnpr-sid.md): Pro-GEO follows GNPR-SID's POI preprocessing for NYC and TKY; GNPR-SID's SIDs carry no explicit geographic encoding.
-  - Source: Pro-GEO v1, Appendix B.1 and B.2.2 follow Wang et al. (2025a): https://arxiv.org/html/2604.23156v1#A2.SS1.p1 and https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1.
+  - Source: Pro-GEO v1, Appendix B.1 and B.2.2 follow Wang et al. (2025a): [A2.SS1.p1](https://arxiv.org/html/2604.23156v1#A2.SS1.p1) and [A2.SS2.SSS2.p1](https://arxiv.org/html/2604.23156v1#A2.SS2.SSS2.p1).
 - **Alternative** · [OneLoc](oneloc.md): OneLoc adds location context to the SID input embedding for local-life video; Pro-GEO rotates residuals by geography inside the quantizer.
-  - Source: Pro-GEO v1, Sections 1 and 2.1 cite Wei et al. (2025): https://arxiv.org/html/2604.23156v1#S1.p2 and https://arxiv.org/html/2604.23156v1#S2.SS1.p2.
+  - Source: Pro-GEO v1, Sections 1 and 2.1 cite Wei et al. (2025): [S1.p2](https://arxiv.org/html/2604.23156v1#S1.p2) and [S2.SS1.p2](https://arxiv.org/html/2604.23156v1#S2.SS1.p2).
 - **Alternative** · [LGSID](lgsid.md): LGSID aligns LLM embeddings with geographic rewards before quantization; Pro-GEO encodes geography within the quantization layers.
-  - Source: Pro-GEO v1, Section 2.1 cites LGSID: https://arxiv.org/html/2604.23156v1#S2.SS1.p2.
+  - Source: Pro-GEO v1, Section 2.1 cites LGSID: [S2.SS1.p2](https://arxiv.org/html/2604.23156v1#S2.SS1.p2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

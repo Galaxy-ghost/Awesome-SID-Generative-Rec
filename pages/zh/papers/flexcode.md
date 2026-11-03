@@ -1,26 +1,30 @@
 # FlexCode
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/flexcode.md) | 中文
+
 | **题目** | *Semantics Meet Signals: Dual Codebook Representationl Learning for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Hui et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2511.20673) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/flexcode.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.20673) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ-VAE"] --> B["Backbone<br/>–"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual RQ-VAE"] --> B["骨干 Backbone<br/>–"] --> TR["训练 Training<br/>Joint / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Dual RQ-VAE`: Two residual-quantized variational autoencoders for separate representation streams.
-- `–`: Not reported in the paper.
-- `Joint`: The generator loss updates the tokenizer directly.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Dual RQ-VAE`：面向两条独立表征流的双路 RQ-VAE。
+- `Joint`：推荐生成损失通过可微路径直接反传更新编号器。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -33,9 +37,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | FlexCode 通过轻量 MoE 按物品流行度在协同码本与语义码本之间分配固定 token 预算，替代所有物品共用单一码本的做法。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["FlexCode"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["COBRA"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LC-Rec"]
+    P -->|"同期对比"| C["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): Compared semantic-ID baseline; FlexCode separates semantic and collaborative codebooks.
-  - 出处：FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - 出处：FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 - **同期对比** · [LC-Rec](lc-rec.md): Compared semantic-ID baseline; FlexCode allocates tokens by item popularity.
-  - 出处：FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - 出处：FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 - **同期对比** · [COBRA](cobra.md): Compared semantic-ID baseline; FlexCode combines dual codebooks with adaptive routing.
-  - 出处：FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - 出处：FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

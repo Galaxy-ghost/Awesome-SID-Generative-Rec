@@ -6,8 +6,9 @@ Field names are defined once in [`schema/paper.schema.json`](paper.schema.json) 
 ## Commands
 
 ```sh
-make build   # Generate README.md, pages/papers/, pages/index/, comparisons/, guides/glossary.md, llms.txt, llms-full.txt
-make check   # Validate records, links, and updates, then run awesome-lint
+python3 scripts/check.py --write-i18n  # Record bilingual section hashes in data/i18n.yaml after editing paired docs
+make build                             # Build English and Chinese READMEs, paper pages, indexes, comparisons, glossaries, and llms*.txt
+make check                             # Validate records, Table 1 round-trip, links, updates, bilingual pairing, and awesome-lint
 ```
 
 `make build` reads the YAML records and never synchronizes Table 1 automatically.
@@ -43,8 +44,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with
-  a T5 encoder-decoder.
 tldr: TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's
   ID, instead of retrieving items by approximate nearest neighbor search.
 tldr_zh: TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。
@@ -66,8 +65,10 @@ related:
 
 - `problem`: `psb` (`Paradigms, Systems and Benchmarks`) or `I`–`VI` (`Informativeness`, `Uniqueness and Validity`, `SID–Model Alignment`, `Utility`, `Efficiency`, `Generalization`).
 - `stage`: `n/a` (for `psb`) or one of `Representation`, `Tokenization`, `Backbone`, `Training`, `Inference`.
-- Technical columns (`representation`, `tokenization`, `backbone`, `tokenizer`, `objective`, `inference`) are stored verbatim as in Table 1, including `†` (inferred) and `A / B` (dual-branch setups).
+- Technical columns (`representation`, `tokenization`, `backbone`, `tokenizer`, `objective`, `inference`) are stored verbatim as in Table 1, including `†` (inferred) and `A / B` (dual-branch setups). Every value is defined in English (`description`) and Chinese (`description_zh`) in `data/vocab.yaml`.
 - `poi`: `true` when the paper targets POI, local-life, or spatial recommendation.
+- `also`: optional list of secondary `{problem?, stage?, quote, where}` tags beyond the primary Table 1 cell (`also: []` means checked with no qualifying tag; `psb` records omit `also`).
+- `modality`: optional `{content, cf, where}` override (or per-branch list) when `representation` does not determine the tokenizer input modality (`single`, `multi`, or `other`, plus boolean `cf`).
 - `links.code` is the authors' repository or `null`; `links.code_third_party` is an optional implementation by others.
 - `tldr`: one English sentence that `README.md`, the English paper page, and `llms.txt` copy verbatim.
 - `tldr_zh`: one Chinese sentence corresponding to `tldr`, used in `README.zh.md` and the Chinese paper page.
@@ -75,5 +76,5 @@ related:
 - `setup_where`: the paper location for each `setup` key; it appears only with `setup`.
 - `related`: 1–5 links to other records, each with `id`, `relation` (`predecessor`, `successor`, `competitor`, or `alternative`), `note`, and `where`.
 - `evidence`: an optional list of `{field, where, quote?, reason?}` items; each item has at least one of `quote` and `reason`.
-- Optional notes are stored in `notes/<id>.md` (and `notes/zh/<id>.md` in Chinese) and embedded into `pages/papers/<id>.md` (and `pages/zh/papers/<id>.md`) during `make build`.
+- Optional reading notes are stored in `notes/<id>.md` and `notes/zh/<id>.md`, paired section-by-section via `data/i18n.yaml`, and embedded into `pages/papers/<id>.md` and `pages/zh/papers/<id>.md` during `make build`.
 - Optional architecture diagrams are stored as `architectures/<id>.png`, matching the record ID exactly. `make build` embeds each existing diagram into its paper page; no YAML field is needed.

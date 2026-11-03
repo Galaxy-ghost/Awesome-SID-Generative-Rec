@@ -1,27 +1,31 @@
 # AWARE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/aware.md) | 中文
+
 | **题目** | *Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* |
 | :-- | :-- |
 | **作者** | Ding et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `VI. 泛化` · `Training` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2605.11807) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/aware.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `VI. 泛化` · `训练（Training）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2605.11807) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+HClus"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Geo"] --> T["编号 Tokenization<br/>Geo-Prefix+HClus"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Geo-Prefix+HClus`: Geographic prefixes combined with hierarchical clustering codes.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
+- `Text+Geo`：文本表征结合地理空间特征。
+- `Geo-Prefix+HClus`：地理空间前缀结合层级聚类编码。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | AWARE 将智能体结合用户行为生成的本地活动、文化与时令叙事融入基于 LLM 的下一 POI 生成，弥补模型参数训练后知识固定的局限。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["AWARE"]
-    P -->|predecessor| A["ROS"]
-    P -->|competitor| B["GNPR-SID"]
-    P -->|competitor| C["Spacetime-GR"]
+    P -->|"前序工作"| A["ROS"]
+    P -->|"同期对比"| B["GNPR-SID"]
+    P -->|"同期对比"| C["Spacetime-GR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [ROS](ros.md): AWARE reuses ROS's SID-equipped pretrained backbone as the controlled baseline.
-  - 出处：AWARE v1, Sec.4.2 and Appendix D: https://arxiv.org/html/2605.11807v1#S4.SS2.p1; https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px12.p1.
+  - 出处：AWARE v1, Sec.4.2 and Appendix D: [S4.SS2.p1](https://arxiv.org/html/2605.11807v1#S4.SS2.p1); [A4.SS0.SSS0.Px12.p1](https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px12.p1).
 - **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID is a compared generative POI baseline.
-  - 出处：AWARE v1, Sec.4.1 and Table1: https://arxiv.org/html/2605.11807v1#S4.SS1.p2; https://arxiv.org/html/2605.11807v1#S4.T1.
+  - 出处：AWARE v1, Sec.4.1 and Table1: [S4.SS1.p2](https://arxiv.org/html/2605.11807v1#S4.SS1.p2); [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1).
 - **同期对比** · [Spacetime-GR](spacetime-gr.md): SpaceTime-GR is a compared spatial-temporal generative baseline.
-  - 出处：AWARE v1, Appendix D and Table1: https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px7.p1; https://arxiv.org/html/2605.11807v1#S4.T1.
+  - 出处：AWARE v1, Appendix D and Table1: [A4.SS0.SSS0.Px7.p1](https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px7.p1); [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1).
 
 [查看同格全部论文](../../../README.zh.md#vi--training)

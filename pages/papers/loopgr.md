@@ -1,26 +1,31 @@
 # LoopGR
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/loopgr.md)
+
 | **Title** | *Parameter-Efficient Scaling for Generative Recommendation via Recurrent Depth* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.34157) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/loopgr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.34157) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP / NTP + Aux.`: Next-token prediction alone or jointly optimized with auxiliary objectives.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LoopGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["ActionPiece"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["RPG"]
+    P -->|"competitor"| C["ActionPiece"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): Encoder-decoder baseline; LoopGR adds shared recurrent context refinement.
-  - Source: LoopGR v1, Section 5.1 and Tables 1/2: https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.34157v1#S5.T1; https://arxiv.org/html/2610.34157v1#S5.T2.
+  - Source: LoopGR v1, Section 5.1 and Tables 1/2: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.34157v1#S5.SS1.SSS0.Px2.p1); [S5.T1](https://arxiv.org/html/2610.34157v1#S5.T1); [S5.T2](https://arxiv.org/html/2610.34157v1#S5.T2).
 - **Competitor** · [RPG](rpg.md): Parallel graph-guided decoding contrasts with LoopGR's recurrent RQ-VAE SID generation.
-  - Source: LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.
+  - Source: LoopGR v1, Section 5.2 and Table 1: [S5.SS2.p2](https://arxiv.org/html/2610.34157v1#S5.SS2.p2); [S5.T1](https://arxiv.org/html/2610.34157v1#S5.T1).
 - **Competitor** · [ActionPiece](actionpiece.md): Context-dependent action tokens contrast with LoopGR's standard RQ-VAE identifiers.
-  - Source: LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.
+  - Source: LoopGR v1, Section 5.2 and Table 1: [S5.SS2.p2](https://arxiv.org/html/2610.34157v1#S5.SS2.p2); [S5.T1](https://arxiv.org/html/2610.34157v1#S5.T1).
 
 [View all papers in this cell](../../README.md#v--backbone)

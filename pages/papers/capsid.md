@@ -1,22 +1,27 @@
 # CapsID
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/capsid.md)
+
 | **Title** | *Soft-Routed Variable-Length Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Cheng et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.05096) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/capsid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.05096) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Soft-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `Soft-RQ`: Soft-routed RQ variant.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CapsID"]
-    P -->|competitor| A["COBRA"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ADC-SID"]
-    P -->|competitor| D["ActionPiece"]
-    P -->|competitor| E["ReSID"]
+    P -->|"competitor"| A["COBRA"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["ADC-SID"]
+    P -->|"competitor"| D["ActionPiece"]
+    P -->|"competitor"| E["ReSID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [COBRA](cobra.md): COBRA patches incomplete sparse IDs with a dense vector and BeamFusion at inference; CapsID instead makes the SID itself soft-routed and variable-length, without a dense path.
-  - Source: CapsID v1, Section 4.1 baselines and fairness controls: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px4.p1; Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3, https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6.
+  - Source: CapsID v1, Section 4.1 baselines and fairness controls: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.SS1.SSS0.Px4.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px4.p1); Tables 3, 4, and 6: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3), [S4.T4](https://arxiv.org/html/2605.05096v1#S4.T4), [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6).
 - **Competitor** · [TIGER](tiger.md): TIGER uses fixed-length hard RQ-VAE codes; CapsID routes residuals softly across capsules and stops at an item-specific length.
-  - Source: CapsID v1, Section 4.1 baselines: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1; Tables 3 and 6: https://arxiv.org/html/2605.05096v1#S4.T3 and https://arxiv.org/html/2605.05096v1#S4.T6.
+  - Source: CapsID v1, Section 4.1 baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1); Tables 3 and 6: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3) and [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6).
 - **Competitor** · [ADC-SID](adc-sid.md): CapsID labels this baseline ADA-SID and cites arXiv:2510.25622; it adapts behavior-content quantization with fixed-length codes, whereas CapsID varies code length per item.
-  - Source: CapsID v1, Table 1 and Section 2 cite it as ADA-SID [34] (arXiv:2510.25622): https://arxiv.org/html/2605.05096v1#S2.T1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
+  - Source: CapsID v1, Table 1 and Section 2 cite it as ADA-SID [34] (arXiv:2510.25622): [S2.T1](https://arxiv.org/html/2605.05096v1#S2.T1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3).
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens by co-occurrence frequency; CapsID's SemanticBPE uses a differentiable merge gate over learned capsule codes.
-  - Source: CapsID v1, Section 2 capsule-routing and subword paragraph: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px6.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
+  - Source: CapsID v1, Section 2 capsule-routing and subword paragraph: [S2.SS0.SSS0.Px6.p1](https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px6.p1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3).
 - **Competitor** · [ReSID](resid.md): ReSID uses adaptive semantic quantization with residual knowledge transfer; CapsID uses capsule routing with confidence-driven stopping.
-  - Source: CapsID v1, Section 2: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3; cold-start protocol follows ReSID: https://arxiv.org/html/2605.05096v1#A2.SS2.p1.
+  - Source: CapsID v1, Section 2: [S2.SS0.SSS0.Px4.p1](https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3); cold-start protocol follows ReSID: [A2.SS2.p1](https://arxiv.org/html/2605.05096v1#A2.SS2.p1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

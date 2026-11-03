@@ -1,24 +1,32 @@
 # ISD
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/isd.md) | 中文
+
 | **题目** | *Understanding Semantic IDs: From Item Representation to Item Selection in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2607.24995) · [代码](https://anonymous.4open.science/r/ISD-CF7C) · [矩阵](../../../README.zh.md#iv--inference) · [English](../../papers/isd.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2607.24995) · [代码](https://anonymous.4open.science/r/ISD-CF7C) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP†"] --> I["Inference<br/>ISD Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text†"] --> T["编号 Tokenization<br/>RQ-VAE†"] --> B["骨干 Backbone<br/>Enc-Dec†"] --> TR["训练 Training<br/>Fixed / NTP†"] --> I["推理 Inference<br/>ISD Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `ISD Beam`: Item-supported beam search.
+- `Text†`：物品文本表征（由配置推断）。
+- `RQ-VAE†`：残差量化变分自编码器（由配置推断）。
+- `Enc-Dec†`：编码器-解码器架构（由配置推断）。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP†`：下一 token 预测损失（由配置推断）。
+- `ISD Beam`：由用户侧物品打分支撑前缀保留的束搜索（Item-Supported Beam）。
 
 ### TL;DR
 
@@ -31,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | ISD 在指出 SID 丢失局部物品结构后，于推理阶段无需重训地用用户特定物品排序支撑 SID 前缀，避免它们在束搜索中被过早剪枝。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -66,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ISD"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LIGER"]
-    P -->|competitor| C["ETEGRec"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LIGER"]
+    P -->|"同期对比"| C["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): ISD augments a frozen TIGER decoder with item-supported prefix selection and final ordering, without changing its SIDs or retraining.
-  - 出处：ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - 出处：ISD v1, Sections 5.2/6.1.2 and Table 3: [S5.SS2](https://arxiv.org/html/2607.24995v1#S5.SS2); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 - **前序工作** · [LIGER](liger.md): ISD also operates inside LIGER before beam reduction; LIGER already combines SID generation with dense retrieval and ranking.
-  - 出处：ISD v1, Sections 4/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S4.p3; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - 出处：ISD v1, Sections 4/6.1.2 and Table 3: [S4.p3](https://arxiv.org/html/2607.24995v1#S4.p3); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 - **同期对比** · [ETEGRec](etegrec.md): ETEGRec jointly trains the tokenizer and recommender; ISD instead changes inference with the SID assignment and decoder fixed.
-  - 出处：ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1; https://arxiv.org/html/2607.24995v1#S5.T3.
+  - 出处：ISD v1, Sections 5.2/6.1.2 and Table 3: [S5.SS2](https://arxiv.org/html/2607.24995v1#S5.SS2); [S6.SS1.SSS2.p1](https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1); [S5.T3](https://arxiv.org/html/2607.24995v1#S5.T3).
 
 [查看同格全部论文](../../../README.zh.md#iv--inference)

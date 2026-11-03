@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: Beam
 poi: false
-summary: 动态内容与行为对齐构码后完整三层 SID 生成，有部署证据。
 tldr: OneLive adapts generative recommendation to live streaming with a dynamic residual-quantization tokenizer, time-aware
   gated attention, a decoder-only generator with Sequential MTP, and multi-objective alignment.
 tldr_zh: OneLive 结合动态残差量化编号器、时间感知门控注意力、带序列式多 token 预测的仅解码器生成器与多目标对齐，将生成式推荐用于直播场景。

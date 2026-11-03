@@ -1,22 +1,27 @@
 # MMGRec
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mmgrec.md)
+
 | **Title** | *Multimodal Generative Recommendation with Transformer Model* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | TOMM’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mmgrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>Graph RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
 - `Graph RQ-VAE`: A graph-informed residual-quantized variational autoencoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MMGRec"]
-    P -->|predecessor| A["TIGER"]
+    P -->|"predecessor"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): MMGRec extends TIGER's RQ-VAE idea with multimodal/CF inputs and popularity-based collision suffixes; TIGER is not evaluated.
-  - Source: MMGRec v4, Sections 1, 3 and 5.2: https://arxiv.org/html/2404.16555v4#S1.p4; https://arxiv.org/html/2404.16555v4#S3.p1; https://arxiv.org/html/2404.16555v4#S5.SS2.p2.
+  - Source: MMGRec v4, Sections 1, 3 and 5.2: [S1.p4](https://arxiv.org/html/2404.16555v4#S1.p4); [S3.p1](https://arxiv.org/html/2404.16555v4#S3.p1); [S5.SS2.p2](https://arxiv.org/html/2404.16555v4#S5.SS2.p2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

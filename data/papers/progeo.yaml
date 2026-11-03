@@ -16,9 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam+Geo-Filter
 poi: true
-summary: 'Abstract: "existing semantic codebooks neglect geographic constraints, often resulting in recommendations that are
-  semantically relevant yet geographically unreachable". Geographically unreachable is not II (a generated SID that names
-  no real item).'
 tldr: ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding,
   so Semantic IDs model semantics and geography jointly.
 tldr_zh: ProGEO 结合地理质心局部坐标系与地理旋转位置编码构建邻近感知地理码本，使 SID 同时刻画语义与地理邻近性。

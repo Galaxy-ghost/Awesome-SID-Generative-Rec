@@ -1,26 +1,32 @@
 # FLASH
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/flash.md)
+
 | **Title** | *Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | NeurIPS’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/flash.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>SimHash"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `SimHash`: Locality-sensitive hashing with random hyperplanes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["FLASH"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["RPG"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["DIGER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["RPG"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["DIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): FLASH revisits TIGER's SimHash ablation with parallel decoding and semantic alignment.
-  - Source: FLASH v1, Introduction and Table 1: https://arxiv.org/html/2610.07402v1#S1.p2; https://arxiv.org/html/2610.07402v1#S1.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - Source: FLASH v1, Introduction and Table 1: [S1.p2](https://arxiv.org/html/2610.07402v1#S1.p2); [S1.p3](https://arxiv.org/html/2610.07402v1#S1.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 - **Predecessor** · [RPG](rpg.md): FLASH follows RPG's cached-logit scoring, replacing learned OPQ codes with training-free SimHash.
-  - Source: FLASH v1, Sections 2.3 and A.2: https://arxiv.org/html/2610.07402v1#S2.SS3.p2; https://arxiv.org/html/2610.07402v1#A1.SS2.p4.
+  - Source: FLASH v1, Sections 2.3 and A.2: [S2.SS3.p2](https://arxiv.org/html/2610.07402v1#S2.SS3.p2); [A1.SS2.p4](https://arxiv.org/html/2610.07402v1#A1.SS2.p4).
 - **Competitor** · [LETTER](letter.md): LETTER learns regularized residual codes; FLASH uses fixed hashing with parallel prediction and alignment.
-  - Source: FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - Source: FLASH v1, Section A.2 and Table 1: [A1.SS2.p3](https://arxiv.org/html/2610.07402v1#A1.SS2.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 - **Competitor** · [DIGER](diger.md): DIGER jointly learns residual quantization and recommendation; FLASH uses a fixed tokenizer.
-  - Source: FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - Source: FLASH v1, Section A.2 and Table 1: [A1.SS2.p3](https://arxiv.org/html/2610.07402v1#A1.SS2.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 
 [View all papers in this cell](../../README.md#iii--backbone)

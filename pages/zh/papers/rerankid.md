@@ -1,29 +1,35 @@
 # ReRankID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/rerankid.md) | 中文
+
 | **题目** | *Reasoning Reranking with Semantic IDs as the Sole Item Representation* |
 | :-- | :-- |
 | **作者** | Tang et al. |
-| **会议** | arXiv’26 |
+| **发表** | arXiv’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2610.22797) · [代码](https://github.com/lilv98/ReRankID) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/rerankid.md) |
+| **链接** | [论文](https://arxiv.org/abs/2610.22797) · [代码](https://github.com/lilv98/ReRankID) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+Greedy"]
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>R-KM†"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>CoT+Greedy"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `CoT+Greedy`: Reasoning with greedy decoding.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `R-KM†`：残差 k-means 编号（由配置推断）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → RL`：先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
+- `CoT+Greedy`：显式推理配合贪心解码。
 
 ### TL;DR
 
 > [!NOTE]
-> ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。
+> ReRankID 构建纯 SID 候选列表推理重排基准，在仅提供 SID 的条件下对比不同后训练方法对列表重排的影响。
 
 ---
 
@@ -31,8 +37,8 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| 核心贡献 | ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。 |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
+| 核心贡献 | ReRankID 构建纯 SID 候选列表推理重排基准，在仅提供 SID 的条件下对比不同后训练方法对列表重排的影响。 |
 | 主要改动阶段 | 无单一阶段 |
 
 ---
@@ -66,13 +72,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ReRankID"]
-    P -->|alternative| A["OneRec-Think"]
-    P -->|predecessor| B["TIGER"]
+    P -->|"替代方案"| A["OneRec-Think"]
+    P -->|"前序工作"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **替代方案** · [OneRec-Think](onerec-think.md): OneRec-Think reasons before catalog-item generation; ReRankID reasons over a supplied candidate slate.
-  - 出处：ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
+  - 出处：ReRankID v1, Section 2: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1).
 - **前序工作** · [TIGER](tiger.md): TIGER's SID-generation paradigm is the background contrasted with SID-only slate reranking.
-  - 出处：ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
+  - 出处：ReRankID v1, Section 2: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

@@ -1,26 +1,32 @@
 # SynGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/syngr.md) | 中文
+
 | **题目** | *Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Chen et al. |
-| **会议** | ICML’26 |
-| **问题与阶段** | `I. 信息量` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/syngr.md) |
+| **发表** | ICML’26 |
+| **问题与阶段** | `I. 信息量` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Ctr.`: NTP plus a contrastive loss.
-- `C-Beam`: Constrained beam search.
+- `Text+Img`：文本与视觉图像表征。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Ctr.`：下一 token 预测结合对比学习损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SynGR"]
-    P -->|competitor| A["MACRec"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["TIGER"]
-    P -->|competitor| D["CID"]
+    P -->|"同期对比"| A["MACRec"]
+    P -->|"同期对比"| B["MQL4GRec"]
+    P -->|"同期对比"| C["TIGER"]
+    P -->|"同期对比"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [MACRec](macrec.md): MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts and adds a synergy-focused contrastive objective, with lower training cost.
-  - 出处：SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency comparison: https://arxiv.org/html/2605.18920v2#S5.SS3.p2.
+  - 出处：SynGR v2, generative baselines: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1); efficiency comparison: [S5.SS3.p2](https://arxiv.org/html/2605.18920v2#S5.SS3.p2).
 - **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec translates each modality into its own quantitative language; SynGR follows its decoding and pre-training protocol but targets synergistic information between modalities.
-  - 出处：SynGR v2, baselines and protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p2, https://arxiv.org/html/2605.18920v2#S5.SS1.p3, https://arxiv.org/html/2605.18920v2#S4.SS3.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - 出处：SynGR v2, baselines and protocol: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2), [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3), [S4.SS3.p2](https://arxiv.org/html/2605.18920v2#S4.SS3.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 - **同期对比** · [TIGER](tiger.md): TIGER uses unimodal text SIDs; SynGR fuses text and image codes and regularizes their synergy.
-  - 出处：SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - 出处：SynGR v2, generative baselines: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 - **同期对比** · [CID](cid.md): P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
-  - 出处：SynGR v2, sequential baselines (P5-CID): https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - 出处：SynGR v2, sequential baselines (P5-CID): [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 
 [查看同格全部论文](../../../README.zh.md#i--training)

@@ -1,27 +1,32 @@
 # TransRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/transrec.md) | 中文
+
 | **题目** | *Bridging Items and Language: A Transition Paradigm for Large Language Model-Based Recommendation* |
 | :-- | :-- |
 | **作者** | Lin et al. |
-| **会议** | KDD’24 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2310.06491) · [代码](https://github.com/Linxyhaha/TransRec/) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/transrec.md) |
+| **发表** | KDD’24 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2310.06491) · [代码](https://github.com/Linxyhaha/TransRec/) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Multi-Facet ID"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>FM-Index+Agg."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Multi-Facet ID"] --> B["骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>FM-Index+Agg."]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Multi-Facet ID`: Identifiers representing multiple facets of an item.
-- `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `FM-Index+Agg.`: FM-index-constrained generation followed by identifier-to-item score aggregation.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Multi-Facet ID`：同时刻画物品多个语义切面的多维标识符。
+- `Enc-Dec / Dec-Only`：同时在编码器-解码器与仅解码器两种骨干上验证。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `FM-Index+Agg.`：基于 FM-index 约束生成并聚合指向同一物品的多标识符得分。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | TransRec 用结合 ID、标题与属性的多面标识索引物品，通过 FM-index 子串索引约束生成，并聚合生成的标识为物品库打分排序。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TransRec"]
-    P -->|competitor| A["CID"]
-    P -->|competitor| B["TIGER"]
+    P -->|"同期对比"| A["CID"]
+    P -->|"同期对比"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [CID](cid.md): CID+IID and the other Hua et al. indexing variants are compared baselines.
-  - 出处：TransRec v2, Sec.4.1 Baselines and Appendix A.3: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#A1.SS3.p1.
+  - 出处：TransRec v2, Sec.4.1 Baselines and Appendix A.3: [S4.SS1.SSS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1); [A1.SS3.p1](https://arxiv.org/html/2310.06491v2#A1.SS3.p1).
 - **同期对比** · [TIGER](tiger.md): TIGER is compared as a quantized semantic-identifier baseline.
-  - 出处：TransRec v2, Sec.4.1 Baselines and Sec.4.2: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#S4.SS2.p1.
+  - 出处：TransRec v2, Sec.4.1 Baselines and Sec.4.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1); [S4.SS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

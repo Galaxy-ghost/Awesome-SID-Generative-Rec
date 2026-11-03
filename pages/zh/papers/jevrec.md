@@ -1,27 +1,32 @@
 # JevRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/jevrec.md) | 中文
+
 | **题目** | *Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhong et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2610.36937) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/jevrec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.36937) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Freq. R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>Length-Quota Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Freq. R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>Length-Quota Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Freq. R-KM`: Frequency-aware residual k-means tokenization.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `Length-Quota Beam`: Beam search with recommendation quotas allocated across output lengths.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Freq. R-KM`：频率感知的残差 k-means 编号。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `Length-Quota Beam`：按可变 SID 长度分配候选配额的束搜索。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["JevRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|alternative| D["Pctx"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LETTER"]
+    P -->|"同期对比"| C["ActionPiece"]
+    P -->|"替代方案"| D["Pctx"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER uses fixed-length RQ-VAE SIDs; JevRec truncates shared residual-quantizer prefixes by item frequency and explicitly predicts target length.
-  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
+  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: [S3.SS3](https://arxiv.org/html/2610.36937v1#S3.SS3); [S4.SS1.p4](https://arxiv.org/html/2610.36937v1#S4.SS1.p4); [S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2).
 - **同期对比** · [LETTER](letter.md): LETTER adds collaborative information and diversity constraints to learned tokenization; JevRec allocates SID length by interaction frequency.
-  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
+  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: [S3.SS3](https://arxiv.org/html/2610.36937v1#S3.SS3); [S4.SS1.p4](https://arxiv.org/html/2610.36937v1#S4.SS1.p4); [S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2).
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges contextually co-occurring action features; JevRec uses shared semantic codebooks with frequency-dependent prefix lengths.
-  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: https://arxiv.org/html/2610.36937v1#S3.SS3; https://arxiv.org/html/2610.36937v1#S4.SS1.p4; https://arxiv.org/html/2610.36937v1#S4.T2.
+  - 出处：JevRec v1, Sections 3.3/4.1 and Table 2: [S3.SS3](https://arxiv.org/html/2610.36937v1#S3.SS3); [S4.SS1.p4](https://arxiv.org/html/2610.36937v1#S4.SS1.p4); [S4.T2](https://arxiv.org/html/2610.36937v1#S4.T2).
 - **替代方案** · [Pctx](pctx.md): Pctx personalizes tokenization using user history; JevRec assigns context-invariant SID lengths from global training frequencies.
-  - 出处：JevRec v1, Sections 2/3.2/3.3: https://arxiv.org/html/2610.36937v1#S2.p1; https://arxiv.org/html/2610.36937v1#S3.SS2.p1; https://arxiv.org/html/2610.36937v1#S3.SS3.p1.
+  - 出处：JevRec v1, Sections 2/3.2/3.3: [S2.p1](https://arxiv.org/html/2610.36937v1#S2.p1); [S3.SS2.p1](https://arxiv.org/html/2610.36937v1#S3.SS2.p1); [S3.SS3.p1](https://arxiv.org/html/2610.36937v1#S3.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--tokenization)

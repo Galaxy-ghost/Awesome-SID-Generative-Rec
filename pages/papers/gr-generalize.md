@@ -1,27 +1,35 @@
 # GR-Generalize
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gr-generalize.md)
+
 | **Title** | *How Well Does Generative Recommendation Generalize?* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/gr-generalize.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
+- `NTP†`: Next-token prediction loss (inferred).
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 
 ### TL;DR
 
 > [!NOTE]
-> GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.
+> GR-Generalize partitions test instances into memorization and generalization subsets, compares generative and item-ID recommenders on each, and ensembles both per instance.
 
 ---
 
@@ -30,7 +38,7 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance. |
+| Key Contribution | GR-Generalize partitions test instances into memorization and generalization subsets, compares generative and item-ID recommenders on each, and ensembles both per instance. |
 | Modified Stage | No single stage |
 
 ---
@@ -64,19 +72,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GR-Generalize"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LIGER"]
-    P -->|alternative| C["SpecGR"]
-    P -->|predecessor| D["ETEGRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["LIGER"]
+    P -->|"alternative"| C["SpecGR"]
+    P -->|"predecessor"| D["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER is the semantic-ID model under study; the paper explains its generalization advantage over SASRec as token-level prefix memorization.
-  - Source: GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: https://arxiv.org/html/2603.19809v1#S1.p6 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2; Table 1: https://arxiv.org/html/2603.19809v1#S2.T1.
+  - Source: GR-Generalize v1, Section 1 and Section 3.1 benchmark TIGER: [S1.p6](https://arxiv.org/html/2603.19809v1#S1.p6) and [S3.SS1.p2](https://arxiv.org/html/2603.19809v1#S3.SS1.p2); Table 1: [S2.T1](https://arxiv.org/html/2603.19809v1#S2.T1).
 - **Alternative** · [LIGER](liger.md): LIGER treats cold-start items as the out-of-distribution case for generative recommendation; this paper defines generalization by history-to-target transitions instead of target-item rarity.
-  - Source: GR-Generalize v1, Section 1 cites Yang et al. (2025): https://arxiv.org/html/2603.19809v1#S1.p3.
+  - Source: GR-Generalize v1, Section 1 cites Yang et al. (2025): [S1.p3](https://arxiv.org/html/2603.19809v1#S1.p3).
 - **Alternative** · [SpecGR](specgr.md): SpecGR also studies cold-start items as the generalization case; this paper argues that a popular target can still require generalization.
-  - Source: GR-Generalize v1, Section 1 cites Ding et al. (2026): https://arxiv.org/html/2603.19809v1#S1.p3.
+  - Source: GR-Generalize v1, Section 1 cites Ding et al. (2026): [S1.p3](https://arxiv.org/html/2603.19809v1#S1.p3).
 - **Predecessor** · [ETEGRec](etegrec.md): The paper follows ETEGRec in training SASRec with full cross-entropy for a fair comparison and uses its datasets.
-  - Source: GR-Generalize v1, Section 3.1: https://arxiv.org/html/2603.19809v1#S3.SS1.p1 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2.
+  - Source: GR-Generalize v1, Section 3.1: [S3.SS1.p1](https://arxiv.org/html/2603.19809v1#S3.SS1.p1) and [S3.SS1.p2](https://arxiv.org/html/2603.19809v1#S3.SS1.p2).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

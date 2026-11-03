@@ -1,22 +1,27 @@
 # TransRec
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/transrec.md)
+
 | **Title** | *Bridging Items and Language: A Transition Paradigm for Large Language Model-Based Recommendation* |
 | :-- | :-- |
 | **Authors** | Lin et al. |
 | **Venue** | KDD’24 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2310.06491) · [Code](https://github.com/Linxyhaha/TransRec/) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/transrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2310.06491) · [Code](https://github.com/Linxyhaha/TransRec/) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Multi-Facet ID"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>FM-Index+Agg."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Multi-Facet ID`: Identifiers representing multiple facets of an item.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TransRec"]
-    P -->|competitor| A["CID"]
-    P -->|competitor| B["TIGER"]
+    P -->|"competitor"| A["CID"]
+    P -->|"competitor"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [CID](cid.md): CID+IID and the other Hua et al. indexing variants are compared baselines.
-  - Source: TransRec v2, Sec.4.1 Baselines and Appendix A.3: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#A1.SS3.p1.
+  - Source: TransRec v2, Sec.4.1 Baselines and Appendix A.3: [S4.SS1.SSS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1); [A1.SS3.p1](https://arxiv.org/html/2310.06491v2#A1.SS3.p1).
 - **Competitor** · [TIGER](tiger.md): TIGER is compared as a quantized semantic-identifier baseline.
-  - Source: TransRec v2, Sec.4.1 Baselines and Sec.4.2: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#S4.SS2.p1.
+  - Source: TransRec v2, Sec.4.1 Baselines and Sec.4.2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1); [S4.SS2.p1](https://arxiv.org/html/2310.06491v2#S4.SS2.p1).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

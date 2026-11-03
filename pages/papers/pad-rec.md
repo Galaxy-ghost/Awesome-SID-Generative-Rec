@@ -1,25 +1,31 @@
 # PAD-Rec
 
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pad-rec.md)
+
 | **Title** | *Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/pad-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP†"] --> I["Inference<br/>Spec. Dec."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
+- `Multi-task NTP†`: Multi-task next-token prediction (inferred).
 - `Spec. Dec.`: Speculative decoding.
 
 ### TL;DR
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PAD-Rec"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|predecessor| B["LETTER"]
-    P -->|alternative| C["AtSpeed"]
-    P -->|alternative| D["SpecGR"]
+    P -->|"predecessor"| A["LC-Rec"]
+    P -->|"predecessor"| B["LETTER"]
+    P -->|"alternative"| C["AtSpeed"]
+    P -->|"alternative"| D["SpecGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): PAD-Rec accelerates a list-wise LC-Rec target model with speculative decoding, adding item and step position embeddings to the draft head.
-  - Source: PAD-Rec v1, implementation on LC-Rec: https://arxiv.org/html/2604.27747v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p5.
+  - Source: PAD-Rec v1, implementation on LC-Rec: [S5.SS1.SSS4.p1](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS4.p1) and [S5.SS1.SSS1.p5](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p5).
 - **Predecessor** · [LETTER](letter.md): PAD-Rec obtains its semantic IDs following LETTER's semantic-collaborative embeddings and RQ-VAE.
-  - Source: PAD-Rec v1, Section 3.1 and Section 5.1 follow reference [40], LETTER: https://arxiv.org/html/2604.27747v1#S3.SS1.p3 and https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p3.
+  - Source: PAD-Rec v1, Section 3.1 and Section 5.1 follow reference [40], LETTER: [S3.SS1.p3](https://arxiv.org/html/2604.27747v1#S3.SS1.p3) and [S5.SS1.SSS1.p3](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p3).
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed also accelerates LLM-based generative recommendation with speculative decoding; PAD-Rec targets list-wise generation with position-aware drafts.
-  - Source: PAD-Rec v1, Sections 1 and 2.3 cite AtSpeed: https://arxiv.org/html/2604.27747v1#S1.p2 and https://arxiv.org/html/2604.27747v1#S2.SS3.p1; not a baseline in Table 2.
+  - Source: PAD-Rec v1, Sections 1 and 2.3 cite AtSpeed: [S1.p2](https://arxiv.org/html/2604.27747v1#S1.p2) and [S2.SS3.p1](https://arxiv.org/html/2604.27747v1#S2.SS3.p1); not a baseline in Table 2.
 - **Alternative** · [SpecGR](specgr.md): SpecGR uses speculative generation for inductive recommendation, while PAD-Rec speeds up decoding without changing the target model's outputs.
-  - Source: PAD-Rec v1, Section 2.3: https://arxiv.org/html/2604.27747v1#S2.SS3.p1.
+  - Source: PAD-Rec v1, Section 2.3: [S2.SS3.p1](https://arxiv.org/html/2604.27747v1#S2.SS3.p1).
 
 [View all papers in this cell](../../README.md#v--inference)

@@ -1,25 +1,34 @@
 # DIGER
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/diger.md)
+
 | **Title** | *Differentiable Semantic ID for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Fu et al. |
 | **Venue** | SIGIR’26 |
-| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2601.19711) · [Code](https://github.com/junchen-fu/DIGER) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/diger.md) |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` — Also: `III. SID–Model Alignment` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2601.19711) · [Code](https://github.com/junchen-fu/DIGER) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Learn. RQ`: End-to-end or alternatingly updated learnable residual quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam†`: Autoregressive beam search (inferred).
 
 ### TL;DR
 
@@ -67,16 +76,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DIGER"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["ETEGRec"]
-    P -->|competitor| C["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["ETEGRec"]
+    P -->|"competitor"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER supplies the reference two-stage framework for differentiable-ID training.
-  - Source: DIGER v3, Sections 3/5 and Table 3: https://arxiv.org/html/2601.19711v3#S3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
+  - Source: DIGER v3, Sections 3/5 and Table 3: [S3.p1](https://arxiv.org/html/2601.19711v3#S3.p1) ; [S5.p3](https://arxiv.org/html/2601.19711v3#S5.p3) ; [S6.T3](https://arxiv.org/html/2601.19711v3#S6.T3).
 - **Alternative** · [ETEGRec](etegrec.md): DIGER replaces alternating distillation with direct recommendation gradients through indexing.
-  - Source: DIGER v3, Sections 2/6.2: https://arxiv.org/html/2601.19711v3#S2.p3 ; https://arxiv.org/html/2601.19711v3#S2.p4 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p2.
+  - Source: DIGER v3, Sections 2/6.2: [S2.p3](https://arxiv.org/html/2601.19711v3#S2.p3) ; [S2.p4](https://arxiv.org/html/2601.19711v3#S2.p4) ; [S6.SS2.p2](https://arxiv.org/html/2601.19711v3#S6.SS2.p2).
 - **Competitor** · [LETTER](letter.md): LETTER is a comparison method and the source of most quoted baseline results.
-  - Source: DIGER v3, Sections 5/6.2 and Table 3: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
+  - Source: DIGER v3, Sections 5/6.2 and Table 3: [S5.p3](https://arxiv.org/html/2601.19711v3#S5.p3) ; [S6.SS2.p3](https://arxiv.org/html/2601.19711v3#S6.SS2.p3) ; [S6.T3](https://arxiv.org/html/2601.19711v3#S6.T3).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

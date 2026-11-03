@@ -1,22 +1,27 @@
 # UniRec
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unirec.md)
+
 | **Title** | *Bridging the Expressive Gap between Generative and Discriminative Recommendation via Chain-of-Attribute* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.12234) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/unirec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.12234) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniRec"]
-    P -->|competitor| A["OneRec-V2"]
-    P -->|competitor| B["TIGER"]
-    P -->|predecessor| C["OneRec"]
-    P -->|alternative| D["CapsID"]
+    P -->|"competitor"| A["OneRec-V2"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"predecessor"| C["OneRec"]
+    P -->|"alternative"| D["CapsID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [OneRec-V2](onerec-v2.md): OneRec-V2 decodes SIDs with a decoder-only model over user context; UniRec first decodes coarse item attributes, uses exposure-capacity-constrained SIDs, and aligns to GMV with RFT and DPO.
-  - Source: UniRec v5, baselines: https://arxiv.org/html/2604.12234v5#S4.I2.i3.p1; Table 1: https://arxiv.org/html/2604.12234v5#S4.T1.
+  - Source: UniRec v5, baselines: [S4.I2.i3.p1](https://arxiv.org/html/2604.12234v5#S4.I2.i3.p1); Table 1: [S4.T1](https://arxiv.org/html/2604.12234v5#S4.T1).
 - **Competitor** · [TIGER](tiger.md): TIGER generates RQ-VAE IDs without any item-side attribute conditioning, which UniRec adds through Chain-of-Attribute.
-  - Source: UniRec v5, baselines: https://arxiv.org/html/2604.12234v5#S4.I2.i2.p1; Table 1: https://arxiv.org/html/2604.12234v5#S4.T1.
+  - Source: UniRec v5, baselines: [S4.I2.i2.p1](https://arxiv.org/html/2604.12234v5#S4.I2.i2.p1); Table 1: [S4.T1](https://arxiv.org/html/2604.12234v5#S4.T1).
 - **Predecessor** · [OneRec](onerec.md): UniRec starts from OneRec's balanced quantization and replaces equal item counts with exposure-weighted capacity limits.
-  - Source: UniRec v5, Section 3.2: https://arxiv.org/html/2604.12234v5#S3.SS2.p1; RQ-KMeans ablation in Table 3: https://arxiv.org/html/2604.12234v5#S4.SS1.SSS3.Px1.p1.
+  - Source: UniRec v5, Section 3.2: [S3.SS2.p1](https://arxiv.org/html/2604.12234v5#S3.SS2.p1); RQ-KMeans ablation in Table 3: [S4.SS1.SSS3.Px1.p1](https://arxiv.org/html/2604.12234v5#S4.SS1.SSS3.Px1.p1).
 - **Alternative** · [CapsID](capsid.md): CapsID later compares against a UniRec-style Chain-of-Attribute patch and argues that a variable-length SID can avoid extra attribute decoding.
-  - Source: Evidence is from the later CapsID paper: baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
+  - Source: Evidence is from the later CapsID paper: baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3).
 
 [View all papers in this cell](../../README.md#i--tokenization)

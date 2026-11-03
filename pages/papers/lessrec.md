@@ -1,19 +1,23 @@
 # LESSRec
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lessrec.md)
+
 | **Title** | *Level-Specific History Modeling for Semantic ID-Based Recommendation* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.37286) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/lessrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.37286) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / R-KM / LETTER"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
@@ -70,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LESSRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
-    P -->|competitor| C["DiscRec"]
-    P -->|competitor| D["RPG"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LETTER"]
+    P -->|"competitor"| C["DiscRec"]
+    P -->|"competitor"| D["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): LESSRec reorganizes TIGER's history encoding by semantic level.
-  - Source: LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - Source: LESSRec v1, Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **Predecessor** · [LETTER](letter.md): LETTER supplies one of the three fixed tokenizers tested with LESSRec.
-  - Source: LESSRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - Source: LESSRec v1, Section 4.1.4 and Table 2: [S4.SS1.SSS4.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS4.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **Competitor** · [DiscRec](discrec.md): DiscRec models intra-item structure; LESSRec separates same-level histories across items.
-  - Source: LESSRec v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.37286v1#S5.SS3.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - Source: LESSRec v1, Section 5.3 and Table 2: [S5.SS3.p1](https://arxiv.org/html/2610.37286v1#S5.SS3.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 - **Competitor** · [RPG](rpg.md): RPG predicts long unordered codes in parallel; LESSRec models hierarchical level-specific histories.
-  - Source: LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.
+  - Source: LESSRec v1, Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2610.37286v1#S4.T2).
 
 [View all papers in this cell](../../README.md#iii--backbone)

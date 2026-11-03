@@ -1,25 +1,32 @@
 # GeoGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/geogr.md) | 中文
+
 | **题目** | *Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Representation` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2602.10411) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/geogr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2602.10411) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>R-KM+EM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern.† / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Geo+CF"] --> T["编号 Tokenization<br/>R-KM+EM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Altern.† / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `R-KM+EM`: Residual k-means with expectation-maximization-style refinement.
-- `Dec-Only`: Decoder-only.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `Text+Geo+CF`：文本表征结合地理空间特征与协同信号。
+- `R-KM+EM`：带期望最大化（EM）精化的残差 k-means。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Altern.†`：编号器与生成器交替迭代更新（由配置推断）。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,19 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | GeoGR 从受地理约束的共访对出发，经对比学习与迭代修正构建地理感知 POI SID，再通过持续预训练与微调将 LLM 与之对齐。 |
-| 主要改动阶段 | Representation |
-| 主要发现 | 在高德（AMAP）平台上线三个月，GeoGR 的在线 WINRATE 提升 +2.91%，PV_CTR 提升 +5.55%（Abstract）。 |
-| 局限 | 语义 ID（Semantic ID，SID）按 LLM 的预测来更新，因此和精修时所用的 LLM 检查点绑在一起（Sec. 4.1.3）。 |
+| 主要改动阶段 | 表征（Representation） |
+| 主要发现 | 在高德地图（AMAP）为期三个月的线上部署中，GeoGR 取得 WINRATE +2.91% 与 PV_CTR +5.55% 的在线收益（Abstract）。 |
+| 局限 | 语义 ID（Semantic ID，SID）依赖 LLM 的预测分布迭代重分配，码本版本与精修所用的特定 LLM 检查点绑定（Sec. 4.1.3）。 |
 
 ---
 
 ### 1. 为什么重要
 
-作者指出，基于 SID 的兴趣点（POI）推荐有两个问题：SID 没有刻画跨品类的时空协同关系，和大语言模型（LLM）也对不齐（Abstract）。GeoGR 在高德这类导航服务上同时处理这两点。
+常规兴趣点（POI）SID 编号器难以捕捉跨品类的时空共访关系，生成的离散码也与预训练大语言模型（LLM）存在分布错位（Abstract）。GeoGR 面向高德等工业级导航场景，先用 Swing 加权的时空共访对比损失训练编码器，再通过类 EM 的两阶段循环交替优化 RQ-Kmeans 码与 Qwen 生成器。
 
-> "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs."（Sec. 4.1.1）（用时空共访 POI 对显式建模地理邻近和行为共现。）
+> "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs."（Sec. 4.1.1）
 
 ---
 
@@ -54,43 +61,41 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("POI 描述") --> B["Qwen 编码器"]
-    C("共访 POI 对") -.-> L1{{"Swing 加权 NCE"}}
-    L1 -.-> B
-    B --> D["RQ-Kmeans"]
-    D --> E("SID")
-    E --> F["CPT"]
-    F --> G["SFT"]
-    G --> H("下一个 POI")
+    subgraph Tok["地理-协同初始化"]
+        A("POI 文本、坐标与 geohash") --> B["Qwen 编码器"]
+        C("轨迹共访 POI 对") --> L1{{"Swing 加权 NCE（Eq. 4）"}}
+        L1 -.-> B
+        B --> D["3 层 RQ-Kmeans"]
+    end
+    subgraph Loop["EM 交替精修"]
+        D --> E("层级 SID")
+        E --> P1["阶段 1：固定 SID，CPT + SFT 微调 LLM"]
+        P1 --> P2["阶段 2：固定 LLM，20 候选动态束重分配 SID"]:::key
+        P2 -.->|更新码表| E
+    end
+    P1 --> H["动态束搜索"] --> O("Top-k POI")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 位置描述
 
-每个 POI 有一段描述，含坐标、地址和名称、品牌、品类、geohash 编码、消费水平、活跃时段等属性，由 Qwen 模型编码（Sec. 4.1.1）。
+每个 POI 的输入描述拼接经纬度坐标、地址以及名称、品牌、品类、geohash 编码、消费水平、活跃时段等属性，由 Qwen 编码器映射为稠密向量（Sec. 4.1.1）。
 
 #### 共访对比学习
 
-轨迹中经常同时出现的 POI 对按 Swing 相似度加权，以压低热门物品的权重，再用 NCE 损失训练（Sec. 4.1.1，Eq. 4）。
+在用户轨迹中高频共现的 POI 对按 Swing 相似度赋权，压低热门地标的权重后以 NCE 对比损失训练编码器（Sec. 4.1.1，Eq. 4）。
 
 #### 量化与迭代精修
 
-RQ-Kmeans 把 LLM 嵌入离散成层级 SID（Sec. 1）。
+RQ-Kmeans 先将对齐后的嵌入离散化为初始 3 层层级 SID（Sec. 1），随后交替更新生成器与重分配 SID：
 
-> "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions."（Sec. 4.1.3）（两阶段交替：固定 SID 微调 LLM；固定 LLM 按其预测更新 SID。）
-
-```mermaid
-flowchart LR
-    S("SID") --> P1["阶段 1：固定 SID，微调 LLM"]
-    P1 --> P2["阶段 2：固定 LLM，按其预测更新 SID"]:::key
-    P2 -->|重复| P1
-    classDef key fill:#eaf2fb,stroke:#6b8fc7
-```
+> "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions."（Sec. 4.1.3）
 
 #### 多阶段 LLM 训练
 
-继续预训练（CPT）用多种提示模板注入 POI 信息和用户行为序列（Sec. 4.2.1）。之后的监督微调训练 POI 生成（Abstract）。
+新增 SID token 不在基座词表内，GeoGR 先通过多任务提示模板执行继续预训练（CPT），注入 POI 属性与行为序列知识（Sec. 4.2.1），再经监督微调（SFT）学习下一 POI 生成（Abstract）。
 
-> "Since the newly introduced SID tokens are out-of-vocabulary for the base LLM, we first perform Continued Pre-Training (CPT) to warm up these tokens and inject scenario-specific recommendation knowledge."（Sec. 4.2）（新 SID token 不在词表里，先做 CPT 预热这些 token。）
+> "Since the newly introduced SID tokens are out-of-vocabulary for the base LLM, we first perform Continued Pre-Training (CPT) to warm up these tokens and inject scenario-specific recommendation knowledge."（Sec. 4.2）
 
 ---
 
@@ -116,8 +121,8 @@ flowchart LR
 
 </details>
 
-- 离线对比：GeoGR 在多个真实数据集上好于基线（Abstract）。
-- 在线部署：三个月的测试覆盖了数百万用户（Abstract）。
+- 离线对比：GeoGR 在 Foursquare 与高德等多个真实数据集上优于传统序列推荐、POI 推荐与生成式基线（Abstract）。
+- 在线部署：在高德平台覆盖数百万用户的三个月在线 A/B 测试中，GeoGR 相比线上多级召回基线取得 WINRATE +2.91%、PV_CTR +5.55% 的提升（Abstract）。
 
 ---
 
@@ -125,8 +130,8 @@ flowchart LR
 
 **Our analysis.**
 
-- OneLoc 在输入里加了图像，用 DPO 训练 `Enc-Dec` 生成器；GeoGR 加的是协同信号，用 `Multi-task NTP` 训练 `Dec-Only` LLM。
-- GNPR-SID 的 `RQ-VAE` 码固定不变；GeoGR 的 `R-KM+EM` 码会随生成器精修。
+- OneLoc 在表征中引入视觉模态并用 DPO 对齐 `Enc-Dec` 生成器；GeoGR 在编号阶段融合时空共访信号，并用 `Multi-task NTP` 训练 `Dec-Only` LLM。
+- GNPR-SID 在训练生成器前冻结 `RQ-VAE` 码本；GeoGR 则根据生成器的预测概率迭代精修 `R-KM+EM` 码分配。
 
 ---
 
@@ -135,19 +140,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GeoGR"]
-    P -->|competitor| A["OneLoc"]
-    P -->|competitor| B["GNPR-SID"]
-    P -->|competitor| C["TIGER"]
-    P -->|predecessor| D["OneRec"]
+    P -->|"同期对比"| A["OneLoc"]
+    P -->|"同期对比"| B["GNPR-SID"]
+    P -->|"同期对比"| C["TIGER"]
+    P -->|"前序工作"| D["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
-  - 出处：GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3; discussion in Section 5.2.2: https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3.
+  - 出处：GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2) and [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3); discussion in Section 5.2.2: [S5.SS2.SSS2.p3](https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3).
 - **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI semantic IDs for next-POI generation; GeoGR follows its preprocessing and adds co-visitation alignment, EM-style SID refinement, and CPT plus SFT.
-  - 出处：GeoGR v2, follows the GNPR-SID preprocessing: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; Tables 2, 3, 5, and 6: https://arxiv.org/html/2602.10411v2#S5.T2, https://arxiv.org/html/2602.10411v2#S5.T3, https://arxiv.org/html/2602.10411v2#S5.T5, https://arxiv.org/html/2602.10411v2#S5.T6.
+  - 出处：GeoGR v2, follows the GNPR-SID preprocessing: [S5.SS1.SSS1.p2](https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2); Tables 2, 3, 5, and 6: [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2), [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3), [S5.T5](https://arxiv.org/html/2602.10411v2#S5.T5), [S5.T6](https://arxiv.org/html/2602.10411v2#S5.T6).
 - **同期对比** · [TIGER](tiger.md): TIGER uses content RQ-VAE SIDs with a small Transformer; GeoGR uses geo-aware RQ-Kmeans SIDs with an LLM aligned through continued pre-training.
-  - 出处：GeoGR v2, Tables 2 and 3: https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3.
+  - 出处：GeoGR v2, Tables 2 and 3: [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2) and [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3).
 - **前序工作** · [OneRec](onerec.md): GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
-  - 出处：GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): https://arxiv.org/html/2602.10411v2#S4.SS1.p1.
+  - 出处：GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): [S4.SS1.p1](https://arxiv.org/html/2602.10411v2#S4.SS1.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

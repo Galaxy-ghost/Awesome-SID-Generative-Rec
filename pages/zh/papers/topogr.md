@@ -1,27 +1,32 @@
 # TopoGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/topogr.md) | 中文
+
 | **题目** | *Revealing and Preserving Latent Structure of Semantic ID in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zheng et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2607.25216) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/topogr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2607.25216) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>BDQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring+Rerank"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>BDQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Aux."] --> I["推理 Inference<br/>Scoring+Rerank"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `BDQ`: Bit-Decomposable Quantizer.
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
-- `Scoring+Rerank`: Score candidate items and then rerank a selected subset.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `BDQ`：比特可分解量化器（Bit-Decomposable Quantizer）。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `MTP + Aux.`：多 token 预测与辅助损失联合优化。
+- `Scoring+Rerank`：先对候选集打分筛选，再对头部子集精细重排。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TopoGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["RPG"]
-    P -->|alternative| C["LLaDA-Rec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["RPG"]
+    P -->|"替代方案"| C["LLaDA-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER decodes residual SIDs autoregressively; TopoGR exposes binary SID geometry and predicts all positions in parallel before full-corpus scoring.
-  - 出处：TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p4.
+  - 出处：TopoGR v1, Section 5.1 and Appendix A.4: [S5.SS1.p2](https://arxiv.org/html/2607.25216v1#S5.SS1.p2); [A1.SS4.p4](https://arxiv.org/html/2607.25216v1#A1.SS4.p4).
 - **同期对比** · [RPG](rpg.md): RPG uses parallel SID prediction with graph-constrained decoding; TopoGR instead uses vectorized full-corpus scoring and Hamming-consistent reranking.
-  - 出处：TopoGR v1, Section 5.1 and Appendix A.4: https://arxiv.org/html/2607.25216v1#S5.SS1.p2; https://arxiv.org/html/2607.25216v1#A1.SS4.p5.
+  - 出处：TopoGR v1, Section 5.1 and Appendix A.4: [S5.SS1.p2](https://arxiv.org/html/2607.25216v1#S5.SS1.p2); [A1.SS4.p5](https://arxiv.org/html/2607.25216v1#A1.SS4.p5).
 - **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses discrete diffusion for bidirectional SID generation; TopoGR predicts SID positions simultaneously and adds binary-topology supervision and reranking.
-  - 出处：TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: https://arxiv.org/html/2607.25216v1#S2.p2; https://arxiv.org/html/2607.25216v1#S4.SS3.p1.
+  - 出处：TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: [S2.p2](https://arxiv.org/html/2607.25216v1#S2.p2); [S4.SS3.p1](https://arxiv.org/html/2607.25216v1#S4.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

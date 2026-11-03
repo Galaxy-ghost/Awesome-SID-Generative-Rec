@@ -1,27 +1,31 @@
 # MuSID-KD
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/musid-kd.md) | 中文
+
 | **题目** | *Multigranularity Knowledge Distillation for Generative Recommendation with Semantic IDs* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.35218) · [代码](https://anonymous.4open.science/r/m7k2-review-83f9/) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/musid-kd.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.35218) · [代码](https://anonymous.4open.science/r/m7k2-review-83f9/) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-MLP"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-MLP"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
-- `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `C-Beam`: Constrained beam search.
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-MLP`：序列历史编码器后接多层感知机（MLP）预测头。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | MuSID-KD 在逐层 SID 前缀上对齐候选分布，并按排序影响为监督信号加权，将生成式教师蒸馏到轻量学生模型，替代均匀对齐蒸馏。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MuSID-KD"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["SID-MLP"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["SID-MLP"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): MuSID-KD uses TIGER as its frozen teacher and shares its history encoder.
-  - 出处：MuSID-KD v1, Section 6.1: https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
+  - 出处：MuSID-KD v1, Section 6.1: [S6.SS1.p2](https://arxiv.org/html/2610.35218v1#S6.SS1.p2).
 - **前序工作** · [SID-MLP](sid-mlp.md): SID-MLP supplies the Base KD objective and lightweight student design.
-  - 出处：MuSID-KD v1, Sections 2.3/6.1: https://arxiv.org/html/2610.35218v1#S2.SS3.p1; https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
+  - 出处：MuSID-KD v1, Sections 2.3/6.1: [S2.SS3.p1](https://arxiv.org/html/2610.35218v1#S2.SS3.p1); [S6.SS1.p2](https://arxiv.org/html/2610.35218v1#S6.SS1.p2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

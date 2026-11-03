@@ -1,25 +1,32 @@
 # PSRQ
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/psrq.md)
+
 | **Title** | *Progressive Semantic Residual Quantization for Multimodal-Joint Interest Modeling in Music Recommendation* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | CIKM’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.20359) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/psrq.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2508.20359) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Prog. RQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img`: Text and visual item representations.
 - `Prog. RQ`: Progressive RQ variant.
+- `Encoder`: Bidirectional encoder backbone without autoregressive token generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PSRQ"]
-    P -->|alternative| A["TIGER"]
-    P -->|alternative| B["VQ-Rec"]
-    P -->|alternative| C["OneRec"]
+    P -->|"alternative"| A["TIGER"]
+    P -->|"alternative"| B["VQ-Rec"]
+    P -->|"alternative"| C["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Alternative** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for generative retrieval; PSRQ quantizes multimodal embeddings with progressive semantic residual K-means and uses the IDs as ranking features for cold-start items.
-  - Source: PSRQ v1, Section 1 and Section 2.2 cite Rajput et al. (2023): https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1; RQ-VAE is a quantizer baseline in Table 3: https://arxiv.org/html/2508.20359v1#S5.T3.
+  - Source: PSRQ v1, Section 1 and Section 2.2 cite Rajput et al. (2023): [S1.p3](https://arxiv.org/html/2508.20359v1#S1.p3) and [S2.SS2.p1](https://arxiv.org/html/2508.20359v1#S2.SS2.p1); RQ-VAE is a quantizer baseline in Table 3: [S5.T3](https://arxiv.org/html/2508.20359v1#S5.T3).
 - **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec framed vector quantization for transferable recommenders; PSRQ adds modal-specific and modal-joint codebooks for multimodal cold-start ranking.
-  - Source: PSRQ v1, Section 1 and Section 2.2: https://arxiv.org/html/2508.20359v1#S1.p3 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.
+  - Source: PSRQ v1, Section 1 and Section 2.2: [S1.p3](https://arxiv.org/html/2508.20359v1#S1.p3) and [S2.SS2.p1](https://arxiv.org/html/2508.20359v1#S2.SS2.p1).
 - **Alternative** · [OneRec](onerec.md): OneRec uses residual K-means SIDs inside an end-to-end generator; PSRQ keeps a discriminative ranker and feeds it multimodal SID embeddings.
-  - Source: PSRQ v1, contribution list and Section 2.2 cite OneRec: https://arxiv.org/html/2508.20359v1#S1.I1.i2.p1 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.
+  - Source: PSRQ v1, contribution list and Section 2.2 cite OneRec: [S1.I1.i2.p1](https://arxiv.org/html/2508.20359v1#S1.I1.i2.p1) and [S2.SS2.p1](https://arxiv.org/html/2508.20359v1#S2.SS2.p1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

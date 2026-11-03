@@ -1,26 +1,32 @@
 # IDM/CMM
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/idm-cmm.md) | 中文
+
 | **题目** | *Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.32943) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/idm-cmm.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.32943) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Subspace RQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Subspace RQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Aux."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Subspace RQ`: Residual quantization applied separately within embedding subspaces.
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Subspace RQ`：在嵌入子空间内分别执行的残差量化。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `MTP + Aux.`：多 token 预测与辅助损失联合优化。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["IDM/CMM"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|alternative| C["LLaDA-Rec"]
+    P -->|"同期对比"| A["RPG"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"替代方案"| C["LLaDA-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [RPG](rpg.md): Reproduced parallel baseline with graph-guided decoding; IDM/CMM add soft teacher supervision.
-  - 出处：IDM/CMM v1, Section 4.1 and Table 2: https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2; https://arxiv.org/html/2610.32943v1#S4.T2.
+  - 出处：IDM/CMM v1, Section 4.1 and Table 2: [S4.SS1.SSS0.Px2.p2](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p2); [S4.T2](https://arxiv.org/html/2610.32943v1#S4.T2).
 - **同期对比** · [TIGER](tiger.md): Autoregressive baseline; its comparison scores are taken from RPG.
-  - 出处：IDM/CMM v1, Sections 2.2/4.1 and Table 2: https://arxiv.org/html/2610.32943v1#S2.SS2.p2; https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p1; https://arxiv.org/html/2610.32943v1#S4.T2.
+  - 出处：IDM/CMM v1, Sections 2.2/4.1 and Table 2: [S2.SS2.p2](https://arxiv.org/html/2610.32943v1#S2.SS2.p2); [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2610.32943v1#S4.SS1.SSS0.Px2.p1); [S4.T2](https://arxiv.org/html/2610.32943v1#S4.T2).
 - **替代方案** · [LLaDA-Rec](llada-rec.md): Iterative diffusion contrasts with the single-pass parallel predictor.
-  - 出处：IDM/CMM v1, Section 2.3: https://arxiv.org/html/2610.32943v1#S2.SS3.p1.
+  - 出处：IDM/CMM v1, Section 2.3: [S2.SS3.p1](https://arxiv.org/html/2610.32943v1#S2.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

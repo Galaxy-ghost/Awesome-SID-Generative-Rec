@@ -1,23 +1,29 @@
 # CMRec
 
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cmrec.md)
+
 | **Title** | *Cross-Country Code-Mixing for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Gao et al. |
 | **Venue** | CIKM’26 Short |
 | **Problem × Stage** | `VI. Generalization` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.28972) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/cmrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.28972) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>– / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
+- `Dec-Only†`: Decoder-only autoregressive backbone (inferred).
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
 ### TL;DR
@@ -66,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CMRec"]
-    P -->|predecessor| A["GenCDR"]
-    P -->|competitor| B["TIGER"]
-    P -->|alternative| C["GMC"]
+    P -->|"predecessor"| A["GenCDR"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"alternative"| C["GMC"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [GenCDR](gencdr.md): CMRec uses GenCDR as its backbone and augments its training sequences.
-  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2
+  - Source: [S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2)
 - **Competitor** · [TIGER](tiger.md): Generative recommendation baseline trained on the common partition.
-  - Source: https://arxiv.org/html/2609.28972v1#S4.SS1.p2 ; https://arxiv.org/html/2609.28972v1#S4.T1
+  - Source: [S4.SS1.p2](https://arxiv.org/html/2609.28972v1#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2609.28972v1#S4.T1)
 - **Alternative** · [GMC](gmc.md): Shared-token cross-domain transfer contrasted with data-level code mixing.
-  - Source: https://arxiv.org/html/2609.28972v1#S1.p2
+  - Source: [S1.p2](https://arxiv.org/html/2609.28972v1#S1.p2)
 
 [View all papers in this cell](../../README.md#vi--training)

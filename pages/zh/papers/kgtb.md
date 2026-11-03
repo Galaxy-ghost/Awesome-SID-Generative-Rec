@@ -1,28 +1,31 @@
 # KGTB
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/kgtb.md) | 中文
+
 | **题目** | *Knowledge Graph Tokenization for Behavior-Aware Generative Next POI Recommendation* |
 | :-- | :-- |
 | **作者** | Sun et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2509.12350) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/kgtb.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2509.12350) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Attr+Geo+CF"] --> T["Tokenization<br/>KG-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Attr+Geo+CF"] --> T["编号 Tokenization<br/>KG-RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Attr+Geo+CF`: Category and other attributes, plus geography, plus CF (POI).
-- `KG-RQ`: Residual quantization informed by knowledge-graph structure.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
-- `–`: Not reported in the paper.
+- `Attr+Geo+CF`：类目等结构化属性、地理空间特征与协同过滤信号融合（POI 场景）。
+- `KG-RQ`：融合知识图谱结构的残差量化。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
 
 ### TL;DR
 
@@ -35,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | KGTB 将 POI 数据组织为知识图谱，在图监督下把节点量化为结构化 ID，并在 POI、类目与区域访问任务上微调 LLM。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -70,10 +73,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["KGTB"]
-    P -->|competitor| A["GNPR-SID"]
+    P -->|"同期对比"| A["GNPR-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **同期对比** · [GNPR-SID](gnpr-sid.md): GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
-  - 出处：KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2; https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.
+  - 出处：KGTB v1, Cold-Start Scenario and Tables 2/4/5: [Sx5.SSx3.SSSx2.p1](https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1); [Sx5.T2](https://arxiv.org/html/2509.12350v1#Sx5.T2); [Sx5.T4](https://arxiv.org/html/2509.12350v1#Sx5.T4); [Sx5.T5](https://arxiv.org/html/2509.12350v1#Sx5.T5).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

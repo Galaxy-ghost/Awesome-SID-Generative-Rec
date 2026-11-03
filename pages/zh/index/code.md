@@ -2,9 +2,9 @@
 
 [English](../../index/code.md) | 中文
 
-91 篇论文附有代码。`代码` 是作者仓库，`代码（第三方）` 是他人实现。
+共 91 篇论文附有公开代码。`代码` 为作者官方仓库，`代码（第三方）` 为社区复现。
 
-| 论文 | 会议 | 问题 × 阶段 | 代码 |
+| 论文 | 发表 | 问题 × 阶段 | 代码仓库 |
 | :-- | :-- | :-- | :-- |
 | [CID](../papers/cid.md) | SIGIR-AP’23 | II × Tokenization | [代码](https://github.com/Wenyueh/LLM-RecSys-ID) |
 | [TIGER](../papers/tiger.md) | NeurIPS’23 | 范式、系统与基准 | [代码（第三方）](https://github.com/baiyimeng/TIGER) |

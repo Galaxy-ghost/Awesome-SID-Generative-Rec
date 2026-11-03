@@ -1,25 +1,34 @@
 # MME-SID
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mme-sid.md)
+
 | **Title** | *Empowering large language model for sequential recommendation via multimodal embeddings and semantic ids* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | CIKM’25 |
-| **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2509.02017) · [Code](https://github.com/Applied-Machine-Learning-Lab/MME-SID) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mme-sid.md) |
+| **Problem × Stage** | `I. Informativeness` · `Tokenization` — Also: `I. Informativeness` × `Backbone`; `III. SID–Model Alignment` × `Backbone`; `III. SID–Model Alignment` × `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2509.02017) · [Code](https://github.com/Applied-Machine-Learning-Lab/MME-SID) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>MM-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `MM-RQ`: Multimodal residual quantization.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,19 +76,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MME-SID"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|alternative| C["LC-Rec"]
-    P -->|alternative| D["ADC-SID"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    P -->|"alternative"| C["LC-Rec"]
+    P -->|"alternative"| D["ADC-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER-MM generates per-modality RQ-VAE semantic IDs autoregressively and must resolve collisions; MME-SID feeds multimodal SIDs and embeddings to an LLM and scores items directly.
-  - Source: MME-SID v1, baseline TIGER-MM: https://arxiv.org/html/2509.02017v1#S5.I2.i7.p1; collision contrast: https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1; Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.
+  - Source: MME-SID v1, baseline TIGER-MM: [S5.I2.i7.p1](https://arxiv.org/html/2509.02017v1#S5.I2.i7.p1); collision contrast: [S4.I1.i2.p1](https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1); Table 3: [S5.T3](https://arxiv.org/html/2509.02017v1#S5.T3).
 - **Competitor** · [LETTER](letter.md): LETTER regularizes the tokenizer for generative retrieval on a TIGER backbone; MME-SID avoids generation and aligns modalities with an MMD loss.
-  - Source: MME-SID v1, baseline LETTER implemented on TIGER: https://arxiv.org/html/2509.02017v1#S5.I2.i9.p1; Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.
+  - Source: MME-SID v1, baseline LETTER implemented on TIGER: [S5.I2.i9.p1](https://arxiv.org/html/2509.02017v1#S5.I2.i9.p1); Table 3: [S5.T3](https://arxiv.org/html/2509.02017v1#S5.T3).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to item indices but decodes autoregressively; MME-SID scores items from the LLM output for lower latency.
-  - Source: MME-SID v1, Section 6.2: https://arxiv.org/html/2509.02017v1#S6.SS2.p1.
+  - Source: MME-SID v1, Section 6.2: [S6.SS2.p1](https://arxiv.org/html/2509.02017v1#S6.SS2.p1).
 - **Alternative** · [ADC-SID](adc-sid.md): ADC-SID later compares against MM-RQ-VAE (MME-SID's tokenizer) and adds adaptive behavior-content alignment.
-  - Source: Evidence is from the later ADC-SID paper: MM-RQ-VAE baseline and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1 and https://arxiv.org/html/2510.25622v3#S4.T2.
+  - Source: Evidence is from the later ADC-SID paper: MM-RQ-VAE baseline and Table 2: [S4.I3.i6.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1) and [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

@@ -1,26 +1,32 @@
 # SID-MLP
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sid-mlp.md) | 中文
+
 | **题目** | *MLPs are Efficient Distilled Generative Recommenders* |
 | :-- | :-- |
 | **作者** | Guo et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2605.12617) · [代码](https://github.com/ztguo715/SID-MLP.git) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/sid-mlp.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2605.12617) · [代码](https://github.com/ztguo715/SID-MLP.git) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-MLP"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE†"] --> B["骨干 Backbone<br/>Enc-MLP"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `C-Beam`: Constrained beam search.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE†`：残差量化变分自编码器（由配置推断）。
+- `Enc-MLP`：序列历史编码器后接多层感知机（MLP）预测头。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | SID-MLP 将自回归 Transformer 解码器蒸馏为建立在单次用户上下文计算之上的按位置 MLP 预测头，替代 SID 解码中重复的注意力计算。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SID-MLP"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LC-Rec"]
-    P -->|competitor| C["AtSpeed"]
-    P -->|competitor| D["NEZHA"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LC-Rec"]
+    P -->|"同期对比"| C["AtSpeed"]
+    P -->|"同期对比"| D["NEZHA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER supplies the main frozen teacher and fixed SID space.
-  - 出处：SID-MLP v1, Sec.4.1: https://arxiv.org/html/2605.12617v1#S4.SS1.p1; https://arxiv.org/html/2605.12617v1#S4.SS1.p2.
+  - 出处：SID-MLP v1, Sec.4.1: [S4.SS1.p1](https://arxiv.org/html/2605.12617v1#S4.SS1.p1); [S4.SS1.p2](https://arxiv.org/html/2605.12617v1#S4.SS1.p2).
 - **前序工作** · [LC-Rec](lc-rec.md): LC-Rec supplies the second, LLaMA-2 teacher for the extension.
-  - 出处：SID-MLP v1, Appendix D.1: https://arxiv.org/html/2605.12617v1#A4.SS1.p2.
+  - 出处：SID-MLP v1, Appendix D.1: [A4.SS1.p2](https://arxiv.org/html/2605.12617v1#A4.SS1.p2).
 - **同期对比** · [AtSpeed](atspeed.md): Strict and relaxed AtSpeed variants are adapted to TIGER and compared.
-  - 出处：SID-MLP v1, Appendix D.2: https://arxiv.org/html/2605.12617v1#A4.SS2.p2; https://arxiv.org/html/2605.12617v1#S4.T3.
+  - 出处：SID-MLP v1, Appendix D.2: [A4.SS2.p2](https://arxiv.org/html/2605.12617v1#A4.SS2.p2); [S4.T3](https://arxiv.org/html/2605.12617v1#S4.T3).
 - **同期对比** · [NEZHA](nezha.md): NEZHA is reproduced on both TIGER and LC-Rec.
-  - 出处：SID-MLP v1, Appendix D.4: https://arxiv.org/html/2605.12617v1#A4.SS4.p1; https://arxiv.org/html/2605.12617v1#A4.SS4.p5.
+  - 出处：SID-MLP v1, Appendix D.4: [A4.SS4.p1](https://arxiv.org/html/2605.12617v1#A4.SS4.p1); [A4.SS4.p5](https://arxiv.org/html/2605.12617v1#A4.SS4.p5).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

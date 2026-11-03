@@ -1,26 +1,28 @@
 # SIDScope
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sidscope.md)
+
 | **Title** | *A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/sidscope.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>n/a"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>n/a"] --> TR["Training<br/>n/a / n/a"] --> I["Inference<br/>n/a"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
-
-- `n/a`: Not applicable to this method.
 
 ### TL;DR
 
 > [!NOTE]
-> SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.
+> SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes.
 
 ---
 
@@ -29,7 +31,7 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh. |
+| Key Contribution | SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes. |
 | Modified Stage | No single stage |
 
 ---
@@ -63,22 +65,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SIDScope"]
-    P -->|predecessor| A["GRID"]
-    P -->|predecessor| B["CARD"]
-    P -->|predecessor| C["DIGER"]
-    P -->|predecessor| D["LETTER"]
-    P -->|predecessor| E["LC-Rec"]
+    P -->|"predecessor"| A["GRID"]
+    P -->|"predecessor"| B["CARD"]
+    P -->|"predecessor"| C["DIGER"]
+    P -->|"predecessor"| D["LETTER"]
+    P -->|"predecessor"| E["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Predecessor** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
-  - Source: SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: https://arxiv.org/html/2608.18779v2#S3.T2; Table 3 gives its diagnostic profile: https://arxiv.org/html/2608.18779v2#S4.T3; Tables 5 and 7 report the fixed-budget and resolver tests: https://arxiv.org/html/2608.18779v2#S5.T5 and https://arxiv.org/html/2608.18779v2#S5.T7.
+  - Source: SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Table 3 gives its diagnostic profile: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3); Tables 5 and 7 report the fixed-budget and resolver tests: [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5) and [S5.T7](https://arxiv.org/html/2608.18779v2#S5.T7).
 - **Predecessor** · [CARD](card.md): CARD supplies an upstream Beauty/P5 SID mapping inspected by SIDScope through a code-derived export and budget-matched prefix retrieval controls on the same catalog as GRID.
-  - Source: SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: https://arxiv.org/html/2608.18779v2#S3.T2; Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: https://arxiv.org/html/2608.18779v2#S5.SS2.p1 and https://arxiv.org/html/2608.18779v2#S5.T5.
+  - Source: SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: [S5.SS2.p1](https://arxiv.org/html/2608.18779v2#S5.SS2.p1) and [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5).
 - **Predecessor** · [DIGER](diger.md): DIGER supplies upstream checkpoint-derived SID mappings for Beauty and Yelp that SIDScope profiles separately and uses in a last-event beam-accounting portability case.
-  - Source: SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: https://arxiv.org/html/2608.18779v2#S3.T2 and https://arxiv.org/html/2608.18779v2#S4.T3; Section 5.5 and Table 6 identify the last-event sensitivity route: https://arxiv.org/html/2608.18779v2#S5.SS5.p1 and https://arxiv.org/html/2608.18779v2#S5.T6.
+  - Source: SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2) and [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3); Section 5.5 and Table 6 identify the last-event sensitivity route: [S5.SS5.p1](https://arxiv.org/html/2608.18779v2#S5.SS5.p1) and [S5.T6](https://arxiv.org/html/2608.18779v2#S5.T6).
 - **Predecessor** · [LETTER](letter.md): LETTER supplies a released Instruments SID index that SIDScope re-audits under its common bounded diagnostic protocol as an upstream mapping source.
-  - Source: SIDScope v2, Table 2 identifies LETTER's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 states that LETTER is recomputed under the common C3 protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports the resulting profile: https://arxiv.org/html/2608.18779v2#S4.T3.
+  - Source: SIDScope v2, Table 2 identifies LETTER's released Instruments index: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 4.1 states that LETTER is recomputed under the common C3 protocol: [S4.SS1.p3](https://arxiv.org/html/2608.18779v2#S4.SS1.p3); Table 3 reports the resulting profile: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3).
 - **Predecessor** · [LC-Rec](lc-rec.md): LC-Rec supplies a released Instruments SID index that SIDScope re-audits alongside LETTER to distinguish mapping addressability from prefix behavioral alignment.
-  - Source: SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p2 and https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports both profiles: https://arxiv.org/html/2608.18779v2#S4.T3.
+  - Source: SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: [S4.SS1.p2](https://arxiv.org/html/2608.18779v2#S4.SS1.p2) and [S4.SS1.p3](https://arxiv.org/html/2608.18779v2#S4.SS1.p3); Table 3 reports both profiles: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

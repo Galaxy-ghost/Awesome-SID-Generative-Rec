@@ -1,26 +1,32 @@
 # SAPO
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sapo.md) | 中文
+
 | **题目** | *Step-Aligned Policy Optimization for Reasoning-Based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zheng et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2605.17648) · [代码](https://github.com/zhengzaiyi/SAPO) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/sapo.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2605.17648) · [代码](https://github.com/zhengzaiyi/SAPO) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>CoT+C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `CoT+C-Beam`: Reasoning followed by constrained beam-search decoding.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → RL`：先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
+- `CoT+C-Beam`：显式推理后接合法前缀约束束搜索。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | SAPO 以一个思考块加一个 SID token 为一步，为每个推理步单独计算组相对优势，替代将单一精确匹配优势广播到整段回复的做法。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SAPO"]
-    P -->|predecessor| A["SIDReasoner"]
-    P -->|competitor| B["OneRec-Think"]
-    P -->|competitor| C["TIGER"]
+    P -->|"前序工作"| A["SIDReasoner"]
+    P -->|"同期对比"| B["OneRec-Think"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [SIDReasoner](sidreasoner.md): SAPO shares SIDReasoner Stage 1/2 checkpoints but replaces rollout-level Stage 3 credit with rewards and advantages for thinking-block/SID-token pairs.
-  - 出处：SAPO v1, Appendix G and Section 5.2: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.SS2.p2.
+  - 出处：SAPO v1, Appendix G and Section 5.2: [A7.p3](https://arxiv.org/html/2605.17648v1#A7.p3); [S5.SS2.p2](https://arxiv.org/html/2605.17648v1#S5.SS2.p2).
 - **同期对比** · [OneRec-Think](onerec-think.md): OneRec-Think is a reasoning-based generative baseline with outcome-level feedback; SAPO localizes RL credit to individual SID reasoning steps.
-  - 出处：SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p3; https://arxiv.org/html/2605.17648v1#S5.T1.
+  - 出处：SAPO v1, Appendix G and Table 1: [A7.p3](https://arxiv.org/html/2605.17648v1#A7.p3); [S5.T1](https://arxiv.org/html/2605.17648v1#S5.T1).
 - **同期对比** · [TIGER](tiger.md): TIGER is the non-reasoning residual-SID generation baseline; SAPO adds structured reasoning and step-aligned policy optimization.
-  - 出处：SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p2; https://arxiv.org/html/2605.17648v1#S5.T1.
+  - 出处：SAPO v1, Appendix G and Table 1: [A7.p2](https://arxiv.org/html/2605.17648v1#A7.p2); [S5.T1](https://arxiv.org/html/2605.17648v1#S5.T1).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

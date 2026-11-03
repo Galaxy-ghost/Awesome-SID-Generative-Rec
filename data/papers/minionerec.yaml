@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: Beam
 poi: false
-summary: 'Abstract: "most industrial deployments remain proprietary".'
 tldr: MiniOneRec is an open-source framework for RQ-VAE Semantic ID construction, supervised fine-tuning of Qwen backbones,
   and reinforcement learning with constrained decoding, to test generative scaling on public benchmarks.
 tldr_zh: MiniOneRec 是覆盖 RQ-VAE SID 构建、Qwen 骨干监督微调与受约束解码强化学习的开源框架，用于在公开基准上检验生成式扩展规律。

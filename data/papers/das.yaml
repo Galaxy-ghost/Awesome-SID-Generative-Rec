@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "their lack of collaborative signals results in a misalignment"; "inevitable information loss during alignment".'
 tldr: DAS optimizes quantization and collaborative alignment in one stage, with multi-view contrastive alignment and dual
   quantization of users and ads, instead of two-stage alignment that loses information.
 tldr_zh: DAS 通过多视图对比对齐以及用户与广告的双重量化，在单阶段内同步优化量化与协同对齐，避免两阶段对齐带来的信息损失。

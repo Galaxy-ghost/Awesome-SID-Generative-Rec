@@ -16,9 +16,6 @@ tokenizer: Altern.†
 objective: Multi-task NTP
 inference: Beam
 poi: true
-summary: 'Abstract: "inadequate modeling of high-quality SIDs that capture cross-category spatio-temporal collaborative relationships";
-  "poor alignment between large language models (LLMs) and the POI recommendation task". I and III tie, and so do the new
-  designs; the title ("Enabling Spatio-Temporal Aware ...") names I.'
 tldr: GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and
   iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning.
 tldr_zh: GeoGR 从受地理约束的共访对出发，经对比学习与迭代修正构建地理感知 POI SID，再通过持续预训练与微调将 LLM 与之对齐。

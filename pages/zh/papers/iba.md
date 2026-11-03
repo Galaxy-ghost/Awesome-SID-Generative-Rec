@@ -1,26 +1,32 @@
 # IBA
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/iba.md) | 中文
+
 | **题目** | *Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2607.12425) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/iba.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2607.12425) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
-- `C-Beam`: Constrained beam search.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → (NTP + Aux.)`：先进行下一 token 预测预训练，再联合优化下一 token 预测与辅助目标。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | IBA 按信息增益在各 SID 位置之间分配隐式推理步数，将更多计算分给信息量更大的前序位置，替代每个位置固定步数的做法。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["IBA"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
-    P -->|alternative| C["SIDReasoner"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LETTER"]
+    P -->|"替代方案"| C["SIDReasoner"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): IBA adds learned latent refinement allocation to TIGER.
-  - 出处：IBA v1, Section IV-A2 and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.T2.
+  - 出处：IBA v1, Section IV-A2 and Table II: [S4.SS1.SSS2.p1](https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2607.12425v1#S4.T2).
 - **前序工作** · [LETTER](letter.md): LETTER is the second tested base model for IBA.
-  - 出处：IBA v1, Sections IV-A2/IV-B and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.SS2.p2; https://arxiv.org/html/2607.12425v1#S4.T2.
+  - 出处：IBA v1, Sections IV-A2/IV-B and Table II: [S4.SS1.SSS2.p1](https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1); [S4.SS2.p2](https://arxiv.org/html/2607.12425v1#S4.SS2.p2); [S4.T2](https://arxiv.org/html/2607.12425v1#S4.T2).
 - **替代方案** · [SIDReasoner](sidreasoner.md): SIDReasoner aligns IDs with language; IBA allocates hidden refinement steps.
-  - 出处：IBA v1, Section V-B2: https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2; https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3.
+  - 出处：IBA v1, Section V-B2: [S5.SS2.SSS2.p2](https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2); [S5.SS2.SSS2.p3](https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

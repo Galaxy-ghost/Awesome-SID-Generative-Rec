@@ -1,22 +1,27 @@
 # VarLenRec (TIGER)
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/varlenrec-tiger.md)
+
 | **Title** | *Learning Variable-Length Tokenization for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.17779) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/varlenrec-tiger.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.17779) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>HARQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `HARQ`: Hyperbolic Adaptive Residual Quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["VarLenRec (TIGER)"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["ETEGRec"]
-    P -->|competitor| C["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["ETEGRec"]
+    P -->|"competitor"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): VarLenRec-TIGER replaces uniform-length RQ tokenization with hyperbolic variable-length IDs and adds user-conditioned length prediction before constrained generation.
-  - Source: VarLenRec v2, Sections III-D/IV-B: https://arxiv.org/html/2605.17779v2#S3.SS4.p3; https://arxiv.org/html/2605.17779v2#S4.SS2.p1.
+  - Source: VarLenRec v2, Sections III-D/IV-B: [S3.SS4.p3](https://arxiv.org/html/2605.17779v2#S3.SS4.p3); [S4.SS2.p1](https://arxiv.org/html/2605.17779v2#S4.SS2.p1).
 - **Competitor** · [ETEGRec](etegrec.md): ETEGRec is a fixed-length generative baseline with joint-training optimization; VarLenRec changes the per-item encoding budget and target decoding length.
-  - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
+  - Source: VarLenRec v2, Sections IV-A/IV-B: [S4.SS1.SSS2.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1); [S4.SS2.p2](https://arxiv.org/html/2605.17779v2#S4.SS2.p2).
 - **Competitor** · [LETTER](letter.md): LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares against LETTER-TIGER.
-  - Source: VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.
+  - Source: VarLenRec v2, Sections IV-A/IV-B: [S4.SS1.SSS2.p1](https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1); [S4.SS2.p2](https://arxiv.org/html/2605.17779v2#S4.SS2.p2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

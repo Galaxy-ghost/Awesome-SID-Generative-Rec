@@ -1,26 +1,32 @@
 # QuaSID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/quasid.md) | 中文
+
 | **题目** | *Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* |
 | :-- | :-- |
 | **作者** | Hu et al. |
-| **会议** | KDD’26 ADS |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2603.00632) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/quasid.md) |
+| **发表** | KDD’26 ADS |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2603.00632) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>QA-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>QA-RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam†"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `QA-RQ`: Qualification-Aware RQ-VAE.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `QA-RQ`：资质感知残差量化（Qualification-Aware RQ-VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam†`：自回归束搜索（由配置推断）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | QuaSID 用按汉明距离缩放的间隔仅排斥判定为有害的冲突 SID 对，屏蔽良性重叠并加入双塔对比目标，不再对所有冲突一视同仁。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["QuaSID"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LETTER"]
-    P -->|alternative| C["HiD-VAE"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["LETTER"]
+    P -->|"替代方案"| C["HiD-VAE"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): Supplies the shared downstream backbone for tokenizer comparisons.
-  - 出处：QuaSID v1, Section 5.1.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1.
+  - 出处：QuaSID v1, Section 5.1.4: [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1).
 - **替代方案** · [LETTER](letter.md): Assignment balancing contrasts with QuaSID's qualified, severity-scaled collision repulsion.
-  - 出处：QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
+  - 出处：QuaSID v1, Section 2.2: [S2.SS2.p2](https://arxiv.org/html/2603.00632v1#S2.SS2.p2).
 - **替代方案** · [HiD-VAE](hid-vae.md): Overlap regularization is contrasted with selectively repelling qualified conflicts.
-  - 出处：QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
+  - 出处：QuaSID v1, Section 2.2: [S2.SS2.p2](https://arxiv.org/html/2603.00632v1#S2.SS2.p2).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

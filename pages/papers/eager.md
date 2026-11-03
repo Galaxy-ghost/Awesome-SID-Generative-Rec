@@ -1,24 +1,34 @@
 # EAGER
 
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/eager.md)
+
 | **Title** | *Two-Stream Generative Recommender with Behavior-Semantic Collaboration* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | KDD’24 |
-| **Problem × Stage** | `I. Informativeness` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/eager.md) |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` — Also: `I. Informativeness` × `Inference`; `I. Informativeness` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual H-KM"] --> B["Backbone<br/>Dual Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Fusion"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
+- `Dual H-KM`: Dual-source hierarchical k-means over behavioral and semantic embeddings.
+- `Dual Enc-Dec`: Shared encoder paired with two parallel decoders for dual token streams.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
+- `Fusion`: Fusion of candidate scores decoded from parallel token branches.
 
 ### TL;DR
 
@@ -34,14 +44,14 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided transfer tasks, instead of using only one type of item information. |
 | Modified Stage | Backbone |
-| Key Findings | Removing the two-stream architecture causes the largest drop in the ablation (Sec. 4.3, Table 3), and on Beauty EAGER takes 0.0325 s per sample at inference against 0.0281 s for TIGER (Table 6). |
-| Limitation | Inference runs beam search in two decoders and merges the results, which makes EAGER slower than TIGER (Sec. 3.6, Table 6). |
+| Key Findings | Across Amazon Beauty, Sports and Outdoors, Toys and Games, and Yelp, EAGER outperforms sequential, tree-based, and single-stream generative baselines (Table 2), removing the two-stream architecture causes the largest ablation drop (Sec. 4.3, Table 3), and inference on Beauty takes 0.0325 s per sample against 0.0281 s for TIGER (Table 6). |
+| Limitation | Inference runs beam search (size 100) in two separate decoders and merges 2k candidates by log-probability confidence, increasing per-sample latency on Beauty from 0.0281 s (TIGER) to 0.0325 s (Sec. 3.6, Table 6). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Existing generative methods use either the behavioral or the semantic side of item information, which the authors state neglects their complementary nature (Abstract). EAGER names three requirements for combining them: one architecture for both feature types, independent learning for each, and interaction between them (Abstract).
+Single-stream generative recommenders construct each item's Semantic ID (SID) from either behavioral interactions or content semantics alone, discarding signals from the other view or forcing both into one shared quantization space (Abstract). EAGER combines behavioral and semantic signals through three design choices: a unified two-stream encoder-decoder architecture, separate hierarchical code trees for each view, and cross-stream alignment tasks.
 
 > "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy" (Abstract)
 
@@ -53,35 +63,46 @@ Existing generative methods use either the behavioral or the semantic side of it
 
 ```mermaid
 flowchart LR
-    A("User history") --> B["Shared encoder"]
-    B --> C["Behavior decoder"]
-    B --> D["Semantic decoder"]
-    C --> E("k behavior codes")
-    D --> F("k semantic codes")
+    subgraph DualTok["Offline Dual H-KM Tokenization"]
+        DIN("128-dim DIN behavior embedding") --> HKM1["H-KM (k = 256)"]
+        ST5("128-dim Sentence-T5 embedding") --> HKM2["H-KM (k = 256)"]
+        HKM1 --> BCode("Behavior tree codes")
+        HKM2 --> SCode("Semantic tree codes")
+    end
+    subgraph TwoStream["Two-Stream Collaborative Generation"]
+        A("User interaction history") --> B["Shared encoder"]
+        B --> C["Behavior decoder"]:::key
+        B --> D["Semantic decoder"]:::key
+        L1{{"GCT: positive-only summary distillation (Eq. 3)"}}:::key -.-> C
+        L1 -.-> D
+        DIN -.-> L1
+        ST5 -.-> L1
+        L2{{"STT: masked behavior code reconstruction"}}:::key -.-> C
+        D -.-> L2
+    end
+    C --> E("Top-k behavior codes")
+    D --> F("Top-k semantic codes")
     E --> G["Confidence ranking of 2k codes"]:::key
     F --> G
-    G --> H("Items")
-    L1{{"GCT: summary-token distillation"}} -.-> C
-    L1 -.-> D
-    L2{{"STT: masked code reconstruction"}} -.-> C
+    G --> H("Ranked top-k items")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Behavior Codes and Semantic Codes
 
-A pre-trained DIN model is the behavior encoder and Sentence-T5 is the semantic encoder, with hidden size 128 (Sec. 4.1). Hierarchical k-means with cluster number 256 turns each embedding into codes (Sec. 3.3, Sec. 4.1).
+EAGER extracts 128-dimensional behavioral embeddings from a pre-trained DIN model and 128-dimensional semantic embeddings from Sentence-T5 (Sec. 4.1). Each embedding space is independently partitioned by hierarchical k-means (`Dual H-KM`) with branching factor $`k = 256`$ until every leaf cluster contains a single item, producing two separate hierarchical SIDs per item (Sec. 3.3, Sec. 4.1).
 
 #### Global Contrastive Task
 
-A summary token in each stream is distilled toward that stream's pre-trained item embedding with a positive-only contrastive metric instead of InfoNCE (Sec. 3.4, Eq. 3).
+In the global contrastive task (GCT), each decoder appends a stream summary token and distills its hidden state toward that stream's frozen item embedding (DIN or Sentence-T5) using a positive-only cosine-distance metric rather than negative-sampling InfoNCE (Sec. 3.4, Eq. 3).
 
 #### Semantic-Guided Transfer Task
 
-The semantic global feature reconstructs masked behavior codes, and a recognition objective adds a relevance classifier (Sec. 3.5).
+To transfer semantic structure into behavioral decoding without collapsing the two code spaces, the semantic-guided transfer task (STT) uses the semantic stream's global feature to reconstruct masked behavior tokens and trains a binary relevance classifier (Sec. 3.5).
 
 #### Confidence-Based Ranking
 
-Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log probability (Sec. 3.6).
+At inference, beam search in each decoder returns $`k`$ candidate paths, and EAGER ranks the combined $`2k`$ predictions by their sequence log-probability confidence score (Sec. 3.6).
 
 > "With the 2*k prediction codes, we calculate the log probabilities over the codes as the confidence score of each prediction, which is similar to the perplexity used in the language model and the lower value indicates more confidence." (Sec. 3.6)
 
@@ -109,13 +130,13 @@ Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log p
 
 </details>
 
-- Main comparison: EAGER reports better performance than existing methods on four public benchmarks (Abstract).
-- Ablation: removing the global contrastive task (GCT) costs more than removing the semantic-guided transfer task (STT) (Sec. 4.3, Table 3).
+- Main comparison: across 5-core filtered Beauty (22,363 users / 12,101 items), Sports and Outdoors (35,598 / 18,357), Toys and Games (19,412 / 11,924), and Yelp (30,431 / 20,033), EAGER outperforms sequential, tree-based, and generative baselines on Recall@5/10/20 and NDCG@5/10/20 (Abstract, Table 1, Table 2).
+- Component ablations: removing the two-stream generation (TSG) architecture causes the steepest drop, and removing GCT hurts accuracy more than removing STT (Sec. 4.3, Table 3).
 
   > "Removing GCT leads to more performance drops than removing STT, suggesting that global information distillation of the inter-code is slightly more important than the knowledge flow between the intra-code." (Sec. 4.3)
 
-- Visual features: on Yelp, ViT-B features of item covers produce a visual semantic code (Sec. 4.4, Table 4).
-- Inference speed: with top-k 5 and beam size 100 on Beauty, RecForest takes 0.0499 s and DIN 0.2349 s per sample (Table 6).
+- Visual modality extension: on Yelp, extracting item-cover visual features with ViT-B to form a visual semantic code stream also improves over single-stream baselines (Sec. 4.4, Table 4).
+- Inference latency: on Beauty with top-$`k = 5`$ and beam size 100, EAGER averages 0.0325 s per sample versus 0.0281 s for TIGER, 0.0499 s for RecForest, and 0.2349 s for full-catalog DIN scoring (Table 6).
 
 ---
 
@@ -123,8 +144,9 @@ Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log p
 
 **Our analysis.**
 
-- Both code sets come from frozen encoders and offline clustering. This suggests that adding items requires re-running both encoders and the clustering.
-- CoST trains its codes with a contrastive objective (`C-RQ`); EAGER keeps `Dual H-KM` codes fixed and adds the contrastive term on the generator side.
+- Both code trees rely on frozen DIN and Sentence-T5 encoders followed by offline hierarchical k-means down to single-item leaves, which suggests that catalog updates require re-clustering both trees.
+- Merging two top-$`k`$ beam lists by raw log-probability confidence assumes that token log probabilities are calibrated across the behavior and semantic decoders (Sec. 3.6).
+- CoST injects contrastive alignment into the tokenizer itself (`C-RQ`); EAGER keeps its `Dual H-KM` codes fixed and applies contrastive distillation (`GCT`) and cross-stream reconstruction (`STT`) inside the `Dual Enc-Dec` generator.
 
 ---
 
@@ -133,19 +155,23 @@ Each decoder returns $`k`$ codes, and the $`2k`$ predictions are ranked by log p
 ```mermaid
 flowchart LR
     P["EAGER"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["SEATER"]
-    P -->|alternative| C["LMIndexer"]
-    P -->|alternative| D["CoST"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["SEATER"]
+    P -->|"alternative"| C["LMIndexer"]
+    P -->|"alternative"| D["CoST"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes one content-based semantic ID; EAGER decodes behavior and semantic hierarchical k-means codes with two decoders and merges them by confidence.
-  - Source: EAGER v2, baselines: https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1; Table 2: https://arxiv.org/html/2406.14017v2#S3.T2; speed comparison in Table 6: https://arxiv.org/html/2406.14017v2#S4.T6.
+  - Source: EAGER v2, baselines: [S4.I6.i1.p1](https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1); Table 2: [S3.T2](https://arxiv.org/html/2406.14017v2#S3.T2); speed comparison in Table 6: [S4.T6](https://arxiv.org/html/2406.14017v2#S4.T6).
 - **Alternative** · [SEATER](seater.md): SEATER also uses tree-structured identifiers for generative retrieval; EAGER builds separate behavior and semantic trees and aligns them with contrastive and transfer tasks.
-  - Source: EAGER v2, Section 1 cites SEATER among generative recommenders: https://arxiv.org/html/2406.14017v2#S1.p2; not a baseline in Table 2.
+  - Source: EAGER v2, Section 1 cites SEATER among generative recommenders: [S1.p2](https://arxiv.org/html/2406.14017v2#S1.p2); not a baseline in Table 2.
 - **Alternative** · [LMIndexer](lmindexer.md): LMIndexer learns semantic IDs from text with a language model; EAGER keeps fixed k-means codes from pre-trained behavior and semantic encoders.
-  - Source: EAGER v2, Section 2 cites LMIndexer among semantic indexing methods: https://arxiv.org/html/2406.14017v2#S2.p2; not a baseline in Table 2.
+  - Source: EAGER v2, Section 2 cites LMIndexer among semantic indexing methods: [S2.p2](https://arxiv.org/html/2406.14017v2#S2.p2); not a baseline in Table 2.
 - **Alternative** · [CoST](cost.md): CoST learns RQ codes with a contrastive objective, whereas EAGER clusters frozen embeddings and adds contrastive learning on the generator side.
-  - Source: EAGER v2, Section 2 cites CoST: https://arxiv.org/html/2406.14017v2#S2.p2. CoST v2, Section 2 in turn cites EAGER as a hierarchical k-means tokenizer: https://arxiv.org/html/2404.14774v2#S2.p2.
+  - Source: EAGER v2, Section 2 cites CoST: [S2.p2](https://arxiv.org/html/2406.14017v2#S2.p2). CoST v2, Section 2 in turn cites EAGER as a hierarchical k-means tokenizer: [S2.p2](https://arxiv.org/html/2404.14774v2#S2.p2).
 
 [View all papers in this cell](../../README.md#i--backbone)

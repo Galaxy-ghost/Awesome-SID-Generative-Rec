@@ -1,26 +1,32 @@
 # LLaDA-Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/llada-rec.md) | 中文
+
 | **题目** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Shi et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2511.06254) · [代码](https://github.com/TengShi-RUC/LLaDA-Rec) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/llada-rec.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.06254) · [代码](https://github.com/TengShi-RUC/LLaDA-Rec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. VQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Diff."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. VQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Masked"] --> I["推理 Inference<br/>Diff."]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
-- `Diff.`: Diffusion decoding.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Par. VQ`：无顺序残差依赖的并行多码本向量量化。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Masked`：掩码部分码位并重构（含离散掩码扩散目标）。
+- `Diff.`：迭代去噪扩散解码。
 
 ### TL;DR
 
@@ -33,18 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | LLaDA-Rec 用带双向注意力、历史级与物品级掩码以及适配束搜索的离散扩散模型并行生成 SID，替代从左到右的自回归解码。 |
-| 主要改动阶段 | Backbone |
-| 局限 | 扩散步数少，生成快，但推荐效果下降；作者把更好的权衡留作开放问题（Sec. 5.4.3，Fig. 5）。 |
+| 主要改动阶段 | 骨干（Backbone） |
+| 主要发现 | 在 Amazon Industrial Scientific、Musical Instruments 和 Video Games 上，LLaDA-Rec 优于基于 ID、扩散与自回归的 SID 基线，且自适应顺序去掩码优于固定的从左到右解码（Table 3，Sec. 5.4.2，Fig. 4）。 |
+| 局限 | 减少扩散步数虽能提高生成效率但会降低推荐精度，论文将更优的效率-效果权衡留作开放问题（Sec. 5.4.3，Fig. 5）。 |
 
 ---
 
 ### 1. 为什么重要
 
-自回归生成式推荐器用因果注意力逐个 token 解码语义 ID（Semantic ID，SID）。作者指出这种做法的两个局限：每个 token 只能看到它前面的 token；早期 token 的错误会沿固定的从左到右顺序传下去（Abstract）。LLaDA-Rec 改为在 SID 的所有位置上做离散扩散。
+自回归生成式推荐器通过因果注意力逐个 token 解码语义 ID（Semantic ID，SID），不仅限制每个位置只能关注前序 token，还会使早期 token 的预测误差沿固定的从左到右顺序逐层累积。LLaDA-Rec 用基于双向注意力的离散掩码扩散替代因果自回归解码，在所有 SID 槽位上并行生成。
 
-> "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation."（Abstract）（用离散扩散把推荐改写成并行生成语义 ID。）
+> "To address these issues, we propose LLaDA-Rec, a discrete diffusion framework that reformulates recommendation as parallel semantic ID generation."（Abstract）
 
 ---
 
@@ -54,39 +61,43 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("物品文本嵌入") --> B["多头 VQ-VAE"]
-    B --> C("并行 SID")
-    C --> D["掩码预测器"]:::key
-    L1{{"用户历史掩码"}} -.-> D
-    L2{{"下一物品掩码"}} -.-> D
-    D --> E["改造的束搜索"]
-    E --> F("下一物品")
+    subgraph TOK["阶段 1：并行 VQ 编号"]
+        A("Sentence-T5 物品文本嵌入") --> B["切分为 4 个子向量"]
+        B --> C["多头 VQ-VAE（4 头 × 256 码字，32 维）"]
+        C --> D("4-token 并行 SID")
+    end
+    subgraph DIFF["阶段 2：双向离散扩散"]
+        D --> E["双向 Transformer 掩码预测器"]:::key
+        L1{{"用户历史物品级掩码"}} -.-> E
+        L2{{"下一物品 token 级掩码"}} -.-> E
+        E --> F["适配扩散的束搜索"]:::key
+        F --> G("Top-K 下一物品")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 并行编号
 
-多头 VQ-VAE 把物品文本嵌入切成若干子向量，每个子向量单独量化，一个头对应 SID 的一位（Sec. 4.1）。作者这样做，是因为残差量化和双向结构不匹配（Abstract）。
+由粗到细的残差量化具有强顺序层级，与双向注意力架构不匹配；因此 LLaDA-Rec 采用多头 VQ-VAE 将每个物品的 Sentence-T5 文本嵌入切分为 4 个子向量，并用各自独立的 256 码字（32 维）码本分别量化，每个头对应 SID 的一个并行槽位（Sec. 4.1，Sec. 5.1.4）。
 
 #### 掩码训练
 
-训练用两种掩码机制（Abstract）。用户历史掩码学习物品之间的序列依赖。下一物品掩码遮住目标物品 SID 的部分 token，用户历史保持可见，让预测器学习同一物品内各 token 的关系（Sec. 4.2.3）。
+双向 Transformer 掩码预测器（Scientific 与 Instrument 上为 4 层，Game 上为 6 层）结合两类互补的掩码机制训练：用户历史物品级掩码遮盖历史序列中的完整物品以捕捉跨物品序列转移；下一物品 token 级掩码在保持用户历史可见的前提下遮盖目标物品 4 个 SID token 的子集，使预测器学习同一物品内部的 token 共现关系（Sec. 4.2.3）。
 
 #### 自适应顺序解码
 
-推理从全部遮住的 SID 开始，分几步填满（Sec. 4.3.4）。每一步模型选出要保留的位置，其余位置重新遮住。
+推理在 $`t = 0`$ 步从 4 个槽位全部遮盖的 SID 开始，经可控步数迭代填满（Sec. 4.3.4，Sec. 4.4.2）。每一步由预测器并行评估所有掩码槽位的分布，保留置信度最高的位置并将其余位置重新遮盖，留待下一步在已生成上下文中重新预测；同时用适配扩散过程的束搜索在多步去掩码中维护多条候选轨迹（Sec. 4.3.3–4.3.4）。
 
-> "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence."（Sec. 4.3.4）（未选中的位置重新遮住，让预测器在已生成部分的基础上重新判断。）
-
-步数可调，每一步可以预测多个 token（Sec. 4.4.2）。标准束搜索不适合扩散式生成，所以论文改造了束搜索，在这个过程中保留多个候选（Abstract）。
+> "All unselected positions are remasked so that the MASK predictor can re-evaluate them in the context of the partially generated sequence."（Sec. 4.3.4）
 
 ```mermaid
 flowchart LR
-    S0("所有位置遮住") --> P["预测所有遮住的位置"]
-    P --> K["保留选中的位置"]:::key
-    K --> R["其余重新遮住"]
-    R -->|下一步| P
-    K --> D("最后一步得到完整 SID")
+    S0("步 t = 0：4 个 SID 槽位全部遮盖") --> P["双向预测器并行预测全部掩码槽位"]
+    P --> K["保留最高置信度位置并扩展束候选"]:::key
+    K --> C{"4 个槽位全部去掩码？"}
+    C -->|"否"| R["其余位置重新遮盖"]
+    R -->|"下一步"| P
+    C -->|"是"| D("完整 4-token SID")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -114,10 +125,11 @@ flowchart LR
 
 </details>
 
-- 主实验：在三个真实数据集上，LLaDA-Rec 好于基于 ID 的推荐器和生成式推荐器（Abstract）。
-- 生成顺序：自适应顺序最好，从左到右有时最差（Sec. 5.4.2，Fig. 4）。
+- 主实验对比：在 Amazon Industrial Scientific、Musical Instruments 和 Video Games 三个数据集上，LLaDA-Rec 在 Recall@1/5/10 与 NDCG@5/10 上均优于基于物品 ID、连续扩散及自回归 SID 的基线（含 TIGER、LETTER、LC-Rec、RPG、VQ-Rec），且通过配对 t 检验验证了显著性（Table 3）。
+- 编号与注意力消融：将多头 VQ-VAE 替换为层级 RQ-VAE、将适配束搜索替换为贪心解码，或将双向注意力替换为因果注意力，均会导致推荐指标下降（Table 4，Fig. 3）。
+- 去掩码顺序：基于置信度的自适应去掩码顺序始终优于随机顺序与固定顺序，而常用的从左到右固定顺序在部分设置下表现最差（Sec. 5.4.2，Fig. 4）。
 
-  > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme."（Sec. 5.4.2）（自适应顺序始终最好，常用的从左到右有时最差。）
+  > "The adaptive approach consistently delivers superior performance, with left2right occasionally producing the poorest results, highlighting the shortcomings of the commonly used left2right scheme."（Sec. 5.4.2）
 
 ---
 
@@ -125,8 +137,8 @@ flowchart LR
 
 **Our analysis.**
 
-- 编号器训练一次就固定（`Fixed`），只编码物品文本（`Text`）。由此推断，协同信号只能通过生成器进入。
-- RPG 也用 `Non-AR` 生成器生成并行码；RPG 用 `Par. OPQ` 码和 `Graph` 解码，LLaDA-Rec 用 `Par. VQ` 码和 `Diff.` 解码。
+- 多头 VQ-VAE 编号器仅在物品文本嵌入上训练一次并固定（`Fixed`、`Text`），这意味着协同过滤信号只能通过双向扩散生成器学入，而未进入 SID 编码分配阶段。
+- RPG 同样用 `Non-AR` 骨干并行预测无序编码；RPG 采用 `Par. OPQ` 编码与单步图约束解码（`Graph`），而 LLaDA-Rec 采用 `Par. VQ` 编码与多步迭代离散扩散去掩码（`Diff.`）。
 
 ---
 
@@ -135,22 +147,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LLaDA-Rec"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["LC-Rec"]
-    P -->|competitor| E["VQ-Rec"]
+    P -->|"同期对比"| A["RPG"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["LC-Rec"]
+    P -->|"同期对比"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [RPG](rpg.md): RPG predicts long unordered OPQ codes in parallel with multi-token prediction; LLaDA-Rec generates parallel VQ codes by discrete diffusion with an adapted beam search.
-  - 出处：LLaDA-Rec v1, Table 1 comparison and semantic-ID baselines: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - 出处：LLaDA-Rec v1, Table 1 comparison and semantic-ID baselines: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **同期对比** · [TIGER](tiger.md): TIGER generates hierarchical RQ-VAE codes left to right with causal attention; LLaDA-Rec uses bidirectional attention and fills code positions in any order.
-  - 出处：LLaDA-Rec v1, Table 1 and baselines (TIGER and TIGER-SAS): https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - 出处：LLaDA-Rec v1, Table 1 and baselines (TIGER and TIGER-SAS): [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **同期对比** · [LETTER](letter.md): LETTER improves a hierarchical tokenizer for left-to-right generation; LLaDA-Rec replaces the hierarchy with parallel codes suited to diffusion.
-  - 出处：LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S4.T3.
+  - 出处：LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to semantic IDs with auxiliary tasks and causal decoding; LLaDA-Rec trains a bidirectional masked predictor with history-level and item-level masking.
-  - 出处：LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Tables 1 and 3: https://arxiv.org/html/2511.06254v1#S4.T1 and https://arxiv.org/html/2511.06254v1#S4.T3.
+  - 出处：LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Tables 1 and 3: [S4.T1](https://arxiv.org/html/2511.06254v1#S4.T1) and [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 - **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized codes into an item representation for discriminative ranking; LLaDA-Rec generates parallel codes directly.
-  - 出处：LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.
+  - 出处：LLaDA-Rec v1, baselines: [S5.SS1.SSS2.p2](https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2); Table 3: [S4.T3](https://arxiv.org/html/2511.06254v1#S4.T3).
 
 [查看同格全部论文](../../../README.zh.md#iii--backbone)

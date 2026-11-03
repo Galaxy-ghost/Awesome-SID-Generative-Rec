@@ -1,25 +1,32 @@
 # MQL4GRec
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mql4grec.md)
+
 | **Title** | *MULTIMODAL QUANTITATIVE LANGUAGE FOR GEN-ERATIVE RECOMMENDATION* |
 | :-- | :-- |
 | **Authors** | Zhai et al. |
 | **Venue** | ICLR’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mql4grec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img`: Text and visual item representations.
+- `Dual RQ`: Dual residual quantization over two representation streams or entity types.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -35,13 +42,14 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | MQL4GRec translates item text and images from several domains into a shared quantitative language and pre-trains generation tasks over it, to transfer recommendation knowledge across domains and modalities. |
 | Modified Stage | Tokenization |
-| Limitation | With both modalities, pre-training does not improve results on Games, and zero-shot ability on the target domains is weak (Sec. 4.3, Sec. 4.5). |
+| Key Findings | Across Amazon Instruments, Arts, and Games under full-catalog ranking, MQL4GRec achieves the best overall accuracy—particularly on NDCG—and source-domain pre-training further lifts Instruments and Arts under dual modalities (Sec. 4.2, Sec. 4.3, Table 1). |
+| Limitation | Dual-modality pre-training yields no gain on Games, and un-tuned zero-shot transfer to target domains remains weak (Sec. 4.3, Sec. 4.5). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Generative recommenders that build on pre-trained language models carry general linguistic knowledge that does not match recommendation needs, and they rarely use the complementary knowledge in item text and images (Abstract). MQL4GRec turns the content of items from many domains and modalities into one discrete vocabulary, so that a generator trained on source domains can transfer to a target domain.
+Pre-trained language models carry general linguistic priors misaligned with collaborative patterns and rarely fuse item text with product images in a shared discrete space (Abstract). MQL4GRec translates multi-domain text and visual features into prefixed quantitative code vocabularies (`Dual RQ`), enabling cross-domain pre-training and multimodal list fusion.
 
 > "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge." (Abstract)
 
@@ -53,33 +61,34 @@ Generative recommenders that build on pre-trained language models carry general 
 
 ```mermaid
 flowchart LR
-    A("Text via LLaMA") --> C["Text translator RQ-VAE"]
-    B("Image via ViT") --> D["Image translator RQ-VAE"]
-    C --> E("Prefixed quantitative language")
-    D --> E
-    E --> F["Source pre-training: next-item tasks"]
-    F --> G["Target fine-tuning: all tasks"]:::key
-    G --> H("Text list + image list")
-    H --> I["Re-rank by item scores"]
-    I --> J("Next item")
+    subgraph Dual["Modality-Specific RQ-VAE Translators"]
+        A("Item text -> frozen LLaMA") --> C["4x256 Text RQ-VAE + residual collision reassign"]
+        B("Item image -> frozen ViT-L/14") --> D["4x256 Image RQ-VAE + residual collision reassign"]
+        C --> E("Prefixed text tokens <a_*>")
+        D --> F("Prefixed image tokens <b_*>")
+    end
+    subgraph Transfer["Two-Stage T5 Training"]
+        E & F --> G["Source 6-domain pre-training (next-item tasks)"]
+        G --> H["Target fine-tuning: intra-modal, asymmetric & cross-modal"]:::key
+    end
+    H --> I("Text beam-20 list + Image beam-20 list")
+    I --> J["Joint score fusion re-ranking (Eq. 7)"]:::key --> K("Top-K items")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Quantitative Translators
 
-A frozen modal encoder, LLaMA for text or ViT for images, encodes item content (Sec. 3.1). An RQ-VAE per modality quantizes the representation, and each modality has its own codebooks.
+Frozen modality encoders—LLaMA for text and ViT for images—extract item embeddings that separate 4-level × 256 RQ-VAE translators quantize into modality-specific codebooks, resolving collisions via residual-to-codeword distances before prepending modality prefixes to form one shared dictionary (Sec. 3.1).
 
 > "We train a quantitative translator for each modality, then add prefixes to the codewords from each of the two codebooks to form a dictionary." (Sec. 3.1)
 
 #### Generation Tasks
 
-Next-item generation predicts the next item's quantitative language in the same modality. Asymmetric item generation predicts the image language from a text history, or the reverse (Sec. 3.2). Quantitative language alignment tasks map an item's text language to its image language and back.
+Three task families link the two token streams: intra-modal next-item generation predicts the next item's tokens within text or vision; asymmetric generation predicts next-item image tokens from a text history or vice versa; and cross-modal alignment translates an item's text tokens into its image tokens and back (Sec. 3.2).
 
 #### Pre-Training and Fine-Tuning
 
-Pre-training on the source domains uses only the two next-item generation sub-tasks. Fine-tuning on the target domain uses all generation tasks (Sec. 3.3).
-
-At inference, the generator returns one recommendation list per modality, and a re-ranking step merges the two lists by their item scores (Sec. 3.3, Eq. 7).
+Pre-training across six source Amazon categories optimizes only the two intra-modal next-item tasks, whereas target-domain fine-tuning activates the full multi-task suite (Sec. 3.3). At inference, beam search decodes one candidate list per modality and merges both lists by fused item probabilities (Sec. 3.3, Eq. 7).
 
 ---
 
@@ -105,12 +114,12 @@ At inference, the generator returns one recommendation list per modality, and a 
 
 </details>
 
-- Main comparison: MQL4GRec performs best in most cases across Instruments, Arts, and Games, especially on NDCG (Sec. 4.2, Table 1).
-- Pre-training: with both modalities, pre-training improves results on Instruments and Arts but not on Games.
+- Main comparison: across Instruments, Arts, and Games, MQL4GRec outperforms sequential, multimodal, and generative baselines on most metrics, with the largest margins on NDCG (Sec. 4.2, Table 1).
+- Multi-domain pre-training: under dual modalities, source pre-training lifts accuracy on Instruments and Arts while leaving Games flat (Sec. 4.3).
 
   > "Under dual modalities, pre-training significantly improves performance on the Instruments and Arts datasets; however, it does not yield a notable improvement for the Games dataset, potentially due to overfitting." (Sec. 4.3)
 
-- Zero-shot: pre-trained models without fine-tuning show preliminary but weak zero-shot ability on Instruments and Arts, and none on Games (Sec. 4.5, Table 5).
+- Zero-shot evaluation: evaluating the source-pretrained generator without target fine-tuning shows modest zero-shot signal on Instruments and Arts and none on Games (Sec. 4.5, Table 5).
 
 ---
 
@@ -118,8 +127,8 @@ At inference, the generator returns one recommendation list per modality, and a 
 
 **Our analysis.**
 
-- The two quantizers are trained separately (`Dual RQ`), so the text and image codes are linked only by the generation tasks. MACRec replaces them with `Cross RQ`, which adds cross-modal contrastive learning inside quantization.
-- TIGER quantizes text only (`Text`); MQL4GRec adds images (`Text+Img`) and keeps the same `Enc-Dec` generator with `Beam` decoding.
+- MQL4GRec trains its text and image RQ-VAEs independently (`Dual RQ`), coupling modalities only downstream in the generator; MACRec instead introduces cross-modal contrastive interaction directly inside quantization (`Cross RQ`).
+- TIGER quantizes text alone (`Text`) and decodes a single `Beam` list; MQL4GRec quantizes `Text+Img` into separate prefixed streams and fuses dual modality beams (`Dual Beam`).
 
 ---
 
@@ -128,22 +137,26 @@ At inference, the generator returns one recommendation list per modality, and a 
 ```mermaid
 flowchart LR
     P["MQL4GRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["LC-Rec"]
-    P -->|competitor| C["CID"]
-    P -->|competitor| D["VQ-Rec"]
-    P -->|successor| E["MACRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["LC-Rec"]
+    P -->|"competitor"| C["CID"]
+    P -->|"competitor"| D["VQ-Rec"]
+    P -->|"successor"| E["MACRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER uses one text modality and an appended index for collisions; MQL4GRec translates text and images into separate quantitative languages and reassigns colliding tokens by distance.
-  - Source: MQL4GRec v1, Table 1 baseline TIGER: https://arxiv.org/html/2504.05314v1#S4.T1; collision comparison in Table 2: https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#S4.T2.
+  - Source: MQL4GRec v1, Table 1 baseline TIGER: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1); collision comparison in Table 2: [S4.SS3.SSS0.Px1.p1](https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1) and [S4.T2](https://arxiv.org/html/2504.05314v1#S4.T2).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec spreads items across the last level with a uniform constraint, which MQL4GRec says does not fully remove collisions.
-  - Source: MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1.
+  - Source: MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): [S3.SS1.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1).
 - **Competitor** · [CID](cid.md): P5-CID uses collaborative indexing for a T5 model; MQL4GRec uses multimodal content codes with cross-modal generation tasks.
-  - Source: MQL4GRec v1, baseline P5-CID: https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1; Table 1: https://arxiv.org/html/2504.05314v1#S4.T1.
+  - Source: MQL4GRec v1, baseline P5-CID: [A2.I1.i8.p1](https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1); Table 1: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes in a discriminative transferable model; MQL4GRec generates multimodal codes with pre-training across categories.
-  - Source: MQL4GRec v1, Table 1 baseline VQ-Rec: https://arxiv.org/html/2504.05314v1#S4.T1.
+  - Source: MQL4GRec v1, Table 1 baseline VQ-Rec: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1).
 - **Successor** · [MACRec](macrec.md): MACRec later reuses MQL4GRec's collision reassignment and dual-modality ensemble and adds cross-modal contrastive alignment during quantization.
-  - Source: Evidence is from the later MACRec paper: https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5 and https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3; MQL4GRec is its main baseline in Table 2: https://arxiv.org/html/2511.15122v2#Sx4.T2.
+  - Source: Evidence is from the later MACRec paper: [Sx3.SSx1.SSSx3.p5](https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5) and [Sx3.SSx2.SSSx3.p3](https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3); MQL4GRec is its main baseline in Table 2: [Sx4.T2](https://arxiv.org/html/2511.15122v2#Sx4.T2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

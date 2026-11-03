@@ -1,23 +1,31 @@
 # TrieRec
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/trierec.md)
+
 | **Title** | *Trie-Aware Transformers for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Xu et al. |
 | **Venue** | NeurIPS’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.21677) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/trierec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.21677) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
+- `NTP†`: Next-token prediction loss (inferred).
 - `C-Beam`: Constrained beam search.
 
 ### TL;DR
@@ -66,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TrieRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["CoST"]
-    P -->|predecessor| C["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["CoST"]
+    P -->|"predecessor"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TrieRec adds trie-aware positional encodings to TIGER.
-  - Source: TrieRec v1, Sections 1/4.1: https://arxiv.org/html/2602.21677v1#S1.p5; https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1.
+  - Source: TrieRec v1, Sections 1/4.1: [S1.p5](https://arxiv.org/html/2602.21677v1#S1.p5); [S4.SS1.SSS4.p1](https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1).
 - **Predecessor** · [CoST](cost.md): CoST is the contrastive-tokenization backbone augmented by TrieRec.
-  - Source: TrieRec v1, Section 4.2 and Related Work: https://arxiv.org/html/2602.21677v1#S4.SS2.p2; https://arxiv.org/html/2602.21677v1#S5.p3.
+  - Source: TrieRec v1, Section 4.2 and Related Work: [S4.SS2.p2](https://arxiv.org/html/2602.21677v1#S4.SS2.p2); [S5.p3](https://arxiv.org/html/2602.21677v1#S5.p3).
 - **Predecessor** · [LETTER](letter.md): LETTER supplies the backbone for TrieRec's main ablations and efficiency comparison.
-  - Source: TrieRec v1, Table 3 and Section 4.4: https://arxiv.org/html/2602.21677v1#S4.T3; https://arxiv.org/html/2602.21677v1#S4.SS4.p1.
+  - Source: TrieRec v1, Table 3 and Section 4.4: [S4.T3](https://arxiv.org/html/2602.21677v1#S4.T3); [S4.SS4.p1](https://arxiv.org/html/2602.21677v1#S4.SS4.p1).
 
 [View all papers in this cell](../../README.md#iii--backbone)

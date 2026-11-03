@@ -1,24 +1,31 @@
 # SAGE-SID
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sage-sid.md)
+
 | **Title** | *SAGE: Sequence-level Adaptive Gradient Evolution for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Xie et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2601.21452) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/sage-sid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2601.21452) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text+Img†`: Text and image representations (inferred).
+- `R-KM†`: Residual k-means tokenization (inferred).
+- `Dec-Only†`: Decoder-only autoregressive backbone (inferred).
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -66,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SAGE-SID"]
-    P -->|predecessor| A["OneRec-V2"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["TIGER"]
+    P -->|"predecessor"| A["OneRec-V2"]
+    P -->|"competitor"| B["LC-Rec"]
+    P -->|"competitor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [OneRec-V2](onerec-v2.md): SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
-  - Source: SAGE v3, Sections 3.4.1/4.1.2: https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1; https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4.
+  - Source: SAGE v3, Sections 3.4.1/4.1.2: [S3.SS4.SSS1.p1](https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1); [S4.SS1.SSS2.p4](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4).
 - **Competitor** · [LC-Rec](lc-rec.md): Adapted to a Qwen3-8B backbone for the RecIF comparison.
-  - Source: SAGE v3, Section 4.1.2: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3.
+  - Source: SAGE v3, Section 4.1.2: [S4.SS1.SSS2.p3](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3).
 - **Competitor** · [TIGER](tiger.md): RecIF comparison reuses TIGER's reported benchmark numbers.
-  - Source: SAGE v3, Section 4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3.
+  - Source: SAGE v3, Section 4.1.4: [S4.SS1.SSS4.p3](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3).
 
 [View all papers in this cell](../../README.md#iv--training)

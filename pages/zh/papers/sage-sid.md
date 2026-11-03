@@ -1,24 +1,31 @@
 # SAGE-SID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sage-sid.md) | 中文
+
 | **题目** | *SAGE: Sequence-level Adaptive Gradient Evolution for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xie et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2601.21452) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/sage-sid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2601.21452) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img†"] --> T["编号 Tokenization<br/>R-KM†"] --> B["骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>Fixed† / NTP → RL"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `–`: Not reported in the paper.
+- `Text+Img†`：文本与图像多模态表征（由配置推断）。
+- `R-KM†`：残差 k-means 编号（由配置推断）。
+- `Dec-Only†`：仅解码器自回归架构（由配置推断）。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP → RL`：先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
 
 ### TL;DR
 
@@ -31,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | SAGE-SID 用几何平均序列比率、解耦的多目标优势、非对称自适应裁剪界与熵感知惩罚优化列表级生成器，替代 GBPO 的对称裁剪界。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -66,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SAGE-SID"]
-    P -->|predecessor| A["OneRec-V2"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["TIGER"]
+    P -->|"前序工作"| A["OneRec-V2"]
+    P -->|"同期对比"| B["LC-Rec"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [OneRec-V2](onerec-v2.md): SAGE extends the GBPO optimizer evaluated as OneRec-GBPO.
-  - 出处：SAGE v3, Sections 3.4.1/4.1.2: https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1; https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4.
+  - 出处：SAGE v3, Sections 3.4.1/4.1.2: [S3.SS4.SSS1.p1](https://arxiv.org/html/2601.21452v3#S3.SS4.SSS1.p1); [S4.SS1.SSS2.p4](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p4).
 - **同期对比** · [LC-Rec](lc-rec.md): Adapted to a Qwen3-8B backbone for the RecIF comparison.
-  - 出处：SAGE v3, Section 4.1.2: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3.
+  - 出处：SAGE v3, Section 4.1.2: [S4.SS1.SSS2.p3](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS2.p3).
 - **同期对比** · [TIGER](tiger.md): RecIF comparison reuses TIGER's reported benchmark numbers.
-  - 出处：SAGE v3, Section 4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3.
+  - 出处：SAGE v3, Section 4.1.4: [S4.SS1.SSS4.p3](https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

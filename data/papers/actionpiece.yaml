@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Ensemble
 poi: false
-summary: 'Abstract: "without considering contextual relationships".'
 tldr: ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens,
   so identical actions get context-dependent tokens instead of fixed independent ones.
 tldr_zh: ActionPiece 将每次交互表示为物品特征集合，把共现特征模式合并为新 token，使相同动作获得随上下文变化的 token，而非固定独立的 token。

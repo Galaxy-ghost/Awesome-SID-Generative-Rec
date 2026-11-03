@@ -1,26 +1,32 @@
 # PrefixMem
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/prefixmem.md) | 中文
+
 | **题目** | *LLMs Need Encoders for Semantic IDs Too* |
 | :-- | :-- |
 | **作者** | Chen et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2606.00324) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/prefixmem.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.00324) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>MM"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `MM`: Multimodal item representations.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `MM`：多模态物品表征。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | PrefixMem 用前缀 n-gram 记忆表为 LLM 构建可预训练的 SID 编码器，使每个 token 获得以前缀为条件的表示，替代普通词表嵌入。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PrefixMem"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["PLUM"]
-    P -->|predecessor| C["OneRec-Think"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["PLUM"]
+    P -->|"前序工作"| C["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
-  - 出处：PrefixMem v1, Section 5.2 and Table 10: https://arxiv.org/html/2606.00324v1#S5.SS2.p5; https://arxiv.org/html/2606.00324v1#S5.T10.
+  - 出处：PrefixMem v1, Section 5.2 and Table 10: [S5.SS2.p5](https://arxiv.org/html/2606.00324v1#S5.SS2.p5); [S5.T10](https://arxiv.org/html/2606.00324v1#S5.T10).
 - **前序工作** · [PLUM](plum.md): PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
-  - 出处：PrefixMem v1, Sections 2/3.1: https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.00324v1#S3.SS1.p1.
+  - 出处：PrefixMem v1, Sections 2/3.1: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1); [S3.SS1.p1](https://arxiv.org/html/2606.00324v1#S3.SS1.p1).
 - **前序工作** · [OneRec-Think](onerec-think.md): PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
-  - 出处：PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.
+  - 出处：PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): [S3.SS1.p2](https://arxiv.org/html/2606.00324v1#S3.SS1.p2).
 
 [查看同格全部论文](../../../README.zh.md#iii--backbone)

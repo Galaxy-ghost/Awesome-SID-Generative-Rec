@@ -1,27 +1,31 @@
 # HASTE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/haste.md) | 中文
+
 | **题目** | *Hierarchical and Attribute-aware Supervision for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Shukla et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.17368) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/haste.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.17368) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text / MM"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Text / MM`: Text-only or multimodal representations in different configurations.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `–`: Not reported in the paper.
+- `Text / MM`：不同配置下分别采用纯文本或多模态表征。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | HASTE 在生成器训练中加入各 SID 层级损失与属性特定损失，加快收敛并改善长尾物品表现，优于标准自回归交叉熵目标。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HASTE"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["IDGenRec"]
-    P -->|alternative| C["LC-Rec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["IDGenRec"]
+    P -->|"替代方案"| C["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
-  - 出处：https://arxiv.org/html/2610.17368v1#S6.p3 ; #S9.SS1.SSS4.p1.
+  - 出处：[S6.p3](https://arxiv.org/html/2610.17368v1#S6.p3) ; #S9.SS1.SSS4.p1.
 - **同期对比** · [IDGenRec](idgenrec.md): IDGenRec generates textual identifiers; HASTE supervises quantized SIDs.
-  - 出处：https://arxiv.org/html/2610.17368v1#S2.p2 ; #S6.p3.
+  - 出处：[S2.p2](https://arxiv.org/html/2610.17368v1#S2.p2) ; #S6.p3.
 - **替代方案** · [LC-Rec](lc-rec.md): LC-Rec adds alignment tasks; HASTE changes losses.
-  - 出处：https://arxiv.org/html/2610.17368v1#S2.p2.
+  - 出处：[S2.p2](https://arxiv.org/html/2610.17368v1#S2.p2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

@@ -1,25 +1,30 @@
 # OneRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onerec.md) | 中文
+
 | **题目** | *Unifying retrieve and rank with generative recommender and iterative preference alignment* |
 | :-- | :-- |
 | **作者** | Deng et al. |
-| **会议** | arXiv’25 |
+| **发表** | arXiv’25 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2502.18965) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onerec.md) |
+| **链接** | [论文](https://arxiv.org/abs/2502.18965) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>MM+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
+    R["表征 Representation<br/>MM+CF"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Sess. Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `MM+CF`: Multimodal item representations aligned with collaborative signals.
-- `R-KM`: Residual k-means.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → DPO`: NTP, then preference optimization.
+- `MM+CF`：与协同过滤信号对齐的多模态物品表征。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `Sess. Beam`：单次生成包含多个物品的整段会话列表（Session-wise beam search）。
 
 ### TL;DR
 
@@ -32,20 +37,21 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
 | 核心贡献 | OneRec 用带稀疏 MoE 的单一编码器-解码器生成器替代召回-排序级联，整段生成视频会话，并通过奖励模型与迭代 DPO 对齐用户偏好。 |
 | 主要改动阶段 | 无单一阶段 |
+| 主要发现 | 在离线奖励模型指标上，OneRec 优于点积召回基线及 TIGER 等逐点生成器（Table 1）；在快手在线 A/B 测试中，OneRec-1B+IPA 的总观看时长提升 +1.68%，平均单次观看时长提升 +6.56%（Table 2）。 |
 | 局限 | 在线测试中，OneRec 提升了观看时长，但在点赞等互动指标上较弱（Sec. 6）。 |
 
 ---
 
 ### 1. 为什么重要
 
-多数推荐器是"召回-排序"的级联，生成式模型即使有，也只在召回阶段选候选（Abstract）。作者认为，每一级都给下一级设了上限。
+主流工业推荐系统采用多阶段“召回-排序”级联架构，前一阶段的候选集合直接限制后一阶段的效果上限；已有的生成式模型即便接入，也仅在召回阶段充当候选选择器。
 
-> "existing methods typically treat each ranker independently, where the effectiveness of each isolated stage serves as the upper bound for the subsequent ranking stage, thereby limiting the performance of the overall ranking system."（Sec. 1）（各级排序器独立处理，前一级的效果就是后一级的上限。）
+> "existing methods typically treat each ranker independently, where the effectiveness of each isolated stage serves as the upper bound for the subsequent ranking stage, thereby limiting the performance of the overall ranking system."（Sec. 1）
 
-OneRec 用一个单阶段生成式模型替代级联，并部署在快手主场景（Abstract，Sec. 1）。
+OneRec 用单一阶段的生成式模型替代多级级联，并部署于快手主场景（Abstract，Sec. 1）。
 
 ---
 
@@ -55,30 +61,33 @@ OneRec 用一个单阶段生成式模型替代级联，并部署在快手主场�
 
 ```mermaid
 flowchart LR
-    A("行为历史") --> B["编码器"]
-    B --> C["会话解码器"]:::key
-    C --> D("会话 SID 列表")
-    E["均衡 K-means"] --> F("SID") --> C
-    D --> G["束搜索采样"]
-    G --> H["奖励模型"]
-    H --> L{{"最好与最差配对的 DPO"}}
-    L -.->|下一轮| C
+    V("多模态视频特征") --> K["3 层均衡残差 K-means（每层 8,192 码）"]
+    K --> S("物品 SID")
+    A("用户行为历史") --> B["Transformer 编码器"]
+    B --> C["稀疏 MoE 会话解码器"]:::key
+    S --> C
+    C --> D("生成会话列表（5–10 个视频 SID）")
+    C --> G["束搜索（128 条会话采样）"]
+    G --> H["预训练奖励模型"]
+    H --> P("最优会话 y_w 与最差会话 y_l")
+    P --> L{{"迭代 DPO 损失"}}:::key
+    L -.->|"下一轮迭代"| C
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 均衡的语义 ID
 
-每个物品由均衡 K-means 得到语义 ID（Semantic ID，SID），每个簇里的物品数相同（Sec. 3.1，Algorithm 1）。
+每个视频在行为对齐的多模态嵌入上通过多层均衡残差 K-means 获得 3 层语义 ID（Semantic ID，SID），每层码本含 8,192 个码，且每个簇容纳相同数量的物品（Sec. 3.1，Algorithm 1）。
 
 #### 按会话生成列表
 
-OneRec 不只预测下一个物品，而是生成整个会话的物品列表，并考虑列表内物品的内容和顺序（Sec. 1）。编码器建模用户历史，解码器生成会话列表（Sec. 3.2）。
+OneRec 不局限于预测单个下一物品，而是直接生成包含 5–10 个物品的完整会话列表，同时建模会话内物品的内容组合与排列顺序（Sec. 1）。Transformer 编码器编码用户交互历史，稀疏 MoE 解码器自回归生成目标会话的 SID 序列（Sec. 3.2）。
 
-> "The decoder takes the semantic IDs of the target session as input and generates the target in an auto-regressive manner."（Sec. 3.2）（解码器以目标会话的语义 ID 为输入，自回归地生成。）
+> "The decoder takes the semantic IDs of the target session as input and generates the target in an auto-regressive manner."（Sec. 3.2）
 
 #### 迭代偏好对齐
 
-推荐系统对每个请求只展示一次，同一请求下拿不到真正的正、负列表（Abstract）。OneRec 用束搜索采样多个结果，用预训练的奖励模型打分，把最高分和最低分的结果配成一对做 DPO（Sec. 3.3.2）。下一轮再由模型生成新样本。
+推荐系统对每次请求只展示一个结果列表，日志中无法同时观测同一请求下的真实正、负会话列表。OneRec 用束搜索为每个用户采样 128 个候选会话，由预训练奖励模型打分，将得分最高与最低的会话配对用于 DPO 训练（Sec. 3.3.2），并在下一轮迭代中由更新后的生成器重新采样。
 
 ---
 
@@ -104,8 +113,8 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 
 </details>
 
-- 按会话生成：在奖励模型指标上，OneRec 好于点积召回方法和 TIGER 这类逐点生成方法（Sec. 5.2，Table 1）。
-- 偏好对齐：加入 IPA 后，生成的会话进一步变好（Sec. 5.2，Table 1）。
+- 按会话生成：在会话观看时长与互动概率等离线奖励模型指标上，OneRec 优于点积召回基线及 TIGER 等逐点生成方法（Sec. 5.2，Table 1）。
+- 偏好对齐：加入迭代偏好对齐（IPA）进一步提升了离线会话奖励指标（Sec. 5.2，Table 1，Fig. 4），并在快手在线 A/B 测试中使 OneRec-1B+IPA 的总观看时长提升 +1.68%、平均单次观看时长提升 +6.56%（Table 2）。
 
 ---
 
@@ -113,12 +122,12 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 
 **Stated by the authors.**
 
-> "Additionally, our analysis of online results reveals that, besides user watch time, our model has limitations in interactive indicators, such as likes."（Sec. 6）（在线结果显示，除观看时长外，模型在点赞等互动指标上有局限。）
+> "Additionally, our analysis of online results reveals that, besides user watch time, our model has limitations in interactive indicators, such as likes."（Sec. 6）
 
 **Our analysis.**
 
-- DPO 样本对按奖励模型排序，而不是按用户对两个列表的真实反馈。由此推断，对齐质量受奖励模型限制。
-- MiniOneRec 在公开数据上复现这条流程，改用只基于文本（`Text`）的 `RQ-VAE` SID、`Dec-Only` 生成器，并用 RL 替代 DPO（`NTP → RL`）。
+- DPO 样本对由预训练奖励模型排序，而非来自用户对候选列表的真实反馈。这表明对齐质量的上限受制于奖励模型在多目标上的拟合精度。
+- MiniOneRec 在公开数据上复现该流程，改用仅基于文本（`Text`）的 `RQ-VAE` SID、`Dec-Only` 生成器，并用 RL 替代 DPO（`NTP → RL`）。
 
 ---
 
@@ -127,16 +136,20 @@ OneRec 不只预测下一个物品，而是生成整个会话的物品列表，�
 ```mermaid
 flowchart LR
     P["OneRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|successor| B["MiniOneRec"]
-    P -->|alternative| C["GFlowGR"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"后续工作"| B["MiniOneRec"]
+    P -->|"替代方案"| C["GFlowGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER generates one next item from RQ-VAE semantic IDs; OneRec generates whole sessions with balanced residual K-means IDs, an MoE encoder-decoder, and iterative DPO.
-  - 出处：OneRec v1, baselines: https://arxiv.org/html/2502.18965v1#S5.I1.i4.p1; Table 1: https://arxiv.org/html/2502.18965v1#S3.T1; tokenizer contrast with RQ-VAE: https://arxiv.org/html/2502.18965v1#S3.SS1.p2.
+  - 出处：OneRec v1, baselines: [S5.I1.i4.p1](https://arxiv.org/html/2502.18965v1#S5.I1.i4.p1); Table 1: [S3.T1](https://arxiv.org/html/2502.18965v1#S3.T1); tokenizer contrast with RQ-VAE: [S3.SS1.p2](https://arxiv.org/html/2502.18965v1#S3.SS1.p2).
 - **后续工作** · [MiniOneRec](minionerec.md): MiniOneRec later reproduces the OneRec-style SID, SFT, and RL pipeline in open source on public data.
-  - 出处：Evidence is from the later MiniOneRec paper, Section 1: https://arxiv.org/html/2510.24431v1#S1.p1 and https://arxiv.org/html/2510.24431v1#S1.p3.
+  - 出处：Evidence is from the later MiniOneRec paper, Section 1: [S1.p1](https://arxiv.org/html/2510.24431v1#S1.p1) and [S1.p3](https://arxiv.org/html/2510.24431v1#S1.p3).
 - **替代方案** · [GFlowGR](gflowgr.md): GFlowGR later compares against OneRec's IPA alignment and replaces it with a GFlowNet objective over reward-weighted trajectories.
-  - 出处：Evidence is from the later GFlowGR paper: IPA baseline and Table 2: https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1 and https://arxiv.org/html/2506.16114v3#S4.T2.
+  - 出处：Evidence is from the later GFlowGR paper: IPA baseline and Table 2: [S4.I2.i6.p1](https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1) and [S4.T2](https://arxiv.org/html/2506.16114v3#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

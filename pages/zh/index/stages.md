@@ -2,13 +2,13 @@
 
 [English](../../index/stages.md) | 中文
 
-每张表列出主要改动落在某一阶段的论文，以及该阶段在 Table 1 中的取值。范式、系统与基准类论文不对应单一阶段，见 [README](../../../README.zh.md#范式系统与基准)。
+下表按主要改动的流程阶段分组列出论文及其在综述 Table 1 中的对应取值。范式、系统与基准类论文横跨多个阶段或提供评测基准，见 [README](../../../README.zh.md#范式系统与基准)。
 
-并排比较（英文）：[Tokenizer](../../../comparisons/tokenizer.md) · [Training](../../../comparisons/training.md) · [Inference](../../../comparisons/inference.md)
+多维并排对比表（英文）：[Tokenizer](../../../comparisons/tokenizer.md) · [Training](../../../comparisons/training.md) · [Inference](../../../comparisons/inference.md)
 
-## Representation
+## 表征（Representation）
 
-| 论文 | 会议 | 问题 | Representation |
+| 论文 | 发表 | 研究问题 | 表征（Representation） |
 | :-- | :-- | :-- | :-- |
 | [Molar](../papers/molar.md) | arXiv’24 | I. 信息量 | `Text+Img+CF` |
 | [OneLoc](../papers/oneloc.md) | arXiv’25 | I. 信息量 | `Text+Img+Geo†` |
@@ -23,9 +23,9 @@
 | [SPAR](../papers/spar.md) | arXiv’26 | I. 信息量 | `Text+Geo` |
 | [TriAlignGR](../papers/trialigngr.md) | arXiv’26 | I. 信息量 | `Text+Img` |
 
-## Tokenization
+## 编号（Tokenization）
 
-| 论文 | 会议 | 问题 | Tokenization |
+| 论文 | 发表 | 研究问题 | 编号（Tokenization） |
 | :-- | :-- | :-- | :-- |
 | [CID](../papers/cid.md) | SIGIR-AP’23 | II. 唯一性与合法性 | `Spectral Clus.` |
 | [VQ-Rec](../papers/vq-rec.md) | WWW’23 | VI. 泛化 | `OPQ` |
@@ -98,9 +98,9 @@
 | [UniTok](../papers/unitok.md) | AAAI’26 | VI. 泛化 | `TokenMoE` |
 | [VarLenRec (TIGER)](../papers/varlenrec-tiger.md) | arXiv’26 | I. 信息量 | `HARQ` |
 
-## Backbone
+## 骨干（Backbone）
 
-| 论文 | 会议 | 问题 | Backbone |
+| 论文 | 发表 | 研究问题 | 骨干（Backbone） |
 | :-- | :-- | :-- | :-- |
 | [ColaRec](../papers/colarec.md) | CIKM’24 | I. 信息量 | `Enc-Dec` |
 | [EAGER](../papers/eager.md) | KDD’24 | I. 信息量 | `Dual Enc-Dec` |
@@ -136,9 +136,9 @@
 | [TrieRec](../papers/trierec.md) | NeurIPS’26 | III. SID 与模型对齐 | `Enc-Dec` |
 | [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I. 信息量 | `Enc-Dec` |
 
-## Training
+## 训练（Training）
 
-| 论文 | 会议 | 问题 | Training |
+| 论文 | 发表 | 研究问题 | 训练（Training） |
 | :-- | :-- | :-- | :-- |
 | [LC-Rec](../papers/lc-rec.md) | ICDE’24 | III. SID 与模型对齐 | `Fixed / Multi-task NTP` |
 | [MBGen](../papers/mbgen.md) | CIKM’24 | I. 信息量 | `Fixed / NTP` |
@@ -181,9 +181,9 @@
 | [UGR](../papers/ugr.md) | KDD’26 | IV. 实用目标 | `Fixed / NTP → (RL + Rank)` |
 | [V-STAR](../papers/v-star.md) | KDD’26 | IV. 实用目标 | `Fixed / NTP → RL` |
 
-## Inference
+## 推理（Inference）
 
-| 论文 | 会议 | 问题 | Inference |
+| 论文 | 发表 | 研究问题 | 推理（Inference） |
 | :-- | :-- | :-- | :-- |
 | [LIGER](../papers/liger.md) | arXiv’24 | VI. 泛化 | `Hybrid` |
 | [AtSpeed](../papers/atspeed.md) | ICLR’25 | V. 效率 | `Spec. Dec.` |

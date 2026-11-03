@@ -1,27 +1,32 @@
 # GenSAR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gensar.md) | 中文
+
 | **题目** | *Unified Generative Search and Recommendation* |
 | :-- | :-- |
 | **作者** | Shi et al. |
-| **会议** | RecSys’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2504.05730) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/gensar.md) |
+| **发表** | RecSys’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2504.05730) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Shared/Spec. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Shared/Spec. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Shared/Spec. RQ`: Residual quantization using shared and task-specific codebooks.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
-- `C-Beam`: Constrained beam search.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Shared/Spec. RQ`：由跨域共享码本与领域专有码本组成的残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | GenSAR 用同时承载语义与协同信号的双用途标识和任务特定训练，把搜索与推荐统一到单个生成器中，缓解两项任务之间的冲突。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GenSAR"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["CID"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LC-Rec"]
+    P -->|"同期对比"| C["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is a recommendation baseline; GenSAR extends RQ-VAE identifiers with shared and task-specific codes for joint search/recommendation.
-  - 出处：GenSAR v2, Sections 1 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S1.p6; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
+  - 出处：GenSAR v2, Sections 1 and 4.1.2, Table 3: [S1.p6](https://arxiv.org/html/2504.05730v2#S1.p6); [S4.SS1.SSS2.p2](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2); [S4.T3](https://arxiv.org/html/2504.05730v2#S4.T3).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec is a generative recommendation baseline; GenSAR learns separate semantic/collaborative identifiers and joint search/recommendation tasks.
-  - 出处：GenSAR v2, Sections 3.2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S3.SS2.p1; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
+  - 出处：GenSAR v2, Sections 3.2 and 4.1.2, Table 3: [S3.SS2.p1](https://arxiv.org/html/2504.05730v2#S3.SS2.p1); [S4.SS1.SSS2.p2](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2); [S4.T3](https://arxiv.org/html/2504.05730v2#S4.T3).
 - **同期对比** · [CID](cid.md): P5-CID is a generative recommendation baseline; GenSAR uses learned shared/task-specific codebooks.
-  - 出处：GenSAR v2, Sections 2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S2.p2; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2; https://arxiv.org/html/2504.05730v2#S4.T3.
+  - 出处：GenSAR v2, Sections 2 and 4.1.2, Table 3: [S2.p2](https://arxiv.org/html/2504.05730v2#S2.p2); [S4.SS1.SSS2.p2](https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2); [S4.T3](https://arxiv.org/html/2504.05730v2#S4.T3).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

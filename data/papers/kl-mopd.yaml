@@ -16,22 +16,6 @@ tokenizer: Fixed†
 objective: (NTP† / (NTP + Aux.)†) → KL-weighted OPD
 inference: C-Beam
 poi: false
-summary: Coordinating multiple recommendation objectives (e.g., click and conversion) is critical for real-world generative
-  recommendation (GR). However, since a positive item in GR can be retrieved only when its tokens are successively selected
-  at every decoding step, traditional item-wise methods lack fine-grained token-wise supervision to guide intermediate steps.
-  Motivated by its success in foundation models, we consider introducing multi-objective on-policy distillation (MOPD) into
-  GR to distill two single-objective teachers into a student at each token. Yet, we find that in vanilla MOPD, (i) teachers
-  exhibit unequal distillation difficulty at each token (i.e., token-level imbalance), and (ii) the harder-to-distill teacher
-  varies across tokens (i.e., cross-token inconsistency), leaving each objective poorly learned at certain steps and hindering
-  positive item retrieval for both objectives, leading to suboptimal performance. To address this challenge, we propose KL-MOPD
-  (KL-Weighted Multi-Objective On-Policy Distillation), a simple yet effective distillation method that allocates token-wise
-  teacher weights proportional to the initial student-teacher token-wise KL divergences, thereby strengthening supervision
-  for the harder-to-distill teacher at every decoding step. Despite its simplicity, we theoretically prove that KL-MOPD strictly
-  outperforms vanilla MOPD in the additive joint recommendation objective under mild conditions. Moreover, KL-MOPD is plug-and-play
-  and computationally efficient, requiring only a one-time pre-training weight calibration with negligible training overhead.
-  Extensive experiments on three public benchmarks, a billion-scale industrial dataset, and online A/B tests on our e-commerce
-  advertising platform demonstrate that KL-MOPD significantly improves both individual and joint recommendation performance.
-  The anonymous code is provided for peer review.
 tldr: KL-MOPD distills click and conversion teachers into a student generator token by token, weighting each teacher by its
   initial KL divergence from the student, instead of vanilla on-policy distillation.
 tldr_zh: KL-MOPD 按教师与学生的初始 KL 散度加权，将点击与转化教师逐 token 蒸馏到学生生成器，改进标准在线策略蒸馏。

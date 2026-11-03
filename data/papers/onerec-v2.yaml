@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: Beam
 poi: false
-summary: §4.1明确OneRec-V2 PTQ不改架构或训练；其§2.2.2点名沿用OneRec-V1 tokenizer。另核OneRec-V1 §2.1.1，caption/tag/ASR/OCR/cover/frames进入MiniCPM-V，再用协同物品对对齐。仅通过该两跳继承链报告，故标†。
 tldr: OneRec-V2 replaces the OneRec encoder-decoder with a lazy decoder-only architecture that cuts sequence-encoding compute,
   and aligns with real user feedback through duration-aware reward shaping and adaptive ratio clipping.
 tldr_zh: OneRec-V2 用懒惰仅解码器架构替代 OneRec 的编码器-解码器以削减序列编码计算，并通过时长感知奖励塑形与自适应比率裁剪对齐真实反馈。

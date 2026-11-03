@@ -1,25 +1,32 @@
 # GenRec-JD
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/genrec-jd.md)
+
 | **Title** | *GenRec: A Preference-Oriented Generative Framework for Large-Scale Recommendation* |
 | :-- | :-- |
 | **Authors** | Zou et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.14878) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/genrec-jd.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.14878) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GenRec-JD"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|alternative| C["LETTER"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LC-Rec"]
+    P -->|"alternative"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is trained with point-wise next-item prediction; GenRec trains on page-wise target lists with a decoder-only LLM and aligns it with GRPO-SR.
-  - Source: GenRec v1, Section 3.1 baselines: https://arxiv.org/html/2604.14878v1#S3.SS1.p1; Table 1: https://arxiv.org/html/2604.14878v1#S3.T1.
+  - Source: GenRec v1, Section 3.1 baselines: [S3.SS1.p1](https://arxiv.org/html/2604.14878v1#S3.SS1.p1); Table 1: [S3.T1](https://arxiv.org/html/2604.14878v1#S3.T1).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec also fine-tunes an LLM on SIDs but with point-wise NTP; GenRec adds page-wise supervision, a token merger, and RL alignment.
-  - Source: GenRec v1, Section 3.1 baselines: https://arxiv.org/html/2604.14878v1#S3.SS1.p1; Table 1: https://arxiv.org/html/2604.14878v1#S3.T1.
+  - Source: GenRec v1, Section 3.1 baselines: [S3.SS1.p1](https://arxiv.org/html/2604.14878v1#S3.SS1.p1); Table 1: [S3.T1](https://arxiv.org/html/2604.14878v1#S3.T1).
 - **Alternative** · [LETTER](letter.md): LETTER improves the tokenizer, whereas GenRec keeps RQ K-means SIDs and changes the supervision and alignment of the generator.
-  - Source: GenRec v1, Section 4 cites Wang et al. (2025), LETTER: https://arxiv.org/html/2604.14878v1#S4.p1; not a baseline in Table 1.
+  - Source: GenRec v1, Section 4 cites Wang et al. (2025), LETTER: [S4.p1](https://arxiv.org/html/2604.14878v1#S4.p1); not a baseline in Table 1.
 
 [View all papers in this cell](../../README.md#iv--training)

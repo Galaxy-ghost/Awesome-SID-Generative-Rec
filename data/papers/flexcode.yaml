@@ -16,7 +16,6 @@ tokenizer: Joint
 objective: NTP
 inference: –
 poi: false
-summary: 提出双码本、热度路由与端到端训练。
 tldr: FlexCode splits a fixed token budget between a collaborative codebook and a semantic codebook according to item popularity
   through a lightweight MoE, instead of one uniform codebook for all items.
 tldr_zh: FlexCode 通过轻量 MoE 按物品流行度在协同码本与语义码本之间分配固定 token 预算，替代所有物品共用单一码本的做法。

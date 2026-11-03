@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP + Ctr.
 inference: C-Beam
 poi: false
-summary: 'Abstract: "remain limited in their ability to harness multimodal information".'
 tldr: MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and
   adds implicit and explicit cross-modal alignment to generator training.
 tldr_zh: MACRec 对文本与图像特征做跨模态量化以构建低冲突 SID，并在生成器训练中加入隐式与显式跨模态对齐。

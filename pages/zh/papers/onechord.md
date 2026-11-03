@@ -1,26 +1,31 @@
 # OneChord
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onechord.md) | 中文
+
 | **题目** | *Distill What You Rank, Recommend in One Pass* |
 | :-- | :-- |
 | **作者** | Li et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.25805) · [代码](https://anonymous.4open.science/r/OneChord-D1A2/) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/onechord.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.25805) · [代码](https://anonymous.4open.science/r/OneChord-D1A2/) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Next-item CE + Cons. KD + Rank KD"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Next-item CE + Cons. KD + Rank KD"] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Next-item CE + Cons. KD + Rank KD`: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
+- `Par. OPQ`：并行优化乘积量化，生成无序多子空间码。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Next-item CE + Cons. KD + Rank KD`：下一物品交叉熵联合一致性知识蒸馏与排序蒸馏。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -33,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | OneChord 在并行解码器中用经全库归一化的 SID 证据与物品匹配分数融合形式统一监督、蒸馏与推理，使训练目标与线上排序一致。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneChord"]
-    P -->|competitor| A["SPRINT"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["LLaDA-Rec"]
+    P -->|"同期对比"| A["SPRINT"]
+    P -->|"同期对比"| B["RPG"]
+    P -->|"同期对比"| C["LLaDA-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
-  - 出处：OneChord v1, Section 2 and Table 1: https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.25805v1#S3.T1.
+  - 出处：OneChord v1, Section 2 and Table 1: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1); [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1).
 - **同期对比** · [RPG](rpg.md): RPG is compared for full-catalog accuracy and complete-test generation cost.
-  - 出处：OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
+  - 出处：OneChord v1, Tables 1-2: [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1); [S3.T2](https://arxiv.org/html/2610.25805v1#S3.T2).
 - **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
-  - 出处：OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
+  - 出处：OneChord v1, Tables 1-2: [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1); [S3.T2](https://arxiv.org/html/2610.25805v1#S3.T2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

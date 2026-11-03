@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: CoT
 poi: false
-summary: 'Abstract: "critically lacking the capacity for explicit and controllable reasoning". Candidates: none / III (rule:
-  lack of reasoning is not a class of its own).'
 tldr: OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding,
   and a recommendation reward for multiple valid targets, instead of implicit prediction alone.
 tldr_zh: OneRec-Think 通过物品-文本对齐、推理脚手架和面向多合法目标的推荐奖励，在 OneRec 式生成中加入显式文本推理，替代单纯隐式预测。

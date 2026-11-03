@@ -1,25 +1,32 @@
 # CoST
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cost.md)
+
 | **Title** | *Contrastive quantization based semantic tokenization for generative recommendation* |
 | :-- | :-- |
 | **Authors** | Zhu et al. |
 | **Venue** | RecSys’24 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2404.14774) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/cost.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2404.14774) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>C-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `C-RQ`: Contrastive residual quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CoST"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["EAGER"]
-    P -->|alternative| C["LETTER"]
-    P -->|alternative| D["TokenRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["EAGER"]
+    P -->|"alternative"| C["LETTER"]
+    P -->|"alternative"| D["TokenRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER's RQ-VAE is trained only with reconstruction loss; CoST keeps TIGER's generator and adds a contrastive loss so that neighboring items get distinguishable codes.
-  - Source: CoST v2, Section 1 identifies RQ-VAE from TIGER as the starting point: https://arxiv.org/html/2404.14774v2#S1.p3; Section 3.2 follows TIGER's architecture: https://arxiv.org/html/2404.14774v2#S3.SS2.p1; the reconstruction-only row in Tables 2-3 is the TIGER-style tokenizer: https://arxiv.org/html/2404.14774v2#S4.T2 and https://arxiv.org/html/2404.14774v2#S4.T3.
+  - Source: CoST v2, Section 1 identifies RQ-VAE from TIGER as the starting point: [S1.p3](https://arxiv.org/html/2404.14774v2#S1.p3); Section 3.2 follows TIGER's architecture: [S3.SS2.p1](https://arxiv.org/html/2404.14774v2#S3.SS2.p1); the reconstruction-only row in Tables 2-3 is the TIGER-style tokenizer: [S4.T2](https://arxiv.org/html/2404.14774v2#S4.T2) and [S4.T3](https://arxiv.org/html/2404.14774v2#S4.T3).
 - **Alternative** · [EAGER](eager.md): EAGER tokenizes items by hierarchical k-means and also integrates collaborative information, whereas CoST trains a residual quantizer with a contrastive objective over item neighborhoods.
-  - Source: CoST v2, Section 1 and Section 2 cite Wang et al. (2024b), EAGER, for hierarchical k-means and semantic-collaborative tokenization: https://arxiv.org/html/2404.14774v2#S1.p3 and https://arxiv.org/html/2404.14774v2#S2.p2; not compared in Tables 2-3.
+  - Source: CoST v2, Section 1 and Section 2 cite Wang et al. (2024b), EAGER, for hierarchical k-means and semantic-collaborative tokenization: [S1.p3](https://arxiv.org/html/2404.14774v2#S1.p3) and [S2.p2](https://arxiv.org/html/2404.14774v2#S2.p2); not compared in Tables 2-3.
 - **Alternative** · [LETTER](letter.md): LETTER integrates collaborative signals into the RQ-VAE tokenizer, while CoST uses contrastive quantization on semantic embeddings.
-  - Source: CoST v2, Section 2 cites LETTER among semantic-collaborative tokenizers: https://arxiv.org/html/2404.14774v2#S2.p2; not compared in Tables 2-3.
+  - Source: CoST v2, Section 2 cites LETTER among semantic-collaborative tokenizers: [S2.p2](https://arxiv.org/html/2404.14774v2#S2.p2); not compared in Tables 2-3.
 - **Alternative** · [TokenRec](tokenrec.md): TokenRec also combines semantic and collaborative information when tokenizing items; CoST relies on contrastive learning over semantic embeddings.
-  - Source: CoST v2, Section 2 cites Qu et al. (2024), TokenRec: https://arxiv.org/html/2404.14774v2#S2.p2; not compared in Tables 2-3.
+  - Source: CoST v2, Section 2 cites Qu et al. (2024), TokenRec: [S2.p2](https://arxiv.org/html/2404.14774v2#S2.p2); not compared in Tables 2-3.
 
 [View all papers in this cell](../../README.md#i--tokenization)

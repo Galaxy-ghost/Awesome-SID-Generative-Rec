@@ -5,9 +5,9 @@ Limitation: 位置只通过残差 k-means 之前的一个融合嵌入进入语�
 
 ### 1. 为什么重要
 
-在快手本地生活服务里，每条推荐视频都关联一个门店位置，所以推荐既要符合用户兴趣，也要符合用户的实时位置（Abstract）。作者指出，OneRec 这类端到端生成式推荐器还没有为这个场景做过（Abstract）。
+在快手本地生活服务里，每条推荐视频都关联一个门店位置，推荐既要匹配用户兴趣，又要兼顾用户与门店的距离及交易转化目标。OneRec 等此前的端到端生成式推荐器尚未建模地理距离与本地生活多目标奖励（Abstract）。
 
-> "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives."（Abstract）（两个难点：怎样用好地理信息；怎样平衡用户兴趣、用户与门店的距离和其他业务目标。）
+> "The first challenge is how to make full use of geographic information. The second challenge is how to balance multiple objectives, including user interests, the distance between user and stores, and some other business objectives."（Abstract）
 
 ### 2. 方法
 
@@ -15,22 +15,23 @@ Limitation: 位置只通过残差 k-means 之前的一个融合嵌入进入语�
 
 ```mermaid
 flowchart LR
-    A("视频 + 位置") --> B["多模态 LLM"]
-    B --> C["残差 k-means"]
-    C --> D("地理感知 SID")
-    D --> E["GA-Attn 编码器"]:::key
-    E --> F["带邻域提示的解码器"]:::key
-    L1{{"NTP 损失"}} -.-> F
-    L2{{"地理 + GMV 奖励上的 DPO"}} -.-> F
-    F --> G("下一个视频")
+    A("视频 v + GeoHash 上下文 l") --> B["多模态 LLM r0"]
+    B --> C["3 层残差 k-means (Nc 个中心)"]
+    C --> D("地理感知 SID (q1, q2, q3)")
+    U("观看/点击/购买序列 Z + Elc") --> E["GA-Attn 编码器 (位置相似度 + 门控 gi)"]:::key
+    N8("实时位置 lu + 8 邻域 Es") --> P["交叉注意力提示 es"]:::key
+    D & E & P --> F["因果 + 交叉注意力解码器"]:::key
+    L1{{"3 个 token 上的 L_ntp"}} -.-> F
+    L2{{"迭代 DPO：R_geo + R_gmv"}} -.-> F
+    F --> G("下一条本地生活视频")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 第 1 步：地理感知的语义 ID
 
-每个视频 $`v`$ 对应一个位置 $`l`$。位置是一个 GeoHash 区块，带坐标、品牌、品类等上下文信息（Sec. 2.1）。OneLoc 沿用 OneRec，用残差 k-means 构建 SID。第一层的输入是多模态大语言模型从视频内容和位置上下文中提取的一个嵌入。
+每个视频 $`v`$ 对应一个位置 $`l`$。位置是一个 GeoHash 区块，带坐标、品牌、品类等上下文信息（Sec. 2.1）。OneLoc 沿用 OneRec，用残差 k-means 构建 SID。第一层的初始残差由多模态大语言模型从视频内容和位置上下文中联合提取，以此注入地理信息。
 
-> "To inject geographic information, each residual $`r^{0}_{i}`$ in the initial residual set $`\mathcal{R}^{0}`$ is represented as an embedding of video content and location context information, extracted by a multimodal large language model."（Sec. 2.2）（初始残差由多模态大模型从视频内容和位置上下文提取，以此注入地理信息。）
+> "To inject geographic information, each residual $`r^{0}_{i}`$ in the initial residual set $`\mathcal{R}^{0}`$ is represented as an embedding of video content and location context information, extracted by a multimodal large language model."（Sec. 2.2）
 
 在第 $`i`$ 层，对残差做 k-means 得到码本，每个残差归到最近的中心（Eq. 1–3）：
 
@@ -45,9 +46,9 @@ flowchart LR
 
 #### 第 2 步：编码器中的地理感知自注意力
 
-编码器读入用户的观看、点击和购买序列（Eq. 4）。每个行为 $`i`$ 有一个融合嵌入 $`z_i`$（由 MLP 从视频 ID、位置 ID 和位置上下文嵌入得到），以及一个位置上下文嵌入 $`e^{lc}_i`$（Eq. 5–7）。
+编码器读入用户的观看、点击和购买序列（Eq. 4）。每个行为 $`i`$ 有一个融合嵌入 $`z_i`$（由 MLP 从视频 ID、位置 ID 和位置上下文嵌入得到），以及一个位置上下文嵌入 $`e^{lc}_i`$（Eq. 5–7），用于按用户实时位置从交互历史中筛选相关行为。
 
-> "GA-Attn module is proposed to capture relevant behaviors from the user's interaction history according to the user's real-time location."（Sec. 2.3.3）（GA-Attn 按用户实时位置，从交互历史中找出相关行为。）
+> "GA-Attn module is proposed to capture relevant behaviors from the user's interaction history according to the user's real-time location."（Sec. 2.3.3）
 
 GA-Attn 在注意力分数上加一项位置上下文相似度（Eq. 11–12），再用由用户实时位置算出的门缩放每一行输出（Eq. 13–14）：
 
@@ -69,9 +70,9 @@ g_i = 2 \cdot \mathrm{Sigmoid}\left( \mathrm{MLP}\left( \mathrm{Concat}(e^{lc}_u
 
 #### 第 3 步：邻域感知提示与下一 token 预测
 
-解码器从一个概括用户周边区域的提示开始。
+本地生活推荐依赖用户周边的品牌与热销商品信息，解码器因此从概括用户周边区域的邻域提示开始。
 
-> "In local life service, it is vital to model location contexts surrounding the user, such as surrounding brands, bestselling products, etc. Thus, we use cross-attention to capture the surrounding information."（Sec. 2.4.1）（本地生活要建模用户周边的品牌、热销商品等，所以用交叉注意力获取周边信息。）
+> "In local life service, it is vital to model location contexts surrounding the user, such as surrounding brands, bestselling products, etc. Thus, we use cross-attention to capture the surrounding information."（Sec. 2.4.1）
 
 OneLoc 取 $`l_u`$ 周围 8 个位置的上下文嵌入作为 $`E^{s}`$，以 $`e^{lc}_u`$ 为查询，算出一个提示嵌入 $`e^{s} = \mathrm{CrossAttn}(e^{lc}_u, E^{s})`$（Eq. 15）。解码器输入为 $`H^{0} = \{e^{s}, e_{q^1_t}, e_{q^2_t}, e_{q^3_t}\}`$（Eq. 19）。每个解码器块含因果自注意力、对编码器输出的交叉注意力和前馈网络（Eq. 16–18）。提示位置的输出预测 SID 的第一个 token，第一个 token 位置的输出预测第二个，依此类推：
 
@@ -83,13 +84,13 @@ OneLoc 取 $`l_u`$ 周围 8 个位置的上下文嵌入作为 $`E^{s}`$，以 $`
 
 #### 第 4 步：地理奖励、GMV 奖励与 DPO
 
-下一 token 预测只拟合旧系统曝光过的视频（Sec. 2.5）。所以 OneLoc 定义了两种奖励。地理奖励是阈值内距离的倒数（Eq. 22），GMV 奖励是一个 GMV 打分模型的输出（Eq. 23）：
+下一 token 预测只拟合旧系统曝光过的视频（Sec. 2.5）。OneLoc 为此引入两项奖励信号：地理奖励取距离阈值 $`D`$ 内距离的倒数以鼓励推荐更近的门店视频（Eq. 22），GMV 奖励取自独立 GMV 打分模型的输出（Eq. 23）：
 
 ```math
 R^{geo}(v, l_u) = \begin{cases} 0 & \text{if } \mathrm{Dis}(v, l_u) \gt D, \\ 1 / \mathrm{Dis}(v, l_u) & \text{otherwise}, \end{cases} \qquad R^{gmv}(v, S, l_u) = \mathrm{GMV}(v, S, l_u)
 ```
 
-> "The geographic reward signal is proposed to encourage generating videos nearby and thus a closer video would get a higher reward"（Sec. 2.5.1）（地理奖励鼓励生成附近的视频，越近奖励越高。）
+> "The geographic reward signal is proposed to encourage generating videos nearby and thus a closer video would get a higher reward"（Sec. 2.5.1）
 
 对每个训练样本，预训练模型用束搜索生成 $`N`$ 个视频（Eq. 24）。OneLoc 为每个视频算两种奖励，把奖励最高的（正例）和最低的（负例）配成一对（Sec. 2.5.2）。新模型 $`\theta_{i+1}`$ 从 $`\theta_i`$ 初始化，用这些样本对加上下一 token 预测一起训练：
 
@@ -102,7 +103,7 @@ R^{geo}(v, l_u) = \begin{cases} 0 & \text{if } \mathrm{Dis}(v, l_u) \gt D, \\ 1 
 - 上一轮的 $`\theta_i`$ 作参考模型；
 - $`\sigma`$ 是 sigmoid 函数，$`\lambda = 0.05`$（Sec. 4.1.4）。
 
-v1 中的 Eq. 25 印刷时漏了 $`\sigma`$；上式按标准 DPO 写。
+arXiv v1 预印本中的 Eq. 25 印漏了 $`\sigma`$；上式写出标准 DPO 的对数几率损失。
 
 ```python
 import torch
@@ -131,26 +132,26 @@ def oneloc_loss(ntp_loss, logp_new_pos, logp_old_pos, logp_new_neg, logp_old_neg
 
 ```mermaid
 flowchart LR
-    M("模型 θi") --> B["束搜索：N 个视频"]
-    B --> R["地理 + GMV 奖励"]
-    R --> P("最高为正例，最低为负例")
-    P --> L{{"L = NTP + 0.05 DPO"}}:::key
-    L --> N("模型 θi+1，参考 θi")
-    N -->|下一轮| M
+    M("参考模型 θi") --> B["束搜索：N 个候选 SID"]
+    B --> R["计算 R_geo (1/Dis ≤ D) + R_gmv"]
+    R --> P("构造偏好对：最高 Qp 与最低 Qn")
+    P --> L{{"联合损失：L_ntp + 0.05 L_dpo"}}:::key
+    L --> N("更新策略 θi+1")
+    N -->|"推进参考模型"| M
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 ### 3. 实验发现
 
-- Foursquare：在 NYC 和 Tokyo 子集上，OneLoc 好于 Table 1 中的各基线，其中包括 TIGER 和 GNPR-SID（Table 1）。
+- Foursquare：在 NYC、Tokyo 子集以及全球数据集上，OneLoc 均优于 Table 1 中的各基线（含 TIGER 与 GNPR-SID），全球数据集上 Recall@5 平均提升 13.18%，NDCG@5 平均提升 16.34%（Sec. 4.2，Table 1）。
 
-  > "Similarly, on the Foursquare global dataset, it attains an average performance boost of 13.18% in Recall@5 and 16.34% in NDCG@5."（Sec. 4.2）（在 Foursquare 全球数据集上，Recall@5 平均提升 13.18%，NDCG@5 平均提升 16.34%。）
+  > "Similarly, on the Foursquare global dataset, it attains an average performance boost of 13.18% in Recall@5 and 16.34% in NDCG@5."（Sec. 4.2）
 
-- 在线 A/B 测试：OneLoc 的 GMV +21.016%，订单量 +17.891%，本地生活新买家 +23.027%，双尾 t 检验 p < 0.01（Sec. 5，Table 4）。
+- 在线 A/B 测试：10% 流量分配给端到端 OneLoc 实验组、对照组保留线上多阶段链路时，OneLoc 的 GMV +21.016%，订单量 +17.891%，本地生活新买家 +23.027%，双尾 t 检验 p < 0.01（Sec. 5，Table 4）。
 
-  > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline"（Sec. 5）（10% 流量分给使用端到端 OneLoc 的实验组，对照组保留线上多阶段链路。）
+  > "In this experiment, 10% of the traffic was allocated to the treatment group using the end-to-end OneLoc system, while the control group retained the production-level multi-stage recommendation pipeline"（Sec. 5）
 
-- 消融：涵盖邻域感知提示、地理感知自注意力和两种奖励（Sec. 4.3，Fig. 4，Table 3，Fig. 5）。指标是 Recall 和 NDCG，奖励部分另加 GMV。作者报告每个消融变体的分数都低于完整模型。
+- 消融：去掉邻域感知提示、地理感知自注意力或任一奖励项，Recall、NDCG 和 GMV 在各消融变体上均低于完整模型（Sec. 4.3，Fig. 4，Table 3，Fig. 5）。
 
 ### 4. 局限与分析
 

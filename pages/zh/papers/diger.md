@@ -1,25 +1,34 @@
 # DIGER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/diger.md) | 中文
+
 | **题目** | *Differentiable Semantic ID for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Fu et al. |
-| **会议** | SIGIR’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2601.19711) · [代码](https://github.com/junchen-fu/DIGER) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/diger.md) |
+| **发表** | SIGIR’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` — 补充：`III. SID 与模型对齐` × `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2601.19711) · [代码](https://github.com/junchen-fu/DIGER) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Learn. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Joint / NTP"] --> I["推理 Inference<br/>Beam†"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Joint`: The generator loss updates the tokenizer directly.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Learn. RQ`：端到端或交替更新的可学习残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Joint`：推荐生成损失通过可微路径直接反传更新编号器。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam†`：自回归束搜索（由配置推断）。
 
 ### TL;DR
 
@@ -32,9 +41,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | DIGER 使 SID 可微以让推荐梯度直接更新编号器，并加入衰减 Gumbel 噪声防止码本坍缩，替代仅按重构目标训练的编号器。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,16 +76,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DIGER"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["ETEGRec"]
-    P -->|competitor| C["LETTER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["ETEGRec"]
+    P -->|"同期对比"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER supplies the reference two-stage framework for differentiable-ID training.
-  - 出处：DIGER v3, Sections 3/5 and Table 3: https://arxiv.org/html/2601.19711v3#S3.p1 ; https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
+  - 出处：DIGER v3, Sections 3/5 and Table 3: [S3.p1](https://arxiv.org/html/2601.19711v3#S3.p1) ; [S5.p3](https://arxiv.org/html/2601.19711v3#S5.p3) ; [S6.T3](https://arxiv.org/html/2601.19711v3#S6.T3).
 - **替代方案** · [ETEGRec](etegrec.md): DIGER replaces alternating distillation with direct recommendation gradients through indexing.
-  - 出处：DIGER v3, Sections 2/6.2: https://arxiv.org/html/2601.19711v3#S2.p3 ; https://arxiv.org/html/2601.19711v3#S2.p4 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p2.
+  - 出处：DIGER v3, Sections 2/6.2: [S2.p3](https://arxiv.org/html/2601.19711v3#S2.p3) ; [S2.p4](https://arxiv.org/html/2601.19711v3#S2.p4) ; [S6.SS2.p2](https://arxiv.org/html/2601.19711v3#S6.SS2.p2).
 - **同期对比** · [LETTER](letter.md): LETTER is a comparison method and the source of most quoted baseline results.
-  - 出处：DIGER v3, Sections 5/6.2 and Table 3: https://arxiv.org/html/2601.19711v3#S5.p3 ; https://arxiv.org/html/2601.19711v3#S6.SS2.p3 ; https://arxiv.org/html/2601.19711v3#S6.T3.
+  - 出处：DIGER v3, Sections 5/6.2 and Table 3: [S5.p3](https://arxiv.org/html/2601.19711v3#S5.p3) ; [S6.SS2.p3](https://arxiv.org/html/2601.19711v3#S6.SS2.p3) ; [S6.T3](https://arxiv.org/html/2601.19711v3#S6.T3).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

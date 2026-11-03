@@ -1,26 +1,32 @@
 # SpecGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/specgr.md) | 中文
+
 | **题目** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
 | :-- | :-- |
 | **作者** | Ding et al. |
-| **会议** | AAAI’26 |
-| **问题与阶段** | `VI. 泛化` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR) · [矩阵](../../../README.zh.md#vi--inference) · [English](../../papers/specgr.md) |
+| **发表** | AAAI’26 |
+| **问题与阶段** | `VI. 泛化` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Rank`: NTP plus a ranking loss.
+- `Text+SID`：稠密文本表征拼接离散语义 ID（稠密与生成式混合检索）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Rank`：下一 token 预测结合显式排序损失。
+- `Hybrid`：结合生成式 SID 解码与稠密/共现检索的混合召回。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SpecGR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LIGER"]
-    P -->|alternative| C["AtSpeed"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"同期对比"| B["LIGER"]
+    P -->|"替代方案"| C["AtSpeed"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): SpecGR uses TIGER as its generative verifier and adds inductive drafting; SpecGR++ reuses the same encoder for self-drafting.
-  - 出处：SpecGR v2, Implementation Details and Drafting Strategies: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1; https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1.
+  - 出处：SpecGR v2, Implementation Details and Drafting Strategies: [Sx4.SSx1.SSSx4.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1); [Sx3.SSx3.SSSx2.p1](https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1).
 - **同期对比** · [LIGER](liger.md): LIGER blends dense-retrieved candidates with generated items; SpecGR filters and orders inductive drafts using generative target-aware likelihoods.
-  - 出处：SpecGR v2, Performance Analysis and Table 2: https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p2.
+  - 出处：SpecGR v2, Performance Analysis and Table 2: [Sx4.SSx2.p2](https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p2).
 - **替代方案** · [AtSpeed](atspeed.md): AtSpeed adapts speculative decoding to accelerate top-K generative recommendation; SpecGR uses draft-and-verify to introduce unseen-item recommendation capability.
-  - 出处：SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: https://arxiv.org/html/2410.02939v2#Sx2.p3.
+  - 出处：SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: [Sx2.p3](https://arxiv.org/html/2410.02939v2#Sx2.p3).
 
 [查看同格全部论文](../../../README.zh.md#vi--inference)

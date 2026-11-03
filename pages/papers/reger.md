@@ -1,25 +1,32 @@
 # REGER
 
+[← Problem × Stage Matrix](../../README.md#i--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/reger.md)
+
 | **Title** | *Modeling inter-item Relations with Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Huang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.37584) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/reger.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.37584) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["REGER"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["GFlowGR"]
-    P -->|competitor| C["APAO"]
-    P -->|predecessor| D["Pctx"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["GFlowGR"]
+    P -->|"competitor"| C["APAO"]
+    P -->|"predecessor"| D["Pctx"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): REGER uses residual-quantized SID generation and additionally tests its HCPD training objective directly on TIGER.
-  - Source: REGER v1, Section 3.1 and Table 2: https://arxiv.org/html/2610.37584v1#S3.SS1.p1; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - Source: REGER v1, Section 3.1 and Table 2: [S3.SS1.p1](https://arxiv.org/html/2610.37584v1#S3.SS1.p1); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **Competitor** · [GFlowGR](gflowgr.md): GFlowGR supervises generation with collaborative rewards and flow balance; HCPD directly matches teacher conditional preferences over legal prefix branches, using the same DuoRec teacher.
-  - Source: REGER v1, Section 5.4 and Table 2: https://arxiv.org/html/2610.37584v1#S5.SS4.p2; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - Source: REGER v1, Section 5.4 and Table 2: [S5.SS4.p2](https://arxiv.org/html/2610.37584v1#S5.SS4.p2); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **Competitor** · [APAO](apao.md): APAO-pointwise is a compared GR training objective; HCPD instead distills full conditional distributions over legal next tokens along observed target paths.
-  - Source: REGER v1, Sections 4.3.2/5.1 and Table 2: https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p4; https://arxiv.org/html/2610.37584v1#S5.SS1.p3; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - Source: REGER v1, Sections 4.3.2/5.1 and Table 2: [S4.SS3.SSS2.p4](https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p4); [S5.SS1.p3](https://arxiv.org/html/2610.37584v1#S5.SS1.p3); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **Predecessor** · [Pctx](pctx.md): REGER follows Pctx in choosing DuoRec as its auxiliary recommender, but transfers collaborative preferences through distillation rather than personalized tokenization.
-  - Source: REGER v1, Section 4.3.2: https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p1.
+  - Source: REGER v1, Section 4.3.2: [S4.SS3.SSS2.p1](https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p1).
 
 [View all papers in this cell](../../README.md#i--training)

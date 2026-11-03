@@ -16,21 +16,6 @@ tokenizer: Fixed
 objective: MTP + Aux.
 inference: Scoring
 poi: false
-summary: Generative recommendation with semantic IDs represents each item as a sequence of discrete codes derived from its
-  semantic representation and predicts these codes to generate recommendations. Existing semantic-ID recommenders are typically
-  trained with hard labels for the observed next item. Although such supervision identifies the target, it provides no explicit
-  distributional information about alternative items conditioned on the same user history. Sequential recommenders can supply
-  this item-level predictive knowledge, but transferring it to semantic-ID generation is challenging because the teacher and
-  student operate in item and code spaces, respectively. We propose two complementary knowledge-distillation objectives for
-  parallel semantic-ID recommenders, which predict all code positions simultaneously without autoregressive prefix conditioning.
-  Item Distribution Matching (IDM) reconstructs a catalogue-level item distribution from the student's parallel code predictions
-  and aligns it with the teacher's item distribution. Code Marginal Matching (CMM) projects the teacher's item probabilities
-  onto each code position using fixed item-to-code assignments, then matches the resulting code marginals to the corresponding
-  student heads. Both objectives transfer the teacher's soft distributional knowledge while preserving the student's parallel
-  prediction structure. Experiments on benchmark datasets show that both methods consistently outperform existing state-of-the-art
-  approaches. On average, IDM improves Recall@10 by 15.39%, while CMM improves NDCG@10 by 8.28%. These results demonstrate
-  that distillation in either reconstructed item space or code-marginal space can substantially strengthen hard-label supervision
-  for parallel generative recommendation.
 tldr: IDM/CMM distills a sequential recommender into a parallel Semantic ID generator by matching a reconstructed item distribution
   or per-position code marginals, instead of training on hard next-item labels alone.
 tldr_zh: IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。

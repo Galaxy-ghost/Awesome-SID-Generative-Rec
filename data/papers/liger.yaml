@@ -16,8 +16,16 @@ tokenizer: Fixed
 objective: NTP + Dense
 inference: Hybrid
 poi: false
-summary: 'Abstract: "mitigating performance differences and enhancing cold-start item recommendation". Candidates: VI / none
-  (rule: complaint fits none of the six classes; judged by the new design).'
+also:
+- problem: VI
+  stage: Backbone
+  quote: we integrate text representations into the sequential model training phase
+  where: '2411.18814v2；冷启动问题与混合方法贡献：Introduction https://arxiv.org/html/2411.18814v2#S1.p5 和 #S1.p7；具体目标与设计原句：§3 https://arxiv.org/html/2411.18814v2#S3.p3；输入嵌入实现
+    https://arxiv.org/html/2411.18814v2#S3.p4'
+- problem: VI
+  stage: Training
+  quote: the cosine similarity loss
+  where: 2411.18814v2；混合方法贡献：Introduction https://arxiv.org/html/2411.18814v2#S1.p7；新增稠密目标联合 NTP 的原句与公式：§3 https://arxiv.org/html/2411.18814v2#S3.p5
 tldr: LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of
   both approaches, to narrow their performance gap and improve cold-start recommendation.
 tldr_zh: LIGER 在受控对比序列稠密检索与 SID 生成式检索后，将稠密检索融入生成式检索器，缩小二者性能差距并改善冷启动推荐。

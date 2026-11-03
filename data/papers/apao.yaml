@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP + Rank
 inference: Beam
 poi: false
-summary: 提出固定 SID 上的前缀感知优化方法，两种骨干验证。
 tldr: APAO adds prefix-level losses and an adaptive worst-prefix strategy to training, so correct items survive beam-search
   pruning, closing the gap between token-level cross-entropy training and beam-search inference.
 tldr_zh: APAO 在训练中加入前缀级损失和自适应最差前缀策略，减少正确物品在束搜索剪枝中被淘汰的情况，弥合逐 token 交叉熵训练与束搜索推理的差距。

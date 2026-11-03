@@ -1,28 +1,32 @@
 # DPE-Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dpe-rec.md) | 中文
+
 | **题目** | *Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* |
 | :-- | :-- |
 | **作者** | Ma et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.34700) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/dpe-rec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.34700) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>– / Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked → RL (→ Masked KD for Fast)"] --> I["Inference<br/>Diff.+Legalize"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>– / Text+Img"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Masked → RL (→ Masked KD for Fast)"] --> I["推理 Inference<br/>Diff.+Legalize"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `– / Text+Img`: The representation source is unreported in one configuration; text and image representations are used in another.
-- `RQ`: Residual quantization.
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Masked → RL (→ Masked KD for Fast)`: Masked-prediction pretraining, followed by reinforcement learning and optional masked-prediction distillation for a faster variant.
-- `Diff.+Legalize`: Diffusion-based decoding followed by mapping generated codes to valid items.
+- `– / Text+Img`：一种配置未报告表征来源，另一种配置采用文本与图像表征。
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Masked → RL (→ Masked KD for Fast)`：先做掩码预测预训练，再接强化学习对齐，快速变体进一步做掩码蒸馏。
+- `Diff.+Legalize`：扩散生成码序列后映射合法化为目录中的真实物品。
 
 ### TL;DR
 
@@ -35,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | DPE-Rec 用扩散语言模型做捆绑包补全，加入语义分叉感知的 GRPO 保持组合多样性，并用伪轨迹蒸馏在每步去噪中揭示更多 token。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -70,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DPE-Rec"]
-    P -->|alternative| A["TIGER"]
+    P -->|"替代方案"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **替代方案** · [TIGER](tiger.md): Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional diffusion for unordered bundle construction.
-  - 出处：https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)
+  - 出处：[S1.p2](https://arxiv.org/html/2610.34700v1#S1.p2) (Rajput et al., Recommender Systems with Generative Retrieval)
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

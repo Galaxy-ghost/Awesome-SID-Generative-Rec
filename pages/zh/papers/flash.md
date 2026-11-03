@@ -1,26 +1,32 @@
 # FLASH
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/flash.md) | 中文
+
 | **题目** | *Rethinking Semantic ID Construction for Generative Recommendation: SimHash with Parallel Decoding and Semantic Alignment* |
 | :-- | :-- |
 | **作者** | Liu et al. |
-| **会议** | NeurIPS’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2610.07402) · [代码](https://github.com/KevinC2015/Flash) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/flash.md) |
+| **发表** | NeurIPS’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.07402) · [代码](https://github.com/KevinC2015/Flash) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>SimHash"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Aux."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>SimHash"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Aux."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `SimHash`: Locality-sensitive hashing with random hyperplanes.
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Aux.`: Multi-token prediction jointly optimized with auxiliary objectives.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `SimHash`：基于随机超平面的局部敏感哈希（SimHash）编码。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `MTP + Aux.`：多 token 预测与辅助损失联合优化。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | FLASH 将哈希方法的劣势归因于自回归解码和刚性离散化，把免训练的 SimHash SID 与并行解码和显式语义对齐结合起来。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["FLASH"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["RPG"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["DIGER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["RPG"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["DIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): FLASH revisits TIGER's SimHash ablation with parallel decoding and semantic alignment.
-  - 出处：FLASH v1, Introduction and Table 1: https://arxiv.org/html/2610.07402v1#S1.p2; https://arxiv.org/html/2610.07402v1#S1.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - 出处：FLASH v1, Introduction and Table 1: [S1.p2](https://arxiv.org/html/2610.07402v1#S1.p2); [S1.p3](https://arxiv.org/html/2610.07402v1#S1.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 - **前序工作** · [RPG](rpg.md): FLASH follows RPG's cached-logit scoring, replacing learned OPQ codes with training-free SimHash.
-  - 出处：FLASH v1, Sections 2.3 and A.2: https://arxiv.org/html/2610.07402v1#S2.SS3.p2; https://arxiv.org/html/2610.07402v1#A1.SS2.p4.
+  - 出处：FLASH v1, Sections 2.3 and A.2: [S2.SS3.p2](https://arxiv.org/html/2610.07402v1#S2.SS3.p2); [A1.SS2.p4](https://arxiv.org/html/2610.07402v1#A1.SS2.p4).
 - **同期对比** · [LETTER](letter.md): LETTER learns regularized residual codes; FLASH uses fixed hashing with parallel prediction and alignment.
-  - 出处：FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - 出处：FLASH v1, Section A.2 and Table 1: [A1.SS2.p3](https://arxiv.org/html/2610.07402v1#A1.SS2.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 - **同期对比** · [DIGER](diger.md): DIGER jointly learns residual quantization and recommendation; FLASH uses a fixed tokenizer.
-  - 出处：FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.
+  - 出处：FLASH v1, Section A.2 and Table 1: [A1.SS2.p3](https://arxiv.org/html/2610.07402v1#A1.SS2.p3); [S3.T1](https://arxiv.org/html/2610.07402v1#S3.T1).
 
 [查看同格全部论文](../../../README.zh.md#iii--backbone)

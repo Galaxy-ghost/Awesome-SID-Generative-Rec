@@ -1,25 +1,31 @@
 # ADC-SID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/adc-sid.md) | 中文
+
 | **题目** | *Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2510.25622) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/adc-sid.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2510.25622) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>MoE-VQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>MoE-VQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `MoE-VQ`：混合专家向量量化（Mixture-of-Experts VQ）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
 
 ### TL;DR
 
@@ -32,18 +38,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | ADC-SID 在 SID 量化中引入随协同噪声自适应的对齐强度与可学习的行为 ID 权重，替代统一强度的对齐和等权重聚合。 |
-| 主要改动阶段 | Tokenization |
-| 局限 | 行为权重由预训练协同嵌入的模长算出，因此取决于这个嵌入的质量（Sec. 3.4.1）。 |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在含 48,106,880 个广告的工业数据集与 Amazon Beauty 上，ADC-SID 在 R@100、N@100 和 AUC 上全面优于纯内容基线（RQ-VAE、OPQ）及固定强度对齐基线（LETTER），在曝光量后 25% 的长尾物品上取得最大 AUC 增幅，并通过 5 天在线 A/B 测试验证收益（Sec. 4.2，Sec. 4.5，Sec. 5，Table 2，Table 5，Fig. 6）。 |
+| 局限 | 行为 token 权重直接由预训练协同嵌入的 L2 模长计算，效果受制于上游协同模型的标定质量，且论文未报告冲突处理策略与推理延迟（Sec. 3.4.1，Sec. 4.1.3）。 |
 
 ---
 
 ### 1. 为什么重要
 
-语义 ID（Semantic ID，SID）把物品内容特征量化，让物品之间能共享知识；已有方法再往 SID 里加入协同信息（Abstract）。用户和物品的交互高度偏斜，长尾物品的协同信息弱得多（Abstract）。作者指出两个后果：不加区分的对齐让这些噪声污染尾部物品的内容表示；等权重又看不出哪些行为 SID 有用（Abstract）。
+语义 ID（Semantic ID，SID）通过量化物品内容特征实现跨物品知识共享，协同感知编号器则进一步将用户-物品交互信号注入离散编码（Abstract）。由于真实交互呈长尾偏斜分布，长尾物品的协同信号稀疏且含噪：统一强度的跨视图对齐会污染尾部物品的内容表征，等权重聚合又无法区分有效与含噪的行为 SID。ADC-SID 按物品自适应调节对齐强度，并为行为 token 学习动态权重。
 
-> "unlike relatively uniform content features, user-item interactions are highly skewed, resulting in a significant quality gap in collaborative information between popular and long-tail items."（Abstract）（交互高度偏斜，热门和长尾物品的协同信息质量差距很大。）
+> "unlike relatively uniform content features, user-item interactions are highly skewed, resulting in a significant quality gap in collaborative information between popular and long-tail items."（Abstract）
 
 ---
 
@@ -53,32 +60,45 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("内容特征") --> M["共享专家与专属专家"]
-    B("行为特征") --> M
-    M --> C["对齐强度控制器"]:::key
-    M --> D["按协同嵌入 L2 模长的门"]:::key
-    C --> L1{{"自适应对齐损失"}}
-    D --> W("加权后的行为 SID")
-    W --> E("SID")
-    E --> G["生成器"]
+    subgraph MoEVQ["行为-内容混合专家量化"]
+        Txt("文本 + 视觉特征") --> ShExp["共享 VQ 专家"]
+        Beh("预训练协同嵌入") --> ShExp
+        Txt --> ContExp["文本与视觉专属 VQ 专家"]
+        Beh --> Router["ReLU 路由器 + 负载均衡（Eq. 23）"]
+        Router --> BehExp["行为 VQ 专家"]
+    end
+    subgraph Denoise["自适应对齐与动态加权"]
+        Beh --> Ctrl["对齐强度控制器"]:::key
+        Ctrl --> LAlign{{"自适应对齐损失"}}
+        LAlign -.-> ShExp
+        LAlign -.-> ContExp
+        LAlign -.-> BehExp
+        Beh --> Gate["协同嵌入 L2 模长门控（Eq. 22）"]:::key
+        BehExp --> WSum["逐 token 加权的行为 SID"]
+        Gate --> WSum
+    end
+    ShExp --> OutSID("组合 SID")
+    ContExp --> OutSID
+    WSum --> OutSID
+    OutSID --> Down["REG4REC 生成器 / PPNet 排序模型"]
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 行为-内容混合量化
 
-共享专家学习行为和内容共有的信息，专属专家学习各自模态的信息（Sec. 3.2）。
+ADC-SID 将量化码本拆分为学习跨模态共性信息的共享专家，以及分别建模文本、视觉与交互行为特异性的专属专家（Sec. 3.2）。
 
 #### 自适应行为-内容对齐
 
-对齐强度控制器决定热门物品和长尾物品的行为与内容对齐得多紧（Sec. 3.3.1）。
+对齐强度控制器不再对全部物品施加恒定拉近约束，而是根据物品热度调节行为表征与内容表征的对齐权重，防止稀疏交互噪声破坏长尾物品的内容语义（Sec. 3.3.1）。
 
-> "To adaptively align behavior and content information for head and long-tail items, the alignment strength controller is proposed to calculate the alignment strength."（Sec. 3.3.1）（控制器为热门和长尾物品分别计算对齐强度。）
+> "To adaptively align behavior and content information for head and long-tail items, the alignment strength controller is proposed to calculate the alignment strength."（Sec. 3.3.1）
 
 #### 动态行为加权
 
-一个门根据预训练协同嵌入的 L2 模长，为每个行为 SID 学一个重要度分数（Sec. 3.4.1，Eq. 22）。带负载均衡的 ReLU 路由器减轻行为专家之间的训练不均（Sec. 3.4.2，Eq. 23）。
+门控网络依据物品预训练协同嵌入的 L2 模长为每个行为 SID token 计算重要度权重，压低低置信度行为码（Sec. 3.4.1，Eq. 22）。行为分支内部配合带负载均衡损失的 ReLU 路由器，缓解行为专家间的负载失衡（Sec. 3.4.2，Eq. 23）。
 
-> "This gate suppresses noisy behavioral SIDs, improving the robustness of behavioral SIDs when incorporated with downstream recommendations."（Sec. 3.4.1）（这个门压低有噪声的行为 SID。）
+> "This gate suppresses noisy behavioral SIDs, improving the robustness of behavioral SIDs when incorporated with downstream recommendations."（Sec. 3.4.1）
 
 ---
 
@@ -104,10 +124,10 @@ flowchart LR
 
 </details>
 
-- 基线类别：RQ-Kmeans、LETTER 这类行为-内容对齐的 SID，在 R@100、N@100 和 AUC 上都好于 RQ-VAE、OPQ 这类只用内容的 SID（Sec. 4.2，Table 2）。
-- 任务：SID 在生成式和判别式两类任务上都做了评估（Abstract）。
-- 行为加权：消融把学到的权重和等权重做了对比（Sec. 4.3.2）。
-- 热度分组：按最近 30 天的曝光把物品分成热门组（前 25%）和长尾组（后 25%），ADC-SID 在尾部物品上提升最多（Sec. 4.5，Fig. 6）。
+- 生成式检索与排序主实验：在东南亚电商广告数据集（35,154,135 用户、48,106,880 广告）和 Amazon Beauty（22,363 用户、12,101 物品）上，融合行为与内容的 SID（RQ-Kmeans、LETTER）在生成式检索（基于 REG4REC 的 R@50、R@100、N@50、N@100）和判别式排序（基于 PPNet 的 AUC）上均优于纯内容 SID（RQ-VAE、OPQ），ADC-SID 在两类任务中整体最优（Abstract，Sec. 4.1，Sec. 4.2，Table 1，Table 2）。
+- 组件消融：工业数据集消融验证了共享-专属 MoE-VQ 结构、自适应对齐控制器，以及相对等权重方案的动态行为加权收益（Sec. 4.3.2，Table 3）。
+- 热度分层表现：按最近 30 天曝光量将物品划分为热门组（前 25%）和长尾组（后 25%），ADC-SID 在长尾组取得最大的 AUC 提升，同时保持热门组精度（Sec. 4.5，Fig. 6）。
+- 在线 A/B 测试：采用 8 位 SID 在 10% 随机广告流量上开展 5 天在线 A/B 实验，验证了线上业务指标收益（Sec. 5，Table 5）。
 
 ---
 
@@ -115,7 +135,9 @@ flowchart LR
 
 **Our analysis.**
 
-- MME-SID 用同样三种输入，配 `MM-RQ` 码和 `Dec-Only` 生成器，用 `Scoring` 打分；ADC-SID 用 `MoE-VQ` 码和 `Enc-Dec` 生成器。
+- 行为门控直接依赖上游协同嵌入的 L2 范数，若预训练协同模型的嵌入模长未良好校准，将影响行为 token 的权重分配（Sec. 3.4.1）。
+- 论文未说明 SID 冲突消解规则，且 Sec. 4.1.3 中工业数据集的码本大小存在排版笔误。
+- MME-SID 同样融合文本、视觉与协同三路特征，但采用 `MM-RQ` 编号器配 `Dec-Only` 模型做判别式 `Scoring`；ADC-SID 则用 `MoE-VQ` 混合专家编号器连接 `Enc-Dec` 生成器（`REG4REC`）与 `PPNet`。
 
 ---
 
@@ -124,22 +146,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ADC-SID"]
-    P -->|competitor| A["DAS"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["MME-SID"]
-    P -->|competitor| D["TIGER"]
-    P -->|competitor| E["RPG"]
+    P -->|"同期对比"| A["DAS"]
+    P -->|"同期对比"| B["LETTER"]
+    P -->|"同期对比"| C["MME-SID"]
+    P -->|"同期对比"| D["TIGER"]
+    P -->|"同期对比"| E["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [DAS](das.md): DAS aligns SIDs with collaborative signals by multi-view contrastive learning; ADC-SID adds adaptive alignment strength and dynamic weighting to denoise behavior signals for long-tail items.
-  - 出处：ADC-SID v3, Section 4.1.2 baselines: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1; Table 2: https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：ADC-SID v3, Section 4.1.2 baselines: [S4.I3.i4.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1); Table 2: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 - **同期对比** · [LETTER](letter.md): LETTER fuses semantic and collaborative signals in one RQ-VAE tokenizer with fixed regularization; ADC-SID uses mixture-of-quantization experts with popularity-aware alignment.
-  - 出处：ADC-SID v3, Section 4.1.2 baselines: https://arxiv.org/html/2510.25622v3#S4.I3.i5.p1; Table 2: https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：ADC-SID v3, Section 4.1.2 baselines: [S4.I3.i5.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i5.p1); Table 2: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 - **同期对比** · [MME-SID](mme-sid.md): MM-RQ-VAE produces separate collaborative, textual, and visual SIDs with contrastive alignment; ADC-SID adds shared and specific experts and a learned per-token weighting of behavioral SIDs.
-  - 出处：ADC-SID v3, Section 4.1.2 baselines: https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1; Table 2: https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：ADC-SID v3, Section 4.1.2 baselines: [S4.I3.i6.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1); Table 2: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 - **同期对比** · [TIGER](tiger.md): The RQ-VAE baseline is attributed to TIGER's content-only semantic IDs; ADC-SID injects denoised collaborative information.
-  - 出处：ADC-SID v3, Section 4.1.2 describes the RQ-VAE baseline as TIGER: https://arxiv.org/html/2510.25622v3#S4.I3.i1.p1; Table 2 row RQ-VAE: https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：ADC-SID v3, Section 4.1.2 describes the RQ-VAE baseline as TIGER: [S4.I3.i1.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i1.p1); Table 2 row RQ-VAE: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 - **同期对比** · [RPG](rpg.md): The OPQ baseline is attributed to RPG's unordered content codes; ADC-SID builds hierarchical behavior-content codes instead.
-  - 出处：ADC-SID v3, Section 4.1.2 describes the OPQ baseline as RPG: https://arxiv.org/html/2510.25622v3#S4.I3.i2.p1; Table 2 row OPQ: https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：ADC-SID v3, Section 4.1.2 describes the OPQ baseline as RPG: [S4.I3.i2.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i2.p1); Table 2 row OPQ: [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

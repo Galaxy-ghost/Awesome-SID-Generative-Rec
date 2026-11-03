@@ -1,25 +1,32 @@
 # GeoGR
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/geogr.md)
+
 | **Title** | *Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.10411) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/geogr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.10411) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>R-KM+EM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern.† / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
+- `Text+Geo+CF`: Text representations combined with geographic features and collaborative signals.
 - `R-KM+EM`: Residual k-means with expectation-maximization-style refinement.
 - `Dec-Only`: Decoder-only.
+- `Altern.†`: Tokenizer and generator updated in alternation (inferred).
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -36,13 +43,13 @@ flowchart LR
 | Key Contribution | GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning. |
 | Modified Stage | Representation |
 | Key Findings | In a three-month deployment on the AMAP platform, GeoGR reports online gains of +2.91% in WINRATE and +5.55% in PV_CTR (Abstract). |
-| Limitation | The Semantic IDs (SIDs) are updated from the LLM's predictions, so they are tied to the LLM checkpoint used in refinement (Sec. 4.1.3). |
+| Limitation | Semantic IDs (SIDs) are updated from the LLM's predictions, tying each codebook version to the specific LLM checkpoint used during refinement (Sec. 4.1.3). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-The authors state that SID-based point-of-interest (POI) recommenders lack SIDs that capture cross-category spatio-temporal collaborative relationships and align poorly with large language models (LLMs) (Abstract). GeoGR addresses both for navigation services such as AMAP.
+Standard point-of-interest (POI) SID tokenizers miss cross-category spatio-temporal co-visitation patterns and align poorly with pretrained large language models (LLMs) (Abstract). GeoGR couples Swing-weighted co-visit contrastive learning with an alternating EM-style refinement loop between RQ-Kmeans codes and a Qwen generator for industrial navigation services on AMAP.
 
 > "Instead, we explicitly model the joint constraints of geographic proximity and behavioral co-occurrence by constructing spatiotemporal co-visit POI pairs." (Sec. 4.1.1)
 
@@ -54,41 +61,39 @@ The authors state that SID-based point-of-interest (POI) recommenders lack SIDs 
 
 ```mermaid
 flowchart LR
-    A("POI description") --> B["Qwen encoder"]
-    C("Co-visit POI pairs") -.-> L1{{"Swing-weighted NCE"}}
-    L1 -.-> B
-    B --> D["RQ-Kmeans"]
-    D --> E("SIDs")
-    E --> F["CPT"]
-    F --> G["SFT"]
-    G --> H("Next POI")
+    subgraph Tok["Geo-Collaborative Initialization"]
+        A("POI text, coords, geohash") --> B["Qwen encoder"]
+        C("Co-visit trajectory pairs") --> L1{{"Swing-weighted NCE (Eq. 4)"}}
+        L1 -.-> B
+        B --> D["3-layer RQ-Kmeans"]
+    end
+    subgraph Loop["EM Iterative Refinement"]
+        D --> E("Hierarchical SIDs")
+        E --> P1["Phase 1: freeze SIDs, CPT + SFT LLM"]
+        P1 --> P2["Phase 2: freeze LLM, reassign SIDs via 20-beam"]:::key
+        P2 -.->|updated codes| E
+    end
+    P1 --> H["Dynamic beam search"] --> O("Top-k POIs")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Location Description
 
-Each POI gets a description with coordinates, address, and attributes such as name, brand, categories, geohash code, consumption level, and active time period, encoded by a Qwen model (Sec. 4.1.1).
+Each POI prompt combines coordinates, address, name, brand, categories, geohash code, consumption level, and active time period, which a Qwen encoder maps into a dense representation (Sec. 4.1.1).
 
 #### Co-Visit Contrastive Learning
 
-POI pairs that frequently co-occur in trajectories are weighted by Swing similarity to downweight popular items, and an NCE loss trains on them (Sec. 4.1.1, Eq. 4).
+POI pairs that frequently co-occur within user trajectories are weighted by Swing similarity to downweight popular hubs, training the encoder under an NCE contrastive objective (Sec. 4.1.1, Eq. 4).
 
 #### Quantization and Iterative Refinement
 
-RQ-Kmeans discretizes the LLM embeddings into hierarchical SIDs (Sec. 1).
+RQ-Kmeans discretizes the aligned embeddings into initial 3-layer hierarchical SIDs (Sec. 1). GeoGR then alternates between updating the generator and reassigning SIDs from the generator's predictive distribution:
 
 > "As shown in Algorithm 1, the framework alternates between two phases: (1) fixing the SIDs and fine-tuning the LLM to better predict them, and (2) fixing the LLM and updating the SIDs based on its predictions." (Sec. 4.1.3)
 
-```mermaid
-flowchart LR
-    S("SIDs") --> P1["Phase 1: fix SIDs, fine-tune LLM"]
-    P1 --> P2["Phase 2: fix LLM, update SIDs from its predictions"]:::key
-    P2 -->|repeat| P1
-    classDef key fill:#eaf2fb,stroke:#6b8fc7
-```
-
 #### Multi-Stage LLM Training
 
-Continued pre-training (CPT) injects POI information and user behavior sequences through several prompt templates (Sec. 4.2.1). Supervised fine-tuning then trains POI generation (Abstract).
+Continued pre-training (CPT) warms up the out-of-vocabulary SID tokens across multi-task prompt templates covering POI metadata and user behavior sequences (Sec. 4.2.1), followed by supervised fine-tuning (SFT) for next-POI generation (Abstract).
 
 > "Since the newly introduced SID tokens are out-of-vocabulary for the base LLM, we first perform Continued Pre-Training (CPT) to warm up these tokens and inject scenario-specific recommendation knowledge." (Sec. 4.2)
 
@@ -116,8 +121,8 @@ Continued pre-training (CPT) injects POI information and user behavior sequences
 
 </details>
 
-- Offline comparison: GeoGR reports better performance than the baselines on multiple real-world datasets (Abstract).
-- Online deployment: the three-month test served millions of users (Abstract).
+- Offline comparison: GeoGR outperforms traditional sequential, POI, and generative baselines across Foursquare and AMAP datasets (Abstract).
+- Online deployment: in a three-month online A/B test serving millions of users on AMAP, GeoGR achieves +2.91% WINRATE and +5.55% PV_CTR over the multi-stage production baseline (Abstract).
 
 ---
 
@@ -125,8 +130,8 @@ Continued pre-training (CPT) injects POI information and user behavior sequences
 
 **Our analysis.**
 
-- OneLoc adds images to its input and trains an `Enc-Dec` generator with DPO; GeoGR adds collaborative signals and trains a `Dec-Only` LLM with `Multi-task NTP`.
-- GNPR-SID keeps its `RQ-VAE` codes fixed; GeoGR refines its `R-KM+EM` codes against the generator.
+- OneLoc incorporates visual features and aligns an `Enc-Dec` generator via DPO; GeoGR injects spatio-temporal co-visitation into tokenization and trains a `Dec-Only` LLM with `Multi-task NTP`.
+- GNPR-SID freezes its `RQ-VAE` codes prior to generator training; GeoGR iteratively updates its `R-KM+EM` codes against the LLM's own predictions.
 
 ---
 
@@ -135,19 +140,23 @@ Continued pre-training (CPT) injects POI information and user behavior sequences
 ```mermaid
 flowchart LR
     P["GeoGR"]
-    P -->|competitor| A["OneLoc"]
-    P -->|competitor| B["GNPR-SID"]
-    P -->|competitor| C["TIGER"]
-    P -->|predecessor| D["OneRec"]
+    P -->|"competitor"| A["OneLoc"]
+    P -->|"competitor"| B["GNPR-SID"]
+    P -->|"competitor"| C["TIGER"]
+    P -->|"predecessor"| D["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [OneLoc](oneloc.md): OneLoc injects geography into the SID input embedding and adds geographic rewards; GeoGR builds geo-aware SIDs from geographically constrained co-visitation and refines them with an EM loop tied to the LLM.
-  - Source: GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3; discussion in Section 5.2.2: https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3.
+  - Source: GeoGR v2, Table 2 (POI baseline) and Table 3 (strongest industrial baseline): [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2) and [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3); discussion in Section 5.2.2: [S5.SS2.SSS2.p3](https://arxiv.org/html/2602.10411v2#S5.SS2.SSS2.p3).
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID builds POI semantic IDs for next-POI generation; GeoGR follows its preprocessing and adds co-visitation alignment, EM-style SID refinement, and CPT plus SFT.
-  - Source: GeoGR v2, follows the GNPR-SID preprocessing: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2; Tables 2, 3, 5, and 6: https://arxiv.org/html/2602.10411v2#S5.T2, https://arxiv.org/html/2602.10411v2#S5.T3, https://arxiv.org/html/2602.10411v2#S5.T5, https://arxiv.org/html/2602.10411v2#S5.T6.
+  - Source: GeoGR v2, follows the GNPR-SID preprocessing: [S5.SS1.SSS1.p2](https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2); Tables 2, 3, 5, and 6: [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2), [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3), [S5.T5](https://arxiv.org/html/2602.10411v2#S5.T5), [S5.T6](https://arxiv.org/html/2602.10411v2#S5.T6).
 - **Competitor** · [TIGER](tiger.md): TIGER uses content RQ-VAE SIDs with a small Transformer; GeoGR uses geo-aware RQ-Kmeans SIDs with an LLM aligned through continued pre-training.
-  - Source: GeoGR v2, Tables 2 and 3: https://arxiv.org/html/2602.10411v2#S5.T2 and https://arxiv.org/html/2602.10411v2#S5.T3.
+  - Source: GeoGR v2, Tables 2 and 3: [S5.T2](https://arxiv.org/html/2602.10411v2#S5.T2) and [S5.T3](https://arxiv.org/html/2602.10411v2#S5.T3).
 - **Predecessor** · [OneRec](onerec.md): GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
-  - Source: GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): https://arxiv.org/html/2602.10411v2#S4.SS1.p1.
+  - Source: GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): [S4.SS1.p1](https://arxiv.org/html/2602.10411v2#S4.SS1.p1).
 
 [View all papers in this cell](../../README.md#i--representation)

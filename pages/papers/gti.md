@@ -1,27 +1,31 @@
 # GTI
 
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gti.md)
+
 | **Title** | *Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.02324) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/gti.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.02324) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF / Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
 - `Text+CF / Text`: Text with collaborative signals, or text-only representations, in different configurations.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GTI"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): GTI adopts TIGER-style RQ-VAE semantic identifiers.
-  - Source: https://arxiv.org/html/2604.02324v1#S7.SS3.p2 (Appendix 7.3).
+  - Source: [S7.SS3.p2](https://arxiv.org/html/2604.02324v1#S7.SS3.p2) (Appendix 7.3).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec uses multi-task alignment; GTI adds grounding before fine-tuning.
-  - Source: https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px2.p3 ; #S4.T1 ; #S7.T4.
+  - Source: [S4.SS1.SSS0.Px2.p3](https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px2.p3) ; #S4.T1 ; #S7.T4.
 
 [View all papers in this cell](../../README.md#iii--training)

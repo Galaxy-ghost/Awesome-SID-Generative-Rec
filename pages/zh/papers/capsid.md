@@ -1,27 +1,32 @@
 # CapsID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/capsid.md) | 中文
+
 | **题目** | *Soft-Routed Variable-Length Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Cheng et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2605.05096) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/capsid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2605.05096) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Soft-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Soft-RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Soft-RQ`: Soft-routed RQ variant.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Soft-RQ`：软路由残差量化变体。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | CapsID 用胶囊路由替代硬残差量化，将物品软路由到多个胶囊并在置信度足够高时终止生成，使各物品的 SID 长度按需变化。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CapsID"]
-    P -->|competitor| A["COBRA"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ADC-SID"]
-    P -->|competitor| D["ActionPiece"]
-    P -->|competitor| E["ReSID"]
+    P -->|"同期对比"| A["COBRA"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["ADC-SID"]
+    P -->|"同期对比"| D["ActionPiece"]
+    P -->|"同期对比"| E["ReSID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [COBRA](cobra.md): COBRA patches incomplete sparse IDs with a dense vector and BeamFusion at inference; CapsID instead makes the SID itself soft-routed and variable-length, without a dense path.
-  - 出处：CapsID v1, Section 4.1 baselines and fairness controls: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px4.p1; Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3, https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6.
+  - 出处：CapsID v1, Section 4.1 baselines and fairness controls: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.SS1.SSS0.Px4.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px4.p1); Tables 3, 4, and 6: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3), [S4.T4](https://arxiv.org/html/2605.05096v1#S4.T4), [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6).
 - **同期对比** · [TIGER](tiger.md): TIGER uses fixed-length hard RQ-VAE codes; CapsID routes residuals softly across capsules and stops at an item-specific length.
-  - 出处：CapsID v1, Section 4.1 baselines: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1; Tables 3 and 6: https://arxiv.org/html/2605.05096v1#S4.T3 and https://arxiv.org/html/2605.05096v1#S4.T6.
+  - 出处：CapsID v1, Section 4.1 baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1); Tables 3 and 6: [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3) and [S4.T6](https://arxiv.org/html/2605.05096v1#S4.T6).
 - **同期对比** · [ADC-SID](adc-sid.md): CapsID labels this baseline ADA-SID and cites arXiv:2510.25622; it adapts behavior-content quantization with fixed-length codes, whereas CapsID varies code length per item.
-  - 出处：CapsID v1, Table 1 and Section 2 cite it as ADA-SID [34] (arXiv:2510.25622): https://arxiv.org/html/2605.05096v1#S2.T1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
+  - 出处：CapsID v1, Table 1 and Section 2 cite it as ADA-SID [34] (arXiv:2510.25622): [S2.T1](https://arxiv.org/html/2605.05096v1#S2.T1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3).
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens by co-occurrence frequency; CapsID's SemanticBPE uses a differentiable merge gate over learned capsule codes.
-  - 出处：CapsID v1, Section 2 capsule-routing and subword paragraph: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px6.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3.
+  - 出处：CapsID v1, Section 2 capsule-routing and subword paragraph: [S2.SS0.SSS0.Px6.p1](https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px6.p1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3).
 - **同期对比** · [ReSID](resid.md): ReSID uses adaptive semantic quantization with residual knowledge transfer; CapsID uses capsule routing with confidence-driven stopping.
-  - 出处：CapsID v1, Section 2: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1; Section 4.1 baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3; cold-start protocol follows ReSID: https://arxiv.org/html/2605.05096v1#A2.SS2.p1.
+  - 出处：CapsID v1, Section 2: [S2.SS0.SSS0.Px4.p1](https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1); Section 4.1 baselines and Table 3: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1) and [S4.T3](https://arxiv.org/html/2605.05096v1#S4.T3); cold-start protocol follows ReSID: [A2.SS2.p1](https://arxiv.org/html/2605.05096v1#A2.SS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

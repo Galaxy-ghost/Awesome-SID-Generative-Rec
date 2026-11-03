@@ -1,25 +1,32 @@
 # TokenRec
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tokenrec.md)
+
 | **Title** | *Learning to tokenize id for llm-based generative recommendations* |
 | :-- | :-- |
 | **Authors** | Qu et al. |
 | **Venue** | TKDE’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/tokenrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>CF"] --> T["Tokenization<br/>Masked VQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
 - `CF`: Collaborative filtering signal.
+- `Masked VQ`: Masked vector quantization over collaborative representations.
+- `Encoder`: Bidirectional encoder backbone without autoregressive token generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -35,13 +42,14 @@ flowchart LR
 | Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
 | Key Contribution | TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items. |
 | Modified Stage | Tokenization |
-| Limitation | New users and items need a retrained collaborative filtering model to produce their representations; only the tokenizer and the LLM stay frozen (Sec. II-E.2). |
+| Key Findings | Across LastFM, MovieLens-1M, Amazon Beauty, and Clothing, TokenRec outperforms collaborative, sequential, and LLM baselines while cutting per-user top-20 inference time to 5.76–8.43 ms against 76–102 ms for beam-search LLM baselines (Abstract, Tables 2, 3, and 5). |
+| Limitation | Onboarding unseen users or items still requires updating the upstream GNN collaborative filtering model to produce their base embeddings, even though the MQ-Tokenizer and LLM remain frozen (Sec. II-E.2). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-LLM-based recommenders need user and item tokens that the LLM can read (Abstract). One token per user or item expands the LLM vocabulary with the number of users and items (Sec. I). The authors also name two further gaps: existing tokens do not capture high-order collaborative knowledge, and they generalize poorly to users or items outside the training data (Abstract). TokenRec tokenizes users and items from collaborative representations and replaces autoregressive decoding with retrieval.
+Assigning one dedicated token per user and item grows an LLM's vocabulary linearly with catalog scale (Sec. I), while text-only codes miss high-order collaborative structure and struggle on unseen users or items (Abstract). TokenRec quantizes masked GNN collaborative embeddings into compact user and item token tuples and replaces multi-step autoregressive beam search with single-pass dense vector retrieval.
 
 ---
 
@@ -51,31 +59,33 @@ LLM-based recommenders need user and item tokens that the LLM can read (Abstract
 
 ```mermaid
 flowchart LR
-    A("GNN CF representations") --> B["Random mask"]
-    B --> C["K encoders + K codebooks"]:::key
-    C --> D("User and item tokens")
-    C --> E["Average codewords + MLP decoder"]
-    E -.-> L1{{"Reconstruction loss"}}
-    D --> F["LLM query encoder"]
-    F --> G["3-layer MLP projection"]
-    G --> H["Cosine vs GNN item representations"]:::key
-    H --> I("Top-K items")
+    subgraph MQT["Masked Vector-Quantized Tokenizer (Separate User & Item)"]
+        A("GNN CF user/item vector") --> B["Random feature mask"]
+        B --> C["K parallel sub-encoders + K codebooks"]:::key
+        C --> D("Discrete K-token user & item IDs")
+        C --> E["Mean-pool K codewords + MLP decoder (Eq. 9)"]
+        E -.-> L1{{"CF vector reconstruction loss"}}
+    end
+    subgraph Ret["Single-Pass Generative Retrieval"]
+        D --> F["T5 encoder over user + shuffled item tokens"]
+        F --> G["3-layer MLP query projection"]:::key
+        A --> DB("GNN item vector index")
+        G & DB --> H["All-catalog cosine scoring (Eqs. 17–19)"] --> I("Top-K items")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### MQ-Tokenizer
 
-A GNN-based collaborative filtering model learns user and item representations, which are stored in a vector database (Sec. II-C.2).
+A GNN collaborative filtering backbone pre-computes dense user and item representations stored in an item vector index (Sec. II-C.2). Separate user and item MQ-Tokenizers apply random feature masking to each GNN vector, project it through $`K`$ parallel sub-encoders, and quantize each branch against its own sub-codebook (Sec. II-C.2, Sec. II-C.3). Averaging the $`K`$ selected codewords through an MLP decoder reconstructs the unmasked GNN vector (Sec. II-C.4, Eq. 9).
 
 > "Specifically, our MQ-Tokenizer assigns each user and item a small number of discrete tokens generated by quantizing the GNN-based representations." (Sec. II-C.1)
-
-The tokenizer randomly masks the representation, encodes it with K separate encoders, and quantizes each output against its own codebook (Sec. II-C.2, Sec. II-C.3). The decoder averages the K codewords and reconstructs the collaborative representation with an MLP (Sec. II-C.4, Eq. 9). User and item tokenizers are trained separately.
 
 > "we propose to randomly mask these representations to create a challenging task that enables the tokenizer to build a comprehensive understanding and generalize well." (Sec. II-C.2)
 
 #### Generative Retrieval
 
-The LLM reads a prompt with the user's tokens and, optionally, the tokens of interacted items, which are shuffled during training rather than kept in time order (Sec. II-D.2). The LLM acts as a query encoder. A three-layer MLP projects its hidden state, and cosine similarity against the GNN item representations scores all items for top-K retrieval (Sec. II-D.3, Eqs. 17–19).
+The T5 backbone encodes a prompt containing the user's discrete tokens alongside interacted item tokens—randomly shuffled during training rather than ordered chronologically (Sec. II-D.2). A 3-layer MLP projects the final hidden state into the collaborative vector space, scoring the entire catalog via cosine similarity against the stored GNN item embeddings for top-$`K`$ retrieval (Sec. II-D.3, Eqs. 17–19).
 
 ---
 
@@ -101,8 +111,8 @@ The LLM reads a prompt with the user's tokens and, optionally, the tokens of int
 
 </details>
 
-- Main comparison: TokenRec outperforms both traditional and LLM-based recommenders on the four datasets (Abstract, Tables 2 and 3).
-- Inference time: the authors attribute the speed to retrieval instead of decoding.
+- Main comparison: under full-catalog ranking across four benchmarks, TokenRec surpasses traditional collaborative, sequential, and LLM-based recommenders on both seen and held-out users (Abstract, Tables 2–4).
+- Serving latency: bypassing autoregressive token-by-token beam search cuts per-user top-20 latency by an order of magnitude (5.76–8.43 ms vs. 76–102 ms) (Sec. III-D, Table 5).
 
   > "This can be attributed to our generative retrieval paradigm, bypassing the most time-consuming auto-regressive decoding and beam search processes of LLMs [ 29 ] ." (Sec. III-D)
 
@@ -112,8 +122,8 @@ The LLM reads a prompt with the user's tokens and, optionally, the tokens of int
 
 **Our analysis.**
 
-- TIGER decodes text-based `RQ-VAE` IDs with `Beam`; TokenRec builds tokens from collaborative signals only (`CF`) and ranks by `Scoring`, so it never generates an ID.
-- CID also tokenizes collaborative signals (`CF`) but with `Spectral Clus.` and decodes with `C-Beam`; TokenRec uses `Masked VQ` and an `Encoder`.
+- TIGER quantizes item text (`Text`) via `RQ-VAE` and decodes token by token with `Beam` search; TokenRec quantizes `CF` embeddings for both users and items via `Masked VQ` and retrieves candidates in one pass via dense cosine `Scoring`.
+- CID also discretizes `CF` signals via `Spectral Clus.` while retaining autoregressive `C-Beam` generation; TokenRec uses an `Encoder` query projector without emitting target tokens.
 
 ---
 
@@ -122,19 +132,23 @@ The LLM reads a prompt with the user's tokens and, optionally, the tokens of int
 ```mermaid
 flowchart LR
     P["TokenRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["CID"]
-    P -->|alternative| C["LC-Rec"]
-    P -->|alternative| D["R3-VAE"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["CID"]
+    P -->|"alternative"| C["LC-Rec"]
+    P -->|"alternative"| D["R3-VAE"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER decodes RQ-VAE item IDs by beam search; TokenRec tokenizes users and items with a masked K-way quantizer and scores all items directly, about ten times faster.
-  - Source: TokenRec v3, baselines: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1; Tables 2-5: https://arxiv.org/html/2406.10450v3#S3.T2, https://arxiv.org/html/2406.10450v3#S3.T3, https://arxiv.org/html/2406.10450v3#S3.T4, https://arxiv.org/html/2406.10450v3#S3.T5.
+  - Source: TokenRec v3, baselines: [S3.SS1.SSS2.p1](https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1); Tables 2-5: [S3.T2](https://arxiv.org/html/2406.10450v3#S3.T2), [S3.T3](https://arxiv.org/html/2406.10450v3#S3.T3), [S3.T4](https://arxiv.org/html/2406.10450v3#S3.T4), [S3.T5](https://arxiv.org/html/2406.10450v3#S3.T5).
 - **Competitor** · [CID](cid.md): CID builds collaborative indices for P5-style text generation; TokenRec builds collaborative tokens for users and items and retrieves without decoding.
-  - Source: TokenRec v3, baselines: https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1 and https://arxiv.org/html/2406.10450v3#S3.I2.i4.p1; Tables 2-5: https://arxiv.org/html/2406.10450v3#S3.T2 and https://arxiv.org/html/2406.10450v3#S3.T5.
+  - Source: TokenRec v3, baselines: [S3.SS1.SSS2.p1](https://arxiv.org/html/2406.10450v3#S3.SS1.SSS2.p1) and [S3.I2.i4.p1](https://arxiv.org/html/2406.10450v3#S3.I2.i4.p1); Tables 2-5: [S3.T2](https://arxiv.org/html/2406.10450v3#S3.T2) and [S3.T5](https://arxiv.org/html/2406.10450v3#S3.T5).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec decodes item indices autoregressively, which TokenRec avoids for speed and to limit hallucinated items.
-  - Source: TokenRec v3, Section 2.4.3 cites Zheng et al. (2024): https://arxiv.org/html/2406.10450v3#S2.SS4.SSS3.p1.
+  - Source: TokenRec v3, Section 2.4.3 cites Zheng et al. (2024): [S2.SS4.SSS3.p1](https://arxiv.org/html/2406.10450v3#S2.SS4.SSS3.p1).
 - **Alternative** · [R3-VAE](r3-vae.md): R3-VAE later evaluates TokenRec's masked quantizer (MQ) as a tokenizer baseline and proposes reference-guided residual quantization.
-  - Source: Evidence is from the later R3-VAE paper: baselines and Tables 1, 4: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1, https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T4.
+  - Source: Evidence is from the later R3-VAE paper: baselines and Tables 1, 4: [S4.SS1.SSS2.p1](https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1), [S3.T1](https://arxiv.org/html/2604.11440v3#S3.T1), [S4.T4](https://arxiv.org/html/2604.11440v3#S4.T4).
 
 [View all papers in this cell](../../README.md#i--tokenization)

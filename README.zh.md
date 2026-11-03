@@ -3,9 +3,9 @@
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-按要解决的问题和改动的流程阶段整理的语义 ID 生成式推荐论文清单。
+围绕研究问题与五阶段流程组织的语义 ID（Semantic ID）生成式推荐论文索引与精读笔记。
 
-[![论文](https://img.shields.io/badge/%E8%AE%BA%E6%96%87-181-c6dbef)](#全部论文) [![更新](https://img.shields.io/badge/%E6%9B%B4%E6%96%B0-2026--11--01-d9ead3)](#最近更新) [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC0--1.0-e5dcef)](LICENSE)
+[![论文](https://img.shields.io/badge/%E8%AE%BA%E6%96%87-181-d6e8fa)](#全部论文) [![更新](https://img.shields.io/badge/%E6%9B%B4%E6%96%B0-2026--11--01-d9ead3)](#最近更新) [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC0--1.0-e5dcef)](LICENSE)
 
 [English](README.md) | 中文
 
@@ -13,26 +13,29 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>12 篇"] --> T["Tokenization<br/>70 篇"] --> B["Backbone<br/>33 篇"] --> TR["Training<br/>40 篇"] --> I["Inference<br/>14 篇"]
+    R["表征 Representation<br/>12 篇"] --> T["编号 Tokenization<br/>70 篇"] --> B["骨干 Backbone<br/>33 篇"] --> TR["训练 Training<br/>40 篇"] --> I["推理 Inference<br/>14 篇"]
+    classDef stage fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I stage
 ```
 
-## 范围
+## 收录范围
 
-本清单收录 181 篇用语义 ID（Semantic ID，SID）做生成式推荐的论文。矩阵按问题和主要改动的阶段放置其中 169 篇，其余 12 篇属于范式、系统与基准。清单也收录把 SID 当作特征的方法。POI 与本地生活推荐的论文带 `POI` 标签，汇总在 [POI 索引](pages/zh/index/poi.md)。
+本仓库收录 181 篇语义 ID（Semantic ID，SID）生成式推荐论文。其中 169 篇按研究问题与主要改动的流程阶段放入矩阵，其余 12 篇归入范式、系统与基准；将离散 SID 作为特征输入判别式或混合架构的工作一并收录。面向 POI 与本地生活场景的论文标有 `POI`，汇总见 [POI 索引](pages/zh/index/poi.md)。
 
-## 从哪里开始
+## 阅读导航
 
-| 读者      | 入口                                |
-| :------ | :-------------------------------- |
-| 初次接触    | [入门指南](guides/start-here.zh.md)   |
-| 找研究问题   | [问题 × 阶段矩阵](#问题--阶段矩阵)            |
-| 按阶段选方法  | [按阶段索引](pages/zh/index/stages.md) |
-| 找代码     | [有代码的论文](pages/zh/index/code.md)  |
-| LLM 与工具 | [llms.txt](llms.txt)（英文）          |
+| 阅读目标          | 推荐入口                                    |
+| :------------ | :-------------------------------------- |
+| 初次了解本方向       | [入门指南](guides/start-here.zh.md)         |
+| 按研究问题定位论文     | [问题 × 阶段矩阵](#问题--阶段矩阵)                  |
+| 按流程阶段横向对比     | [按阶段索引](pages/zh/index/stages.md)       |
+| 按构码输入模态检索     | [按构码输入模态索引](pages/zh/index/modality.md) |
+| 查找开源实现        | [有代码的论文](pages/zh/index/code.md)        |
+| 供 LLM 与检索工具读取 | [llms.txt](llms.txt)（英文）                |
 
-## 入门论文
+## 代表性必读论文
 
-| 论文         | 一句话                                                                                | 会议         |
+| 论文         | 核心机制                                                                               | 发表         |
 | :--------- | :--------------------------------------------------------------------------------- | :--------- |
 | [TIGER][]  | TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。 | NeurIPS’23 |
 | [OneLoc][] | OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。             | arXiv’25   |
@@ -40,34 +43,52 @@ flowchart LR
 
 ## 问题 × 阶段矩阵
 
-| 问题                 |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |    合计   |
-| :----------------- | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
-| **I.** 信息量         | [![12](https://img.shields.io/badge/12-2171b5?style=for-the-badge)](#i--representation) |  [![34](https://img.shields.io/badge/34-08306b?style=for-the-badge)](#i--tokenization)  |  [![7](https://img.shields.io/badge/7-6baed6?style=for-the-badge)](#i--backbone)  |  [![4](https://img.shields.io/badge/4-6baed6?style=for-the-badge)](#i--training)   |  [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#i--inference)  |  **59** |
-| **II.** 唯一性与合法性    |                                                                                         |  [![12](https://img.shields.io/badge/12-2171b5?style=for-the-badge)](#ii--tokenization) |                                                                                   |                                                                                    |                                                                                    |  **12** |
-| **III.** SID 与模型对齐 |                                                                                         | [![11](https://img.shields.io/badge/11-2171b5?style=for-the-badge)](#iii--tokenization) | [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#iii--backbone) | [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#iii--training)  | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#iii--inference) |  **31** |
-| **IV.** 实用目标       |                                                                                         |   [![1](https://img.shields.io/badge/1-c6dbef?style=for-the-badge)](#iv--tokenization)  |  [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#iv--backbone) | [![22](https://img.shields.io/badge/22-08306b?style=for-the-badge)](#iv--training) | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#iv--inference)  |  **28** |
-| **V.** 效率          |                                                                                         |   [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#v--tokenization)   | [![11](https://img.shields.io/badge/11-2171b5?style=for-the-badge)](#v--backbone) |  [![1](https://img.shields.io/badge/1-c6dbef?style=for-the-badge)](#v--training)   |  [![6](https://img.shields.io/badge/6-6baed6?style=for-the-badge)](#v--inference)  |  **21** |
-| **VI.** 泛化         |                                                                                         |   [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-6baed6?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#vi--inference)  |  **18** |
-| **合计**             |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
+主归类与综述 Table 1 一致；补充标签列出论文明确针对的其他研究问题或流程阶段。
 
-点击数字跳到对应论文，颜色越深论文越多。
+| 研究问题               |                                                    Representation                                                   |                                                     Tokenization                                                    |                                                    Backbone                                                   |                                                    Training                                                    |                                                   Inference                                                    |    合计   |
+| :----------------- | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :-----: |
+| **I.** 信息量         | [![12 (+1)](https://img.shields.io/badge/12-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#i--representation) |  [![34 (+3)](https://img.shields.io/badge/34-%2B3-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#i--tokenization)  |  [![7 (+4)](https://img.shields.io/badge/7-%2B4-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--backbone)  |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--training)   |  [![2 (+2)](https://img.shields.io/badge/2-%2B2-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#i--inference)  |  **59** |
+| **II.** 唯一性与合法性    |                                                                                                                     |  [![12 (+3)](https://img.shields.io/badge/12-%2B3-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#ii--tokenization) |                                                                                                               |                                                                                                                |             [![+2](https://img.shields.io/badge/%2B2-f1f5f9?style=for-the-badge)](#ii--inference)              |  **12** |
+| **III.** SID 与模型对齐 |                                                                                                                     | [![11 (+1)](https://img.shields.io/badge/11-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--tokenization) | [![9 (+1)](https://img.shields.io/badge/9-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--backbone) | [![9 (+2)](https://img.shields.io/badge/9-%2B2-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--training)  | [![2 (+1)](https://img.shields.io/badge/2-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#iii--inference) |  **31** |
+| **IV.** 实用目标       |                                                                                                                     |                 [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)                |                [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone)               | [![22 (+2)](https://img.shields.io/badge/22-%2B2-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#iv--training) |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)                |  **28** |
+| **V.** 效率          |                                                                                                                     |                 [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)                 |               [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone)               |  [![1 (+1)](https://img.shields.io/badge/1-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#v--training)   |  [![6 (+2)](https://img.shields.io/badge/6-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#v--inference)  |  **21** |
+| **VI.** 泛化         |                                                                                                                     |                 [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)                |  [![3 (+1)](https://img.shields.io/badge/3-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#vi--backbone) |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#vi--training)  |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)                |  **18** |
+| **合计**             |                                                        **12**                                                       |                                                        **70**                                                       |                                                     **33**                                                    |                                                     **40**                                                     |                                                     **14**                                                     | **169** |
 
-| 标记      | 含义            |
-| :------ | :------------ |
-| `†`     | 由论文点名的配置推断得到。 |
-| `A / B` | 两个分支或两种配置。    |
-| `–`     | 原文未报告。        |
-| `n/a`   | 不适用。          |
-| **加粗**  | 该论文主要改动的阶段。   |
-| 空格      | 主标签下暂无条目。     |
-| `warm`  | 条件卡中的协议标签。    |
+点击数字跳转至对应格子的论文列表；左段为主归类篇数（浅蓝越深篇数越多），右段 `+n` 为补充标签同时配对该问题与阶段的篇数。
 
-[术语表](guides/glossary.zh.md) 定义论文页中的全部取值。
+| 标记      | 含义                  |
+| :------ | :------------------ |
+| `†`     | 根据论文点名沿用的基座或配置推断得到。 |
+| `A / B` | 包含两个分支或两种评测配置。      |
+| `–`     | 论文未报告。              |
+| `n/a`   | 不适用于该方法。            |
+| **加粗**  | 该论文主要改动的流程阶段。       |
+| 空白格     | 该主分类下暂无论文。          |
+| `warm`  | 实验设置卡中的热启动过滤协议标签。   |
+
+论文页与矩阵中的全部符号及缩写释义见 [术语表](guides/glossary.zh.md)。
+
+## 构码输入模态
+
+按综述 Table 1 `representation` 列的构码输入内容模态与协同过滤（`CF`）信号分组；“协同”仅指构码输入含 `CF`，`A / B` 双分支配置分别计入各分支所在格。
+
+| 内容模态    | 未标 CF                                     | 含协同（CF）                                            |
+| :------ | :---------------------------------------- | :------------------------------------------------- |
+| **单模态** | [单模态（82）](pages/zh/index/modality.md#单模态) | [单模态 + 协同（32）](pages/zh/index/modality.md#单模态--协同) |
+| **多模态** | [多模态（15）](pages/zh/index/modality.md#多模态) | [多模态 + 协同（21）](pages/zh/index/modality.md#多模态--协同) |
+| **其他**  | [其他（1）](pages/zh/index/modality.md#其他)    | [其他 + 协同（10）](pages/zh/index/modality.md#其他--协同)   |
+
+**表征未明**：[25 篇](pages/zh/index/modality.md#表征未明)（`–`、`Multi-Dom`、`Cross-Dom` 或含未报告分支）。
+
+**不适用**：[1 篇](pages/zh/index/modality.md#不适用)（`n/a`）。
+
+**附加信号**：[`Geo`（15）](pages/zh/index/modality.md#geo) · [`Time`（1）](pages/zh/index/modality.md#time) · [`SID`（5）](pages/zh/index/modality.md#sid)。
 
 ## 最近更新
 
-- 2026-11-01: The paper pages gained a new template with reading levels, setup cards, and related-work links; five sample pages were rewritten, and index pages and a glossary were added. 论文：[TIGER][]、[RPG][]、[OneLoc][]、[LETTER][]、[SIDScope][]。
-- 2026-10-30: Table 1 of the survey was frozen at 181 papers, and the records were synchronized with it.
+- 2026-11-01: 新增精读笔记、实验设置卡、相关工作关系图、按阶段与代码索引页及受控词表术语表。涉及论文：[TIGER][]、[RPG][]、[OneLoc][]、[LETTER][]、[SIDScope][]。
+- 2026-10-30: 同步综述 Table 1 的全部 181 篇论文记录，覆盖六个研究问题与五个流程阶段。
 
 ## 全部论文
 
@@ -81,16 +102,16 @@ flowchart LR
 
 ## 范式、系统与基准
 
-> Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources.
+> 基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。
 
 - [TIGER][] - NeurIPS’23<br>
   TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。<br>
   [论文](https://arxiv.org/abs/2305.05065) · [代码（第三方）](https://github.com/baiyimeng/TIGER)
 - [FORGE][] - KDD’26<br>
-  FORGE 是基准与工业数据集而非新推荐模型：对比不同 SID 构建策略，提出无需训练生成器即可评估 ID 的指标，并开源淘宝数据集。<br>
+  FORGE 在开源淘宝工业数据集上评测不同 SID 构建策略，并提出无需训练生成器即可评估 ID 质量的指标。<br>
   [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid)
 - [GRID][] - CIKM’25<br>
-  GRID 是开源模块化框架而非新推荐模型：支持替换 SID 生成式推荐器的各个组件，并在公开基准上开展消融对比。<br>
+  GRID 提供开源模块化框架，支持自由替换 SID 编号器、生成骨干与解码策略，并在公开基准上系统消融各组件的设计选择。<br>
   [论文](https://arxiv.org/abs/2507.22224) · [代码](https://github.com/snap-research/GRID)
 - [MiniOneRec][] - arXiv’25<br>
   MiniOneRec 是覆盖 RQ-VAE SID 构建、Qwen 骨干监督微调与受约束解码强化学习的开源框架，用于在公开基准上检验生成式扩展规律。<br>
@@ -99,13 +120,13 @@ flowchart LR
   OneRec 用带稀疏 MoE 的单一编码器-解码器生成器替代召回-排序级联，整段生成视频会话，并通过奖励模型与迭代 DPO 对齐用户偏好。<br>
   [论文](https://arxiv.org/abs/2502.18965)
 - [GR-Generalize][] - arXiv’26<br>
-  GR-Generalize 是分析性研究而非新推荐模型：将测试样本标为记忆型或泛化型，分别对比生成式模型与物品 ID 模型，并按样本组合二者。<br>
+  GR-Generalize 将测试样本划分为记忆型与泛化型子集，分别对比生成式模型与传统物品 ID 模型的表现，并按样本自适应集成二者。<br>
   [论文](https://arxiv.org/abs/2603.19809) · [代码](https://github.com/Jamesding000/MemGen-GR)
 - [NEO][] - arXiv’26<br>
   NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。<br>
   [论文](https://arxiv.org/abs/2603.17533)
 - [Netflix-SID-Comparison][] - NeurIPS’26 PALM Workshop<br>
-  Netflix-SID-Comparison 是工业界对比研究而非新推荐模型：在生成质量与计算开销上对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测。<br>
+  Netflix-SID-Comparison 在流媒体工业场景中对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测在推荐质量与推理成本上的权衡。<br>
   [论文](https://arxiv.org/abs/2610.15864)
 - [OneMall][] - CIKM’26<br>
   OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。<br>
@@ -114,15 +135,15 @@ flowchart LR
   PLUM 通过 SID 编号、领域数据持续预训练与生成式检索微调将预训练 LLM 适配到工业推荐系统，替代大规模嵌入表。<br>
   [论文](https://arxiv.org/abs/2510.07784)
 - [ReRankID][] - arXiv’26<br>
-  ReRankID 是受控评测基准而非新推荐模型：让模型仅根据 SID 推理并重排候选列表，对比面向该任务的不同后训练方法。<br>
+  ReRankID 构建纯 SID 候选列表推理重排基准，在仅提供 SID 的条件下对比不同后训练方法对列表重排的影响。<br>
   [论文](https://arxiv.org/abs/2610.22797) · [代码](https://github.com/lilv98/ReRankID)
 - [SIDScope][] - arXiv’26<br>
-  SIDScope 是诊断工具与资源而非新推荐模型：在 SID 映射刷新后检查码组织结构、物品解析能力以及与生成模型的兼容性。<br>
+  SIDScope 面向公开 SID 映射提供接口诊断工具，检查码组织结构、物品解析精度以及词表刷新后与生成器的兼容性。<br>
   [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope)
 
 ## I. 信息量
 
-> Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs?
+> SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？
 
 ### I × Representation
 
@@ -162,6 +183,8 @@ flowchart LR
 - [TriAlignGR][] - arXiv’26<br>
   TriAlignGR 在 SID 构建中引入视觉内容与 LLM 挖掘的用户意图，并在统一自回归损失下训练连接 SID、文本与图像的多项生成任务。<br>
   [论文](https://arxiv.org/abs/2605.05249)
+
+补充归入本格：[COBRA][]。
 
 ### I × Tokenization
 
@@ -220,7 +243,7 @@ flowchart LR
   CapsID 用胶囊路由替代硬残差量化，将物品软路由到多个胶囊并在置信度足够高时终止生成，使各物品的 SID 长度按需变化。<br>
   [论文](https://arxiv.org/abs/2605.05096)
 - [ChronoID][] - arXiv’26<br>
-  ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。<br>
+  ChronoID 系统评测显式时间编码、融合与量化方式对时间感知 SID 的影响，替代忽略时间动态的静态 SID。<br>
   [论文](https://arxiv.org/abs/2606.14260)
 - [GrIS (RecDMoN / RQ-GAE)][gris-recdmon-rq-gae] - CIKM’26<br>
   GrIS (RecDMoN / RQ-GAE) 将 SID 构建视为带协同边的物品图层级划分；当图为空集时，RQ-VAE 与 RQ-KMeans 是它的退化特例。<br>
@@ -268,6 +291,8 @@ flowchart LR
   VarLenRec (TIGER) 通过双曲残差量化与软长度控制器为热门物品分配较短 SID、为长尾物品分配较长 SID，替代固定长度编号。<br>
   [论文](https://arxiv.org/abs/2605.17779)
 
+补充归入本格：[CID][]、[HiD-VAE][]、[GRLM][]。
+
 ### I × Backbone
 
 - [ColaRec][] - CIKM’24<br>
@@ -292,6 +317,8 @@ flowchart LR
   UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。<br>
   [论文](https://arxiv.org/abs/2610.16132)
 
+补充归入本格：[MME-SID][]、[OneLoc][]、[RPG][]、[ACERec][]。
+
 ### I × Training
 
 - [MBGen][] - CIKM’24<br>
@@ -307,6 +334,8 @@ flowchart LR
   SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。<br>
   [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR)
 
+补充归入本格：[EAGER][]、[COBRA][]。
+
 ### I × Inference
 
 - [CAPE][] - arXiv’26<br>
@@ -316,9 +345,11 @@ flowchart LR
   CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。<br>
   [论文](https://doi.org/10.3390/electronics15204749)
 
+补充归入本格：[EAGER][]、[COBRA][]。
+
 ## II. 唯一性与合法性
 
-> Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
+> 每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？
 
 ### II × Tokenization
 
@@ -359,9 +390,15 @@ flowchart LR
   SnapLGR 用个性化 PageRank 对比学习从多模态嵌入构建 SID，经持续预训练奠定表示后再微调 LLM，并用 TensorRT-LLM 部署束搜索。<br>
   [论文](https://arxiv.org/abs/2607.28895)
 
+补充归入本格：[LC-Rec][]、[LETTER][]、[GRLM][]。
+
+### II × Inference
+
+补充归入本格：[RPG][]、[GRLM][]。
+
 ## III. SID 与模型对齐
 
-> Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
+> 生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？
 
 ### III × Tokenization
 
@@ -399,6 +436,8 @@ flowchart LR
   TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。<br>
   [论文](https://arxiv.org/abs/2607.25216)
 
+补充归入本格：[MME-SID][]。
+
 ### III × Backbone
 
 - [LLaDA-Rec][] - arXiv’25<br>
@@ -428,6 +467,8 @@ flowchart LR
 - [TrieRec][] - NeurIPS’26<br>
   TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。<br>
   [论文](https://arxiv.org/abs/2602.21677)
+
+补充归入本格：[MME-SID][]。
 
 ### III × Training
 
@@ -459,6 +500,8 @@ flowchart LR
   Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。<br>
   [论文](https://arxiv.org/abs/2607.28997) · [代码](https://doi.org/10.5281/zenodo.18206701)
 
+补充归入本格：[DIGER][]、[GRLM][]。
+
 ### III × Inference
 
 - [GRC][] - CIKM’26<br>
@@ -468,9 +511,11 @@ flowchart LR
   PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。<br>
   [论文](https://arxiv.org/abs/2601.04674)
 
+补充归入本格：[DualGR][]。
+
 ## IV. 实用目标
 
-> Are training and search aimed at what users and the platform value, rather than at token likelihood?
+> 训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？
 
 ### IV × Tokenization
 
@@ -559,6 +604,8 @@ flowchart LR
   V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。<br>
   [论文](https://arxiv.org/abs/2602.10699)
 
+补充归入本格：[OneLoc][]、[DualGR][]。
+
 ### IV × Inference
 
 - [ISD][] - arXiv’26<br>
@@ -570,7 +617,7 @@ flowchart LR
 
 ## V. 效率
 
-> Can it be trained and served within latency and cost budgets?
+> 训练与在线服务能否满足实际的延迟、显存与吞吐预算？
 
 ### V × Tokenization
 
@@ -626,6 +673,8 @@ flowchart LR
   OneLatent 通过多视图教师轨迹、分阶段对齐与课程式后训练，将显式思维链压缩为可学习隐 token，避免在推理时生成长推理文本。<br>
   [论文](https://arxiv.org/abs/2610.30675)
 
+补充归入本格：[RPG][]。
+
 ### V × Inference
 
 - [AtSpeed][] - ICLR’25<br>
@@ -647,9 +696,11 @@ flowchart LR
   STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。<br>
   [论文](https://arxiv.org/abs/2602.22647) · [代码](https://github.com/youtube/static-constraint-decoding)
 
+补充归入本格：[RPG][]、[DualGR][]。
+
 ## VI. 泛化
 
-> Does it still work for new items, new domains, and shifting interests?
+> 面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？
 
 ### VI × Tokenization
 
@@ -693,6 +744,8 @@ flowchart LR
   LION 加入稀疏键值记忆层与巩固损失，将不同行为模式的演化隔离开来，避免在流式交互上直接更新全部共享参数。<br>
   [论文](https://arxiv.org/abs/2609.15598) · [代码](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 
+补充归入本格：[LIGER][]。
+
 ### VI × Training
 
 - [RecBase][] - EMNLP’25<br>
@@ -708,6 +761,8 @@ flowchart LR
   CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。<br>
   [论文](https://arxiv.org/abs/2609.28972)
 
+补充归入本格：[LIGER][]、[DualGR][]。
+
 ### VI × Inference
 
 - [LIGER][] - arXiv’24<br>
@@ -719,7 +774,7 @@ flowchart LR
 
 ## 参与贡献
 
-新增一条 YAML 记录，然后运行 `make build && make check`。详见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+新增或修改 `data/papers/<id>.yaml` 后运行 `make build && make check`。双语维护规范见 [`CONTRIBUTING.zh.md`](CONTRIBUTING.zh.md)。
 
 [范式、系统与基准]: #范式系统与基准
 [i. 信息量]: #i-信息量

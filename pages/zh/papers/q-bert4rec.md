@@ -1,24 +1,32 @@
 # Q-BERT4Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/q-bert4rec.md) | 中文
+
 | **题目** | *Quantized Semantic-ID Representation Learning for Multimodal Recommendation* |
 | :-- | :-- |
 | **作者** | Huang and Gai |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `Representation` |
-| **链接** | [论文](https://arxiv.org/abs/2512.02474) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/q-bert4rec.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **链接** | [论文](https://arxiv.org/abs/2512.02474) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Encoder (Non-AR)"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Non-AR"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Encoder (Non-AR)"] --> TR["训练 Training<br/>Fixed / Masked"] --> I["推理 Inference<br/>Non-AR"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Encoder (Non-AR)`：面向非自回归并行预测训练的双向编码器。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Masked`：掩码部分码位并重构（含离散掩码扩散目标）。
+- `Non-AR`：单次前向非自回归并行解码。
 
 ### TL;DR
 
@@ -31,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | Q-BERT4Rec 将文本、图像与结构化特征融合为物品嵌入，经残差向量量化转为 SID token，并用多种掩码策略预训练双向编码器。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 
@@ -66,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Q-BERT4Rec"]
-    P -->|competitor| A["MQL4GRec"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["VQ-Rec"]
-    P -->|competitor| D["CID"]
+    P -->|"同期对比"| A["MQL4GRec"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["VQ-Rec"]
+    P -->|"同期对比"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.
-  - 出处：Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): https://arxiv.org/html/2512.02474v2#S3.SS4.p7; Table 2 baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
+  - 出处：Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): [S3.SS4.p7](https://arxiv.org/html/2512.02474v2#S3.SS4.p7); Table 2 baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2).
 - **同期对比** · [TIGER](tiger.md): TIGER decodes SIDs left to right with an encoder-decoder; Q-BERT4Rec uses a BERT-style encoder with multi-mask pre-training.
-  - 出处：Q-BERT4Rec v2, Table 2 semantic-ID baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A baselines: https://arxiv.org/html/2512.02474v2#A1.I5.i1.p1.
+  - 出处：Q-BERT4Rec v2, Table 2 semantic-ID baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2); Appendix A baselines: [A1.I5.i1.p1](https://arxiv.org/html/2512.02474v2#A1.I5.i1.p1).
 - **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes for transfer; Q-BERT4Rec quantizes fused text-image features with RQ-VAE and pre-trains on six source domains.
-  - 出处：Q-BERT4Rec v2, Table 2 VQ/multimodal baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
+  - 出处：Q-BERT4Rec v2, Table 2 VQ/multimodal baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2).
 - **同期对比** · [CID](cid.md): P5-CID uses collaborative IDs in a prompt-based LLM; Q-BERT4Rec uses multimodal semantic IDs in a small masked Transformer.
-  - 出处：Q-BERT4Rec v2, Table 2 prompt-LLM baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A: https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1.
+  - 出处：Q-BERT4Rec v2, Table 2 prompt-LLM baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2); Appendix A: [A1.I4.i1.p1](https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

@@ -1,22 +1,28 @@
 # Retrieval-Grounded-Credit
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/retrieval-grounded-credit.md)
+
 | **Title** | *From Interests to Semantic IDs: Retrieval-Grounded Credit Assignment for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.29983) · [Code](https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/retrieval-grounded-credit.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.29983) · [Code](https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text†`: Textual item representations (inferred).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Retrieval-Grounded-Credit"]
-    P -->|predecessor| A["SIDReasoner"]
-    P -->|alternative| B["PROMISE"]
-    P -->|alternative| C["SAPO"]
+    P -->|"predecessor"| A["SIDReasoner"]
+    P -->|"alternative"| B["PROMISE"]
+    P -->|"alternative"| C["SAPO"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [SIDReasoner](sidreasoner.md): Reuses SIDReasoner's tokenizer, alignment data, and evaluator; adds retrieval-grounded trace credit.
-  - Source: Retrieval-Grounded-Credit v1, Sections 3.1/3.2 and 4.1, pp. 3/6: https://arxiv.org/pdf/2609.29983v1#page=3; https://arxiv.org/pdf/2609.29983v1#page=6.
+  - Source: Retrieval-Grounded-Credit v1, Sections 3.1/3.2 and 4.1, pp. 3/6: [page=3](https://arxiv.org/pdf/2609.29983v1#page=3); [page=6](https://arxiv.org/pdf/2609.29983v1#page=6).
 - **Alternative** · [PROMISE](promise.md): PROMISE rewards intermediate SID paths; this method verifies language interests through retrieval.
-  - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.
+  - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: [page=3](https://arxiv.org/pdf/2609.29983v1#page=3).
 - **Alternative** · [SAPO](sapo.md): SAPO aligns reasoning blocks with SID tokens; this method attributes query hits to interest lines.
-  - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.
+  - Source: Retrieval-Grounded-Credit v1, Section 2.3, p. 3: [page=3](https://arxiv.org/pdf/2609.29983v1#page=3).
 
 [View all papers in this cell](../../README.md#iv--training)

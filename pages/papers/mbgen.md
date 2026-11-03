@@ -1,19 +1,23 @@
 # MBGen
 
+[← Problem × Stage Matrix](../../README.md#i--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mbgen.md)
+
 | **Title** | *Multi-Behavior Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | CIKM’24 |
 | **Problem × Stage** | `I. Informativeness` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2405.16871) · [Code](https://github.com/anananan116/MBGen) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/mbgen.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2405.16871) · [Code](https://github.com/anananan116/MBGen) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>CF"] --> T["Tokenization<br/>Bal. VQ+KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
@@ -22,6 +26,7 @@ flowchart LR
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MBGen"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["MMGRec"]
-    P -->|alternative| C["LMIndexer"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["MMGRec"]
+    P -->|"alternative"| C["LMIndexer"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a reproduced generative baseline; MBGen balances item tokens and jointly predicts behavior types and items.
-  - Source: MBGen v1, Sections 3.2/4.1.2 and Table 3: https://arxiv.org/html/2405.16871v1#S3.SS2.p1; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS2.p2; https://arxiv.org/html/2405.16871v1#S4.T3.
+  - Source: MBGen v1, Sections 3.2/4.1.2 and Table 3: [S3.SS2.p1](https://arxiv.org/html/2405.16871v1#S3.SS2.p1); [S4.SS1.SSS2.p2](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS2.p2); [S4.T3](https://arxiv.org/html/2405.16871v1#S4.T3).
 - **Alternative** · [MMGRec](mmgrec.md): MBGen cites MMGRec among RQ-VAE tokenizers whose code imbalance motivates its bucket-specific residual quantization.
-  - Source: MBGen v1, Section 3.2, citing Liu et al. (2024): https://arxiv.org/html/2405.16871v1#S3.SS2.p1; https://arxiv.org/html/2405.16871v1#S3.SS2.p2.
+  - Source: MBGen v1, Section 3.2, citing Liu et al. (2024): [S3.SS2.p1](https://arxiv.org/html/2405.16871v1#S3.SS2.p1); [S3.SS2.p2](https://arxiv.org/html/2405.16871v1#S3.SS2.p2).
 - **Alternative** · [LMIndexer](lmindexer.md): LMIndexer learns language-model semantic indices; MBGen instead uses pretrained collaborative embeddings for balanced item tokens.
-  - Source: MBGen v1, Sections 2/4.1.4, citing Jin et al. (2023): https://arxiv.org/html/2405.16871v1#S2.p2; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS4.p2.
+  - Source: MBGen v1, Sections 2/4.1.4, citing Jin et al. (2023): [S2.p2](https://arxiv.org/html/2405.16871v1#S2.p2); [S4.SS1.SSS4.p2](https://arxiv.org/html/2405.16871v1#S4.SS1.SSS4.p2).
 
 [View all papers in this cell](../../README.md#i--training)

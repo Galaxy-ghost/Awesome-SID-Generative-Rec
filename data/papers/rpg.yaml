@@ -16,7 +16,27 @@ tokenizer: Fixed
 objective: MTP
 inference: Graph
 poi: false
-summary: 'Abstract: "they often suffer from inefficient inference due to the reliance on resource-intensive beam search".'
+also:
+- problem: I
+  stage: Backbone
+  quote: limiting their expressiveness
+  where: '2506.05781v1 Abstract https://arxiv.org/html/2506.05781v1#abstract1；短码表达问题：Introduction https://arxiv.org/html/2506.05781v1#S1.p3；并行长码设计
+    #S1.p4、#S1.p5；§2.2 https://arxiv.org/html/2506.05781v1#S2.SS2'
+- problem: II
+  stage: Inference
+  quote: During inference, we construct a graph connecting similar semantic IDs and guide decoding to avoid generating invalid
+    IDs.
+  where: '2506.05781v1 Abstract；设计在 #S2.SS3'
+- problem: V
+  stage: Inference
+  quote: they often suffer from inefficient inference due to the reliance on resource-intensive beam search and multiple forward
+    passes through the neural sequence model
+  where: '2506.05781v1 Abstract；设计 graph-constrained decoding 在 #S1.p5.1、#S2.SS3'
+- problem: V
+  stage: Training
+  quote: a multi-token prediction loss
+  where: 2506.05781v1 Abstract https://arxiv.org/html/2506.05781v1#abstract1；相对常规 NTP 的新目标：Introduction https://arxiv.org/html/2506.05781v1#S1.p5；§2.2.1
+    https://arxiv.org/html/2506.05781v1#S2.SS2.SSS1
 tldr: RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph
   of valid IDs, replacing autoregressive beam search over short IDs.
 tldr_zh: RPG 用多 token 预测损失并行预测长且无序的 OPQ SID，并在合法 ID 图上解码，替代短 ID 上的自回归束搜索。

@@ -1,24 +1,32 @@
 # MSCGRec
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mscgrec.md)
+
 | **Title** | *Multimodal Generative Recommendation for Fusing Semantic and Collaborative Signals* |
 | :-- | :-- |
 | **Authors** | Vandenhirtz et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.03713) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mscgrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.03713) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+DINO"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>Trie/C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `RQ-VAE+DINO`: RQ-VAE combined with self-supervised DINO visual quantization.
 - `Enc-Dec`: Encoder-decoder.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Trie/C-Beam`: Prefix-tree (trie) constrained beam search restricted to valid catalog SIDs.
 
 ### TL;DR
 
@@ -66,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MSCGRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["CoST"]
-    P -->|competitor| E["ETEGRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["MQL4GRec"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["CoST"]
+    P -->|"competitor"| E["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER quantizes one modality; MSCGRec concatenates codes from image, text, and collaborative modalities and trains with a softmax restricted to permissible next codes, keeping TIGER's collision level.
-  - Source: MSCGRec v1, baselines TIGER_i and TIGER_t: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2; collision level follows TIGER: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2.
+  - Source: MSCGRec v1, baselines TIGER_i and TIGER_t: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2); collision level follows TIGER: [S4.SS1.SSS0.Px3.p2](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2).
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec uses separate text and image quantitative languages with collision reassignment; MSCGRec adds a collaborative modality, DINO-based image codes, and constrained training, and found MQL4GRec's reassignment gave no gain under constrained training.
-  - Source: MSCGRec v1, follows MQL4GRec's text embeddings and tests its reassignment: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - Source: MSCGRec v1, follows MQL4GRec's text embeddings and tests its reassignment: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1) and [S4.SS1.SSS0.Px3.p2](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **Competitor** · [LETTER](letter.md): LETTER aligns quantized codes with a sequential recommender inside one tokenizer; MSCGRec keeps collaborative information as its own code modality.
-  - Source: MSCGRec v1, LETTER-TIGER baseline: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - Source: MSCGRec v1, LETTER-TIGER baseline: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **Competitor** · [CoST](cost.md): CoST aligns embeddings before and after quantization contrastively; MSCGRec changes the modalities and the training softmax instead.
-  - Source: MSCGRec v1, baselines: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - Source: MSCGRec v1, baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **Competitor** · [ETEGRec](etegrec.md): ETEGRec trains tokenizer and generator end to end; MSCGRec quantizes frozen pretrained embeddings per modality.
-  - Source: MSCGRec v1, baselines: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - Source: MSCGRec v1, baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

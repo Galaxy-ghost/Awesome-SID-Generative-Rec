@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'Abstract: "each step introduces potential information loss".'
 tldr: LMIndexer learns sequential Semantic IDs with a generative language model through progressive training, contrastive
   learning, and self-supervised reconstruction, instead of quantizing embeddings from an off-the-shelf encoder.
 tldr_zh: LMIndexer 通过渐进式训练、对比学习与自监督重构用生成式语言模型学习序列 SID，替代对现成编码器嵌入做后验量化。

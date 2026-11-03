@@ -1,24 +1,34 @@
 # EAGER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/eager.md) | 中文
+
 | **题目** | *Two-Stream Generative Recommender with Behavior-Semantic Collaboration* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | KDD’24 |
-| **问题与阶段** | `I. 信息量` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2406.14017) · [代码](https://github.com/yewzz/EAGER) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/eager.md) |
+| **发表** | KDD’24 |
+| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` — 补充：`I. 信息量` × `推理（Inference）`；`I. 信息量` × `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2406.14017) · [代码](https://github.com/yewzz/EAGER) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual H-KM"] --> B["Backbone<br/>Dual Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Fusion"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual H-KM"] --> B["骨干 Backbone<br/>Dual Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>Fusion"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Ctr.`: NTP plus a contrastive loss.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Dual H-KM`：分别在行为与语义嵌入上构建的双源层级 k-means。
+- `Dual Enc-Dec`：共享编码器配合双并行解码器的双流架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Ctr.`：下一 token 预测结合对比学习损失。
+- `Fusion`：融合并行双解码分支输出的候选得分。
 
 ### TL;DR
 
@@ -31,19 +41,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | EAGER 用共享编码器和两个解码器分别解码行为 token 与语义 token，并加入对比学习与语义引导迁移任务，替代仅用单一物品信息的做法。 |
-| 主要改动阶段 | Backbone |
-| 主要发现 | 消融中去掉双流结构下降最多（Sec. 4.3，Table 3）；在 Beauty 上，EAGER 推理每个样本耗时 0.0325 s，TIGER 为 0.0281 s（Table 6）。 |
-| 局限 | 推理要在两个解码器里分别做束搜索再合并结果，所以 EAGER 比 TIGER 慢（Sec. 3.6，Table 6）。 |
+| 主要改动阶段 | 骨干（Backbone） |
+| 主要发现 | 在 Amazon Beauty、Sports and Outdoors、Toys and Games 与 Yelp 上，EAGER 全面优于序列推荐、树结构与单流生成式基线（Table 2）；消融实验中移除双流架构带来最大性能下降（Sec. 4.3，Table 3）；在 Beauty 上单样本推理耗时为 0.0325 s，而 TIGER 为 0.0281 s（Table 6）。 |
+| 局限 | 推理时需在两个独立解码器中分别执行束搜索（束宽 100）并按对数概率置信度合并 2k 个候选，使 Beauty 上的单样本耗时从 TIGER 的 0.0281 s 增至 0.0325 s（Sec. 3.6，Table 6）。 |
 
 ---
 
 ### 1. 为什么重要
 
-现有生成式方法只用物品信息的行为面或语义面，作者认为这忽略了两者的互补（Abstract）。EAGER 为结合两者提出三点要求：一个结构同时处理两类特征，两类特征各自独立学习，两者之间有交互（Abstract）。
+单流生成式推荐模型仅从交互行为或内容语义单一视图构建物品的语义 ID（Semantic ID，SID），要么丢失另一视图的互补信号，要么将两类异构特征强行压缩进同一量化空间（Abstract）。EAGER 从三方面协同建模两类信息：统一的双流编码器-解码器架构、行为与语义各自独立的层级编码树，以及跨流蒸馏与迁移任务。
 
-> "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy"（Abstract）（共享编码器加两个解码器，分别解码行为 token 和语义 token，再按置信度排序。）
+> "we propose (1) a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens and semantic tokens with a confidence-based ranking strategy"（Abstract）
 
 ---
 
@@ -53,37 +63,48 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("用户历史") --> B["共享编码器"]
-    B --> C["行为解码器"]
-    B --> D["语义解码器"]
-    C --> E("k 个行为码")
-    D --> F("k 个语义码")
-    E --> G["2k 个码按置信度排序"]:::key
+    subgraph DualTok["离线双源层级 k-means 编号"]
+        DIN("128 维 DIN 行为嵌入") --> HKM1["H-KM（k = 256）"]
+        ST5("128 维 Sentence-T5 嵌入") --> HKM2["H-KM（k = 256）"]
+        HKM1 --> BCode("行为树编码")
+        HKM2 --> SCode("语义树编码")
+    end
+    subgraph TwoStream["双流协同生成架构"]
+        A("用户交互历史") --> B["共享编码器"]
+        B --> C["行为解码器"]:::key
+        B --> D["语义解码器"]:::key
+        L1{{"GCT：仅正例摘要 token 蒸馏（Eq. 3）"}}:::key -.-> C
+        L1 -.-> D
+        DIN -.-> L1
+        ST5 -.-> L1
+        L2{{"STT：掩码行为码重建"}}:::key -.-> C
+        D -.-> L2
+    end
+    C --> E("Top-k 行为码")
+    D --> F("Top-k 语义码")
+    E --> G["2k 个候选码按置信度排序"]:::key
     F --> G
-    G --> H("物品")
-    L1{{"GCT：摘要 token 蒸馏"}} -.-> C
-    L1 -.-> D
-    L2{{"STT：遮盖码重建"}} -.-> C
+    G --> H("Top-k 推荐物品")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 行为码与语义码
 
-行为编码器是预训练的 DIN，语义编码器是 Sentence-T5，隐藏维度为 128（Sec. 4.1）。层级 k-means（簇数 256）把每个嵌入变成码（Sec. 3.3，Sec. 4.1）。
+EAGER 分别用预训练 DIN 提取 128 维行为嵌入，用 Sentence-T5 提取 128 维文本语义嵌入（Sec. 4.1）。两路嵌入各自通过分支数 $`k = 256`$ 的层级 k-means（`Dual H-KM`）递归聚类，直至每个叶节点仅含单个物品，为每个物品生成独立的行为码与语义码（Sec. 3.3，Sec. 4.1）。
 
 #### 全局对比任务
 
-每一路的摘要 token 向该路的预训练物品嵌入蒸馏，用只含正例的对比度量，不用 InfoNCE（Sec. 3.4，Eq. 3）。
+在全局对比任务（GCT）中，两个解码器各自在序列末尾附加摘要 token，并采用无需负采样的纯正例余弦距离度量（替代 InfoNCE），将摘要隐状态向该流冻结的预训练物品嵌入（DIN 或 Sentence-T5）蒸馏对齐（Sec. 3.4，Eq. 3）。
 
 #### 语义引导迁移任务
 
-语义全局特征用来重建被遮盖的行为码，再加一个识别目标训练相关性分类器（Sec. 3.5）。
+语义引导迁移任务（STT）利用语义流的全局特征去重建被随机掩码的行为码 token，并配合二分类相关性判别器，在不混淆两套码本的前提下将语义先验迁移至行为解码流（Sec. 3.5）。
 
 #### 置信度排序
 
-每个解码器返回 $`k`$ 个码，$`2k`$ 个预测按对数概率排序（Sec. 3.6）。
+推理阶段，行为解码器与语义解码器分别束搜索返回 $`k`$ 条候选编码，再按序列对数概率计算的置信度对合并后的 $`2k`$ 个预测统一排序（Sec. 3.6）。
 
-> "With the 2*k prediction codes, we calculate the log probabilities over the codes as the confidence score of each prediction, which is similar to the perplexity used in the language model and the lower value indicates more confidence."（Sec. 3.6）（用 2k 个预测码的对数概率作置信度，类似困惑度，越低越可信。）
+> "With the 2*k prediction codes, we calculate the log probabilities over the codes as the confidence score of each prediction, which is similar to the perplexity used in the language model and the lower value indicates more confidence."（Sec. 3.6）
 
 ---
 
@@ -109,13 +130,13 @@ flowchart LR
 
 </details>
 
-- 主实验：EAGER 在四个公开基准上好于已有方法（Abstract）。
-- 消融：去掉全局对比任务（GCT）比去掉语义引导迁移任务（STT）下降更多（Sec. 4.3，Table 3）。
+- 主实验对比：在 5-core 过滤的 Beauty（22,363 用户 / 12,101 物品）、Sports and Outdoors（35,598 / 18,357）、Toys and Games（19,412 / 11,924）与 Yelp（30,431 / 20,033）四个基准上，EAGER 在 Recall@5/10/20 与 NDCG@5/10/20 上全面优于序列推荐、树模型与生成式基线（Abstract，Table 1，Table 2）。
+- 关键模块消融：移除双流生成架构（TSG）造成的指标滑坡最大，移除全局对比任务（GCT）的损失大于移除语义引导迁移任务（STT）（Sec. 4.3，Table 3）。
 
-  > "Removing GCT leads to more performance drops than removing STT, suggesting that global information distillation of the inter-code is slightly more important than the knowledge flow between the intra-code."（Sec. 4.3）（GCT 比 STT 稍重要。）
+  > "Removing GCT leads to more performance drops than removing STT, suggesting that global information distillation of the inter-code is slightly more important than the knowledge flow between the intra-code."（Sec. 4.3）
 
-- 视觉特征：在 Yelp 上，用 ViT-B 提取物品封面特征，得到一组视觉语义码（Sec. 4.4，Table 4）。
-- 推理速度：在 Beauty 上取 top-k 5、束宽 100，RecForest 每个样本 0.0499 s，DIN 0.2349 s（Table 6）。
+- 视觉模态扩展：在 Yelp 上使用 ViT-B 提取物品封面视觉特征构建视觉语义编码流，同样优于单流基线（Sec. 4.4，Table 4）。
+- 推理速度对比：在 Beauty 上取 top-$`k = 5`$、束宽 100 时，EAGER 单样本耗时 0.0325 s，对应 TIGER 为 0.0281 s、RecForest 为 0.0499 s、DIN 全库打分为 0.2349 s（Table 6）。
 
 ---
 
@@ -123,8 +144,9 @@ flowchart LR
 
 **Our analysis.**
 
-- 两套码都来自冻结的编码器和离线聚类。由此推断，加入新物品要重跑两个编码器和聚类。
-- CoST 用对比目标训练码（`C-RQ`）；EAGER 的 `Dual H-KM` 码固定不变，对比项加在生成器一侧。
+- 行为树和语义树均依赖冻结的上游编码器与精确到单物品叶节点的离线层级 k-means，物品库更新时需重跑双路编码与聚类树。
+- 直接按序列对数概率合并两个解码器的 top-$`k`$ 候选列表，隐含假设行为解码器与语义解码器的输出概率尺度一致（Sec. 3.6）。
+- CoST 在编号器内部引入对比学习目标（`C-RQ`）；EAGER 则保持 `Dual H-KM` 离散码固定，在 `Dual Enc-Dec` 生成器侧施加全局对比蒸馏（`GCT`）与跨流掩码重建（`STT`）。
 
 ---
 
@@ -133,19 +155,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["EAGER"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["SEATER"]
-    P -->|alternative| C["LMIndexer"]
-    P -->|alternative| D["CoST"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"替代方案"| B["SEATER"]
+    P -->|"替代方案"| C["LMIndexer"]
+    P -->|"替代方案"| D["CoST"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER decodes one content-based semantic ID; EAGER decodes behavior and semantic hierarchical k-means codes with two decoders and merges them by confidence.
-  - 出处：EAGER v2, baselines: https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1; Table 2: https://arxiv.org/html/2406.14017v2#S3.T2; speed comparison in Table 6: https://arxiv.org/html/2406.14017v2#S4.T6.
+  - 出处：EAGER v2, baselines: [S4.I6.i1.p1](https://arxiv.org/html/2406.14017v2#S4.I6.i1.p1); Table 2: [S3.T2](https://arxiv.org/html/2406.14017v2#S3.T2); speed comparison in Table 6: [S4.T6](https://arxiv.org/html/2406.14017v2#S4.T6).
 - **替代方案** · [SEATER](seater.md): SEATER also uses tree-structured identifiers for generative retrieval; EAGER builds separate behavior and semantic trees and aligns them with contrastive and transfer tasks.
-  - 出处：EAGER v2, Section 1 cites SEATER among generative recommenders: https://arxiv.org/html/2406.14017v2#S1.p2; not a baseline in Table 2.
+  - 出处：EAGER v2, Section 1 cites SEATER among generative recommenders: [S1.p2](https://arxiv.org/html/2406.14017v2#S1.p2); not a baseline in Table 2.
 - **替代方案** · [LMIndexer](lmindexer.md): LMIndexer learns semantic IDs from text with a language model; EAGER keeps fixed k-means codes from pre-trained behavior and semantic encoders.
-  - 出处：EAGER v2, Section 2 cites LMIndexer among semantic indexing methods: https://arxiv.org/html/2406.14017v2#S2.p2; not a baseline in Table 2.
+  - 出处：EAGER v2, Section 2 cites LMIndexer among semantic indexing methods: [S2.p2](https://arxiv.org/html/2406.14017v2#S2.p2); not a baseline in Table 2.
 - **替代方案** · [CoST](cost.md): CoST learns RQ codes with a contrastive objective, whereas EAGER clusters frozen embeddings and adds contrastive learning on the generator side.
-  - 出处：EAGER v2, Section 2 cites CoST: https://arxiv.org/html/2406.14017v2#S2.p2. CoST v2, Section 2 in turn cites EAGER as a hierarchical k-means tokenizer: https://arxiv.org/html/2404.14774v2#S2.p2.
+  - 出处：EAGER v2, Section 2 cites CoST: [S2.p2](https://arxiv.org/html/2406.14017v2#S2.p2). CoST v2, Section 2 in turn cites EAGER as a hierarchical k-means tokenizer: [S2.p2](https://arxiv.org/html/2404.14774v2#S2.p2).
 
 [查看同格全部论文](../../../README.zh.md#i--backbone)

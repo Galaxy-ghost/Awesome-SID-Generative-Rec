@@ -1,26 +1,32 @@
 # Tlow
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tlow.md)
+
 | **Title** | *Flow-based Item Tokenizer for Recommendation* |
 | :-- | :-- |
 | **Authors** | Li et al. |
 | **Venue** | CIKM’26 Applied |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2608.24176) · [Code](https://github.com/wjjln/Tlow) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/tlow.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2608.24176) · [Code](https://github.com/wjjln/Tlow) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Flow+PQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Rel.MSE"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Flow+PQ`: Flow-based representation transformation followed by product quantization.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Rel.MSE`: Multi-token prediction jointly optimized with a mean-squared-error objective on relations.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Tlow"]
-    P -->|predecessor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ETEGRec"]
+    P -->|"predecessor"| A["RPG"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [RPG](rpg.md): Supplies the parallel prediction setup and the rerun controlled baseline.
-  - Source: Tlow v1, Section 3.1.4: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1.
+  - Source: Tlow v1, Section 3.1.4: [S3.SS1.SSS4.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1).
 - **Competitor** · [TIGER](tiger.md): Autoregressive RQ-VAE comparator against independent flow-space tokenization.
-  - Source: Tlow v1, Introduction and Section 3.1.2: https://arxiv.org/html/2608.24176v1#S1.p2; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1.
+  - Source: Tlow v1, Introduction and Section 3.1.2: [S1.p2](https://arxiv.org/html/2608.24176v1#S1.p2); [S3.SS1.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1).
 - **Competitor** · [ETEGRec](etegrec.md): Included tokenizer comparator; general baseline scores are reused from the RPG paper.
-  - Source: Tlow v1, Sections 3.1.2/3.1.4 and Table 2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1; https://arxiv.org/html/2608.24176v1#S3.T2.
+  - Source: Tlow v1, Sections 3.1.2/3.1.4 and Table 2: [S3.SS1.SSS2.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1); [S3.SS1.SSS4.p1](https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1); [S3.T2](https://arxiv.org/html/2608.24176v1#S3.T2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

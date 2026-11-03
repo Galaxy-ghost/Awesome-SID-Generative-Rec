@@ -1,24 +1,28 @@
 # PFA
 
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pfa.md)
+
 | **Title** | *Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhou et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.39273) · [Code](https://anonymous.4open.science/r/PFA-review-088D) · [Matrix](../../README.md#v--inference) · [中文](../zh/papers/pfa.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.39273) · [Code](https://anonymous.4open.science/r/PFA-review-088D) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>– / –"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `–`: Not reported in the paper.
 - `Enc-Dec`: Encoder-decoder.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -66,13 +70,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PFA"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["DualGR"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["DualGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the standard generative full-history baseline.
-  - Source: PFA v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S4.T3.
+  - Source: PFA v1, Section 4.1 and Table 3: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1); [S4.T3](https://arxiv.org/html/2610.39273v1#S4.T3).
 - **Competitor** · [DualGR](dualgr.md): DualGR retrieves coarse-SID history buckets; PFA shares and reuses an attention-derived history ranking.
-  - Source: PFA v1, Sections 4.1/5 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S5.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.39273v1#S4.T3.
+  - Source: PFA v1, Sections 4.1/5 and Table 3: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1); [S5.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.39273v1#S5.SS0.SSS0.Px2.p1); [S4.T3](https://arxiv.org/html/2610.39273v1#S4.T3).
 
 [View all papers in this cell](../../README.md#v--inference)

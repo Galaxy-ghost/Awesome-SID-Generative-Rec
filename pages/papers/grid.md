@@ -1,29 +1,35 @@
 # GRID
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/grid.md)
+
 | **Title** | *Generative Recommendation with Semantic IDs: A Practitioner's Handbook* |
 | :-- | :-- |
 | **Authors** | Ju et al. |
 | **Venue** | CIKM’25 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/grid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `R-KM`: Residual k-means.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
 > [!NOTE]
-> GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks.
+> GRID provides an open-source modular framework with swappable Semantic ID tokenizers, backbones, and decoding rules to ablate design choices on public benchmarks.
 
 ---
 
@@ -32,14 +38,16 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks. |
+| Key Contribution | GRID provides an open-source modular framework with swappable Semantic ID tokenizers, backbones, and decoding rules to ablate design choices on public benchmarks. |
 | Modified Stage | No single stage |
+| Key Findings | Across 5-seed ablations on Amazon Beauty, Sports, and Toys (Tables 1–8), GRID shows that encoder-decoder generators and sliding-window data augmentation drive accuracy while several compute-heavy defaults can be replaced with more efficient alternatives without losing performance (Sec. 5). |
+| Limitation | GRID ablates one design choice at a time around a fixed RK-Means $`(3, 256)`$ and Flan-T5-XL default without testing cross-component interactions, and does not report beam width or inference latency (Sec. 4.1). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Varied modeling techniques, hyperparameters, and experimental setups make direct comparisons between generative recommendation (GR) proposals difficult (Abstract). GRID gives these proposals one modular framework in which components can be swapped and ablated.
+Differences in tokenizers, backbones, hyperparameters, and evaluation splits make published generative recommendation (GR) results hard to compare directly (Abstract). GRID implements Semantic ID (SID) pipelines in one open modular codebase so practitioners can swap and ablate individual components under a single protocol.
 
 > "Our comprehensive experiments with GRID reveal that many overlooked architectural components in GR models with SIDs substantially impact performance." (Abstract)
 
@@ -51,30 +59,35 @@ Varied modeling techniques, hyperparameters, and experimental setups make direct
 
 ```mermaid
 flowchart LR
-    subgraph Tok["Tokenization phase"]
-        A("Item content") --> B["Semantic encoder (size varied)"]
-        B --> C["Tokenizer (L, W) varied"]
+    subgraph Tok["1. Modular Tokenization Phase"]
+        A("Item title, category, description, price") --> B["Semantic encoder size (Table 2)"]
+        B --> C["Tokenizer: RK-Means vs R-VQ vs RQ-VAE (Table 1)"]:::key
+        C --> D["Codebook L × W, e.g. 3 × 256 (Table 3)"]
+        D --> E{"SID conflict rule (Table 7)"}
+        E -->|appended digit or random pick| F("Discrete SIDs")
     end
-    subgraph Gen["Generation phase"]
-        D["User tokens, Enc-Dec vs Dec-only, augmentation, de-dup IDs"] --> E["Constrained or free beam"]
+    subgraph Gen["2. Modular Generation Phase"]
+        F --> G["User tokens + sliding-window augmentation (Tables 4, 6)"]
+        G --> H["Generator: Enc-Dec vs Dec-Only (Table 5)"]:::key
+        H --> I["KV-cached beam: constrained vs free-form (Table 8)"]
+        I --> J("Ranked top-K items")
     end
-    C --> F("SIDs") --> D
-    E --> G("Next item")
+    classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Tokenization then Generation
 
-GRID splits GR with Semantic IDs (SIDs) into a tokenization phase and a generation phase (Sec. 3.1).
+GRID decomposes SID-based generative recommendation into an offline item tokenization phase and an autoregressive sequence generation phase (Sec. 3.1).
 
 #### Tokenization Ablations
 
-The study varies the tokenizer algorithm, the size of the semantic encoder, and the number of residual layers $`L`$ and tokens per layer $`W`$ (Sec. 4.1).
+In the tokenization phase, GRID varies the quantization algorithm (`RK-Means`, `R-VQ`, and `RQ-VAE`), the pretrained semantic encoder scale, and the codebook depth $`L`$ and width $`W`$ around a fixed reference setup (Sec. 4.1, Tables 1–3).
 
 > "Unless otherwise noted, we use RK-Means with (L,W)=(3,256) and Flan-T5-XL." (Sec. 4.1)
 
 #### Generation Ablations
 
-The study varies the number of user tokens, encoder-decoder versus decoder-only, data augmentation, de-duplication IDs, and constrained versus unconstrained beam search (Sec. 4.2).
+In the generation phase, GRID ablates the number of hashed user tokens, encoder-decoder versus decoder-only backbones, sliding-window sequence augmentation, appended-digit versus random-pick collision handling, and Trie-constrained versus unconstrained beam search with KV caching (Sec. 4.2, Tables 4–8).
 
 ---
 
@@ -100,7 +113,8 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 
 </details>
 
-- Main finding: several components assumed essential, which often cost compute or engineering, can be replaced with more efficient alternatives without losing performance (Sec. 5).
+- Main finding: across 5-seed runs on 5-core Amazon Beauty, Sports, and Toys, several compute- or engineering-heavy components—including learned `RQ-VAE` over `RK-Means` and Trie-constrained beam search over unconstrained beam search—can be replaced with cheaper alternatives without hurting ranking metrics (Sec. 4.2, Sec. 5, Tables 1 and 8).
+- High-impact components: encoder-decoder backbones outperform decoder-only generators and sliding-window data augmentation consistently lifts Recall and NDCG across benchmarks (Sec. 5, Tables 5 and 6).
 
   > "Conversely, other, often overlooked design choices prove to be vital, such as encoder-decoder architectures and data augmentation." (Sec. 5)
 
@@ -110,8 +124,8 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 
 **Our analysis.**
 
-- The ablations change one component at a time against a default configuration (Sec. 4.1). This suggests that interactions between components are not covered.
-- TIGER uses `RQ-VAE` codes; GRID's default uses `R-KM` codes, the same tokenization as OneRec.
+- Varying one axis at a time against the fixed `RK-Means` $`(3, 256)`$ and Flan-T5-XL baseline (Sec. 4.1) suggests that interaction effects—such as whether constrained decoding matters more at smaller codebook widths—remain untested.
+- TIGER pairs `RQ-VAE` codes with an `Enc-Dec` generator; GRID adopts OneRec's `R-KM` (`RK-Means`) tokenizer as its benchmark default.
 
 ---
 
@@ -120,13 +134,17 @@ The study varies the number of user tokens, encoder-decoder versus decoder-only,
 ```mermaid
 flowchart LR
     P["GRID"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["OneRec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): TIGER's RQ-VAE tokenizer, user tokens, and appended-digit de-duplication are the components that GRID ablates in one open framework.
-  - Source: GRID v1, Section 4.1 on RQ-VAE as the TIGER default: https://arxiv.org/html/2507.22224v1#S4.SS1.p2; Table 4 (TIGER-style user tokens): https://arxiv.org/html/2507.22224v1#S4.T4; Section 4.2 de-duplication: https://arxiv.org/html/2507.22224v1#S4.SS2.p5.
+  - Source: GRID v1, Section 4.1 on RQ-VAE as the TIGER default: [S4.SS1.p2](https://arxiv.org/html/2507.22224v1#S4.SS1.p2); Table 4 (TIGER-style user tokens): [S4.T4](https://arxiv.org/html/2507.22224v1#S4.T4); Section 4.2 de-duplication: [S4.SS2.p5](https://arxiv.org/html/2507.22224v1#S4.SS2.p5).
 - **Predecessor** · [OneRec](onerec.md): GRID's default RK-Means tokenizer is taken from OneRec; GRID compares it with R-VQ and RQ-VAE.
-  - Source: GRID v1, Section 4 setup cites Deng et al. (2025) for RK-Means: https://arxiv.org/html/2507.22224v1#S4.p2; Table 1: https://arxiv.org/html/2507.22224v1#S3.T1.
+  - Source: GRID v1, Section 4 setup cites Deng et al. (2025) for RK-Means: [S4.p2](https://arxiv.org/html/2507.22224v1#S4.p2); Table 1: [S3.T1](https://arxiv.org/html/2507.22224v1#S3.T1).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

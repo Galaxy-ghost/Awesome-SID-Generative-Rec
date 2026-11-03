@@ -1,22 +1,27 @@
 # SST
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sst.md)
+
 | **Title** | *Rethinking Item Tokenization in Generative Recommenders: From Fixed Atoms to Semantic Subwords* |
 | :-- | :-- |
 | **Authors** | Miao et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2608.22734) · [Code](https://github.com/mxrcandy/Semantic-Subword-Tokenization) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/sst.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2608.22734) · [Code](https://github.com/mxrcandy/Semantic-Subword-Tokenization) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ+IST"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `RQ+IST`: Residual quantization combined with item-level subword tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SST"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): SST compresses TIGER-VAE/TIGER-KM histories while retaining fixed-length target SIDs.
-  - Source: SST v1, Sections 3.1.2/3.1.4 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
+  - Source: SST v1, Sections 3.1.2/3.1.4 and Table 1: [S3.SS1.SSS2.p2](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2); [S3.SS1.SSS4.p2](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS4.p2); [S3.T1](https://arxiv.org/html/2608.22734v1#S3.T1).
 - **Predecessor** · [LETTER](letter.md): LETTER is the collaborative-tokenization backbone used for the third SST configuration.
-  - Source: SST v1, Section 3.1.2 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.T1.
+  - Source: SST v1, Section 3.1.2 and Table 1: [S3.SS1.SSS2.p2](https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2); [S3.T1](https://arxiv.org/html/2608.22734v1#S3.T1).
 
 [View all papers in this cell](../../README.md#iii--tokenization)

@@ -1,25 +1,32 @@
 # OneRec-V2
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec-v2.md)
+
 | **Title** | *Technical Report* |
 | :-- | :-- |
 | **Authors** | Zhou et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.20900) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/onerec-v2.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2508.20900) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text+Img+CF†`: Text, image, and collaborative representations (inferred).
+- `R-KM†`: Residual k-means tokenization (inferred).
 - `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneRec-V2"]
-    P -->|alternative| A["TIGER"]
-    P -->|successor| B["OneRec-V2-Quantized"]
+    P -->|"alternative"| A["TIGER"]
+    P -->|"successor"| B["OneRec-V2-Quantized"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Alternative** · [TIGER](tiger.md): Earlier generative retrieval contrasts with V2's lazy-decoder compute allocation.
-  - Source: OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.20900v4#S1.p1; https://arxiv.org/html/2508.20900v4#S2.SS1.
+  - Source: OneRec-V2 v4, Introduction and Section 2.1, citing Rajput et al. (2023): [S1.p1](https://arxiv.org/html/2508.20900v4#S1.p1); [S2.SS1](https://arxiv.org/html/2508.20900v4#S2.SS1).
 - **Successor** · [OneRec-V2-Quantized](onerec-v2-quantized.md): Adds FP8 post-training quantization and an optimized inference stack.
-  - Source: Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: https://arxiv.org/html/2603.11486v1#S4.SS1.p1.
+  - Source: Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: [S4.SS1.p1](https://arxiv.org/html/2603.11486v1#S4.SS1.p1).
 
 [View all papers in this cell](../../README.md#v--backbone)

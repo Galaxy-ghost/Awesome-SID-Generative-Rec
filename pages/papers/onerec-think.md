@@ -1,22 +1,28 @@
 # OneRec-Think
 
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec-think.md)
+
 | **Title** | *In-text reasoning for generative recommendation* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) · [Matrix](../../README.md#iii--training) · [中文](../zh/papers/onerec-think.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text+Img+CF†`: Text, image, and collaborative representations (inferred).
+- `R-KM†`: Residual k-means tokenization (inferred).
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -36,14 +42,14 @@ flowchart LR
 | Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
 | Key Contribution | OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding, and a recommendation reward for multiple valid targets, instead of implicit prediction alone. |
 | Modified Stage | Training |
-| Key Findings | In the online A/B test on Kuaishou, the Think-Ahead deployment increases App Stay Time by 0.159% against the online model (Sec. 5.4.2, Table 3). |
-| Limitation | Multi-step reasoning conflicts with real-time latency requirements, so the full model runs only offline and a separate real-time OneRec model produces the last itemic token online (Sec. 4.4). |
+| Key Findings | In Kuaishou's online A/B test, Think-Ahead deployment raises App Stay Time by 0.159% over the production baseline while outperforming sequential and generative baselines on Amazon Beauty, Toys, and Sports (Sec. 5.2, Sec. 5.4.2, Tables 1 and 3). |
+| Limitation | Autoregressive chain-of-thought reasoning exceeds strict online latency budgets, forcing the full model to pre-compute prefixes offline while a separate real-time OneRec model completes the final token online (Sec. 4.4). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Generative recommenders such as OneRec predict item tokens directly and do not produce explicit, controllable reasoning (Abstract). OneRec-Think lets an LLM write a reasoning sequence and then the next itemic tokens in the same output.
+Direct SID generators such as OneRec emit item tokens without explicit intermediate reasoning, limiting interpretability and multi-step intent deduction (Abstract). OneRec-Think unifies natural-language chain-of-thought generation and hierarchical itemic token decoding inside a single autoregressive pass, paired with a split offline-online serving architecture.
 
 > "In contrast, we reformulate this task to unify reasoning and recommendation in a single autoregressive pass." (Sec. 3)
 
@@ -55,41 +61,47 @@ Generative recommenders such as OneRec predict item tokens directly and do not p
 
 ```mermaid
 flowchart LR
-    A["Itemic alignment: token warm-up, four tasks"] --> B["Reasoning activation SFT"]
-    B --> C["GRPO reasoning enhancement"]:::key
-    L1{{"Rollout-Beam reward"}} -.-> C
-    C --> D("Reasoning text")
-    D --> E("Itemic tokens")
+    subgraph Train["Three-Stage Alignment & Reasoning Pipeline"]
+        A("24,576 itemic tokens + text") --> W["Stage 1: embedding warm-up + 4-task CPT"]
+        W --> S["Stage 2: pruned-to-raw rationale SFT"]
+        S --> R["Stage 3: GRPO policy optimization"]:::key
+        S --> CB["Constrained beam rollout"]
+        CB --> L1{{"Rollout-Beam best prefix-match reward (Eq. 6)"}}:::key
+        L1 -.-> R
+    end
+    R --> CoT("Reasoning trace + first 2 itemic tokens")
+    CoT --> Online["Online real-time OneRec completes 3rd token"] --> Out("Served item")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Itemic Alignment
 
-Multi-task pre-training under next-token prediction teaches the LLM to read natural language and itemic tokens together (Sec. 4.1). The four tasks are interleaved user persona grounding, sequential preference modeling, itemic dense captioning, and general language modeling. A token warm-up substage first trains only the itemic token embeddings with the base LLM frozen, and then all parameters are trained jointly.
+Next-token continued pre-training bridges natural language and discrete itemic tokens across four tasks: interleaved user persona grounding, sequential preference modeling, itemic dense captioning, and general language modeling (Sec. 4.1). A token warm-up substage first updates only the new itemic embeddings with the LLM backbone frozen before unfreezing all parameters jointly.
 
 #### Reasoning Activation
 
-Industrial behavior sequences are noisy. Supervised fine-tuning first extracts reasoning trajectories from pruned user contexts and then uses them to guide rationale generation over the raw behavior data (Sec. 4.2). The rationale and the target item are trained with a joint likelihood.
+Because raw industrial interaction logs contain noisy clicks, supervised fine-tuning distills clean reasoning trajectories from pruned user histories and transfers them to supervise joint rationale-and-item likelihood over raw behavior sequences (Sec. 4.2).
 
 #### Reasoning Enhancement
 
-RL with GRPO refines the reasoning paths (Sec. 4.3). After each sampled rationale, a constrained beam generates candidates, and the reward is the best position-wise match between a candidate and the target itemic tokens (Eq. 6).
+GRPO reinforcement learning refines the generated rationales (Sec. 4.3). Conditioned on each sampled reasoning trace, constrained beam search rolls out candidate SIDs and scores the trace by the highest position-wise token match achieved within the beam against the ground-truth item (Eq. 6).
 
 > "To overcome this, we introduce the Rollout-Beam reward that evaluates reasoning capability by the model’s best achievable performance within a constrained beam." (Sec. 4.3)
 
 #### Think-Ahead Serving
 
-The full OneRec-Think model generates the reasoning path and the first two itemic tokens offline (Sec. 4.4).
+To meet production latency limits, the full OneRec-Think LLM runs asynchronously offline to generate the reasoning trace and the coarse first two itemic tokens, passing those prefixes to an online OneRec model that decodes the final fine-grained token in real time (Sec. 4.4).
 
 > "It utilizes the pre-generated item-tokens as a constrained prefix to rapidly produce the final itemic token." (Sec. 4.4)
 
 ```mermaid
 sequenceDiagram
-    participant Offline as OneRec-Think, offline
-    participant Online as Real-time OneRec, online
-    Offline->>Offline: reasoning path + first two itemic tokens
-    Offline->>Online: tokens as constrained prefix
-    Online->>Online: final itemic token
+    participant Offline as OneRec-Think (Qwen-8B, offline)
+    participant Cache as Prefix Cache
+    participant Online as Real-time OneRec (online)
+    Offline->>Cache: Generate CoT rationale + coarse tokens (c1, c2)
+    Cache->>Online: Constrained prefix (c1, c2) on user request
+    Online->>Online: Decode final itemic token c3 under real-time budget
 ```
 
 ---
@@ -116,8 +128,8 @@ sequenceDiagram
 
 </details>
 
-- Public benchmarks: OneRec-Think performs best on Amazon Beauty, Toys, and Sports against the baselines in Table 1 (Sec. 5.2).
-- Ablation: on Beauty, adding itemic alignment to the base model and then the reasoning mechanism both improve the recommendation metrics (Sec. 5.3, Table 2).
+- Public benchmarks: on Amazon Beauty, Toys, and Sports, OneRec-Think outperforms sequential and generative baselines across all Table 1 metrics (Sec. 5.2, Table 1).
+- Stage-wise ablation: on Beauty, adding four-task itemic alignment to the base LLM and subsequently enabling chain-of-thought reasoning + Rollout-Beam RL each yield monotonic ranking gains (Sec. 5.3, Table 2).
 
 ---
 
@@ -125,8 +137,8 @@ sequenceDiagram
 
 **Our analysis.**
 
-- OneRec uses an `Enc-Dec` generator trained with `NTP → DPO`; OneRec-Think uses a `Dec-Only` LLM trained with `NTP → RL` and generates reasoning before the item (`CoT`).
-- The online gain comes from a split system in which a different model produces the last token. This suggests that the measured effect mixes the offline reasoning with the online model's own updates.
+- OneRec trains a sparse-MoE `Enc-Dec` generator via `NTP → DPO` to emit sessions directly; OneRec-Think adapts a `Dec-Only` LLM via `NTP → RL` to emit natural-language `CoT` before the SID.
+- Because Think-Ahead serving delegates the final token to a separate online model, the online A/B lift reflects the joint system of offline coarse prefixing plus online real-time completion rather than standalone end-to-end LLM serving.
 
 ---
 
@@ -135,16 +147,20 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     P["OneRec-Think"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["LC-Rec"]
-    P -->|alternative| C["GRLM"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["LC-Rec"]
+    P -->|"alternative"| C["GRLM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates the next itemic tokens directly; OneRec-Think first generates interleaved text-and-item reasoning and is rewarded with a beam-based signal.
-  - Source: OneRec-Think v2, baselines: https://arxiv.org/html/2510.11639v2#S5.SS1.p2 and https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2510.11639v2#S4.T1.
+  - Source: OneRec-Think v2, baselines: [S5.SS1.p2](https://arxiv.org/html/2510.11639v2#S5.SS1.p2) and [A1.SS1.SSS0.Px1.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px1.p1); Table 1: [S4.T1](https://arxiv.org/html/2510.11639v2#S4.T1).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec aligns LLMs to item indices with auxiliary tasks; OneRec-Think adds itemic-textual alignment followed by reasoning activation and RL.
-  - Source: OneRec-Think v2, Section 3 and Appendix A.1 cite Zheng et al. (2024): https://arxiv.org/html/2510.11639v2#S3.SS0.SSS0.Px2.p2 and https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1; not a baseline in Table 1.
+  - Source: OneRec-Think v2, Section 3 and Appendix A.1 cite Zheng et al. (2024): [S3.SS0.SSS0.Px2.p2](https://arxiv.org/html/2510.11639v2#S3.SS0.SSS0.Px2.p2) and [A1.SS1.SSS0.Px2.p1](https://arxiv.org/html/2510.11639v2#A1.SS1.SSS0.Px2.p1); not a baseline in Table 1.
 - **Alternative** · [GRLM](grlm.md): GRLM later compares against OneRec-Think and replaces numeric itemic tokens with natural-language term IDs.
-  - Source: Evidence is from the later GRLM paper: LLM-based baselines and Table 2: https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1 and https://arxiv.org/html/2601.06798v1#S5.T2.
+  - Source: Evidence is from the later GRLM paper: LLM-based baselines and Table 2: [S4.I1.i3.p1](https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1) and [S5.T2](https://arxiv.org/html/2601.06798v1#S5.T2).
 
 [View all papers in this cell](../../README.md#iii--training)

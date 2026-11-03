@@ -1,22 +1,28 @@
 # DASO
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/daso.md)
+
 | **Title** | *Difficulty-Aware Semantic-ID Optimization for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Yu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2608.20611) · [Code](https://github.com/LucasXinYu/DASO) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/daso.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2608.20611) · [Code](https://github.com/LucasXinYu/DASO) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DASO"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|competitor| B["V-STAR"]
+    P -->|"predecessor"| A["MiniOneRec"]
+    P -->|"competitor"| B["V-STAR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies public SIDs and the baseline SFT-to-GRPO recipe.
-  - Source: DASO v1, Experimental Setup and Appendix C: https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p2; https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p4; https://arxiv.org/html/2608.20611v1#A3.SSx1.p2.
+  - Source: DASO v1, Experimental Setup and Appendix C: [Sx5.SSx1.p2](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p2); [Sx5.SSx1.p4](https://arxiv.org/html/2608.20611v1#Sx5.SSx1.p4); [A3.SSx1.p2](https://arxiv.org/html/2608.20611v1#A3.SSx1.p2).
 - **Competitor** · [V-STAR](v-star.md): V-STAR's Sibling-GRPO is a compared tree-structured training baseline.
-  - Source: DASO v1, Related Work and Appendix D: https://arxiv.org/html/2608.20611v1#Sx2.SSx2.p2; https://arxiv.org/html/2608.20611v1#A4.SSx3.p2.
+  - Source: DASO v1, Related Work and Appendix D: [Sx2.SSx2.p2](https://arxiv.org/html/2608.20611v1#Sx2.SSx2.p2); [A4.SSx3.p2](https://arxiv.org/html/2608.20611v1#A4.SSx3.p2).
 
 [View all papers in this cell](../../README.md#iv--training)

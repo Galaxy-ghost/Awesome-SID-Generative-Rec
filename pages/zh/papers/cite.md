@@ -1,25 +1,32 @@
 # CITE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cite.md) | 中文
+
 | **题目** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
 | :-- | :-- |
 | **作者** | Ma et al. |
-| **会议** | Electronics’26 |
-| **问题与阶段** | `I. 信息量` · `Inference` |
-| **链接** | [论文](https://doi.org/10.3390/electronics15204749) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cite.md) |
+| **发表** | Electronics’26 |
+| **问题与阶段** | `I. 信息量` · `推理（Inference）` |
+| **链接** | [论文](https://doi.org/10.3390/electronics15204749) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Discrim.`: Scores items; does not generate SIDs.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Par. OPQ`：并行优化乘积量化，生成无序多子空间码。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Discrim.`：判别式候选物品打分损失，不直接生成 SID。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CITE"]
-    P -->|predecessor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["VQ-Rec"]
+    P -->|"前序工作"| A["RPG"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [RPG](rpg.md): CITE adds transition scoring to a frozen reproduced RPG generator.
-  - 出处：Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. https://doi.org/10.3390/electronics15204749
+  - 出处：Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. [link](https://doi.org/10.3390/electronics15204749)
 - **同期对比** · [TIGER](tiger.md): Autoregressive semantic-ID baseline with published reference scores.
-  - 出处：Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
+  - 出处：Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. [link](https://doi.org/10.3390/electronics15204749)
 - **同期对比** · [VQ-Rec](vq-rec.md): Quantized-text recommendation reference in the main comparison.
-  - 出处：Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
+  - 出处：Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. [link](https://doi.org/10.3390/electronics15204749)
 
 [查看同格全部论文](../../../README.zh.md#i--inference)

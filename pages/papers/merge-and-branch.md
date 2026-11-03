@@ -1,22 +1,28 @@
 # Merge-and-Branch
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/merge-and-branch.md)
+
 | **Title** | *Merge and Branch: Efficient Tree-Structured Supervised Fine-Tuning of LLMs for Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.37973) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/merge-and-branch.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.37973) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Merge-and-Branch"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["EAGER-LLM"]
-    P -->|alternative| C["AtSpeed"]
+    P -->|"competitor"| A["LETTER"]
+    P -->|"competitor"| B["EAGER-LLM"]
+    P -->|"alternative"| C["AtSpeed"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [LETTER](letter.md): LETTER-TIGER is reproduced on Sports/Toys; its Beauty score comes from the original paper.
-  - Source: M&B v1, Appendix B.1: https://arxiv.org/html/2610.37973v1#A2.SS1.p1; https://arxiv.org/html/2610.37973v1#A2.SS1.p2.
+  - Source: M&B v1, Appendix B.1: [A2.SS1.p1](https://arxiv.org/html/2610.37973v1#A2.SS1.p1); [A2.SS1.p2](https://arxiv.org/html/2610.37973v1#A2.SS1.p2).
 - **Competitor** · [EAGER-LLM](eager-llm.md): EAGER-LLM is rerun on Toys; Beauty/Sports scores come from its original paper.
-  - Source: M&B v1, Appendix B.1: https://arxiv.org/html/2610.37973v1#A2.SS1.p1.
+  - Source: M&B v1, Appendix B.1: [A2.SS1.p1](https://arxiv.org/html/2610.37973v1#A2.SS1.p1).
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed uses tree masks for speculative beam verification; M&B shares history during training and decoding.
-  - Source: M&B v1, Section 2 and Table 1: https://arxiv.org/html/2610.37973v1#S2.SS0.SSS0.Px3.p1; https://arxiv.org/html/2610.37973v1#S2.T1.
+  - Source: M&B v1, Section 2 and Table 1: [S2.SS0.SSS0.Px3.p1](https://arxiv.org/html/2610.37973v1#S2.SS0.SSS0.Px3.p1); [S2.T1](https://arxiv.org/html/2610.37973v1#S2.T1).
 
 [View all papers in this cell](../../README.md#v--backbone)

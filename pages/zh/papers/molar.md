@@ -1,25 +1,30 @@
 # Molar
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/molar.md) | 中文
+
 | **题目** | *Multimodal llms with collaborative filtering alignment for enhanced sequential recommendation* |
 | :-- | :-- |
 | **作者** | Luo et al. |
-| **会议** | arXiv’24 |
-| **问题与阶段** | `I. 信息量` · `Representation` |
-| **链接** | [论文](https://arxiv.org/abs/2412.18176) · [代码](https://anonymous.4open.science/r/Molar-8B06/) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/molar.md) |
+| **发表** | arXiv’24 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **链接** | [论文](https://arxiv.org/abs/2412.18176) · [代码](https://anonymous.4open.science/r/Molar-8B06/) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>n/a / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>n/a"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>n/a / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `n/a`: Not applicable to this method.
-- `Dec-Only`: Decoder-only.
-- `Discrim.`: Scores items; does not generate SIDs.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Discrim.`：判别式候选物品打分损失，不直接生成 SID。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +37,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | Molar 用多模态 LLM 从文本与图像构建物品表示，并将用户表示与基于 ID 的协同过滤模型对齐，补足 LLM 推荐器缺失的协同信号。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 

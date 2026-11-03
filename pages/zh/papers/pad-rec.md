@@ -1,26 +1,32 @@
 # PAD-Rec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pad-rec.md) | 中文
+
 | **题目** | *Position-Aware Drafting for Inference Acceleration in LLM-Based Generative List-Wise Recommendation* |
 | :-- | :-- |
 | **作者** | Chen et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2604.27747) · [代码](https://github.com/Jiaju-Chen/PAD-Rec) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/pad-rec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2604.27747) · [代码](https://github.com/Jiaju-Chen/PAD-Rec) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP†"] --> I["Inference<br/>Spec. Dec."]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP†"] --> I["推理 Inference<br/>Spec. Dec."]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Spec. Dec.`: Speculative decoding.
+- `Text+SID`：稠密文本表征拼接离散语义 ID（稠密与生成式混合检索）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP†`：多任务下一 token 预测（由配置推断）。
+- `Spec. Dec.`：草稿模型与目标模型协同的投机解码（Speculative decoding）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | PAD-Rec 为投机解码的草稿模型加入门控的物品槽位嵌入与起草步位置嵌入，不再对所有 SID 草稿 token 做无差别处理。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PAD-Rec"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|predecessor| B["LETTER"]
-    P -->|alternative| C["AtSpeed"]
-    P -->|alternative| D["SpecGR"]
+    P -->|"前序工作"| A["LC-Rec"]
+    P -->|"前序工作"| B["LETTER"]
+    P -->|"替代方案"| C["AtSpeed"]
+    P -->|"替代方案"| D["SpecGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [LC-Rec](lc-rec.md): PAD-Rec accelerates a list-wise LC-Rec target model with speculative decoding, adding item and step position embeddings to the draft head.
-  - 出处：PAD-Rec v1, implementation on LC-Rec: https://arxiv.org/html/2604.27747v1#S5.SS1.SSS4.p1 and https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p5.
+  - 出处：PAD-Rec v1, implementation on LC-Rec: [S5.SS1.SSS4.p1](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS4.p1) and [S5.SS1.SSS1.p5](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p5).
 - **前序工作** · [LETTER](letter.md): PAD-Rec obtains its semantic IDs following LETTER's semantic-collaborative embeddings and RQ-VAE.
-  - 出处：PAD-Rec v1, Section 3.1 and Section 5.1 follow reference [40], LETTER: https://arxiv.org/html/2604.27747v1#S3.SS1.p3 and https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p3.
+  - 出处：PAD-Rec v1, Section 3.1 and Section 5.1 follow reference [40], LETTER: [S3.SS1.p3](https://arxiv.org/html/2604.27747v1#S3.SS1.p3) and [S5.SS1.SSS1.p3](https://arxiv.org/html/2604.27747v1#S5.SS1.SSS1.p3).
 - **替代方案** · [AtSpeed](atspeed.md): AtSpeed also accelerates LLM-based generative recommendation with speculative decoding; PAD-Rec targets list-wise generation with position-aware drafts.
-  - 出处：PAD-Rec v1, Sections 1 and 2.3 cite AtSpeed: https://arxiv.org/html/2604.27747v1#S1.p2 and https://arxiv.org/html/2604.27747v1#S2.SS3.p1; not a baseline in Table 2.
+  - 出处：PAD-Rec v1, Sections 1 and 2.3 cite AtSpeed: [S1.p2](https://arxiv.org/html/2604.27747v1#S1.p2) and [S2.SS3.p1](https://arxiv.org/html/2604.27747v1#S2.SS3.p1); not a baseline in Table 2.
 - **替代方案** · [SpecGR](specgr.md): SpecGR uses speculative generation for inductive recommendation, while PAD-Rec speeds up decoding without changing the target model's outputs.
-  - 出处：PAD-Rec v1, Section 2.3: https://arxiv.org/html/2604.27747v1#S2.SS3.p1.
+  - 出处：PAD-Rec v1, Section 2.3: [S2.SS3.p1](https://arxiv.org/html/2604.27747v1#S2.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--inference)

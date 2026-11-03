@@ -16,15 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'LLM-based generative recommendation reads long, text-rich interaction histories but generates only short semantic
-  identifiers (SIDs). This asymmetry makes supervised fine-tuning inefficient: encoding the history is expensive, yet each
-  history usually provides supervision for only one target. We present Merge and Branch (M&B) to reduce input cost and learn
-  more from each encoded history. Merge compresses each historical item''s SID and text into a small number of learned tokens.
-  Branch uses the compressed history to predict multiple target SIDs. To share history computation while keeping these targets
-  independent, M&B organizes each example as a shallow, wide tree. We develop tree FlashAttention to execute this layout efficiently,
-  processing the shared history once and propagating gradients from every branch for end-to-end training. A tree-structured
-  key/value cache extends history sharing to constrained decoding. Experiments on public benchmarks show that M&B outperforms
-  strong recommendation baselines while substantially improving training and decoding efficiency.'
 tldr: Merge-and-Branch compresses each history item's Semantic ID and text into few learned tokens and predicts several target
   IDs from one shared history in a tree layout, reducing fine-tuning cost.
 tldr_zh: Merge-and-Branch 将每个历史物品的 SID 与文本压缩为少量可学习 token，并以树状布局从共享历史同时预测多个目标 ID，降低微调开销。

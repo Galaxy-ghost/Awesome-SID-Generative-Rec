@@ -16,7 +16,6 @@ tokenizer: –
 objective: NTP
 inference: –
 poi: false
-summary: 文本/图像用Qwen-VL-32B编码，再跨国i2i sampled softmax对齐注入行为；动态属性仅混合筛选不计SID输入。
 tldr: CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution,
   so knowledge transfers at the data level and not only through shared parameters.
 tldr_zh: CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。

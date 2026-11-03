@@ -16,8 +16,6 @@ tokenizer: Fixed†
 objective: NTP + Aux.
 inference: C-Beam
 poi: false
-summary: 'Abstract: "a seesaw phenomenon in multi-business scenarios"; "a unified SID space causes". Candidates: VI / II (rule:
-  judged by the abstract''s complaint first).'
 tldr: MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation,
   to avoid a seesaw between businesses that share one ID space.
 tldr_zh: MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。

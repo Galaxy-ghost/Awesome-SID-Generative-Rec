@@ -16,10 +16,17 @@ tokenizer: Fixed
 objective: NTP → DPO
 inference: Beam
 poi: true
-summary: 'Abstract: "how to make full use of geographic information"; "how to balance multiple objectives, including user
-  interests, the distance between user and stores, and some other business objectives". Three designs fix I (geo-aware SID,
-  geo-aware self-attention, neighbor-aware prompt) against two rewards for IV. The complaints fit the six problems, so the
-  paper is not in the top block (unlike OneRec).'
+also:
+- problem: I
+  stage: Backbone
+  quote: (2) geo-aware self-attention in the encoder leverages both video location similarity and user's real-time location,
+    and (3) neighbor-aware prompt captures rich context information surrounding users for generation
+  where: '2508.14646v1 Abstract；设计在 #S2.SS3、#S2.SS4'
+- problem: IV
+  stage: Training
+  quote: The second challenge is how to balance multiple objectives, including user interests, the distance between user and
+    stores, and some other business objectives.
+  where: '2508.14646v1 Abstract；设计（地理奖励、GMV 奖励）在 #S2.SS5'
 tldr: OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization,
   encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 tldr_zh: OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。

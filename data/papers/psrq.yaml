@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Discrim.
 inference: Scoring
 poi: false
-summary: 'Abstract: "intra-modal semantic degradation"; "inter-modal modeling gaps".'
 tldr: PSRQ generates modality-specific and modality-joint Semantic IDs that preserve prefix semantic features and models music
   interests with multi-codebook cross-attention, to reduce semantic drift in residual quantization.
 tldr_zh: PSRQ 生成保留前缀语义特征的模态特定与模态联合 SID，并用多码本交叉注意力建模音乐兴趣，减轻残差量化中的语义漂移。

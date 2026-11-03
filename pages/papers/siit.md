@@ -1,22 +1,28 @@
 # SIIT
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/siit.md)
+
 | **Title** | *Enhancing item tokenization for generative recommendation through self-improvement* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | arXiv’24 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2412.17171) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/siit.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2412.17171) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Self-Imp."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Self-Imp.`: Self-improving tokenization refined iteratively from the generator's learned representations.
 - `Enc-Dec`: Encoder-decoder.
 - `Altern.`: Tokenizer and generator are updated in turns.
 - `Multi-task NTP`: The same NTP loss over several tasks.
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SIIT"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["CID"]
-    P -->|predecessor| D["LC-Rec"]
+    P -->|"competitor"| A["LETTER"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["CID"]
+    P -->|"predecessor"| D["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [LETTER](letter.md): LETTER fixes its regularized RQ-VAE identifiers before generator training; SIIT starts from such identifiers and lets the LLM regenerate them iteratively with alignment tasks.
-  - Source: SIIT v1, advanced-tokenization baselines and initializer: https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; data from LETTER: https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Table 2: https://arxiv.org/html/2412.17171v1#S4.T2.
+  - Source: SIIT v1, advanced-tokenization baselines and initializer: [S4.I3.i3.p1](https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1); data from LETTER: [S4.SS1.SSS1.p1](https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1); Table 2: [S4.T2](https://arxiv.org/html/2412.17171v1#S4.T2).
 - **Competitor** · [TIGER](tiger.md): TIGER's RQ-VAE codes are both a baseline and one of SIIT's initializations, which SIIT then refines.
-  - Source: SIIT v1, https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; Tables 2 and 4: https://arxiv.org/html/2412.17171v1#S4.T2 and https://arxiv.org/html/2412.17171v1#S4.T4.
+  - Source: SIIT v1, [S4.I3.i3.p1](https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1); Tables 2 and 4: [S4.T2](https://arxiv.org/html/2412.17171v1#S4.T2) and [S4.T4](https://arxiv.org/html/2412.17171v1#S4.T4).
 - **Competitor** · [CID](cid.md): CID's spectral-clustering IDs (and the simple TID/SID variants) are baselines and an initializer; SIIT replaces fixed IDs with model-generated ones.
-  - Source: SIIT v1, baselines: https://arxiv.org/html/2412.17171v1#S4.I3.i2.p1 and https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1; Table 2: https://arxiv.org/html/2412.17171v1#S4.T2.
+  - Source: SIIT v1, baselines: [S4.I3.i2.p1](https://arxiv.org/html/2412.17171v1#S4.I3.i2.p1) and [S4.I3.i3.p1](https://arxiv.org/html/2412.17171v1#S4.I3.i3.p1); Table 2: [S4.T2](https://arxiv.org/html/2412.17171v1#S4.T2).
 - **Predecessor** · [LC-Rec](lc-rec.md): SIIT follows LC-Rec's preprocessing and its idea of aligning LLMs to item identifiers through auxiliary tasks.
-  - Source: SIIT v1, Section 4.1.1 follows Zheng et al. (2024): https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Section 5.2 related work: https://arxiv.org/html/2412.17171v1#S5.SS2.p1.
+  - Source: SIIT v1, Section 4.1.1 follows Zheng et al. (2024): [S4.SS1.SSS1.p1](https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1); Section 5.2 related work: [S5.SS2.p1](https://arxiv.org/html/2412.17171v1#S5.SS2.p1).
 
 [View all papers in this cell](../../README.md#iii--tokenization)

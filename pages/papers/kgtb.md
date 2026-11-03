@@ -1,19 +1,23 @@
 # KGTB
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/kgtb.md)
+
 | **Title** | *Knowledge Graph Tokenization for Behavior-Aware Generative Next POI Recommendation* |
 | :-- | :-- |
 | **Authors** | Sun et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2509.12350) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/kgtb.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2509.12350) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Attr+Geo+CF"] --> T["Tokenization<br/>KG-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
@@ -22,7 +26,6 @@ flowchart LR
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -70,10 +73,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["KGTB"]
-    P -->|competitor| A["GNPR-SID"]
+    P -->|"competitor"| A["GNPR-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
-  - Source: KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2; https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.
+  - Source: KGTB v1, Cold-Start Scenario and Tables 2/4/5: [Sx5.SSx3.SSSx2.p1](https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1); [Sx5.T2](https://arxiv.org/html/2509.12350v1#Sx5.T2); [Sx5.T4](https://arxiv.org/html/2509.12350v1#Sx5.T4); [Sx5.T5](https://arxiv.org/html/2509.12350v1#Sx5.T5).
 
 [View all papers in this cell](../../README.md#i--tokenization)

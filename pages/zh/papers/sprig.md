@@ -1,28 +1,32 @@
 # SPRIG
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sprig.md) | 中文
+
 | **题目** | *Semantic-ID-enhanced Paths for Knowledge Graph-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Hangoebl et al. |
-| **会议** | CIKM’26 Short |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2610.06590) · [代码](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/sprig.md) |
+| **发表** | CIKM’26 Short |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.06590) · [代码](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Div. Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text / Audio"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Div. Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Text / Audio`: Text or audio representations in different branches or evaluation settings.
-- `R-KM`: Residual k-means.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Div. Beam`: Beam search with an explicit diversity mechanism.
+- `Text / Audio`：不同分支或评测设置下分别采用文本或音频表征。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Div. Beam`：引入显式多样性重排或惩罚项的束搜索。
 
 ### TL;DR
 
@@ -35,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | SPRIG 在以内容派生 SID 结尾的知识图谱路径上训练生成器，将关系结构锚定与共享物品 token 结合起来，替代绑定嵌入表的不透明 token。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -70,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPRIG"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["GRID"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["GRID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): SPRIG adopts TIGER's content-derived SID formulation and evaluates its GRID variant.
-  - 出处：SPRIG v1, Sec.1 and Table2: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S4.T2.
+  - 出处：SPRIG v1, Sec.1 and Table2: [S1.p2](https://arxiv.org/html/2610.06590v1#S1.p2); [S4.T2](https://arxiv.org/html/2610.06590v1#S4.T2).
 - **前序工作** · [GRID](grid.md): GRID supplies the residual K-means quantization choice.
-  - 出处：SPRIG v1, Sec.1 and Sec.3: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S3.p4.
+  - 出处：SPRIG v1, Sec.1 and Sec.3: [S1.p2](https://arxiv.org/html/2610.06590v1#S1.p2); [S3.p4](https://arxiv.org/html/2610.06590v1#S3.p4).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

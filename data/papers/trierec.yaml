@@ -16,7 +16,6 @@ tokenizer: Fixed†
 objective: NTP†
 inference: C-Beam
 poi: false
-summary: 将 SID 的 trie 深度、祖先路径和 token 对关系写入生成器位置编码与注意力，改善其读取和建模层次 SID 的能力。
 tldr: TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer
   generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.
 tldr_zh: TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。

@@ -1,27 +1,31 @@
 # HASTE
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/haste.md)
+
 | **Title** | *Hierarchical and Attribute-aware Supervision for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Shukla et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.17368) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/haste.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.17368) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text / MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
 - `Text / MM`: Text-only or multimodal representations in different configurations.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HASTE"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["IDGenRec"]
-    P -->|alternative| C["LC-Rec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["IDGenRec"]
+    P -->|"alternative"| C["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER supplies the SID construction and a baseline.
-  - Source: https://arxiv.org/html/2610.17368v1#S6.p3 ; #S9.SS1.SSS4.p1.
+  - Source: [S6.p3](https://arxiv.org/html/2610.17368v1#S6.p3) ; #S9.SS1.SSS4.p1.
 - **Competitor** · [IDGenRec](idgenrec.md): IDGenRec generates textual identifiers; HASTE supervises quantized SIDs.
-  - Source: https://arxiv.org/html/2610.17368v1#S2.p2 ; #S6.p3.
+  - Source: [S2.p2](https://arxiv.org/html/2610.17368v1#S2.p2) ; #S6.p3.
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec adds alignment tasks; HASTE changes losses.
-  - Source: https://arxiv.org/html/2610.17368v1#S2.p2.
+  - Source: [S2.p2](https://arxiv.org/html/2610.17368v1#S2.p2).
 
 [View all papers in this cell](../../README.md#iv--training)

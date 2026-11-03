@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: MTP + Aux.
 inference: Scoring
 poi: false
-summary: 提出离散 SimHash SID 的完整生成推荐新设计。
 tldr: FLASH pairs training-free SimHash Semantic IDs with parallel decoding and explicit semantic alignment, attributing the
   weakness of hashing to autoregressive decoding and rigid discretization rather than hashing itself.
 tldr_zh: FLASH 将哈希方法的劣势归因于自回归解码和刚性离散化，把免训练的 SimHash SID 与并行解码和显式语义对齐结合起来。

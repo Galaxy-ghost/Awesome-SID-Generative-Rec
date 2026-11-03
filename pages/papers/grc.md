@@ -1,23 +1,27 @@
 # GRC
 
+[← Problem × Stage Matrix](../../README.md#iii--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/grc.md)
+
 | **Title** | *Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Xing et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.23639) · [Matrix](../../README.md#iii--inference) · [中文](../zh/papers/grc.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.23639) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>GRC+Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `–`: Not reported in the paper.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GRC"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["COBRA"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): GRC augments TIGER with structured reflection-correction supervision, followed by GRPO optimization.
-  - Source: GRC v1, Section 5.2 and Table 1: https://arxiv.org/html/2602.23639v1#S5.SS2.p1; https://arxiv.org/html/2602.23639v1#S5.T1.
+  - Source: GRC v1, Section 5.2 and Table 1: [S5.SS2.p1](https://arxiv.org/html/2602.23639v1#S5.SS2.p1); [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1).
 - **Competitor** · [COBRA](cobra.md): COBRA supplements token generation with dense retrieval; GRC explicitly detects and corrects token trajectories.
-  - Source: GRC v1, Sections 2.1/5.1 and Table 1: https://arxiv.org/html/2602.23639v1#S2.SS1.p1; https://arxiv.org/html/2602.23639v1#S5.SS1.p2; https://arxiv.org/html/2602.23639v1#S5.T1.
+  - Source: GRC v1, Sections 2.1/5.1 and Table 1: [S2.SS1.p1](https://arxiv.org/html/2602.23639v1#S2.SS1.p1); [S5.SS1.p2](https://arxiv.org/html/2602.23639v1#S5.SS1.p2); [S5.T1](https://arxiv.org/html/2602.23639v1#S5.T1).
 
 [View all papers in this cell](../../README.md#iii--inference)

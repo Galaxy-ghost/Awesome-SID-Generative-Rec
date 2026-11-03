@@ -1,31 +1,37 @@
 # ChronoID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/chronoid.md) | 中文
+
 | **题目** | *Infusing Explicit Temporal Signals into Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Nian et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2606.14260) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/chronoid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.14260) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Time"] --> T["Tokenization<br/>RQ-VAE / Par. VQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Time"] --> T["编号 Tokenization<br/>RQ-VAE / Par. VQ"] --> B["骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam†"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Text+Time`: Text representations combined with interaction timestamps.
-- `RQ-VAE / Par. VQ`: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+Time`：文本表征结合交互时间戳信息。
+- `RQ-VAE / Par. VQ`：不同配置下分别采用层级 RQ-VAE 或并行向量量化。
+- `Dec-Only†`：仅解码器自回归架构（由配置推断）。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam†`：自回归束搜索（由配置推断）。
 
 ### TL;DR
 
 > [!NOTE]
-> ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。
+> ChronoID 系统评测显式时间编码、融合与量化方式对时间感知 SID 的影响，替代忽略时间动态的静态 SID。
 
 ---
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| 核心贡献 | ChronoID 是面向时间感知 SID 学习的框架与基准，系统考察显式时间信号进入 SID 的位置与方式，区别于忽略时间变化的既有方法。 |
-| 主要改动阶段 | Tokenization |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
+| 核心贡献 | ChronoID 系统评测显式时间编码、融合与量化方式对时间感知 SID 的影响，替代忽略时间动态的静态 SID。 |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ChronoID"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TokenRec"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|predecessor| D["TIGER"]
+    P -->|"前序工作"| A["MiniOneRec"]
+    P -->|"前序工作"| B["TokenRec"]
+    P -->|"同期对比"| C["ActionPiece"]
+    P -->|"前序工作"| D["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [MiniOneRec](minionerec.md): ChronoID extends MiniOneRec's time-agnostic tokenization with explicit temporal signals.
-  - 出处：ChronoID v1, Introduction/Section 3 and Table 1: https://arxiv.org/html/2606.14260v1#S1.p2 ; https://arxiv.org/html/2606.14260v1#S3.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - 出处：ChronoID v1, Introduction/Section 3 and Table 1: [S1.p2](https://arxiv.org/html/2606.14260v1#S1.p2) ; [S3.p1](https://arxiv.org/html/2606.14260v1#S3.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **前序工作** · [TokenRec](tokenrec.md): ChronoID adopts parallel quantization as one temporal-tokenization design.
-  - 出处：ChronoID v1, Sections 3.3/6 and Table 1: https://arxiv.org/html/2606.14260v1#S3.SS3.p3 ; https://arxiv.org/html/2606.14260v1#S6.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - 出处：ChronoID v1, Sections 3.3/6 and Table 1: [S3.SS3.p3](https://arxiv.org/html/2606.14260v1#S3.SS3.p3) ; [S6.p1](https://arxiv.org/html/2606.14260v1#S6.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece is a generative recommendation baseline in the temporal benchmark.
-  - 出处：ChronoID v1, Section 5.1 and Table 1: https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1 ; https://arxiv.org/html/2606.14260v1#S5.T1.
+  - 出处：ChronoID v1, Section 5.1 and Table 1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2606.14260v1#S5.SS1.SSS0.Px1.p1) ; [S5.T1](https://arxiv.org/html/2606.14260v1#S5.T1).
 - **前序工作** · [TIGER](tiger.md): ChronoID extends the static residual-quantization paradigm with time-aware IDs.
-  - 出处：ChronoID v1, Section 6: https://arxiv.org/html/2606.14260v1#S6.p1.
+  - 出处：ChronoID v1, Section 6: [S6.p1](https://arxiv.org/html/2606.14260v1#S6.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

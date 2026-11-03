@@ -16,7 +16,6 @@ tokenizer: Joint
 objective: NTP + Aux.
 inference: Beam
 poi: false
-summary: 直接修改 SID 分配并用于自回归生成器的概念遗忘，不是单纯外部排序证据。
 tldr: TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative
   Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
 tldr_zh: TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。

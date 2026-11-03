@@ -2,9 +2,9 @@
 
 [English](../../index/poi.md) | 中文
 
-16 篇论文面向 POI、本地生活或空间推荐。加粗的是各论文主要改动的阶段。
+共 16 篇论文面向 POI、本地生活或地理空间推荐。加粗项标出各篇主要改动的流程阶段。
 
-| 论文 | 会议 | 问题 × 阶段 | 流程 |
+| 论文 | 发表 | 问题 × 阶段 | 五阶段配置 |
 | :-- | :-- | :-- | :-- |
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr+Geo+CF` → **`RQ-VAE`** → `Dec-Only` → `Fixed / NTP` → `–` |
 | [KGTB](../papers/kgtb.md) | arXiv’25 | I × Tokenization | `Attr+Geo+CF` → **`KG-RQ`** → `Dec-Only` → `Fixed / Multi-task NTP` → `–` |

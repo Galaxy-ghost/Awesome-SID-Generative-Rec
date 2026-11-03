@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: –
 poi: false
-summary: 给完整 SID 生成模型提供持续更新编号器的新设计，在 TIGER 与 LC-Rec 验证。
 tldr: DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict
   code reassignment, to update Semantic IDs without full retraining or mass ID changes.
 tldr_zh: DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。

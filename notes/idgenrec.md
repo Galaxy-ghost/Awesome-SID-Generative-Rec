@@ -1,10 +1,11 @@
 ## At a Glance
 
-Limitation: Item IDs change whenever the ID generator is updated, so the prefix tree of valid IDs must be rebuilt during training (Sec. 2.4).
+Key Findings: Pre-trained on a 19-dataset corpus and evaluated zero-shot on 6 unseen datasets across platforms, IDGenRec matches or surpasses supervised traditional recommenders while outperforming sequential baselines in standard evaluation (Abstract, Tables 4 and 7).
+Limitation: Updating the textual ID generator changes item IDs across the catalog, requiring periodic prefix-tree reconstruction during alternating training (Sec. 2.4).
 
 ### 1. Why This Paper Matters
 
-The authors state that generative recommendation struggles to encode items in the text-to-text framework with concise yet meaningful IDs (Abstract). Because IDGenRec's IDs are plain words, user histories become platform-agnostic text, which opens zero-shot transfer (Abstract).
+Out-of-vocabulary numeric codebooks tie a generative recommender to a single catalog, whereas raw item titles are long and noisy (Abstract). IDGenRec trains a T5 ID generator to compress item metadata into short, unique natural-language token sequences (`LLM-Vocab`), turning user histories into platform-agnostic text that transfers zero-shot across domains.
 
 > "We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously, ensuring that their learned knowledge is well-aligned." (Sec. 1)
 
@@ -12,51 +13,48 @@ The authors state that generative recommendation struggles to encode items in th
 
 ```mermaid
 flowchart LR
-    A("Plain-text item information") --> B["T5 ID generator"]:::key
-    B --> C("Textual IDs")
-    C --> D["T5 base recommender"]
-    D --> E["Prefix tree of all IDs"]
-    E --> F("Item")
-    D -.->|alternate training| B
+    subgraph Uniq["Collision-Free Diverse Beam Decoding"]
+        A("Item metadata text") --> IG["T5 ID generator"]:::key
+        IG --> DB["Diverse beam search (penalty p)"]
+        DB --> Dup{"Duplicate ID?"}
+        Dup -->|no| UID("Unique natural-language ID")
+        Dup -->|yes| Pen["Raise penalty p + 1"]
+        Pen --> Lim{"p reached 10?"}
+        Lim -->|no| DB
+        Lim -->|yes| Ext["Extend token length cap"] --> DB
+    end
+    UID --> Trie["Catalog prefix tree"]
+    UID --> Rec["T5 base recommender"]
+    Trie --> CDec["Prefix-constrained decoding"]
+    Rec --> CDec --> Out("Target item")
+    Rec -.->|asynchronous alternating loop| IG
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### ID Generator
 
-The generator reads plain-text item information, such as title, category, price, description, creation time, popularity, and location (Sec. 2.2). T5 is the backbone of both models (Sec. 2.6).
+Both the ID generator and the base recommender use T5 backbones (Sec. 2.6). The ID generator reads plain-text item metadata—title, category, price, description, creation time, popularity, and location—and decodes concise word-piece identifiers from the native vocabulary (Sec. 2.2).
 
 #### Unique ID Generation
 
-The generator keeps generating until each item has a unique ID (Sec. 2.3).
+Diverse beam search enforces strict catalog uniqueness at generation time: whenever a candidate ID collides with an existing item, the diversity penalty increments by 1 up to 10, after which the maximum token length is extended until a unique ID emerges (Sec. 2.3, Sec. 3.2).
 
 > "If a duplicate is detected, the algorithm increases the diversity penalty in the beam search." (Sec. 2.3)
 
-The penalty grows by 1 per iteration, and if it reaches 10 without a unique ID, the length limit is extended (Sec. 3.2).
-
-```mermaid
-flowchart LR
-    A["Generate IDs by beam search"] --> B{"Duplicates?"}
-    B -->|no| C("Unique IDs")
-    B -->|yes| D["Diversity penalty + 1"]
-    D --> E{"Penalty reached 10?"}
-    E -->|no| A
-    E -->|yes| F["Extend length limit"] --> A
-```
-
 #### Base Recommender
 
-The base recommender decodes the target ID under a prefix-tree constraint (Sec. 2.4).
+The base T5 recommender formats user histories as sequences of textual item IDs and decodes the next item's ID over a prefix tree storing all valid catalog identifiers, alternating updates asynchronously with the ID generator (Sec. 1, Sec. 2.4).
 
 > "To ensure that the decoded ID corresponds to an actual existing item, we adopt a constrained sequence decoding strategy (De Cao et al., 2020). More specifically, a prefix tree is used to store all generated candidate IDs." (Sec. 2.4)
 
 ### 3. Experimental Findings
 
-- Standard setting: IDGenRec reports better performance than existing models in sequential recommendation (Abstract).
-- Zero-shot setting: a model trained on 19 datasets and tested on 6 unseen datasets from other platforms performs comparably to or better than some supervised traditional recommenders (Abstract).
+- Standard sequential setting: IDGenRec outperforms traditional and P5-family sequential baselines on standard benchmarks (Abstract, Table 4).
+- Zero-shot cross-platform transfer: trained once on 19 datasets and tested directly on 6 unseen datasets including cross-platform benchmarks, IDGenRec matches or outperforms supervised traditional recommenders trained in-domain (Abstract, Table 7).
 
 ### 4. Limitations & Critical Analysis
 
 **Our analysis.**
 
-- Unique IDs come from raising the diversity penalty and the length limit. This suggests that IDs of similar items can be pushed apart by arbitrary words.
-- CID builds `Spectral Clus.` IDs from `CF` signals and keeps them fixed; IDGenRec builds `LLM-Vocab` IDs from text and updates them.
+- Enforcing uniqueness by raising beam diversity penalties and extending token length suggests that dense clusters of similar items receive increasingly divergent surface words in later iterations.
+- CID constructs fixed `Spectral Clus.` numeric IDs from `CF` graphs; IDGenRec generates `LLM-Vocab` natural-language IDs from item text and updates them in alternation (`Altern.`).

@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: GRC+Beam
 poi: false
-summary: §5.1仅称Qwen3-8B encode item embeddings，未列构码原始输入模态；没有点名继承文本输入配置，不能把常见Qwen文本编码经验写Text†。
 tldr: GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the
   trajectory with GRPO, and allocates correction budget by entropy during beam search.
 tldr_zh: GRC 将单遍解码扩展为语义 token 空间中的“生成-反思-修正”流程，用 GRPO 训练轨迹，并在束搜索中按熵分配修正预算。

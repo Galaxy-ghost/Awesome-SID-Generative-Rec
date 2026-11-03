@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "a framework designed to adapt pre-trained LLMs for industry-scale recommendation tasks".'
 tldr: PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training
   on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.
 tldr_zh: PLUM 通过 SID 编号、领域数据持续预训练与生成式检索微调将预训练 LLM 适配到工业推荐系统，替代大规模嵌入表。

@@ -1,26 +1,31 @@
 # DiGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/digr.md) | 中文
+
 | **题目** | *From Token Generation to Item Ranking: Direct Generative Recommendation with Semantic IDs* |
 | :-- | :-- |
 | **作者** | Zhao et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2602.07847) · [代码](https://anonymous.4open.science/r/SimGR-C408/) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/digr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.07847) · [代码](https://anonymous.4open.science/r/SimGR-C408/) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Discrim.`: Scores items; does not generate SIDs.
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Discrim.`：判别式候选物品打分损失，不直接生成 SID。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -33,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | DiGR 论证逐 token 解码不增加排序表达力后，将 SID token 作为物品表示并用单一物品级函数直接打分，不再逐位生成 token。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DiGR"]
-    P -->|competitor| A["LC-Rec"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["TIGER"]
+    P -->|"同期对比"| A["LC-Rec"]
+    P -->|"同期对比"| B["RPG"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [LC-Rec](lc-rec.md): Matched-backbone baseline and exhaustive-ranking reference.
-  - 出处：https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2 ; https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1
+  - 出处：[Sx5.SSx1.SSSx4.p2](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx4.p2) ; [Sx5.SSx3.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx3.p1)
 - **同期对比** · [RPG](rpg.md): Parallel SID-generation baseline in the main comparison.
-  - 出处：https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T2
+  - 出处：[Sx5.SSx1.SSSx2.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1) ; [Sx5.T2](https://arxiv.org/html/2602.07847v2#Sx5.T2)
 - **同期对比** · [TIGER](tiger.md): Autoregressive SID-generation baseline in the main comparison.
-  - 出处：https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T2
+  - 出处：[Sx5.SSx1.SSSx2.p1](https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1) ; [Sx5.T2](https://arxiv.org/html/2602.07847v2#Sx5.T2)
 
 [查看同格全部论文](../../../README.zh.md#iv--backbone)

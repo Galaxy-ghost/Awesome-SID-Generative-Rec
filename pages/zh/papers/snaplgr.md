@@ -1,26 +1,32 @@
 # SnapLGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/snaplgr.md) | 中文
+
 | **题目** | *LLM-Based Generative Retrieval for Snapchat Content Recommendation* |
 | :-- | :-- |
 | **作者** | Collins et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2607.28895) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/snaplgr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2607.28895) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+PPR"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE+PPR"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `RQ-VAE+PPR`: Residual-quantized variational codes informed by Personalized PageRank signals.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE+PPR`：融合个性化 PageRank 图传播信号的 RQ-VAE。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | SnapLGR 用个性化 PageRank 对比学习从多模态嵌入构建 SID，经持续预训练奠定表示后再微调 LLM，并用 TensorRT-LLM 部署束搜索。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SnapLGR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["PLUM"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["PLUM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): SnapLGR replaces the deployed TIGER-style T5 retriever with a grounded decoder-only LLM.
-  - 出处：SnapLGR v4, Sections 4.1/4.5: https://arxiv.org/html/2607.28895v4#S4.SS1.p3; https://arxiv.org/html/2607.28895v4#S4.SS5.p1.
+  - 出处：SnapLGR v4, Sections 4.1/4.5: [S4.SS1.p3](https://arxiv.org/html/2607.28895v4#S4.SS1.p3); [S4.SS5.p1](https://arxiv.org/html/2607.28895v4#S4.SS5.p1).
 - **前序工作** · [PLUM](plum.md): SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
-  - 出处：SnapLGR v4, Sections 2.1/5: https://arxiv.org/html/2607.28895v4#S2.SS1.p6; https://arxiv.org/html/2607.28895v4#S5.p2.
+  - 出处：SnapLGR v4, Sections 2.1/5: [S2.SS1.p6](https://arxiv.org/html/2607.28895v4#S2.SS1.p6); [S5.p2](https://arxiv.org/html/2607.28895v4#S5.p2).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

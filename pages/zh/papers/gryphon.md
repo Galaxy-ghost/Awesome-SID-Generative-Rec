@@ -1,27 +1,31 @@
 # Gryphon
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gryphon.md) | 中文
+
 | **题目** | *A Unified Architecture for Semantic-ID Generation and Item-Level Scoring in Industrial Recommendations* |
 | :-- | :-- |
 | **作者** | Tikhonovich et al. |
-| **会议** | CIKM’26 Short |
-| **问题与阶段** | `IV. 实用目标` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2606.08604) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/gryphon.md) |
+| **发表** | CIKM’26 Short |
+| **问题与阶段** | `IV. 实用目标` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.08604) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
-- `R-KM`: Residual k-means.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Rank`: NTP plus a ranking loss.
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Rank`：下一 token 预测结合显式排序损失。
+- `Hybrid`：结合生成式 SID 解码与稠密/共现检索的混合召回。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | Gryphon 在编码器-解码器生成器中加入联合训练的物品级打分模块，将生成的 SID 解析为具体物品并重新打分，替代按 token 似然排序。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Gryphon"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["QuaSID"]
-    P -->|alternative| C["PROMISE"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["QuaSID"]
+    P -->|"替代方案"| C["PROMISE"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER's extra collision-resolution token motivates the resolved-GR baseline; Gryphon instead scores colliding items separately.
-  - 出处：Gryphon v1, Sections 2.2/4.1.2: https://arxiv.org/html/2606.08604v1#S2.SS2.p1; https://arxiv.org/html/2606.08604v1#S4.SS1.SSS2.p3.
+  - 出处：Gryphon v1, Sections 2.2/4.1.2: [S2.SS2.p1](https://arxiv.org/html/2606.08604v1#S2.SS2.p1); [S4.SS1.SSS2.p3](https://arxiv.org/html/2606.08604v1#S4.SS1.SSS2.p3).
 - **替代方案** · [QuaSID](quasid.md): Cited collision-focused SID-learning work; Gryphon retains shared SIDs and distinguishes their items through ILSM.
-  - 出处：Gryphon v1, Sections 1/3.2, citing Hu et al. (2026): https://arxiv.org/html/2606.08604v1#S1.SS0.SSS0.Px2.p2; https://arxiv.org/html/2606.08604v1#S3.SS2.p2.
+  - 出处：Gryphon v1, Sections 1/3.2, citing Hu et al. (2026): [S1.SS0.SSS0.Px2.p2](https://arxiv.org/html/2606.08604v1#S1.SS0.SSS0.Px2.p2); [S3.SS2.p2](https://arxiv.org/html/2606.08604v1#S3.SS2.p2).
 - **替代方案** · [PROMISE](promise.md): Cited for autoregressive prefix errors; Gryphon addresses candidate ordering with jointly trained item-level scoring.
-  - 出处：Gryphon v1, Section 2.3, citing Guo et al. (2026): https://arxiv.org/html/2606.08604v1#S2.SS3.p1.
+  - 出处：Gryphon v1, Section 2.3, citing Guo et al. (2026): [S2.SS3.p1](https://arxiv.org/html/2606.08604v1#S2.SS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#iv--backbone)

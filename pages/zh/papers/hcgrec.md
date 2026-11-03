@@ -1,27 +1,31 @@
 # HCGRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/hcgrec.md) | 中文
+
 | **题目** | *Learning from Unreachable Rewards: Hint-Conditioned Reinforcement Learning for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
-| **会议** | CIKM’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2608.11980) · [代码](https://github.com/WncFht/GRec) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/hcgrec.md) |
+| **发表** | CIKM’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2608.11980) · [代码](https://github.com/WncFht/GRec) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
-- `RQ`: Residual quantization.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → RL`：先进行下一 token 预测微调，再执行强化学习（如 GRPO、GBPO 等）。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | HCGRec 在 GRPO 采样全部偏离正确物品时提供最小目标前缀提示，对提示 token 用监督损失、对采样后缀用 GRPO，从零奖励组中恢复训练信号。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HCGRec"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|competitor| B["MiniOneRec"]
-    P -->|competitor| C["TIGER"]
+    P -->|"前序工作"| A["LC-Rec"]
+    P -->|"同期对比"| B["MiniOneRec"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [LC-Rec](lc-rec.md): LC-Rec provides the supervised semantic-alignment checkpoint in this pipeline.
-  - 出处：HCGRec v2, Section 4.2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2.
+  - 出处：HCGRec v2, Section 4.2: [S4.SS2.p2](https://arxiv.org/html/2608.11980v2#S4.SS2.p2).
 - **同期对比** · [MiniOneRec](minionerec.md): MiniOneRec shares the SFT checkpoint and controlled post-training budget.
-  - 出处：HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p1; https://arxiv.org/html/2608.11980v2#S4.T2.
+  - 出处：HCGRec v2, Section 4.2 and Table 2: [S4.SS2.p1](https://arxiv.org/html/2608.11980v2#S4.SS2.p1); [S4.T2](https://arxiv.org/html/2608.11980v2#S4.T2).
 - **同期对比** · [TIGER](tiger.md): TIGER is the semantic-ID generative baseline in the main comparison.
-  - 出处：HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2; https://arxiv.org/html/2608.11980v2#S4.T2.
+  - 出处：HCGRec v2, Section 4.2 and Table 2: [S4.SS2.p2](https://arxiv.org/html/2608.11980v2#S4.SS2.p2); [S4.T2](https://arxiv.org/html/2608.11980v2#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

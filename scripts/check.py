@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """Validate all paper records and generated views:
-1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + 3 hard content rules)
+1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + bilingual descriptions + 3 hard content rules)
 2. Global uniqueness (file stem, id, name, links.arxiv)
 3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
 4. Relative Markdown links, reference definitions, and anchors across README.md, README.zh.md, CONTRIBUTING.md,
-   schema/README.md, notes/, notes/zh/, pages/papers/, pages/zh/papers/, pages/index/, pages/zh/index/, guides/,
-   comparisons/
+   CONTRIBUTING.zh.md, schema/README.md, notes/, notes/zh/, pages/papers/, pages/zh/papers/, pages/index/,
+   pages/zh/index/, guides/, comparisons/
+5. data/updates.yaml entries (date, change, change_zh, papers)
 6. No constraint-*.md or tension-*.md file anywhere in the repository
-5. data/updates.yaml entries (date, change, papers)
-7. Chinese notes sync: notes/<id>.md and notes/zh/<id>.md exist in pairs, with the same number of ### and #### headings,
-   every English quotation verbatim, and every English number
+7. Bilingual pairing & Chinese notes sync (modeled on @deepseek-ai/dsh): paired Markdown files share identical heading
+   level trees, fenced block counts, verbatim English quotations, and numbers, and match per-section SHA-256 hashes in
+   data/i18n.yaml (updated via --write-i18n)
 """
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -26,6 +28,9 @@ FENCE_RE = re.compile(r"^\s*```.*?^\s*```", re.S | re.M)
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
 RELATIONS = {"predecessor", "successor", "competitor", "alternative"}
+MODALITY_CONTENTS = {"single", "multi", "other"}
+VOCAB_MODALITY_CONTENTS = MODALITY_CONTENTS | {"unknown", "na"}
+AUX_SIGNALS = {"Geo", "Time", "SID"}
 
 
 def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) -> dict:
@@ -36,7 +41,32 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     ev_req = set(ev_item_schema["required"])
     ev_keys = list(ev_item_schema["properties"].keys())
     ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
-    ev_fields = allowed_keys - {"evidence", "tldr", "tldr_zh", "setup", "related", "setup_where"}
+    ev_fields = allowed_keys - {"also", "modality", "evidence", "tldr", "tldr_zh", "setup", "related", "setup_where"}
+
+    for sec, items in vocab.items():
+        for e in items:
+            if not e.get("description") or not e.get("description_zh"):
+                errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires both description and description_zh")
+            if sec == "representation":
+                mods = e.get("modality")
+                if not isinstance(mods, list) or not mods:
+                    errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r}): missing non-empty modality mapping")
+                    continue
+                for bi, br in enumerate(mods):
+                    if not isinstance(br, dict) or not ({"content", "cf"} <= set(br.keys()) <= {"content", "cf", "signals"}):
+                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid modality keys")
+                        continue
+                    ct, cf = br.get("content"), br.get("cf")
+                    if ct not in VOCAB_MODALITY_CONTENTS:
+                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid content={ct!r}")
+                    elif ct in MODALITY_CONTENTS and not isinstance(cf, bool):
+                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: cf must be boolean for content={ct!r}")
+                    elif ct in {"unknown", "na"} and cf is not None:
+                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: cf must be null for content={ct!r}")
+                    if "signals" in br:
+                        sigs = br["signals"]
+                        if not isinstance(sigs, list) or not sigs or len(sigs) != len(set(sigs)) or any(s not in AUX_SIGNALS for s in sigs):
+                            errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid signals={sigs!r}")
 
     vocab_sets = {
         "problem": {e["value"] for e in vocab["problem"]},
@@ -88,6 +118,52 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
             errors.append(f"[vocab] {p.name}: problem=psb requires stage=n/a")
         if rec.get("problem") != "psb" and rec.get("stage") == "n/a":
             errors.append(f"[vocab] {p.name}: problem={rec.get('problem')} cannot have stage=n/a")
+
+        if "also" in rec:
+            if rec.get("problem") == "psb":
+                errors.append(f"[also] {p.name}: problem=psb cannot have 'also'")
+            elif not isinstance(rec["also"], list):
+                errors.append(f"[also] {p.name}: also must be a list")
+            else:
+                valid_probs = vocab_sets["problem"] - {"psb"}
+                valid_stages = vocab_sets["stage"] - {"n/a"}
+                seen_also = set()
+                for idx, item in enumerate(rec["also"]):
+                    if not isinstance(item, dict) or not ({"quote", "where"} <= set(item.keys()) <= {"problem", "stage", "quote", "where"}) \
+                            or not ({"problem", "stage"} & set(item.keys())):
+                        errors.append(f"[also] {p.name}: also[{idx}] must have quote, where, at least one of problem/stage, and no other keys")
+                        continue
+                    if any(not isinstance(v, str) or not v.strip() for v in item.values()):
+                        errors.append(f"[also] {p.name}: also[{idx}] values must be non-empty strings")
+                        continue
+                    pr, stg = item.get("problem"), item.get("stage")
+                    if pr is not None and pr not in valid_probs:
+                        errors.append(f"[also] {p.name}: also[{idx}].problem={pr!r} not in allowed problems {sorted(valid_probs)}")
+                    if stg is not None and stg not in valid_stages:
+                        errors.append(f"[also] {p.name}: also[{idx}].stage={stg!r} not in allowed stages {sorted(valid_stages)}")
+                    pair = (pr, stg)
+                    if pair == (rec.get("problem"), rec.get("stage")) or pair == (rec.get("problem"), None) or pair == (None, rec.get("stage")):
+                        errors.append(f"[also] {p.name}: also[{idx}]={pair!r} duplicates primary cell ({rec.get('problem')!r}, {rec.get('stage')!r})")
+                    if pair in seen_also:
+                        errors.append(f"[also] {p.name}: duplicate also entry {pair!r}")
+                    seen_also.add(pair)
+
+        if "modality" in rec:
+            raw_mod = rec["modality"]
+            branches = raw_mod if isinstance(raw_mod, list) else [raw_mod]
+            if not branches or any(not isinstance(b, dict) for b in branches):
+                errors.append(f"[modality] {p.name}: modality must be an object or non-empty list of objects")
+            else:
+                for bi, br in enumerate(branches):
+                    if set(br.keys()) != {"content", "cf", "where"}:
+                        errors.append(f"[modality] {p.name}: modality[{bi}] must have exact keys content, cf, where")
+                        continue
+                    if br["content"] not in MODALITY_CONTENTS:
+                        errors.append(f"[modality] {p.name}: modality[{bi}].content={br['content']!r} must be in {sorted(MODALITY_CONTENTS)}")
+                    if not isinstance(br["cf"], bool):
+                        errors.append(f"[modality] {p.name}: modality[{bi}].cf must be boolean")
+                    if not isinstance(br["where"], str) or not br["where"].strip():
+                        errors.append(f"[modality] {p.name}: modality[{bi}].where must be a non-empty string")
 
         if "evidence" in rec:
             if not isinstance(rec["evidence"], list):
@@ -203,6 +279,7 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
         root / "README.md",
         root / "README.zh.md",
         root / "CONTRIBUTING.md",
+        root / "CONTRIBUTING.zh.md",
         root / "schema/README.md",
         *sorted((root / "notes").glob("*.md")),
         *sorted((root / "notes/zh").glob("*.md")),
@@ -219,7 +296,6 @@ def check_links_and_content_rules(root: Path, vocab: dict, errors: list):
             if f.endswith(".md") and f.startswith(("constraint-", "tension-")):
                 errors.append(f"[content-rule-2] forbidden page {(Path(d) / f).relative_to(root)}")
 
-    valid_prob_names = {e["name"] for e in vocab["problem"]}
     wrong_names = ["Information Loss", "Collision & Invalidity", "Alignment Gap", "Single-Point Utility"]
 
     headings_cache = {}
@@ -269,29 +345,126 @@ def body_text(txt: str) -> str:
     return re.sub(r"`[^`\n]*`", "", FENCE_RE.sub("", txt))
 
 
-def check_zh_notes(root: Path, errors: list):
-    """Each English note has a Chinese note that mirrors it: heading counts, verbatim quotations, and numbers."""
+def parse_section_blocks(txt: str) -> list:
+    """Split a Markdown document into (depth_tuple, slug_stack, prose_outside_fences) per heading section."""
+    sections = []
+    stack = []  # list of (depth, slug)
+    cur_lines = []
+    fence = False
+
+    def flush():
+        prose = re.sub(r"\s+", " ", "\n".join(cur_lines)).strip()
+        if stack or prose:
+            path = "/" + "/".join(s for _, s in stack) if stack else "/"
+            depths = tuple(d for d, _ in stack)
+            digest = hashlib.sha256(prose.encode("utf-8")).hexdigest()[:16]
+            sections.append((depths, path, digest))
+
+    for ln in txt.splitlines():
+        if re.match(r"^\s*```", ln):
+            fence = not fence
+            continue
+        if fence:
+            continue
+        hm = re.match(r"^(#{1,6})\s+(.+?)\s*$", ln)
+        if hm:
+            flush()
+            cur_lines = []
+            depth = len(hm.group(1))
+            slug = slugify_heading(hm.group(2))
+            while stack and stack[-1][0] >= depth:
+                stack.pop()
+            stack.append((depth, slug))
+        else:
+            cur_lines.append(ln)
+    flush()
+    return sections
+
+
+def bilingual_pairs(root: Path) -> list:
+    """Return ordered list of (rel_key, en_path, zh_path) for all hand-maintained bilingual Markdown pairs."""
+    pairs = [
+        ("CONTRIBUTING.md", root / "CONTRIBUTING.md", root / "CONTRIBUTING.zh.md"),
+        ("guides/start-here.md", root / "guides/start-here.md", root / "guides/start-here.zh.md"),
+    ]
     for ep in sorted((root / "notes").glob("*.md")):
-        if not (root / "notes/zh" / ep.name).exists():
-            errors.append(f"[sync] notes/{ep.name}: no Chinese note notes/zh/{ep.name}")
+        pairs.append((f"notes/{ep.name}", ep, root / "notes/zh" / ep.name))
+    return pairs
+
+
+def check_bilingual_sync(root: Path, errors: list, write_i18n: bool = False):
+    """Verify bilingual Markdown pairs (structure, quotations, numbers, and @deepseek-ai/dsh section hashes)."""
     for zp in sorted((root / "notes/zh").glob("*.md")):
-        ep = root / "notes" / zp.name
-        name = f"notes/zh/{zp.name}"
+        if not (root / "notes" / zp.name).exists():
+            errors.append(f"[sync] notes/zh/{zp.name}: no English note notes/{zp.name}")
+
+    computed_i18n = {}
+    for rel_key, ep, zp in bilingual_pairs(root):
         if not ep.exists():
-            errors.append(f"[sync] {name}: no English note notes/{zp.name}")
+            errors.append(f"[sync] {rel_key}: missing English file")
+            continue
+        if not zp.exists():
+            errors.append(f"[sync] {rel_key}: missing paired Chinese file {zp.relative_to(root)}")
             continue
         en, zh = ep.read_text(encoding="utf-8"), zp.read_text(encoding="utf-8")
+        zh_name = str(zp.relative_to(root))
+
         for depth in ("###", "####"):
             count = lambda t: len(re.findall(rf"^{depth}\s", FENCE_RE.sub("", t), re.M))
             if count(en) != count(zh):
-                errors.append(f"[sync] {name}: {count(zh)} '{depth}' headings, English has {count(en)}")
-        for q in dict.fromkeys(QUOTE_RE.findall(body_text(en))):
-            if q not in body_text(zh):
-                errors.append(f"[sync] {name}: missing quotation \"{q[:60]}\"")
-        zh_nums = set(NUMBER_RE.findall(zh))
-        missing = [x for x in dict.fromkeys(NUMBER_RE.findall(en)) if x not in zh_nums]
-        if missing:
-            errors.append(f"[sync] {name}: missing numbers {missing}")
+                errors.append(f"[sync] {zh_name}: {count(zh)} '{depth}' headings, English has {count(en)}")
+
+        if rel_key.startswith("notes/"):
+            for q in dict.fromkeys(QUOTE_RE.findall(body_text(en))):
+                if q not in body_text(zh):
+                    errors.append(f"[sync] {zh_name}: missing quotation \"{q[:60]}\"")
+            zh_nums = set(NUMBER_RE.findall(zh))
+            missing = [x for x in dict.fromkeys(NUMBER_RE.findall(en)) if x not in zh_nums]
+            if missing:
+                errors.append(f"[sync] {zh_name}: missing numbers {missing}")
+
+        en_secs = parse_section_blocks(en)
+        zh_secs = parse_section_blocks(zh)
+        if [d for d, _, _ in en_secs] != [d for d, _, _ in zh_secs]:
+            errors.append(f"[i18n] {rel_key}: heading hierarchy mismatch between English ({len(en_secs)} sections) "
+                          f"and Chinese ({len(zh_secs)} sections)")
+            continue
+        computed_i18n[rel_key] = {
+            path: {"en": en_hash, "zh": zh_hash}
+            for (_, path, en_hash), (_, _, zh_hash) in zip(en_secs, zh_secs)
+        }
+
+    i18n_path = root / "data/i18n.yaml"
+    if write_i18n:
+        header = (
+            "# Bilingual-pair consistency record (modeled on @deepseek-ai/dsh *.i18n.yaml):\n"
+            "# per paired Markdown document and heading section path, a 16-hex SHA-256 hash of its\n"
+            "# English and Chinese prose blocks outside fenced code blocks.\n"
+            "# After editing either side, update its counterpart and re-record with:\n"
+            "#   python3 scripts/check.py --write-i18n\n\n"
+        )
+        i18n_path.write_text(header + yaml.dump(computed_i18n, sort_keys=False, allow_unicode=True, width=120), encoding="utf-8")
+        print(f"Recorded bilingual section hashes for {len(computed_i18n)} document pairs into data/i18n.yaml.")
+        return
+
+    if not i18n_path.exists():
+        errors.append("[i18n] data/i18n.yaml missing; run `python3 scripts/check.py --write-i18n`")
+        return
+    recorded = yaml.safe_load(i18n_path.read_text(encoding="utf-8")) or {}
+    for rel_key, sec_map in computed_i18n.items():
+        rec_map = recorded.get(rel_key)
+        if not isinstance(rec_map, dict):
+            errors.append(f"[i18n] {rel_key}: missing from data/i18n.yaml (run `python3 scripts/check.py --write-i18n`)")
+            continue
+        if list(rec_map.keys()) != list(sec_map.keys()):
+            errors.append(f"[i18n] {rel_key}: section keys out of sync with data/i18n.yaml (run `python3 scripts/check.py --write-i18n`)")
+            continue
+        for sec_path, hashes in sec_map.items():
+            rec_h = rec_map.get(sec_path, {})
+            if rec_h.get("en") != hashes["en"] or rec_h.get("zh") != hashes["zh"]:
+                changed = [lang for lang in ("en", "zh") if rec_h.get(lang) != hashes[lang]]
+                errors.append(f"[i18n] {rel_key} ({sec_path}): {','.join(changed)} prose changed since last bilingual pairing record "
+                              "(update counterpart and run `python3 scripts/check.py --write-i18n`)")
 
 
 def check_updates(root: Path, records: dict, errors: list):
@@ -301,13 +474,14 @@ def check_updates(root: Path, records: dict, errors: list):
         errors.append("[updates] data/updates.yaml must exist and be a list")
         return
     for i, u in enumerate(ups):
-        if not isinstance(u, dict) or set(u) != {"date", "change", "papers"}:
-            errors.append(f"[updates] entry {i} must have exactly the keys date, change, papers")
+        if not isinstance(u, dict) or set(u) != {"date", "change", "change_zh", "papers"}:
+            errors.append(f"[updates] entry {i} must have exactly the keys date, change, change_zh, papers")
             continue
         if not isinstance(u["date"], str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", u["date"]):
             errors.append(f"[updates] entry {i}: date must be a 'YYYY-MM-DD' string")
-        if not isinstance(u["change"], str) or not u["change"].strip():
-            errors.append(f"[updates] entry {i}: change must be a non-empty string")
+        for ck in ("change", "change_zh"):
+            if not isinstance(u[ck], str) or not u[ck].strip():
+                errors.append(f"[updates] entry {i}: {ck} must be a non-empty string")
         if not isinstance(u["papers"], list) or any(x not in records for x in u["papers"]):
             errors.append(f"[updates] entry {i}: papers must be a list of existing record ids")
 
@@ -316,6 +490,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
     ap.add_argument("--table1", type=Path, nargs="+", help="External Table 1 source(s) (or TABLE1)")
+    ap.add_argument("--write-i18n", action="store_true", help="Record bilingual section hashes in data/i18n.yaml")
     args = ap.parse_args()
 
     schema = json.loads((args.root / "schema/paper.schema.json").read_text(encoding="utf-8"))
@@ -327,11 +502,13 @@ def main():
     table1_paths = args.table1 or [Path(x) for x in os.environ.get("TABLE1", "").split()]
     if table1_paths:
         check_table1_roundtrip(records, table1_paths, errors)
-    else:
+    elif not args.write_i18n:
         print("SKIP: external Table 1 round-trip (supply --table1 PATH... or TABLE1).")
+    check_bilingual_sync(args.root, errors, write_i18n=args.write_i18n)
+    if args.write_i18n and not errors:
+        return
     check_links_and_content_rules(args.root, vocab, errors)
     check_updates(args.root, records, errors)
-    check_zh_notes(args.root, errors)
 
     if errors:
         for e in errors:
@@ -341,7 +518,7 @@ def main():
 
     print(
         f"OK: {len(records)} records passed schema, vocab, uniqueness, "
-        f"relative link, updates, and Chinese notes sync checks."
+        f"relative link, updates, and bilingual pairing (data/i18n.yaml) checks."
         + (f" Table 1 round-trip ({len(records) * 8} cells) passed." if table1_paths else "")
     )
 

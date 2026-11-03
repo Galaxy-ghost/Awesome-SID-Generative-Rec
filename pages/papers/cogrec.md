@@ -1,22 +1,27 @@
 # CogRec
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cogrec.md)
+
 | **Title** | *Structure-Cognitive Fast-and-Slow Reasoning for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2607.24402) · [Code](https://github.com/caskcsg/CogRec) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/cogrec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2607.24402) · [Code](https://github.com/caskcsg/CogRec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM+Graph"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>CoT+C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `R-KM+Graph`: Residual k-means combined with a graph over semantic codes.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CogRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|competitor| C["EAGER"]
-    P -->|competitor| D["OneRec-Think"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    P -->|"competitor"| C["EAGER"]
+    P -->|"competitor"| D["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): Hierarchical SID recommendation provides the identifier-generation foundation; TIGER also appears in the broad baseline comparison.
-  - Source: https://arxiv.org/html/2607.24402v1#S2.p2 ; #S4.SS2.p3
+  - Source: [S2.p2](https://arxiv.org/html/2607.24402v1#S2.p2) ; #S4.SS2.p3
 - **Competitor** · [LETTER](letter.md): Non-reasoning tokenization baseline; scores are standalone LETTER results reported by RAGR, not LETTER+RAGR.
-  - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p3
+  - Source: [S4.SS2.p3](https://arxiv.org/html/2607.24402v1#S4.SS2.p3)
 - **Competitor** · [EAGER](eager.md): Behavioral/semantic generative baseline in the broad cross-method comparison.
-  - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p3
+  - Source: [S4.SS2.p3](https://arxiv.org/html/2607.24402v1#S4.SS2.p3)
 - **Competitor** · [OneRec-Think](onerec-think.md): Textual rationale before item generation contrasts with SID-grounded routing; original scores enter Table 3 and reproduced Direct/CoT branches enter controlled comparisons.
-  - Source: https://arxiv.org/html/2607.24402v1#S4.SS2.p4 ; #S4.SS5.p1
+  - Source: [S4.SS2.p4](https://arxiv.org/html/2607.24402v1#S4.SS2.p4) ; #S4.SS5.p1
 
 [View all papers in this cell](../../README.md#iii--tokenization)

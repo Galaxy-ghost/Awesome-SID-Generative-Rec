@@ -1,26 +1,31 @@
 # OneChord
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onechord.md)
+
 | **Title** | *Distill What You Rank, Recommend in One Pass* |
 | :-- | :-- |
 | **Authors** | Li et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/onechord.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Next-item CE + Cons. KD + Rank KD"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Next-item CE + Cons. KD + Rank KD`: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneChord"]
-    P -->|competitor| A["SPRINT"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["LLaDA-Rec"]
+    P -->|"competitor"| A["SPRINT"]
+    P -->|"competitor"| B["RPG"]
+    P -->|"competitor"| C["LLaDA-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [SPRINT](sprint.md): SPRINT adds normalized SID/item evidence; OneChord learns and distills the fusion.
-  - Source: OneChord v1, Section 2 and Table 1: https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.25805v1#S3.T1.
+  - Source: OneChord v1, Section 2 and Table 1: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.25805v1#S2.SS0.SSS0.Px2.p1); [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1).
 - **Competitor** · [RPG](rpg.md): RPG is compared for full-catalog accuracy and complete-test generation cost.
-  - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
+  - Source: OneChord v1, Tables 1-2: [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1); [S3.T2](https://arxiv.org/html/2610.25805v1#S3.T2).
 - **Competitor** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
-  - Source: OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.
+  - Source: OneChord v1, Tables 1-2: [S3.T1](https://arxiv.org/html/2610.25805v1#S3.T1); [S3.T2](https://arxiv.org/html/2610.25805v1#S3.T2).
 
 [View all papers in this cell](../../README.md#iv--training)

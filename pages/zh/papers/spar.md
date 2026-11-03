@@ -1,27 +1,31 @@
 # SPAR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/spar.md) | 中文
+
 | **题目** | *Enhancing Industrial-Scale Generative POI Recommendation via Real-World Spatial Perception* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Representation` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2609.02062) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/spar.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2609.02062) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Geo"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `R-KM`: Residual k-means.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
-- `–`: Not reported in the paper.
+- `Text+Geo`：文本表征结合地理空间特征。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
 
 ### TL;DR
 
@@ -34,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | SPAR 将正弦坐标嵌入融入 SID 构建，在地理空间数据上持续预训练 LLM，并在行为微调期间将该知识固定为冻结任务向量。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPAR"]
-    P -->|competitor| A["GNPR-SID"]
-    P -->|competitor| B["PLUM"]
-    P -->|competitor| C["TIGER"]
+    P -->|"同期对比"| A["GNPR-SID"]
+    P -->|"同期对比"| B["PLUM"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [GNPR-SID](gnpr-sid.md): SID POI baseline; SPAR explicitly injects and preserves urban spatial knowledge.
-  - 出处：SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.
+  - 出处：SPAR v2, Section 5.1 and Tables 2/3: [S5.SS1.p3](https://arxiv.org/html/2609.02062v2#S5.SS1.p3); [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2); [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3).
 - **同期对比** · [PLUM](plum.md): Generic SID-CPT-SFT comparator against SPAR's spatially specialized stages.
-  - 出处：SPAR v2, Section 5.2.2: https://arxiv.org/html/2609.02062v2#S5.SS2.SSS2.p2.
+  - 出处：SPAR v2, Section 5.2.2: [S5.SS2.SSS2.p2](https://arxiv.org/html/2609.02062v2#S5.SS2.SSS2.p2).
 - **同期对比** · [TIGER](tiger.md): Evaluated with four-level SIDs including a final disambiguation index.
-  - 出处：SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.SS1.p4; https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.
+  - 出处：SPAR v2, Section 5.1 and Tables 2/3: [S5.SS1.p3](https://arxiv.org/html/2609.02062v2#S5.SS1.p3); [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4); [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2); [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3).
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

@@ -1,24 +1,30 @@
 # OneMall
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onemall.md) | 中文
+
 | **题目** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
-| **会议** | CIKM’26 |
+| **发表** | CIKM’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2601.21770) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/onemall.md) |
+| **链接** | [论文](https://arxiv.org/abs/2601.21770) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>R-KM+FSQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["Inference<br/>Beam"]
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>R-KM+FSQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `R-KM+FSQ`: Residual k-means combined with finite scalar quantization.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `(NTP + Ctr.) → RL`: Joint next-token and contrastive training, followed by a reinforcement-learning stage; retained losses are specified per paper.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `R-KM+FSQ`：残差 k-means 结合有限标量量化（FSQ）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `(NTP + Ctr.) → RL`：先联合训练下一 token 预测与对比损失，再执行强化学习后训练。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -31,7 +37,7 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
 | 核心贡献 | OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。 |
 | 主要改动阶段 | 无单一阶段 |
 
@@ -66,13 +72,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneMall"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["OneRec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"前序工作"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is the equally sized encoder-decoder replay baseline.
-  - 出处：OneMall v1, Section 4.2 and Table 2: https://arxiv.org/html/2601.21770v1#S4.SS2.p1; https://arxiv.org/html/2601.21770v1#S4.T2.
+  - 出处：OneMall v1, Section 4.2 and Table 2: [S4.SS2.p1](https://arxiv.org/html/2601.21770v1#S4.SS2.p1); [S4.T2](https://arxiv.org/html/2601.21770v1#S4.T2).
 - **前序工作** · [OneRec](onerec.md): OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
-  - 出处：OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): https://arxiv.org/html/2601.21770v1#S1.p5.
+  - 出处：OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): [S1.p5](https://arxiv.org/html/2601.21770v1#S1.p5).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

@@ -1,27 +1,31 @@
 # Ghost
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/ghost.md)
+
 | **Title** | *Echoes in Filter Bubble: Diagnosing and Curing Popularity Bias in Generative Recommenders* |
 | :-- | :-- |
 | **Authors** | Yin et al. |
 | **Venue** | NeurIPS’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.16825) · [Code](https://github.com/Esperanto-mega/Ghost) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/ghost.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.16825) · [Code](https://github.com/Esperanto-mega/Ghost) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Skeleton R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Skeleton R-KM`: Residual k-means organized around a shared semantic skeleton.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Ghost"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["LC-Rec"]
+    P -->|"competitor"| A["LETTER"]
+    P -->|"competitor"| B["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [LETTER](letter.md): LETTER is evaluated as a standard generative baseline; Ghost addresses popularity bias through skeleton tokenization and asymmetric unlikelihood.
-  - Source: Ghost v3, Section V and Appendix C-B, Table I: https://arxiv.org/html/2605.16825v3#S5.p2; https://arxiv.org/html/2605.16825v3#A3.SS2.p1; https://arxiv.org/html/2605.16825v3#S5.T1.
+  - Source: Ghost v3, Section V and Appendix C-B, Table I: [S5.p2](https://arxiv.org/html/2605.16825v3#S5.p2); [A3.SS2.p1](https://arxiv.org/html/2605.16825v3#A3.SS2.p1); [S5.T1](https://arxiv.org/html/2605.16825v3#S5.T1).
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec is a standard generative baseline and the backbone reference for RQ-KMeans ablations; Ghost modifies tokenization and optimization.
-  - Source: Ghost v3, Section V and Table II: https://arxiv.org/html/2605.16825v3#S5.p2; https://arxiv.org/html/2605.16825v3#S5.T2; https://arxiv.org/html/2605.16825v3#S5.SS2.p1.
+  - Source: Ghost v3, Section V and Table II: [S5.p2](https://arxiv.org/html/2605.16825v3#S5.p2); [S5.T2](https://arxiv.org/html/2605.16825v3#S5.T2); [S5.SS2.p1](https://arxiv.org/html/2605.16825v3#S5.SS2.p1).
 
 [View all papers in this cell](../../README.md#iv--training)

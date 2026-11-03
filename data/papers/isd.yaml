@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP†
 inference: ISD Beam
 poi: false
-summary: 有明确推理解码新设计 ISD，不能只按标题认定纯分析。
 tldr: ISD lets a user-specific item ranking support Semantic ID prefixes before beam search discards them, at inference time
   and without retraining, after showing that Semantic IDs lose local item structure.
 tldr_zh: ISD 在指出 SID 丢失局部物品结构后，于推理阶段无需重训地用用户特定物品排序支撑 SID 前缀，避免它们在束搜索中被过早剪枝。

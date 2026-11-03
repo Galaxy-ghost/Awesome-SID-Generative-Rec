@@ -1,26 +1,32 @@
 # SAHL
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sahl.md) | 中文
+
 | **题目** | *Structure-Aligned History Learning with Subspace-Structured Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Wei et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.25093) · [代码](https://github.com/CQU-MM-Intelligent-Lab/SAHL) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/sahl.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.25093) · [代码](https://github.com/CQU-MM-Intelligent-Lab/SAHL) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>SRBQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / (MTP + Masked Rec.) → MTP"] --> I["Inference<br/>Graph"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>SRBQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / (MTP + Masked Rec.) → MTP"] --> I["推理 Inference<br/>Graph"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `SRBQ`: Semantic Residual Balanced Quantization
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `(MTP + Masked Rec.) → MTP`: Joint multi-token prediction and masked reconstruction, followed by multi-token prediction alone.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `SRBQ`：语义残差均衡量化（Semantic Residual Balanced Quantization）。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `(MTP + Masked Rec.) → MTP`：先联合训练多 token 预测与掩码重构，再单独微调多 token 预测。
+- `Graph`：在合法物品 SID 近邻图上做迭代图搜索解码。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | SAHL 用 SRBQ 将物品量化为均衡的“token-子空间-物品”层级结构，按课程学习从多粒度历史重构过渡到下一物品预测，替代单纯下一物品预测。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SAHL"]
-    P -->|predecessor| A["RPG"]
-    P -->|competitor| B["Tlow"]
-    P -->|competitor| C["TIGER"]
+    P -->|"前序工作"| A["RPG"]
+    P -->|"同期对比"| B["Tlow"]
+    P -->|"同期对比"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [RPG](rpg.md): Supplies the parallel backbone and graph-constrained decoder retained by SAHL.
-  - 出处：SAHL v1, Sections 5.3/6.11.2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3.
+  - 出处：SAHL v1, Sections 5.3/6.11.2: [S5.SS3.p2](https://arxiv.org/html/2610.25093v1#S5.SS3.p2); [S6.SS11.SSS2.p3](https://arxiv.org/html/2610.25093v1#S6.SS11.SSS2.p3).
 - **同期对比** · [Tlow](tlow.md): Tokenizer-oriented comparator; its scores follow the published matched protocol.
-  - 出处：SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p2; https://arxiv.org/html/2610.25093v1#S5.T2.
+  - 出处：SAHL v1, Section 5.3 and Table 2: [S5.SS3.p2](https://arxiv.org/html/2610.25093v1#S5.SS3.p2); [S5.T2](https://arxiv.org/html/2610.25093v1#S5.T2).
 - **同期对比** · [TIGER](tiger.md): Included semantic-ID baseline; SAHL adds quantizer-aligned history reconstruction.
-  - 出处：SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p1; https://arxiv.org/html/2610.25093v1#S5.T2.
+  - 出处：SAHL v1, Section 5.3 and Table 2: [S5.SS3.p1](https://arxiv.org/html/2610.25093v1#S5.SS3.p1); [S5.T2](https://arxiv.org/html/2610.25093v1#S5.T2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

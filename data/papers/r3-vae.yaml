@@ -16,9 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "training instability, stemming from insufficient gradient propagation"; "inefficient SID quality assessment,
-  where industrial practice still depends on costly GR training and A/B testing". Candidates: II / V (rule: tie broken by
-  the majority of new designs).'
 tldr: R3-VAE stabilizes residual quantization with a reference vector as semantic anchor and a dot-product rating mechanism,
   and uses two Semantic ID quality metrics as training regularizers.
 tldr_zh: R3-VAE 用作为语义锚点的参考向量与点积评分机制稳定残差量化，并将两项 SID 质量指标作为训练正则项。

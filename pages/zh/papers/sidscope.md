@@ -1,26 +1,28 @@
 # SIDScope
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sidscope.md) | 中文
+
 | **题目** | *A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Ding et al. |
-| **会议** | arXiv’26 |
+| **发表** | arXiv’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/sidscope.md) |
+| **链接** | [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>n/a"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>n/a"] --> TR["Training<br/>n/a / n/a"] --> I["Inference<br/>n/a"]
+    R["表征 Representation<br/>n/a"] --> T["编号 Tokenization<br/>n/a"] --> B["骨干 Backbone<br/>n/a"] --> TR["训练 Training<br/>n/a / n/a"] --> I["推理 Inference<br/>n/a"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
-
-- `n/a`: Not applicable to this method.
 
 ### TL;DR
 
 > [!NOTE]
-> SIDScope 是诊断工具与资源而非新推荐模型：在 SID 映射刷新后检查码组织结构、物品解析能力以及与生成模型的兼容性。
+> SIDScope 面向公开 SID 映射提供接口诊断工具，检查码组织结构、物品解析精度以及词表刷新后与生成器的兼容性。
 
 ---
 
@@ -28,8 +30,8 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| 核心贡献 | SIDScope 是诊断工具与资源而非新推荐模型：在 SID 映射刷新后检查码组织结构、物品解析能力以及与生成模型的兼容性。 |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
+| 核心贡献 | SIDScope 面向公开 SID 映射提供接口诊断工具，检查码组织结构、物品解析精度以及词表刷新后与生成器的兼容性。 |
 | 主要改动阶段 | 无单一阶段 |
 
 ---
@@ -63,22 +65,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SIDScope"]
-    P -->|predecessor| A["GRID"]
-    P -->|predecessor| B["CARD"]
-    P -->|predecessor| C["DIGER"]
-    P -->|predecessor| D["LETTER"]
-    P -->|predecessor| E["LC-Rec"]
+    P -->|"前序工作"| A["GRID"]
+    P -->|"前序工作"| B["CARD"]
+    P -->|"前序工作"| C["DIGER"]
+    P -->|"前序工作"| D["LETTER"]
+    P -->|"前序工作"| E["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **前序工作** · [GRID](grid.md): GRID supplies an upstream Beauty/P5 tokenizer mapping that SIDScope rebuilds and audits through interface diagnostics, fixed-budget prefix retrieval, and frozen-beam item-resolution tests.
-  - 出处：SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: https://arxiv.org/html/2608.18779v2#S3.T2; Table 3 gives its diagnostic profile: https://arxiv.org/html/2608.18779v2#S4.T3; Tables 5 and 7 report the fixed-budget and resolver tests: https://arxiv.org/html/2608.18779v2#S5.T5 and https://arxiv.org/html/2608.18779v2#S5.T7.
+  - 出处：SIDScope v2, Table 2 identifies the rebuilt GRID Beauty/P5 mapping: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Table 3 gives its diagnostic profile: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3); Tables 5 and 7 report the fixed-budget and resolver tests: [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5) and [S5.T7](https://arxiv.org/html/2608.18779v2#S5.T7).
 - **前序工作** · [CARD](card.md): CARD supplies an upstream Beauty/P5 SID mapping inspected by SIDScope through a code-derived export and budget-matched prefix retrieval controls on the same catalog as GRID.
-  - 出处：SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: https://arxiv.org/html/2608.18779v2#S3.T2; Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: https://arxiv.org/html/2608.18779v2#S5.SS2.p1 and https://arxiv.org/html/2608.18779v2#S5.T5.
+  - 出处：SIDScope v2, Table 2 identifies CARD's code-derived Beauty/P5 export: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 5.2 and Table 5 define the same-catalog, fixed-budget tests: [S5.SS2.p1](https://arxiv.org/html/2608.18779v2#S5.SS2.p1) and [S5.T5](https://arxiv.org/html/2608.18779v2#S5.T5).
 - **前序工作** · [DIGER](diger.md): DIGER supplies upstream checkpoint-derived SID mappings for Beauty and Yelp that SIDScope profiles separately and uses in a last-event beam-accounting portability case.
-  - 出处：SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: https://arxiv.org/html/2608.18779v2#S3.T2 and https://arxiv.org/html/2608.18779v2#S4.T3; Section 5.5 and Table 6 identify the last-event sensitivity route: https://arxiv.org/html/2608.18779v2#S5.SS5.p1 and https://arxiv.org/html/2608.18779v2#S5.T6.
+  - 出处：SIDScope v2, Tables 2 and 3 identify and profile the DIGER Beauty and Yelp exports: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2) and [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3); Section 5.5 and Table 6 identify the last-event sensitivity route: [S5.SS5.p1](https://arxiv.org/html/2608.18779v2#S5.SS5.p1) and [S5.T6](https://arxiv.org/html/2608.18779v2#S5.T6).
 - **前序工作** · [LETTER](letter.md): LETTER supplies a released Instruments SID index that SIDScope re-audits under its common bounded diagnostic protocol as an upstream mapping source.
-  - 出处：SIDScope v2, Table 2 identifies LETTER's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 states that LETTER is recomputed under the common C3 protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports the resulting profile: https://arxiv.org/html/2608.18779v2#S4.T3.
+  - 出处：SIDScope v2, Table 2 identifies LETTER's released Instruments index: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 4.1 states that LETTER is recomputed under the common C3 protocol: [S4.SS1.p3](https://arxiv.org/html/2608.18779v2#S4.SS1.p3); Table 3 reports the resulting profile: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3).
 - **前序工作** · [LC-Rec](lc-rec.md): LC-Rec supplies a released Instruments SID index that SIDScope re-audits alongside LETTER to distinguish mapping addressability from prefix behavioral alignment.
-  - 出处：SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2; Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p2 and https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports both profiles: https://arxiv.org/html/2608.18779v2#S4.T3.
+  - 出处：SIDScope v2, Table 2 identifies LC-Rec's released Instruments index: [S3.T2](https://arxiv.org/html/2608.18779v2#S3.T2); Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: [S4.SS1.p2](https://arxiv.org/html/2608.18779v2#S4.SS1.p2) and [S4.SS1.p3](https://arxiv.org/html/2608.18779v2#S4.SS1.p3); Table 3 reports both profiles: [S4.T3](https://arxiv.org/html/2608.18779v2#S4.T3).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: CoT+C-Beam
 poi: true
-summary: 'Abstract: "existing LLM-based recommenders remain limited in leveraging geographic signals". Alternative III: the
-  introduction narrows the gap to not reasoning over geography (p1).'
 tldr: ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided
   reinforcement learning to LLM-based next-POI generation.
 tldr_zh: ROS 为基于 LLM 的下一 POI 生成加入层级空间 SID、带局部性剪枝的移动思维链以及空间引导强化学习。

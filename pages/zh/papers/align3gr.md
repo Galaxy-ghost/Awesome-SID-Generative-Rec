@@ -1,25 +1,32 @@
 # Align3GR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/align3gr.md) | 中文
+
 | **题目** | *Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Ye et al. |
-| **会议** | AAAI’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2511.11255) · [矩阵](../../../README.zh.md#iii--tokenization) · [English](../../papers/align3gr.md) |
+| **发表** | AAAI’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.11255) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → DPO`: NTP, then preference optimization.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `Dual RQ`：面向双表征流或双侧实体的双路残差量化。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,18 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | Align3GR 从双语义-协同编号、行为建模中的双向语义对齐，以及结合自博弈与真实反馈的渐进式 DPO 三个层面，对齐 LLM 推荐模型。 |
-| 主要改动阶段 | Tokenization |
-| 主要发现 | 在公开数据集上，Align3GR 比最强基线的 Recall@10 高 +17.8%，NDCG@10 高 +20.2%（Abstract）。 |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在公开基准数据集上，Align3GR 相比最强基线的 Recall@10 最高提升 +17.8%、NDCG@10 最高提升 +20.2%，并在工业广告平台的离线 Recall@100 与线上收入指标上取得提升（Abstract，Table 1，Table 2）。 |
+| 局限 | Align3GR 需在 Llama2-7B 上依次完成用户/物品双路 3 层 RQ-VAE 编号、四任务 SFT、3 阶段 SP-DPO 和 RF-DPO 训练，且论文未报告冲突消解规则与推理延迟（Experimental Settings）。 |
 
 ---
 
 ### 1. 为什么重要
 
-把大语言模型（LLM）改造成推荐器，会遇到语义和行为两方面的错位（Abstract）。LC-Rec 等早期 LLM 推荐器用监督任务对齐物品 token。Align3GR 把 token、行为建模和偏好三个层级的对齐放在一起处理。
+将预训练大语言模型（LLM）迁移至生成式推荐时，自然语言 token 空间与协同行为模式之间存在语义和行为双重错位（Abstract）。LC-Rec 等早期 LLM 推荐器主要通过监督微调任务对齐物品语义 ID（Semantic ID，SID）。Align3GR 将对齐扩展至三个统一层级：用户与物品双路语义-协同编号、双向多任务 SFT，以及自博弈课程结合真实反馈的渐进式 DPO。
 
-> "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment."（Abstract）（把 token、行为建模、偏好三级对齐统一起来。）
+> "To bridge this gap, we propose Align3GR, a novel framework that unifies token-level, behavior modeling-level, and preference-level alignment."（Abstract）
 
 ---
 
@@ -53,33 +61,45 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("用户与物品") --> B["双路 SC 编码器 + RQ-VAE"]
-    B --> C("用户与物品 SCID")
-    C --> D["多任务 SFT"]
-    D --> E["SP-DPO：Easy、Medium、Hard"]:::key
-    E --> F["真实反馈 RF-DPO"]:::key
-    F --> G("对齐后的 LLM")
-    L1{{"四个 SFT 任务"}} -.-> D
-    L2{{"前缀 n-gram 课程"}} -.-> E
-    L3{{"disliked / neutral / liked"}} -.-> F
+    subgraph Lvl1["1. token 级对齐"]
+        UFeat("用户 T5 + DIN 嵌入") --> UEnc["用户 SC 编码器 + 3×256 RQ-VAE"]
+        IFeat("物品 T5 + DIN 嵌入") --> IEnc["物品 SC 编码器 + 3×256 RQ-VAE"]
+        LU2I{{"U2I 对齐损失"}} -.-> UEnc
+        LU2I -.-> IEnc
+        UEnc --> USCID("用户 SCID")
+        IEnc --> ISCID("物品 SCID")
+    end
+    subgraph Lvl2["2. 行为建模级对齐"]
+        USCID --> Voc["扩展 Llama2-7B 词表"]
+        ISCID --> Voc
+        Voc --> SFT["多任务 SFT（LoRA）"]
+        L1{{"4 个 SFT 任务 + 用户画像重建"}} -.-> SFT
+    end
+    subgraph Lvl3["3. 偏好级对齐"]
+        SFT --> E["SP-DPO：Easy → Medium → Hard"]:::key
+        L2{{"前缀 n-gram 课程"}} -.-> E
+        E --> F["真实反馈 RF-DPO"]:::key
+        L3{{"disliked / neutral / liked"}} -.-> F
+        F --> G["束搜索（束宽 20）"]
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### token 级对齐
 
-两路语义-协同（SC）编码器配 RQ-VAE，为用户和物品都生成 SCID（Fig. 2 caption）。这些 token 加进 LLM 的词表。
+双路语义-协同（SC）编码器分别为用户和物品融合 T5 文本嵌入与 DIN 行为嵌入，并由两个独立的 3 层 RQ-VAE（每层码本含 256 个 32 维码字）量化为用户 SCID 与物品 SCID（Fig. 2 caption，Experimental Settings）。将两类离散 SCID token 直接扩充进 Llama2-7B 词表，可避免自回归生成时的词表外切分。
 
-> "Following previous work (Zheng et al. 2024), we first expand the LLM vocabulary to include the SCID tokens of the user and the item, thus avoiding out-of-vocabulary issues and ensuring smooth integration with autoregressive generation tasks."（Behavior Modeling-level Alignment）（先把用户和物品的 SCID token 加进词表，避免词表外问题。）
+> "Following previous work (Zheng et al. 2024), we first expand the LLM vocabulary to include the SCID tokens of the user and the item, thus avoiding out-of-vocabulary issues and ensuring smooth integration with autoregressive generation tasks."（Behavior Modeling-level Alignment）
 
 #### 行为建模级对齐
 
-监督微调（SFT）沿用 LC-Rec 的四个任务：序列物品预测、非对称物品预测、按用户意图预测物品、个性化偏好推断（Multi-task SFT）。每个任务的提示里都有用户的 SCID token，其中一个任务要从用户 SCID 还原用户画像文本（Multi-task SFT）。
+监督微调（SFT）沿用并扩展 LC-Rec 的四个子任务：序列物品预测、非对称物品预测、基于意图的物品预测，以及个性化偏好推断（Multi-task SFT）。每个任务的提示词均嵌入用户 SCID token，除预测目标物品 SCID 外，还要求从用户 SCID 逆向重建用户画像文本，实现双向对齐（Multi-task SFT）。
 
 #### 偏好级对齐
 
-自博弈 DPO（SP-DPO）分 Easy、Medium、Hard 三个阶段，阶段按层级 SCID 的前缀 n-gram 匹配划分（Preference-level Alignment）。之后的真实反馈 DPO（RF-DPO）使用标为 disliked、neutral、liked 的反馈（Preference-level Alignment）。
+自博弈 DPO（SP-DPO）依据 3 层层级 SCID 的前缀 n-gram 匹配度，按 Easy、Medium、Hard 三个由易到难的课程阶段构造负样本（Preference-level Alignment）。随后的真实反馈 DPO（RF-DPO）利用日志中划分为 disliked、neutral 和 liked 三档的真实反馈继续微调策略（Preference-level Alignment）。
 
-> "Specifically, considering the hierarchical nature of SCID, we divide progressive SP-DPO learning into three stages: Easy, Medium, and Hard, using a prefix-ngram match metric (Zheng et al. 2025)"（Preference-level Alignment）（按前缀 n-gram 匹配把 SP-DPO 分成三个由易到难的阶段。）
+> "Specifically, considering the hierarchical nature of SCID, we divide progressive SP-DPO learning into three stages: Easy, Medium, and Hard, using a prefix-ngram match metric (Zheng et al. 2025)"（Preference-level Alignment）
 
 ---
 
@@ -105,7 +125,9 @@ flowchart LR
 
 </details>
 
-- 工业部署：作者报告了在工业推荐平台上的在线 A/B 测试收益和全量部署（Abstract）。
+- 公开基准对比：在 5-core 过滤后的 Amazon Instruments、Amazon Beauty 和 Yelp 上（5 个随机种子平均，束宽 20），Align3GR 优于传统序列推荐、生成式模型（TIGER、LETTER）与 LLM 基线（LC-Rec、EAGER-LLM），相比最强基线的 Recall@10 最高提升 +17.8%、NDCG@10 最高提升 +20.2%（Abstract，Experimental Settings，Table 1）。
+- 多层级消融：消融实验分别验证了双路用户-物品 SCID 编号（Table 3）、双向 SFT 任务（Table 4），以及 3 阶段 SP-DPO 叠加 RF-DPO 的逐步增益（Table 5，Fig. 4）。
+- 工业部署：在大规模广告推荐平台上，Align3GR 在离线 Recall@100 上超过双塔基线与 TIGER，并在 10% 流量（超 40 million 用户）的多周在线 A/B 测试中带来广告收入提升，随后全量上线（Abstract，Table 2）。
 
 ---
 
@@ -113,8 +135,9 @@ flowchart LR
 
 **Our analysis.**
 
-- 流程依次训练 SCID 编号器、多任务 SFT 和两轮 DPO。由此推断，物品库一变就要重跑好几个阶段。
-- EAGER-LLM 同样把语义和协同信号输入 `Dec-Only` LLM，但用 `Dual H-KM` 码；Align3GR 用 `Dual RQ` 码，并加了 DPO。
+- 训练流程依次串联双路 SCID 编号器、四任务 SFT、3 阶段 SP-DPO 与 RF-DPO，物品目录或用户分布更新时需重跑多阶段训练。
+- 用户 SCID 依赖历史交互离线量化，无历史交互的冷启动用户缺少预置的用户 SCID token。
+- EAGER-LLM 同样将语义和协同信号输入 `Dec-Only` LLM，但仅对物品做 `Dual H-KM` 编码；Align3GR 对用户与物品双侧执行 `Dual RQ`（`RQ-VAE`）编号，并引入两阶段 DPO（`NTP → DPO`）。
 
 ---
 
@@ -123,19 +146,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Align3GR"]
-    P -->|competitor| A["EAGER-LLM"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["TIGER"]
+    P -->|"同期对比"| A["EAGER-LLM"]
+    P -->|"同期对比"| B["LC-Rec"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [EAGER-LLM](eager-llm.md): EAGER-LLM aligns item tokens with collaborative signals; Align3GR also tokenizes users and adds progressive self-play and real-feedback DPO.
-  - 出处：Align3GR v2, Experimental Settings baselines (13) and beam-width protocol: https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2 and https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.
+  - 出处：Align3GR v2, Experimental Settings baselines (13) and beam-width protocol: [Sx4.SSx1.p2](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2) and [Sx4.SSx1.p3](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p3); Table 1: [Sx3.T1](https://arxiv.org/html/2511.11255v2#Sx3.T1).
 - **同期对比** · [LC-Rec](lc-rec.md): LC-Rec aligns LLMs to item codes with auxiliary tasks; Align3GR adds dual user-item SCIDs and preference-level DPO on top of multi-task SFT.
-  - 出处：Align3GR v2, baselines (11): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.
+  - 出处：Align3GR v2, baselines (11): [Sx4.SSx1.p2](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2); Table 1: [Sx3.T1](https://arxiv.org/html/2511.11255v2#Sx3.T1).
 - **同期对比** · [LETTER](letter.md): LETTER learns a regularized item tokenizer; Align3GR fuses semantic and collaborative features for both users and items through a U2I loss.
-  - 出处：Align3GR v2, baselines (12): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1.
+  - 出处：Align3GR v2, baselines (12): [Sx4.SSx1.p2](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2); Table 1: [Sx3.T1](https://arxiv.org/html/2511.11255v2#Sx3.T1).
 - **同期对比** · [TIGER](tiger.md): TIGER uses content-only RQ-VAE item codes with a small Transformer; Align3GR uses an LLM backbone with dual SCIDs and DPO.
-  - 出处：Align3GR v2, baselines (10): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1; industrial Table 2: https://arxiv.org/html/2511.11255v2#Sx4.T2.
+  - 出处：Align3GR v2, baselines (10): [Sx4.SSx1.p2](https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2); Table 1: [Sx3.T1](https://arxiv.org/html/2511.11255v2#Sx3.T1); industrial Table 2: [Sx4.T2](https://arxiv.org/html/2511.11255v2#Sx4.T2).
 
 [查看同格全部论文](../../../README.zh.md#iii--tokenization)

@@ -16,8 +16,12 @@ tokenizer: Joint
 objective: NTP
 inference: Beam†
 poi: false
-summary: 'Abstract: "This leads to an objective mismatch"; "this often causes codebook collapse, where only a few codes are
-  used". Candidates: III / II (rule: tie broken by the majority of new designs).'
+also:
+- problem: III
+  stage: Training
+  quote: direct joint optimization of semantic IDs and generative recommenders
+  where: '2601.19711v3；问题：Abstract https://arxiv.org/html/2601.19711v3#abstract1 及 Introduction #S1；贡献原句：https://arxiv.org/html/2601.19711v3#S1.I1.i1.p1；联合更新：§4.3
+    https://arxiv.org/html/2601.19711v3#S4.SS3'
 tldr: DIGER makes Semantic IDs differentiable so recommendation gradients update the tokenizer, and adds decaying Gumbel noise
   against codebook collapse, instead of a tokenizer trained only for reconstruction.
 tldr_zh: DIGER 使 SID 可微以让推荐梯度直接更新编号器，并加入衰减 Gumbel 噪声防止码本坍缩，替代仅按重构目标训练的编号器。

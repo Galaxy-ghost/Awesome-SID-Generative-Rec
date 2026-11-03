@@ -1,25 +1,32 @@
 # RecBase
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/recbase.md) | 中文
+
 | **题目** | *Generative foundation model pretraining for zero-shot recommendation* |
 | :-- | :-- |
 | **作者** | Zhou et al. |
-| **会议** | EMNLP’25 |
-| **问题与阶段** | `VI. 泛化` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2509.03131) · [代码](https://github.com/reczoo/RecBase) · [矩阵](../../../README.zh.md#vi--training) · [English](../../papers/recbase.md) |
+| **发表** | EMNLP’25 |
+| **问题与阶段** | `VI. 泛化` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2509.03131) · [代码](https://github.com/reczoo/RecBase) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Curr. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Curr. RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Curr. RQ`：课程式训练的层级残差量化。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | RecBase 用层级概念标识统一编号器在跨域语料上预训练域无关基础模型，面向零样本推荐，替代以自然语言为中心的预训练。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -67,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["RecBase"]
-    P -->|alternative| A["TIGER"]
-    P -->|alternative| B["LC-Rec"]
+    P -->|"替代方案"| A["TIGER"]
+    P -->|"替代方案"| B["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **替代方案** · [TIGER](tiger.md): TIGER builds RQ-VAE semantic IDs per dataset for next-item generation; RecBase pre-trains a recommendation foundation model over concept IDs shared across many domains.
-  - 出处：RecBase v1, Section 2.2 cites Rajput et al. (2023): https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
+  - 出处：RecBase v1, Section 2.2 cites Rajput et al. (2023): [S2.SS2.p1](https://arxiv.org/html/2509.03131v1#S2.SS2.p1).
 - **替代方案** · [LC-Rec](lc-rec.md): LC-Rec adapts an existing LLM to one domain's item indices; RecBase pre-trains from scratch on recommendation corpora for zero-shot transfer.
-  - 出处：RecBase v1, Section 2.2: https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
+  - 出处：RecBase v1, Section 2.2: [S2.SS2.p1](https://arxiv.org/html/2509.03131v1#S2.SS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#vi--training)

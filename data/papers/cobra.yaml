@@ -16,7 +16,22 @@ tokenizer: Fixed
 objective: NTP + Dense
 inference: BeamFusion
 poi: false
-summary: 'Abstract: "significant information loss due to the separation of stages such as quantization and sequence modeling".'
+also:
+- problem: I
+  stage: Inference
+  quote: starting with sparse ID generation and refining them into dense vectors
+  where: '2503.02453v1 Abstract https://arxiv.org/html/2503.02453v1#abstract1；信息损失问题及粗到细生成：Introduction #S1.p3；第三条贡献 #S1.p4；§3.4
+    https://arxiv.org/html/2503.02453v1#S3.SS4（含 BeamFusion 新评分，非单纯沿用 beam）'
+- problem: I
+  stage: Representation
+  quote: end-to-end trainable dense encoder
+  where: 2503.02453v1；信息损失问题：Abstract https://arxiv.org/html/2503.02453v1#abstract1；可学习稠密表征贡献：Introduction https://arxiv.org/html/2503.02453v1#S1.p4；具体新编码器原句：§3.1.2
+    https://arxiv.org/html/2503.02453v1#S3.SS1.SSS2.p1
+- problem: I
+  stage: Training
+  quote: End-to-end training enables dynamic refinement of dense representations, capturing both semantic insights and collaborative
+    signals from user-item interactions.
+  where: '2503.02453v1 Abstract；贡献第 2 条 #S1.I1.i2；设计在 #S3.SS3'
 tldr: COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes
   with BeamFusion, which combines beam search with nearest-neighbor scores.
 tldr_zh: COBRA 先生成稀疏 SID 再以它为条件生成稠密向量，端到端联合训练二者，并在解码时用 BeamFusion 融合束搜索分数与最近邻相似度。

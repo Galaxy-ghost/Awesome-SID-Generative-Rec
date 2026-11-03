@@ -1,26 +1,30 @@
 # NEO
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/neo.md) | 中文
+
 | **题目** | *A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* |
 | :-- | :-- |
 | **作者** | De Nadai et al. |
-| **会议** | arXiv’26 |
+| **发表** | arXiv’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2603.17533) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/neo.md) |
+| **链接** | [论文](https://arxiv.org/abs/2603.17533) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    R["表征 Representation<br/>Text / Audio"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `Text / Audio`: Text or audio representations in different branches or evaluation settings.
-- `R-KM`: Residual k-means.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
-- `C-Beam`: Constrained beam search.
+- `Text / Audio`：不同分支或评测设置下分别采用文本或音频表征。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,7 +37,7 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
 | 核心贡献 | NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。 |
 | 主要改动阶段 | 无单一阶段 |
 
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["NEO"]
-    P -->|alternative| A["PLUM"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["EAGER-LLM"]
+    P -->|"替代方案"| A["PLUM"]
+    P -->|"前序工作"| B["TIGER"]
+    P -->|"替代方案"| C["EAGER-LLM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **替代方案** · [PLUM](plum.md): Concurrent SID-LLM adaptation; NEO emphasizes mixed text-ID outputs and multiple item types.
-  - 出处：NEO v1, Section 2 and Table 1: https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2; https://arxiv.org/html/2603.17533v1#S2.T1.
+  - 出处：NEO v1, Section 2 and Table 1: [S2.SS0.SSS0.Px3.p2](https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2); [S2.T1](https://arxiv.org/html/2603.17533v1#S2.T1).
 - **前序工作** · [TIGER](tiger.md): Prior SID-based generative retrieval informs NEO's catalog-grounded item representation.
-  - 出处：NEO v1, Introduction and Section 2, citing Rajput et al. (2024): https://arxiv.org/html/2603.17533v1#S1.p4; https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p1.
+  - 出处：NEO v1, Introduction and Section 2, citing Rajput et al. (2024): [S1.p4](https://arxiv.org/html/2603.17533v1#S1.p4); [S2.SS0.SSS0.Px3.p1](https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p1).
 - **替代方案** · [EAGER-LLM](eager-llm.md): Motivates testing collaborative SID signals; NEO favors content-derived SIDs in its experiments.
-  - 出处：NEO v1, Section 4.2.1, citing Hong et al. (2025): https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1.
+  - 出处：NEO v1, Section 4.2.1, citing Hong et al. (2025): [S4.SS2.SSS1.Px4.p1](https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

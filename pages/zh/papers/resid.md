@@ -1,27 +1,32 @@
 # ReSID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/resid.md) | 中文
+
 | **题目** | *Rethinking Generative Recommender Tokenizer: Recsys-Native Encoding and Semantic Quantization Beyond LLMs* |
 | :-- | :-- |
 | **作者** | Liang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Representation` |
-| **链接** | [论文](https://arxiv.org/abs/2602.02338) · [代码](https://github.com/FuCongResearchSquad/ReSID) · [矩阵](../../../README.zh.md#i--representation) · [English](../../papers/resid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.02338) · [代码](https://github.com/FuCongResearchSquad/ReSID) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Attr+CF"] --> T["Tokenization<br/>GAOQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Attr+CF"] --> T["编号 Tokenization<br/>GAOQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
-- `Attr+CF`: Structured item attributes combined with collaborative signals.
-- `GAOQ`: Globally Aligned Orthogonal Quantization.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Attr+CF`：结构化物品属性结合协同过滤信号。
+- `GAOQ`：全局对齐正交量化（Globally Aligned Orthogonal Quantization）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | ReSID 用字段感知掩码自编码从结构化特征学习物品表示，并用全局对齐正交量化将它转为离散码，替代 LLM 嵌入与通用量化器。 |
-| 主要改动阶段 | Representation |
+| 主要改动阶段 | 表征（Representation） |
 
 ---
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ReSID"]
-    P -->|competitor| A["LETTER"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["UNGER"]
+    P -->|"同期对比"| A["LETTER"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["UNGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [LETTER](letter.md): LETTER is the strongest compared SID baseline and a quantization-runtime reference.
-  - 出处：ReSID v1, Sections 5.1/5.4: https://arxiv.org/html/2602.02338v1#S5.SS1.p4; https://arxiv.org/html/2602.02338v1#S5.SS4.p1.
+  - 出处：ReSID v1, Sections 5.1/5.4: [S5.SS1.p4](https://arxiv.org/html/2602.02338v1#S5.SS1.p4); [S5.SS4.p1](https://arxiv.org/html/2602.02338v1#S5.SS4.p1).
 - **同期对比** · [TIGER](tiger.md): TIGER's semantic RQ-VAE tokenizer is compared under the common downstream generator.
-  - 出处：ReSID v1, Appendix D/E: https://arxiv.org/html/2602.02338v1#A4.p3; https://arxiv.org/html/2602.02338v1#A5.p4.
+  - 出处：ReSID v1, Appendix D/E: [A4.p3](https://arxiv.org/html/2602.02338v1#A4.p3); [A5.p4](https://arxiv.org/html/2602.02338v1#A5.p4).
 - **同期对比** · [UNGER](unger.md): UNGER aligns semantic/collaborative representations; ReSID uses structured-field masked prediction.
-  - 出处：ReSID v1, Section 3.1 and Appendix D: https://arxiv.org/html/2602.02338v1#S3.SS1.p3; https://arxiv.org/html/2602.02338v1#A4.p3.
+  - 出处：ReSID v1, Section 3.1 and Appendix D: [S3.SS1.p3](https://arxiv.org/html/2602.02338v1#S3.SS1.p3); [A4.p3](https://arxiv.org/html/2602.02338v1#A4.p3).
 
 [查看同格全部论文](../../../README.zh.md#i--representation)

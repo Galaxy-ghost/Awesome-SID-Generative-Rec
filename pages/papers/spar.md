@@ -1,27 +1,31 @@
 # SPAR
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/spar.md)
+
 | **Title** | *Enhancing Industrial-Scale Generative POI Recommendation via Real-World Spatial Perception* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.02062) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/spar.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.02062) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
+- `Text+Geo`: Text representations combined with geographic or spatial features.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPAR"]
-    P -->|competitor| A["GNPR-SID"]
-    P -->|competitor| B["PLUM"]
-    P -->|competitor| C["TIGER"]
+    P -->|"competitor"| A["GNPR-SID"]
+    P -->|"competitor"| B["PLUM"]
+    P -->|"competitor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [GNPR-SID](gnpr-sid.md): SID POI baseline; SPAR explicitly injects and preserves urban spatial knowledge.
-  - Source: SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.
+  - Source: SPAR v2, Section 5.1 and Tables 2/3: [S5.SS1.p3](https://arxiv.org/html/2609.02062v2#S5.SS1.p3); [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2); [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3).
 - **Competitor** · [PLUM](plum.md): Generic SID-CPT-SFT comparator against SPAR's spatially specialized stages.
-  - Source: SPAR v2, Section 5.2.2: https://arxiv.org/html/2609.02062v2#S5.SS2.SSS2.p2.
+  - Source: SPAR v2, Section 5.2.2: [S5.SS2.SSS2.p2](https://arxiv.org/html/2609.02062v2#S5.SS2.SSS2.p2).
 - **Competitor** · [TIGER](tiger.md): Evaluated with four-level SIDs including a final disambiguation index.
-  - Source: SPAR v2, Section 5.1 and Tables 2/3: https://arxiv.org/html/2609.02062v2#S5.SS1.p3; https://arxiv.org/html/2609.02062v2#S5.SS1.p4; https://arxiv.org/html/2609.02062v2#S5.T2; https://arxiv.org/html/2609.02062v2#S5.T3.
+  - Source: SPAR v2, Section 5.1 and Tables 2/3: [S5.SS1.p3](https://arxiv.org/html/2609.02062v2#S5.SS1.p3); [S5.SS1.p4](https://arxiv.org/html/2609.02062v2#S5.SS1.p4); [S5.T2](https://arxiv.org/html/2609.02062v2#S5.T2); [S5.T3](https://arxiv.org/html/2609.02062v2#S5.T3).
 
 [View all papers in this cell](../../README.md#i--representation)

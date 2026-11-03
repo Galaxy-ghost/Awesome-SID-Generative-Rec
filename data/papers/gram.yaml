@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'Abstract: "(i) incorporating implicit item relationships and (ii) utilizing rich yet lengthy item information".'
 tldr: GRAM translates hierarchical and collaborative item relationships into LLM vocabulary words and encodes multi-granular
   prompts separately, fusing them only at decoding, to use lengthy item text efficiently.
 tldr_zh: GRAM 将层级与协同物品关系转化为 LLM 词表中的词，分别编码多粒度提示并仅在解码时融合，以利用长物品文本。

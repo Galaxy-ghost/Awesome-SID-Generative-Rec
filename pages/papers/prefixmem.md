@@ -1,26 +1,32 @@
 # PrefixMem
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/prefixmem.md)
+
 | **Title** | *LLMs Need Encoders for Semantic IDs Too* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2606.00324) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/prefixmem.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2606.00324) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
 - `MM`: Multimodal item representations.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PrefixMem"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["PLUM"]
-    P -->|predecessor| C["OneRec-Think"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["PLUM"]
+    P -->|"predecessor"| C["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): PrefixMem augments TIGER and transfers TIGER-trained memory to an LLM.
-  - Source: PrefixMem v1, Section 5.2 and Table 10: https://arxiv.org/html/2606.00324v1#S5.SS2.p5; https://arxiv.org/html/2606.00324v1#S5.T10.
+  - Source: PrefixMem v1, Section 5.2 and Table 10: [S5.SS2.p5](https://arxiv.org/html/2606.00324v1#S5.SS2.p5); [S5.T10](https://arxiv.org/html/2606.00324v1#S5.T10).
 - **Predecessor** · [PLUM](plum.md): PrefixMem follows PLUM's SID-language adaptation and adds prefix-conditioned encoding.
-  - Source: PrefixMem v1, Sections 2/3.1: https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.00324v1#S3.SS1.p1.
+  - Source: PrefixMem v1, Sections 2/3.1: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2606.00324v1#S2.SS0.SSS0.Px1.p1); [S3.SS1.p1](https://arxiv.org/html/2606.00324v1#S3.SS1.p1).
 - **Predecessor** · [OneRec-Think](onerec-think.md): PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
-  - Source: PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.
+  - Source: PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): [S3.SS1.p2](https://arxiv.org/html/2606.00324v1#S3.SS1.p2).
 
 [View all papers in this cell](../../README.md#iii--backbone)

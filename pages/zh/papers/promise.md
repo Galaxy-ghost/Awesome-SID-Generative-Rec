@@ -1,25 +1,32 @@
 # PROMISE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/promise.md) | 中文
+
 | **题目** | *Process Reward Models Unlock Test-Time Scaling Laws in Generative Recommendations* |
 | :-- | :-- |
 | **作者** | Guo et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2601.04674) · [矩阵](../../../README.zh.md#iii--inference) · [English](../../papers/promise.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2601.04674) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>PRM-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP + Aux."] --> I["推理 Inference<br/>PRM-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `PRM-Beam`: Process-reward-model guided beam search.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `PRM-Beam`：由过程奖励模型（PRM）逐步引导的束搜索。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PROMISE"]
-    P -->|competitor| A["ActionPiece"]
-    P -->|competitor| B["TIGER"]
-    P -->|alternative| C["OneRec-V2"]
+    P -->|"同期对比"| A["ActionPiece"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"替代方案"| C["OneRec-V2"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece is the strongest public baseline; it changes tokenization, whereas Promise keeps RQ-VAE SIDs and adds a process reward model to steer beam search.
-  - 出处：Promise v1, generative baselines: https://arxiv.org/html/2601.04674v1#S4.I2.i3.p1; Table 1 and Section 4.1.5: https://arxiv.org/html/2601.04674v1#S4.T1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS5.p2.
+  - 出处：Promise v1, generative baselines: [S4.I2.i3.p1](https://arxiv.org/html/2601.04674v1#S4.I2.i3.p1); Table 1 and Section 4.1.5: [S4.T1](https://arxiv.org/html/2601.04674v1#S4.T1) and [S4.SS1.SSS5.p2](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS5.p2).
 - **同期对比** · [TIGER](tiger.md): TIGER decodes with standard fixed-width beam search, which Promise argues suffers semantic drift; Promise rescores expanded paths at each step with a PRM.
-  - 出处：Promise v1, baselines and protocol: https://arxiv.org/html/2601.04674v1#S4.I2.i1.p1 and https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1; Table 1: https://arxiv.org/html/2601.04674v1#S4.T1.
+  - 出处：Promise v1, baselines and protocol: [S4.I2.i1.p1](https://arxiv.org/html/2601.04674v1#S4.I2.i1.p1) and [S4.SS1.SSS1.p1](https://arxiv.org/html/2601.04674v1#S4.SS1.SSS1.p1); Table 1: [S4.T1](https://arxiv.org/html/2601.04674v1#S4.T1).
 - **替代方案** · [OneRec-V2](onerec-v2.md): OneRec-V2 introduces a lazy decoder and scales parameters; Promise argues that scaling inference compute with PRM-guided search is a cheaper way to scale.
-  - 出处：Promise v1, Section 6.1 describes OneRec V2 (Zhou et al., 2025c): https://arxiv.org/html/2601.04674v1#S6.SS1.p1; Section 4.6.1 contrasts parameter scaling with test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS6.SSS1.p1.
+  - 出处：Promise v1, Section 6.1 describes OneRec V2 (Zhou et al., 2025c): [S6.SS1.p1](https://arxiv.org/html/2601.04674v1#S6.SS1.p1); Section 4.6.1 contrasts parameter scaling with test-time scaling: [S4.SS6.SSS1.p1](https://arxiv.org/html/2601.04674v1#S4.SS6.SSS1.p1).
 
 [查看同格全部论文](../../../README.zh.md#iii--inference)

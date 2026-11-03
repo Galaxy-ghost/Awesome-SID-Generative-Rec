@@ -1,24 +1,32 @@
 # MSCGRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mscgrec.md) | 中文
+
 | **题目** | *Multimodal Generative Recommendation for Fusing Semantic and Collaborative Signals* |
 | :-- | :-- |
 | **作者** | Vandenhirtz et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2602.03713) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mscgrec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.03713) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+DINO"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>Trie/C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE+DINO"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP"] --> I["推理 Inference<br/>Trie/C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE+DINO`：RQ-VAE 结合自监督 DINO 视觉特征量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Trie/C-Beam`：基于前缀树（Trie）约束的束搜索，仅允许解码真实存在的物品前缀。
 
 ### TL;DR
 
@@ -31,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | MSCGRec 用基于 DINO 的自监督学习量化图像，把协同特征作为独立模态引入，并将训练输出限制在合法 token 集合内，以扩展到大物品库。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -66,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MSCGRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["CoST"]
-    P -->|competitor| E["ETEGRec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["MQL4GRec"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["CoST"]
+    P -->|"同期对比"| E["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER quantizes one modality; MSCGRec concatenates codes from image, text, and collaborative modalities and trains with a softmax restricted to permissible next codes, keeping TIGER's collision level.
-  - 出处：MSCGRec v1, baselines TIGER_i and TIGER_t: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2; collision level follows TIGER: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2.
+  - 出处：MSCGRec v1, baselines TIGER_i and TIGER_t: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2); collision level follows TIGER: [S4.SS1.SSS0.Px3.p2](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2).
 - **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec uses separate text and image quantitative languages with collision reassignment; MSCGRec adds a collaborative modality, DINO-based image codes, and constrained training, and found MQL4GRec's reassignment gave no gain under constrained training.
-  - 出处：MSCGRec v1, follows MQL4GRec's text embeddings and tests its reassignment: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1 and https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - 出处：MSCGRec v1, follows MQL4GRec's text embeddings and tests its reassignment: [S4.SS1.SSS0.Px3.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p1) and [S4.SS1.SSS0.Px3.p2](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px3.p2); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **同期对比** · [LETTER](letter.md): LETTER aligns quantized codes with a sequential recommender inside one tokenizer; MSCGRec keeps collaborative information as its own code modality.
-  - 出处：MSCGRec v1, LETTER-TIGER baseline: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - 出处：MSCGRec v1, LETTER-TIGER baseline: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **同期对比** · [CoST](cost.md): CoST aligns embeddings before and after quantization contrastively; MSCGRec changes the modalities and the training softmax instead.
-  - 出处：MSCGRec v1, baselines: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - 出处：MSCGRec v1, baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 - **同期对比** · [ETEGRec](etegrec.md): ETEGRec trains tokenizer and generator end to end; MSCGRec quantizes frozen pretrained embeddings per modality.
-  - 出处：MSCGRec v1, baselines: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.
+  - 出处：MSCGRec v1, baselines: [S4.SS1.SSS0.Px2.p1](https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1); Table 2: [S4.T2](https://arxiv.org/html/2602.03713v1#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

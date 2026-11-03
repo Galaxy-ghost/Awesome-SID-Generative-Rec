@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP†
 inference: Spec. Dec.
 poi: false
-summary: 'Abstract: "decoding remains sequential and thus latency-prone".'
 tldr: PAD-Rec adds gated item-slot and draft-step position embeddings to the draft model of speculative decoding, instead
   of treating all Semantic ID draft tokens uniformly.
 tldr_zh: PAD-Rec 为投机解码的草稿模型加入门控的物品槽位嵌入与起草步位置嵌入，不再对所有 SID 草稿 token 做无差别处理。

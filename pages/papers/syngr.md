@@ -1,22 +1,28 @@
 # SynGR
 
+[← Problem × Stage Matrix](../../README.md#i--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/syngr.md)
+
 | **Title** | *Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | ICML’26 |
 | **Problem × Stage** | `I. Informativeness` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) · [Matrix](../../README.md#i--training) · [中文](../zh/papers/syngr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text+Img`: Text and visual item representations.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SynGR"]
-    P -->|competitor| A["MACRec"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["TIGER"]
-    P -->|competitor| D["CID"]
+    P -->|"competitor"| A["MACRec"]
+    P -->|"competitor"| B["MQL4GRec"]
+    P -->|"competitor"| C["TIGER"]
+    P -->|"competitor"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [MACRec](macrec.md): MACRec aligns modalities with multiple explicit and implicit generation tasks; SynGR diagnoses modality shortcuts and adds a synergy-focused contrastive objective, with lower training cost.
-  - Source: SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1; efficiency comparison: https://arxiv.org/html/2605.18920v2#S5.SS3.p2.
+  - Source: SynGR v2, generative baselines: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1); efficiency comparison: [S5.SS3.p2](https://arxiv.org/html/2605.18920v2#S5.SS3.p2).
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec translates each modality into its own quantitative language; SynGR follows its decoding and pre-training protocol but targets synergistic information between modalities.
-  - Source: SynGR v2, baselines and protocol: https://arxiv.org/html/2605.18920v2#S5.SS1.p2, https://arxiv.org/html/2605.18920v2#S5.SS1.p3, https://arxiv.org/html/2605.18920v2#S4.SS3.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - Source: SynGR v2, baselines and protocol: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2), [S5.SS1.p3](https://arxiv.org/html/2605.18920v2#S5.SS1.p3), [S4.SS3.p2](https://arxiv.org/html/2605.18920v2#S4.SS3.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 - **Competitor** · [TIGER](tiger.md): TIGER uses unimodal text SIDs; SynGR fuses text and image codes and regularizes their synergy.
-  - Source: SynGR v2, generative baselines: https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - Source: SynGR v2, generative baselines: [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 - **Competitor** · [CID](cid.md): P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
-  - Source: SynGR v2, sequential baselines (P5-CID): https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.
+  - Source: SynGR v2, sequential baselines (P5-CID): [S5.SS1.p2](https://arxiv.org/html/2605.18920v2#S5.SS1.p2); Table 1: [S4.T1](https://arxiv.org/html/2605.18920v2#S4.T1).
 
 [View all papers in this cell](../../README.md#i--training)

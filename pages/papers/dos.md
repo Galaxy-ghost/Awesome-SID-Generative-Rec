@@ -1,25 +1,31 @@
 # DOS
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dos.md)
+
 | **Title** | *Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* |
 | :-- | :-- |
 | **Authors** | Yin et al. |
 | **Venue** | WWW’26 Short |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.04460) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/dos.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.04460) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Orth. RQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `Orth. RQ`: Orthogonal residual quantization.
+- `Dec-Only†`: Decoder-only autoregressive backbone (inferred).
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -67,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DOS"]
-    P -->|competitor| A["DAS"]
-    P -->|alternative| B["TIGER"]
+    P -->|"competitor"| A["DAS"]
+    P -->|"alternative"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [DAS](das.md): Industrial SID baseline compared offline and within HSTU; DOS contrasts direct sequence-target modeling with DAS's indirect collaborative alignment.
-  - Source: https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1 ; #S3.SS2.SSS2.p1
+  - Source: [S3.SS2.SSS1.p1](https://arxiv.org/html/2602.04460v1#S3.SS2.SSS1.p1) ; #S3.SS2.SSS2.p1
 - **Alternative** · [TIGER](tiger.md): Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
-  - Source: https://arxiv.org/html/2602.04460v1#S1.p2 (Rajput et al., 2023)
+  - Source: [S1.p2](https://arxiv.org/html/2602.04460v1#S1.p2) (Rajput et al., 2023)
 
 [View all papers in this cell](../../README.md#iii--tokenization)

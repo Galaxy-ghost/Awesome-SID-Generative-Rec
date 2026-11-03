@@ -2,7 +2,7 @@
 
 English | [中文](glossary.zh.md)
 
-This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines the values in Table 1, the paper pages, and the indexes.
+This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines the controlled vocabulary values used in Table 1, the paper pages, and the indexes.
 
 ## Symbols
 
@@ -27,12 +27,12 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Attr+Geo+CF`: Category and other attributes, plus geography, plus CF (POI).
 - `Attr+Geo+CF†`: Structured item attributes, geographic information, and collaborative signals (inferred).
 - `CF`: Collaborative filtering signal.
-- `Cross-Dom`
+- `Cross-Dom`: Item representations transferred or shared across multiple domains.
 - `Geo`: Geographic coordinates or spatial features.
 - `MM`: Multimodal item representations.
 - `MM+CF`: Multimodal item representations aligned with collaborative signals.
-- `Multi-Dom`
-- `Text`
+- `Multi-Dom`: Unified item representations built jointly across multiple domains.
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Text + CF`: Text representations combined with collaborative signals.
 - `Text + Img + CF`: Text and image representations combined with collaborative signals.
 - `Text / Audio`: Text or audio representations in different branches or evaluation settings.
@@ -40,22 +40,22 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Text / Text+CF`: Text-only representations or text representations combined with collaborative signals.
 - `Text / –`: Text representations in one configuration; the representation source is not reported in another.
 - `Text+Attr+Geo`: Text, structured attributes, and geographic information.
-- `Text+CF`
+- `Text+CF`: Text representations combined with collaborative signals.
 - `Text+CF / Text`: Text with collaborative signals, or text-only representations, in different configurations.
-- `Text+Geo`
-- `Text+Geo+CF`
-- `Text+Img`
+- `Text+Geo`: Text representations combined with geographic or spatial features.
+- `Text+Geo+CF`: Text representations combined with geographic features and collaborative signals.
+- `Text+Img`: Text and visual item representations.
 - `Text+Img+Attr`: Text, images, and structured item attributes.
 - `Text+Img+Audio+CF`: Text, visual, and audio content combined with collaborative signals.
-- `Text+Img+CF`
-- `Text+Img+CF†`
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `Text+Img+CF†`: Text, image, and collaborative representations (inferred).
 - `Text+Img+Geo`: Text, images, and geographic information.
-- `Text+Img+Geo+CF`
-- `Text+Img+Geo†`
-- `Text+Img†`
+- `Text+Img+Geo+CF`: Text, image, geographic, and collaborative representations.
+- `Text+Img+Geo†`: Text, image, and geographic representations (inferred).
+- `Text+Img†`: Text and image representations (inferred).
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
 - `Text+Time`: Text representations combined with interaction timestamps.
-- `Text†`
+- `Text†`: Textual item representations (inferred).
 - `n/a`: Not applicable to this method.
 - `–`: Not reported in the paper.
 - `– / Text+Img`: The representation source is unreported in one configuration; text and image representations are used in another.
@@ -65,18 +65,18 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Align. RQ`: Residual quantization trained with alignment objectives.
 - `BDQ`: Bit-Decomposable Quantizer.
 - `Bal. VQ+KM`: Balanced tokenization combining vector quantization and k-means clustering.
-- `C-RQ`
+- `C-RQ`: Contrastive residual quantization.
 - `CART`: Collaborative-Aware Refined Tokenization.
 - `CF-Aligned MM RQ`: Multimodal residual quantization aligned with collaborative signals.
-- `Casc. RQ`
+- `Casc. RQ`: Cascaded sparse-to-dense residual quantization.
 - `CoBa RQ-VAE`: Collaborative and Balanced RQ-VAE.
 - `Contr. RQ`: Residual quantization trained with contrastive objectives.
-- `Cross RQ`
-- `Curr. RQ`
+- `Cross RQ`: Cross-modal residual quantization.
+- `Curr. RQ`: Curriculum-trained hierarchical residual quantization.
 - `DSRQ`: Dual-stream residual quantization.
 - `Direct SID Heads`: Prediction heads that directly assign semantic-ID codes.
-- `Dual H-KM`
-- `Dual RQ`
+- `Dual H-KM`: Dual-source hierarchical k-means over behavioral and semantic embeddings.
+- `Dual RQ`: Dual residual quantization over two representation streams or entity types.
 - `Dual RQ-VAE`: Two residual-quantized variational autoencoders for separate representation streams.
 - `Dyn. KM+Disamb.`: Dynamically updated k-means codes combined with disambiguation codes.
 - `Flow+PQ`: Flow-based representation transformation followed by product quantization.
@@ -89,13 +89,13 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Graph RQ-VAE`: A graph-informed residual-quantized variational autoencoder.
 - `H-KM`: Hierarchical k-means.
 - `HARQ`: Hyperbolic Adaptive Residual Quantization.
-- `Hier. RQ`
+- `Hier. RQ`: Hierarchically supervised residual quantization.
 - `KG-RQ`: Residual quantization informed by knowledge-graph structure.
-- `LLM-Vocab`
-- `Learn. RQ`
-- `MM-RQ`
-- `Masked VQ`
-- `MoE-VQ`
+- `LLM-Vocab`: Item identifiers composed directly from tokens in the language model vocabulary.
+- `Learn. RQ`: End-to-end or alternatingly updated learnable residual quantization.
+- `MM-RQ`: Multimodal residual quantization.
+- `Masked VQ`: Masked vector quantization over collaborative representations.
+- `MoE-VQ`: Mixture-of-experts vector quantization.
 - `Multi-Facet ID`: Identifiers representing multiple facets of an item.
 - `Multi-Path R-KM+Hash`: Multiple residual-k-means code paths combined with a hash-based identifier component.
 - `NU-RQ`: Non-uniform RQ variant.
@@ -104,9 +104,9 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Orth. RQ`: Orthogonal residual quantization.
 - `PC-AE`: Parallel Codebook Auto-Encoder
 - `PID (P-SAE)`: Pretrained Interpretable ID (Pretrained Sparse Autoencoder).
-- `Par. OPQ`
-- `Par. VQ`
-- `Post-hoc RQ`
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
+- `Par. VQ`: Parallel multi-codebook vector quantization without sequential residual dependency.
+- `Post-hoc RQ`: Residual quantization with post-hoc collision-free code assignment.
 - `Prog. RQ`: Progressive RQ variant.
 - `QA-RQ`: Qualification-Aware RQ-VAE.
 - `R-KM`: Residual k-means.
@@ -114,23 +114,23 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `R-KM+FSQ`: Residual k-means combined with finite scalar quantization.
 - `R-KM+Geo-CB`: Residual k-means combined with a geographic codebook.
 - `R-KM+Graph`: Residual k-means combined with a graph over semantic codes.
-- `R-KM†`
+- `R-KM†`: Residual k-means tokenization (inferred).
 - `RQ`: Residual quantization.
 - `RQ+IST`: Residual quantization combined with item-level subword tokenization.
-- `RQ+LoRA`
-- `RQ-KM`
+- `RQ+LoRA`: Residual quantization adapted per domain with LoRA modules.
+- `RQ-KM`: Residual k-means quantization.
 - `RQ-PIB`: Residual Quantization with Prefix-aware Interaction Balancing
-- `RQ-VAE`
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `RQ-VAE / Learn. RQ`: Residual-quantized variational codes or learnable residual-quantization codes in different configurations.
 - `RQ-VAE / Par. VQ`: Residual-quantized variational codes or parallel vector-quantization codes in different configurations.
 - `RQ-VAE / R-KM / LETTER`: RQ-VAE, residual k-means, or LETTER tokenization in different configurations.
-- `RQ-VAE+DINO`
+- `RQ-VAE+DINO`: RQ-VAE combined with self-supervised DINO visual quantization.
 - `RQ-VAE+PPR`: Residual-quantized variational codes informed by Personalized PageRank signals.
-- `RQ-VAE†`
+- `RQ-VAE†`: Residual-Quantized Variational AutoEncoder (inferred).
 - `RecDMoN / RQ-GAE`: Recursive DMoN graph partitioning, or residual quantization of graph-propagated representations with a graph reconstruction loss.
 - `Ref.-RQ`: Reference-vector RQ variant.
 - `SRBQ`: Semantic Residual Balanced Quantization
-- `Self-Imp.`
+- `Self-Imp.`: Self-improving tokenization refined iteratively from the generator's learned representations.
 - `Self-Sup. ID`: Semantic identifiers learned through self-supervision.
 - `Shared/Spec. RQ`: Residual quantization using shared and task-specific codebooks.
 - `SimHash`: Locality-sensitive hashing with random hyperplanes.
@@ -139,11 +139,11 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Soft-RQ`: Soft-routed RQ variant.
 - `Spectral Clus.`: Spectral clustering-based tokenization.
 - `Subspace RQ`: Residual quantization applied separately within embedding subspaces.
-- `Term-ID`
-- `TokenMoE`
-- `Tree`
-- `Tree-Clus.`
-- `Unified RQ`
+- `Term-ID`: Standardized textual keyword identifiers generated from item metadata.
+- `TokenMoE`: Mixture-of-experts tokenizer with shared and domain-specific experts.
+- `Tree`: Tree-structured hierarchical codebook tokenization.
+- `Tree-Clus.`: Balanced k-ary tree clustering tokenization.
+- `Unified RQ`: Domain-unified residual quantization.
 - `n/a`: Not applicable to this method.
 - `–`: Not reported in the paper.
 
@@ -152,20 +152,20 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Dec-Only`: Decoder-only.
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Dec-Only / Non-AR`: Decoder-only autoregressive and non-autoregressive prediction variants.
-- `Dec-Only†`
+- `Dec-Only†`: Decoder-only autoregressive backbone (inferred).
 - `Disc.`: A discriminative recommendation model that scores candidates.
 - `Disc. / Enc-Dec`: Discriminative scoring and encoder–decoder generation variants.
-- `Dual Enc-Dec`
+- `Dual Enc-Dec`: Shared encoder paired with two parallel decoders for dual token streams.
 - `Enc-Dec`: Encoder-decoder.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Enc-Dec / Dec-Only (AR); Non-AR (PR)`: Encoder–decoder or decoder-only autoregressive variants, and parallel non-autoregressive variants.
 - `Enc-Dec / Lazy Dec-Only`: Encoder–decoder and lazy decoder-only backbone variants.
-- `Enc-Dec†`
+- `Enc-Dec†`: Encoder–decoder backbone (inferred).
 - `Enc-Dec† / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Enc-Dec† / Dec-Only†`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
-- `Encoder`
-- `Encoder (Non-AR)`
+- `Encoder`: Bidirectional encoder backbone without autoregressive token generation.
+- `Encoder (Non-AR)`: Bidirectional encoder trained for non-autoregressive parallel prediction.
 - `HeterRec`: HeterRec, the named recommendation backbone used in the paper.
 - `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
@@ -177,9 +177,9 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 ## Tokenizer (Training)
 
 - `Altern.`: Tokenizer and generator are updated in turns.
-- `Altern.†`
+- `Altern.†`: Tokenizer and generator updated in alternation (inferred).
 - `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Fixed†`
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `Joint`: The generator loss updates the tokenizer directly.
 - `n/a`: Not applicable to this method.
 - `–`: Not reported in the paper.
@@ -201,8 +201,8 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Masked → RL (→ Masked KD for Fast)`: Masked-prediction pretraining, followed by reinforcement learning and optional masked-prediction distillation for a faster variant.
 - `Multi-task NTP`: The same NTP loss over several tasks.
 - `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT`: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task reinforcement learning follows supervised fine-tuning.
-- `Multi-task NTP†`
-- `Multi-task NTP† / NTP`
+- `Multi-task NTP†`: Multi-task next-token prediction (inferred).
+- `Multi-task NTP† / NTP`: Inferred multi-task next-token prediction or standard next-token prediction across variants.
 - `Multi-task NTP† / NTP†`: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -218,8 +218,8 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `NTP → (RL + Rank)`: Next-token prediction, followed by joint reinforcement-learning and ranking objectives.
 - `NTP → DPO`: NTP, then preference optimization.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
-- `NTP → RL†`
-- `NTP†`
+- `NTP → RL†`: Next-token prediction followed by reinforcement learning (inferred).
+- `NTP†`: Next-token prediction loss (inferred).
 - `NTP† / NTP → RL`: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning in another.
 - `Next-item CE + Cons. KD + Rank KD`: Next-item cross-entropy jointly optimized with consistency and ranking distillation.
 - `n/a`: Not applicable to this method.
@@ -227,12 +227,12 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 
 ## Inference
 
-- `Beam`
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 - `Beam+Agg.`: Beam search followed by aggregation of predictions that refer to the same item.
 - `Beam+Geo-Filter`: Beam search with geographically restricted candidates.
-- `BeamFusion`
-- `Beam†`
-- `Beam† / C-Beam`
+- `BeamFusion`: Joint decoding combining autoregressive SID beam search with dense nearest-neighbor scoring.
+- `Beam†`: Autoregressive beam search (inferred).
+- `Beam† / C-Beam`: Inherited beam search or prefix-constrained beam search across configurations.
 - `Beam† / C-Beam†`: Beam search or constrained beam search in the respective inherited configurations.
 - `Beam† / –`: Inherited beam search in one configuration; decoding not reported in the other.
 - `Bid-Aware Beam`: Beam search whose scores incorporate bid information.
@@ -251,27 +251,27 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Div. C-Beam`: Constrained beam search with an explicit diversity mechanism.
 - `Dual Beam`: Beam-search decoding in two branches with merged candidates.
 - `Dyn. Beam`: Dynamic beam search.
-- `Ensemble`
+- `Ensemble`: Score aggregation across multiple randomized token segmentations or decoding paths.
 - `FM-Index+Agg.`: FM-index-constrained generation followed by identifier-to-item score aggregation.
 - `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
-- `Fusion`
+- `Fusion`: Fusion of candidate scores decoded from parallel token branches.
 - `GRC+Beam`: Generation, reflection and correction combined with beam search.
-- `Graph`
+- `Graph`: Iterative decoding over a proximity graph of valid item Semantic IDs.
 - `Greedy`: Select the highest-scoring next token at each decoding step.
-- `Hybrid`
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 - `ISD Beam`: Item-supported beam search.
 - `Length-Quota Beam`: Beam search with recommendation quotas allocated across output lengths.
-- `Non-AR`
+- `Non-AR`: Single-pass non-autoregressive parallel decoding.
 - `PRM-Beam`: Process-reward-model guided beam search.
 - `PV-Beam+Rerank`: Prefix-value-guided beam search followed by reranking.
-- `Scoring`
-- `Scoring / Beam`
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
+- `Scoring / Beam`: Direct candidate scoring or autoregressive beam search across configurations.
 - `Scoring / Beam†`: Discriminative candidate scoring vs. generative beam search.
 - `Scoring+Rerank`: Score candidate items and then rerank a selected subset.
 - `Self-Draft+Hash`: Self-drafted candidate generation with hash-set validity checking.
-- `Sess. Beam`
+- `Sess. Beam`: Session-wise beam search generating a multi-item slate in one pass.
 - `Spec. Dec.`: Speculative decoding.
-- `Trie/C-Beam`
+- `Trie/C-Beam`: Prefix-tree (trie) constrained beam search restricted to valid catalog SIDs.
 - `Vec. C-Beam`: Vectorized constrained beam search.
 - `n/a`: Not applicable to this method.
 - `–`: Not reported in the paper.

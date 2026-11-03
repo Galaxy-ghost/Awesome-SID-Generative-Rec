@@ -1,26 +1,32 @@
 # MBGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mbgr.md) | 中文
+
 | **题目** | *Multi-Business Prediction for Generative Recommendation at Meituan* |
 | :-- | :-- |
 | **作者** | Li et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `VI. 泛化` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2604.02684) · [矩阵](../../../README.zh.md#vi--tokenization) · [English](../../papers/mbgr.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2604.02684) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed† / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `RQ`: Residual quantization.
-- `Dec-Only`: Decoder-only.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
-- `C-Beam`: Constrained beam search.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MBGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"替代方案"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.
-  - 出处：MBGR v1, Table 1 baseline Tiger: https://arxiv.org/html/2604.02684v1#S6.T1; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
+  - 出处：MBGR v1, Table 1 baseline Tiger: [S6.T1](https://arxiv.org/html/2604.02684v1#S6.T1); related work: [S2.SS1.p1](https://arxiv.org/html/2604.02684v1#S2.SS1.p1).
 - **替代方案** · [OneRec](onerec.md): OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business generation for recall.
-  - 出处：MBGR v1, Section 6.6 contrasts with OneRec: https://arxiv.org/html/2604.02684v1#S6.SS6.p2; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
+  - 出处：MBGR v1, Section 6.6 contrasts with OneRec: [S6.SS6.p2](https://arxiv.org/html/2604.02684v1#S6.SS6.p2); related work: [S2.SS1.p1](https://arxiv.org/html/2604.02684v1#S2.SS1.p1).
 
 [查看同格全部论文](../../../README.zh.md#vi--tokenization)

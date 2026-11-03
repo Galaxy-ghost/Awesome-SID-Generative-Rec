@@ -1,23 +1,28 @@
 # SEATER
 
+[← Problem × Stage Matrix](../../README.md#v--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/seater.md)
+
 | **Title** | *Generative retrieval with semantic tree-structured identifiers and contrastive learning* |
 | :-- | :-- |
 | **Authors** | Si et al. |
 | **Venue** | SIGIR-AP’24 |
 | **Problem × Stage** | `V. Efficiency` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) · [Matrix](../../README.md#v--tokenization) · [中文](../zh/papers/seater.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>CF"] --> T["Tokenization<br/>Tree-Clus."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
 - `CF`: Collaborative filtering signal.
+- `Tree-Clus.`: Balanced k-ary tree clustering tokenization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Ctr.`: NTP plus a contrastive loss.
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SEATER"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["CID"]
-    P -->|alternative| C["EAGER"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["CID"]
+    P -->|"alternative"| C["EAGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER builds identifiers by RQ-VAE over text embeddings; SEATER builds balanced tree identifiers from collaborative SASRec embeddings and adds alignment and ranking losses over the tree.
-  - Source: SEATER v2, Section 4.1 related work: https://arxiv.org/html/2309.13375v2#S4.SS1.p2; Table 3 generative baseline: https://arxiv.org/html/2309.13375v2#S5.T3.
+  - Source: SEATER v2, Section 4.1 related work: [S4.SS1.p2](https://arxiv.org/html/2309.13375v2#S4.SS1.p2); Table 3 generative baseline: [S5.T3](https://arxiv.org/html/2309.13375v2#S5.T3).
 - **Alternative** · [CID](cid.md): P5 with collaborative indexing uses spectral clustering of interactions for IDs; SEATER uses a balanced k-ary tree from constrained k-means.
-  - Source: SEATER v2, Section 4.1 cites Hua et al. (2023b): https://arxiv.org/html/2309.13375v2#S4.SS1.p2.
+  - Source: SEATER v2, Section 4.1 cites Hua et al. (2023b): [S4.SS1.p2](https://arxiv.org/html/2309.13375v2#S4.SS1.p2).
 - **Alternative** · [EAGER](eager.md): EAGER, a later paper that cites SEATER among generative recommenders, builds two tree-structured codes (behavior and semantic) with hierarchical k-means instead of one collaborative tree.
-  - Source: Evidence is from the later EAGER paper, Section 1: https://arxiv.org/html/2406.14017v2#S1.p2.
+  - Source: Evidence is from the later EAGER paper, Section 1: [S1.p2](https://arxiv.org/html/2406.14017v2#S1.p2).
 
 [View all papers in this cell](../../README.md#v--tokenization)

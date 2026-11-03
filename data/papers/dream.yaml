@@ -16,7 +16,6 @@ tokenizer: Altern.
 objective: NTP + Aux.
 inference: C-Beam
 poi: false
-summary: 提出冷物品 SID 重新分配及多路径生成新方法。
 tldr: DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates,
   the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses.
 tldr_zh: DREAM 在冷启动物品初始分配 SID 后，由意图感知编号器提议候选、冻结生成器择优，并用动态束保留加权 ID 假设，逐步修正冷启动 SID。

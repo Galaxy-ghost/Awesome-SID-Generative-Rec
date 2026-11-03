@@ -1,24 +1,32 @@
 # LION
 
+[← Problem × Stage Matrix](../../README.md#vi--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lion.md)
+
 | **Title** | *Self-Evolving Memory for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Lin et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `VI. Generalization` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/lion.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text†`: Textual item representations (inferred).
+- `RQ-VAE†`: Residual-Quantized Variational AutoEncoder (inferred).
 - `Enc-Dec`: Encoder-decoder.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `NTP + Aux.`: NTP plus another auxiliary loss.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -66,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LION"]
-    P -->|predecessor| A["TIGER"]
+    P -->|"predecessor"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): LION adds sparse evolving memory to TIGER's continual fine-tuning baseline.
-  - Source: LION v1, Sections 5.1.3/5.1.4 and Table 1: https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1; https://arxiv.org/html/2609.15598v1#S5.SS1.SSS4.p1; https://arxiv.org/html/2609.15598v1#S5.T1.
+  - Source: LION v1, Sections 5.1.3/5.1.4 and Table 1: [S5.SS1.SSS3.p1](https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1); [S5.SS1.SSS4.p1](https://arxiv.org/html/2609.15598v1#S5.SS1.SSS4.p1); [S5.T1](https://arxiv.org/html/2609.15598v1#S5.T1).
 
 [View all papers in this cell](../../README.md#vi--backbone)

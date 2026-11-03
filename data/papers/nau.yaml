@@ -16,18 +16,6 @@ tokenizer: Fixed
 objective: NTP + Aux.
 inference: –
 poi: false
-summary: 'Generative recommendation predicts items by autoregressively generating semantic identifiers (SIDs), whose tokens
-  are shared across semantically related items. With this paradigm gaining adoption, the question of how to support unlearning
-  in it has become pressing. If training interactions must later be removed, such as injected spam or interactions with items
-  a user no longer wants, this sharing lets an unlearning update unintentionally affect the predictions for the interactions''
-  neighbors. We show that this effect is locally structured and hidden by global metrics: unlearning can leave recommendation
-  utility on the whole test set nearly unchanged while substantially degrading it on neighborhoods of the forgotten interactions''
-  SIDs. We propose Neighborhood-Aware Unlearning (NAU), which augments interaction-level unlearning with explicit control
-  over the probability mass assigned to the forgotten items'' neighborhoods. Across three datasets and four SID tokenizers,
-  NAU restores spam-induced exposure toward the retrained reference while retaining more than 95% of retrained utility, and
-  recovers the neighborhood utility that forget-and-repair unlearning loses at no global cost. We identify local probability
-  redistribution as an important failure mode of unlearning in SID-based generative recommenders and show that explicitly
-  controlling this redistribution can mitigate its effects.'
 tldr: NAU adds explicit control over the probability mass on forgotten items' Semantic ID neighborhoods to interaction-level
   unlearning, because shared tokens let unlearning degrade neighboring items.
 tldr_zh: NAU 针对共享 token 导致遗忘操作波及邻近物品的问题，在交互级机器遗忘中显式控制被遗忘物品 SID 邻域上的概率质量。

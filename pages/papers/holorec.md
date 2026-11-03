@@ -1,23 +1,26 @@
 # HoloRec
 
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/holorec.md)
+
 | **Title** | *Holistic Encoding and Interleaved Reasoning for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhao et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2606.15331) · [Matrix](../../README.md#iii--tokenization) · [中文](../zh/papers/holorec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2606.15331) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>Nested RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `–`: Not reported in the paper.
 - `Nested RQ`: Residual quantization across nested representation granularities.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HoloRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LLaDA-Rec"]
-    P -->|alternative| C["OneRec-Think"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["LLaDA-Rec"]
+    P -->|"alternative"| C["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): HoloRec retains TIGER's T5 backbone and adds nested semantic granularities.
-  - Source: HoloRec v1, Section 4.1.4 and Table 2: https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2606.15331v1#S4.T2.
+  - Source: HoloRec v1, Section 4.1.4 and Table 2: [S4.SS1.SSS4.p1](https://arxiv.org/html/2606.15331v1#S4.SS1.SSS4.p1); [S4.T2](https://arxiv.org/html/2606.15331v1#S4.T2).
 - **Alternative** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses parallel diffusion; HoloRec interleaves autoregressive semantic reasoning.
-  - Source: HoloRec v1, Sections 2.2 and 3.3: https://arxiv.org/html/2606.15331v1#S2.SS2.p1; https://arxiv.org/html/2606.15331v1#S3.SS3.
+  - Source: HoloRec v1, Sections 2.2 and 3.3: [S2.SS2.p1](https://arxiv.org/html/2606.15331v1#S2.SS2.p1); [S3.SS3](https://arxiv.org/html/2606.15331v1#S3.SS3).
 - **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think reasons in natural language; HoloRec uses endogenous semantic codes.
-  - Source: HoloRec v1, Section 2.3: https://arxiv.org/html/2606.15331v1#S2.SS3.p1.
+  - Source: HoloRec v1, Section 2.3: [S2.SS3.p1](https://arxiv.org/html/2606.15331v1#S2.SS3.p1).
 
 [View all papers in this cell](../../README.md#iii--tokenization)

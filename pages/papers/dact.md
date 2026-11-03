@@ -1,26 +1,31 @@
 # DACT
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dact.md)
+
 | **Title** | *Drift-Aware Continual Tokenization for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Feng et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.29705) · [Code](https://github.com/HomesAmaranta/DACT) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/dact.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.29705) · [Code](https://github.com/HomesAmaranta/DACT) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DACT"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LC-Rec"]
-    P -->|predecessor| C["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LC-Rec"]
+    P -->|"predecessor"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): T5-based SID generator is a backbone for testing DACT under period-wise tokenizer and recommender updates.
-  - Source: https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T2
+  - Source: [S4.SS1.SSS2.p1](https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1) ; #S4.T2
 - **Predecessor** · [LC-Rec](lc-rec.md): LLM-based generative framework is adapted with Qwen2.5-1.5B-Instruct and continual LoRA updates to evaluate DACT.
-  - Source: https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1 ; #S4.T3
+  - Source: [S4.SS1.SSS2.p1](https://arxiv.org/html/2603.29705v1#S4.SS1.SSS2.p1) ; #S4.T3
 - **Predecessor** · [LETTER](letter.md): DACT follows LETTER's CF-to-quantized-embedding collaborative regularization, then adds drift-aware continual adaptation.
-  - Source: https://arxiv.org/html/2603.29705v1#S2.SS1.p5
+  - Source: [S2.SS1.p5](https://arxiv.org/html/2603.29705v1#S2.SS1.p5)
 
 [View all papers in this cell](../../README.md#vi--tokenization)

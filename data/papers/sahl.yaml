@@ -16,19 +16,6 @@ tokenizer: Fixed
 objective: (MTP + Masked Rec.) → MTP
 inference: Graph
 poi: false
-summary: Generative recommendation constructs semantic IDs for catalog items and predicts the next ID from user interaction
-  histories. However, existing methods face limitations in both stages. First, conventional quantizers may produce imbalanced
-  code assignments and lack coherent intermediate semantic units between individual tokens and complete items, limiting history
-  reconstruction. Second, recommendation models remain dominated by next-item prediction, treating historical interactions
-  mainly as conditioning context and providing limited supervision for recovering persistent preferences across the historical
-  path, particularly when relevant preference signals are distributed over distant interactions. To address these limitations,
-  Structure-Aligned History Learning (SAHL) reconnects the two stages by using the structure created during quantization directly
-  for history reconstruction. Its Semantic Residual Balanced Quantization (SRBQ) forms a balanced token-subspace-item hierarchy,
-  and SAHL reconstructs history at these same granularities. Predictive entropy prioritizes uncertain transitions, while curriculum
-  optimization progressively shifts training to inference-aligned next-item prediction. On four Amazon Review categories,
-  SAHL improves NDCG@10 by 18.6%-30.0% over RPG and 2.7%-6.0% over strong method MHL. Controlled analyses verify balanced
-  code use, the benefit of following quantizer-defined groups during reconstruction, and dependence on user history. The relevant
-  code is available at https://github.com/CQU-MM-Intelligent-Lab/SAHL.
 tldr: SAHL quantizes items with SRBQ into a balanced token-subspace-item hierarchy and reconstructs user history at those
   granularities, moving by curriculum to next-item prediction, instead of next-item prediction alone.
 tldr_zh: SAHL 用 SRBQ 将物品量化为均衡的“token-子空间-物品”层级结构，按课程学习从多粒度历史重构过渡到下一物品预测，替代单纯下一物品预测。

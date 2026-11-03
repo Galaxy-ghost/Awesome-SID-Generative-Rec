@@ -17,8 +17,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: Encodes item text into hierarchical RQ-VAE Semantic IDs and autoregressively decodes target item identifiers with
-  a T5 encoder-decoder.
 tldr: TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's
   ID, instead of retrieving items by approximate nearest neighbor search.
 tldr_zh: TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。

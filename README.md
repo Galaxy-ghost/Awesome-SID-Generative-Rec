@@ -3,9 +3,9 @@
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-Papers on generative recommendation with Semantic IDs, sorted by the problem each paper fixes and the pipeline stage it changes.
+Papers and annotated deep dives on Semantic ID generative recommendation, indexed by research problem and pipeline stage.
 
-[![papers](https://img.shields.io/badge/papers-181-c6dbef)](#all-papers) [![updated](https://img.shields.io/badge/updated-2026--11--01-d9ead3)](#recent-updates) [![license](https://img.shields.io/badge/license-CC0--1.0-e5dcef)](LICENSE)
+[![papers](https://img.shields.io/badge/papers-181-d6e8fa)](#all-papers) [![updated](https://img.shields.io/badge/updated-2026--11--01-d9ead3)](#recent-updates) [![license](https://img.shields.io/badge/license-CC0--1.0-e5dcef)](LICENSE)
 
 English | [中文](README.zh.md)
 
@@ -14,25 +14,28 @@ English | [中文](README.zh.md)
 ```mermaid
 flowchart LR
     R["Representation<br/>12 papers"] --> T["Tokenization<br/>70 papers"] --> B["Backbone<br/>33 papers"] --> TR["Training<br/>40 papers"] --> I["Inference<br/>14 papers"]
+    classDef stage fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I stage
 ```
 
 ## Scope
 
-This list collects 181 papers on generative recommendation with Semantic IDs (SIDs). The matrix places 169 of them by problem and main stage; the other 12 are paradigms, systems and benchmarks. Methods that use SIDs as features are included. POI and local-life papers carry a `POI` tag and are listed in the [POI index](pages/index/poi.md).
+This repository indexes 181 papers on generative recommendation with Semantic IDs (SIDs). The matrix organizes 169 of them by research problem and primary modified stage, while 12 cover paradigms, systems and benchmarks. Approaches that feed discrete SIDs into discriminative or hybrid architectures are included alongside autoregressive and parallel generators. POI and local-life papers carry a `POI` tag and are collected in the [POI index](pages/index/poi.md).
 
 ## Where to Start
 
-| Reader                        | Start with                                       |
-| :---------------------------- | :----------------------------------------------- |
-| New to the topic              | [Start Here](guides/start-here.md)               |
-| Looking for research problems | [Problem × Stage Matrix](#problem--stage-matrix) |
-| Choosing a method by stage    | [Papers by Stage](pages/index/stages.md)         |
-| Looking for code              | [Papers with Code](pages/index/code.md)          |
-| LLMs and tools                | [llms.txt](llms.txt)                             |
+| Goal                               | Entry point                                      |
+| :--------------------------------- | :----------------------------------------------- |
+| New to the topic                   | [Start Here](guides/start-here.md)               |
+| Locate papers by research problem  | [Problem × Stage Matrix](#problem--stage-matrix) |
+| Compare methods within one stage   | [Papers by Stage](pages/index/stages.md)         |
+| Browse by tokenizer input modality | [Papers by Modality](pages/index/modality.md)    |
+| Find open-source implementations   | [Papers with Code](pages/index/code.md)          |
+| Feed LLMs and search tools         | [llms.txt](llms.txt)                             |
 
 ## Starter Papers
 
-| Paper      | In one sentence                                                                                                                                                                                                 | Venue      |
+| Paper      | Core mechanism                                                                                                                                                                                                  | Venue      |
 | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
 | [TIGER][]  | TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search.                     | NeurIPS’23 |
 | [OneLoc][] | OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards. | arXiv’25   |
@@ -40,17 +43,19 @@ This list collects 181 papers on generative recommendation with Semantic IDs (SI
 
 ## Problem × Stage Matrix
 
-| Problem                         |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |  Total  |
-| :------------------------------ | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
-| **I.** Informativeness          | [![12](https://img.shields.io/badge/12-2171b5?style=for-the-badge)](#i--representation) |  [![34](https://img.shields.io/badge/34-08306b?style=for-the-badge)](#i--tokenization)  |  [![7](https://img.shields.io/badge/7-6baed6?style=for-the-badge)](#i--backbone)  |  [![4](https://img.shields.io/badge/4-6baed6?style=for-the-badge)](#i--training)   |  [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#i--inference)  |  **59** |
-| **II.** Uniqueness and Validity |                                                                                         |  [![12](https://img.shields.io/badge/12-2171b5?style=for-the-badge)](#ii--tokenization) |                                                                                   |                                                                                    |                                                                                    |  **12** |
-| **III.** SID–Model Alignment    |                                                                                         | [![11](https://img.shields.io/badge/11-2171b5?style=for-the-badge)](#iii--tokenization) | [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#iii--backbone) | [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#iii--training)  | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#iii--inference) |  **31** |
-| **IV.** Utility                 |                                                                                         |   [![1](https://img.shields.io/badge/1-c6dbef?style=for-the-badge)](#iv--tokenization)  |  [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#iv--backbone) | [![22](https://img.shields.io/badge/22-08306b?style=for-the-badge)](#iv--training) | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#iv--inference)  |  **28** |
-| **V.** Efficiency               |                                                                                         |   [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#v--tokenization)   | [![11](https://img.shields.io/badge/11-2171b5?style=for-the-badge)](#v--backbone) |  [![1](https://img.shields.io/badge/1-c6dbef?style=for-the-badge)](#v--training)   |  [![6](https://img.shields.io/badge/6-6baed6?style=for-the-badge)](#v--inference)  |  **21** |
-| **VI.** Generalization          |                                                                                         |   [![9](https://img.shields.io/badge/9-2171b5?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-c6dbef?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-6baed6?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-c6dbef?style=for-the-badge)](#vi--inference)  |  **18** |
-| **Total**                       |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
+Primary placement follows the survey's Table 1; additional tags list other problems or stages the paper explicitly targets.
 
-Click a count to jump to its papers; darker means more papers.
+| Problem                         |                                                    Representation                                                   |                                                     Tokenization                                                    |                                                    Backbone                                                   |                                                    Training                                                    |                                                   Inference                                                    |  Total  |
+| :------------------------------ | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :-----: |
+| **I.** Informativeness          | [![12 (+1)](https://img.shields.io/badge/12-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#i--representation) |  [![34 (+3)](https://img.shields.io/badge/34-%2B3-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#i--tokenization)  |  [![7 (+4)](https://img.shields.io/badge/7-%2B4-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--backbone)  |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--training)   |  [![2 (+2)](https://img.shields.io/badge/2-%2B2-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#i--inference)  |  **59** |
+| **II.** Uniqueness and Validity |                                                                                                                     |  [![12 (+3)](https://img.shields.io/badge/12-%2B3-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#ii--tokenization) |                                                                                                               |                                                                                                                |             [![+2](https://img.shields.io/badge/%2B2-f1f5f9?style=for-the-badge)](#ii--inference)              |  **12** |
+| **III.** SID–Model Alignment    |                                                                                                                     | [![11 (+1)](https://img.shields.io/badge/11-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--tokenization) | [![9 (+1)](https://img.shields.io/badge/9-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--backbone) | [![9 (+2)](https://img.shields.io/badge/9-%2B2-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--training)  | [![2 (+1)](https://img.shields.io/badge/2-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#iii--inference) |  **31** |
+| **IV.** Utility                 |                                                                                                                     |                 [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)                |                [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone)               | [![22 (+2)](https://img.shields.io/badge/22-%2B2-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#iv--training) |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)                |  **28** |
+| **V.** Efficiency               |                                                                                                                     |                 [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)                 |               [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone)               |  [![1 (+1)](https://img.shields.io/badge/1-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#v--training)   |  [![6 (+2)](https://img.shields.io/badge/6-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#v--inference)  |  **21** |
+| **VI.** Generalization          |                                                                                                                     |                 [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)                |  [![3 (+1)](https://img.shields.io/badge/3-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#vi--backbone) |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#vi--training)  |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)                |  **18** |
+| **Total**                       |                                                        **12**                                                       |                                                        **70**                                                       |                                                     **33**                                                    |                                                     **40**                                                     |                                                     **14**                                                     | **169** |
+
+Click a badge to jump to its papers; the left count is primary placements (darker light-blue indicates more papers) and `+n` counts papers with a paired secondary tag in that cell.
 
 | Mark       | Meaning                                          |
 | :--------- | :----------------------------------------------- |
@@ -62,12 +67,28 @@ Click a count to jump to its papers; darker means more papers.
 | Empty cell | No paper yet.                                    |
 | `warm`     | Protocol label in setup cards.                   |
 
-The [glossary](guides/glossary.md) defines every value in the paper pages.
+The [glossary](guides/glossary.md) defines every symbol and column value used across the paper pages.
+
+## Tokenizer Input Modality
+
+Grouped by the content modality and collaborative filtering (`CF`) signal in the survey's Table 1 `representation` column; `CF` here refers only to the tokenizer input, and `A / B` dual-branch configurations appear in each branch's cell.
+
+| Content Modality | No CF tagged                                              | With CF                                                            |
+| :--------------- | :-------------------------------------------------------- | :----------------------------------------------------------------- |
+| **Single-modal** | [Single-modal (82)](pages/index/modality.md#single-modal) | [Single-modal + CF (32)](pages/index/modality.md#single-modal--cf) |
+| **Multimodal**   | [Multimodal (15)](pages/index/modality.md#multimodal)     | [Multimodal + CF (21)](pages/index/modality.md#multimodal--cf)     |
+| **Other**        | [Other (1)](pages/index/modality.md#other)                | [Other + CF (10)](pages/index/modality.md#other--cf)               |
+
+**Unspecified representation**: [25 papers](pages/index/modality.md#unspecified-representation) (`–`, `Multi-Dom`, `Cross-Dom`, or an unreported branch).
+
+**Not applicable**: [1 paper](pages/index/modality.md#not-applicable) (`n/a`).
+
+**Auxiliary signals**: [`Geo` (15)](pages/index/modality.md#geo) · [`Time` (1)](pages/index/modality.md#time) · [`SID` (5)](pages/index/modality.md#sid).
 
 ## Recent Updates
 
-- 2026-11-01: The paper pages gained a new template with reading levels, setup cards, and related-work links; five sample pages were rewritten, and index pages and a glossary were added. Papers: [TIGER][], [RPG][], [OneLoc][], [LETTER][], [SIDScope][].
-- 2026-10-30: Table 1 of the survey was frozen at 181 papers, and the records were synchronized with it.
+- 2026-11-01: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary. Papers: [TIGER][], [RPG][], [OneLoc][], [LETTER][], [SIDScope][].
+- 2026-10-30: Synchronized all 181 paper records with Table 1 of the survey across the six research problems and five pipeline stages.
 
 ## All Papers
 
@@ -87,10 +108,10 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search.<br>
   [Paper](https://arxiv.org/abs/2305.05065) · [Code (third-party)](https://github.com/baiyimeng/TIGER)
 - [FORGE][] - KDD’26<br>
-  FORGE is a benchmark and industrial dataset, not a new recommender: it compares Semantic ID construction strategies, adds metrics that assess IDs without generator training, and releases Taobao data.<br>
+  FORGE benchmarks Semantic ID construction strategies on a released Taobao dataset and proposes metrics that evaluate ID quality without training a generator.<br>
   [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid)
 - [GRID][] - CIKM’25<br>
-  GRID is an open-source modular framework, not a new recommender: it makes components of Semantic ID generative recommenders swappable and ablates them on public benchmarks.<br>
+  GRID provides an open-source modular framework with swappable Semantic ID tokenizers, backbones, and decoding rules to ablate design choices on public benchmarks.<br>
   [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID)
 - [MiniOneRec][] - arXiv’25<br>
   MiniOneRec is an open-source framework for RQ-VAE Semantic ID construction, supervised fine-tuning of Qwen backbones, and reinforcement learning with constrained decoding, to test generative scaling on public benchmarks.<br>
@@ -99,13 +120,13 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions of videos, and aligns preferences by iterative DPO with a reward model.<br>
   [Paper](https://arxiv.org/abs/2502.18965)
 - [GR-Generalize][] - arXiv’26<br>
-  GR-Generalize is an analysis, not a new recommender: it labels test instances as memorization or generalization, compares generative and item ID models on each, and combines both per instance.<br>
+  GR-Generalize partitions test instances into memorization and generalization subsets, compares generative and item-ID recommenders on each, and ensembles both per instance.<br>
   [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR)
 - [NEO][] - arXiv’26<br>
   NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained decoding, to unify search, recommendation, and reasoning without tools.<br>
   [Paper](https://arxiv.org/abs/2603.17533)
 - [Netflix-SID-Comparison][] - NeurIPS’26 PALM Workshop<br>
-  Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost.<br>
+  Netflix-SID-Comparison evaluates single-head autoregressive beam search against multi-token prediction for LLM Semantic ID generation on ranking quality and serving cost.<br>
   [Paper](https://arxiv.org/abs/2610.15864)
 - [OneMall][] - CIKM’26<br>
   OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.<br>
@@ -114,10 +135,10 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   PLUM adapts a pre-trained LLM to industrial recommendation through Semantic ID tokenization, continued pre-training on domain data, and fine-tuning for generative retrieval, instead of large embedding tables.<br>
   [Paper](https://arxiv.org/abs/2510.07784)
 - [ReRankID][] - arXiv’26<br>
-  ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.<br>
+  ReRankID evaluates how language models reason over and rerank candidate slates represented solely by Semantic IDs across different post-training recipes.<br>
   [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID)
 - [SIDScope][] - arXiv’26<br>
-  SIDScope is a diagnostic resource, not a new recommender: it checks released Semantic ID mappings for code organization, item resolution, and model compatibility after a refresh.<br>
+  SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes.<br>
   [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope)
 
 ## I. Informativeness
@@ -162,6 +183,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [TriAlignGR][] - arXiv’26<br>
   TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss.<br>
   [Paper](https://arxiv.org/abs/2605.05249)
+
+Also in this cell: [COBRA][].
 
 ### I × Tokenization
 
@@ -220,7 +243,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends its Semantic ID once confidence is high, so ID length varies per item.<br>
   [Paper](https://arxiv.org/abs/2605.05096)
 - [ChronoID][] - arXiv’26<br>
-  ChronoID is a framework and benchmark for time-aware Semantic ID learning that studies where and how explicit time signals enter the IDs, unlike existing time-agnostic Semantic ID learning.<br>
+  ChronoID benchmarks time-aware Semantic ID construction across temporal encoding, fusion, and quantization choices, replacing static time-agnostic IDs.<br>
   [Paper](https://arxiv.org/abs/2606.14260)
 - [GrIS (RecDMoN / RQ-GAE)][gris-recdmon-rq-gae] - CIKM’26<br>
   GrIS (RecDMoN / RQ-GAE) treats Semantic ID construction as hierarchical partition of an item graph with collaborative edges, recovering RQ-VAE and RQ-KMeans as the empty-graph case.<br>
@@ -268,6 +291,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.<br>
   [Paper](https://arxiv.org/abs/2605.17779)
 
+Also in this cell: [CID][], [HiD-VAE][], [GRLM][].
+
 ### I × Backbone
 
 - [ColaRec][] - CIKM’24<br>
@@ -292,6 +317,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking.<br>
   [Paper](https://arxiv.org/abs/2610.16132)
 
+Also in this cell: [MME-SID][], [OneLoc][], [RPG][], [ACERec][].
+
 ### I × Training
 
 - [MBGen][] - CIKM’24<br>
@@ -307,6 +334,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.<br>
   [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR)
 
+Also in this cell: [EAGER][], [COBRA][].
+
 ### I × Inference
 
 - [CAPE][] - arXiv’26<br>
@@ -315,6 +344,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [CITE][] - Electronics’26<br>
   CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.<br>
   [Paper](https://doi.org/10.3390/electronics15204749)
+
+Also in this cell: [EAGER][], [COBRA][].
 
 ## II. Uniqueness and Validity
 
@@ -359,6 +390,12 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.<br>
   [Paper](https://arxiv.org/abs/2607.28895)
 
+Also in this cell: [LC-Rec][], [LETTER][], [GRLM][].
+
+### II × Inference
+
+Also in this cell: [RPG][], [GRLM][].
+
 ## III. SID–Model Alignment
 
 > Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
@@ -399,6 +436,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols.<br>
   [Paper](https://arxiv.org/abs/2607.25216)
 
+Also in this cell: [MME-SID][].
+
 ### III × Backbone
 
 - [LLaDA-Rec][] - arXiv’25<br>
@@ -428,6 +467,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [TrieRec][] - NeurIPS’26<br>
   TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.<br>
   [Paper](https://arxiv.org/abs/2602.21677)
+
+Also in this cell: [MME-SID][].
 
 ### III × Training
 
@@ -459,6 +500,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.<br>
   [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701)
 
+Also in this cell: [DIGER][], [GRLM][].
+
 ### III × Inference
 
 - [GRC][] - CIKM’26<br>
@@ -467,6 +510,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [PROMISE][] - arXiv’26<br>
   PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.<br>
   [Paper](https://arxiv.org/abs/2601.04674)
+
+Also in this cell: [DualGR][].
 
 ## IV. Utility
 
@@ -559,6 +604,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search.<br>
   [Paper](https://arxiv.org/abs/2602.10699)
 
+Also in this cell: [OneLoc][], [DualGR][].
+
 ### IV × Inference
 
 - [ISD][] - arXiv’26<br>
@@ -626,6 +673,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged alignment, and curriculum post-training, instead of generating long reasoning traces at inference.<br>
   [Paper](https://arxiv.org/abs/2610.30675)
 
+Also in this cell: [RPG][].
+
 ### V × Inference
 
 - [AtSpeed][] - ICLR’25<br>
@@ -646,6 +695,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 - [STATIC][] - KDD’26 ADS<br>
   STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized operations for constrained decoding on TPUs and GPUs.<br>
   [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding)
+
+Also in this cell: [RPG][], [DualGR][].
 
 ## VI. Generalization
 
@@ -693,6 +744,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions.<br>
   [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 
+Also in this cell: [LIGER][].
+
 ### VI × Training
 
 - [RecBase][] - EMNLP’25<br>
@@ -708,6 +761,8 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
   CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters.<br>
   [Paper](https://arxiv.org/abs/2609.28972)
 
+Also in this cell: [LIGER][], [DualGR][].
+
 ### VI × Inference
 
 - [LIGER][] - arXiv’24<br>
@@ -719,7 +774,7 @@ The [glossary](guides/glossary.md) defines every value in the paper pages.
 
 ## Contributing
 
-Add one YAML record and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Add or update `data/papers/<id>.yaml` and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 [paradigms, systems and benchmarks]: #paradigms-systems-and-benchmarks
 [i. informativeness]: #i-informativeness

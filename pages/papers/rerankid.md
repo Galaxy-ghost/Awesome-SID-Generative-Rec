@@ -1,20 +1,26 @@
 # ReRankID
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/rerankid.md)
+
 | **Title** | *Reasoning Reranking with Semantic IDs as the Sole Item Representation* |
 | :-- | :-- |
 | **Authors** | Tang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/rerankid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+Greedy"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `R-KM†`: Residual k-means tokenization (inferred).
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
@@ -23,7 +29,7 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-> ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task.
+> ReRankID evaluates how language models reason over and rerank candidate slates represented solely by Semantic IDs across different post-training recipes.
 
 ---
 
@@ -32,7 +38,7 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | ReRankID is a controlled testbed, not a new recommender: models reason over and rerank slates shown only as Semantic IDs, and the paper compares post-training methods for this task. |
+| Key Contribution | ReRankID evaluates how language models reason over and rerank candidate slates represented solely by Semantic IDs across different post-training recipes. |
 | Modified Stage | No single stage |
 
 ---
@@ -66,13 +72,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ReRankID"]
-    P -->|alternative| A["OneRec-Think"]
-    P -->|predecessor| B["TIGER"]
+    P -->|"alternative"| A["OneRec-Think"]
+    P -->|"predecessor"| B["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think reasons before catalog-item generation; ReRankID reasons over a supplied candidate slate.
-  - Source: ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
+  - Source: ReRankID v1, Section 2: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1).
 - **Predecessor** · [TIGER](tiger.md): TIGER's SID-generation paradigm is the background contrasted with SID-only slate reranking.
-  - Source: ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.
+  - Source: ReRankID v1, Section 2: [S2.SS0.SSS0.Px1.p1](https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

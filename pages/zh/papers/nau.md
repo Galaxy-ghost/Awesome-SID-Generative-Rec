@@ -1,26 +1,30 @@
 # NAU
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/nau.md) | 中文
+
 | **题目** | *Neighborhood-Aware Unlearning for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Lubitzsch et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.27232) · [代码](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) · [矩阵](../../../README.zh.md#iv--training) · [English](../../papers/nau.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.27232) · [代码](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec†"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
-- `R-KM`: Residual k-means.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec†`：编码器-解码器架构（由配置推断）。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
 
 ### TL;DR
 
@@ -33,9 +37,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | NAU 针对共享 token 导致遗忘操作波及邻近物品的问题，在交互级机器遗忘中显式控制被遗忘物品 SID 邻域上的概率质量。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["NAU"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
-    P -->|competitor| C["TRACER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["LETTER"]
+    P -->|"同期对比"| C["TRACER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): Supplies the generative backbone for the interaction-unlearning experiments.
-  - 出处：NAU v1, Section 4: https://arxiv.org/html/2610.27232v1#S4.p2.
+  - 出处：NAU v1, Section 4: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2).
 - **前序工作** · [LETTER](letter.md): Its collaboratively regularized tokenizer is used to test NAU across SID constructions.
-  - 出处：NAU v1, Section 4 and Appendix D: https://arxiv.org/html/2610.27232v1#S4.p2; https://arxiv.org/html/2610.27232v1#A4.p5.
+  - 出处：NAU v1, Section 4 and Appendix D: [S4.p2](https://arxiv.org/html/2610.27232v1#S4.p2); [A4.p5](https://arxiv.org/html/2610.27232v1#A4.p5).
 - **同期对比** · [TRACER](tracer.md): Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
-  - 出处：NAU v1, Sections 4/6: https://arxiv.org/html/2610.27232v1#S4.p4; https://arxiv.org/html/2610.27232v1#S6.p2.
+  - 出处：NAU v1, Sections 4/6: [S4.p4](https://arxiv.org/html/2610.27232v1#S4.p4); [S6.p2](https://arxiv.org/html/2610.27232v1#S6.p2).
 
 [查看同格全部论文](../../../README.zh.md#iv--training)

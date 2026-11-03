@@ -1,25 +1,32 @@
 # REGER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/reger.md) | 中文
+
 | **题目** | *Modeling inter-item Relations with Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Huang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Training` |
-| **链接** | [论文](https://arxiv.org/abs/2610.37584) · [矩阵](../../../README.zh.md#i--training) · [English](../../papers/reger.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.37584) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → (NTP + Aux.)`：先进行下一 token 预测预训练，再联合优化下一 token 预测与辅助目标。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | REGER 预训练生成器以产出语义近邻的 SID，结合全局与 ID 边界局部注意力，并沿目标前缀路径蒸馏判别式教师的下一 token 分布。 |
-| 主要改动阶段 | Training |
+| 主要改动阶段 | 训练（Training） |
 
 ---
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["REGER"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["GFlowGR"]
-    P -->|competitor| C["APAO"]
-    P -->|predecessor| D["Pctx"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"同期对比"| B["GFlowGR"]
+    P -->|"同期对比"| C["APAO"]
+    P -->|"前序工作"| D["Pctx"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): REGER uses residual-quantized SID generation and additionally tests its HCPD training objective directly on TIGER.
-  - 出处：REGER v1, Section 3.1 and Table 2: https://arxiv.org/html/2610.37584v1#S3.SS1.p1; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - 出处：REGER v1, Section 3.1 and Table 2: [S3.SS1.p1](https://arxiv.org/html/2610.37584v1#S3.SS1.p1); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **同期对比** · [GFlowGR](gflowgr.md): GFlowGR supervises generation with collaborative rewards and flow balance; HCPD directly matches teacher conditional preferences over legal prefix branches, using the same DuoRec teacher.
-  - 出处：REGER v1, Section 5.4 and Table 2: https://arxiv.org/html/2610.37584v1#S5.SS4.p2; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - 出处：REGER v1, Section 5.4 and Table 2: [S5.SS4.p2](https://arxiv.org/html/2610.37584v1#S5.SS4.p2); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **同期对比** · [APAO](apao.md): APAO-pointwise is a compared GR training objective; HCPD instead distills full conditional distributions over legal next tokens along observed target paths.
-  - 出处：REGER v1, Sections 4.3.2/5.1 and Table 2: https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p4; https://arxiv.org/html/2610.37584v1#S5.SS1.p3; https://arxiv.org/html/2610.37584v1#S5.T2.
+  - 出处：REGER v1, Sections 4.3.2/5.1 and Table 2: [S4.SS3.SSS2.p4](https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p4); [S5.SS1.p3](https://arxiv.org/html/2610.37584v1#S5.SS1.p3); [S5.T2](https://arxiv.org/html/2610.37584v1#S5.T2).
 - **前序工作** · [Pctx](pctx.md): REGER follows Pctx in choosing DuoRec as its auxiliary recommender, but transfers collaborative preferences through distillation rather than personalized tokenization.
-  - 出处：REGER v1, Section 4.3.2: https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p1.
+  - 出处：REGER v1, Section 4.3.2: [S4.SS3.SSS2.p1](https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--training)

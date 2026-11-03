@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false
-summary: 明确生成Res-Kmeans三位SID；首次2026-10-22在补搜窗口，提出新的latent对齐训练与高效推荐方法。
 tldr: OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged
   alignment, and curriculum post-training, instead of generating long reasoning traces at inference.
 tldr_zh: OneLatent 通过多视图教师轨迹、分阶段对齐与课程式后训练，将显式思维链压缩为可学习隐 token，避免在推理时生成长推理文本。

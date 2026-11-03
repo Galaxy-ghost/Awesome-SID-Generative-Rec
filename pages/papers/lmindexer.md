@@ -1,22 +1,27 @@
 # LMIndexer
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lmindexer.md)
+
 | **Title** | *Language Models As Semantic Indexers* |
 | :-- | :-- |
 | **Authors** | Jin et al. |
 | **Venue** | ICML’24 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2310.07815) · [Code](https://github.com/PeterGriffinJin/LMIndexer) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/lmindexer.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2310.07815) · [Code](https://github.com/PeterGriffinJin/LMIndexer) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Self-Sup. ID"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
 - `Self-Sup. ID`: Semantic identifiers learned through self-supervision.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["LMIndexer"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["CID"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): Its RQ-VAE indexing approach is adapted as a matched T5-base baseline.
-  - Source: LMIndexer v3, Section 5.1: https://arxiv.org/html/2310.07815v3#S5.SS1.p3; https://arxiv.org/html/2310.07815v3#S5.SS1.p4.
+  - Source: LMIndexer v3, Section 5.1: [S5.SS1.p3](https://arxiv.org/html/2310.07815v3#S5.SS1.p3); [S5.SS1.p4](https://arxiv.org/html/2310.07815v3#S5.SS1.p4).
 - **Alternative** · [CID](cid.md): Cited task-informed item indexing; LMIndexer learns IDs by self-supervised text reconstruction.
-  - Source: LMIndexer v3, Section 2, citing Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2.
+  - Source: LMIndexer v3, Section 2, citing Hua et al. (2023): [S2.p2](https://arxiv.org/html/2310.07815v3#S2.p2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

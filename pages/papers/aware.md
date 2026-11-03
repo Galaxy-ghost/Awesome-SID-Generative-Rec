@@ -1,27 +1,31 @@
 # AWARE
 
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/aware.md)
+
 | **Title** | *Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Training` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.11807) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/aware.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.11807) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+HClus"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text+Geo`: Text representations combined with geographic or spatial features.
 - `Geo-Prefix+HClus`: Geographic prefixes combined with hierarchical clustering codes.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["AWARE"]
-    P -->|predecessor| A["ROS"]
-    P -->|competitor| B["GNPR-SID"]
-    P -->|competitor| C["Spacetime-GR"]
+    P -->|"predecessor"| A["ROS"]
+    P -->|"competitor"| B["GNPR-SID"]
+    P -->|"competitor"| C["Spacetime-GR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [ROS](ros.md): AWARE reuses ROS's SID-equipped pretrained backbone as the controlled baseline.
-  - Source: AWARE v1, Sec.4.2 and Appendix D: https://arxiv.org/html/2605.11807v1#S4.SS2.p1; https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px12.p1.
+  - Source: AWARE v1, Sec.4.2 and Appendix D: [S4.SS2.p1](https://arxiv.org/html/2605.11807v1#S4.SS2.p1); [A4.SS0.SSS0.Px12.p1](https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px12.p1).
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID is a compared generative POI baseline.
-  - Source: AWARE v1, Sec.4.1 and Table1: https://arxiv.org/html/2605.11807v1#S4.SS1.p2; https://arxiv.org/html/2605.11807v1#S4.T1.
+  - Source: AWARE v1, Sec.4.1 and Table1: [S4.SS1.p2](https://arxiv.org/html/2605.11807v1#S4.SS1.p2); [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1).
 - **Competitor** · [Spacetime-GR](spacetime-gr.md): SpaceTime-GR is a compared spatial-temporal generative baseline.
-  - Source: AWARE v1, Appendix D and Table1: https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px7.p1; https://arxiv.org/html/2605.11807v1#S4.T1.
+  - Source: AWARE v1, Appendix D and Table1: [A4.SS0.SSS0.Px7.p1](https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px7.p1); [S4.T1](https://arxiv.org/html/2605.11807v1#S4.T1).
 
 [View all papers in this cell](../../README.md#vi--training)

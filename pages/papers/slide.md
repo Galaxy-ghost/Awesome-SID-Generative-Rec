@@ -1,23 +1,26 @@
 # SLIDE
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/slide.md)
+
 | **Title** | *Search-to-List Item Distillation for Single-Rollout Generative Retrieval* |
 | :-- | :-- |
 | **Authors** | Zhan et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.34764) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/slide.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.34764) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Greedy"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -69,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SLIDE"]
-    P -->|predecessor| A["FORGE"]
-    P -->|alternative| B["OneRec"]
-    P -->|predecessor| C["TIGER"]
+    P -->|"predecessor"| A["FORGE"]
+    P -->|"alternative"| B["OneRec"]
+    P -->|"predecessor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [FORGE](forge.md): SLIDE reuses FORGE's S3 split and SID vocabulary.
-  - Source: SLIDE v1, Section 5.1: https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1; https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1.
+  - Source: SLIDE v1, Section 5.1: [S5.SS1.SSS0.Px1.p1](https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px1.p1); [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1).
 - **Alternative** · [OneRec](onerec.md): OneRec models session dependencies; SLIDE focuses on search-to-greedy list distillation.
-  - Source: SLIDE v1, Section 2.1 (Deng et al., 2025, arXiv:2502.18965): https://arxiv.org/html/2610.34764v1#S2.SS1.p2.
+  - Source: SLIDE v1, Section 2.1 (Deng et al., 2025, arXiv:2502.18965): [S2.SS1.p2](https://arxiv.org/html/2610.34764v1#S2.SS1.p2).
 - **Predecessor** · [TIGER](tiger.md): SLIDE replaces the conventional item-level search interface with a distilled list rollout.
-  - Source: SLIDE v1, Introduction and Section 2.1: https://arxiv.org/html/2610.34764v1#S1.p1; https://arxiv.org/html/2610.34764v1#S2.SS1.p1.
+  - Source: SLIDE v1, Introduction and Section 2.1: [S1.p1](https://arxiv.org/html/2610.34764v1#S1.p1); [S2.SS1.p1](https://arxiv.org/html/2610.34764v1#S2.SS1.p1).
 
 [View all papers in this cell](../../README.md#iv--training)

@@ -1,18 +1,22 @@
 # NEO
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/neo.md)
+
 | **Title** | *A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* |
 | :-- | :-- |
 | **Authors** | De Nadai et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.17533) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/neo.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.17533) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
 - `Text / Audio`: Text or audio representations in different branches or evaluation settings.
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["NEO"]
-    P -->|alternative| A["PLUM"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["EAGER-LLM"]
+    P -->|"alternative"| A["PLUM"]
+    P -->|"predecessor"| B["TIGER"]
+    P -->|"alternative"| C["EAGER-LLM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Alternative** · [PLUM](plum.md): Concurrent SID-LLM adaptation; NEO emphasizes mixed text-ID outputs and multiple item types.
-  - Source: NEO v1, Section 2 and Table 1: https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2; https://arxiv.org/html/2603.17533v1#S2.T1.
+  - Source: NEO v1, Section 2 and Table 1: [S2.SS0.SSS0.Px3.p2](https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p2); [S2.T1](https://arxiv.org/html/2603.17533v1#S2.T1).
 - **Predecessor** · [TIGER](tiger.md): Prior SID-based generative retrieval informs NEO's catalog-grounded item representation.
-  - Source: NEO v1, Introduction and Section 2, citing Rajput et al. (2024): https://arxiv.org/html/2603.17533v1#S1.p4; https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p1.
+  - Source: NEO v1, Introduction and Section 2, citing Rajput et al. (2024): [S1.p4](https://arxiv.org/html/2603.17533v1#S1.p4); [S2.SS0.SSS0.Px3.p1](https://arxiv.org/html/2603.17533v1#S2.SS0.SSS0.Px3.p1).
 - **Alternative** · [EAGER-LLM](eager-llm.md): Motivates testing collaborative SID signals; NEO favors content-derived SIDs in its experiments.
-  - Source: NEO v1, Section 4.2.1, citing Hong et al. (2025): https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1.
+  - Source: NEO v1, Section 4.2.1, citing Hong et al. (2025): [S4.SS2.SSS1.Px4.p1](https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

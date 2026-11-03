@@ -1,22 +1,27 @@
 # RoFiGR
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/rofigr.md)
+
 | **Title** | *Coarse Routing, Fine Refinement via Level-Adaptive Distillation in Multimodal Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Dai et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.39470) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/rofigr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.39470) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>CF-Aligned MM RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
 - `CF-Aligned MM RQ`: Multimodal residual quantization aligned with collaborative signals.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["RoFiGR"]
-    P -->|predecessor| A["MACRec"]
-    P -->|competitor| B["SynGR"]
-    P -->|competitor| C["MQL4GRec"]
+    P -->|"predecessor"| A["MACRec"]
+    P -->|"competitor"| B["SynGR"]
+    P -->|"competitor"| C["MQL4GRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [MACRec](macrec.md): RoFiGR retains MACRec's two-tree quantizer and adds coarse collaborative alignment.
-  - Source: RoFiGR v1, Section 3.2 and Table 3: https://arxiv.org/html/2610.39470v1#S3.SS2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
+  - Source: RoFiGR v1, Section 3.2 and Table 3: [S3.SS2.p1](https://arxiv.org/html/2610.39470v1#S3.SS2.p1); [S3.T3](https://arxiv.org/html/2610.39470v1#S3.T3).
 - **Competitor** · [SynGR](syngr.md): SynGR promotes cross-modal synergy; RoFiGR adds collaborative coarse routing supervision.
-  - Source: RoFiGR v1, Section 2 and Table 3: https://arxiv.org/html/2610.39470v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
+  - Source: RoFiGR v1, Section 2 and Table 3: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.39470v1#S2.SS0.SSS0.Px2.p1); [S3.T3](https://arxiv.org/html/2610.39470v1#S3.T3).
 - **Competitor** · [MQL4GRec](mql4grec.md): RoFiGR adopts MQL4GRec's domain data setting and compares against it.
-  - Source: RoFiGR v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39470v1#S4.SS1.p1; https://arxiv.org/html/2610.39470v1#S3.T3.
+  - Source: RoFiGR v1, Section 4.1 and Table 3: [S4.SS1.p1](https://arxiv.org/html/2610.39470v1#S4.SS1.p1); [S3.T3](https://arxiv.org/html/2610.39470v1#S3.T3).
 
 [View all papers in this cell](../../README.md#i--tokenization)

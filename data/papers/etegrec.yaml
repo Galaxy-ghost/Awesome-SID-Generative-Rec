@@ -16,7 +16,7 @@ tokenizer: Altern.
 objective: NTP + Ctr.
 inference: Beam
 poi: false
-summary: 'Abstract: "treat item tokenization and generative recommendation training as separate processes".'
+also: []
 tldr: ETEGRec trains the item tokenizer and the generator in alternation with sequence-item and preference-semantic alignment
   losses, instead of building the tokenizer separately before generator training.
 tldr_zh: ETEGRec 用序列-物品对齐损失与偏好-语义对齐损失交替训练物品编号器和生成器，替代先独立训练编号器再训练生成器的两阶段流程。

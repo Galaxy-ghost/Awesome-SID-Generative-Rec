@@ -1,26 +1,32 @@
 # NEZHA
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/nezha.md) | 中文
+
 | **题目** | *A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | WWW’26 Industry |
-| **问题与阶段** | `V. 效率` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2511.18793) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/nezha.md) |
+| **发表** | WWW’26 Industry |
+| **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.18793) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Self-Draft+Hash"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Self-Draft+Hash"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Self-Draft+Hash`: Self-drafted candidate generation with hash-set validity checking.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Self-Draft+Hash`：自草稿投机生成配合哈希集合合法性校验。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["NEZHA"]
-    P -->|alternative| A["AtSpeed"]
-    P -->|alternative| B["SpecGR"]
-    P -->|alternative| C["RPG"]
+    P -->|"替代方案"| A["AtSpeed"]
+    P -->|"替代方案"| B["SpecGR"]
+    P -->|"替代方案"| C["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **替代方案** · [AtSpeed](atspeed.md): AtSpeed uses a separate draft model and target-model verification; NEZHA uses an internal autoregressive draft head and hash-set validation. AtSpeed is omitted from public comparisons.
-  - 出处：NEZHA v1, Sections 2.2/4.1: https://arxiv.org/html/2511.18793v1#S2.SS2.p2; https://arxiv.org/html/2511.18793v1#S4.SS1.p2.
+  - 出处：NEZHA v1, Sections 2.2/4.1: [S2.SS2.p2](https://arxiv.org/html/2511.18793v1#S2.SS2.p2); [S4.SS1.p2](https://arxiv.org/html/2511.18793v1#S4.SS1.p2).
 - **替代方案** · [SpecGR](specgr.md): SpecGR supports out-of-vocabulary recommendation with speculative inference; NEZHA removes separate drafting and costly target-model verification for fast catalog-valid generation.
-  - 出处：NEZHA v1, Sections 1/6, citing Ding et al. (2024): https://arxiv.org/html/2511.18793v1#S1.p4; https://arxiv.org/html/2511.18793v1#S6.p2; https://arxiv.org/html/2511.18793v1#S6.p6.
+  - 出处：NEZHA v1, Sections 1/6, citing Ding et al. (2024): [S1.p4](https://arxiv.org/html/2511.18793v1#S1.p4); [S6.p2](https://arxiv.org/html/2511.18793v1#S6.p2); [S6.p6](https://arxiv.org/html/2511.18793v1#S6.p6).
 - **替代方案** · [RPG](rpg.md): RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight autoregressive draft head.
-  - 出处：NEZHA v1, Sections 3.2/6: https://arxiv.org/html/2511.18793v1#S3.SS2.p7; https://arxiv.org/html/2511.18793v1#S6.p2.
+  - 出处：NEZHA v1, Sections 3.2/6: [S3.SS2.p7](https://arxiv.org/html/2511.18793v1#S3.SS2.p7); [S6.p2](https://arxiv.org/html/2511.18793v1#S6.p2).
 
 [查看同格全部论文](../../../README.zh.md#v--inference)

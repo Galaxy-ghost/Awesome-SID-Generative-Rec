@@ -1,25 +1,32 @@
 # SPRINT
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sprint.md) | 中文
+
 | **题目** | *Single-Step Generative Recommendation via Average Probability Velocity* |
 | :-- | :-- |
 | **作者** | Cai et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2609.34306) · [代码](https://github.com/iamZhuoCai/SPRINT) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/sprint.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2609.34306) · [代码](https://github.com/iamZhuoCai/SPRINT) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Dual-level Flow Ctr."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Dual-level Flow Ctr."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Dual-level Flow Ctr.`: Contrastive training at token and complete-identifier levels in a flow-based model.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Par. OPQ`：并行优化乘积量化，生成无序多子空间码。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Dual-level Flow Ctr.`：流模型中在 token 级与完整标识符级同时施加的双层对比损失。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | SPRINT 基于平均概率速度在双向 Transformer 的单次前向传播中预测全部 SID token 概率，并用双层流对比目标恢复 token 间的一致性。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPRINT"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["LLaDA-Rec"]
-    P -->|competitor| C["SID-MLP"]
+    P -->|"同期对比"| A["RPG"]
+    P -->|"同期对比"| B["LLaDA-Rec"]
+    P -->|"同期对比"| C["SID-MLP"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [RPG](rpg.md): RPG is the compared single-step baseline with longer SIDs.
-  - 出处：SPRINT v1, Sec.1 and Sec.4.2: https://arxiv.org/html/2609.34306v1#S1.p2; https://arxiv.org/html/2609.34306v1#S4.SS2.p2.
+  - 出处：SPRINT v1, Sec.1 and Sec.4.2: [S1.p2](https://arxiv.org/html/2609.34306v1#S1.p2); [S4.SS2.p2](https://arxiv.org/html/2609.34306v1#S4.SS2.p2).
 - **同期对比** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec is compared under one-step and four-step generation.
-  - 出处：SPRINT v1, Table1 and Sec.4.1: https://arxiv.org/html/2609.34306v1#S1.T1; https://arxiv.org/html/2609.34306v1#S4.SS1.p2.
+  - 出处：SPRINT v1, Table1 and Sec.4.1: [S1.T1](https://arxiv.org/html/2609.34306v1#S1.T1); [S4.SS1.p2](https://arxiv.org/html/2609.34306v1#S4.SS1.p2).
 - **同期对比** · [SID-MLP](sid-mlp.md): SID-MLP is the closest compared efficiency-oriented baseline.
-  - 出处：SPRINT v1, Appendix D.6: https://arxiv.org/html/2609.34306v1#A4.SS6.p2; https://arxiv.org/html/2609.34306v1#A4.T10.
+  - 出处：SPRINT v1, Appendix D.6: [A4.SS6.p2](https://arxiv.org/html/2609.34306v1#A4.SS6.p2); [A4.T10](https://arxiv.org/html/2609.34306v1#A4.T10).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

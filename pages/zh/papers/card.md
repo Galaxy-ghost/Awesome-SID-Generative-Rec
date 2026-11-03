@@ -1,27 +1,32 @@
 # CARD
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/card.md) | 中文
+
 | **题目** | *Non-Uniform Quantization of Visual Semantic Unit for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Wei et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2604.26427) · [代码](https://github.com/HAI-UESTC/CARD) · [矩阵](../../../README.zh.md#ii--tokenization) · [English](../../papers/card.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2604.26427) · [代码](https://github.com/HAI-UESTC/CARD) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>NU-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>NU-RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `NU-RQ`: Non-uniform RQ variant.
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `C-Beam`: Constrained beam search.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `NU-RQ`：带可学习非均匀变换的残差量化（Non-Uniform RQ）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
+| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
 | 核心贡献 | CARD 在编码前将文本、图像与协同信号融合为视觉语义单元，并用带可学习非均匀变换的 NU-RQ-VAE 量化，缓解嵌入分布偏斜。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -69,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CARD"]
-    P -->|competitor| A["MACRec"]
-    P -->|competitor| B["MQL4GRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["TIGER"]
-    P -->|competitor| E["VQ-Rec"]
+    P -->|"同期对比"| A["MACRec"]
+    P -->|"同期对比"| B["MQL4GRec"]
+    P -->|"同期对比"| C["LETTER"]
+    P -->|"同期对比"| D["TIGER"]
+    P -->|"同期对比"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [MACRec](macrec.md): MACRec reduces codebook conflicts by cross-modal quantization and multi-aspect alignment of separate modalities; CARD renders image, title, and neighbors into one card and quantizes it with a non-uniform RQ-VAE.
-  - 出处：CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Section 2.1: https://arxiv.org/html/2604.26427v1#S2.SS1.p1.
+  - 出处：CARD v1, Section 4.1.4 baselines: [S4.I1.i9.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2); Section 2.1: [S2.SS1.p1](https://arxiv.org/html/2604.26427v1#S2.SS1.p1).
 - **同期对比** · [MQL4GRec](mql4grec.md): MQL4GRec quantizes each modality into its own SIDs with pre-training; CARD uses one unified visual semantic unit, and the comparison disables MQL4GRec's extra-category pre-training.
-  - 出处：CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i8.p1; implementation note on pre-training: https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - 出处：CARD v1, Section 4.1.4 baselines: [S4.I1.i8.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i8.p1); implementation note on pre-training: [S4.SS1.SSS3.p1](https://arxiv.org/html/2604.26427v1#S4.SS1.SSS3.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 - **同期对比** · [LETTER](letter.md): LETTER regularizes a uniform RQ-VAE with collaborative and diversity terms; CARD changes the quantizer to a non-uniform one and the input to a rendered multimodal card.
-  - 出处：CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i7.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - 出处：CARD v1, Section 4.1.4 baselines: [S4.I1.i7.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i7.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 - **同期对比** · [TIGER](tiger.md): TIGER quantizes text embeddings with a uniform RQ-VAE; CARD keeps the same codebook shape and generator but replaces the input and the quantization rule.
-  - 出处：CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i6.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2; Table 6 text-only TIGER variants: https://arxiv.org/html/2604.26427v1#S4.T6.
+  - 出处：CARD v1, Section 4.1.4 baselines: [S4.I1.i6.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i6.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2); Table 6 text-only TIGER variants: [S4.T6](https://arxiv.org/html/2604.26427v1#S4.T6).
 - **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec pools product-quantized code embeddings in a discriminative model; CARD generates hierarchical non-uniform RQ codes autoregressively.
-  - 出处：CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.
+  - 出处：CARD v1, Section 4.1.4 baselines: [S4.I1.i5.p1](https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1); Table 2: [S4.T2](https://arxiv.org/html/2604.26427v1#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#ii--tokenization)

@@ -1,25 +1,32 @@
 # CAPE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cape.md) | 中文
+
 | **题目** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
 | :-- | :-- |
 | **作者** | Huang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2610.29298) · [矩阵](../../../README.zh.md#i--inference) · [English](../../papers/cape.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.29298) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text†"] --> T["编号 Tokenization<br/>RQ-VAE†"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["推理 Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP† / NTP†`: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
+- `Text†`：物品文本表征（由配置推断）。
+- `RQ-VAE†`：残差量化变分自编码器（由配置推断）。
+- `Dec-Only / Enc-Dec`：涵盖仅解码器与编码器-解码器两种骨干变体。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP† / NTP†`：不同骨干下采用推断的多任务或单任务下一 token 预测初始化。
+- `Hybrid`：结合生成式 SID 解码与稠密/共现检索的混合召回。
 
 ### TL;DR
 
@@ -32,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CAPE"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["LIGER"]
+    P -->|"前序工作"| A["MiniOneRec"]
+    P -->|"前序工作"| B["TIGER"]
+    P -->|"替代方案"| C["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [MiniOneRec](minionerec.md): MiniOneRec supplies a frozen backbone and released Amazon checkpoints.
-  - 出处：CAPE v1, Sec.5.1 and Appendix B: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#A2.p2.
+  - 出处：CAPE v1, Sec.5.1 and Appendix B: [S5.SS1.p1](https://arxiv.org/html/2610.29298v1#S5.SS1.p1); [A2.p2](https://arxiv.org/html/2610.29298v1#A2.p2).
 - **前序工作** · [TIGER](tiger.md): TIGER supplies the second backbone for cross-architecture evaluation.
-  - 出处：CAPE v1, Sec.5.1 and Table3: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#S5.T3.
+  - 出处：CAPE v1, Sec.5.1 and Table3: [S5.SS1.p1](https://arxiv.org/html/2610.29298v1#S5.SS1.p1); [S5.T3](https://arxiv.org/html/2610.29298v1#S5.T3).
 - **替代方案** · [LIGER](liger.md): LIGER is contrasted as a trained hybrid retrieval approach.
-  - 出处：CAPE v1, Sec.6: https://arxiv.org/html/2610.29298v1#S6.p1.
+  - 出处：CAPE v1, Sec.6: [S6.p1](https://arxiv.org/html/2610.29298v1#S6.p1).
 
 [查看同格全部论文](../../../README.zh.md#i--inference)

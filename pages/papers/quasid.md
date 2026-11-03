@@ -1,26 +1,32 @@
 # QuaSID
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/quasid.md)
+
 | **Title** | *Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale* |
 | :-- | :-- |
 | **Authors** | Hu et al. |
 | **Venue** | KDD’26 ADS |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.00632) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/quasid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.00632) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>QA-RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `QA-RQ`: Qualification-Aware RQ-VAE.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam†`: Autoregressive beam search (inferred).
 
 ### TL;DR
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["QuaSID"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["LETTER"]
-    P -->|alternative| C["HiD-VAE"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["LETTER"]
+    P -->|"alternative"| C["HiD-VAE"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): Supplies the shared downstream backbone for tokenizer comparisons.
-  - Source: QuaSID v1, Section 5.1.4: https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1.
+  - Source: QuaSID v1, Section 5.1.4: [S5.SS1.SSS4.p1](https://arxiv.org/html/2603.00632v1#S5.SS1.SSS4.p1).
 - **Alternative** · [LETTER](letter.md): Assignment balancing contrasts with QuaSID's qualified, severity-scaled collision repulsion.
-  - Source: QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
+  - Source: QuaSID v1, Section 2.2: [S2.SS2.p2](https://arxiv.org/html/2603.00632v1#S2.SS2.p2).
 - **Alternative** · [HiD-VAE](hid-vae.md): Overlap regularization is contrasted with selectively repelling qualified conflicts.
-  - Source: QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.
+  - Source: QuaSID v1, Section 2.2: [S2.SS2.p2](https://arxiv.org/html/2603.00632v1#S2.SS2.p2).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

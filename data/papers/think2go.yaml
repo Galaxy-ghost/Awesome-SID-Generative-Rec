@@ -16,9 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: CoT+Beam
 poi: true
-summary: 'Abstract: non-reasoning models "limit the computational capacity ... to capture deep intent"; LLMs "lack a deep
-  understanding of semantic IDs (SIDs) when SIDs are trained separately". The second is III; the first is III too, since missing
-  reasoning does not form a problem of its own.'
 tldr: Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages
   by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.
 tldr_zh: Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。

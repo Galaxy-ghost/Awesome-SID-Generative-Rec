@@ -1,27 +1,32 @@
 # TCBSA
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tcbsa.md) | 中文
+
 | **题目** | *From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Shan et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2610.32098) · [矩阵](../../../README.zh.md#iv--inference) · [English](../../papers/tcbsa.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.32098) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec† / Dec-Only†"] --> TR["Training<br/>Fixed / NTP† / NTP → RL"] --> I["Inference<br/>CF-Guided C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec† / Dec-Only†"] --> TR["训练 Training<br/>Fixed / NTP† / NTP → RL"] --> I["推理 Inference<br/>CF-Guided C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `R-KM`: Residual k-means.
-- `Enc-Dec† / Dec-Only†`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP† / NTP → RL`: Inferred next-token training in one configuration, or next-token training followed by reinforcement learning in another.
-- `CF-Guided C-Beam`: Constrained beam search guided by collaborative signals.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Enc-Dec† / Dec-Only†`：同时在编码器-解码器与仅解码器骨干上验证（由配置推断）。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP† / NTP → RL`：一种配置采用下一 token 预测，另一种配置后接强化学习微调。
+- `CF-Guided C-Beam`：由协同过滤信号引导剪枝与打分的约束束搜索。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | TCBSA 将判别式推荐器的分数间隔转化为共享 SID 前缀上的势函数，经置信度门控后在束剪枝前加到路径分数上，无需重新训练。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TCBSA"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["MiniOneRec"]
-    P -->|competitor| C["APAO"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["MiniOneRec"]
+    P -->|"同期对比"| C["APAO"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): Frozen generative backbone used with SASRec and GRU4Rec guidance.
-  - 出处：TCBSA v1, Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1.
+  - 出处：TCBSA v1, Section 5.1: [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1).
 - **前序工作** · [MiniOneRec](minionerec.md): Final RL checkpoint supplies the second frozen generative backbone.
-  - 出处：TCBSA v1, Section 5.1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1.
+  - 出处：TCBSA v1, Section 5.1: [S5.SS1.SSS0.Px4.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px4.p1).
 - **同期对比** · [APAO](apao.md): Prefix-aware training comparator against test-time beam adaptation.
-  - 出处：TCBSA v1, Section 5.1 and Table 1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.32098v1#S5.T1.
+  - 出处：TCBSA v1, Section 5.1 and Table 1: [S5.SS1.SSS0.Px3.p1](https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px3.p1); [S5.T1](https://arxiv.org/html/2610.32098v1#S5.T1).
 
 [查看同格全部论文](../../../README.zh.md#iv--inference)

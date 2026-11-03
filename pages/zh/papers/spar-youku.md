@@ -1,28 +1,31 @@
 # SPAR-Youku
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/spar-youku.md) | 中文
+
 | **题目** | *SPAR: Stepwise Personalized Autoregressive Recommendation with Prefix-Balanced Semantic IDs* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2610.27898) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spar-youku.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2610.27898) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-PIB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ-PIB"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
-- `RQ-PIB`: Residual Quantization with Prefix-aware Interaction Balancing
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → DPO`: NTP, then preference optimization.
-- `C-Beam`: Constrained beam search.
+- `RQ-PIB`：前缀交互负载均衡残差量化（RQ with Prefix-aware Interaction Balancing）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -35,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | SPAR-Youku 从压缩用户记忆中提取前缀相关证据引导每步 SID 解码，并用 RQ-PIB 均衡兄弟分支间的交互负载，减少分支错误与流行度偏差。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -70,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SPAR-Youku"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["OneRec"]
-    P -->|alternative| C["UniRec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["OneRec"]
+    P -->|"替代方案"| C["UniRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is a residual-SID retrieval baseline; SPAR jointly changes prefix-local branch balance and prefix-conditioned user evidence.
-  - 出处：SPAR-Youku v1, Section 3.5.1 and Table 1: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1; https://arxiv.org/html/2610.27898v1#S3.T1.
+  - 出处：SPAR-Youku v1, Section 3.5.1 and Table 1: [S3.SS5.SSS1.Px4.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1); [S3.T1](https://arxiv.org/html/2610.27898v1#S3.T1).
 - **同期对比** · [OneRec](onerec.md): OneRec is the strongest measured generative baseline; SPAR adds stepwise memory retrieval and prefix-balanced SID construction.
-  - 出处：SPAR-Youku v1, Sections 3.5.1/3.5.2 and Table 1: https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1; https://arxiv.org/html/2610.27898v1#S3.SS5.SSS2.p1; https://arxiv.org/html/2610.27898v1#S3.T1.
+  - 出处：SPAR-Youku v1, Sections 3.5.1/3.5.2 and Table 1: [S3.SS5.SSS1.Px4.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS1.Px4.p1); [S3.SS5.SSS2.p1](https://arxiv.org/html/2610.27898v1#S3.SS5.SSS2.p1); [S3.T1](https://arxiv.org/html/2610.27898v1#S3.T1).
 - **替代方案** · [UniRec](unirec.md): UniRec is cited for load-regulated SID assignment; SPAR regulates sibling-branch loads conditioned on parent prefixes and couples this with stepwise personalization.
-  - 出处：SPAR-Youku v1, Introduction and Section 2.1; cited alternative, not an evaluated baseline: https://arxiv.org/html/2610.27898v1#S1.p2; https://arxiv.org/html/2610.27898v1#S2.SS1.p2.
+  - 出处：SPAR-Youku v1, Introduction and Section 2.1; cited alternative, not an evaluated baseline: [S1.p2](https://arxiv.org/html/2610.27898v1#S1.p2); [S2.SS1.p2](https://arxiv.org/html/2610.27898v1#S2.SS1.p2).
 
 [查看同格全部论文](../../../README.zh.md#i--backbone)

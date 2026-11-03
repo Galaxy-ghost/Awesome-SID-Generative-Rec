@@ -1,25 +1,28 @@
 # UniSID
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unisid.md)
+
 | **Title** | *End-to-End Semantic ID Generation for Generative Advertisement Recommendation* |
 | :-- | :-- |
 | **Authors** | Jiang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.10445) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/unisid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.10445) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+Attr"] --> T["Tokenization<br/>Direct SID Heads"] --> B["Backbone<br/>–"] --> TR["Training<br/>– / –"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
 - `Text+Img+Attr`: Text, images, and structured item attributes.
 - `Direct SID Heads`: Prediction heads that directly assign semantic-ID codes.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -67,13 +70,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniSID"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): On Beauty, UniSID replaces TIGER RQ-VAE tokenization with direct multimodal SID heads while retaining the TIGER training and evaluation framework.
-  - Source: UniSID v3, Section 4.2 and Table 4: https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
+  - Source: UniSID v3, Section 4.2 and Table 4: [S4.SS2.p5](https://arxiv.org/html/2602.10445v3#S4.SS2.p5); [S4.T4](https://arxiv.org/html/2602.10445v3#S4.T4).
 - **Competitor** · [LETTER](letter.md): LETTER supplies the published Beauty baseline results, including TIGER-LETTER; UniSID jointly learns embeddings and direct SIDs from raw features.
-  - Source: UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: https://arxiv.org/html/2602.10445v3#S3.p1; https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
+  - Source: UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: [S3.p1](https://arxiv.org/html/2602.10445v3#S3.p1); [S4.SS2.p5](https://arxiv.org/html/2602.10445v3#S4.SS2.p5); [S4.T4](https://arxiv.org/html/2602.10445v3#S4.T4).
 
 [View all papers in this cell](../../README.md#i--tokenization)

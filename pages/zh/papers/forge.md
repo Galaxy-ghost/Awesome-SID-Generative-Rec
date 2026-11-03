@@ -1,29 +1,35 @@
 # FORGE
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/forge.md) | 中文
+
 | **题目** | *Forming semantic identifiers for generative retrieval in industrial datasets* |
 | :-- | :-- |
 | **作者** | Fu et al. |
-| **会议** | KDD’26 |
+| **发表** | KDD’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/forge.md) |
+| **链接** | [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Dyn. Beam"]
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Dyn. Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
-- `Dyn. Beam`: Dynamic beam search.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only / Enc-Dec`：涵盖仅解码器与编码器-解码器两种骨干变体。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Dyn. Beam`：按步或按样本动态调整束宽的束搜索。
 
 ### TL;DR
 
 > [!NOTE]
-> FORGE 是基准与工业数据集而非新推荐模型：对比不同 SID 构建策略，提出无需训练生成器即可评估 ID 的指标，并开源淘宝数据集。
+> FORGE 在开源淘宝工业数据集上评测不同 SID 构建策略，并提出无需训练生成器即可评估 ID 质量的指标。
 
 ---
 
@@ -31,18 +37,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| 核心贡献 | FORGE 是基准与工业数据集而非新推荐模型：对比不同 SID 构建策略，提出无需训练生成器即可评估 ID 的指标，并开源淘宝数据集。 |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
+| 核心贡献 | FORGE 在开源淘宝工业数据集上评测不同 SID 构建策略，并提出无需训练生成器即可评估 ID 质量的指标。 |
 | 主要改动阶段 | 无单一阶段 |
-| 主要发现 | 在淘宝的在线 A/B 测试中，按基准结论选出的语义 ID（Semantic ID，SID）构建策略让成交笔数提升 0.35%（Abstract）。 |
+| 主要发现 | 在淘宝在线 A/B 测试中，依据 FORGE 基准结论选出的语义 ID（Semantic ID，SID）构建策略使成交笔数提升 0.35%；离线实验表明免训练指标 Embedding HitRate 与 Gini 系数在 250 million 物品的 AL-GR 数据集上与下游 HR@20–HR@1000 强相关（Abstract，Sec. 3.4，Sec. 4.2，Table 3，Fig. 3）。 |
+| 局限 | 动态束搜索在最后一步扩展至 1,200 个候选 SID 且未报告实测推理延迟，免训练 SID 质量指标也仅在本基准的数据集内验证了相关性（Sec. 3.2，Sec. 3.4）。 |
 
 ---
 
 ### 1. 为什么重要
 
-现有研究很少考察 SID 该怎样构建，评估 SID 通常还要花大成本训练生成式检索（GR）模型（Abstract）。FORGE 把这些选择做成一个基准。
+工业级生成式检索（GR）系统在构建语义 ID（SID）时面临特征模态、向量量化器与冲突消解等大量设计选择，而传统做法每次评估编号方案都需高成本训练完整的 GR 生成器（Abstract）。FORGE 在开源的亿级淘宝数据集 AL-GR 上系统评测这些构建策略，并提出无需训练生成器即可预判 SID 质量的评估指标。
 
-> "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings."（Abstract）（FORGE 给 SID 构建过程分类，并用离线实验检验各选择对 GR 的影响。）
+> "Specifically, FORGE provides a taxonomy of the SID construction process from several perspectives and validates their impact on downstream GR through offline experiments across diverse settings."（Abstract）
 
 ---
 
@@ -52,35 +59,41 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("CN-CLIP 特征") --> B["QFormer 融合"]
-    P("共现物品对") -.-> L1{{"可选的 InfoNCE"}}
-    L1 -.-> B
-    B --> C["SID 编码器：RQ-VAE、VQ、OPQ、RQ-Kmeans"]
-    C --> D["冲突后处理"]
-    D --> E("SID")
-    E --> F["GR 模型"]
-    F --> G["动态束宽 300 / 600 / 1,200"]
-    E --> Q["HitRate + Gini，不训练 GR"]:::key
+    subgraph TokBench["SID 构建设计空间"]
+        A("CN-CLIP 多模态特征") --> B["QFormer 融合"]
+        P("i2i 共现物品对") -.-> L1{{"InfoNCE 损失（Eq. 2）"}}
+        L1 -.-> B
+        B --> C["量化器：RQ-VAE（3×8,192 / 2×32,768）、VQ、OPQ、RQ-Kmeans"]
+        C --> D["冲突上限后处理：KNN（25/10/5）或 Random-5"]
+        D --> E("物品目录 SID")
+    end
+    subgraph EvalPath["免训练指标评估 vs. 下游 GR 训练"]
+        E --> Q["Embedding HitRate + Gini 系数"]:::key
+        Q --> Fast("免训练评估 SID 质量")
+        E --> F["T5-Base / Qwen2.5-0.5B / 3B 生成器"]
+        F --> G["动态束宽：300 → 600 → 1,200"]:::key
+        G --> H("Top-K 候选物品（HR@20–HR@1000）")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 物品表示
 
-物品用 CN-CLIP 编码，再用 QFormer 融合（Sec. 3.1.1）。可选的 InfoNCE 损失以物品共现表中的物品对为正例，引入用户行为模式（Sec. 3.1.1，Eq. 2）。
+FORGE 用 CN-CLIP 编码物品图文内容并经 QFormer 融合（Sec. 3.1.1）。量化前以物品共现表（`i2i`）中的正例对构造 InfoNCE 对比损失，将用户协同行为模式注入多模态融合表征（Sec. 3.1.1，Eq. 2）。
 
 #### SID 编码与冲突后处理
 
-基准比较了 RQ-VAE 与随机分配、多重 VQ、OPQ、RQ-Kmeans（Sec. 3.1.2）。基于 KNN 和基于随机的后处理限制每个 SID 下的物品数（Sec. 3.1.3）。
+在 3 层 × 8,192 码字和 2 层 × 32,768 码字等配置下，基准对比了 RQ-VAE 与随机分配、多码本 VQ、OPQ 及 RQ-Kmeans（Sec. 3.1.2，Sec. 4.1，Table 9，Table 11）。为限制单个 SID 挂载的物品数量，进一步采用基于 KNN 的重分配（冲突阈值设为 25、10 或 5）或末位码字 Random-5 随机分配做冲突后处理（Sec. 3.1.3）。
 
 #### 动态束搜索
 
-束宽第一步为 300，第二步为 600，最后一步为 1,200（Sec. 3.2）。
+自回归解码阶段采用逐层扩束的动态束搜索：第 1 步束宽为 300，第 2 步为 600，最后一步（第 3 步）扩展至 1,200，再将候选 SID 映射回物品集合（Sec. 3.2，Sec. 3.4）。
 
 #### SID 质量指标
 
-Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Sec. 3.4）。
+为免除下游 GR 训练开销，Embedding HitRate 评估量化空间对近邻关系的保持度，Gini 系数衡量物品在 SID 空间中的分布均衡度（Sec. 3.4）。
 
-> "The Gini coefficient measures the deviation between a uniform SID distribution and the actual item distribution, where a lower value indicates a more balanced assignment."（Sec. 3.4）（Gini 系数衡量实际分布偏离均匀分布的程度，越低越均衡。）
+> "The Gini coefficient measures the deviation between a uniform SID distribution and the actual item distribution, where a lower value indicates a more balanced assignment."（Sec. 3.4）
 
 ---
 
@@ -106,12 +119,12 @@ Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Se
 
 </details>
 
-- 指标：两个指标都和 HR 强相关（Sec. 3.4，Sec. 4.2，Fig. 3）。
+- 免训练指标与 HR 强相关：在 AL-GR（S1–S3 三个时间阶段）与 Amazon Clothing 的多组配置上，Embedding HitRate 和 Gini 系数均与下游生成式检索的命中率（HR@20 至 HR@1000）呈强相关（Sec. 3.4，Sec. 4.2，Table 3，Table 4，Fig. 3，Fig. 4）。
 
-  > "Our experiments show that both metrics are strongly correlated with HR, thus enabling efficient SID evaluation without additional GR training."（Sec. 3.4）（两个指标和 HR 强相关，不用训练 GR 就能评估 SID。）
+  > "Our experiments show that both metrics are strongly correlated with HR, thus enabling efficient SID evaluation without additional GR training."（Sec. 3.4）
 
-- 部署：这些策略已在淘宝全量上线（Abstract）。
-- 数据集：AL-GR 含 14 billion 次交互和 250 million 个带多模态特征的物品（Abstract）。
+- 模态、量化器与骨干对比：引入 `i2i` 协同对比对齐（Table 5）、采用 RQ-VAE 替代 RQ-Kmeans（Table 9）、加入冲突后处理（Table 3），以及将生成骨干从 T5-Base（0.2B）扩展至 Qwen2.5-0.5B 和 Qwen2.5-3B（Table 12）均带来稳定的检索 HR 提升。
+- 工业数据集开源与全量部署：论文开源包含 14 billion 次交互、250 million 个多模态物品的淘宝数据集 AL-GR（Table 1 具体统计为 131M 用户 / 251M 物品）；基于基准结论选定的 SID 策略已在淘宝全量部署，在线 A/B 测试成交笔数提升 0.35%（Abstract，Sec. 3.3）。
 
 ---
 
@@ -119,9 +132,9 @@ Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Se
 
 **Our analysis.**
 
-- 指标和 HR 的相关性是在本基准的数据上得到的。由此推断，换到别的物品库，先要重新验证，才能用这些指标替代 GR 训练。
-- 最后一步束宽 1,200，解码开销应当不小。
-- OneRec 用 `R-KM` 码，OneRec-V2 用 `R-KM†` 码；FORGE 的基础配置用 `RQ-VAE` 码。
+- Embedding HitRate 与 Gini 系数同下游 HR 的强相关性建立在冻结编号器与后处理变体之上；若编号器与生成器端到端联合训练，这一相关性需重新检验。
+- 最后一步束宽放大至 1,200 个候选 SID 显著增加了束搜索与物品查表开销，而论文未报告在线推理延迟。
+- OneRec 采用 `R-KM` 编码，OneRec-V2 采用 `R-KM†` 编码；FORGE 在 Table 9 中将 `RQ-Kmeans` 与 `RQ-VAE` 直接对比，并选定带冲突后处理的 `RQ-VAE` 作为主力配置。
 
 ---
 
@@ -130,16 +143,20 @@ Embedding HitRate 和 Gini 系数不需要训练 GR 就能衡量 SID 质量（Se
 ```mermaid
 flowchart LR
     P["FORGE"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
-    P -->|alternative| C["OneRec-V2"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["OneRec"]
+    P -->|"替代方案"| C["OneRec-V2"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TIGER introduced RQ-VAE semantic IDs for recommendation; FORGE benchmarks how modality, encoding, and collision post-processing choices for such SIDs affect retrieval at industrial scale.
-  - 出处：FORGE v3, Section 2.2 cites Rajput et al. (2023) as the SID adopted in recommendation: https://arxiv.org/html/2509.20904v3#S2.SS2.p1; Section 3.1.2 RQ-VAE encoding: https://arxiv.org/html/2509.20904v3#S3.SS1.SSS2.p1.
+  - 出处：FORGE v3, Section 2.2 cites Rajput et al. (2023) as the SID adopted in recommendation: [S2.SS2.p1](https://arxiv.org/html/2509.20904v3#S2.SS2.p1); Section 3.1.2 RQ-VAE encoding: [S3.SS1.SSS2.p1](https://arxiv.org/html/2509.20904v3#S3.SS1.SSS2.p1).
 - **替代方案** · [OneRec](onerec.md): OneRec encodes items with RQ-Kmeans; FORGE compares this encoding against its RQ-VAE base and Final configurations.
-  - 出处：FORGE v3, Section 4.1.6 cites Deng et al. (2025) for RQ-Kmeans and compares it in Table 9: https://arxiv.org/html/2509.20904v3#S4.SS1.SSS6.p1.
+  - 出处：FORGE v3, Section 4.1.6 cites Deng et al. (2025) for RQ-Kmeans and compares it in Table 9: [S4.SS1.SSS6.p1](https://arxiv.org/html/2509.20904v3#S4.SS1.SSS6.p1).
 - **替代方案** · [OneRec-V2](onerec-v2.md): OneRec-V2 is cited for the same RQ-Kmeans encoding route evaluated in FORGE's encoding comparison.
-  - 出处：FORGE v3, Section 4.1.6 cites Zhou et al. (2025): https://arxiv.org/html/2509.20904v3#S4.SS1.SSS6.p1.
+  - 出处：FORGE v3, Section 4.1.6 cites Zhou et al. (2025): [S4.SS1.SSS6.p1](https://arxiv.org/html/2509.20904v3#S4.SS1.SSS6.p1).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

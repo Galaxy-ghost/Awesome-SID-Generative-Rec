@@ -1,26 +1,32 @@
 # SpecGR
 
+[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/specgr.md)
+
 | **Title** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR) · [Matrix](../../README.md#vi--inference) · [中文](../zh/papers/specgr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 
 ### TL;DR
 
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SpecGR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LIGER"]
-    P -->|alternative| C["AtSpeed"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["LIGER"]
+    P -->|"alternative"| C["AtSpeed"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): SpecGR uses TIGER as its generative verifier and adds inductive drafting; SpecGR++ reuses the same encoder for self-drafting.
-  - Source: SpecGR v2, Implementation Details and Drafting Strategies: https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1; https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1.
+  - Source: SpecGR v2, Implementation Details and Drafting Strategies: [Sx4.SSx1.SSSx4.p1](https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1); [Sx3.SSx3.SSSx2.p1](https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p1).
 - **Competitor** · [LIGER](liger.md): LIGER blends dense-retrieved candidates with generated items; SpecGR filters and orders inductive drafts using generative target-aware likelihoods.
-  - Source: SpecGR v2, Performance Analysis and Table 2: https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p2.
+  - Source: SpecGR v2, Performance Analysis and Table 2: [Sx4.SSx2.p2](https://arxiv.org/html/2410.02939v2#Sx4.SSx2.p2).
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed adapts speculative decoding to accelerate top-K generative recommendation; SpecGR uses draft-and-verify to introduce unseen-item recommendation capability.
-  - Source: SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: https://arxiv.org/html/2410.02939v2#Sx2.p3.
+  - Source: SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: [Sx2.p3](https://arxiv.org/html/2410.02939v2#Sx2.p3).
 
 [View all papers in this cell](../../README.md#vi--inference)

@@ -1,25 +1,28 @@
 # UniSID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/unisid.md) | 中文
+
 | **题目** | *End-to-End Semantic ID Generation for Generative Advertisement Recommendation* |
 | :-- | :-- |
 | **作者** | Jiang et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2602.10445) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/unisid.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.10445) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+Attr"] --> T["Tokenization<br/>Direct SID Heads"] --> B["Backbone<br/>–"] --> TR["Training<br/>– / –"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+Attr"] --> T["编号 Tokenization<br/>Direct SID Heads"] --> B["骨干 Backbone<br/>–"] --> TR["训练 Training<br/>– / –"] --> I["推理 Inference<br/>–"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Text+Img+Attr`: Text, images, and structured item attributes.
-- `Direct SID Heads`: Prediction heads that directly assign semantic-ID codes.
-- `–`: Not reported in the paper.
+- `Text+Img+Attr`：文本、图像与结构化物品属性。
+- `Direct SID Heads`：直接输出语义 ID 码位的预测头。
 
 ### TL;DR
 
@@ -32,9 +35,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | UniSID 通过多粒度对比学习与基于摘要的重构，从原始广告数据端到端联合优化嵌入与 SID，替代先提取嵌入再后验量化的两步做法。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,13 +70,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniSID"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"同期对比"| B["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): On Beauty, UniSID replaces TIGER RQ-VAE tokenization with direct multimodal SID heads while retaining the TIGER training and evaluation framework.
-  - 出处：UniSID v3, Section 4.2 and Table 4: https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
+  - 出处：UniSID v3, Section 4.2 and Table 4: [S4.SS2.p5](https://arxiv.org/html/2602.10445v3#S4.SS2.p5); [S4.T4](https://arxiv.org/html/2602.10445v3#S4.T4).
 - **同期对比** · [LETTER](letter.md): LETTER supplies the published Beauty baseline results, including TIGER-LETTER; UniSID jointly learns embeddings and direct SIDs from raw features.
-  - 出处：UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: https://arxiv.org/html/2602.10445v3#S3.p1; https://arxiv.org/html/2602.10445v3#S4.SS2.p5; https://arxiv.org/html/2602.10445v3#S4.T4.
+  - 出处：UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: [S3.p1](https://arxiv.org/html/2602.10445v3#S3.p1); [S4.SS2.p5](https://arxiv.org/html/2602.10445v3#S4.SS2.p5); [S4.T4](https://arxiv.org/html/2602.10445v3#S4.T4).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

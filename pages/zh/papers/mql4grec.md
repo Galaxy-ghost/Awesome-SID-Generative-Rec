@@ -1,25 +1,32 @@
 # MQL4GRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mql4grec.md) | 中文
+
 | **题目** | *MULTIMODAL QUANTITATIVE LANGUAGE FOR GEN-ERATIVE RECOMMENDATION* |
 | :-- | :-- |
 | **作者** | Zhai et al. |
-| **会议** | ICLR’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2504.05314) · [代码](https://github.com/zhaijianyang/MQL4GRec) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mql4grec.md) |
+| **发表** | ICLR’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2504.05314) · [代码](https://github.com/zhaijianyang/MQL4GRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [1. 为什么重要](#1-为什么重要) · [2. 方法](#2-方法) · [3. 实验发现](#3-实验发现) · [4. 局限与分析](#4-局限与分析) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>Dual RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `Text+Img`：文本与视觉图像表征。
+- `Dual RQ`：面向双表征流或双侧实体的双路残差量化。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -32,18 +39,19 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | MQL4GRec 将多个域的物品文本与图像转化为共享量化语言并在其上预训练多类生成任务，跨领域和模态迁移推荐知识。 |
-| 主要改动阶段 | Tokenization |
-| 局限 | 用两种模态时，预训练在 Games 上没有带来提升，在目标领域上的零样本能力也弱（Sec. 4.3，Sec. 4.5）。 |
+| 主要改动阶段 | 编号（Tokenization） |
+| 主要发现 | 在 Amazon Instruments、Arts 与 Games 的全库排序评测中，MQL4GRec 整体表现最优（NDCG 优势尤为突出），且双模态下的多源域预训练显著提升了 Instruments 与 Arts 的精度（Sec. 4.2，Sec. 4.3，Table 1）。 |
+| 局限 | 双模态预训练在 Games 数据集上未带来增益，且未经微调的跨领域零样本迁移能力仍较弱（Sec. 4.3，Sec. 4.5）。 |
 
 ---
 
 ### 1. 为什么重要
 
-基于预训练语言模型的生成式推荐器带着通用语言知识，和推荐的需要对不上，也很少用到物品文本和图像之间互补的知识（Abstract）。MQL4GRec 把多领域、多模态的物品内容转成同一套离散词汇，让在源领域训练的生成器能迁移到目标领域。
+预训练语言模型自带的通用语言先验与协同交互规律并不一致，且既有生成式模型很少在同一离散词表内融合文本与图像互补信息（Abstract）。MQL4GRec 将多领域、多模态物品内容翻译为带模态前缀的统一量化词表（`Dual RQ`），打通源域预训练迁移与双模态生成融合。
 
-> "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge."（Abstract）（把不同领域、不同模态的物品转成统一的语言，作为迁移推荐知识的桥梁。）
+> "Our key idea is to transform items from different domains and modalities into a unified language, which can serve as a bridge for transferring recommendation knowledge."（Abstract）
 
 ---
 
@@ -53,33 +61,34 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A("文本，经 LLaMA") --> C["文本翻译器 RQ-VAE"]
-    B("图像，经 ViT") --> D["图像翻译器 RQ-VAE"]
-    C --> E("加前缀的量化语言")
-    D --> E
-    E --> F["源领域预训练：下一物品任务"]
-    F --> G["目标领域微调：全部任务"]:::key
-    G --> H("文本列表 + 图像列表")
-    H --> I["按物品分数重排"]
-    I --> J("下一物品")
+    subgraph Dual["分模态 RQ-VAE 量化翻译器"]
+        A("物品文本 -> 冻结 LLaMA") --> C["4x256 文本 RQ-VAE + 残差距离消歧"]
+        B("物品图像 -> 冻结 ViT-L/14") --> D["4x256 图像 RQ-VAE + 残差距离消歧"]
+        C --> E("带前缀文本码 <a_*>")
+        D --> F("带前缀图像码 <b_*>")
+    end
+    subgraph Transfer["两阶段 T5 迁移训练"]
+        E & F --> G["6 个源领域预训练（同模态下一物品预测）"]
+        G --> H["目标域全任务微调：同模态、跨模态非对称与互译"]:::key
+    end
+    H --> I("文本束搜索列表 + 图像束搜索列表（束宽 20）")
+    I --> J["双列表概率融合重排（Eq. 7）"]:::key --> K("Top-K 物品")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 量化翻译器
 
-冻结的模态编码器（文本用 LLaMA，图像用 ViT）编码物品内容（Sec. 3.1）。每个模态一个 RQ-VAE 做量化，各有自己的码本。
+MQL4GRec 用冻结的 LLaMA 与 ViT 分别提取文本和图像表征，各用一套独立的 4 层 × 256 码字 RQ-VAE 量化为离散语义 ID（Semantic ID，SID），按残差到码字的距离重分配冲突物品，再为两套码本加上不同前缀合并成统一词典（Sec. 3.1）。
 
-> "We train a quantitative translator for each modality, then add prefixes to the codewords from each of the two codebooks to form a dictionary."（Sec. 3.1）（每个模态训练一个量化翻译器，给两个码本的码字加前缀，组成词典。）
+> "We train a quantitative translator for each modality, then add prefixes to the codewords from each of the two codebooks to form a dictionary."（Sec. 3.1）
 
 #### 生成任务
 
-下一物品生成在同一模态内预测下一物品的量化语言。非对称物品生成从文本历史预测图像语言，或反过来（Sec. 3.2）。量化语言对齐任务在物品的文本语言和图像语言之间互相映射。
+三类生成任务将两路模态码连接起来：同模态下一物品生成在文本或图像单模态内预测目标；非对称物品生成从文本历史预测下一物品的图像码或反向预测；量化语言对齐任务在同一物品的文本码与图像码之间双向互译（Sec. 3.2）。
 
 #### 预训练与微调
 
-源领域预训练只用两个下一物品生成子任务。目标领域微调用全部生成任务（Sec. 3.3）。
-
-推理时，生成器为每个模态各给出一个推荐列表，重排步骤按物品分数合并两个列表（Sec. 3.3，Eq. 7）。
+在六个源领域预训练时仅启用两项同模态下一物品预测任务；迁移到目标领域微调时联合启用全部任务（Sec. 3.3）。推理阶段分别在文本与图像空间做束搜索，再按融合得分重排合并两个候选列表（Sec. 3.3，Eq. 7）。
 
 ---
 
@@ -105,12 +114,12 @@ flowchart LR
 
 </details>
 
-- 主实验：在 Instruments、Arts 和 Games 上，MQL4GRec 多数情况下最好，NDCG 上尤其明显（Sec. 4.2，Table 1）。
-- 预训练：用两种模态时，预训练在 Instruments 和 Arts 上有提升，在 Games 上没有。
+- 主结果：在 Instruments、Arts 和 Games 三个目标域上，MQL4GRec 在绝大多数指标（尤其是 NDCG）上优于序列推荐、多模态与生成式基线（Sec. 4.2，Table 1）。
+- 多源域预训练：双模态设置下，源域预训练显著提升了 Instruments 与 Arts，但在 Games 上未见增益（Sec. 4.3）。
 
-  > "Under dual modalities, pre-training significantly improves performance on the Instruments and Arts datasets; however, it does not yield a notable improvement for the Games dataset, potentially due to overfitting."（Sec. 4.3）（预训练在 Instruments 和 Arts 上明显有效，在 Games 上不明显，可能是过拟合。）
+  > "Under dual modalities, pre-training significantly improves performance on the Instruments and Arts datasets; however, it does not yield a notable improvement for the Games dataset, potentially due to overfitting."（Sec. 4.3）
 
-- 零样本：不经微调的预训练模型，在 Instruments 和 Arts 上有初步但较弱的零样本能力，在 Games 上没有（Sec. 4.5，Table 5）。
+- 零样本迁移：不做目标域微调直接评测时，预训练模型在 Instruments 与 Arts 上呈现初步但偏弱的零样本能力，在 Games 上则无零样本效果（Sec. 4.5，Table 5）。
 
 ---
 
@@ -118,8 +127,8 @@ flowchart LR
 
 **Our analysis.**
 
-- 两个量化器分开训练（`Dual RQ`），文本码和图像码只靠生成任务联系起来。MACRec 改用 `Cross RQ`，在量化内部加入跨模态对比学习。
-- TIGER 只量化文本（`Text`）；MQL4GRec 加了图像（`Text+Img`），生成器同为 `Enc-Dec`，用 `Beam` 解码。
+- MQL4GRec 的文本与图像编号器彼此独立训练（`Dual RQ`），模态关联完全留给下游生成任务学习；MACRec 则在量化阶段内部引入跨模态对比交互（`Cross RQ`）。
+- TIGER 仅量化单路文本（`Text`）并做单路 `Beam` 解码；MQL4GRec 量化 `Text+Img` 双流并在解码端执行双分支融合重排（`Dual Beam`）。
 
 ---
 
@@ -128,22 +137,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MQL4GRec"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["LC-Rec"]
-    P -->|competitor| C["CID"]
-    P -->|competitor| D["VQ-Rec"]
-    P -->|successor| E["MACRec"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"替代方案"| B["LC-Rec"]
+    P -->|"同期对比"| C["CID"]
+    P -->|"同期对比"| D["VQ-Rec"]
+    P -->|"后续工作"| E["MACRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER uses one text modality and an appended index for collisions; MQL4GRec translates text and images into separate quantitative languages and reassigns colliding tokens by distance.
-  - 出处：MQL4GRec v1, Table 1 baseline TIGER: https://arxiv.org/html/2504.05314v1#S4.T1; collision comparison in Table 2: https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1 and https://arxiv.org/html/2504.05314v1#S4.T2.
+  - 出处：MQL4GRec v1, Table 1 baseline TIGER: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1); collision comparison in Table 2: [S4.SS3.SSS0.Px1.p1](https://arxiv.org/html/2504.05314v1#S4.SS3.SSS0.Px1.p1) and [S4.T2](https://arxiv.org/html/2504.05314v1#S4.T2).
 - **替代方案** · [LC-Rec](lc-rec.md): LC-Rec spreads items across the last level with a uniform constraint, which MQL4GRec says does not fully remove collisions.
-  - 出处：MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1.
+  - 出处：MQL4GRec v1, Section 3.1 Handling Collisions cites Zheng et al. (2023): [S3.SS1.SSS0.Px2.p1](https://arxiv.org/html/2504.05314v1#S3.SS1.SSS0.Px2.p1).
 - **同期对比** · [CID](cid.md): P5-CID uses collaborative indexing for a T5 model; MQL4GRec uses multimodal content codes with cross-modal generation tasks.
-  - 出处：MQL4GRec v1, baseline P5-CID: https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1; Table 1: https://arxiv.org/html/2504.05314v1#S4.T1.
+  - 出处：MQL4GRec v1, baseline P5-CID: [A2.I1.i8.p1](https://arxiv.org/html/2504.05314v1#A2.I1.i8.p1); Table 1: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1).
 - **同期对比** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes in a discriminative transferable model; MQL4GRec generates multimodal codes with pre-training across categories.
-  - 出处：MQL4GRec v1, Table 1 baseline VQ-Rec: https://arxiv.org/html/2504.05314v1#S4.T1.
+  - 出处：MQL4GRec v1, Table 1 baseline VQ-Rec: [S4.T1](https://arxiv.org/html/2504.05314v1#S4.T1).
 - **后续工作** · [MACRec](macrec.md): MACRec later reuses MQL4GRec's collision reassignment and dual-modality ensemble and adds cross-modal contrastive alignment during quantization.
-  - 出处：Evidence is from the later MACRec paper: https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5 and https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3; MQL4GRec is its main baseline in Table 2: https://arxiv.org/html/2511.15122v2#Sx4.T2.
+  - 出处：Evidence is from the later MACRec paper: [Sx3.SSx1.SSSx3.p5](https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5) and [Sx3.SSx2.SSSx3.p3](https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3); MQL4GRec is its main baseline in Table 2: [Sx4.T2](https://arxiv.org/html/2511.15122v2#Sx4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

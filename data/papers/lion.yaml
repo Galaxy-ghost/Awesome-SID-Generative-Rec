@@ -16,7 +16,6 @@ tokenizer: Fixed†
 objective: NTP + Aux.
 inference: Beam
 poi: false
-summary: 实现继承 TIGER，按其文本 SID 管线推断；本文未明确重述输入。
 tldr: LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation
   loss, instead of updating all shared parameters on streaming interactions.
 tldr_zh: LION 加入稀疏键值记忆层与巩固损失，将不同行为模式的演化隔离开来，避免在流式交互上直接更新全部共享参数。

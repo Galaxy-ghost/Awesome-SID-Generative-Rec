@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: NTP → DPO
 inference: Scoring
 poi: false
-summary: 'Abstract: "significantly undermining the generalization capability of LLM-based generative recommendation methods
-  in out of distribution (OOD) scenarios".'
 tldr: CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments,
   and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
 tldr_zh: CausalDPO 为基于 LLM 的推荐扩展 DPO，加入后门调整、隐环境软聚类与不变性约束，消除分布偏移下被 DPO 放大的虚假相关。

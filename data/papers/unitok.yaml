@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam†
 poi: false
-summary: 'Abstract: "require training separate models for each item domain, limiting generalization".'
 tldr: UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks,
   calibrating mutual information across domains, instead of one tokenizer per domain.
 tldr_zh: UniTok 用共享编码器、域特定与共享专家以及码本对多域物品编号，并校准域间互信息，替代每个域单独训练编号器的做法。

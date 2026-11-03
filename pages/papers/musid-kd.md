@@ -1,23 +1,27 @@
 # MuSID-KD
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/musid-kd.md)
+
 | **Title** | *Multigranularity Knowledge Distillation for Generative Recommendation with Semantic IDs* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.35218) · [Code](https://anonymous.4open.science/r/m7k2-review-83f9/) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/musid-kd.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.35218) · [Code](https://anonymous.4open.science/r/m7k2-review-83f9/) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-MLP"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
-- `–`: Not reported in the paper.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-MLP`: A history encoder followed by MLP-based prediction heads.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -69,13 +73,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MuSID-KD"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["SID-MLP"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["SID-MLP"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): MuSID-KD uses TIGER as its frozen teacher and shares its history encoder.
-  - Source: MuSID-KD v1, Section 6.1: https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
+  - Source: MuSID-KD v1, Section 6.1: [S6.SS1.p2](https://arxiv.org/html/2610.35218v1#S6.SS1.p2).
 - **Predecessor** · [SID-MLP](sid-mlp.md): SID-MLP supplies the Base KD objective and lightweight student design.
-  - Source: MuSID-KD v1, Sections 2.3/6.1: https://arxiv.org/html/2610.35218v1#S2.SS3.p1; https://arxiv.org/html/2610.35218v1#S6.SS1.p2.
+  - Source: MuSID-KD v1, Sections 2.3/6.1: [S2.SS3.p1](https://arxiv.org/html/2610.35218v1#S2.SS3.p1); [S6.SS1.p2](https://arxiv.org/html/2610.35218v1#S6.SS1.p2).
 
 [View all papers in this cell](../../README.md#iv--training)

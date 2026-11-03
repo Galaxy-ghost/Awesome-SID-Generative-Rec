@@ -1,22 +1,28 @@
 # IBA
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/iba.md)
+
 | **Title** | *Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2607.12425) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/iba.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2607.12425) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → (NTP + Aux.)`: Next-token prediction, followed by joint optimization of next-token prediction and auxiliary objectives.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["IBA"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["LETTER"]
-    P -->|alternative| C["SIDReasoner"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["LETTER"]
+    P -->|"alternative"| C["SIDReasoner"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): IBA adds learned latent refinement allocation to TIGER.
-  - Source: IBA v1, Section IV-A2 and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.T2.
+  - Source: IBA v1, Section IV-A2 and Table II: [S4.SS1.SSS2.p1](https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2607.12425v1#S4.T2).
 - **Predecessor** · [LETTER](letter.md): LETTER is the second tested base model for IBA.
-  - Source: IBA v1, Sections IV-A2/IV-B and Table II: https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2607.12425v1#S4.SS2.p2; https://arxiv.org/html/2607.12425v1#S4.T2.
+  - Source: IBA v1, Sections IV-A2/IV-B and Table II: [S4.SS1.SSS2.p1](https://arxiv.org/html/2607.12425v1#S4.SS1.SSS2.p1); [S4.SS2.p2](https://arxiv.org/html/2607.12425v1#S4.SS2.p2); [S4.T2](https://arxiv.org/html/2607.12425v1#S4.T2).
 - **Alternative** · [SIDReasoner](sidreasoner.md): SIDReasoner aligns IDs with language; IBA allocates hidden refinement steps.
-  - Source: IBA v1, Section V-B2: https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2; https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3.
+  - Source: IBA v1, Section V-B2: [S5.SS2.SSS2.p2](https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2); [S5.SS2.SSS2.p3](https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3).
 
 [View all papers in this cell](../../README.md#v--backbone)

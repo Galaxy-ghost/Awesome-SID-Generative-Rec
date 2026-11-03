@@ -1,22 +1,28 @@
 # STAMP
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/stamp.md)
+
 | **Title** | *Semantic Trimming and Auxiliary Multi-step Prediction for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhan et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.05329) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/stamp.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.05329) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec / Dec-Only`: Evaluated on both Encoder-Decoder and Decoder-Only backbones.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Aux.`: NTP plus another auxiliary loss.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["STAMP"]
-    P -->|predecessor| A["GRID"]
-    P -->|predecessor| B["FORGE"]
-    P -->|alternative| C["AtSpeed"]
+    P -->|"predecessor"| A["GRID"]
+    P -->|"predecessor"| B["FORGE"]
+    P -->|"alternative"| C["AtSpeed"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [GRID](grid.md): STAMP is implemented inside the GRID framework and keeps its tokenizer and T5 backbone, adding training-time token pruning and multi-step auxiliary prediction.
-  - Source: STAMP v3, Section 5.1.4 GRID setup: https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2; Table 2: https://arxiv.org/html/2604.05329v3#S5.T2.
+  - Source: STAMP v3, Section 5.1.4 GRID setup: [S5.SS1.SSS4.p2](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p2); Table 2: [S5.T2](https://arxiv.org/html/2604.05329v3#S5.T2).
 - **Predecessor** · [FORGE](forge.md): STAMP uses FORGE's AL-GR-Tiny data and Qwen backbone as its second testbed.
-  - Source: STAMP v3, Section 5.1.1 and 5.1.4: https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1 and https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3; Table 3: https://arxiv.org/html/2604.05329v3#S5.T3.
+  - Source: STAMP v3, Section 5.1.1 and 5.1.4: [S5.I2.i2.p1](https://arxiv.org/html/2604.05329v3#S5.I2.i2.p1) and [S5.SS1.SSS4.p3](https://arxiv.org/html/2604.05329v3#S5.SS1.SSS4.p3); Table 3: [S5.T3](https://arxiv.org/html/2604.05329v3#S5.T3).
 - **Alternative** · [AtSpeed](atspeed.md): AtSpeed accelerates inference by speculative decoding; STAMP targets training-time cost instead.
-  - Source: STAMP v3, Section 2 acceleration paragraph: https://arxiv.org/html/2604.05329v3#S2.p3.
+  - Source: STAMP v3, Section 2 acceleration paragraph: [S2.p3](https://arxiv.org/html/2604.05329v3#S2.p3).
 
 [View all papers in this cell](../../README.md#v--backbone)

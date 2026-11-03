@@ -1,19 +1,23 @@
 # OneLatent
 
+[← Problem × Stage Matrix](../../README.md#v--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onelatent.md)
+
 | **Title** | *Latent Reasoning for Efficient Foundation Recommendation Models* |
 | :-- | :-- |
 | **Authors** | Jiang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.30675) · [Matrix](../../README.md#v--training) · [中文](../zh/papers/onelatent.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.30675) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>MM"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
@@ -22,6 +26,7 @@ flowchart LR
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneLatent"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["OneRec-Think"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["OneRec-Think"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is a SID-based generative baseline in the reported comparison.
-  - Source: OneLatent v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.30675v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.30675v1#S4.T2.
+  - Source: OneLatent v1, Section 4.1.2 and Table 2: [S4.SS1.SSS2.p1](https://arxiv.org/html/2610.30675v1#S4.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2610.30675v1#S4.T2).
 - **Alternative** · [OneRec-Think](onerec-think.md): OneRec-Think uses explicit CoT plus RL; OneLatent trains a compact latent interface.
-  - Source: OneLatent v1, Section 2.2: https://arxiv.org/html/2610.30675v1#S2.SS2.p1.
+  - Source: OneLatent v1, Section 2.2: [S2.SS2.p1](https://arxiv.org/html/2610.30675v1#S2.SS2.p1).
 
 [View all papers in this cell](../../README.md#v--training)

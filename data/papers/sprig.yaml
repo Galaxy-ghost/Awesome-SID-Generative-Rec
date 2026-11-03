@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Div. Beam
 poi: false
-summary: 生成关系路径及终端 SID，逆 SID lookup 确定物品。
 tldr: SPRIG trains a generator on knowledge-graph paths that end in content-derived Semantic IDs, combining relational grounding
   with shared item tokens instead of opaque tokens tied to embedding tables.
 tldr_zh: SPRIG 在以内容派生 SID 结尾的知识图谱路径上训练生成器，将关系结构锚定与共享物品 token 结合起来，替代绑定嵌入表的不透明 token。

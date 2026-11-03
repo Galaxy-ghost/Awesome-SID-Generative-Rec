@@ -1,24 +1,30 @@
 # MBGR
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mbgr.md)
+
 | **Title** | *Multi-Business Prediction for Generative Recommendation at Meituan* |
 | :-- | :-- |
 | **Authors** | Li et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.02684) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/mbgr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.02684) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed† / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
+- `Fixed†`: Tokenizer frozen before generator training (inferred).
 - `NTP + Aux.`: NTP plus another auxiliary loss.
 - `C-Beam`: Constrained beam search.
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MBGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"alternative"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates one shared semantic ID space for all items; MBGR makes SIDs business-aware and predicts the next item for each business in parallel.
-  - Source: MBGR v1, Table 1 baseline Tiger: https://arxiv.org/html/2604.02684v1#S6.T1; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
+  - Source: MBGR v1, Table 1 baseline Tiger: [S6.T1](https://arxiv.org/html/2604.02684v1#S6.T1); related work: [S2.SS1.p1](https://arxiv.org/html/2604.02684v1#S2.SS1.p1).
 - **Alternative** · [OneRec](onerec.md): OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business generation for recall.
-  - Source: MBGR v1, Section 6.6 contrasts with OneRec: https://arxiv.org/html/2604.02684v1#S6.SS6.p2; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.
+  - Source: MBGR v1, Section 6.6 contrasts with OneRec: [S6.SS6.p2](https://arxiv.org/html/2604.02684v1#S6.SS6.p2); related work: [S2.SS1.p1](https://arxiv.org/html/2604.02684v1#S2.SS1.p1).
 
 [View all papers in this cell](../../README.md#vi--tokenization)

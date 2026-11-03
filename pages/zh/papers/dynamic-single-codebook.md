@@ -1,26 +1,31 @@
 # Dynamic-Single-Codebook
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dynamic-single-codebook.md) | 中文
+
 | **题目** | *From a Static Multi-Level Small Semantic Codebook to a Dynamic Single-Level Large Semantic Codebook for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xie et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2608.21012) · [矩阵](../../../README.zh.md#v--tokenization) · [English](../../papers/dynamic-single-codebook.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2608.21012) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>Dyn. KM+Disamb."] --> B["Backbone<br/>Enc-Dec / Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP†"] --> I["Inference<br/>Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Dyn. KM+Disamb."] --> B["骨干 Backbone<br/>Enc-Dec / Lazy Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP†"] --> I["推理 Inference<br/>Beam†"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `–`: Not reported in the paper.
-- `Dyn. KM+Disamb.`: Dynamically updated k-means codes combined with disambiguation codes.
-- `Enc-Dec / Lazy Dec-Only`: Encoder–decoder and lazy decoder-only backbone variants.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
+- `Dyn. KM+Disamb.`：动态更新的 k-means 编码加冲突消歧后缀码。
+- `Enc-Dec / Lazy Dec-Only`：涵盖编码器-解码器与延迟解码（Lazy Decoder-only）两种变体。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP†`：下一 token 预测损失（由配置推断）。
+- `Beam†`：自回归束搜索（由配置推断）。
 
 ### TL;DR
 
@@ -33,9 +38,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | Dynamic-Single-Codebook 用大单层码本的一个 token 加协同消歧 token 替代多层残差码，并随曝光分布变化动态更新码本。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Dynamic-Single-Codebook"]
-    P -->|alternative| A["RPG"]
-    P -->|alternative| B["LLaDA-Rec"]
-    P -->|alternative| C["LETTER"]
+    P -->|"替代方案"| A["RPG"]
+    P -->|"替代方案"| B["LLaDA-Rec"]
+    P -->|"替代方案"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **替代方案** · [RPG](rpg.md): RPG parallelizes long SIDs; this method shortens SIDs.
-  - 出处：Dynamic-Single-Codebook v1, Section 2.2: https://arxiv.org/html/2608.21012v1#S2.SS2.p2.
+  - 出处：Dynamic-Single-Codebook v1, Section 2.2: [S2.SS2.p2](https://arxiv.org/html/2608.21012v1#S2.SS2.p2).
 - **替代方案** · [LLaDA-Rec](llada-rec.md): LLaDA-Rec uses diffusion with adapted beam search; this method reduces token count.
-  - 出处：Dynamic-Single-Codebook v1, Sections 1 and 2.2: https://arxiv.org/html/2608.21012v1#S1.p4; https://arxiv.org/html/2608.21012v1#S2.SS2.p2.
+  - 出处：Dynamic-Single-Codebook v1, Sections 1 and 2.2: [S1.p4](https://arxiv.org/html/2608.21012v1#S1.p4); [S2.SS2.p2](https://arxiv.org/html/2608.21012v1#S2.SS2.p2).
 - **替代方案** · [LETTER](letter.md): LETTER regularizes residual quantization; this method changes semantic codebook width and depth.
-  - 出处：Dynamic-Single-Codebook v1, Section 2.1: https://arxiv.org/html/2608.21012v1#S2.SS1.p2.
+  - 出处：Dynamic-Single-Codebook v1, Section 2.1: [S2.SS1.p2](https://arxiv.org/html/2608.21012v1#S2.SS1.p2).
 
 [查看同格全部论文](../../../README.zh.md#v--tokenization)

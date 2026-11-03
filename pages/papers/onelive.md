@@ -1,19 +1,23 @@
 # OneLive
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onelive.md)
+
 | **Title** | *Dynamically Unified Generative Framework for Live-Streaming Recommendation* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | KDD’26 ADS |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.08612) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/onelive.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2602.08612) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+Audio+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Lazy Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
@@ -22,6 +26,7 @@ flowchart LR
 - `Lazy Dec-Only`: A lazy decoder-only architecture that concentrates decoder computation on target generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → RL`: NTP, then reinforcement learning (GRPO, GBPO, etc.).
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneLive"]
-    P -->|predecessor| A["TIGER"]
-    P -->|competitor| B["OneRec"]
-    P -->|alternative| C["MMQ"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"competitor"| B["OneRec"]
+    P -->|"alternative"| C["MMQ"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): OneLive extends SID generation to dynamic live-streaming content.
-  - Source: OneLive v1, Appendix A.2 and Table 2: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.T2.
+  - Source: OneLive v1, Appendix A.2 and Table 2: [A1.SS2.p2](https://arxiv.org/html/2602.08612v1#A1.SS2.p2); [S2.T2](https://arxiv.org/html/2602.08612v1#S2.T2).
 - **Competitor** · [OneRec](onerec.md): OneRec is adapted as the encoder-decoder live-streaming baseline.
-  - Source: OneLive v1, Section 3.1.2 and Table 2; cited Deng et al. (2025) is arXiv:2502.18965: https://arxiv.org/html/2602.08612v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2602.08612v1#S2.T2.
+  - Source: OneLive v1, Section 3.1.2 and Table 2; cited Deng et al. (2025) is arXiv:2502.18965: [S3.SS1.SSS2.p1](https://arxiv.org/html/2602.08612v1#S3.SS1.SSS2.p1); [S2.T2](https://arxiv.org/html/2602.08612v1#S2.T2).
 - **Alternative** · [MMQ](mmq.md): MMQ aligns content with behavior; OneLive additionally updates author SIDs in real time.
-  - Source: OneLive v1, Appendix A.2 and Section 2.1: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.SS1.
+  - Source: OneLive v1, Appendix A.2 and Section 2.1: [A1.SS2.p2](https://arxiv.org/html/2602.08612v1#A1.SS2.p2); [S2.SS1](https://arxiv.org/html/2602.08612v1#S2.SS1).
 
 [View all papers in this cell](../../README.md#vi--tokenization)

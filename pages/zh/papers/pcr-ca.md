@@ -1,26 +1,32 @@
 # PCR-CA
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pcr-ca.md) | 中文
+
 | **题目** | *Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* |
 | :-- | :-- |
 | **作者** | Tan et al. |
-| **会议** | KDD’26 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2508.18166) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/pcr-ca.md) |
+| **发表** | KDD’26 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2508.18166) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>PC-AE"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Joint / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>PC-AE"] --> B["骨干 Backbone<br/>Disc."] --> TR["训练 Training<br/>Joint / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `PC-AE`: Parallel Codebook Auto-Encoder
-- `Disc.`: A discriminative recommendation model that scores candidates.
-- `Joint`: The generator loss updates the tokenizer directly.
-- `Discrim.`: Scores items; does not generate SIDs.
+- `Text+CF`：文本表征结合协同过滤信号。
+- `PC-AE`：并行码本自编码器（Parallel Codebook Auto-Encoder）。
+- `Disc.`：对候选物品打分的判别式推荐骨干。
+- `Joint`：推荐生成损失通过可微路径直接反传更新编号器。
+- `Discrim.`：判别式候选物品打分损失，不直接生成 SID。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | PCR-CA 不同于层级 RQ-VAE，学习应用文本的并行码本表示，并通过对比学习将它与协同信号对齐，用于多类目应用的点击率预测。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PCR-CA"]
-    P -->|alternative| A["CoST"]
+    P -->|"替代方案"| A["CoST"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **替代方案** · [CoST](cost.md): CoST uses residual vector quantization; PCR-CA replaces its hierarchy with parallel codebooks for multiple-category app features and CTR prediction.
-  - 出处：PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): https://arxiv.org/html/2508.18166v1#S1.p4; https://arxiv.org/html/2508.18166v1#S2.SS2.p3.
+  - 出处：PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): [S1.p4](https://arxiv.org/html/2508.18166v1#S1.p4); [S2.SS2.p3](https://arxiv.org/html/2508.18166v1#S2.SS2.p3).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

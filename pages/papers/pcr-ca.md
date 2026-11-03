@@ -1,26 +1,32 @@
 # PCR-CA
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pcr-ca.md)
+
 | **Title** | *Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* |
 | :-- | :-- |
 | **Authors** | Tan et al. |
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.18166) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/pcr-ca.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2508.18166) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>PC-AE"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Joint / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `PC-AE`: Parallel Codebook Auto-Encoder
 - `Disc.`: A discriminative recommendation model that scores candidates.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `Discrim.`: Scores items; does not generate SIDs.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -68,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PCR-CA"]
-    P -->|alternative| A["CoST"]
+    P -->|"alternative"| A["CoST"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Alternative** · [CoST](cost.md): CoST uses residual vector quantization; PCR-CA replaces its hierarchy with parallel codebooks for multiple-category app features and CTR prediction.
-  - Source: PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): https://arxiv.org/html/2508.18166v1#S1.p4; https://arxiv.org/html/2508.18166v1#S2.SS2.p3.
+  - Source: PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): [S1.p4](https://arxiv.org/html/2508.18166v1#S1.p4); [S2.SS2.p3](https://arxiv.org/html/2508.18166v1#S2.SS2.p3).
 
 [View all papers in this cell](../../README.md#i--tokenization)

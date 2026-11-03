@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP + Rank
 inference: Hybrid
 poi: false
-summary: 有完整 SID 生成和 item-level scoring 新架构；放弃唯一 SID 并不使其成为非 SID。
 tldr: Gryphon adds a jointly trained item-level scoring component to an encoder-decoder generator, resolving each generated
   Semantic ID to its items and re-scoring them, instead of ranking by token likelihood.
 tldr_zh: Gryphon 在编码器-解码器生成器中加入联合训练的物品级打分模块，将生成的 SID 解析为具体物品并重新打分，替代按 token 似然排序。

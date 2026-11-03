@@ -16,7 +16,6 @@ tokenizer: Altern.
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'Abstract: "struggles to effectively encode recommendation items within the text-to-text framework".'
 tldr: IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language
   tokens, and tests zero-shot transfer to unseen platforms.
 tldr_zh: IDGenRec 将文本 ID 生成器与 LLM 推荐器协同训练，为每个物品生成由自然语言 token 组成的简短 ID，并测试向未见平台的零样本迁移。

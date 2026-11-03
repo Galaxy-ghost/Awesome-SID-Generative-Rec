@@ -1,25 +1,34 @@
 # ACERec
 
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/acerec.md)
+
 | **Title** | *Unleash the Potential of Long Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Xia et al. |
 | **Venue** | arXiv’26 |
-| **Problem × Stage** | `V. Efficiency` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2602.13573) · [Matrix](../../README.md#v--backbone) · [中文](../zh/papers/acerec.md) |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` — Also: `I. Informativeness` × `Backbone`; `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2602.13573) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Ctr. + Aux."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Ctr. + Aux.`: Multi-token prediction jointly optimized with contrastive and auxiliary objectives.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,22 +76,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ACERec"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|competitor| D["ETEGRec"]
-    P -->|predecessor| E["VQ-Rec"]
+    P -->|"competitor"| A["RPG"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["ActionPiece"]
+    P -->|"competitor"| D["ETEGRec"]
+    P -->|"predecessor"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent tokens for sequence modeling and scores all items exactly.
-  - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2; ID-length comparison: https://arxiv.org/html/2602.13573v2#S4.SS3.p3.
+  - Source: ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2); ID-length comparison: [S4.SS3.p3](https://arxiv.org/html/2602.13573v2#S4.SS3.p3).
 - **Competitor** · [TIGER](tiger.md): TIGER generates short RQ-VAE IDs by beam search; ACERec uses long OPQ IDs with parallel scoring.
-  - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Table 1 (numbers copied from TIGER): https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#A1.SS4.p1.
+  - Source: ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Table 1 (numbers copied from TIGER): [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [A1.SS4.p1](https://arxiv.org/html/2602.13573v2#A1.SS4.p1).
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens contextually; ACERec merges long OPQ codes into latent tokens with attention.
-  - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
+  - Source: ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2).
 - **Competitor** · [ETEGRec](etegrec.md): ETEGRec learns the tokenizer end to end; ACERec keeps fixed OPQ codes and compresses them.
-  - Source: ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
+  - Source: ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2).
 - **Predecessor** · [VQ-Rec](vq-rec.md): ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
-  - Source: ACERec v2, Section 4.1 protocol follows Hou et al. (2023): https://arxiv.org/html/2602.13573v2#S4.SS1.p1; related work: https://arxiv.org/html/2602.13573v2#S2.p1.
+  - Source: ACERec v2, Section 4.1 protocol follows Hou et al. (2023): [S4.SS1.p1](https://arxiv.org/html/2602.13573v2#S4.SS1.p1); related work: [S2.p1](https://arxiv.org/html/2602.13573v2#S2.p1).
 
 [View all papers in this cell](../../README.md#v--backbone)

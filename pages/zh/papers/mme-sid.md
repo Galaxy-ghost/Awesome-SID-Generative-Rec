@@ -1,25 +1,34 @@
 # MME-SID
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mme-sid.md) | 中文
+
 | **题目** | *Empowering large language model for sequential recommendation via multimodal embeddings and semantic ids* |
 | :-- | :-- |
 | **作者** | Wang et al. |
-| **会议** | CIKM’25 |
-| **问题与阶段** | `I. 信息量` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2509.02017) · [代码](https://github.com/Applied-Machine-Learning-Lab/MME-SID) · [矩阵](../../../README.zh.md#i--tokenization) · [English](../../papers/mme-sid.md) |
+| **发表** | CIKM’25 |
+| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` — 补充：`I. 信息量` × `骨干（Backbone）`；`III. SID 与模型对齐` × `骨干（Backbone）`；`III. SID 与模型对齐` × `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2509.02017) · [代码](https://github.com/Applied-Machine-Learning-Lab/MME-SID) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>MM-RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>MM-RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `MM-RQ`：多模态残差量化（Multimodal RQ）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP`：标准下一 token 预测（Next-Token Prediction）交叉熵损失；基于预训练 LLM 的指令微调（SFT）亦归入此类。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +41,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | MME-SID 将多模态嵌入与经最大均值差异和对比对齐训练的 MM-RQ-VAE SID 嵌入一同输入 LLM，缓解嵌入坍缩与灾难性遗忘。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -67,19 +76,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MME-SID"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LETTER"]
-    P -->|alternative| C["LC-Rec"]
-    P -->|alternative| D["ADC-SID"]
+    P -->|"同期对比"| A["TIGER"]
+    P -->|"同期对比"| B["LETTER"]
+    P -->|"替代方案"| C["LC-Rec"]
+    P -->|"替代方案"| D["ADC-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER-MM generates per-modality RQ-VAE semantic IDs autoregressively and must resolve collisions; MME-SID feeds multimodal SIDs and embeddings to an LLM and scores items directly.
-  - 出处：MME-SID v1, baseline TIGER-MM: https://arxiv.org/html/2509.02017v1#S5.I2.i7.p1; collision contrast: https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1; Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.
+  - 出处：MME-SID v1, baseline TIGER-MM: [S5.I2.i7.p1](https://arxiv.org/html/2509.02017v1#S5.I2.i7.p1); collision contrast: [S4.I1.i2.p1](https://arxiv.org/html/2509.02017v1#S4.I1.i2.p1); Table 3: [S5.T3](https://arxiv.org/html/2509.02017v1#S5.T3).
 - **同期对比** · [LETTER](letter.md): LETTER regularizes the tokenizer for generative retrieval on a TIGER backbone; MME-SID avoids generation and aligns modalities with an MMD loss.
-  - 出处：MME-SID v1, baseline LETTER implemented on TIGER: https://arxiv.org/html/2509.02017v1#S5.I2.i9.p1; Table 3: https://arxiv.org/html/2509.02017v1#S5.T3.
+  - 出处：MME-SID v1, baseline LETTER implemented on TIGER: [S5.I2.i9.p1](https://arxiv.org/html/2509.02017v1#S5.I2.i9.p1); Table 3: [S5.T3](https://arxiv.org/html/2509.02017v1#S5.T3).
 - **替代方案** · [LC-Rec](lc-rec.md): LC-Rec aligns an LLM to item indices but decodes autoregressively; MME-SID scores items from the LLM output for lower latency.
-  - 出处：MME-SID v1, Section 6.2: https://arxiv.org/html/2509.02017v1#S6.SS2.p1.
+  - 出处：MME-SID v1, Section 6.2: [S6.SS2.p1](https://arxiv.org/html/2509.02017v1#S6.SS2.p1).
 - **替代方案** · [ADC-SID](adc-sid.md): ADC-SID later compares against MM-RQ-VAE (MME-SID's tokenizer) and adds adaptive behavior-content alignment.
-  - 出处：Evidence is from the later ADC-SID paper: MM-RQ-VAE baseline and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1 and https://arxiv.org/html/2510.25622v3#S4.T2.
+  - 出处：Evidence is from the later ADC-SID paper: MM-RQ-VAE baseline and Table 2: [S4.I3.i6.p1](https://arxiv.org/html/2510.25622v3#S4.I3.i6.p1) and [S4.T2](https://arxiv.org/html/2510.25622v3#S4.T2).
 
 [查看同格全部论文](../../../README.zh.md#i--tokenization)

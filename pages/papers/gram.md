@@ -1,22 +1,27 @@
 # GRAM
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gram.md)
+
 | **Title** | *Generative recommendation via semantic-aware multi-granular late fusion* |
 | :-- | :-- |
 | **Authors** | Lee et al. |
 | **Venue** | ACL’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/gram.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `H-KM`: Hierarchical k-means.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -44,7 +49,7 @@ flowchart LR
 
 ### 1. Why This Paper Matters
 
-Generative recommenders built on large language models (LLMs) struggle to incorporate implicit item relationships and to use rich but lengthy item information (Abstract). GRAM addresses the first with textual IDs and the second with late fusion.
+Generative recommenders built on large language models (LLMs) struggle to capture implicit collaborative relationships and to process lengthy item descriptions without hitting context bottlenecks (Abstract). GRAM encodes item hierarchies into lexical Semantic IDs (SIDs) drawn from the native LLM vocabulary and fuses multi-granular item prompts only at the decoder stage.
 
 > "It employs separate encoders for multi-granular prompts, delaying the fusion until the decoding stage." (Abstract)
 
@@ -56,30 +61,35 @@ Generative recommenders built on large language models (LLMs) struggle to incorp
 
 ```mermaid
 flowchart LR
-    A("Item text") --> B["TF-IDF words from LLM vocabulary"]:::key
-    B --> C("Textual IDs, e.g. soap-mild-mango")
-    C --> D("User prompt: history IDs")
-    E("Attributes + collaborative signals") --> F("Item prompts")
-    D --> G["Separate encoders"]
-    F --> G
-    G --> I["Decoder cross-attention over all outputs"]:::key
-    I --> J("Next textual ID")
+    subgraph Tok["1. Semantic-to-Lexical ID Construction"]
+        A("Item text + extracted CF attributes") --> B["Recursive hierarchical k-means (l, k, c)"]
+        B --> C["TF-IDF word selection from LLM vocabulary"]:::key
+        C --> D("Lexical SID, e.g. soap-mild-mango")
+    end
+    subgraph Gen["2. Multi-Granular Late Fusion"]
+        D --> E("Coarse user prompt: history SIDs")
+        F("Fine item prompts: attributes + CF signals") --> H["Separate T5 encoders"]
+        E --> H
+        H --> I["Concatenated K-V cross-attention in decoder"]:::key
+        I --> J["Trie-constrained beam search (beam 50)"]
+        J --> K("Next lexical SID")
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Semantic-to-Lexical Translation
 
-The hierarchical IDs are textual, for example "soap-mild-mango", with words chosen by TF-IDF from the LLM vocabulary (Sec. 7).
+GRAM clusters item embeddings with recursive hierarchical k-means (stopping when a cluster has fewer than $`c`$ items or reaches depth $`l`$) and maps each cluster to an LLM vocabulary word via TF-IDF, producing hierarchical lexical SIDs such as `"soap-mild-mango"` with an appended digit for duplicates (Sec. 3.2.1, Sec. 7). Collaborative co-occurrence signals are extracted and formatted as an additional text attribute before clustering and prompting.
 
 > "To bridge collaborative semantics to LLMs, we extract collaborative signals and convert them as an additional item attribute." (Sec. 3.2.2)
 
 #### Multi-Granular Prompts
 
-A coarse-grained user prompt concatenates the item IDs of the history, and fine-grained item prompts carry item attributes and collaborative semantics (Sec. 3.3.1).
+A coarse-grained user prompt concatenates the lexical SIDs of the interaction history, while separate fine-grained item prompts encode individual item attributes and collaborative semantics (Sec. 3.3.1).
 
 #### Late Fusion
 
-The decoder uses the combined encoder outputs as the key-value matrix in cross-attention at every step (Sec. 3.3.2, Eq. 8-9).
+Separate encoders process the user prompt and each item prompt independently, and the decoder concatenates all encoder outputs into the key-value matrix for cross-attention at every decoding step under a Trie-constrained beam search of width 50 (Sec. 3.3.2, Eq. 8–9).
 
 ---
 
@@ -105,7 +115,9 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 
 </details>
 
-- Efficiency: the authors analyze preprocessing and inference time in Appendix C.
+- Main comparison: across Amazon Beauty, Toys and Games, Sports and Outdoors, and Yelp, GRAM improves Recall@5 by 11.5–16.0% and NDCG@5 by 5.3–13.6% over eight generative baselines (Abstract, Table 2).
+- Component and ID ablations: Table 3 ablates hierarchical clustering, collaborative attributes, and multi-granular late fusion, while Table 4 shows that hierarchical lexical SIDs outperform RQ-VAE codes and flat IDs inside GRAM.
+- Inference efficiency: when evaluating all test sequences in a single batch on one NVIDIA A6000 GPU, GRAM averages 0.2008 s per user sequence on Beauty and 0.1605 s on Toys, compared with 1.8312 s and 1.8125 s for LC-Rec (Appendix C, Tables 6–7).
 
 ---
 
@@ -113,8 +125,8 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 
 **Our analysis.**
 
-- The IDs reuse vocabulary words instead of new tokens. This suggests that the words carry pretrained meanings, which can match or conflict with the item.
-- LC-Rec maps `RQ-VAE` codes to new tokens in a `Dec-Only` LLM; GRAM uses `H-KM` textual IDs in an `Enc-Dec` model.
+- Reusing native vocabulary words instead of out-of-vocabulary code tokens suggests that pretrained lexical meanings can either reinforce or conflict with item semantics.
+- LC-Rec maps `RQ-VAE` codes to new out-of-vocabulary tokens in a `Dec-Only` LLM; GRAM builds `H-KM` lexical SIDs from existing vocabulary tokens in an `Enc-Dec` generator.
 
 ---
 
@@ -123,22 +135,26 @@ The decoder uses the combined encoder outputs as the key-value matrix in cross-a
 ```mermaid
 flowchart LR
     P["GRAM"]
-    P -->|competitor| A["LC-Rec"]
-    P -->|competitor| B["IDGenRec"]
-    P -->|competitor| C["TIGER"]
-    P -->|competitor| D["CID"]
-    P -->|competitor| E["LETTER"]
+    P -->|"competitor"| A["LC-Rec"]
+    P -->|"competitor"| B["IDGenRec"]
+    P -->|"competitor"| C["TIGER"]
+    P -->|"competitor"| D["CID"]
+    P -->|"competitor"| E["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Competitor** · [LC-Rec](lc-rec.md): LC-Rec maps RQ-VAE codes to new out-of-vocabulary tokens; GRAM builds hierarchical IDs from existing vocabulary tokens and verbalizes collaborative signals in item prompts.
-  - Source: GRAM v1, Section 3.2.1 contrasts the token choice: https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3; baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; inference time in Table 7: https://arxiv.org/html/2506.01673v1#A3.T7.
+  - Source: GRAM v1, Section 3.2.1 contrasts the token choice: [S3.SS2.SSS1.p3](https://arxiv.org/html/2506.01673v1#S3.SS2.SSS1.p3); baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); inference time in Table 7: [A3.T7](https://arxiv.org/html/2506.01673v1#A3.T7).
 - **Competitor** · [IDGenRec](idgenrec.md): IDGenRec generates textual IDs with a learned ID generator; GRAM derives hierarchical textual IDs by clustering, and the authors rerun IDGenRec without user IDs that leak test items.
-  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; reproduction in Table 9 and Appendix E: https://arxiv.org/html/2506.01673v1#A4.T9 and https://arxiv.org/html/2506.01673v1#A5.p3.
+  - Source: GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); reproduction in Table 9 and Appendix E: [A4.T9](https://arxiv.org/html/2506.01673v1#A4.T9) and [A5.p3](https://arxiv.org/html/2506.01673v1#A5.p3).
 - **Competitor** · [TIGER](tiger.md): TIGER uses RQ-VAE codes as new tokens; GRAM's ID-type study also tests RQ-VAE IDs inside GRAM against hierarchical textual IDs.
-  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; Table 4 ID types: https://arxiv.org/html/2506.01673v1#S5.T4 and https://arxiv.org/html/2506.01673v1#S5.SS3.p1.
+  - Source: GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); Table 4 ID types: [S5.T4](https://arxiv.org/html/2506.01673v1#S5.T4) and [S5.SS3.p1](https://arxiv.org/html/2506.01673v1#S5.SS3.p1).
 - **Competitor** · [CID](cid.md): P5-CID, P5-SID, and P5-SemID are fixed indexing schemes for P5; GRAM adds hierarchical semantic text IDs and collaborative prompts.
-  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2; 5-core setting follows Hua et al. (2023): https://arxiv.org/html/2506.01673v1#S4.p1.
+  - Source: GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2); 5-core setting follows Hua et al. (2023): [S4.p1](https://arxiv.org/html/2506.01673v1#S4.p1).
 - **Competitor** · [LETTER](letter.md): LETTER learns a regularized RQ-VAE tokenizer; GRAM avoids learned codebooks and uses text clustering mapped to vocabulary tokens.
-  - Source: GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2.
+  - Source: GRAM v1, baselines and Table 2: [S4.p3](https://arxiv.org/html/2506.01673v1#S4.p3) and [S4.T2](https://arxiv.org/html/2506.01673v1#S4.T2).
 
 [View all papers in this cell](../../README.md#i--tokenization)

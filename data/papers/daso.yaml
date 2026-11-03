@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: C-Beam
 poi: false
-summary: 提出完整 tree-aware GRPO 新训练方法，在固定 MiniOneRec SID 与工业 SID 上验证。
 tldr: DASO reallocates part of each GRPO rollout group to prefix-guided completions at Semantic ID levels where candidates
   leave the target path and adds a graded prefix reward, unlike vanilla GRPO.
 tldr_zh: DASO 在候选偏离目标路径的 SID 层级将部分 GRPO 采样组重分配给前缀引导补全，并加入分级前缀奖励，改进标准 GRPO。

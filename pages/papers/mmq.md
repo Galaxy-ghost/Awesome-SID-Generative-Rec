@@ -1,26 +1,31 @@
 # MMQ
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mmq.md)
+
 | **Title** | *Multimodal Mixture-of-Quantization Tokenization for Semantic ID Generation and User Behavioral Adaptation* |
 | :-- | :-- |
 | **Authors** | Xu et al. |
 | **Venue** | WSDM’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2508.15281) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/mmq.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2508.15281) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img"] --> T["Tokenization<br/>MoE-VQ"] --> B["Backbone<br/>HeterRec"] --> TR["Training<br/>Joint / MTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img`: Text and visual item representations.
+- `MoE-VQ`: Mixture-of-experts vector quantization.
 - `HeterRec`: HeterRec, the named recommendation backbone used in the paper.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `MTP`: Predicts several codes in parallel at once.
-- `–`: Not reported in the paper.
 
 ### TL;DR
 
@@ -68,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MMQ"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
-    P -->|alternative| C["LC-Rec"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["OneRec"]
+    P -->|"alternative"| C["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): MMQ replaces TIGER's separated tokenizer training with behavior-aware joint adaptation.
-  - Source: MMQ v1, Section 3.3: https://arxiv.org/html/2508.15281v1#S3.SS3.p1.
+  - Source: MMQ v1, Section 3.3: [S3.SS3.p1](https://arxiv.org/html/2508.15281v1#S3.SS3.p1).
 - **Alternative** · [OneRec](onerec.md): OneRec aligns modalities before quantization; MMQ separates shared and specific experts.
-  - Source: MMQ v1, Section 2: https://arxiv.org/html/2508.15281v1#S2.p3.
+  - Source: MMQ v1, Section 2: [S2.p3](https://arxiv.org/html/2508.15281v1#S2.p3).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec aligns indices through multitask fine-tuning; MMQ adapts multimodal tokenization directly.
-  - Source: MMQ v1, Sections 2 and 3.3: https://arxiv.org/html/2508.15281v1#S2.p2; https://arxiv.org/html/2508.15281v1#S3.SS3.p1.
+  - Source: MMQ v1, Sections 2 and 3.3: [S2.p2](https://arxiv.org/html/2508.15281v1#S2.p2); [S3.SS3.p1](https://arxiv.org/html/2508.15281v1#S3.SS3.p1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

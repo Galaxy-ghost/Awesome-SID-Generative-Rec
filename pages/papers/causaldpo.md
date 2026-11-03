@@ -1,25 +1,32 @@
 # CausalDPO
 
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/causaldpo.md)
+
 | **Title** | *Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhao et al. |
 | **Venue** | ICML’26 |
 | **Problem × Stage** | `VI. Generalization` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/causaldpo.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `LLM-Vocab`: Item identifiers composed directly from tokens in the language model vocabulary.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP → DPO`: NTP, then preference optimization.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CausalDPO"]
-    P -->|alternative| A["OneRec"]
+    P -->|"alternative"| A["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Alternative** · [OneRec](onerec.md): OneRec uses iterative preference alignment for a generative recommender with semantic IDs; CausalDPO adds backdoor adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
-  - Source: CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: https://arxiv.org/html/2603.22335v2#S4.p2; not a baseline in Table 1.
+  - Source: CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: [S4.p2](https://arxiv.org/html/2603.22335v2#S4.p2); not a baseline in Table 1.
 
 [View all papers in this cell](../../README.md#vi--training)

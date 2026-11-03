@@ -16,17 +16,6 @@ tokenizer: –
 objective: NTP → DPO
 inference: Div. C-Beam
 poi: false
-summary: Generative retrieval replaces nearest-neighbor search with token-by-token decoding of an item's semantic ID (SID).
-  But existing SID-based methods primarily use L levels of tokens sequentially to represent each item in the input history.
-  As a result, a fixed context window holds L times fewer items than it would with one embedding per item. We present PinGER,
-  a generative retriever deployed at Pinterest that retains SID outputs while making input histories compact, built on three
-  ideas. (1) An asymmetric attention mask over interleaved SID and dense tokens lets later items attend only to the dense
-  ones, so the model is supervised at every SID position in training yet serves one token per item while computing the same
-  function. (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity
-  penalty, which together steer retrieval toward surface-specific goals and diverse candidates. (3) A serving stack built
-  for efficient wide-beam generation is paired with decoding constrained to valid identifiers and candidate resolution from
-  a host-local index. Deployed in Related Pins, PinGER lifts saves of fresh Pins by 3.60% and overall saves by 0.62%, while
-  reducing the surface's end-to-end latency by 0.7% and eliminating the cost of the nearest-neighbor search it replaces.
 tldr: PinGER interleaves Semantic ID and dense tokens with an asymmetric attention mask so serving uses one token per item,
   and steers retrieval by goal conditioning, reinforcement learning, and diversity penalties.
 tldr_zh: PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。

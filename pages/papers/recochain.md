@@ -1,26 +1,32 @@
 # RecoChain
 
+[← Problem × Stage Matrix](../../README.md#iv--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/recochain.md)
+
 | **Title** | *Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* |
 | :-- | :-- |
 | **Authors** | Liu and Cao |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2604.25787) · [Matrix](../../README.md#iv--backbone) · [中文](../zh/papers/recochain.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2604.25787) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text+Img`: Text and visual item representations.
 - `RQ`: Residual quantization.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP + Rank`: NTP plus a ranking loss.
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 
 ### TL;DR
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["RecoChain"]
-    P -->|alternative| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"alternative"| A["TIGER"]
+    P -->|"alternative"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Alternative** · [TIGER](tiger.md): TIGER stops at beam-search retrieval; RecoChain appends retrieved history items to each beam candidate and re-ranks them in the same decoder.
-  - Source: RecoChain v1, Section 1 cites TIGER and OneRec as beam-search retrievers: https://arxiv.org/html/2604.25787v1#S1.p4.
+  - Source: RecoChain v1, Section 1 cites TIGER and OneRec as beam-search retrievers: [S1.p4](https://arxiv.org/html/2604.25787v1#S1.p4).
 - **Alternative** · [OneRec](onerec.md): OneRec unifies retrieval and ranking with preference alignment over sessions; RecoChain chains generation and a click-probability re-rank head with KV-cache reuse.
-  - Source: RecoChain v1, Section 1: https://arxiv.org/html/2604.25787v1#S1.p2 and https://arxiv.org/html/2604.25787v1#S1.p4.
+  - Source: RecoChain v1, Section 1: [S1.p2](https://arxiv.org/html/2604.25787v1#S1.p2) and [S1.p4](https://arxiv.org/html/2604.25787v1#S1.p4).
 
 [View all papers in this cell](../../README.md#iv--backbone)

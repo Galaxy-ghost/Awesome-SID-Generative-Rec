@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → RL
 inference: Beam
 poi: false
-summary: 'Abstract: "the intrinsic modeling gap between textual semantics and collaborative filtering signals".'
 tldr: GREAM adapts an LLM into a reasoning recommender with collaborative-semantic item indices, a chain-of-thought curriculum,
   and SRPO post-training, and supports direct and reasoning-first inference modes.
 tldr_zh: GREAM 结合协同-语义物品索引、思维链课程学习与 SRPO 后训练将 LLM 改造为推理推荐模型，同时支持直接生成和先推理后生成两种模式。

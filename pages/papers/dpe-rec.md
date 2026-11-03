@@ -1,19 +1,23 @@
 # DPE-Rec
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dpe-rec.md)
+
 | **Title** | *Diversity-Preserving and Efficient Diffusion Language Model Recommendation for Bundle Construction* |
 | :-- | :-- |
 | **Authors** | Ma et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.34700) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/dpe-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.34700) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>– / Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked → RL (→ Masked KD for Fast)"] --> I["Inference<br/>Diff.+Legalize"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
@@ -70,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DPE-Rec"]
-    P -->|alternative| A["TIGER"]
+    P -->|"alternative"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Alternative** · [TIGER](tiger.md): Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional diffusion for unordered bundle construction.
-  - Source: https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)
+  - Source: [S1.p2](https://arxiv.org/html/2610.34700v1#S1.p2) (Rajput et al., Recommender Systems with Generative Retrieval)
 
 [View all papers in this cell](../../README.md#iv--training)

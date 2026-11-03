@@ -1,28 +1,33 @@
 # DualGR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dualgr.md) | 中文
+
 | **题目** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
 | :-- | :-- |
 | **作者** | Yi et al. |
-| **会议** | WWW’26 Short |
-| **问题与阶段** | `VI. 泛化` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2511.12518) · [矩阵](../../../README.zh.md#vi--backbone) · [English](../../papers/dualgr.md) |
+| **发表** | WWW’26 Short |
+| **问题与阶段** | `VI. 泛化` · `骨干（Backbone）` — 补充：`III. SID 与模型对齐` × `推理（Inference）`；`IV. 实用目标` × `训练（Training）`；`V. 效率` × `推理（Inference）`；`VI. 泛化` × `训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2511.12518) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Dual Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Dual Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
-- `R-KM`: Residual k-means.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Rank`: NTP plus a ranking loss.
-- `Dual Beam`: Beam-search decoding in two branches with merged candidates.
+- `R-KM`：残差 k-means 量化（Residual k-means）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Rank`：下一 token 预测结合显式排序损失。
+- `Dual Beam`：在双分支上分别束搜索并融合候选结果。
 
 ### TL;DR
 
@@ -35,9 +40,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：Does it still work for new items, new domains, and shifting interests? |
+| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
 | 核心贡献 | DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -70,10 +75,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DualGR"]
-    P -->|competitor| A["TIGER"]
+    P -->|"同期对比"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **同期对比** · [TIGER](tiger.md): TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
-  - 出处：DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.
+  - 出处：DualGR v1, Section 3 and Table 1: [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1); [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1).
 
 [查看同格全部论文](../../../README.zh.md#vi--backbone)

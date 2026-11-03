@@ -1,22 +1,27 @@
 # DREAM
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dream.md)
+
 | **Title** | *Dynamic Refinement of Early Assignment Mappings* |
 | :-- | :-- |
 | **Authors** | Guan et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2606.06947) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/dream.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2606.06947) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>CART"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern. / NTP + Aux."] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `CART`: Collaborative-Aware Refined Tokenization.
 - `Dec-Only`: Decoder-only.
 - `Altern.`: Tokenizer and generator are updated in turns.
@@ -69,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DREAM"]
-    P -->|predecessor| A["LC-Rec"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["SpecGR"]
+    P -->|"predecessor"| A["LC-Rec"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["SpecGR"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): DREAM adopts LC-Rec's LLaMA-7B setup, adding staged SID refinement.
-  - Source: DREAM v1, Section 4.1: https://arxiv.org/html/2606.06947v1#S4.SS1.p4.
+  - Source: DREAM v1, Section 4.1: [S4.SS1.p4](https://arxiv.org/html/2606.06947v1#S4.SS1.p4).
 - **Competitor** · [TIGER](tiger.md): TIGER is a single-index baseline against DREAM's multi-path retrieval.
-  - Source: DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
+  - Source: DREAM v1, Section 4.1 and Table 2: [S4.SS1.p2](https://arxiv.org/html/2606.06947v1#S4.SS1.p2); [S4.T2](https://arxiv.org/html/2606.06947v1#S4.T2).
 - **Competitor** · [SpecGR](specgr.md): SpecGR drafts and verifies candidates; DREAM refines cold-item SID assignments.
-  - Source: DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.
+  - Source: DREAM v1, Section 4.1 and Table 2: [S4.SS1.p2](https://arxiv.org/html/2606.06947v1#S4.SS1.p2); [S4.T2](https://arxiv.org/html/2606.06947v1#S4.T2).
 
 [View all papers in this cell](../../README.md#vi--tokenization)

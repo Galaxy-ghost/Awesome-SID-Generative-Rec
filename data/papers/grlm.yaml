@@ -16,8 +16,26 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "Text-based methods introduce LLMs'' vast output space, leading to hallucination"; "encounter a semantic
-  gap between SIDs and LLMs'' native vocabulary". Candidates: II / III (rule: tie broken by the majority of new designs).'
+also:
+- problem: I
+  stage: Tokenization
+  quote: fine-grained discriminative features
+  where: '2601.06798v1；标题缺乏辨识信息的问题：Introduction https://arxiv.org/html/2601.06798v1#S1.p2；CTG 设计原句：https://arxiv.org/html/2601.06798v1#S1.p5；贡献
+    #S1.p7；§3.1 https://arxiv.org/html/2601.06798v1#S3.SS1'
+- problem: II
+  stage: Inference
+  quote: Text-based methods introduce LLMs' vast output space, leading to hallucination
+  where: '2601.06798v1 Abstract；设计 Elastic Identifier Grounding 在 #S3.SS3'
+- problem: II
+  stage: Tokenization
+  quote: reduce grounding ambiguity and hallucination
+  where: '2601.06798v1；问题：Introduction https://arxiv.org/html/2601.06798v1#S1.p4；CTG 设计原句：https://arxiv.org/html/2601.06798v1#S1.p5；贡献
+    #S1.p7；§3.1 https://arxiv.org/html/2601.06798v1#S3.SS1'
+- problem: III
+  stage: Training
+  quote: methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring
+    costly vocabulary expansion and alignment training
+  where: '2601.06798v1 Abstract；设计 Integrative Instruction Fine-tuning 在 #S3.SS2'
 tldr: GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them,
   avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
 tldr_zh: GRLM 用从元数据生成的标准化文本关键词（Term ID）标识物品并据此微调 LLM，避免自由文本幻觉以及 SID 带来的词表扩张。

@@ -1,23 +1,30 @@
 # PLUM
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/plum.md) | 中文
+
 | **题目** | *Adapting Pre-trained Language Models for Industrial-scale Generative Recommendations* |
 | :-- | :-- |
 | **作者** | He et al. |
-| **会议** | WWW’26 |
+| **发表** | WWW’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
-| **链接** | [论文](https://arxiv.org/abs/2510.07784) · [矩阵](../../../README.zh.md#范式系统与基准) · [English](../../papers/plum.md) |
+| **链接** | [论文](https://arxiv.org/abs/2510.07784) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `Multi-task NTP`: The same NTP loss over several tasks.
+- `Text+Img+CF`：文本、图像表征结合协同过滤信号。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `Multi-task NTP`：在多个对齐或推荐子任务上联合优化下一 token 预测损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -30,7 +37,7 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
+| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
 | 核心贡献 | PLUM 通过 SID 编号、领域数据持续预训练与生成式检索微调将预训练 LLM 适配到工业推荐系统，替代大规模嵌入表。 |
 | 主要改动阶段 | 无单一阶段 |
 
@@ -65,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["PLUM"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["MMQ"]
-    P -->|alternative| C["LIGER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["MMQ"]
+    P -->|"替代方案"| C["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): PLUM extends TIGER's SID construction and adapts pretrained LLMs.
-  - 出处：PLUM v1, Sections 1.1.2/2.1.2: https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p1; https://arxiv.org/html/2510.07784v1#S2.SS1.SSS2.p2.
+  - 出处：PLUM v1, Sections 1.1.2/2.1.2: [S1.SS1.SSS2.p1](https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p1); [S2.SS1.SSS2.p2](https://arxiv.org/html/2510.07784v1#S2.SS1.SSS2.p2).
 - **替代方案** · [MMQ](mmq.md): MMQ generates modality-specific tokens; PLUM fuses embeddings before quantization.
-  - 出处：PLUM v1, Section 1.1.2: https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p2.
+  - 出处：PLUM v1, Section 1.1.2: [S1.SS1.SSS2.p2](https://arxiv.org/html/2510.07784v1#S1.SS1.SSS2.p2).
 - **替代方案** · [LIGER](liger.md): LIGER mixes generated IDs with dense retrieval; PLUM emphasizes SID-LLM adaptation.
-  - 出处：PLUM v1, Section 1.1.3 (Yang et al., 2024): https://arxiv.org/html/2510.07784v1#S1.SS1.SSS3.p1.
+  - 出处：PLUM v1, Section 1.1.3 (Yang et al., 2024): [S1.SS1.SSS3.p1](https://arxiv.org/html/2510.07784v1#S1.SS1.SSS3.p1).
 
 [查看同格全部论文](../../../README.zh.md#范式系统与基准)

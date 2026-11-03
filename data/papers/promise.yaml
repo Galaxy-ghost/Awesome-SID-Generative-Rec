@@ -16,7 +16,6 @@ tokenizer: Fixed†
 objective: NTP + Aux.
 inference: PRM-Beam
 poi: false
-summary: 'Abstract: "errors in early, high-level tokens irreversibly divert the generation trajectory".'
 tldr: PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches
   with it, to correct early-token semantic drift and scale with inference compute.
 tldr_zh: PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。

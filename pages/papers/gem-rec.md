@@ -1,22 +1,28 @@
 # GEM-Rec
 
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gem-rec.md)
+
 | **Title** | *One Model, Two Markets: Bid-Aware Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Jiang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2603.22231) · [Matrix](../../README.md#iv--training) · [中文](../zh/papers/gem-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2603.22231) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Bid-Aware Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["GEM-Rec"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["LIGER"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"predecessor"| B["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the pure-utility generative baseline without sponsored slots; GEM-Rec adds an organic/ad flag token and inference-time bid modulation of the logits.
-  - Source: GEM-Rec v1, Section 5.3: https://arxiv.org/html/2603.22231v1#S5.SS3.p1; Table 1 and Appendix Table 3: https://arxiv.org/html/2603.22231v1#S5.T1 and https://arxiv.org/html/2603.22231v1#A7.T3.
+  - Source: GEM-Rec v1, Section 5.3: [S5.SS3.p1](https://arxiv.org/html/2603.22231v1#S5.SS3.p1); Table 1 and Appendix Table 3: [S5.T1](https://arxiv.org/html/2603.22231v1#S5.T1) and [A7.T3](https://arxiv.org/html/2603.22231v1#A7.T3).
 - **Predecessor** · [LIGER](liger.md): GEM-Rec builds on LIGER's reproduction of the TIGER architecture and 5-core preprocessing, without LIGER's own training objectives.
-  - Source: GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): https://arxiv.org/html/2603.22231v1#S5.SS4.p1; Appendix B.1 follows its 5-core filtering: https://arxiv.org/html/2603.22231v1#A2.SS1.p1; Appendix F matches its model scale: https://arxiv.org/html/2603.22231v1#A6.p1.
+  - Source: GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): [S5.SS4.p1](https://arxiv.org/html/2603.22231v1#S5.SS4.p1); Appendix B.1 follows its 5-core filtering: [A2.SS1.p1](https://arxiv.org/html/2603.22231v1#A2.SS1.p1); Appendix F matches its model scale: [A6.p1](https://arxiv.org/html/2603.22231v1#A6.p1).
 
 [View all papers in this cell](../../README.md#iv--training)

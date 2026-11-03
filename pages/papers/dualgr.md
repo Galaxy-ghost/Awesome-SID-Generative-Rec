@@ -1,23 +1,28 @@
 # DualGR
 
+[← Problem × Stage Matrix](../../README.md#vi--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dualgr.md)
+
 | **Title** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
 | :-- | :-- |
 | **Authors** | Yi et al. |
 | **Venue** | WWW’26 Short |
-| **Problem × Stage** | `VI. Generalization` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2511.12518) · [Matrix](../../README.md#vi--backbone) · [中文](../zh/papers/dualgr.md) |
+| **Problem × Stage** | `VI. Generalization` · `Backbone` — Also: `III. SID–Model Alignment` × `Inference`; `IV. Utility` × `Training`; `V. Efficiency` × `Inference`; `VI. Generalization` × `Training` |
+| **Links** | [Paper](https://arxiv.org/abs/2511.12518) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Dual Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
 - `R-KM`: Residual k-means.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
@@ -70,10 +75,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DualGR"]
-    P -->|competitor| A["TIGER"]
+    P -->|"competitor"| A["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
-  - Source: DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.
+  - Source: DualGR v1, Section 3 and Table 1: [S3.p1](https://arxiv.org/html/2511.12518v1#S3.p1); [S3.T1](https://arxiv.org/html/2511.12518v1#S3.T1).
 
 [View all papers in this cell](../../README.md#vi--backbone)

@@ -1,27 +1,32 @@
 # Spacetime-GR
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/spacetime-gr.md) | 中文
+
 | **题目** | *A Spacetime-Aware Generative Model for Large Scale Online POI Recommendation* |
 | :-- | :-- |
 | **作者** | Lin et al. |
-| **会议** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `Backbone` · `POI` |
-| **链接** | [论文](https://arxiv.org/abs/2508.16126) · [矩阵](../../../README.zh.md#i--backbone) · [English](../../papers/spacetime-gr.md) |
+| **发表** | arXiv’25 |
+| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` · `POI` |
+| **链接** | [论文](https://arxiv.org/abs/2508.16126) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Geo"] --> T["Tokenization<br/>Geo-Idx"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Geo"] --> T["编号 Tokenization<br/>Geo-Idx"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Geo`: Geographic coordinates or spatial features.
-- `Geo-Idx`: Identifiers constructed from geographic indexing.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP → DPO`: NTP, then preference optimization.
+- `Geo`：地理坐标或空间拓扑特征。
+- `Geo-Idx`：基于地理网格或空间索引构建的标识符。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP → DPO`：先进行下一 token 预测微调，再执行直接偏好优化（DPO）。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -34,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
+| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
 | 核心贡献 | Spacetime-GR 用地理层级索引 POI，将时空上下文编码进动作序列，融入多模态 POI 嵌入，并针对嵌入、排序分数与候选生成做后训练。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -69,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Spacetime-GR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"替代方案"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): Semantic-ID generation inspires the geographic two-token POI indexing design.
-  - 出处：Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2.
+  - 出处：Spacetime-GR v1, Section 3.2.1, citing Rajput et al. (2023): [S3.SS2.SSS1.Px2.p2](https://arxiv.org/html/2508.16126v1#S3.SS2.SSS1.Px2.p2).
 - **替代方案** · [OneRec](onerec.md): Cited MoE/DPO recommender; Spacetime-GR specializes generation for spatiotemporal POI contexts.
-  - 出处：Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): https://arxiv.org/html/2508.16126v1#S2.SS1.p3.
+  - 出处：Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): [S2.SS1.p3](https://arxiv.org/html/2508.16126v1#S2.SS1.p3).
 
 [查看同格全部论文](../../../README.zh.md#i--backbone)

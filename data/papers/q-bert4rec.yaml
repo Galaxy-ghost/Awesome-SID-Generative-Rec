@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Masked
 inference: Non-AR
 poi: false
-summary: 'Abstract: "rely on discrete item IDs that lack semantic meaning and ignore rich multimodal information".'
 tldr: Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by
   residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
 tldr_zh: Q-BERT4Rec 将文本、图像与结构化特征融合为物品嵌入，经残差向量量化转为 SID token，并用多种掩码策略预训练双向编码器。

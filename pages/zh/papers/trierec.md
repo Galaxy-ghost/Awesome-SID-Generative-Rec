@@ -1,24 +1,32 @@
 # TrieRec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/trierec.md) | 中文
+
 | **题目** | *Trie-Aware Transformers for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
-| **会议** | NeurIPS’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2602.21677) · [矩阵](../../../README.zh.md#iii--backbone) · [English](../../papers/trierec.md) |
+| **发表** | NeurIPS’26 |
+| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.21677) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP†"] --> I["推理 Inference<br/>C-Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Enc-Dec`: Encoder-decoder.
-- `C-Beam`: Constrained beam search.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
+- `Enc-Dec`：编码器-解码器（Encoder-decoder）架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP†`：下一 token 预测损失（由配置推断）。
+- `C-Beam`：受合法物品集合约束的束搜索（Constrained beam search）。
 
 ### TL;DR
 
@@ -31,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
+| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
 | 核心贡献 | TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -66,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TrieRec"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["CoST"]
-    P -->|predecessor| C["LETTER"]
+    P -->|"前序工作"| A["TIGER"]
+    P -->|"前序工作"| B["CoST"]
+    P -->|"前序工作"| C["LETTER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **前序工作** · [TIGER](tiger.md): TrieRec adds trie-aware positional encodings to TIGER.
-  - 出处：TrieRec v1, Sections 1/4.1: https://arxiv.org/html/2602.21677v1#S1.p5; https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1.
+  - 出处：TrieRec v1, Sections 1/4.1: [S1.p5](https://arxiv.org/html/2602.21677v1#S1.p5); [S4.SS1.SSS4.p1](https://arxiv.org/html/2602.21677v1#S4.SS1.SSS4.p1).
 - **前序工作** · [CoST](cost.md): CoST is the contrastive-tokenization backbone augmented by TrieRec.
-  - 出处：TrieRec v1, Section 4.2 and Related Work: https://arxiv.org/html/2602.21677v1#S4.SS2.p2; https://arxiv.org/html/2602.21677v1#S5.p3.
+  - 出处：TrieRec v1, Section 4.2 and Related Work: [S4.SS2.p2](https://arxiv.org/html/2602.21677v1#S4.SS2.p2); [S5.p3](https://arxiv.org/html/2602.21677v1#S5.p3).
 - **前序工作** · [LETTER](letter.md): LETTER supplies the backbone for TrieRec's main ablations and efficiency comparison.
-  - 出处：TrieRec v1, Table 3 and Section 4.4: https://arxiv.org/html/2602.21677v1#S4.T3; https://arxiv.org/html/2602.21677v1#S4.SS4.p1.
+  - 出处：TrieRec v1, Table 3 and Section 4.4: [S4.T3](https://arxiv.org/html/2602.21677v1#S4.T3); [S4.SS4.p1](https://arxiv.org/html/2602.21677v1#S4.SS4.p1).
 
 [查看同格全部论文](../../../README.zh.md#iii--backbone)

@@ -1,25 +1,32 @@
 # CITE
 
+[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cite.md)
+
 | **Title** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
 | :-- | :-- |
 | **Authors** | Ma et al. |
 | **Venue** | Electronics’26 |
 | **Problem × Stage** | `I. Informativeness` · `Inference` |
-| **Links** | [Paper](https://doi.org/10.3390/electronics15204749) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cite.md) |
+| **Links** | [Paper](https://doi.org/10.3390/electronics15204749) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CITE"]
-    P -->|predecessor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["VQ-Rec"]
+    P -->|"predecessor"| A["RPG"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [RPG](rpg.md): CITE adds transition scoring to a frozen reproduced RPG generator.
-  - Source: Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. https://doi.org/10.3390/electronics15204749
+  - Source: Publisher version, 15 October 2026, §1 p.2; §3 pp.4–5; §6 p.22. [link](https://doi.org/10.3390/electronics15204749)
 - **Competitor** · [TIGER](tiger.md): Autoregressive semantic-ID baseline with published reference scores.
-  - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
+  - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. [link](https://doi.org/10.3390/electronics15204749)
 - **Competitor** · [VQ-Rec](vq-rec.md): Quantized-text recommendation reference in the main comparison.
-  - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. https://doi.org/10.3390/electronics15204749
+  - Source: Publisher version, §5.3 pp.9–10; Table 3 p.11; §5.5 p.13. [link](https://doi.org/10.3390/electronics15204749)
 
 [View all papers in this cell](../../README.md#i--inference)

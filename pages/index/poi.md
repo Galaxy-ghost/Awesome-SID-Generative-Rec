@@ -2,7 +2,7 @@
 
 English | [中文](../zh/index/poi.md)
 
-16 papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper mainly changes.
+16 papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper primarily modifies.
 
 | Paper | Venue | Problem × Stage | Pipeline |
 | :-- | :-- | :-- | :-- |

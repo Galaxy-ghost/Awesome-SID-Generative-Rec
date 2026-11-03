@@ -16,7 +16,18 @@ tokenizer: Fixed
 objective: NTP + Ctr.
 inference: Fusion
 poi: false
-summary: 'Abstract: "focus solely on either behavioral or semantic aspects of item information".'
+also:
+- problem: I
+  stage: Inference
+  quote: a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens
+    and semantic tokens with a confidence-based ranking strategy
+  where: '2406.14017v2 Abstract；设计在 #S1.p5.1（按预测熵合并两路结果）、#S3.SS6'
+- problem: I
+  stage: Training
+  quote: (2) a global contrastive task with summary tokens to achieve discriminative decoding for each type of information;
+    and (3) a semantic-guided transfer task designed to implicitly promote cross-interactions through reconstruction and estimation
+    objectives
+  where: '2406.14017v2 Abstract；设计在 #S3.SS4、#S3.SS5'
 tldr: EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided
   transfer tasks, instead of using only one type of item information.
 tldr_zh: EAGER 用共享编码器和两个解码器分别解码行为 token 与语义 token，并加入对比学习与语义引导迁移任务，替代仅用单一物品信息的做法。

@@ -1,24 +1,32 @@
 # OneRec-V2-Quantized
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onerec-v2-quantized.md) | 中文
+
 | **题目** | *Quantized Inference for OneRec-V2* |
 | :-- | :-- |
 | **作者** | Su et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Inference` |
-| **链接** | [论文](https://arxiv.org/abs/2603.11486) · [矩阵](../../../README.zh.md#v--inference) · [English](../../papers/onerec-v2-quantized.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **链接** | [论文](https://arxiv.org/abs/2603.11486) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL†"] --> I["Inference<br/>FP8+RecoGEM"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img+CF†"] --> T["编号 Tokenization<br/>R-KM†"] --> B["骨干 Backbone<br/>Lazy Dec-Only†"] --> TR["训练 Training<br/>Fixed† / NTP → RL†"] --> I["推理 Inference<br/>FP8+RecoGEM"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
-- `Lazy Dec-Only†`: A lazy decoder-only backbone inferred from the adopted model.
-- `FP8+RecoGEM`: FP8 inference with the RecoGEM execution framework.
+- `Text+Img+CF†`：文本、图像与协同信号融合表征（由配置推断）。
+- `R-KM†`：残差 k-means 编号（由配置推断）。
+- `Lazy Dec-Only†`：由所沿用基座推断的延迟仅解码器架构。
+- `Fixed†`：生成器训练期间冻结编号器（由配置推断）。
+- `NTP → RL†`：先进行下一 token 预测微调，再执行强化学习（由配置推断）。
+- `FP8+RecoGEM`：采用 FP8 低精度量化与 RecoGEM 推理引擎部署解码。
 
 ### TL;DR
 
@@ -31,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | OneRec-V2-Quantized 针对 OneRec-V2 权重与激活分布更接近 LLM 而非传统推荐模型的特点，引入低精度浮点后训练量化与优化的推理栈。 |
-| 主要改动阶段 | Inference |
+| 主要改动阶段 | 推理（Inference） |
 
 ---
 
@@ -66,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneRec-V2-Quantized"]
-    P -->|predecessor| A["OneRec-V2"]
+    P -->|"前序工作"| A["OneRec-V2"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **前序工作** · [OneRec-V2](onerec-v2.md): Provides the unchanged base architecture and training procedure for FP8 deployment.
-  - 出处：Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: https://arxiv.org/html/2603.11486v1#S1.p3; https://arxiv.org/html/2603.11486v1#S4.SS1.p1.
+  - 出处：Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: [S1.p3](https://arxiv.org/html/2603.11486v1#S1.p3); [S4.SS1.p1](https://arxiv.org/html/2603.11486v1#S4.SS1.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--inference)

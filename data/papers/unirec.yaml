@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP → DPO
 inference: C-Beam
 poi: false
-summary: 'Abstract: "GR decodes over compact SID tokens without item-side signal".'
 tldr: UniRec prefixes each Semantic ID with category, seller, and brand tokens through Chain-of-Attribute, to recover the
   item-side feature crossing of discriminative models, and adds capacity-constrained quantization.
 tldr_zh: UniRec 通过属性链在每个 SID 前添加类目、卖家与品牌 token，恢复判别式模型的物品侧特征交叉能力，并加入容量受限量化。

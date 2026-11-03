@@ -1,23 +1,30 @@
 # TIGER
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tiger.md)
+
 | **Title** | *Recommender Systems with Generative Retrieval* |
 | :-- | :-- |
 | **Authors** | Rajput et al. |
 | **Venue** | NeurIPS’23 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2305.05065) · [Code (third-party)](https://github.com/baiyimeng/TIGER) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/tiger.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2305.05065) · [Code (third-party)](https://github.com/baiyimeng/TIGER) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -34,13 +41,13 @@ flowchart LR
 | Key Contribution | TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search. |
 | Modified Stage | No single stage |
 | Key Findings | On Amazon Beauty, TIGER reports Recall@5 of 0.0454 against 0.0387 for SASRec, and RQ-VAE Semantic IDs outperform LSH and random IDs (Tables 1 and 2). |
-| Limitation | The authors state that beam search can make TIGER more expensive than ANN-based retrieval at inference (Appendix E). |
+| Limitation | Autoregressive beam search over Semantic ID tokens makes inference more computationally expensive than ANN-based retrieval (Appendix E). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). The authors describe TIGER as the first Semantic ID-based generative model for recommendation (Sec. 2). Many later papers in this list keep this Semantic ID (SID) pipeline and change one of its stages.
+Large-scale recommenders usually embed users and items in one space and select candidates by approximate nearest neighbor (ANN) search (Abstract). Introduced as the first Semantic ID-based generative retrieval model for sequential recommendation (Sec. 2), TIGER established the residual-quantized Semantic ID (SID) pipeline that subsequent generative recommenders build upon.
 
 > "We propose a new paradigm of building generative retrieval models for sequential recommendation." (Sec. 1)
 
@@ -54,14 +61,15 @@ Large-scale recommenders usually embed users and items in one space and select c
 
 ```mermaid
 flowchart LR
-    A("Item text") --> B["Sentence-T5: 768-dim"]
-    B --> C["DNN encoder: 32-dim"]
-    C --> D["RQ-VAE, 3 levels × 256"]:::key
-    D --> E("SID + collision token")
-    E --> F["Enc-Dec generator"]
-    L1{{"NTP over 4 tokens"}} -.-> F
-    F --> G["Beam search"]
-    G --> H("Items via lookup table")
+    A("Item title + price + brand + category") --> B["Sentence-T5: 768-dim x"]
+    B --> C["DNN encoder E (512-256-128): 32-dim z"]
+    C --> D["RQ-VAE: M=3 levels × K=256 codewords"]:::key
+    D --> E("4-token SID (c1, c2, c3, c4)")
+    U("Hashed user token (2,000) + history SIDs") --> F["4-layer T5X Enc-Dec generator"]:::key
+    E --> F
+    L1{{"L_NTP over 4 tokens"}} -.-> F
+    F --> G["Autoregressive beam search"]
+    G --> H("Frozen SID-to-item lookup table")
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -114,12 +122,14 @@ Simplifications: The code shows only the quantization loop and the quantization 
 
 ```mermaid
 flowchart TD
-    Z("z") --> L1["Level 1: nearest codeword c1"]
-    L1 --> R2("r2 = z - e(c1)")
-    R2 --> L2["Level 2: nearest codeword c2"]
-    L2 --> R3("r3 = r2 - e(c2)")
-    R3 --> L3["Level 3: nearest codeword c3"]
-    L3 --> S("(c1, c2, c3)"):::key
+    Z("Latent z = r1 (32-dim)") --> L1["Level 1 codebook E^(1) (256 × 32): nearest c1"]:::key
+    L1 --> R2("Residual r2 = r1 - e_c1^(1)")
+    R2 --> L2["Level 2 codebook E^(2) (256 × 32): nearest c2"]:::key
+    L2 --> R3("Residual r3 = r2 - e_c2^(2)")
+    R3 --> L3["Level 3 codebook E^(3) (256 × 32): nearest c3"]:::key
+    L1 & L2 & L3 --> Zhat("Quantized sum z_hat = e_c1 + e_c2 + e_c3")
+    Zhat --> Dec["DNN decoder D(z_hat) + VQ loss (beta = 0.25)"]
+    L3 --> S("Semantic code tuple (c1, c2, c3) + collision c4"):::key
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
@@ -210,9 +220,9 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
   > "Our results show that RQ-VAE consistently outperforms LSH." (Sec. 4.2)
 
 - Invalid IDs: for top-10 predictions, 0.1%–1.6% of generated IDs map to no item across the three datasets (Sec. 4.5, Fig. 6).
-- Cold start: the authors state that SIDs improve retrieval of items with no prior interaction history (Abstract, Fig. 5).
+- Cold start: shared Semantic ID prefixes allow the generator to retrieve unseen items with no prior interaction history when cold and warm candidates are mixed (Abstract, Fig. 5).
 - Diversity: temperature-based sampling during decoding controls the diversity of predictions (Sec. 4.3).
-- ID length and codebook size: the authors also tried other settings, such as 6 codewords from codebooks of size 64 (Appendix E).
+- ID length and codebook size: varying the SID configuration—such as using 6 codewords from codebooks of size 64—leaves recommendation metrics largely unchanged (Appendix E).
 
   > "We noticed that the recommendation metrics for TIGER were robust to these changes." (Appendix E)
 
@@ -238,16 +248,20 @@ The three entries below compare TIGER with SASRec. S3-Rec is the strongest basel
 ```mermaid
 flowchart LR
     P["TIGER"]
-    P -->|alternative| A["VQ-Rec"]
-    P -->|successor| B["LETTER"]
-    P -->|alternative| C["RPG"]
+    P -->|"alternative"| A["VQ-Rec"]
+    P -->|"successor"| B["LETTER"]
+    P -->|"alternative"| C["RPG"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Alternative** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized content codes for transferable recommendation without generative retrieval; TIGER uses RQ-VAE codes for autoregressive retrieval.
-  - Source: TIGER, Section 2, Semantic IDs paragraph: https://arxiv.org/html/2305.05065v3#S2.SS0.SSS0.Px2.p1; Section 3.2: https://arxiv.org/html/2305.05065v3#S3.SS2.p1.
+  - Source: TIGER, Section 2, Semantic IDs paragraph: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2305.05065v3#S2.SS0.SSS0.Px2.p1); Section 3.2: [S3.SS2.p1](https://arxiv.org/html/2305.05065v3#S3.SS2.p1).
 - **Successor** · [LETTER](letter.md): LETTER extends TIGER's semantic-only tokenization with collaborative and diversity regularization, and adds a ranking-guided generation loss.
-  - Source: Evidence is from the later LETTER paper, Section 3.1: https://arxiv.org/html/2405.07314v1#S3.SS1.p6; Section 4.3.1 explicitly builds the LETTER-TIGER variants: https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1.
+  - Source: Evidence is from the later LETTER paper, Section 3.1: [S3.SS1.p6](https://arxiv.org/html/2405.07314v1#S3.SS1.p6); Section 4.3.1 explicitly builds the LETTER-TIGER variants: [S4.SS3.SSS1.p1](https://arxiv.org/html/2405.07314v1#S4.SS3.SSS1.p1).
 - **Alternative** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
-  - Source: Evidence is from the later RPG paper: Section 2 overview, https://arxiv.org/html/2506.05781v1#S2.p1; Section 2.1.1, https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1; its TIGER baseline description in Section 3.1, https://arxiv.org/html/2506.05781v1#S3.SS1.p4.
+  - Source: Evidence is from the later RPG paper: Section 2 overview, [S2.p1](https://arxiv.org/html/2506.05781v1#S2.p1); Section 2.1.1, [S2.SS1.SSS1.p1](https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1); its TIGER baseline description in Section 3.1, [S3.SS1.p4](https://arxiv.org/html/2506.05781v1#S3.SS1.p4).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

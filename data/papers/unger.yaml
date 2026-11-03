@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP + Ctr.
 inference: Beam
 poi: false
-summary: 提出统一表示、离散编码及完整 Unicode 生成查表流程。
 tldr: UNGER learns one integrated semantic-collaborative embedding through cross-modality alignment and next-item prediction,
   quantizes it into a unified code, and adds intra-modality distillation, instead of separate codes per modality.
 tldr_zh: UNGER 通过跨模态对齐与下一物品预测学习统一的语义-协同嵌入并量化为单一码，同时加入模态内蒸馏，替代各模态分别编码的做法。

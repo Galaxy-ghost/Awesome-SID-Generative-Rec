@@ -1,25 +1,29 @@
 # UniSGR-V2
 
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unisgr-v2.md)
+
 | **Title** | *Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.16132) · [Matrix](../../README.md#i--backbone) · [中文](../zh/papers/unisgr-v2.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.16132) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>– / NTP + Rank"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
 - `Enc-Dec`: Encoder-decoder.
 - `NTP + Rank`: NTP plus a ranking loss.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,16 +71,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["UniSGR-V2"]
-    P -->|predecessor| A["UniRec"]
-    P -->|competitor| B["OneRec-V2"]
-    P -->|competitor| C["TIGER"]
+    P -->|"predecessor"| A["UniRec"]
+    P -->|"competitor"| B["OneRec-V2"]
+    P -->|"competitor"| C["TIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [UniRec](unirec.md): Its discrete attribute chain is the closest motivation and a same-backbone baseline.
-  - Source: https://arxiv.org/html/2610.16132v2#S1.p5 ; https://arxiv.org/html/2610.16132v2#S4.SS1.p2
+  - Source: [S1.p5](https://arxiv.org/html/2610.16132v2#S1.p5) ; [S4.SS1.p2](https://arxiv.org/html/2610.16132v2#S4.SS1.p2)
 - **Competitor** · [OneRec-V2](onerec-v2.md): Industrial generative retrieval baseline in Table 1.
-  - Source: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; bibliography identifies Zhou et al. (2025) as arXiv:2508.20900.
+  - Source: [S4.SS1.p2](https://arxiv.org/html/2610.16132v2#S4.SS1.p2) ; bibliography identifies Zhou et al. (2025) as arXiv:2508.20900.
 - **Competitor** · [TIGER](tiger.md): Semantic-ID generative retrieval baseline in Table 1.
-  - Source: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; https://arxiv.org/html/2610.16132v2#S4.T1
+  - Source: [S4.SS1.p2](https://arxiv.org/html/2610.16132v2#S4.SS1.p2) ; [S4.T1](https://arxiv.org/html/2610.16132v2#S4.T1)
 
 [View all papers in this cell](../../README.md#i--backbone)

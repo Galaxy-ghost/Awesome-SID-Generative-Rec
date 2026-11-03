@@ -1,25 +1,32 @@
 # RecBase
 
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/recbase.md)
+
 | **Title** | *Generative foundation model pretraining for zero-shot recommendation* |
 | :-- | :-- |
 | **Authors** | Zhou et al. |
 | **Venue** | EMNLP’25 |
 | **Problem × Stage** | `VI. Generalization` · `Training` |
-| **Links** | [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase) · [Matrix](../../README.md#vi--training) · [中文](../zh/papers/recbase.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text"] --> T["Tokenization<br/>Curr. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
 
+- `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
+- `Curr. RQ`: Curriculum-trained hierarchical residual quantization.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["RecBase"]
-    P -->|alternative| A["TIGER"]
-    P -->|alternative| B["LC-Rec"]
+    P -->|"alternative"| A["TIGER"]
+    P -->|"alternative"| B["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Alternative** · [TIGER](tiger.md): TIGER builds RQ-VAE semantic IDs per dataset for next-item generation; RecBase pre-trains a recommendation foundation model over concept IDs shared across many domains.
-  - Source: RecBase v1, Section 2.2 cites Rajput et al. (2023): https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
+  - Source: RecBase v1, Section 2.2 cites Rajput et al. (2023): [S2.SS2.p1](https://arxiv.org/html/2509.03131v1#S2.SS2.p1).
 - **Alternative** · [LC-Rec](lc-rec.md): LC-Rec adapts an existing LLM to one domain's item indices; RecBase pre-trains from scratch on recommendation corpora for zero-shot transfer.
-  - Source: RecBase v1, Section 2.2: https://arxiv.org/html/2509.03131v1#S2.SS2.p1.
+  - Source: RecBase v1, Section 2.2: [S2.SS2.p1](https://arxiv.org/html/2509.03131v1#S2.SS2.p1).
 
 [View all papers in this cell](../../README.md#vi--training)

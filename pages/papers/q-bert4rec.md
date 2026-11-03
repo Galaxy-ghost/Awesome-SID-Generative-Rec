@@ -1,24 +1,32 @@
 # Q-BERT4Rec
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/q-bert4rec.md)
+
 | **Title** | *Quantized Semantic-ID Representation Learning for Multimodal Recommendation* |
 | :-- | :-- |
 | **Authors** | Huang and Gai |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` |
-| **Links** | [Paper](https://arxiv.org/abs/2512.02474) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/q-bert4rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2512.02474) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Encoder (Non-AR)"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Non-AR"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
+- `Encoder (Non-AR)`: Bidirectional encoder trained for non-autoregressive parallel prediction.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
+- `Non-AR`: Single-pass non-autoregressive parallel decoding.
 
 ### TL;DR
 
@@ -66,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Q-BERT4Rec"]
-    P -->|competitor| A["MQL4GRec"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["VQ-Rec"]
-    P -->|competitor| D["CID"]
+    P -->|"competitor"| A["MQL4GRec"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["VQ-Rec"]
+    P -->|"competitor"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Competitor** · [MQL4GRec](mql4grec.md): MQL4GRec generates multimodal quantitative language autoregressively; Q-BERT4Rec reuses its collision reallocation but fuses modalities before quantization and predicts masked SIDs bidirectionally.
-  - Source: Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): https://arxiv.org/html/2512.02474v2#S3.SS4.p7; Table 2 baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
+  - Source: Q-BERT4Rec v2, collision handling follows Zhai et al. (2025): [S3.SS4.p7](https://arxiv.org/html/2512.02474v2#S3.SS4.p7); Table 2 baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2).
 - **Competitor** · [TIGER](tiger.md): TIGER decodes SIDs left to right with an encoder-decoder; Q-BERT4Rec uses a BERT-style encoder with multi-mask pre-training.
-  - Source: Q-BERT4Rec v2, Table 2 semantic-ID baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A baselines: https://arxiv.org/html/2512.02474v2#A1.I5.i1.p1.
+  - Source: Q-BERT4Rec v2, Table 2 semantic-ID baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2); Appendix A baselines: [A1.I5.i1.p1](https://arxiv.org/html/2512.02474v2#A1.I5.i1.p1).
 - **Competitor** · [VQ-Rec](vq-rec.md): VQ-Rec uses product-quantized text codes for transfer; Q-BERT4Rec quantizes fused text-image features with RQ-VAE and pre-trains on six source domains.
-  - Source: Q-BERT4Rec v2, Table 2 VQ/multimodal baseline: https://arxiv.org/html/2512.02474v2#S3.T2.
+  - Source: Q-BERT4Rec v2, Table 2 VQ/multimodal baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2).
 - **Competitor** · [CID](cid.md): P5-CID uses collaborative IDs in a prompt-based LLM; Q-BERT4Rec uses multimodal semantic IDs in a small masked Transformer.
-  - Source: Q-BERT4Rec v2, Table 2 prompt-LLM baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A: https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1.
+  - Source: Q-BERT4Rec v2, Table 2 prompt-LLM baseline: [S3.T2](https://arxiv.org/html/2512.02474v2#S3.T2); Appendix A: [A1.I4.i1.p1](https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1).
 
 [View all papers in this cell](../../README.md#i--representation)

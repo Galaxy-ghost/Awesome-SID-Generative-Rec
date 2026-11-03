@@ -1,57 +1,57 @@
 ## At a Glance
 
-Limitation: 在工业数据集上用同等规模的模型，训练约需 59 h，TIGER 约 45 h；推理总时长从约 0.88 h 增至约 0.90 h（Appendix B.1，Table B.1）。
+Key Findings: S2GR 在 Beauty 与工业短视频数据集上分别取得 99.30% 与 76.25% 的独立编码率，离线超越序列、推理与 TIGER 基线，并在短视频平台线上 A/B 测试中优于对照模型 TIGER（Abstract，Sec. 5.3，Sec. 5.4，Tables 2–4）。
+Limitation: 在工业数据集同等模型规模下，穿插潜在思考使训练耗时从 TIGER 的约 45 h 增至约 59 h，推理总耗时从约 0.88 h 微增至约 0.90 h（Appendix B.1，Table B.1）。
 
 ### 1. 为什么重要
 
-多数生成式推荐器直接从交互序列生成语义 ID（Semantic ID，SID），中间没有推理（Abstract）。作者指出推理增强变体的两个问题：推理全部放在生成之前，计算量在 SID 各层之间分配不均；潜在推理向量没有可解释的语义，也无法验证监督。S2GR 让思考 token 和 SID 码交替生成，每个码前一个思考 token，并用下一个码的语义监督它（Sec. 1）。
+常规生成式推荐器直接从交互序列输出语义 ID（Semantic ID，SID），而前置自然语言推理把全部算力堆在首位码之前，纯隐向量推理又缺乏可核验的语义监督（Abstract，Sec. 1）。S2GR 在每一位 SID 码之前穿插一个连续潜在思考向量，并用下一位真实码对应的 k-means 簇中心直接监督该思考步。
 
 ### 2. 方法
 
 ```mermaid
 flowchart LR
-    A("物品共现图") --> B["传播嵌入"]
-    B --> C["CoBa RQ-VAE"]
-    C --> D("SID")
-    D --> E["Enc-Dec 生成器"]
-    L1{{"推荐损失"}} -.-> E
-    L2{{"思考损失：对齐 k-means 簇中心"}}:::key -.-> E
-    E --> F("下一物品")
+    subgraph Tok["CoBa RQ-VAE 独立编号阶段"]
+        G("历史物品共现图") --> P["多跳近邻嵌入传播"]
+        P --> Q["3x256 CoBa RQ-VAE（均匀性 + 自适应负载均衡）"]:::key
+        Q --> S("均衡 SID")
+    end
+    subgraph Step["逐位穿插潜在思考与解码"]
+        H("用户历史 SID") --> T1("潜在思考向量 h_1"):::key
+        T1 --> C1("第 1 位码 c_1") --> T2("潜在思考向量 h_2"):::key --> C2("第 2 位码 c_2") --> T3("潜在思考向量 h_3"):::key --> C3("第 3 位码 c_3")
+        K1("第 1/2/3 层码本 k-means 簇中心") -.-> L2{{"对比思考对齐损失（Eqs. 22–24）"}}:::key
+        T1 & T2 & T3 -.-> L2
+        C1 & C2 & C3 -.-> L1{{"下一码位 NTP 推荐损失"}}
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### 与行为对齐的码本
 
-S2GR 从历史序列构建物品共现图，在图上传播物品嵌入（Sec. 4.2.1）。
+S2GR 从训练期之前的历史序列构建物品共现图，在量化前沿图传播平滑物品文本嵌入（Sec. 4.2.1）。
 
-> "This encodes essential collaborative patterns without requiring additional model training."（Sec. 4.2.1）（不需额外训练模型就能编码基本的协同模式。）
+> "This encodes essential collaborative patterns without requiring additional model training."（Sec. 4.2.1）
 
-码本均衡的 RQ-VAE 给量化器加了均匀性约束和自适应负载均衡（Sec. 4.2.2）。
+码本均衡 RQ-VAE（`CoBa RQ-VAE`）在此基础上加入分布均匀性约束与自适应负载均衡，先于生成器独立完成优化（Sec. 4.2，Sec. 4.2.2）。
 
 #### 逐步潜在思考
 
-生成器在每个 SID 码之前输出一个思考 token，它是连续的潜在嵌入，不是自然语言文本（Sec. 4.3.2）。对比损失让它对齐对应码本中下一个真实码的 k-means 簇中心。生成器的目标是推荐损失加上这个思考损失（Eqs. 22–24）。编号器单独优化（Sec. 4.2）。
-
-```mermaid
-flowchart LR
-    T1("思考 token"):::key --> C1("码") --> T2("思考 token"):::key --> C2("码") --> E("…")
-    classDef key fill:#eaf2fb,stroke:#6b8fc7
-```
+编码器-解码器生成器在预测每一位离散 SID 码之前先输出一个连续潜在思考向量，不转换成自然语言词串（Sec. 4.3.2）。对比思考损失将该思考向量拉向对应层码本中真实下一码所在的 k-means 簇中心，与离散码位的推荐交叉熵损失联合训练（Eqs. 22–24）。
 
 #### 解码
 
-每条束在一个连续步骤里生成思考 token 和其后的 SID 码，思考 token 不会让束变多（Appendix B.1）。
+束搜索时，每条候选束在单步内确定性地前向产出连续思考向量并紧接着展开下一位 SID 码，思考向量本身不占用额外束宽（Appendix B.1）。
 
-> "For inference, the increase in latency is relatively small."（Appendix B.1）（推理延迟增加较小。）
+> "For inference, the increase in latency is relatively small."（Appendix B.1）
 
 ### 3. 实验发现
 
-- 消融：去掉逐步推理 token 或思考损失，Beauty 和工业数据集上的效果都下降（Sec. 5.3，Table 2）。
-- 在线 A/B 测试：作者报告，在一个大规模短视频平台上以 TIGER 为对照的测试证实了 S2GR 有效（Abstract，Sec. 5.4，Table 4）。
+- 模块消融：去掉穿插潜在思考向量或去掉簇中心对比思考损失，在 Amazon Beauty 与工业短视频数据集上均导致排序指标明显回落（Sec. 5.3，Table 2）。
+- 在线 A/B 测试：在大规模短视频平台开展的 7 天线上 A/B 测试中，以同规模 TIGER 为对照基线，S2GR 取得稳定正向在线收益（Abstract，Sec. 5.4，Table 4）。
 
 ### 4. 局限与分析
 
 **Our analysis.**
 
-- TIGER 用只基于文本的 `RQ-VAE` 码（`Text`）和普通 `NTP`；S2GR 在编号器里加入协同信号（`Text+CF`，`CoBa RQ-VAE`），在生成器上加对比项（`NTP + Ctr.`）。
-- OneRec-Think 用 `Dec-Only` LLM 以文本推理（`CoT`）；S2GR 保留 `Enc-Dec` 生成器和 `Beam` 解码，用潜在 token 推理。
+- TIGER 仅用纯文本训练 `RQ-VAE`（`Text`）并做单任务 `NTP`；S2GR 在编号前融入图传播协同信号（`Text+CF`，`CoBa RQ-VAE`），并在生成端联合优化思考对比项（`NTP + Ctr.`）。
+- OneRec-Think 在 `Dec-Only` LLM 上自回归生成显式文本思维链（`CoT`）；S2GR 沿用紧凑的 `Enc-Dec` 架构与常规 `Beam` 搜索，以每层单步连续隐向量完成逐级推理。

@@ -1,26 +1,32 @@
 # TRACER
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tracer.md) | 中文
+
 | **题目** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Chen et al. |
-| **会议** | NeurIPS’26 |
-| **问题与阶段** | `IV. 实用目标` · `Tokenization` |
-| **链接** | [论文](https://arxiv.org/abs/2606.07688) · [矩阵](../../../README.zh.md#iv--tokenization) · [English](../../papers/tracer.md) |
+| **发表** | NeurIPS’26 |
+| **问题与阶段** | `IV. 实用目标` · `编号（Tokenization）` |
+| **链接** | [论文](https://arxiv.org/abs/2606.07688) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Soft Reassign. RQ"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Joint / NTP + Aux."] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Soft Reassign. RQ"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Joint / NTP + Aux."] --> I["推理 Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
-- `Soft Reassign. RQ`: Residual quantization with differentiable soft code reassignment.
-- `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
-- `Joint`: The generator loss updates the tokenizer directly.
-- `NTP + Aux.`: NTP plus another auxiliary loss.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Soft Reassign. RQ`：带可微软重分配机制的残差量化。
+- `Dec-Only / Enc-Dec`：涵盖仅解码器与编码器-解码器两种骨干变体。
+- `Joint`：推荐生成损失通过可微路径直接反传更新编号器。
+- `NTP + Aux.`：下一 token 预测结合辅助正则或对齐损失。
+- `Beam`：在 SID token 上执行自回归束搜索（Beam search）。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。 |
-| 主要改动阶段 | Tokenization |
+| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 
@@ -68,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["TRACER"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TIGER"]
-    P -->|predecessor| C["LETTER"]
-    P -->|predecessor| D["ETEGRec"]
+    P -->|"前序工作"| A["MiniOneRec"]
+    P -->|"前序工作"| B["TIGER"]
+    P -->|"前序工作"| C["LETTER"]
+    P -->|"前序工作"| D["ETEGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **前序工作** · [MiniOneRec](minionerec.md): MiniOneRec supplies the Qwen2.5-7B backbone for unlearning.
-  - 出处：TRACER v1, Sec.4 Models/Backbones: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1.
+  - 出处：TRACER v1, Sec.4 Models/Backbones: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [S4.SS0.SSS0.Px4.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px4.p1).
 - **前序工作** · [TIGER](tiger.md): TIGER is a tested separate-training backbone.
-  - 出处：TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
+  - 出处：TRACER v1, Sec.4 Models and Appendix D.2: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1).
 - **前序工作** · [LETTER](letter.md): LETTER supplies a tested joint-training backbone and the motivating retraining analysis.
-  - 出处：TRACER v1, Sec.3 motivation and Sec.4 Models: https://arxiv.org/html/2606.07688v1#S3.SS0.SSS0.Px1.p1; https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1.
+  - 出处：TRACER v1, Sec.3 motivation and Sec.4 Models: [S3.SS0.SSS0.Px1.p1](https://arxiv.org/html/2606.07688v1#S3.SS0.SSS0.Px1.p1); [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1).
 - **前序工作** · [ETEGRec](etegrec.md): ETEGRec is a tested joint-training backbone.
-  - 出处：TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.
+  - 出处：TRACER v1, Sec.4 Models and Appendix D.2: [S4.SS0.SSS0.Px3.p1](https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1); [A4.SS2.p1](https://arxiv.org/html/2606.07688v1#A4.SS2.p1).
 
 [查看同格全部论文](../../../README.zh.md#iv--tokenization)

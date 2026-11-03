@@ -1,25 +1,32 @@
 # DECOR
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/decor.md)
+
 | **Title** | *Learning Decomposed Contextual Token Representations from Pretrained and Collaborative Signals for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/decor.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -67,19 +74,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["DECOR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["ETEGRec"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["CID"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["ETEGRec"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["CID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): DECOR augments TIGER's fixed tokenization with contextual token embeddings.
-  - Source: DECOR v2, Sections 3.2/4.1.2 and Table 2: https://arxiv.org/html/2509.10468v2#S3.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
+  - Source: DECOR v2, Sections 3.2/4.1.2 and Table 2: [S3.SS2.p1](https://arxiv.org/html/2509.10468v2#S3.SS2.p1) ; [S4.SS1.SSS2.p1](https://arxiv.org/html/2509.10468v2#S4.SS1.SSS2.p1) ; [S3.T2](https://arxiv.org/html/2509.10468v2#S3.T2).
 - **Alternative** · [ETEGRec](etegrec.md): DECOR adapts embeddings without ETEGRec's repeated re-tokenization.
-  - Source: DECOR v2, Sections 3.4/4.7: https://arxiv.org/html/2509.10468v2#S3.SS4.p2 ; https://arxiv.org/html/2509.10468v2#S4.SS7.p1.
+  - Source: DECOR v2, Sections 3.4/4.7: [S3.SS4.p2](https://arxiv.org/html/2509.10468v2#S3.SS4.p2) ; [S4.SS7.p1](https://arxiv.org/html/2509.10468v2#S4.SS7.p1).
 - **Competitor** · [LETTER](letter.md): LETTER is a tokenizer-enhancement baseline in the shared evaluation.
-  - Source: DECOR v2, Sections 1/4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S1.p6 ; https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
+  - Source: DECOR v2, Sections 1/4.2 and Table 2: [S1.p6](https://arxiv.org/html/2509.10468v2#S1.p6) ; [S4.SS2.p1](https://arxiv.org/html/2509.10468v2#S4.SS2.p1) ; [S3.T2](https://arxiv.org/html/2509.10468v2#S3.T2).
 - **Competitor** · [CID](cid.md): P5-CID is a collaborative-indexing baseline.
-  - Source: DECOR v2, Section 4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.
+  - Source: DECOR v2, Section 4.2 and Table 2: [S4.SS2.p1](https://arxiv.org/html/2509.10468v2#S4.SS2.p1) ; [S3.T2](https://arxiv.org/html/2509.10468v2#S3.T2).
 
 [View all papers in this cell](../../README.md#iii--backbone)

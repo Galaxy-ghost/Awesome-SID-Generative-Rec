@@ -1,24 +1,28 @@
 # FlexCode
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/flexcode.md)
+
 | **Title** | *Semantics Meet Signals: Dual Codebook Representationl Learning for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Hui et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2511.20673) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/flexcode.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2511.20673) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ-VAE"] --> B["Backbone<br/>–"] --> TR["Training<br/>Joint / NTP"] --> I["Inference<br/>–"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
 - `Dual RQ-VAE`: Two residual-quantized variational autoencoders for separate representation streams.
-- `–`: Not reported in the paper.
 - `Joint`: The generator loss updates the tokenizer directly.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
 
@@ -68,16 +72,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["FlexCode"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["LC-Rec"]
-    P -->|competitor| C["COBRA"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["LC-Rec"]
+    P -->|"competitor"| C["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): Compared semantic-ID baseline; FlexCode separates semantic and collaborative codebooks.
-  - Source: FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - Source: FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 - **Competitor** · [LC-Rec](lc-rec.md): Compared semantic-ID baseline; FlexCode allocates tokens by item popularity.
-  - Source: FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - Source: FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 - **Competitor** · [COBRA](cobra.md): Compared semantic-ID baseline; FlexCode combines dual codebooks with adaptive routing.
-  - Source: FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.
+  - Source: FlexCode v1, Section 4.1.2 and Table 1: [S4.SS1.SSS2.p1](https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1); [S4.T1](https://arxiv.org/html/2511.20673v1#S4.T1).
 
 [View all papers in this cell](../../README.md#i--tokenization)

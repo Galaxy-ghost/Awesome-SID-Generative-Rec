@@ -1,22 +1,28 @@
 # Latte
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/latte.md)
+
 | **Title** | *Expressiveness Limits of Autoregressive Semantic ID Generation in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Hou et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/latte.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `NTP`: Next-token prediction loss only; continuing from a pretrained LLM (SFT) also counts as NTP.
@@ -68,22 +74,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Latte"]
-    P -->|predecessor| A["PSI"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["LETTER"]
-    P -->|competitor| D["ActionPiece"]
-    P -->|predecessor| E["GRID"]
+    P -->|"predecessor"| A["PSI"]
+    P -->|"competitor"| B["TIGER"]
+    P -->|"competitor"| C["LETTER"]
+    P -->|"competitor"| D["ActionPiece"]
+    P -->|"predecessor"| E["GRID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **Predecessor** · [PSI](psi.md): PSID is the base model and supplies the ESM conflict resolution; Latte only adds a freely chosen latent token before the semantic ID.
-  - Source: Latte v1, base model and implementation: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
+  - Source: Latte v1, base model and implementation: [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1) and [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2); Table 1: [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1).
 - **Competitor** · [TIGER](tiger.md): TIGER decodes items along one fixed SID tree; Latte relaxes the tree constraint with latent tokens so that close tree nodes need not share preference.
-  - Source: Latte v1, motivation study: https://arxiv.org/html/2605.06331v1#S3.SS2.SSS0.Px2.p1; baselines and Table 1: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1 and https://arxiv.org/html/2605.06331v1#S5.T1; Table 2: https://arxiv.org/html/2605.06331v1#S5.T2.
+  - Source: Latte v1, motivation study: [S3.SS2.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#S3.SS2.SSS0.Px2.p1); baselines and Table 1: [A4.SS0.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1) and [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1); Table 2: [S5.T2](https://arxiv.org/html/2605.06331v1#S5.T2).
 - **Competitor** · [LETTER](letter.md): LETTER improves the tokenizer itself; Latte keeps the tokenizer and changes the decoding path.
-  - Source: Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
+  - Source: Latte v1, baselines: [A4.SS0.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1); Table 1: [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1).
 - **Competitor** · [ActionPiece](actionpiece.md): ActionPiece makes tokens context-dependent through merges; Latte adds latent prefix tokens on top of fixed SIDs.
-  - Source: Latte v1, baselines: https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1; Table 1: https://arxiv.org/html/2605.06331v1#S5.T1.
+  - Source: Latte v1, baselines: [A4.SS0.SSS0.Px1.p1](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px1.p1); Table 1: [S5.T1](https://arxiv.org/html/2605.06331v1#S5.T1).
 - **Predecessor** · [GRID](grid.md): Latte follows GRID's recommendation to use RQ K-Means as the tokenizer.
-  - Source: Latte v1, Section 5.1 and Appendix D cite Ju et al. (2025): https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.
+  - Source: Latte v1, Section 5.1 and Appendix D cite Ju et al. (2025): [S5.SS1.SSS0.Px2.p1](https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1) and [A4.SS0.SSS0.Px2.p2](https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2).
 
 [View all papers in this cell](../../README.md#iii--backbone)

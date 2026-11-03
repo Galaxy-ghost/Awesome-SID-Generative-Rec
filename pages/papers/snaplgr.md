@@ -1,26 +1,32 @@
 # SnapLGR
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/snaplgr.md)
+
 | **Title** | *LLM-Based Generative Retrieval for Snapchat Content Recommendation* |
 | :-- | :-- |
 | **Authors** | Collins et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2607.28895) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/snaplgr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2607.28895) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+PPR"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
 - `RQ-VAE+PPR`: Residual-quantized variational codes informed by Personalized PageRank signals.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SnapLGR"]
-    P -->|predecessor| A["TIGER"]
-    P -->|predecessor| B["PLUM"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"predecessor"| B["PLUM"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): SnapLGR replaces the deployed TIGER-style T5 retriever with a grounded decoder-only LLM.
-  - Source: SnapLGR v4, Sections 4.1/4.5: https://arxiv.org/html/2607.28895v4#S4.SS1.p3; https://arxiv.org/html/2607.28895v4#S4.SS5.p1.
+  - Source: SnapLGR v4, Sections 4.1/4.5: [S4.SS1.p3](https://arxiv.org/html/2607.28895v4#S4.SS1.p3); [S4.SS5.p1](https://arxiv.org/html/2607.28895v4#S4.SS5.p1).
 - **Predecessor** · [PLUM](plum.md): SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
-  - Source: SnapLGR v4, Sections 2.1/5: https://arxiv.org/html/2607.28895v4#S2.SS1.p6; https://arxiv.org/html/2607.28895v4#S5.p2.
+  - Source: SnapLGR v4, Sections 2.1/5: [S2.SS1.p6](https://arxiv.org/html/2607.28895v4#S2.SS1.p6); [S5.p2](https://arxiv.org/html/2607.28895v4#S5.p2).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

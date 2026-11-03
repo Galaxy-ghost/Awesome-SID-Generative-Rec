@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "typically domain-specific, limiting their ability for effective transfer or adaptation to new domains".'
 tldr: UTGRec builds a universal item tokenizer from a multimodal LLM with tree-structured codebooks, text and image reconstruction,
   and co-occurrence alignment, and pre-trains a generator that transfers across domains.
 tldr_zh: UTGRec 基于多模态 LLM 结合树结构码本、图文重构与共现对齐构建通用物品编号器，并预训练可跨域迁移的生成器。

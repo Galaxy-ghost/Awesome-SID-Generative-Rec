@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'Abstract: "making it difficult to distinguish among them based on user-specific preferences".'
 tldr: Latte inserts a latent token before each Semantic ID, turning one decoding tree into several latent-conditioned trees,
   to relax the probability coupling between items that are close in the tree.
 tldr_zh: Latte 在每个 SID 前插入隐 token，把单棵解码树拆成多棵以隐变量为条件的子树，放松树上相邻物品之间的概率耦合。

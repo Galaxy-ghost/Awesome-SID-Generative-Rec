@@ -1,19 +1,23 @@
 # CID
 
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cid.md)
+
 | **Title** | *How to Index Item IDs for Recommendation Foundation Models* |
 | :-- | :-- |
 | **Authors** | Hua et al. |
 | **Venue** | SIGIR-AP’23 |
-| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID) · [Matrix](../../README.md#ii--tokenization) · [中文](../zh/papers/cid.md) |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` — Also: `I. Informativeness` × `Tokenization` |
+| **Links** | [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>CF"] --> T["Tokenization<br/>Spectral Clus."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
@@ -70,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CID"]
-    P -->|successor| A["LMIndexer"]
+    P -->|"successor"| A["LMIndexer"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Successor** · [LMIndexer](lmindexer.md): LMIndexer cites this indexing study as earlier generative-recommendation work.
-  - Source: Evidence from LMIndexer v3, Section 2 and reference Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2 ; https://arxiv.org/html/2310.07815v3#bib.bib11.
+  - Source: Evidence from LMIndexer v3, Section 2 and reference Hua et al. (2023): [S2.p2](https://arxiv.org/html/2310.07815v3#S2.p2) ; [bib.bib11](https://arxiv.org/html/2310.07815v3#bib.bib11).
 
 [View all papers in this cell](../../README.md#ii--tokenization)

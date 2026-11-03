@@ -1,25 +1,34 @@
 # ACERec
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/acerec.md) | 中文
+
 | **题目** | *Unleash the Potential of Long Semantic IDs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xia et al. |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2602.13573) · [矩阵](../../../README.zh.md#v--backbone) · [English](../../papers/acerec.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `V. 效率` · `骨干（Backbone）` — 补充：`I. 信息量` × `骨干（Backbone）`；`训练（Training）` |
+| **链接** | [论文](https://arxiv.org/abs/2602.13573) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Ctr. + Aux."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Ctr. + Aux."] --> I["推理 Inference<br/>Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR also
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `Non-AR`: Non-autoregressive.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `MTP + Ctr. + Aux.`: Multi-token prediction jointly optimized with contrastive and auxiliary objectives.
+- `Text`：物品文本元数据（标题、描述、类目或提示词）。
+- `Par. OPQ`：并行优化乘积量化，生成无序多子空间码。
+- `Non-AR`：非自回归（Non-autoregressive）并行预测架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `MTP + Ctr. + Aux.`：多 token 预测、对比损失与辅助目标联合优化。
+- `Scoring`：直接计算候选物品得分，不逐位生成 SID。
 
 ### TL;DR
 
@@ -32,9 +41,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | V. 效率：Can it be trained and served within latency and cost budgets? |
+| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
 | 核心贡献 | ACERec 用注意力 token 合并器将长 SID 压缩为紧凑隐 token，并加入意图 token 与双粒度训练目标，以短 ID 的开销保留长 ID 的表达力。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -67,22 +76,26 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["ACERec"]
-    P -->|competitor| A["RPG"]
-    P -->|competitor| B["TIGER"]
-    P -->|competitor| C["ActionPiece"]
-    P -->|competitor| D["ETEGRec"]
-    P -->|predecessor| E["VQ-Rec"]
+    P -->|"同期对比"| A["RPG"]
+    P -->|"同期对比"| B["TIGER"]
+    P -->|"同期对比"| C["ActionPiece"]
+    P -->|"同期对比"| D["ETEGRec"]
+    P -->|"前序工作"| E["VQ-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D,E peer
 ```
 
 - **同期对比** · [RPG](rpg.md): RPG predicts long OPQ IDs in parallel and decodes over an item graph; ACERec compresses the long IDs into a few latent tokens for sequence modeling and scores all items exactly.
-  - 出处：ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2; ID-length comparison: https://arxiv.org/html/2602.13573v2#S4.SS3.p3.
+  - 出处：ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2); ID-length comparison: [S4.SS3.p3](https://arxiv.org/html/2602.13573v2#S4.SS3.p3).
 - **同期对比** · [TIGER](tiger.md): TIGER generates short RQ-VAE IDs by beam search; ACERec uses long OPQ IDs with parallel scoring.
-  - 出处：ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Table 1 (numbers copied from TIGER): https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#A1.SS4.p1.
+  - 出处：ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Table 1 (numbers copied from TIGER): [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [A1.SS4.p1](https://arxiv.org/html/2602.13573v2#A1.SS4.p1).
 - **同期对比** · [ActionPiece](actionpiece.md): ActionPiece merges feature tokens contextually; ACERec merges long OPQ codes into latent tokens with attention.
-  - 出处：ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
+  - 出处：ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2).
 - **同期对比** · [ETEGRec](etegrec.md): ETEGRec learns the tokenizer end to end; ACERec keeps fixed OPQ codes and compresses them.
-  - 出处：ACERec v2, baselines: https://arxiv.org/html/2602.13573v2#S4.SS1.p2; Tables 1-2: https://arxiv.org/html/2602.13573v2#S3.T1 and https://arxiv.org/html/2602.13573v2#S3.T2.
+  - 出处：ACERec v2, baselines: [S4.SS1.p2](https://arxiv.org/html/2602.13573v2#S4.SS1.p2); Tables 1-2: [S3.T1](https://arxiv.org/html/2602.13573v2#S3.T1) and [S3.T2](https://arxiv.org/html/2602.13573v2#S3.T2).
 - **前序工作** · [VQ-Rec](vq-rec.md): ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
-  - 出处：ACERec v2, Section 4.1 protocol follows Hou et al. (2023): https://arxiv.org/html/2602.13573v2#S4.SS1.p1; related work: https://arxiv.org/html/2602.13573v2#S2.p1.
+  - 出处：ACERec v2, Section 4.1 protocol follows Hou et al. (2023): [S4.SS1.p1](https://arxiv.org/html/2602.13573v2#S4.SS1.p1); related work: [S2.p1](https://arxiv.org/html/2602.13573v2#S2.p1).
 
 [查看同格全部论文](../../../README.zh.md#v--backbone)

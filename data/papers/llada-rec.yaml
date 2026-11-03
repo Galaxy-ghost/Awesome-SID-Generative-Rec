@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: Masked
 inference: Diff.
 poi: false
-summary: 'Abstract: "error accumulation, where the fixed left-to-right generation order causes prediction errors in early
-  tokens to propagate".'
 tldr: LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level
   masking, and an adapted beam search, instead of left-to-right autoregressive decoding.
 tldr_zh: LLaDA-Rec 用带双向注意力、历史级与物品级掩码以及适配束搜索的离散扩散模型并行生成 SID，替代从左到右的自回归解码。

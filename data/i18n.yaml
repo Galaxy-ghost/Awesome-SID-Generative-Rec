@@ -1,0 +1,1099 @@
+# Bilingual-pair consistency record (modeled on @deepseek-ai/dsh *.i18n.yaml):
+# per paired Markdown document and heading section path, a 16-hex SHA-256 hash of its
+# English and Chinese prose blocks outside fenced code blocks.
+# After editing either side, update its counterpart and re-record with:
+#   python3 scripts/check.py --write-i18n
+
+CONTRIBUTING.md:
+  /contributing:
+    en: 6c0201cec7481f03
+    zh: 89cc7f0564993f02
+  /contributing/workflow:
+    en: 186813004909898f
+    zh: 7c97d8175cc010cb
+  /contributing/writing-and-bilingual-rules:
+    en: 2a815db53d7e197b
+    zh: a495c6f4055cf9f0
+guides/start-here.md:
+  /start-here:
+    en: d913f0e26761a236
+    zh: ee6e82de46608b04
+  /start-here/1-learn-the-five-stage-pipeline-with-tiger:
+    en: 24df7fd81caa1af2
+    zh: 55de279e09b7da81
+  /start-here/2-enrich-the-tokenizer:
+    en: 56e3ab0f22152355
+    zh: 20625ebb15841113
+  /start-here/3-follow-a-research-problem:
+    en: 37da031f7ba8bc9f
+    zh: 446469f7d4f62baf
+notes/actionpiece.md:
+  /at-a-glance:
+    en: b43bf9b9fb267a9e
+    zh: c199cce7ee375571
+  /at-a-glance/1-why-this-paper-matters:
+    en: 87a985d0c7e456f7
+    zh: f404f91b3a7b5894
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/actions-as-feature-sets:
+    en: 637aab0764a1f07e
+    zh: 69a2fd3f9144eb6f
+  /at-a-glance/2-how-it-works/vocabulary-construction:
+    en: 8db46f532bdc1578
+    zh: b9a142e63cea312d
+  /at-a-glance/2-how-it-works/set-permutation-regularization:
+    en: c916017c893c94ac
+    zh: 90d8c2bab44f0e50
+  /at-a-glance/3-experimental-findings:
+    en: 1d77a5710a14cbf6
+    zh: 25c72fb59a22bae2
+  /at-a-glance/4-limitations--critical-analysis:
+    en: e1bf28351ba629b2
+    zh: 6b0db979f6ec7f56
+notes/adc-sid.md:
+  /at-a-glance:
+    en: 3326a4a61540b568
+    zh: 6d1053ddca9ad371
+  /at-a-glance/1-why-this-paper-matters:
+    en: 97b973ba15b21f9e
+    zh: 715b794fce49261b
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/behavior-content-mixture-of-quantization:
+    en: 0c7ad868c3168134
+    zh: 0139e8c9df077742
+  /at-a-glance/2-how-it-works/adaptive-behavior-content-alignment:
+    en: f466cfad056d0bf5
+    zh: 48dc59145bc39ebf
+  /at-a-glance/2-how-it-works/dynamic-behavioral-weighting:
+    en: 9c47f6c25a769c70
+    zh: 3d162fb26585ef83
+  /at-a-glance/3-experimental-findings:
+    en: ce0606d37157daec
+    zh: 699dc6f53547ca26
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 33a394f630a46fec
+    zh: 4d52bc55de559407
+notes/align3gr.md:
+  /at-a-glance:
+    en: f1948f84f2bdaf95
+    zh: 9445d6f90c96f9d9
+  /at-a-glance/1-why-this-paper-matters:
+    en: 0a6930b969980d03
+    zh: d3e5cffcb0778757
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/token-level-alignment:
+    en: 457eac56b28d98ce
+    zh: f2481177df716322
+  /at-a-glance/2-how-it-works/behavior-modeling-level-alignment:
+    en: 249b6e4c31057841
+    zh: b23e02095a5a3a77
+  /at-a-glance/2-how-it-works/preference-level-alignment:
+    en: ca1c4ec97ec0bec8
+    zh: bc29ad9b48c37e65
+  /at-a-glance/3-experimental-findings:
+    en: 29c04b69f1e9b5cf
+    zh: 302d7d14fac4e288
+  /at-a-glance/4-limitations--critical-analysis:
+    en: c3eeb2e648cedb15
+    zh: f557a2d4f6eebcb3
+notes/colarec.md:
+  /at-a-glance:
+    en: f694f0945e5d53c2
+    zh: 7b067d27e5362a42
+  /at-a-glance/1-why-this-paper-matters:
+    en: 1b9733691b276728
+    zh: 0c1c955e6f873643
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/generative-identifier-construction:
+    en: 8227ed057156ccdd
+    zh: 4047f370b5e2ac56
+  /at-a-glance/2-how-it-works/item-indexing-task:
+    en: 60cd7693d8ac755f
+    zh: 61669ffb4479cd44
+  /at-a-glance/2-how-it-works/training-objective:
+    en: dfe2d146ea330636
+    zh: 582f2efb75b94582
+  /at-a-glance/2-how-it-works/inference:
+    en: 10e56b8116cb73b1
+    zh: 1c9c7ff674beb37f
+  /at-a-glance/3-experimental-findings:
+    en: 8bdb95f15283c855
+    zh: 2d592b595ad8f6ae
+  /at-a-glance/4-limitations--critical-analysis:
+    en: e325e46bc6b8a0d4
+    zh: e1638bbb45e6aa09
+notes/eager.md:
+  /at-a-glance:
+    en: 649d74dfc6024ecc
+    zh: 5e435a404a052d8e
+  /at-a-glance/1-why-this-paper-matters:
+    en: 4a856cf0c50f7168
+    zh: f8c0c893a9d3b2eb
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/behavior-codes-and-semantic-codes:
+    en: 597c48d0ef9b17d6
+    zh: a994c5a97707c77c
+  /at-a-glance/2-how-it-works/global-contrastive-task:
+    en: 3aaeb0b5be05529f
+    zh: 0ef05ddc791b172b
+  /at-a-glance/2-how-it-works/semantic-guided-transfer-task:
+    en: 7ca8722f5e8f25dc
+    zh: 4a0eec0b79e3bf5b
+  /at-a-glance/2-how-it-works/confidence-based-ranking:
+    en: 1f2eb53935417813
+    zh: abf3ecb1cfcc79c5
+  /at-a-glance/3-experimental-findings:
+    en: 01067981392b9324
+    zh: dbb415d4a05cfc26
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 86f7fa3951e1cad0
+    zh: 058f2aaaada6466b
+notes/etegrec.md:
+  /at-a-glance:
+    en: 592685ac1a31d985
+    zh: b4d79a38710d45a6
+  /at-a-glance/1-why-this-paper-matters:
+    en: de0a72e6cafa7cae
+    zh: 9991d62615484053
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/item-tokenizer:
+    en: 09148db355a5e235
+    zh: 34265f354faa6312
+  /at-a-glance/2-how-it-works/recommendation-oriented-alignment:
+    en: b8f158230c435acc
+    zh: fec085341ddd7233
+  /at-a-glance/2-how-it-works/alternating-optimization:
+    en: b36953184fe11d82
+    zh: 547553a67582fbcd
+  /at-a-glance/3-experimental-findings:
+    en: e9d2bc5b2002cc91
+    zh: 53bf6dfefe5741d2
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 7bf079a473387e84
+    zh: 37ad19b61d666032
+notes/forge.md:
+  /at-a-glance:
+    en: bb9a582ca53f52d6
+    zh: 25485f8e91ac59c3
+  /at-a-glance/1-why-this-paper-matters:
+    en: e9b6366b8e152bbf
+    zh: 69cf940a5f2d42ed
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/item-representation:
+    en: 2341efb86d530890
+    zh: 67ff89f6b6e6f09e
+  /at-a-glance/2-how-it-works/sid-encoding-and-collision-post-processing:
+    en: 7c77f22f8825ac68
+    zh: 7d4e882f24b54369
+  /at-a-glance/2-how-it-works/dynamic-beam-search:
+    en: 20a2c607d7c9572a
+    zh: d55ce39ce4363db5
+  /at-a-glance/2-how-it-works/sid-quality-metrics:
+    en: b1ac2f355427678c
+    zh: 6330fd64549443a1
+  /at-a-glance/3-experimental-findings:
+    en: a06228e4c6bbcf97
+    zh: c63243e749ec700d
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 414dde2d2e38786b
+    zh: f522295b47fed5d9
+notes/gencdr.md:
+  /at-a-glance:
+    en: 603c490f09aa5696
+    zh: afe45a5393f494dd
+  /at-a-glance/1-why-this-paper-matters:
+    en: 3cb9a1d8ef7634a2
+    zh: a250a99725008a63
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/domain-adaptive-tokenization:
+    en: b175e9db6ab557ca
+    zh: 8f1d3d7c039222b5
+  /at-a-glance/2-how-it-works/cross-domain-autoregressive-recommendation:
+    en: 880b1f8198b06b01
+    zh: f1aae460f3da6bca
+  /at-a-glance/2-how-it-works/domain-aware-prefix-tree:
+    en: db3740fc8776a307
+    zh: 40733c76489cb996
+  /at-a-glance/3-experimental-findings:
+    en: d04da9b8dc6be59a
+    zh: 3a7654530444a6ce
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ccc62d25cc4a241a
+    zh: 01f9de315d2bf69d
+notes/geogr.md:
+  /at-a-glance:
+    en: 5255ab2f79da9584
+    zh: c8d438b4c3d901ba
+  /at-a-glance/1-why-this-paper-matters:
+    en: 56ef1fee8a1cf67d
+    zh: a07314ce476ad1e1
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/location-description:
+    en: 07a4dc9162dc0972
+    zh: 95bd7eca938034f7
+  /at-a-glance/2-how-it-works/co-visit-contrastive-learning:
+    en: b4a4bef0dd1fdeea
+    zh: 1c8e730890297b3e
+  /at-a-glance/2-how-it-works/quantization-and-iterative-refinement:
+    en: d252173f7d94e794
+    zh: 01ebc7f20a01af58
+  /at-a-glance/2-how-it-works/multi-stage-llm-training:
+    en: abbc66403fae6783
+    zh: 0021b72069295ff6
+  /at-a-glance/3-experimental-findings:
+    en: 10cd6f79eaa7d872
+    zh: d3ccc794461d598e
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 9ec1e43e44cefa69
+    zh: ca8e1b5f86360ab4
+notes/gflowgr.md:
+  /at-a-glance:
+    en: 7d7a08bb4b7449f7
+    zh: 348fcc5e84a00b0e
+  /at-a-glance/1-why-this-paper-matters:
+    en: 920447fb694f27ef
+    zh: 99c22e151e794570
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/trajectory-sampler:
+    en: f263e0a65c617787
+    zh: 4d032e2df7c335a7
+  /at-a-glance/2-how-it-works/reward-model:
+    en: 377d7eece81ef6de
+    zh: fabaca26bc3e92fe
+  /at-a-glance/2-how-it-works/gflownet-objectives:
+    en: 152ac4a74ab7d220
+    zh: 564bdd767f760b94
+  /at-a-glance/3-experimental-findings:
+    en: 1fd8748346c15804
+    zh: c90a9270f82b831e
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 490259010efcd12e
+    zh: 2519eee41b7ad7df
+notes/gmc.md:
+  /at-a-glance:
+    en: 9efb82ea6a139849
+    zh: ee987745bfaa16b7
+  /at-a-glance/1-why-this-paper-matters:
+    en: 96621ccfd0740c93
+    zh: 2397a54b52492f1c
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/semantic-identifier-learning:
+    en: 8ce6b50b08bd4eb6
+    zh: 3a9fadc1dfe9fb4d
+  /at-a-glance/2-how-it-works/domain-specific-fine-tuning:
+    en: 8676c4ed28177811
+    zh: c65a03f5a965b15b
+  /at-a-glance/3-experimental-findings:
+    en: 27a7bbe925a93c3c
+    zh: 88af0e4784c3cf3b
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ed90aa8892f07008
+    zh: 6f46559abb669d1e
+notes/gnpr-sid.md:
+  /at-a-glance:
+    en: 6a98f642ccfc478c
+    zh: 89e7dcd6cc0fa7ff
+  /at-a-glance/1-why-this-paper-matters:
+    en: ab487e2ec393b829
+    zh: 5352c484337e1ac3
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/poi-features:
+    en: 93e28d8de6a13c57
+    zh: 6ec53060eca4467c
+  /at-a-glance/2-how-it-works/quantization:
+    en: 77bf3d2611ba22f7
+    zh: 1ce340ce9e673ff2
+  /at-a-glance/2-how-it-works/training-data:
+    en: 4776db5144e3b375
+    zh: faedfc36ac3c742b
+  /at-a-glance/3-experimental-findings:
+    en: 6b3fb7f56f3a38b8
+    zh: 77545a317b1c5e12
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 9dcd5593d6c2842c
+    zh: 398fdb9d7f2f9f85
+notes/gram.md:
+  /at-a-glance:
+    en: bc630b25f7c3d27b
+    zh: 615e6dcb057ce3dc
+  /at-a-glance/1-why-this-paper-matters:
+    en: 2bc5e3059ad1b5da
+    zh: 8c655af82142addf
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/semantic-to-lexical-translation:
+    en: 065b31b3aa3c0045
+    zh: b37c31f6f2c1ee78
+  /at-a-glance/2-how-it-works/multi-granular-prompts:
+    en: 51eb068c8d99b43d
+    zh: 43a9fb2b51831380
+  /at-a-glance/2-how-it-works/late-fusion:
+    en: 06dd143a4550721d
+    zh: a03cdb1e81b75936
+  /at-a-glance/3-experimental-findings:
+    en: ffd08cb59c694a4e
+    zh: 558cf04837d20825
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 01afd9fe5b2ca8b0
+    zh: abd499263d01d389
+notes/gream.md:
+  /at-a-glance:
+    en: 6ad281b679d71b5e
+    zh: 342508893aa53162
+  /at-a-glance/1-why-this-paper-matters:
+    en: 1e97ca199fbcf2bb
+    zh: 1085615e34b6437a
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/collaborative-semantic-alignment:
+    en: 2d977df9ef213d86
+    zh: dad01e68097bb5a8
+  /at-a-glance/2-how-it-works/reasoning-curriculum-activation:
+    en: 6c104864d368f5c7
+    zh: 46c4ebb556c0e7aa
+  /at-a-glance/2-how-it-works/srpo:
+    en: 674b9061a254c3e7
+    zh: dfb672596cb55c54
+  /at-a-glance/3-experimental-findings:
+    en: c2291534d5c43a57
+    zh: 32ae9f7cd4580f1e
+  /at-a-glance/4-limitations--critical-analysis:
+    en: f842ce9b38c4d798
+    zh: f5c748e289e2700a
+notes/grid.md:
+  /at-a-glance:
+    en: 94757f3e7524b9b8
+    zh: 300d6c1fe08826b2
+  /at-a-glance/1-why-this-paper-matters:
+    en: 66ac5401ea733f3c
+    zh: f4566c569764737b
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/tokenization-then-generation:
+    en: 4813abcdf0ef4377
+    zh: 1bed6471b6c75230
+  /at-a-glance/2-how-it-works/tokenization-ablations:
+    en: b5bcdf258c143ce4
+    zh: e77405386e887c48
+  /at-a-glance/2-how-it-works/generation-ablations:
+    en: 6bc0dd05f5c62971
+    zh: 3ceabd173d9729c6
+  /at-a-glance/3-experimental-findings:
+    en: 9f1e2d3ef49e9bde
+    zh: 868de7eec225fd2f
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 2b7d920131982380
+    zh: 73178815afc9f886
+notes/grlm.md:
+  /at-a-glance:
+    en: abd00cefe97e70ee
+    zh: a022121fb8d07a42
+  /at-a-glance/1-why-this-paper-matters:
+    en: 38f888ba4b248e15
+    zh: 318f5f587a96fb09
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/context-aware-term-generation:
+    en: ccb59afca40a4a65
+    zh: 7b99af29cf842288
+  /at-a-glance/2-how-it-works/integrative-instruction-fine-tuning:
+    en: 2c328fe997fa6bb3
+    zh: 0f3fe9e255341a47
+  /at-a-glance/2-how-it-works/elastic-identifier-grounding:
+    en: daf31511e7c45e62
+    zh: 73e520257d56262a
+  /at-a-glance/3-experimental-findings:
+    en: 090dfde06dda2ccb
+    zh: e266ffbc802d2a8e
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 9d68fc38c8f111c9
+    zh: 4eacf6a055dcb2fd
+notes/gwhere.md:
+  /at-a-glance:
+    en: d2e52d7b53144437
+    zh: d6491d978abc599e
+  /at-a-glance/1-why-this-paper-matters:
+    en: 91807e8c5b7c9aba
+    zh: 274304b02d2bda67
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/contrastive-item-tokenization:
+    en: 58f71931741156f2
+    zh: 31b95a30186df5b3
+  /at-a-glance/2-how-it-works/continued-pretraining:
+    en: 6ad4ddd4f081283d
+    zh: 87cffe30fe27b5f0
+  /at-a-glance/2-how-it-works/eakto:
+    en: 1a056e12f32aecaf
+    zh: d19ddbb169c448f8
+  /at-a-glance/3-experimental-findings:
+    en: 24cdb718b4ed935c
+    zh: c145f5fe879e1a98
+  /at-a-glance/4-limitations--critical-analysis:
+    en: c785f12a02647e30
+    zh: 6dd57bae5530f59f
+notes/hid-vae.md:
+  /at-a-glance:
+    en: 7dd5619136b2c0fb
+    zh: 1b77ebc7bdc429f9
+  /at-a-glance/1-why-this-paper-matters:
+    en: abcb347a096cca8d
+    zh: 67bf5b4baf6800ca
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/hierarchical-tag-generation:
+    en: bf51c22434f3b103
+    zh: f402564dcecab9d9
+  /at-a-glance/2-how-it-works/hierarchically-supervised-quantization:
+    en: 9b893474f8c10347
+    zh: 27a48929aa15a189
+  /at-a-glance/2-how-it-works/uniqueness-loss:
+    en: 0914c6e31e279d17
+    zh: 8e7f82a9b8b842c5
+  /at-a-glance/2-how-it-works/generation:
+    en: 5556c349d217ee14
+    zh: df519833bdb82288
+  /at-a-glance/3-experimental-findings:
+    en: d3f7a1df265aeda4
+    zh: 19bf6b3ef0cd1881
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 5c0fe4bf4859f37d
+    zh: 7acda8530c099706
+notes/idgenrec.md:
+  /at-a-glance:
+    en: 756a10a53733c6bf
+    zh: 06718eb20e06a65e
+  /at-a-glance/1-why-this-paper-matters:
+    en: 6f824784a98d53e0
+    zh: 6ee380366f5b095a
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/id-generator:
+    en: 4b046df5a3decc8f
+    zh: 930f76ca7c15dcf3
+  /at-a-glance/2-how-it-works/unique-id-generation:
+    en: aa650bf5e93f96ef
+    zh: 8c6b5a6bc73e37ec
+  /at-a-glance/2-how-it-works/base-recommender:
+    en: 264f6a2e17f9869d
+    zh: 7e28a3273147cde3
+  /at-a-glance/3-experimental-findings:
+    en: 17c7f97c80207a52
+    zh: 308ea992a92a9829
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 2261299b6cfd089c
+    zh: 770e2397cbe37a27
+notes/lc-rec.md:
+  /at-a-glance:
+    en: de65ebf9048d2b0a
+    zh: d6239dbd27bd135d
+  /at-a-glance/1-why-this-paper-matters:
+    en: 0962ed259d78ec27
+    zh: 48523f92c0f642f1
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/item-indexing:
+    en: 9994b1a0801fed36
+    zh: 9368bac4bed788c5
+  /at-a-glance/2-how-it-works/alignment-tuning:
+    en: 689a5a4f9cc8a922
+    zh: 1a62c68a2dbdf527
+  /at-a-glance/2-how-it-works/training:
+    en: 8f7d34ed09fd6344
+    zh: 2af3e3f4e07d9635
+  /at-a-glance/3-experimental-findings:
+    en: 3846dab25487d8b8
+    zh: 8d4a911eca920e57
+  /at-a-glance/4-limitations--critical-analysis:
+    en: d82a057c3019a2ad
+    zh: ce10dc78639aa4b1
+notes/letter.md:
+  /at-a-glance:
+    en: 146a5c29b4b39504
+    zh: 3638aa3989c57968
+  /at-a-glance/1-why-this-paper-matters:
+    en: de563077281aa459
+    zh: ec05f75fa62b61ec
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/semantic-regularization:
+    en: cc9fceafc83906b3
+    zh: 8e7359f57138ebfa
+  /at-a-glance/2-how-it-works/collaborative-regularization:
+    en: 9a1114b40e9dc40d
+    zh: e06562da663efa47
+  /at-a-glance/2-how-it-works/diversity-regularization:
+    en: 6cc84a98636a4b1a
+    zh: a46129dfff58562e
+  /at-a-glance/2-how-it-works/training-and-generation:
+    en: adda7b2765520b40
+    zh: 7e819fbbf3905ada
+  /at-a-glance/3-experimental-findings:
+    en: af5833f98a2a6bae
+    zh: 7908a6693e75e1d6
+  /at-a-glance/4-limitations--critical-analysis:
+    en: d613948af035d914
+    zh: f842fb71db4f89b1
+notes/lgrid.md:
+  /at-a-glance:
+    en: a7366a7f7b7582c0
+    zh: 78e2c9fe69a47e98
+  /at-a-glance/1-why-this-paper-matters:
+    en: 9ca2568f856d9ada
+    zh: 3e4f161780e901f8
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/structured-disentangled-block:
+    en: a2261f4205d75bb7
+    zh: 6746c8105fdfff78
+  /at-a-glance/2-how-it-works/synergistic-alignment-learning:
+    en: 823d990852176297
+    zh: 7f982132ebb50f59
+  /at-a-glance/2-how-it-works/dual-stream-residual-quantization:
+    en: 47f6e072f3444e96
+    zh: 242beaf7b5254f69
+  /at-a-glance/3-experimental-findings:
+    en: c0284460078085e5
+    zh: 5c6123775a2e0c3f
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 306a64e014c02546
+    zh: 2d6582d91fddf22f
+notes/lgsid.md:
+  /at-a-glance:
+    en: 8f3f5be346a4d2a7
+    zh: 5303fcc692fc11c7
+  /at-a-glance/1-why-this-paper-matters:
+    en: 587d2e0f81465bfe
+    zh: c0f3233de18c7c7d
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/reward-model:
+    en: 5fede3133fc19e24
+    zh: 72571878172a39d4
+  /at-a-glance/2-how-it-works/g-dpo-alignment:
+    en: 9805577251e1df0f
+    zh: b3429a2499254887
+  /at-a-glance/2-how-it-works/hierarchical-geographic-item-tokenization:
+    en: 61617a445ecc2f18
+    zh: e72ed49a6cdaee7f
+  /at-a-glance/3-experimental-findings:
+    en: c0e9404f49cfaa15
+    zh: a7ca4bda4b990a74
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 96103069c4d4ee2f
+    zh: 1c1c5fda48107430
+notes/liger.md:
+  /at-a-glance:
+    en: 6ec30089f0542b08
+    zh: 09f9072055a83a46
+  /at-a-glance/1-why-this-paper-matters:
+    en: db1e2c473f1c1baa
+    zh: 96e9d5473debbfe5
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/input-and-training:
+    en: 5b0ea630d304289a
+    zh: ec1cae62e6e605f3
+  /at-a-glance/2-how-it-works/hybrid-inference:
+    en: dcd23ab85bf2c159
+    zh: 717763c2bd82e167
+  /at-a-glance/3-experimental-findings:
+    en: 0cf18e43877d93cf
+    zh: dc12fc71a8975f7e
+  /at-a-glance/4-limitations--critical-analysis:
+    en: d29874f0f8a95a3a
+    zh: be040ac150747fb5
+notes/llada-rec.md:
+  /at-a-glance:
+    en: 677ad66a02ed1144
+    zh: 995c5ca2283d8051
+  /at-a-glance/1-why-this-paper-matters:
+    en: fb7486abefa35bcd
+    zh: b4f83aa79d64e872
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/parallel-tokenization:
+    en: eaf02235fada843f
+    zh: e591bddd5cee60bd
+  /at-a-glance/2-how-it-works/masked-training:
+    en: dc8a6ef3a8482631
+    zh: 63dccac51be2ae79
+  /at-a-glance/2-how-it-works/adaptive-order-decoding:
+    en: ed45fb5dcb60f95b
+    zh: 4e9b1b7b5f09eb17
+  /at-a-glance/3-experimental-findings:
+    en: a8d513bb9940d629
+    zh: f26db4858bf93b73
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ccaf8632982da813
+    zh: ee794c317c19c0bf
+notes/macrec.md:
+  /at-a-glance:
+    en: dd1d5f6b71db63b6
+    zh: 54fe1dcf4be5b0d6
+  /at-a-glance/1-why-this-paper-matters:
+    en: fc11d163def573f1
+    zh: 54d7480630bf3154
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/dual-modality-pseudo-labels:
+    en: ffe6c4ad06338426
+    zh: 9ebb0d7261684bbe
+  /at-a-glance/2-how-it-works/cross-modal-quantization:
+    en: 8fe91ede09226583
+    zh: d5ec4cccaf17c744
+  /at-a-glance/2-how-it-works/multi-aspect-alignment:
+    en: bc87a8711eb20a4f
+    zh: 8aa9132410c152fe
+  /at-a-glance/3-experimental-findings:
+    en: 599eea9753bb18b5
+    zh: ce81cc53e268b6a0
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ef4039ac24fe186a
+    zh: 2c834407fb700385
+notes/minionerec.md:
+  /at-a-glance:
+    en: cc3f48b9bd055ae1
+    zh: 6c4bbbb38f53a401
+  /at-a-glance/1-why-this-paper-matters:
+    en: 74ef02bd8d9fb40e
+    zh: 44ff8d4b84ae1e38
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/item-tokenization:
+    en: 6995d7e243432be2
+    zh: 87e4d9dbcede5cdf
+  /at-a-glance/2-how-it-works/full-process-sid-alignment:
+    en: 1e5ec7d8e4029928
+    zh: 8f793290abb561b0
+  /at-a-glance/2-how-it-works/reinforced-preference-optimization:
+    en: 5754bc505e96a127
+    zh: 26206d94901ebf7a
+  /at-a-glance/3-experimental-findings:
+    en: 5c545af6d9ec5e4d
+    zh: d7ccbbd2c8b6e9b0
+  /at-a-glance/4-limitations--critical-analysis:
+    en: adb80d8b4031f0e6
+    zh: c6646b9f793631de
+notes/mql4grec.md:
+  /at-a-glance:
+    en: 97e49891551e62e8
+    zh: 00d6bd6137c8a9ef
+  /at-a-glance/1-why-this-paper-matters:
+    en: bf90c3542a73a025
+    zh: 0af90c5914fae764
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/quantitative-translators:
+    en: 0eaf9f397d59f0f0
+    zh: 89ba06b0d9eab615
+  /at-a-glance/2-how-it-works/generation-tasks:
+    en: be3b46478c9e2fbc
+    zh: 6b8bad86c1baaed1
+  /at-a-glance/2-how-it-works/pre-training-and-fine-tuning:
+    en: ec9b953933d557fc
+    zh: de1e883d9a425972
+  /at-a-glance/3-experimental-findings:
+    en: 101e106819a5f9b7
+    zh: 51003f36c132130a
+  /at-a-glance/4-limitations--critical-analysis:
+    en: b5faefc5e0e6a8ee
+    zh: 1410c0dd4695eba1
+notes/oneloc.md:
+  /at-a-glance:
+    en: 15913b084468130e
+    zh: f34274282c6a0762
+  /at-a-glance/1-why-this-paper-matters:
+    en: de3891f179d28c34
+    zh: 6c96d871f69f5848
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/overview:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/step-1-geo-aware-semantic-ids:
+    en: b57fb7be0c2e8307
+    zh: 7ded1131eb5ffdc4
+  /at-a-glance/2-how-it-works/step-2-geo-aware-self-attention-in-the-encoder:
+    en: 6243b13d871ee5d5
+    zh: 614c8187d5dbefc2
+  /at-a-glance/2-how-it-works/step-3-neighbor-aware-prompt-and-next-token-prediction:
+    en: 8273d3ee3d4d403c
+    zh: e0fd8f1bf9205768
+  /at-a-glance/2-how-it-works/step-4-geographic-and-gmv-rewards-with-dpo:
+    en: 578a06ef104949f1
+    zh: cc246702a6d67a83
+  /at-a-glance/3-experimental-findings:
+    en: 89f44658f6917043
+    zh: 0e18fdd3ef09d3e5
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ff66016ff2be1a36
+    zh: cd76e1f899360b33
+notes/onerec-think.md:
+  /at-a-glance:
+    en: 0c7ce95ca299b33c
+    zh: c1b2e57f08447bb1
+  /at-a-glance/1-why-this-paper-matters:
+    en: 1c7d0d78a7cf4420
+    zh: bfd32a35fef95f08
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/itemic-alignment:
+    en: 314d5f2cf75c44ce
+    zh: 08a877299805f208
+  /at-a-glance/2-how-it-works/reasoning-activation:
+    en: e4d1855106c1b56c
+    zh: 796f138d5f034b28
+  /at-a-glance/2-how-it-works/reasoning-enhancement:
+    en: dba7530c1e7db509
+    zh: 84fffaf809f78fae
+  /at-a-glance/2-how-it-works/think-ahead-serving:
+    en: 84b14b5a493ccb88
+    zh: aa92a5279cdf53bd
+  /at-a-glance/3-experimental-findings:
+    en: a76b5cb57c3b787c
+    zh: 4dfcaf0926afad47
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 99afa7ad8f24a322
+    zh: f0e68ca53cf19cdd
+notes/onerec.md:
+  /at-a-glance:
+    en: 1b9fb57d055e20df
+    zh: 06a6c9bda93caeee
+  /at-a-glance/1-why-this-paper-matters:
+    en: 7946d22299965185
+    zh: 4f63a1d9f8992b09
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/balanced-semantic-ids:
+    en: 5dfe2000f47b765e
+    zh: 2243828c4fa75be6
+  /at-a-glance/2-how-it-works/session-wise-list-generation:
+    en: 7772c946ceb05e53
+    zh: 5872cc64c41efc90
+  /at-a-glance/2-how-it-works/iterative-preference-alignment:
+    en: 36476037645b7b52
+    zh: ece05a64b9bf697b
+  /at-a-glance/3-experimental-findings:
+    en: 9856e3991d2b32c5
+    zh: 9236690ae4e17171
+  /at-a-glance/4-limitations--critical-analysis:
+    en: fd5aa63e7da7eb4f
+    zh: bb7d1c39998c1722
+notes/progeo.md:
+  /at-a-glance:
+    en: cc360a893296cf0b
+    zh: de3041cd77562566
+  /at-a-glance/1-why-this-paper-matters:
+    en: cbaa23e1e9b9340a
+    zh: c11c8a0538b624c7
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/semantic-layers:
+    en: 0a2965a7aef04419
+    zh: 71c68549ee6e4155
+  /at-a-glance/2-how-it-works/geo-centroid-local-coordinates:
+    en: 6c654ee138ca3262
+    zh: 57330519f251e2e1
+  /at-a-glance/2-how-it-works/geo-rope:
+    en: d50f94786b396cae
+    zh: 665ba9a93f820924
+  /at-a-glance/2-how-it-works/generation:
+    en: 025fb21a034ea994
+    zh: a43ab9b1c2a89e74
+  /at-a-glance/3-experimental-findings:
+    en: b39b4d7ea186eec0
+    zh: 4e7db1398ca82286
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 4dacd94ea2cd4226
+    zh: 21f40ec604fa831e
+notes/ros.md:
+  /at-a-glance:
+    en: 027235094e6f9f41
+    zh: 29c7ff563c8d7d57
+  /at-a-glance/1-why-this-paper-matters:
+    en: bf73af9c733169ef
+    zh: adc5e6f6423d74d5
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/hierarchical-spatial-sid:
+    en: d904719264968e2a
+    zh: f2189bc5d553535b
+  /at-a-glance/2-how-it-works/sid-grounding:
+    en: a977270ca548b8de
+    zh: 69659c756c5ebe1c
+  /at-a-glance/2-how-it-works/mobility-chain-of-thought:
+    en: cf639d2571dc6f96
+    zh: 3b9d875090ab43f2
+  /at-a-glance/2-how-it-works/spatial-guided-rl:
+    en: 45242bb427a2c038
+    zh: 295b56cad681fd76
+  /at-a-glance/3-experimental-findings:
+    en: c431448d358c40d3
+    zh: 6ddc47661bde0953
+  /at-a-glance/4-limitations--critical-analysis:
+    en: ed1bf1458e26eb30
+    zh: ca199ff69ad41165
+notes/rpg.md:
+  /at-a-glance:
+    en: 4d0f02331f885953
+    zh: 72acc126cce669ae
+  /at-a-glance/1-why-this-paper-matters:
+    en: dd2c7305d4572dfd
+    zh: d1f4edf318f1e680
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/overview:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/step-1-long-sids-from-opq:
+    en: 99ffe8927a18b007
+    zh: 47bc5a3d16c30cad
+  /at-a-glance/2-how-it-works/step-2-item-level-input:
+    en: 4592b0b96f550c5d
+    zh: 6264022f93bea50b
+  /at-a-glance/2-how-it-works/step-3-parallel-prediction-with-the-mtp-loss:
+    en: fb22d92f44b16771
+    zh: 5f8c8eebbb05d659
+  /at-a-glance/2-how-it-works/step-4-cached-token-scores:
+    en: 8c85ef6720afd2b3
+    zh: 161311ff5ec68606
+  /at-a-glance/2-how-it-works/step-5-graph-constrained-decoding:
+    en: fa073280e801db21
+    zh: 9a74410a7547e670
+  /at-a-glance/3-experimental-findings:
+    en: 9b6900ded7896177
+    zh: efb1b7b4c290deed
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 33b30aa427037531
+    zh: bf450144663f94b0
+notes/s2gr.md:
+  /at-a-glance:
+    en: 4d485940ec669caa
+    zh: 05b6f50b205d4e4f
+  /at-a-glance/1-why-this-paper-matters:
+    en: fedb75b4e126324e
+    zh: bb60961935198e69
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/behavior-aligned-codebook:
+    en: 0a6cecec9f8bc210
+    zh: d6277a84aa774202
+  /at-a-glance/2-how-it-works/stepwise-latent-thinking:
+    en: 12257bc2367752ba
+    zh: 91d5362025402a91
+  /at-a-glance/2-how-it-works/decoding:
+    en: c715887c0f4deb13
+    zh: 4b4b8ab68d76071b
+  /at-a-glance/3-experimental-findings:
+    en: 592146aa76106981
+    zh: d5a881befd0123ab
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 32880dea74d4ff3d
+    zh: dadd9911629e8f3d
+notes/sidreasoner.md:
+  /at-a-glance:
+    en: 83a7374b321a6e66
+    zh: c18c599f9ea6f31a
+  /at-a-glance/1-why-this-paper-matters:
+    en: 20d4987ba17900a8
+    zh: 3e0a02c2ef6f3104
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/sid-language-alignment:
+    en: 1efb1e6536add620
+    zh: 2210c7a7cea05837
+  /at-a-glance/2-how-it-works/reasoning-activation:
+    en: 158bfed0796d8896
+    zh: 535d0852f77e716e
+  /at-a-glance/2-how-it-works/outcome-based-grpo:
+    en: f0a0883235c8092c
+    zh: 1a8340b31e87441d
+  /at-a-glance/3-experimental-findings:
+    en: 3980f5098e06af70
+    zh: 2bde8210524bb314
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 7b5ba8d8fd9a0f83
+    zh: 25ac65a8d123b34d
+notes/think2go.md:
+  /at-a-glance:
+    en: 2c5788a63089bc26
+    zh: 81cdb43b3c4d205b
+  /at-a-glance/1-why-this-paper-matters:
+    en: 9bf4803657b8f3b0
+    zh: d90e4c1e62273aac
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/unified-sft-and-rl:
+    en: 21b5102d91829073
+    zh: 312fe067e318c1f8
+  /at-a-glance/2-how-it-works/progressive-reward:
+    en: 39f22f71936ee76c
+    zh: f0856cd16f85b7d5
+  /at-a-glance/2-how-it-works/calibrated-advantage:
+    en: 601c29967f1c1838
+    zh: 0485e52030c1bc97
+  /at-a-glance/3-experimental-findings:
+    en: d33f98e517a3fcde
+    zh: f0ac86d9766b9f62
+  /at-a-glance/4-limitations--critical-analysis:
+    en: d678f3bb23ec05d5
+    zh: 33c68acf02e6d99d
+notes/tiger.md:
+  /at-a-glance:
+    en: 9bcf45d2ee21b0b0
+    zh: ead84aace2d68a75
+  /at-a-glance/1-why-this-paper-matters:
+    en: 15d6464cf5b9b07e
+    zh: 54b4e0695808489c
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/overview:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/step-1-item-text-to-a-latent-vector:
+    en: 0c0aca334d53aa96
+    zh: 2f8cc82049606fd8
+  /at-a-glance/2-how-it-works/step-2-residual-quantization-into-codes:
+    en: eda3bc6fcbdf1569
+    zh: 0bb82f4bd5320897
+  /at-a-glance/2-how-it-works/step-3-tokenizer-training:
+    en: 929b92ff0a2cf444
+    zh: 9946add83c2d9d90
+  /at-a-glance/2-how-it-works/step-4-collision-token:
+    en: bc250883c01b6379
+    zh: 55bc15575d0e4c6d
+  /at-a-glance/2-how-it-works/step-5-sequence-to-sequence-generation:
+    en: d513b053ebfd1ad2
+    zh: a0e217a50511c16a
+  /at-a-glance/3-experimental-findings:
+    en: 5af9b5f268adaa4d
+    zh: 6ac4803764709d91
+  /at-a-glance/4-limitations--critical-analysis:
+    en: d2e57c981e502bf2
+    zh: 4207bdc1dc3351cb
+notes/tokenrec.md:
+  /at-a-glance:
+    en: 21750e9c02cfbbfa
+    zh: adfbe9d4c6a0014c
+  /at-a-glance/1-why-this-paper-matters:
+    en: 46369ba78ed29494
+    zh: f510edeb8e266639
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/mq-tokenizer:
+    en: d6a16de8dc2f08d3
+    zh: 18e5eb0c44977bdc
+  /at-a-glance/2-how-it-works/generative-retrieval:
+    en: 55b9c5ea92b41663
+    zh: 3ef4f8f6da875360
+  /at-a-glance/3-experimental-findings:
+    en: 44bdc30b0e621fc5
+    zh: a3301ffd7464e494
+  /at-a-glance/4-limitations--critical-analysis:
+    en: a49f3e6170bf48c4
+    zh: abb12cd492cf8d2a
+notes/v-star.md:
+  /at-a-glance:
+    en: 7fb4519cc5f78135
+    zh: f8f2af5bb8031fcf
+  /at-a-glance/1-why-this-paper-matters:
+    en: bb6524736cebd178
+    zh: 25cb9d7d88a501d6
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/value-head:
+    en: f6f6d88738a32a86
+    zh: 7024c8e5811ddfc3
+  /at-a-glance/2-how-it-works/value-guided-efficient-decoding:
+    en: 625efe6c3a7eeaf9
+    zh: 5c1c8c42d14070f5
+  /at-a-glance/2-how-it-works/sibling-grpo:
+    en: ddbc9883701e8e07
+    zh: 49f73f45d27c5601
+  /at-a-glance/3-experimental-findings:
+    en: 0557b9dc98436180
+    zh: 97b616bf6dedef95
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 20af09afd2801c31
+    zh: 135fa611e66c1f5a
+notes/vq-rec.md:
+  /at-a-glance:
+    en: 4445628f54002672
+    zh: 72c37312485560db
+  /at-a-glance/1-why-this-paper-matters:
+    en: fb973ba32114457c
+    zh: d8eb950cc0d3cffa
+  /at-a-glance/2-how-it-works:
+    en: e3b0c44298fc1c14
+    zh: e3b0c44298fc1c14
+  /at-a-glance/2-how-it-works/text-to-code:
+    en: 40c2cee24ed4e9fc
+    zh: 4f09c679f5cf016f
+  /at-a-glance/2-how-it-works/code-to-representation:
+    en: 12b751cf78c12d05
+    zh: f5def526ae8cfbfa
+  /at-a-glance/2-how-it-works/contrastive-pre-training:
+    en: 854067947e96ce0f
+    zh: 02e050ad30c48385
+  /at-a-glance/2-how-it-works/cross-domain-fine-tuning:
+    en: 9a62ae5b5ec72511
+    zh: 53a2b6faa49ac13f
+  /at-a-glance/3-experimental-findings:
+    en: 7ab11d79cdeae0e2
+    zh: 9cc1dacb7b3d60de
+  /at-a-glance/4-limitations--critical-analysis:
+    en: 654aa1040bd78a26
+    zh: 345f2b0de18efebc

@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-summary: 'Abstract: "this paradigm suffers from inference cost, interaction modeling, and false-negative issues". Candidates:
-  I / V (rule: complaint fits none of the six classes; judged by the new design).'
 tldr: MMGRec assigns each item a Rec-ID with Graph RQ-VAE over multimodal and collaborative features and trains a Transformer
   with relation-aware self-attention to generate it, instead of embed-and-retrieve.
 tldr_zh: MMGRec 在多模态与协同特征上用 Graph RQ-VAE 为每个物品分配 Rec-ID，并训练带关系感知自注意力的 Transformer 生成该 ID，替代嵌入检索。

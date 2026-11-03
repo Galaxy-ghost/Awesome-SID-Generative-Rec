@@ -16,8 +16,6 @@ tokenizer: Fixed†
 objective: NTP
 inference: –
 poi: false
-summary: 'Abstract: "leading to the loss of critical multimodal information". The arXiv API abstract is truncated; judged
-  on the visible part.'
 tldr: ADC-SID adds collaborative information to Semantic ID quantization with alignment strength that adapts to collaborative
   noise and learned weights for behavioral IDs, instead of uniform alignment and equal weights.
 tldr_zh: ADC-SID 在 SID 量化中引入随协同噪声自适应的对齐强度与可学习的行为 ID 权重，替代统一强度的对齐和等权重聚合。

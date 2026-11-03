@@ -1,21 +1,25 @@
 # Netflix-SID-Comparison
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/netflix-sid-comparison.md)
+
 | **Title** | *Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction* |
 | :-- | :-- |
 | **Authors** | Oh et al. |
 | **Venue** | NeurIPS’26 PALM Workshop |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.15864) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/netflix-sid-comparison.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.15864) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Non-AR"] --> TR["Training<br/>Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["Inference<br/>C-Beam / Scoring"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
-- `–`: Not reported in the paper.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only / Non-AR`: Decoder-only autoregressive and non-autoregressive prediction variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT`: Multi-task next-token prediction, or text next-token prediction with multi-token and ranking objectives; language-task reinforcement learning follows supervised fine-tuning.
@@ -24,7 +28,7 @@ flowchart LR
 ### TL;DR
 
 > [!NOTE]
-> Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost.
+> Netflix-SID-Comparison evaluates single-head autoregressive beam search against multi-token prediction for LLM Semantic ID generation on ranking quality and serving cost.
 
 ---
 
@@ -33,7 +37,7 @@ flowchart LR
 | Aspect | Summary |
 | :-- | :-- |
 | Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | Netflix-SID-Comparison is an industry comparison, not a new recommender: it compares single-head autoregressive beam search with multi-token prediction for LLM Semantic ID generation on quality and cost. |
+| Key Contribution | Netflix-SID-Comparison evaluates single-head autoregressive beam search against multi-token prediction for LLM Semantic ID generation on ranking quality and serving cost. |
 | Modified Stage | No single stage |
 
 ---
@@ -67,19 +71,23 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["Netflix-SID-Comparison"]
-    P -->|predecessor| A["TIGER"]
-    P -->|alternative| B["RPG"]
-    P -->|alternative| C["STAMP"]
-    P -->|alternative| D["NEZHA"]
+    P -->|"predecessor"| A["TIGER"]
+    P -->|"alternative"| B["RPG"]
+    P -->|"alternative"| C["STAMP"]
+    P -->|"alternative"| D["NEZHA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C,D peer
 ```
 
 - **Predecessor** · [TIGER](tiger.md): The single-head arm follows TIGER-style autoregressive SID generation with constrained beam search in a multitask streaming-media LLM.
-  - Source: Netflix comparison v1, Introduction and Section 3.2.1: https://arxiv.org/html/2610.15864v1#S1.p3; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS1.p1.
+  - Source: Netflix comparison v1, Introduction and Section 3.2.1: [S1.p3](https://arxiv.org/html/2610.15864v1#S1.p3); [S3.SS2.SSS1.p1](https://arxiv.org/html/2610.15864v1#S3.SS2.SSS1.p1).
 - **Alternative** · [RPG](rpg.md): RPG pairs parallel SID prediction with graph-constrained decoding; this study strengthens its MTP arm with an auxiliary item-ranking loss and tests moderate four-token SIDs.
-  - Source: Netflix comparison v1, Sections 2/3.2.2/4.2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1; https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1; https://arxiv.org/html/2610.15864v1#S4.SS2.SSS0.Px3.p1.
+  - Source: Netflix comparison v1, Sections 2/3.2.2/4.2: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1); [S3.SS2.SSS2.Px1.p1](https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1); [S4.SS2.SSS0.Px3.p1](https://arxiv.org/html/2610.15864v1#S4.SS2.SSS0.Px3.p1).
 - **Alternative** · [STAMP](stamp.md): STAMP uses auxiliary multi-token prediction to densify training supervision; this study compares MTP and autoregressive decoding as generation paradigms.
-  - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1.
+  - Source: Netflix comparison v1, Section 2: [S2.SS0.SSS0.Px2.p1](https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px2.p1).
 - **Alternative** · [NEZHA](nezha.md): NEZHA accelerates SID beam search using self-drafting and hash-set verification; this study addresses generation quality and cost rather than only decoding acceleration.
-  - Source: Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px3.p1.
+  - Source: Netflix comparison v1, Section 2: [S2.SS0.SSS0.Px3.p1](https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px3.p1).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

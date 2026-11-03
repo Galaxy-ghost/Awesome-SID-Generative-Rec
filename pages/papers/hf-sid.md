@@ -1,19 +1,23 @@
 # HF-SID
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/hf-sid.md)
+
 | **Title** | *High-Fidelity Semantic IDs for Generative Retrieval in Location-Based Services* |
 | :-- | :-- |
 | **Authors** | Lin et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2608.30479) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/hf-sid.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2608.30479) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Attr+Geo"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
@@ -70,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["HF-SID"]
-    P -->|competitor| A["ProGEO"]
-    P -->|competitor| B["GeoGR"]
-    P -->|competitor| C["GNPR-SID"]
+    P -->|"competitor"| A["ProGEO"]
+    P -->|"competitor"| B["GeoGR"]
+    P -->|"competitor"| C["GNPR-SID"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [ProGEO](progeo.md): Pro-GEO injects geography during quantization; HF-SID improves representations before quantization.
-  - Source: HF-SID v1, Sections 2 and 4.1, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS1.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
+  - Source: HF-SID v1, Sections 2 and 4.1, Table 2: [S2.p2](https://arxiv.org/html/2608.30479v1#S2.p2); [S4.SS1.p2](https://arxiv.org/html/2608.30479v1#S4.SS1.p2); [S4.T2](https://arxiv.org/html/2608.30479v1#S4.T2).
 - **Competitor** · [GeoGR](geogr.md): GeoGR uses co-visit alignment; HF-SID directly encodes coordinates and numerical attributes.
-  - Source: HF-SID v1, Sections 2 and 4.2, Table 2: https://arxiv.org/html/2608.30479v1#S2.p2; https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
+  - Source: HF-SID v1, Sections 2 and 4.2, Table 2: [S2.p2](https://arxiv.org/html/2608.30479v1#S2.p2); [S4.SS2.p2](https://arxiv.org/html/2608.30479v1#S4.SS2.p2); [S4.T2](https://arxiv.org/html/2608.30479v1#S4.T2).
 - **Competitor** · [GNPR-SID](gnpr-sid.md): GNPR-SID regularizes codeword diversity; HF-SID focuses on representation fidelity.
-  - Source: HF-SID v1, Section 4.2 and Table 2: https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.
+  - Source: HF-SID v1, Section 4.2 and Table 2: [S4.SS2.p2](https://arxiv.org/html/2608.30479v1#S4.SS2.p2); [S4.T2](https://arxiv.org/html/2608.30479v1#S4.T2).
 
 [View all papers in this cell](../../README.md#i--representation)

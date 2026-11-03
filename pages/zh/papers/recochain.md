@@ -1,26 +1,32 @@
 # RecoChain
 
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/recochain.md) | 中文
+
 | **题目** | *Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* |
 | :-- | :-- |
 | **作者** | Liu and Cao |
-| **会议** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `Backbone` |
-| **链接** | [论文](https://arxiv.org/abs/2604.25787) · [矩阵](../../../README.zh.md#iv--backbone) · [English](../../papers/recochain.md) |
+| **发表** | arXiv’26 |
+| **问题与阶段** | `IV. 实用目标` · `骨干（Backbone）` |
+| **链接** | [论文](https://arxiv.org/abs/2604.25787) |
 | **阅读级别** | 概览（第 1 级） |
 
-本页目录：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Hybrid"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `RQ`: Residual quantization.
-- `Dec-Only`: Decoder-only.
-- `Fixed`: SIDs are built first and not changed while the generator trains.
-- `NTP + Rank`: NTP plus a ranking loss.
+- `Text+Img`：文本与视觉图像表征。
+- `RQ`：残差向量量化（Residual Quantization）。
+- `Dec-Only`：仅解码器（Decoder-only）自回归架构。
+- `Fixed`：先独立训练并冻结编号器，生成器训练期间 SID 保持不变。
+- `NTP + Rank`：下一 token 预测结合显式排序损失。
+- `Hybrid`：结合生成式 SID 解码与稠密/共现检索的混合召回。
 
 ### TL;DR
 
@@ -33,9 +39,9 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：Are training and search aimed at what users and the platform value, rather than at token likelihood? |
+| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
 | 核心贡献 | RecoChain 在同一 Transformer 中先通过层级 SID 预测生成候选，再用基于 SIM 的点击率估计做排序，弥合生成与排序之间的差距。 |
-| 主要改动阶段 | Backbone |
+| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 
@@ -68,13 +74,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["RecoChain"]
-    P -->|alternative| A["TIGER"]
-    P -->|alternative| B["OneRec"]
+    P -->|"替代方案"| A["TIGER"]
+    P -->|"替代方案"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **替代方案** · [TIGER](tiger.md): TIGER stops at beam-search retrieval; RecoChain appends retrieved history items to each beam candidate and re-ranks them in the same decoder.
-  - 出处：RecoChain v1, Section 1 cites TIGER and OneRec as beam-search retrievers: https://arxiv.org/html/2604.25787v1#S1.p4.
+  - 出处：RecoChain v1, Section 1 cites TIGER and OneRec as beam-search retrievers: [S1.p4](https://arxiv.org/html/2604.25787v1#S1.p4).
 - **替代方案** · [OneRec](onerec.md): OneRec unifies retrieval and ranking with preference alignment over sessions; RecoChain chains generation and a click-probability re-rank head with KV-cache reuse.
-  - 出处：RecoChain v1, Section 1: https://arxiv.org/html/2604.25787v1#S1.p2 and https://arxiv.org/html/2604.25787v1#S1.p4.
+  - 出处：RecoChain v1, Section 1: [S1.p2](https://arxiv.org/html/2604.25787v1#S1.p2) and [S1.p4](https://arxiv.org/html/2604.25787v1#S1.p4).
 
 [查看同格全部论文](../../../README.zh.md#iv--backbone)

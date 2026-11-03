@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: –
 poi: false
-summary: 提出明确可复用的词嵌入 grounding 训练阶段，并在真实离散 RQ-VAE SID 推荐中验证。
 tldr: GTI maps new Semantic ID tokens to distinct locations in the pretrained embedding space with paired linguistic supervision
   before fine-tuning, instead of initializing them as the mean of existing embeddings.
 tldr_zh: GTI 在微调前借助配对语言监督，把新增 SID token 映射到预训练嵌入空间中的区分性位置，而非用已有嵌入的均值初始化。

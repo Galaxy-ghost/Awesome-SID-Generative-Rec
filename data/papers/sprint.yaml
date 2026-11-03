@@ -16,7 +16,6 @@ tokenizer: Fixed
 objective: Dual-level Flow Ctr.
 inference: Scoring
 poi: false
-summary: 用 OPQ SID 并行概率生成并对有效完整 SID 融合评分，是广义 SID 混合生成而非 token-only 大目录召回。
 tldr: SPRINT predicts all Semantic ID token probabilities in one forward pass of a bidirectional Transformer, based on average
   probability velocity, and restores token coherence with a dual-level flow contrastive objective.
 tldr_zh: SPRINT 基于平均概率速度在双向 Transformer 的单次前向传播中预测全部 SID token 概率，并用双层流对比目标恢复 token 间的一致性。

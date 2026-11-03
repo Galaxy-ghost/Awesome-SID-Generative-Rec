@@ -1,23 +1,27 @@
 # MDGR
 
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mdgr.md)
+
 | **Title** | *Masked Diffusion Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Mu et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
-| **Links** | [Paper](https://arxiv.org/abs/2601.19501) · [Matrix](../../README.md#iii--backbone) · [中文](../zh/papers/mdgr.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2601.19501) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>–"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Diff.+Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
 
-- `–`: Not reported in the paper.
+- `Par. OPQ`: Parallel optimized product quantization into unordered sub-codes.
 - `Non-AR`: Non-autoregressive.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Masked`: Masks part of the codes and reconstructs them (includes masked diffusion).
@@ -69,16 +73,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["MDGR"]
-    P -->|competitor| A["TIGER"]
-    P -->|competitor| B["RPG"]
-    P -->|competitor| C["COBRA"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"competitor"| B["RPG"]
+    P -->|"competitor"| C["COBRA"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER generates residual-quantized IDs autoregressively; MDGR denoises parallel-codebook IDs and is also tested against production TIGER online.
-  - Source: MDGR v1, Sections 5.1.2/5.6 and Table 2: https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S5.SS6.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
+  - Source: MDGR v1, Sections 5.1.2/5.6 and Table 2: [S5.SS1.SSS2.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1); [S5.SS6.p1](https://arxiv.org/html/2601.19501v1#S5.SS6.p1); [S4.T2](https://arxiv.org/html/2601.19501v1#S4.T2).
 - **Competitor** · [RPG](rpg.md): RPG uses multi-token prediction and graph-constrained parallel decoding; MDGR uses masked denoising with confidence-guided position scheduling.
-  - Source: MDGR v1, Sections 4.4/5.1.2 and Table 2: https://arxiv.org/html/2601.19501v1#S4.SS4; https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
+  - Source: MDGR v1, Sections 4.4/5.1.2 and Table 2: [S4.SS4](https://arxiv.org/html/2601.19501v1#S4.SS4); [S5.SS1.SSS2.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2601.19501v1#S4.T2).
 - **Competitor** · [COBRA](cobra.md): COBRA supplements sparse IDs with dense vectors; MDGR instead changes discrete-ID supervision and decoding through masked diffusion.
-  - Source: MDGR v1, Sections 2.1/5.1.2 and Table 2: https://arxiv.org/html/2601.19501v1#S2.SS1.p1; https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1; https://arxiv.org/html/2601.19501v1#S4.T2.
+  - Source: MDGR v1, Sections 2.1/5.1.2 and Table 2: [S2.SS1.p1](https://arxiv.org/html/2601.19501v1#S2.SS1.p1); [S5.SS1.SSS2.p1](https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1); [S4.T2](https://arxiv.org/html/2601.19501v1#S4.T2).
 
 [View all papers in this cell](../../README.md#iii--backbone)

@@ -2,9 +2,9 @@
 
 English | [中文](../zh/index/stages.md)
 
-Each table lists the papers whose main change sits in one stage, with that stage's Table 1 value. Papers on paradigms, systems and benchmarks change no single stage; the [README](../../README.md#paradigms-systems-and-benchmarks) lists them.
+Each table groups papers by the pipeline stage they primarily modify, alongside that stage's Table 1 value. Papers under paradigms, systems and benchmarks span multiple stages or provide benchmarks; see the [README](../../README.md#paradigms-systems-and-benchmarks).
 
-Side-by-side tables: [Tokenizer](../../comparisons/tokenizer.md) · [Training](../../comparisons/training.md) · [Inference](../../comparisons/inference.md)
+Side-by-side comparison tables: [Tokenizer](../../comparisons/tokenizer.md) · [Training](../../comparisons/training.md) · [Inference](../../comparisons/inference.md)
 
 ## Representation
 

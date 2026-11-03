@@ -16,7 +16,6 @@ tokenizer: –
 objective: –
 inference: –
 poi: false
-summary: 是新的多模态 SID 编号方法并报告下一广告/下一物品实验；推荐生成器未披露须保留缺项。
 tldr: UniSID optimizes embeddings and Semantic IDs end to end from raw advertising data with multi-granularity contrastive
   learning and summary-based reconstruction, instead of embedding first and quantizing afterwards.
 tldr_zh: UniSID 通过多粒度对比学习与基于摘要的重构，从原始广告数据端到端联合优化嵌入与 SID，替代先提取嵌入再后验量化的两步做法。

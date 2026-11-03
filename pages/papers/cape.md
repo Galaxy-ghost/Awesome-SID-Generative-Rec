@@ -1,25 +1,32 @@
 # CAPE
 
+[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cape.md)
+
 | **Title** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
 | :-- | :-- |
 | **Authors** | Huang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Inference` |
-| **Links** | [Paper](https://arxiv.org/abs/2610.29298) · [Matrix](../../README.md#i--inference) · [中文](../zh/papers/cape.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2610.29298) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["Inference<br/>Hybrid"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
 
+- `Text†`: Textual item representations (inferred).
+- `RQ-VAE†`: Residual-Quantized Variational AutoEncoder (inferred).
 - `Dec-Only / Enc-Dec`: Decoder-only and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP† / NTP†`: Inferred multi-task or single-task next-token-prediction initialization in different backbones.
+- `Hybrid`: Hybrid retrieval combining generative SID decoding with dense or co-occurrence retrieval.
 
 ### TL;DR
 
@@ -67,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["CAPE"]
-    P -->|predecessor| A["MiniOneRec"]
-    P -->|predecessor| B["TIGER"]
-    P -->|alternative| C["LIGER"]
+    P -->|"predecessor"| A["MiniOneRec"]
+    P -->|"predecessor"| B["TIGER"]
+    P -->|"alternative"| C["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [MiniOneRec](minionerec.md): MiniOneRec supplies a frozen backbone and released Amazon checkpoints.
-  - Source: CAPE v1, Sec.5.1 and Appendix B: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#A2.p2.
+  - Source: CAPE v1, Sec.5.1 and Appendix B: [S5.SS1.p1](https://arxiv.org/html/2610.29298v1#S5.SS1.p1); [A2.p2](https://arxiv.org/html/2610.29298v1#A2.p2).
 - **Predecessor** · [TIGER](tiger.md): TIGER supplies the second backbone for cross-architecture evaluation.
-  - Source: CAPE v1, Sec.5.1 and Table3: https://arxiv.org/html/2610.29298v1#S5.SS1.p1; https://arxiv.org/html/2610.29298v1#S5.T3.
+  - Source: CAPE v1, Sec.5.1 and Table3: [S5.SS1.p1](https://arxiv.org/html/2610.29298v1#S5.SS1.p1); [S5.T3](https://arxiv.org/html/2610.29298v1#S5.T3).
 - **Alternative** · [LIGER](liger.md): LIGER is contrasted as a trained hybrid retrieval approach.
-  - Source: CAPE v1, Sec.6: https://arxiv.org/html/2610.29298v1#S6.p1.
+  - Source: CAPE v1, Sec.6: [S6.p1](https://arxiv.org/html/2610.29298v1#S6.p1).
 
 [View all papers in this cell](../../README.md#i--inference)

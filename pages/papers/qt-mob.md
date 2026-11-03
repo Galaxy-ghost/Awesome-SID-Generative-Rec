@@ -1,22 +1,28 @@
 # QT-Mob
 
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/qt-mob.md)
+
 | **Title** | *Enhancing Large Language Models for Mobility Analytics with Semantic Location Tokenization* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | KDD’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
-| **Links** | [Paper](https://arxiv.org/abs/2506.11109) · [Code](https://github.com/shadowfall09/QT-Mob) · [Matrix](../../README.md#i--tokenization) · [中文](../zh/papers/qt-mob.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2506.11109) · [Code](https://github.com/shadowfall09/QT-Mob) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Text+Geo`: Text representations combined with geographic or spatial features.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Dec-Only`: Decoder-only.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Multi-task NTP`: The same NTP loss over several tasks.
@@ -68,10 +74,14 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["QT-Mob"]
-    P -->|predecessor| A["LC-Rec"]
+    P -->|"predecessor"| A["LC-Rec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A peer
 ```
 
 - **Predecessor** · [LC-Rec](lc-rec.md): Its cited RQ-VAE tokenization approach informs QT-Mob's hierarchical location tokens.
-  - Source: QT-Mob v1, Section 4.2, citing Zheng et al. (2024): https://arxiv.org/html/2506.11109v1#S4.SS2.p1; https://arxiv.org/html/2506.11109v1#S4.SS2.p4.
+  - Source: QT-Mob v1, Section 4.2, citing Zheng et al. (2024): [S4.SS2.p1](https://arxiv.org/html/2506.11109v1#S4.SS2.p1); [S4.SS2.p4](https://arxiv.org/html/2506.11109v1#S4.SS2.p4).
 
 [View all papers in this cell](../../README.md#i--tokenization)

@@ -2,16 +2,16 @@
 
 English | [中文](start-here.zh.md)
 
-This guide gives a reading route through the list in three steps. Each step names papers with full pages and the README sections that collect related work.
+This guide maps a three-step reading route through Semantic ID (SID) generative recommendation. Each step links representative paper pages with full notes and the README sections that collect related work.
 
-## 1. Learn the Pipeline with TIGER
+## 1. Learn the Five-Stage Pipeline with TIGER
 
-Start with [TIGER](../pages/papers/tiger.md). TIGER encodes item text into Semantic IDs (SIDs) with an RQ-VAE tokenizer, trains a Transformer encoder-decoder to generate the SID of the next item, and decodes with beam search. Its page walks through each step with formulas and code. Every paper page in this list describes a method by the same five stages: Representation, Tokenization, Backbone, Training, and Inference.
+Start with [TIGER](../pages/papers/tiger.md). TIGER encodes item text into Semantic IDs with an RQ-VAE tokenizer, trains a Transformer encoder-decoder to generate the next item's SID, and decodes candidates with beam search. Every paper page follows the same five stages: Representation, Tokenization, Backbone, Training, and Inference.
 
-## 2. Add Information to the Tokenizer
+## 2. Enrich the Tokenizer
 
-Next, read how later papers change what the tokenizer sees and how it learns. [LETTER](../pages/papers/letter.md) adds a collaborative alignment loss and a diversity loss to an RQ-VAE tokenizer. [OneLoc](../pages/papers/oneloc.md) adds geographic context to the item embedding for local-life recommendation. The README band [I. Informativeness](../README.md#i-informativeness) collects papers that add collaborative, multimodal, or geographic signals. The band [II. Uniqueness and Validity](../README.md#ii-uniqueness-and-validity) collects papers on SID collisions, invalid SIDs, and codebook use.
+Next, compare how follow-up work changes what the tokenizer sees and how it learns. [LETTER](../pages/papers/letter.md) adds collaborative alignment and diversity losses to an RQ-VAE tokenizer. [OneLoc](../pages/papers/oneloc.md) incorporates geographic context into item embeddings for local-life recommendation. In the README, [I. Informativeness](../README.md#i-informativeness) collects papers that inject collaborative, multimodal, or spatial signals, while [II. Uniqueness and Validity](../README.md#ii-uniqueness-and-validity) covers SID collisions, invalid prefixes, and codebook usage.
 
-## 3. Follow One Research Problem
+## 3. Follow a Research Problem
 
-Then pick one row of the [Problem × Stage Matrix](../README.md#problem--stage-matrix) and read the papers in its cells. [RPG](../pages/papers/rpg.md) is an example from [V. Efficiency](../README.md#v-efficiency): it predicts long SIDs in parallel and decodes over a graph of valid SIDs instead of running beam search. The other bands cover [SID–model alignment](../README.md#iii-sidmodel-alignment), [utility](../README.md#iv-utility), and [generalization](../README.md#vi-generalization). [SIDScope](../pages/papers/sidscope.md) checks released SID mappings before they are reused. The [glossary](glossary.md) defines every value in the paper pages.
+Pick one row of the [Problem × Stage Matrix](../README.md#problem--stage-matrix) and read the papers in its cells. For example, [RPG](../pages/papers/rpg.md) under [V. Efficiency](../README.md#v-efficiency) predicts long SIDs in parallel and decodes over a graph of valid items instead of running autoregressive beam search. The remaining rows cover [III. SID–Model Alignment](../README.md#iii-sidmodel-alignment), [IV. Utility](../README.md#iv-utility), and [VI. Generalization](../README.md#vi-generalization). [SIDScope](../pages/papers/sidscope.md) audits released SID mappings before reuse, and the [glossary](glossary.md) defines every symbol and column value on the paper pages.

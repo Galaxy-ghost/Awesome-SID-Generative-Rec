@@ -1,22 +1,28 @@
 # SCRec
 
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/screc.md)
+
 | **Title** | *Addressing Cross-Stage Decoupling of Semantic and Collaborative Signals in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Dan |
 | **Venue** | RecSys’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` |
-| **Links** | [Paper](https://arxiv.org/abs/2609.13678) · [Code](https://github.com/DanJiayi/SCRec) · [Matrix](../../README.md#i--representation) · [中文](../zh/papers/screc.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2609.13678) · [Code](https://github.com/DanJiayi/SCRec) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Non-AR / Enc-Dec"] --> TR["Training<br/>Fixed / MTP + Ctr."] --> I["Inference<br/>Scoring / Beam†"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
 
+- `Text+CF`: Text representations combined with collaborative signals.
+- `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
 - `Non-AR / Enc-Dec`: Non-autoregressive and encoder–decoder backbone variants.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `MTP + Ctr.`: MTP plus a contrastive loss.
@@ -68,16 +74,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["SCRec"]
-    P -->|predecessor| A["RPG"]
-    P -->|predecessor| B["TIGER"]
-    P -->|predecessor| C["LIGER"]
+    P -->|"predecessor"| A["RPG"]
+    P -->|"predecessor"| B["TIGER"]
+    P -->|"predecessor"| C["LIGER"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Predecessor** · [RPG](rpg.md): SCRec adopts a decoder-only backbone following RPG but replaces tokenization with collaborative-enhanced RQ-VAE and adds semantic/manifold alignment modules.
-  - Source: SCRec v1, Sections 3.1/4.1: https://arxiv.org/html/2609.13678v1#S3.SS1.p9; https://arxiv.org/html/2609.13678v1#S4.SS1.p5.
+  - Source: SCRec v1, Sections 3.1/4.1: [S3.SS1.p9](https://arxiv.org/html/2609.13678v1#S3.SS1.p9); [S4.SS1.p5](https://arxiv.org/html/2609.13678v1#S4.SS1.p5).
 - **Predecessor** · [TIGER](tiger.md): SCRec is also added to TIGER as a reusable module, improving collaborative input to tokenization and semantic guidance during generation.
-  - Source: SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.T3.
+  - Source: SCRec v1, Section 4.5 and Table 3: [S4.SS5.p1](https://arxiv.org/html/2609.13678v1#S4.SS5.p1); [S4.T3](https://arxiv.org/html/2609.13678v1#S4.T3).
 - **Predecessor** · [LIGER](liger.md): SCRec augments the hybrid LIGER backbone with the same reusable cross-stage supplementation module and measures its inference overhead.
-  - Source: SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.SS5.p2; https://arxiv.org/html/2609.13678v1#S4.T3.
+  - Source: SCRec v1, Section 4.5 and Table 3: [S4.SS5.p1](https://arxiv.org/html/2609.13678v1#S4.SS5.p1); [S4.SS5.p2](https://arxiv.org/html/2609.13678v1#S4.SS5.p2); [S4.T3](https://arxiv.org/html/2609.13678v1#S4.T3).
 
 [View all papers in this cell](../../README.md#i--representation)

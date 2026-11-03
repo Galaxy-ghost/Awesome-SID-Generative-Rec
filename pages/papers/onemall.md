@@ -1,24 +1,30 @@
 # OneMall
 
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onemall.md)
+
 | **Title** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
-| **Links** | [Paper](https://arxiv.org/abs/2601.21770) · [Matrix](../../README.md#paradigms-systems-and-benchmarks) · [中文](../zh/papers/onemall.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2601.21770) |
 | **Reading level** | Overview (Level 1) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>R-KM+FSQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["Inference<br/>Beam"]
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
 ```
 
+- `Text+Img+CF`: Text and image representations combined with collaborative signals.
 - `R-KM+FSQ`: Residual k-means combined with finite scalar quantization.
 - `Enc-Dec`: Encoder-decoder.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `(NTP + Ctr.) → RL`: Joint next-token and contrastive training, followed by a reinforcement-learning stage; retained losses are specified per paper.
+- `Beam`: Autoregressive beam search over Semantic ID tokens.
 
 ### TL;DR
 
@@ -66,13 +72,17 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["OneMall"]
-    P -->|competitor| A["TIGER"]
-    P -->|predecessor| B["OneRec"]
+    P -->|"competitor"| A["TIGER"]
+    P -->|"predecessor"| B["OneRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B peer
 ```
 
 - **Competitor** · [TIGER](tiger.md): TIGER is the equally sized encoder-decoder replay baseline.
-  - Source: OneMall v1, Section 4.2 and Table 2: https://arxiv.org/html/2601.21770v1#S4.SS2.p1; https://arxiv.org/html/2601.21770v1#S4.T2.
+  - Source: OneMall v1, Section 4.2 and Table 2: [S4.SS2.p1](https://arxiv.org/html/2601.21770v1#S4.SS2.p1); [S4.T2](https://arxiv.org/html/2601.21770v1#S4.T2).
 - **Predecessor** · [OneRec](onerec.md): OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
-  - Source: OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): https://arxiv.org/html/2601.21770v1#S1.p5.
+  - Source: OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): [S1.p5](https://arxiv.org/html/2601.21770v1#S1.p5).
 
 [View all papers in this cell](../../README.md#paradigms-systems-and-benchmarks)

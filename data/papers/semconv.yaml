@@ -16,8 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false
-summary: 'Abstract: "a notable discrepancy persists between the sparse collaborative semantics typically found in recommendation
-  systems and the dense token representations within LLMs".'
 tldr: SemConv converts item IDs into token sequences aligned with the LLM space through Alignment Tokenization, adds tasks
   linking collaborative signals and language, and pre-caches top-K results for serving.
 tldr_zh: SemConv 通过对齐编号将物品 ID 转化为与 LLM 空间对齐的 token 序列，加入连接协同信号与自然语言的任务，并预缓存 top-K 结果用于线上服务。

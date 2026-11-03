@@ -1,25 +1,32 @@
 # VQ-Rec
 
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/vq-rec.md)
+
 | **Title** | *Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* |
 | :-- | :-- |
 | **Authors** | Hou et al. |
 | **Venue** | WWW’23 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
-| **Links** | [Paper](https://arxiv.org/abs/2210.12316) · [Code](https://github.com/RUCAIBox/VQ-Rec) · [Matrix](../../README.md#vi--tokenization) · [中文](../zh/papers/vq-rec.md) |
+| **Links** | [Paper](https://arxiv.org/abs/2210.12316) · [Code](https://github.com/RUCAIBox/VQ-Rec) |
 | **Reading level** | Reading Notes (Level 2) |
 
-On this page: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [1. Why It Matters](#1-why-this-paper-matters) · [2. Method](#2-how-it-works) · [3. Experiments](#3-experimental-findings) · [4. Limitations](#4-limitations--critical-analysis) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
     R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
-    classDef main fill:#eaf2fb,stroke:#6b8fc7
+    classDef base fill:#f8fafc,stroke:#cbd5e1
+    class R,T,B,TR,I base
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
 
+- `Multi-Dom`: Unified item representations built jointly across multiple domains.
 - `OPQ`: Optimized product quantization.
+- `Encoder`: Bidirectional encoder backbone without autoregressive token generation.
 - `Fixed`: SIDs are built first and not changed while the generator trains.
 - `Discrim.`: Scores items; does not generate SIDs.
+- `Scoring`: Direct candidate scoring without step-by-step SID generation.
 
 ### TL;DR
 
@@ -35,12 +42,14 @@ flowchart LR
 | Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
 | Key Contribution | VQ-Rec maps item text to discrete codes and looks up code embeddings as item representations, with contrastive pre-training and cross-domain fine-tuning, to loosen the binding between text and representation. |
 | Modified Stage | Tokenization |
+| Key Findings | Pre-trained across five Amazon source domains, VQ-Rec ranks first or second on all six cross-domain and cross-platform downstream datasets and outperforms SASRec in every item-popularity bucket, particularly cold-start items (Sec. 3.4.3, Table 2, Fig. 4). |
+| Limitation | Evaluating the pre-trained encoder without downstream code-embedding fine-tuning causes a sharp drop in accuracy across target domains (Sec. 3.3, Table 3). |
 
 ---
 
 ### 1. Why This Paper Matters
 
-Transferable recommenders encode item text with a pre-trained language model (PLM) and use the encoding as the item representation (Abstract). The authors argue that this tight binding over-emphasizes text features and enlarges the effect of the domain gap (Abstract, Sec. 4). VQ-Rec inserts discrete codes between text and representation: item text maps to a vector of discrete indices, called an item code, and the code looks up the item representation in an embedding table (Sec. 2.1). VQ-Rec is a discriminative sequential recommender, not a generative one; later Semantic ID (SID) papers reuse its code scheme.
+Directly feeding continuous pre-trained language model (PLM) embeddings into transferable sequential recommenders over-couples predictions to surface text style and amplifies cross-domain distribution shifts (Abstract, Sec. 4). VQ-Rec inserts discrete optimized product quantization (`OPQ`) item codes between text encodings and learnable lookup tables inside a bidirectional sequence encoder (`Scoring`), establishing the parallel subspace code representation adopted by later Semantic ID (SID) generators (Sec. 2.1).
 
 ---
 
@@ -50,45 +59,42 @@ Transferable recommenders encode item text with a pre-trained language model (PL
 
 ```mermaid
 flowchart LR
-    A("Item text") --> B["Fixed BERT"]
-    B --> C["OPQ"]
-    C --> D("Item code")
-    D --> E["Code embedding lookup + mean"]:::key
-    E --> F["Transformer encoder"]
-    L1{{"Contrastive: semi-synthetic + mixed-domain negatives"}} -.-> F
-    F --> G("Item scores")
+    subgraph Pre["Multi-Domain Pre-Training"]
+        A("Source-domain item text") --> B["Frozen BERT"]
+        B --> C["OPQ subspace quantizer (Eq. 2)"]
+        C --> D("Discrete item code tuple")
+        D --> E["Per-subspace embedding lookup + mean pool (Eq. 3)"]:::key
+        E --> F["Bidirectional Transformer sequence encoder"]
+        N("Semi-synthetic code-corrupted + mixed-domain negatives") --> L1{{"Contrastive next-item loss"}}
+        L1 -.-> E & F
+    end
+    subgraph Adapt["Target-Domain Adaptation (Transformer Frozen)"]
+        T("New-domain text -> BERT") --> NPQ["Re-fit target OPQ centroids"]
+        NPQ --> Perm["Differentiable Sinkhorn permutation alignment"]:::key
+        Perm --> FT["Fine-tune permuted code table -> all-item scoring"]
+    end
     classDef key fill:#eaf2fb,stroke:#6b8fc7
 ```
 
 #### Text to Code
 
-A fixed BERT encoder embeds item text, and optimized product quantization (OPQ) splits the embedding into subspaces and assigns an index in each subspace independently (Sec. 2.2.1, Eq. 2). The PQ centroids are learned from the text encodings of all training domains.
+A frozen BERT encoder embeds item text, and optimized product quantization (OPQ) partitions the vector into orthogonal subspaces to assign one discrete centroid index per subspace independently across all source domains (Sec. 2.2.1, Eq. 2).
 
 #### Code to Representation
 
-Each code position has its own code embedding table, and the item representation is the mean of the looked-up embeddings (Sec. 2.2.2, Eq. 3). The code embeddings are separate parameters from the PQ centroids.
+Each subspace position maintains its own learnable code embedding table decoupled from the OPQ centroids, and averaging the looked-up subspace vectors forms the item representation (Sec. 2.2.2, Eq. 3).
 
 #### Contrastive Pre-Training
 
-A Transformer encodes the sequence of item representations (Sec. 2.3.1). The ground-truth next item is the positive. Semi-synthetic negatives replace part of an item's code at random, and mixed-domain negatives are other items in the batch (Sec. 2.3). Pre-training updates the code embeddings and the Transformer; BERT stays fixed and PQ is computed beforehand (Sec. 2.4).
+A Transformer sequence encoder reads user histories of pooled code embeddings and optimizes a contrastive objective pairing the true next item against both in-batch mixed-domain negatives and semi-synthetic negatives formed by randomly perturbing subset code indices (Sec. 2.3, Sec. 2.3.1, Sec. 2.4).
 
 #### Cross-Domain Fine-Tuning
 
-In a new domain, VQ-Rec re-trains the PQ centroids and aligns them to the existing code embeddings with a differentiable permutation network, then fine-tunes the permuted embedding table (Sec. 2.4.1).
+When transferring to a downstream domain, VQ-Rec refits OPQ centroids on the target catalog, aligns new centroids to the pre-trained code embedding tables via a differentiable permutation matrix, and fine-tunes only the permuted lookup tables with the sequence Transformer frozen (Sec. 2.4, Sec. 2.4.1). Emerging items within an adapted domain require only text encoding and table lookup without retraining (Sec. 2.4.2).
 
 > "During fine-tuning, we fix the Transformer sequence encoder (transferred across different domains), and only optimize the parameters involved in item representations, enabling parameter-efficient fine-tuning." (Sec. 2.4)
 
-A new item in a known domain needs no retraining.
-
 > "When a new item emerges, one can encode its item text into discrete indices, and then obtain the corresponding item representations by embedding lookup." (Sec. 2.4.2)
-
-```mermaid
-flowchart LR
-    A("New-domain text") --> B["Re-train PQ centroids"]
-    B --> C["Differentiable permutation to old code embeddings"]:::key
-    C --> D["Fine-tune permuted table, Transformer fixed"]
-    classDef key fill:#eaf2fb,stroke:#6b8fc7
-```
 
 ---
 
@@ -114,9 +120,9 @@ flowchart LR
 
 </details>
 
-- Main comparison: VQ-Rec is the best or second-best method on each of the six downstream datasets in the cross-domain and cross-platform settings (Table 2).
-- Ablation: without fine-tuning the pre-trained model, performance drops sharply, and removing pre-training also lowers results on all tested datasets (Sec. 3.3, Table 3).
-- Popularity groups: VQ-Rec performs better than SASRec in every item-popularity group (Sec. 3.4.3, Fig. 4).
+- Cross-domain and cross-platform transfer: across six downstream Amazon and Online Retail benchmarks, VQ-Rec achieves the best or second-best ranking accuracy against ID-based, text-based, and transferable sequential baselines (Table 2).
+- Pre-training and fine-tuning ablations: skipping target-domain code-table fine-tuning degrades accuracy sharply, while removing multi-domain pre-training consistently lowers results across all six datasets (Sec. 3.3, Table 3).
+- Cold-start and popularity buckets: VQ-Rec beats SASRec across every item-popularity group, with the widest gains on low-interaction cold-start items (Sec. 3.4.3, Fig. 4).
 
   > "VQ-Rec has better performance than SASRec in all groups, especially in cold-start groups." (Sec. 3.4.3)
 
@@ -126,8 +132,8 @@ flowchart LR
 
 **Our analysis.**
 
-- ActionPiece starts from the same kind of `OPQ` codes but merges them into context-dependent tokens and generates them with an `Enc-Dec` generator; VQ-Rec scores items with an `Encoder` (`Scoring`).
-- UTGRec also targets multi-domain transfer (`Multi-Dom`) but replaces product quantization with a `Tree` tokenizer and decodes with `Beam`.
+- ActionPiece and RPG both build on unordered `OPQ` subspace codes, where ActionPiece merges co-occurring code patterns for `Enc-Dec` generation and RPG decodes long `OPQ` tuples over an item graph; VQ-Rec pools code embeddings for discriminative all-catalog `Scoring` with a frozen-transfer `Encoder`.
+- UTGRec likewise targets multi-domain transfer (`Multi-Dom`) by replacing `OPQ` lookup scoring with `Tree` codebooks and autoregressive `Beam` generation.
 
 ---
 
@@ -136,16 +142,20 @@ flowchart LR
 ```mermaid
 flowchart LR
     P["VQ-Rec"]
-    P -->|successor| A["ActionPiece"]
-    P -->|successor| B["LC-Rec"]
-    P -->|alternative| C["UTGRec"]
+    P -->|"successor"| A["ActionPiece"]
+    P -->|"successor"| B["LC-Rec"]
+    P -->|"alternative"| C["UTGRec"]
+    classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
+    classDef peer fill:#f8fafc,stroke:#cbd5e1
+    class P main
+    class A,B,C peer
 ```
 
 - **Successor** · [ActionPiece](actionpiece.md): ActionPiece later follows VQ-Rec in quantizing sentence embeddings with OPQ into unordered codes and merges them into context-dependent tokens for generation.
-  - Source: Evidence is from the later ActionPiece paper, Appendix F: https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1; VQ-Rec is a Table 4 baseline: https://arxiv.org/html/2502.13581v3#S3.T4.
+  - Source: Evidence is from the later ActionPiece paper, Appendix F: [A6.I1.i3.p1](https://arxiv.org/html/2502.13581v3#A6.I1.i3.p1); VQ-Rec is a Table 4 baseline: [S3.T4](https://arxiv.org/html/2502.13581v3#S3.T4).
 - **Successor** · [LC-Rec](lc-rec.md): LC-Rec later borrows VQ-Rec's idea of learned discrete indices for items and builds RQ indices for LLM tuning.
-  - Source: Evidence is from the later LC-Rec paper, Section 3.2.1: https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1 and https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4.
+  - Source: Evidence is from the later LC-Rec paper, Section 3.2.1: [S3.SS2.SSS1.p1](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p1) and [S3.SS2.SSS1.p4](https://arxiv.org/html/2311.09049v4#S3.SS2.SSS1.p4).
 - **Alternative** · [UTGRec](utgrec.md): UTGRec later compares against VQ-Rec for cross-domain transfer and replaces PQ codes with a universal tree tokenizer for generative recommendation.
-  - Source: Evidence is from the later UTGRec paper: content-based baselines and Table 2: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11 and https://arxiv.org/html/2504.04405v3#S3.T2.
+  - Source: Evidence is from the later UTGRec paper: content-based baselines and Table 2: [S3.SS1.SSS2.p11](https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11) and [S3.T2](https://arxiv.org/html/2504.04405v3#S3.T2).
 
 [View all papers in this cell](../../README.md#vi--tokenization)
