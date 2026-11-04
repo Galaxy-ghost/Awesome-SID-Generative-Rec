@@ -51,25 +51,25 @@ TEXT = {
     "en": {
         "count": "{n} papers",
         "count_one": "1 paper",
-        "legend_dots": "changed stage",
+        "legend_dots": "modified stage",
         "legend_hollow": "unchanged",
-        "legend_order": "Dots follow the stage order: Representation · Tokenization · Backbone · Training · Inference.",
-        "legend_rule": "Each cell lists up to {k} papers: published first, then arXiv, earliest first. Full lists are below.",
-        "title": "Taxonomy of {n} Semantic ID generative recommendation papers",
-        "alt": ("Taxonomy of {n} Semantic ID generative recommendation papers: rows are six research problems plus "
-                "paradigms, systems and benchmarks; columns are the five pipeline stages a paper mainly changes. "
-                "Each cell lists up to {k} representative papers with year, and five dots after each name mark the stages the paper changes."),
+        "legend_order": "Five dots in stage order: Representation · Tokenization · Backbone · Training · Inference.",
+        "legend_rule": "Each cell lists up to {k} papers (published before arXiv, earliest first); see All Papers below.",
+        "title": "Taxonomy of {n} papers on Semantic ID generative recommendation",
+        "alt": ("Taxonomy of {n} Semantic ID generative recommendation papers across six research problems (plus "
+                "paradigms, systems and benchmarks) and five primary pipeline stages: each cell lists up to {k} papers "
+                "(published before arXiv, earliest first), and five stage-ordered dots mark the stages each paper modifies."),
     },
     "zh": {
         "count": "{n} 篇",
         "count_one": "1 篇",
-        "legend_dots": "改动的阶段",
+        "legend_dots": "已改动阶段",
         "legend_hollow": "未改动",
-        "legend_order": "圆点按阶段顺序排列：物品表示 · 构码 · 生成骨干 · 训练 · 推理。",
-        "legend_rule": "每格最多列 {k} 篇：先列已发表的，再列 arXiv，按时间从早到晚。完整清单见下文。",
-        "title": "{n} 篇 Semantic ID 生成式推荐论文的分类",
-        "alt": ("{n} 篇 Semantic ID 生成式推荐论文的分类：行是六个研究问题和范式、系统与基准，列是论文主要改动的五个流程阶段。"
-                "每格最多列 {k} 篇代表论文和年份，名字后的五个圆点标出该论文改动了哪些阶段。"),
+        "legend_order": "五个圆点依次对应：物品表示 · 构码 · 生成骨干 · 训练 · 推理。",
+        "legend_rule": "每格最多列 {k} 篇（已发表优先于 arXiv，按年份从早到晚），完整列表见下文。",
+        "title": "{n} 篇语义 ID（SID）生成式推荐论文分类总图",
+        "alt": ("{n} 篇语义 ID（SID）生成式推荐论文的分类总图，涵盖六个研究问题（及范式、系统与基准）与五个主要改动阶段："
+                "每格最多列出 {k} 篇论文（已发表优先于 arXiv，按年份从早到晚），篇名后的五个圆点按五阶段顺序标出该文改动的阶段。"),
     },
 }
 

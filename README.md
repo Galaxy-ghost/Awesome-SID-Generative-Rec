@@ -15,13 +15,13 @@ English | [中文](README.zh.md)
 
 ## Scope
 
-This repository indexes 181 papers on Semantic ID (SID) generative recommendation, where each item is represented as a short tuple of discrete codes so a sequence model can generate the next item token by token. 169 method papers are placed by research problem and the pipeline stage they mainly change; 12 more cover paradigms, systems and benchmarks.
+This repository indexes 181 papers on Semantic ID (SID) generative recommendation. In these methods, a tokenizer maps each item to discrete tokens and a generator decodes the next item's SID. The collection groups 169 method papers by research problem and primary modified stage, plus 12 papers on paradigms, systems and benchmarks.
 
 ## Taxonomy
 
-Rows are research problems and columns are the five pipeline stages. Each cell shows its paper count and up to five representative papers; the five dots after a name mark every stage that paper changes.
+Each cell pairs a research problem (row) with a primary pipeline stage (column), showing the cell total and up to five papers (published before arXiv, earliest first); the five stage-ordered dots after each name mark the stages that paper modifies.
 
-![Taxonomy of 181 Semantic ID generative recommendation papers: rows are six research problems plus paradigms, systems and benchmarks; columns are the five pipeline stages a paper mainly changes. Each cell lists up to 5 representative papers with year, and five dots after each name mark the stages the paper changes.](assets/figures/taxonomy.svg)
+![Taxonomy of 181 Semantic ID generative recommendation papers across six research problems (plus paradigms, systems and benchmarks) and five primary pipeline stages: each cell lists up to 5 papers (published before arXiv, earliest first), and five stage-ordered dots mark the stages each paper modifies.](assets/figures/taxonomy.svg)
 
 ## Where to Start
 
@@ -51,7 +51,7 @@ Read these three papers first for the standard five-stage pipeline, industrial l
 
 Recent additions and Table 1 synchronization logs in reverse chronological order:
 
-- 2026-11-04: Marked every column each paper changes, added SID-input and domain indexes, and added a taxonomy figure that lists representative papers by problem and stage.
+- 2026-11-04: The repository added a problem-by-stage taxonomy figure, per-paper multi-stage change markers, and an index by SID tokenizer input modality.
 - 2026-11-01: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary. Papers: [TIGER][], [RPG][], [OneLoc][], [LETTER][], [SIDScope][].
 - 2026-10-30: Synchronized all 181 paper records with Table 1 of the survey across the six research problems and five pipeline stages.
 

@@ -234,10 +234,10 @@ ZH_LABELS = {
         "intro": "围绕研究问题与五阶段流程组织的语义 ID（Semantic ID）生成式推荐论文索引与精读笔记。",
         "toc": "[分类总图](#分类总图) · [阅读导航](#阅读导航) · [全部论文](#全部论文) · [参与贡献](#参与贡献)",
         "scope_title": "收录范围",
-        "scope": "本仓库收录 {n} 篇语义 ID（Semantic ID，简称 SID）生成式推荐论文。这类方法把每个物品编码为一串离散码字，由序列模型逐位生成下一个物品。"
-                 "其中 {m} 篇方法论文按研究问题和主要改动的流程阶段归类，另有 {k} 篇是范式、系统与基准。",
+        "scope": "本仓库收录 {n} 篇语义 ID（Semantic ID，SID）生成式推荐论文。这类方法用编号器将每个物品映射为离散 token，再由生成器逐位解码下一物品的 SID。"
+                 "全库按研究问题与主要改动的流程阶段组织 {m} 篇方法论文，另收 {k} 篇范式、系统与基准论文。",
         "taxonomy_title": "分类总图",
-        "taxonomy_note": "行是研究问题，列是五个流程阶段。每格给出论文数和最多五篇代表论文；名字后的五个圆点标出该论文改动的全部阶段。",
+        "taxonomy_note": "图中按研究问题（行）与主要改动的流程阶段（列）分格，每格给出该格论文总数并列出最多 5 篇论文（已发表优先于 arXiv，按年份从早到晚），篇名后的五个圆点按五阶段顺序标出该文改动的阶段。",
         "count": "{n} 篇",
         "start_title": "阅读导航",
         "start_note": "按你的查找目的，从下表选择对应入口：",
@@ -821,12 +821,12 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
     else:
         top = [
             "## Scope", "",
-            f"This repository indexes {n} papers on Semantic ID (SID) generative recommendation, where each item is represented as a short tuple "
-            f"of discrete codes so a sequence model can generate the next item token by token. {m} method papers are placed by research problem "
-            f"and the pipeline stage they mainly change; {k} more cover {psb['name'].lower()}.", "",
+            f"This repository indexes {n} papers on Semantic ID (SID) generative recommendation. In these methods, a tokenizer maps each item "
+            f"to discrete tokens and a generator decodes the next item's SID. The collection groups {m} method papers by research problem "
+            f"and primary modified stage, plus {k} papers on {psb['name'].lower()}.", "",
             "## Taxonomy", "",
-            "Rows are research problems and columns are the five pipeline stages. Each cell shows its paper count and up to five representative "
-            "papers; the five dots after a name mark every stage that paper changes.", "",
+            "Each cell pairs a research problem (row) with a primary pipeline stage (column), showing the cell total and up to five papers "
+            "(published before arXiv, earliest first); the five stage-ordered dots after each name mark the stages that paper modifies.", "",
             *tax_fig, "",
             "## Where to Start", "",
             "Pick an entry point below based on what you want to look up:", "",

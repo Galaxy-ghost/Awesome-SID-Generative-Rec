@@ -1,8 +1,8 @@
 # Substantive updates, newest first. Rendered into README.md ("Recent Updates") and README.zh.md ("最近更新") by scripts/build.py.
 # Each entry: date (YYYY-MM-DD string), change (one English sentence), change_zh (one Chinese sentence), papers (list of record ids; may be empty).
 - date: '2026-11-04'
-  change: Marked every column each paper changes, added SID-input and domain indexes, and added a taxonomy figure that lists representative papers by problem and stage.
-  change_zh: 标出每篇论文改动的全部列，新增按构码输入和按领域的索引，并加入按问题和阶段列出代表论文的分类总图。
+  change: The repository added a problem-by-stage taxonomy figure, per-paper multi-stage change markers, and an index by SID tokenizer input modality.
+  change_zh: 仓库新增问题 × 阶段分类总图、逐篇多阶段改动标记与按 SID 编号器输入模态的索引页。
   papers: []
 - date: '2026-11-01'
   change: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary.
