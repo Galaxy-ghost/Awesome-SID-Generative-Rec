@@ -395,13 +395,21 @@ def format_changes_inline(rec: dict, zh: bool = False, sep: str = " · ", empty:
     return sep.join(items) if items else empty
 
 
-def format_modality(rec: dict, code_wrap: bool = True) -> str:
+def with_detail(label: str, detail: str, zh: bool = False) -> str:
+    """'Other' values carry what the paper actually states: `Other` (detail) / `其他`（detail）."""
+    detail = detail.replace("|", "\\|")
+    return f"{label}（{detail}）" if zh else f"{label} ({detail})"
+
+
+def format_modality(rec: dict, code_wrap: bool = True, zh: bool = False) -> str:
     w = (lambda s: f"`{s}`") if code_wrap else str
     m = rec["modality"]
+    details = {item.get("branch"): item["zh" if zh else "en"] for item in rec.get("modality_other") or []}
+    tok = lambda x, br: with_detail(w("其他" if zh else "Other"), details.get(br, ""), zh) if x == "Other" else w(x)
     if isinstance(m, dict):
         sep = " · " if code_wrap else "; "
-        return sep.join(f"{br}: " + (" + ".join(w(x) for x in vals) if vals else "–") for br, vals in m.items())
-    return " + ".join(w(x) for x in m)
+        return sep.join(f"{br}: " + (" + ".join(tok(x, br) for x in vals) if vals else "–") for br, vals in m.items())
+    return " + ".join(tok(x, None) for x in m)
 
 
 def domain_zh_map(vocab: dict) -> dict:
@@ -415,7 +423,9 @@ def settings_zh_map(vocab: dict) -> dict:
 def format_domain(rec: dict, dom_zh: dict, zh: bool = False, code_wrap: bool = True) -> str:
     w = (lambda s: f"`{s}`") if code_wrap else str
     sep = " · " if code_wrap else ", "
-    return sep.join(w(dom_zh[d] if zh else d) for d in rec["domain"])
+    other = (rec.get("domain_other") or {}).get("zh" if zh else "en", "")
+    return sep.join(with_detail(w(dom_zh[d] if zh else d), other, zh) if d == "Other" else w(dom_zh[d] if zh else d)
+                    for d in rec["domain"])
 
 
 def format_settings(rec: dict, set_zh: dict, zh: bool = False, code_wrap: bool = True, empty: str = "") -> str:
@@ -482,13 +492,13 @@ def group_papers_by_modality(papers: list, vocab: dict) -> dict:
 
 
 def ordered_domains(papers: list, vocab: dict) -> list:
-    """Return [(domain_entry, papers_in_domain), ...] ordered by descending paper count, keeping unknown last."""
+    """Return [(domain_entry, papers_in_domain), ...] ordered by descending paper count, keeping Other last."""
     ordered = by_year(papers)
     buckets = []
     for idx, entry in enumerate(vocab["domain"]):
         val = entry["value"]
         members = [r for r in ordered if val in r["domain"]]
-        is_unk = val.startswith("unknown")
+        is_unk = val == "Other"
         buckets.append((is_unk, -len(members), idx, entry, members))
     buckets.sort(key=lambda x: (x[0], x[1], x[2]))
     return [(entry, members) for _, _, _, entry, members in buckets]
@@ -727,7 +737,7 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
         ("Venue", rec["venue"]),
         ("Cell", cell_str),
         ("Changes", format_changes_inline(rec, zh=zh)),
-        ("SID inputs", format_modality(rec, code_wrap=True)),
+        ("SID inputs", format_modality(rec, code_wrap=True, zh=zh)),
         ("Domain", format_domain(rec, dom_zh, zh=zh, code_wrap=True)),
         *([("Settings", settings_str)] if settings_str else []),
         ("Links", link_line(rec, zh=zh)),
@@ -958,7 +968,7 @@ def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
         mod_page += [f"## {sec_title}", "", f"> {cnt_txt}{sec_desc}", ""]
         if members:
             rows = [
-                [link(r), r["venue"], cell_label(r, probs, zh), format_modality(r), format_domain(r, dom_zh, zh=zh)]
+                [link(r), r["venue"], cell_label(r, probs, zh), format_modality(r, zh=zh), format_domain(r, dom_zh, zh=zh)]
                 for r in members
             ]
             mod_page += [*new_table(mod_cols, rows), ""]
@@ -984,7 +994,7 @@ def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
         dom_page += [f"## {sec_title}", "", f"> {cnt_txt}{sec_desc}", ""]
         if members:
             rows = [
-                [link(r), r["venue"], cell_label(r, probs, zh), format_domain(r, dom_zh, zh=zh), format_modality(r)]
+                [link(r), r["venue"], cell_label(r, probs, zh), format_domain(r, dom_zh, zh=zh), format_modality(r, zh=zh)]
                 for r in members
             ]
             dom_page += [*new_table(dom_cols, rows), ""]

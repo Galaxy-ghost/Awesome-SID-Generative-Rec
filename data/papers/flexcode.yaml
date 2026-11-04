@@ -84,5 +84,11 @@ note: 码长按交互频次、物品年龄等统计量分配；这些统计量�
 domain:
 - E-commerce
 - Short video / Live
-- unknown (industrial)
+- Other
+domain_other:
+  en: In-house data from an unnamed commercial platform
+  zh: 未具名商业平台的内部数据
+  quote: To further examine the effectiveness of FlexCode under production-scale conditions, we additionally train and evaluate
+    our model on an in-house industrial dataset collected from a commercial platform.
+  where: '2511.20673v1 #S4.SS1.SSS1.Px2.p1.1'
 settings: []

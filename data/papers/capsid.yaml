@@ -103,13 +103,20 @@ changes:
   inference: none
 modality:
   A:
-  - unknown
+  - Other
   B:
   - Text
   - Img
   - CF
 modality_open:
 - A：公开数据沿用对比基线的物品编码器，输入未写
+modality_other:
+- branch: A
+  en: Encoder of each compared baseline, unspecified
+  zh: 沿用对比基线的编码器，未写
+  quote: For public benchmarks, each item representation $\mathbf{x}_{i}$ is initialized from the same item encoder used by
+    the baseline under comparison.
+  where: '2605.05096v1 #A1.SS1.SSS0.Px1.p1.1；正文 #S4.SS1.SSS0.Px4.p1.1 也只写 "the same item encoder"'
 modality_where:
   quote: For public benchmarks, each item representation x_i is initialized from the same item encoder used by the baseline
     under comparison.
@@ -117,5 +124,11 @@ modality_where:
 note: A 是公开数据（Amazon Beauty、Sports、Toys），B 是工业数据（text、image、behavior 三种嵌入）。Table 1 记 Text+CF；工业数据另有 Img。
 domain:
 - E-commerce
-- unknown (industrial)
+- Other
+domain_other:
+  en: Large-scale social media platform
+  zh: 大型社交媒体平台
+  quote: For scale analysis, we further evaluate on a 35M-item proprietary industrial dataset with multi-modal item embeddings
+    (text, image, behavior) provided by a large-scale social media platform.
+  where: '2605.05096v1 #S4.SS1.SSS0.Px1.p1.1'
 settings: []

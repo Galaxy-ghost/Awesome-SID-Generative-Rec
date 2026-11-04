@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ○ Backbone · ● Objective · ○ Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Fixed OPQ index; quantizer inputs unstated) |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/) |
 | **Reading level** | Overview (Level 1) |

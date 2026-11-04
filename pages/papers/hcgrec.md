@@ -8,7 +8,7 @@
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Four-token SIDs per GenRec pipeline, input unstated) |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.11980) · [Code](https://github.com/WncFht/GRec) |
 | **Reading level** | Overview (Level 1) |

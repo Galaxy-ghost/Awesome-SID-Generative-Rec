@@ -8,8 +8,8 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
-| **SID inputs** | `unknown` |
-| **Domain** | `unknown (industrial)` |
+| **SID inputs** | `Other` (BID token embeddings; original SID inputs unstated) |
+| **Domain** | `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.02684) |
 | **Reading level** | Overview (Level 1) |
 

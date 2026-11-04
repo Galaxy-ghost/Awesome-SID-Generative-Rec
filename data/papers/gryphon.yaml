@@ -69,7 +69,12 @@ changes:
     quote: Beam likelihoods are used only to determine membership in $\mathcal{B}_{u}$, they are not used as final item scores.
     where: arXiv:2606.08604v2 https://arxiv.org/html/2606.08604v2#S3.SS4.p1
 modality:
-- unknown
+- Other
+modality_other:
+- en: Residual K-Means SIDs, input unstated
+  zh: 残差 K-Means，未写输入
+  quote: For SID-based models we quantize all items into SIDs using residual K-Means.
+  where: '2606.08604v2 #S4.SS1.SSS3.p1.1；item tower 的特征（#S3.SS2.p1.2）属于 ILSM 打分，不是构码输入'
 modality_where:
   quote: For SID-based models we quantize all items into SIDs using residual $K$-Means.
   where: arXiv:2606.08604v2 https://arxiv.org/html/2606.08604v2#S4.SS1.SSS3.p1；实验写明 R-KMeans，未说明被量化表示的来源；ILSM 的 item-ID 不是

@@ -8,7 +8,7 @@
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
 | **Changes** | ○ Representation · ○ Tokenization · ○ Backbone · ○ Objective |
-| **SID inputs** | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` |
+| **SID inputs** | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.21770) |
 | **Reading level** | Overview (Level 1) |

@@ -8,7 +8,7 @@
 | **发表** | KDD’26 ADS |
 | **问题与阶段** | `V. 效率` · `推理（Inference）` |
 | **改动** | ● 推理 |
-| **构码输入** | `unknown` |
+| **构码输入** | `其他`（RQ-VAE特征，模态未写） |
 | **领域** | `电商` · `视频` |
 | **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2602.22647) · [代码](https://github.com/youtube/static-constraint-decoding) |

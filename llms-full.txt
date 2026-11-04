@@ -665,8 +665,8 @@ Self-play DPO (SP-DPO) constructs curriculum negatives in Easy, Medium, and Hard
 - Problem: I. Informativeness
 - Stage: Tokenization
 - Changes: ● Tokenization
-- SID inputs: A: unknown; B: Text + Img + CF
-- Domain: E-commerce, unknown (industrial)
+- SID inputs: A: Other (Encoder of each compared baseline, unspecified); B: Text + Img + CF
+- Domain: E-commerce, Other (Large-scale social media platform)
 - Settings: none
 - Representation: Text+CF; Tokenization: Soft-RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
 - TL;DR: CapsID replaces hard residual quantization with capsule routing, which soft-routes each item across capsules and ends its Semantic ID once confidence is high, so ID length varies per item.
@@ -1278,8 +1278,8 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: Text + unknown
-- Domain: E-commerce, unknown (industrial)
+- SID inputs: Text + Other (Internal 4-level, 2048-code SIDs; input unstated)
+- Domain: E-commerce, Other (Proprietary user-to-item data, business unstated)
 - Settings: none
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: C-Beam
 - TL;DR: DASO reallocates part of each GRPO rollout group to prefix-guided completions at Semantic ID levels where candidates leave the target path and adds a graded prefix reward, unlike vanilla GRPO.
@@ -1316,7 +1316,7 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: V. Efficiency
 - Stage: Backbone
 - Changes: ● Backbone
-- SID inputs: A: Text; B: unknown
+- SID inputs: A: Text; B: Audio
 - Domain: E-commerce, Movie, Music
 - Settings: none
 - Representation: Text / –; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
@@ -1438,7 +1438,7 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: IV. Utility
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (RQ-VAE SIDs, input unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: Discrim.; Inference: Scoring
@@ -1562,7 +1562,7 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: A: unknown; B: Text + Img
+- SID inputs: A (Spotify): Text + Audio + CF; A (POG): Text + Img + CF; B: Text + Img
 - Domain: Music, E-commerce
 - Settings: none
 - Representation: – / Text+Img; Tokenization: RQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Masked → RL (→ Masked KD for Fast); Inference: Diff.+Legalize
@@ -1643,7 +1643,7 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: VI. Generalization
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (RQ-KMeans per OneRec Technical Report, input unstated)
 - Domain: Short video / Live
 - Settings: none
 - Representation: –; Tokenization: R-KM; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Dual Beam
@@ -1684,8 +1684,8 @@ At inference, constrained beam search masks out invalid transitions at each step
 - Problem: V. Efficiency
 - Stage: Tokenization
 - Changes: ● Tokenization
-- SID inputs: unknown
-- Domain: E-commerce, Short video / Live, unknown (industrial)
+- SID inputs: Other (Precomputed item embeddings, source unstated)
+- Domain: E-commerce, Short video / Live, Other (Unnamed industrial platform, business unstated)
 - Settings: catalog-change
 - Representation: –; Tokenization: Dyn. KM+Disamb.; Backbone: Enc-Dec / Lazy Dec-Only; Tokenizer: Fixed; Objective: NTP†; Inference: Beam†
 - TL;DR: Dynamic-Single-Codebook replaces multi-level residual codes with one token from a large single-level codebook plus a collaborative disambiguation token, and updates the codebook as exposure changes.
@@ -2161,7 +2161,7 @@ flowchart LR
 - Stage: Tokenization
 - Changes: ● Tokenization; ○ Tokenizer; ○ Objective
 - SID inputs: semantic: Text + CF; collaborative: CF
-- Domain: E-commerce, Short video / Live, unknown (industrial)
+- Domain: E-commerce, Short video / Live, Other (In-house data from an unnamed commercial platform)
 - Settings: none
 - Representation: Text+CF; Tokenization: Dual RQ-VAE; Backbone: –; Tokenizer: Joint; Objective: NTP; Inference: –
 - TL;DR: FlexCode splits a fixed token budget between a collaborative codebook and a semantic codebook according to item popularity through a lightweight MoE, instead of one uniform codebook for all items.
@@ -2358,7 +2358,7 @@ To evaluate tokenizers without training a generator, Embedding HitRate measures 
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Changes: ● Tokenization; ○ Backbone; ○ Objective; ○ Inference
-- SID inputs: Text + unknown
+- SID inputs: Text + Other (MTM masked-code context, source unstated)
 - Domain: E-commerce, Book, Movie
 - Settings: cross-domain
 - Representation: Cross-Dom; Tokenization: RQ+LoRA; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
@@ -3071,7 +3071,7 @@ To increase sequence variety before fine-tuning LLaMA3-8B with LoRA, GNPR-SID ap
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Changes: ● Tokenization; ○ Backbone; ○ Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (Ad semantic embedding, source unstated) + Attr
 - Domain: Ads
 - Settings: none
 - Representation: –; Tokenization: Multi-Path R-KM+Hash; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + PV-RSPO + Rank + Aux.; Inference: PV-Beam+Rerank
@@ -3639,7 +3639,7 @@ At inference, beam search generates candidate TIDs up to 30 tokens; when a gener
 - Problem: IV. Utility
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (Residual K-Means SIDs, input unstated)
 - Domain: Music
 - Settings: none
 - Representation: –; Tokenization: R-KM; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Rank; Inference: Hybrid
@@ -3860,7 +3860,7 @@ Exposure-Aware Kahneman-Tversky Optimization (EAKTO) adapts KTO to unpaired bina
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: unknown
+- SID inputs: Other (Four-token SIDs per GenRec pipeline, input unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: Beam
@@ -4049,7 +4049,7 @@ A 6-layer encoder-decoder predicts the target SID from the user's interaction hi
 - Problem: III. SID–Model Alignment
 - Stage: Tokenization
 - Changes: ● Tokenization; ○ Backbone; ○ Objective
-- SID inputs: unknown
+- SID inputs: Other (Item "original embedding", source unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: Nested RQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
@@ -4499,7 +4499,7 @@ The base T5 recommender formats user histories as sequences of textual item IDs 
 - Problem: III. SID–Model Alignment
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (PSID with RQ-KMeans, input unstated)
 - Domain: E-commerce, Music
 - Settings: none
 - Representation: Text+CF; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: C-Beam
@@ -5339,7 +5339,7 @@ flowchart LR
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective
 - SID inputs: Text
-- Domain: E-commerce, unknown (industrial)
+- Domain: E-commerce, Other (Tencent production recommender, business unstated)
 - Settings: none
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: NTP / NTP + Aux.; Inference: –
 - TL;DR: LoopGR adds recurrent depth by alternating a shared generative decoder with a lightweight context updater and distills a low-budget student, to scale computation without proportionally growing model size.
@@ -5542,8 +5542,8 @@ A 4-layer T5 encoder-decoder trains jointly on intra-modal next-item prediction,
 - Problem: VI. Generalization
 - Stage: Tokenization
 - Changes: ● Tokenization; ○ Backbone; ○ Objective
-- SID inputs: unknown
-- Domain: unknown (industrial)
+- SID inputs: Other (BID token embeddings; original SID inputs unstated)
+- Domain: Ads
 - Settings: none
 - Representation: Text+CF; Tokenization: RQ; Backbone: Dec-Only; Tokenizer: Fixed†; Objective: NTP + Aux.; Inference: C-Beam
 - TL;DR: MBGR adds business-aware Semantic IDs, business-specific prediction, and dynamic label routing to generative recommendation, to avoid a seesaw between businesses that share one ID space.
@@ -6108,7 +6108,7 @@ Pre-training across six source Amazon categories optimizes only the two intra-mo
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: unknown
+- SID inputs: Other (TIGER teacher SIDs; tokenizer inputs unstated)
 - Domain: E-commerce, Games
 - Settings: none
 - Representation: –; Tokenization: RQ-VAE; Backbone: Enc-MLP; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
@@ -6146,7 +6146,7 @@ Pre-training across six source Amazon categories optimizes only the two intra-mo
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: unknown
+- SID inputs: Other (Pre-quantization item embeddings; source signals unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: R-KM; Backbone: Enc-Dec†; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: –
@@ -6234,7 +6234,7 @@ Pre-training across six source Amazon categories optimizes only the two intra-mo
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Changes: ○ Objective
-- SID inputs: unknown
+- SID inputs: Other (Content embeddings; constituent modalities unstated)
 - Domain: Long video
 - Settings: cold-start (item)
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only / Non-AR; Tokenizer: Fixed; Objective: Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT; Inference: C-Beam / Scoring
@@ -6323,7 +6323,7 @@ Pre-training across six source Amazon categories optimizes only the two intra-mo
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ○ Backbone; ● Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (Fixed OPQ index; quantizer inputs unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: Par. OPQ; Backbone: Non-AR; Tokenizer: Fixed; Objective: Next-item CE + Cons. KD + Rank KD; Inference: Scoring
@@ -6663,7 +6663,7 @@ flowchart LR
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Changes: ○ Representation; ○ Tokenization; ○ Backbone; ○ Objective
-- SID inputs: A: Text + Img + CF; B: Text + Img + CF; C: CF + unknown
+- SID inputs: A: Text + Img + CF; B: Text + Img + CF; C: CF + Other (Live-stream item-tower embeddings (product SIDs, item features))
 - Domain: E-commerce
 - Settings: none
 - Representation: Text+Img+CF; Tokenization: R-KM+FSQ; Backbone: Enc-Dec; Tokenizer: Fixed; Objective: (NTP + Ctr.) → RL; Inference: Beam
@@ -7133,7 +7133,7 @@ sequenceDiagram
 - Problem: V. Efficiency
 - Stage: Inference
 - Changes: ● Inference
-- SID inputs: unknown
+- SID inputs: Other (Four-level SIDs; tokenizer inputs unstated)
 - Domain: E-commerce, Ads
 - Settings: none
 - Representation: –; Tokenization: –; Backbone: Enc-Dec; Tokenizer: –; Objective: –; Inference: Beam
@@ -8889,7 +8889,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: Paradigms, Systems and Benchmarks
 - Stage: No single stage
 - Changes: none
-- SID inputs: unknown
+- SID inputs: Other (Released and reconstructed item-to-SID mappings)
 - Domain: E-commerce, POI / Local
 - Settings: catalog-change
 - Representation: n/a; Tokenization: n/a; Backbone: n/a; Tokenizer: n/a; Objective: n/a; Inference: n/a
@@ -8977,7 +8977,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: unknown
+- SID inputs: Other (FORGE SIDs; Taobao tokenizer inputs unstated)
 - Domain: E-commerce, Search
 - Settings: none
 - Representation: –; Tokenization: –; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Greedy
@@ -9141,7 +9141,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: I. Informativeness
 - Stage: Backbone
 - Changes: ○ Tokenization; ● Backbone
-- SID inputs: unknown
+- SID inputs: Other (RQ-PIB item embeddings; source signals unstated)
 - Domain: Long video
 - Settings: none
 - Representation: –; Tokenization: RQ-PIB; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → DPO; Inference: C-Beam
@@ -9353,7 +9353,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: V. Efficiency
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective
-- SID inputs: A: Text; B: Text + Img + unknown
+- SID inputs: A: Text; B: Text + Img + CF
 - Domain: E-commerce
 - Settings: none
 - Representation: Text; Tokenization: RQ-VAE; Backbone: Enc-Dec / Dec-Only; Tokenizer: Fixed; Objective: NTP + Aux.; Inference: C-Beam
@@ -9395,7 +9395,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: V. Efficiency
 - Stage: Inference
 - Changes: ● Inference
-- SID inputs: unknown
+- SID inputs: Other (RQ-VAE item features; source modalities unstated)
 - Domain: E-commerce, Video
 - Settings: cold-start (item)
 - Representation: –; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP; Inference: Vec. C-Beam
@@ -9520,7 +9520,7 @@ Group Relative Policy Optimization (GRPO) samples 16 reasoning-plus-SID trajecto
 - Problem: III. SID–Model Alignment
 - Stage: Training
 - Changes: ● Objective
-- SID inputs: unknown
+- SID inputs: Other (RQ-VAE POI identifiers; tokenizer inputs unstated)
 - Domain: POI / Local
 - Settings: cross-domain
 - Representation: Attr+Geo+CF†; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: CoT+Beam
@@ -10379,7 +10379,7 @@ The T5 backbone encodes a prompt containing the user's discrete tokens alongside
 - Problem: I. Informativeness
 - Stage: Backbone
 - Changes: ● Backbone; ○ Objective
-- SID inputs: unknown
+- SID inputs: Other (Three-level SIDs; tokenizer inputs unstated)
 - Domain: E-commerce
 - Settings: none
 - Representation: –; Tokenization: –; Backbone: Enc-Dec; Tokenizer: –; Objective: NTP + Rank; Inference: Beam
@@ -10550,7 +10550,7 @@ The T5 backbone encodes a prompt containing the user's discrete tokens alongside
 - Problem: IV. Utility
 - Stage: Training
 - Changes: ● Objective; ○ Inference
-- SID inputs: unknown
+- SID inputs: Other (RQ-VAE SIDs; tokenizer inputs unstated)
 - Domain: E-commerce, Ads
 - Settings: none
 - Representation: Text†; Tokenization: RQ-VAE; Backbone: Dec-Only; Tokenizer: Fixed; Objective: NTP → RL; Inference: C-Beam

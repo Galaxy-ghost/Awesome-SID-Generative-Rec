@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Item "original embedding", source unstated) |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.15331) |
 | **Reading level** | Overview (Level 1) |

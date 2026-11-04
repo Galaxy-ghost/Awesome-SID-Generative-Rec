@@ -71,5 +71,11 @@ modality:
 - Text
 domain:
 - E-commerce
-- unknown (industrial)
+- Other
+domain_other:
+  en: Tencent production recommender, business unstated
+  zh: 腾讯生产推荐系统，业务未写
+  quote: We also evaluate LoopGR on an industrial dataset collected from Tencent’s production recommendation system and compare
+    it with two generative recommendation baselines deployed in Tencent’s real-world services.
+  where: '2610.34157v1 #S5.SS1.SSS0.Px1.p1.1；附录 A.1（#A1.SS1.p1.1）只介绍 Amazon 数据'
 settings: []

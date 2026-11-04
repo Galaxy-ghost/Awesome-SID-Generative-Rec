@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Backbone` |
 | **Changes** | ○ Tokenization · ● Backbone |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (RQ-PIB item embeddings; source signals unstated) |
 | **Domain** | `Long video` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.27898) |
 | **Reading level** | Overview (Level 1) |

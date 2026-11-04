@@ -63,7 +63,13 @@ changes:
   objective: primary
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: TIGER teacher SIDs; tokenizer inputs unstated
+  zh: TIGER编号，输入未写
+  quote: We distill a pretrained SID teacher into a lightweight student using the same fixed item to SID mapping and valid
+    SID constraints.
+  where: '2610.35218v1 #S3.SS2.p1；#S6.SS1.p2；#S6.SS2.p2：固定 TIGER 教师映射，主实验 RQ-VAE、补充实验 R-KMeans，均未说明构码输入。'
 modality_where:
   quote: We distill a pretrained SID teacher into a lightweight student using the same fixed item to SID mapping and valid
     SID constraints.

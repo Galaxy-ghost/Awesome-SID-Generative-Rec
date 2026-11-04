@@ -8,7 +8,7 @@
 | **Venue** | NeurIPS’26 PALM Workshop |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
 | **Changes** | ○ Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Content embeddings; constituent modalities unstated) |
 | **Domain** | `Long video` |
 | **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.15864) |

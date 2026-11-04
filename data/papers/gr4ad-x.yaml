@@ -80,7 +80,15 @@ changes:
       reranking.
     where: arXiv:2610.38378v1 https://arxiv.org/html/2610.38378v1#S5.p1
 modality:
-- unknown
+- Other
+- Attr
+modality_other:
+- en: Ad semantic embedding, source unstated
+  zh: 广告语义向量，未写来源
+  quote: Given the semantic embedding $\mathbf{e}_{i}\in\mathbb{R}^{d}$ of advertisement i, let $\mathcal{C}_{l}=\{\mathbf{c}_{l,k}\}_{k=1}^{K_{l}}$
+    denote the codebook at level l.
+  where: '2610.38378v1 #S3.SS2.p2.2；前作 GR4AD（2602.22732v3 #S1.p3.1）的 UA-SID 来自 "a fine-tuned MLLM embedding trained on real-world
+    advertisement creatives via instruction tuning and co-occurrence learning"，但 GR4AD-X 没写语义层沿用它'
 modality_where:
   quote: For advertisements near coarse cluster boundaries, however, multiple first-level centroids may be similarly close
     in the embedding space.

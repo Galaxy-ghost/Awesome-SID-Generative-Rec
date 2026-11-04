@@ -78,7 +78,12 @@ changes:
     where: arXiv:2610.15864v1 https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Content embeddings; constituent modalities unstated
+  zh: 内容向量，组成模态未写
+  quote: a new title inherits a meaningful (non-random) sid from its content embedding.
+  where: '2610.15864v1 #S1.p2；#S3.SS1.p1：RQ-VAE 量化内容向量，但未写向量的模态组成；#S4.SS1.SSS0.Px3 的内容问答数据不能反推构码输入。'
 modality_where:
   quote: Each entity $e\in\mathcal{E}$ is mapped to a Semantic ID $\mathrm{SID}(e)=\big(c_{1}(e),c_{2}(e),\dots,c_{L}(e)\big),\qquad
     c_{\ell}(e)\in\{1,\dots,K_{\ell}\},$ (1) a length- $L$ sequence of discrete codes drawn from per-level codebooks of sizes

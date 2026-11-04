@@ -84,7 +84,12 @@ changes:
   objective: primary
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: RQ-VAE POI identifiers; tokenizer inputs unstated
+  zh: 地点编号，构码输入未写
+  quote: This improvement is mainly attributed to the correlation among semantic IDs learned through RQ-VAE
+  where: '2607.28997v1 #S5.SS5.p2；#S5.SS1.p1：原文确认 RQ-VAE，但未交代输入；经纬度、类别、时间属于数据集字段，沿用 GNPR 的表述仅指数据预处理，不能据此补 Geo、Attr 或 Time。'
 modality_where:
   quote: This improvement is mainly attributed to the correlation among semantic IDs learned through RQ-VAE, which allows
     the listwise IDs to leverage the autoregressive prediction advantages of LLMs and thus reduce the difficulty of POI prediction.

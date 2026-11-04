@@ -67,7 +67,12 @@ changes:
     where: arXiv:2606.15331v1 https://arxiv.org/html/2606.15331v1#S3.SS2.p1
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Item "original embedding", source unstated
+  zh: 物品原始向量，未写来源
+  quote: Given the original embedding $\mathbf{e}$ of an item, the encoder outputs a latent vector $\mathbf{z}\in\mathbb{R}^{D}$.
+  where: '2606.15331v1 #S3.SS1.SSS1.p1.1；实验设置（#S4.SS1.SSS4.p1.1）只写对齐 TIGER 的 T5 骨干，没写嵌入来源'
 modality_where:
   quote: Given the original embedding $\mathbf{e}$ of an item, the encoder outputs a latent vector $\mathbf{z}\in\mathbb{R}^{D}.$
   where: arXiv:2606.15331v1 https://arxiv.org/html/2606.15331v1#S3.SS1.SSS1.p1；原文未交代 original embedding 的源信号，保留 unknown。

@@ -64,7 +64,13 @@ changes:
   objective: primary
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Pre-quantization item embeddings; source signals unstated
+  zh: 量化前物品向量，来源未写
+  quote: Our backbone is TIGER ( Rajput et al., 2023 ) , which quantizes item representations into SID and autoregressively
+    generates the next item’s identifier.
+  where: '2610.27232v1 #S4.p2；#S4.p5：后者明确使用量化前嵌入构造邻域，未交代这些嵌入的原始模态；不由 TIGER 名称补 Text。'
 modality_where:
   quote: NAU’s training neighborhood $\mathcal{N}(i)$ is the top-$k$ ($k=8$) cosine neighbors of $i$ in the pre-quantization
     embedding space.

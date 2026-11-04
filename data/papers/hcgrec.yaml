@@ -59,7 +59,13 @@ changes:
   objective: primary
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Four-token SIDs per GenRec pipeline, input unstated
+  zh: 沿用 GenRec，未写输入
+  quote: Following the GenRec pipeline (Ji et al., 2023; Zou et al., 2026), each item is represented by a four-token Semantic
+    ID, and all variants share the same semantic index, backbone, and evaluation pipeline.
+  where: '2608.11980v2 #S4.SS1.SSS1.p1.1；两篇 GenRec 分别是 arXiv:2307.00457 和 arXiv:2604.14878'
 modality_where:
   quote: Following the GenRec pipeline (Ji et al., 2023; Zou et al., 2026), each item is represented by a four-token Semantic
     ID, and all variants share the same semantic index, backbone, and evaluation pipeline.

@@ -289,7 +289,7 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Geo`: Geographic coordinates, spatial grids, or location features fed to the tokenizer.
 - `Time`: Interaction timestamps or temporal features fed to the tokenizer.
 - `n/a`: No discrete SID tokenizer is built (items are represented as continuous vectors or plain text).
-- `unknown`: Tokenizer input modality not reported or partially unspecified in the paper.
+- `Other`: Tokenizer input outside the signals above, or not stated in the paper; `modality_other` says what it is.
 
 ## Domains
 
@@ -311,7 +311,7 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Food / Recipe`: Food and recipe recommendation.
 - `Travel / Hotel`: Travel and hotel accommodation recommendation.
 - `Recruitment`: Job and recruitment recommendation.
-- `unknown (industrial)`: Industrial logs where the specific business vertical is not disclosed in the paper.
+- `Other`: Data from a business the domains above do not cover, or one the paper does not name; each entry says what the paper states.
 
 ## Evaluation Settings
 

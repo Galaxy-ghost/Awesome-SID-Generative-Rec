@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
 | **Changes** | – |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Released and reconstructed item-to-SID mappings) |
 | **Domain** | `E-commerce` · `POI / Local` |
 | **Settings** | `catalog-change` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) |

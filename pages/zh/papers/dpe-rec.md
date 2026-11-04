@@ -8,7 +8,7 @@
 | **发表** | arXiv’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
 | **改动** | ● 训练目标 |
-| **构码输入** | A: `unknown` · B: `Text` + `Img` |
+| **构码输入** | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` |
 | **领域** | `音乐` · `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.34700) |
 | **阅读级别** | 概览（第 1 级） |

@@ -8,7 +8,7 @@
 | **Venue** | KDD’26 ADS |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
 | **Changes** | ● Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (RQ-VAE item features; source modalities unstated) |
 | **Domain** | `E-commerce` · `Video` |
 | **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding) |

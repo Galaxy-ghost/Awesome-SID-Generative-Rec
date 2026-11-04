@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
 | **Changes** | ● Backbone · ○ Objective |
-| **SID inputs** | A: `Text` · B: `Text` + `Img` + `unknown` |
+| **SID inputs** | A: `Text` · B: `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.05329) |
 | **Reading level** | Overview (Level 1) |

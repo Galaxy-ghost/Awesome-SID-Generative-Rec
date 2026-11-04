@@ -9,7 +9,7 @@
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
 | **Changes** | ● Backbone · ○ Objective |
 | **SID inputs** | `Text` |
-| **Domain** | `E-commerce` · `unknown (industrial)` |
+| **Domain** | `E-commerce` · `Other` (Tencent production recommender, business unstated) |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34157) |
 | **Reading level** | Overview (Level 1) |
 

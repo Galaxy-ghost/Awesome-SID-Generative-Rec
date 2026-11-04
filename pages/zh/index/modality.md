@@ -6,10 +6,10 @@
 
 | 方面 | 分组 |
 | :--- | :--- |
-| **内容** | [纯文本（115）](#纯文本) · [单一非文本（8）](#单一非文本) · [多模态（36）](#多模态) · [无内容模态（11）](#无内容模态) |
-| **协同** | [仅协同信号（7）](#仅协同信号) · [含协同信号（50）](#含协同信号) |
-| **上下文** | [结构化属性（7）](#结构化属性) · [地理空间（14）](#地理空间) · [时间特征（2）](#时间特征) |
-| **未知** | [待明确（28）](#待明确) |
+| **内容** | [纯文本（115）](#纯文本) · [单一非文本（9）](#单一非文本) · [多模态（36）](#多模态) · [无内容模态（11）](#无内容模态) |
+| **协同** | [仅协同信号（7）](#仅协同信号) · [含协同信号（52）](#含协同信号) |
+| **上下文** | [结构化属性（8）](#结构化属性) · [地理空间（14）](#地理空间) · [时间特征（2）](#时间特征) |
+| **其他** | [其他（25）](#其他) |
 
 ## 纯文本
 
@@ -34,7 +34,7 @@
 | [DAS](../papers/das.md) | CIKM’25 | I × Tokenization | `Text` + `CF` | `广告` |
 | [DiscRec](../papers/discrec.md) | arXiv’25 | I × Backbone | A: `Text` · B: `Text` + `CF` | `电商` |
 | [EAGER-LLM](../papers/eager-llm.md) | WWW’25 | I × Tokenization | semantic: `Text` · behavior: `CF` | `电商` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `电商` · `短视频与直播` · `工业场景未明` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `电商` · `短视频与直播` · `其他`（未具名商业平台的内部数据） |
 | [GenSAR](../papers/gensar.md) | RecSys’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `Text` + `CF` | `电商` · `搜索` |
 | [GMC](../papers/gmc.md) | arXiv’25 | VI × Tokenization | `Text` | `电商` |
 | [GRAM](../papers/gram.md) | ACL’25 | I × Tokenization | `Text` | `电商` · `本地生活与 POI` |
@@ -62,8 +62,8 @@
 | [CITE](../papers/cite.md) | Electronics’26 | I × Inference | `Text` | `电商` · `本地生活与 POI` |
 | [CogRec](../papers/cogrec.md) | arXiv’26 | III × Tokenization | `Text` | `电商` |
 | [DACT](../papers/dact.md) | SIGIR’26 | VI × Tokenization | `Text` + `CF` | `电商` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `unknown` | `电商` · `工业场景未明` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `unknown` | `电商` · `电影` · `音乐` |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `其他`（内部四层 SID，未写输入） | `电商` · `其他`（私有推荐数据，业务未写） |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Audio` | `电商` · `电影` · `音乐` |
 | [DECOR](../papers/decor.md) | SIGIR’26 | III × Backbone | `Text` | `电商` |
 | [DIGER](../papers/diger.md) | SIGIR’26 | II × Tokenization | `Text` | `电商` · `本地生活与 POI` |
 | [DOS](../papers/dos.md) | WWW’26 Short | III × Tokenization | `Text` + `CF` | `本地生活与 POI` |
@@ -72,7 +72,7 @@
 | [FedCGR](../papers/fedcgr.md) | CIKM’26 | VI × Backbone | `Text` | `电商` |
 | [FLASH](../papers/flash.md) | NeurIPS’26 | III × Backbone | `Text` | `电商` |
 | [GEM-Rec](../papers/gem-rec.md) | arXiv’26 | IV × Training | `Text` | `游戏` · `电商` · `广告` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `unknown` | `电商` · `图书与有声书` · `电影` |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `其他`（MTM 上下文来源未写） | `电商` · `图书与有声书` · `电影` |
 | [GeoGR](../papers/geogr.md) | arXiv’26 | I × Representation | `Text` + `Geo` + `CF` | `本地生活与 POI` · `搜索` |
 | [GFlowGR](../papers/gflowgr.md) | SIGIR’26 | IV × Training | A: `Text` · B: `Text` + `CF` | `本地生活与 POI` · `电商` · `广告` · `搜索` |
 | [Ghost](../papers/ghost.md) | NeurIPS’26 | IV × Training | `Text` | `电商` |
@@ -92,7 +92,7 @@
 | [LGRID](../papers/lgrid.md) | arXiv’26 | I × Representation | `Text` + `Geo` | `本地生活与 POI` |
 | [LGSID](../papers/lgsid.md) | AAAI’26 | I × Representation | `Text` + `Geo` + `Attr` + `CF` | `本地生活与 POI` |
 | [LION](../papers/lion.md) | CIKM’26 | VI × Backbone | `Text` | `电商` |
-| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `Text` | `电商` · `工业场景未明` |
+| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `Text` | `电商` · `其他`（腾讯生产推荐系统，业务未写） |
 | [MACRec](../papers/macrec.md) | AAAI’26 | I × Tokenization | text: `Text` · image: `Img` | `电商` |
 | [MDGR](../papers/mdgr.md) | arXiv’26 | III × Backbone | `Text` | `电商` |
 | [Merge-and-Branch](../papers/merge-and-branch.md) | arXiv’26 | V × Backbone | `Text` | `电商` |
@@ -121,7 +121,7 @@
 | [SPRIG](../papers/sprig.md) | CIKM’26 Short | I × Tokenization | A: `Text` · B: `Audio` | `电影` · `音乐` |
 | [SPRINT](../papers/sprint.md) | arXiv’26 | V × Backbone | `Text` | `电商` · `本地生活与 POI` |
 | [SST](../papers/sst.md) | CIKM’26 | III × Tokenization | `Text` | `电商` · `本地生活与 POI` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `电商` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `电商` |
 | [SynGR](../papers/syngr.md) | ICML’26 | I × Training | text: `Text` · image: `Img` | `电商` |
 | [TCBSA](../papers/tcbsa.md) | arXiv’26 | IV × Inference | `Text` | `电商` · `本地生活与 POI` |
 | [Tlow](../papers/tlow.md) | CIKM’26 Applied | I × Tokenization | A: `Text` · B: `Text` + `Img` | `电商` · `图文与文章` |
@@ -135,13 +135,14 @@
 
 ## 单一非文本
 
-> 共 8 篇。至少一个构码分支的内容模态只有一种，且不是 `Text` 或未细分的 `MM`（即 `Img`、`Audio` 或 `Video`）。
+> 共 9 篇。至少一个构码分支的内容模态只有一种，且不是 `Text` 或未细分的 `MM`（即 `Img`、`Audio` 或 `Video`）。
 
 | 论文 | 发表 | 问题 × 阶段 | 构码输入 | 领域 |
 | :--- | :--- | :--- | :--- | :--- |
 | [MME-SID](../papers/mme-sid.md) | CIKM’25 | I × Tokenization | collaborative: `CF` · text: `Text` · visual: `Img` | `电商` |
 | [MQL4GRec](../papers/mql4grec.md) | ICLR’25 | I × Tokenization | text: `Text` · image: `Img` | `电商` |
 | [PSRQ](../papers/psrq.md) | CIKM’25 | I × Tokenization | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` | `电商` · `音乐` |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Audio` | `电商` · `电影` · `音乐` |
 | [MACRec](../papers/macrec.md) | AAAI’26 | I × Tokenization | text: `Text` · image: `Img` | `电商` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | image: `Img` · text: `Text` · collaborative: `CF` | `电商` · `短视频与直播` |
 | [NEO](../papers/neo.md) | arXiv’26 | 范式、系统与基准 | A: `Text` · B: `Audio` | `音乐` · `播客` · `图书与有声书` · `搜索` |
@@ -164,10 +165,10 @@
 | [Q-BERT4Rec](../papers/q-bert4rec.md) | arXiv’25 | I × Representation | `Text` + `Img` | `电商` |
 | [UTGRec](../papers/utgrec.md) | arXiv’25 | VI × Tokenization | `Text` + `Img` + `CF` | `电商` |
 | [AdaSID](../papers/adasid.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `电商` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `电商` · `工业场景未明` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `其他`（沿用对比基线的编码器，未写） · B: `Text` + `Img` + `CF` | `电商` · `其他`（大型社交媒体平台） |
 | [CARD](../papers/card.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `电商` |
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Text` + `Img` + `CF` | `广告` · `电商` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A: `unknown` · B: `Text` + `Img` | `音乐` · `电商` |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` | `音乐` · `电商` |
 | [GenRec-JD](../papers/genrec-jd.md) | SIGIR’26 | IV × Training | `Text` + `Img` + `CF` | `电商` |
 | [Gwhere](../papers/gwhere.md) | RecSys’26 | II × Tokenization | `Text` + `Img` + `Geo` + `CF` | `本地生活与 POI` |
 | [HASTE](../papers/haste.md) | arXiv’26 | IV × Training | A: `Text` · B: `MM` | `电商` |
@@ -175,7 +176,7 @@
 | [MMQ](../papers/mmq.md) | WSDM’26 | I × Tokenization | `Text` + `Img` | `电商` · `广告` |
 | [OneLatent](../papers/onelatent.md) | arXiv’26 | V × Training | `MM` | `广告` · `本地生活与 POI` |
 | [OneLive](../papers/onelive.md) | KDD’26 ADS | VI × Tokenization | `Text` + `Img` + `Audio` + `CF` | `短视频与直播` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `电商` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `其他`（直播塔向量：商品编号与特征） | `电商` |
 | [OneRec-V2-Quantized](../papers/onerec-v2-quantized.md) | arXiv’26 | V × Inference | `Text` + `Img` + `CF` | `短视频与直播` |
 | [PinGER](../papers/pinger.md) | arXiv’26 | V × Backbone | `Text` + `Img` + `CF` | `图文与文章` |
 | [PLUM](../papers/plum.md) | WWW’26 | 范式、系统与基准 | `MM` + `CF` | `长视频` · `短视频与直播` |
@@ -185,7 +186,7 @@
 | [RoFiGR](../papers/rofigr.md) | arXiv’26 | I × Tokenization | text: `Text` + `Img` + `CF` · image: `Text` + `Img` + `CF` | `电商` |
 | [SAGE-SID](../papers/sage-sid.md) | arXiv’26 | IV × Training | `Text` + `Img` | `电商` · `短视频与直播` · `广告` |
 | [SnapLGR](../papers/snaplgr.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `短视频与直播` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `电商` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `电商` |
 | [Tlow](../papers/tlow.md) | CIKM’26 Applied | I × Tokenization | A: `Text` · B: `Text` + `Img` | `电商` · `图文与文章` |
 | [TriAlignGR](../papers/trialigngr.md) | arXiv’26 | I × Representation | `Text` + `Img` | `电商` |
 | [UniRec](../papers/unirec.md) | arXiv’26 | I × Tokenization | `MM` + `Attr` | `电商` |
@@ -193,7 +194,7 @@
 
 ## 无内容模态
 
-> 共 11 篇。所有构码分支都不含内容模态（`Text`、`Img`、`Audio`、`Video`、`MM`），且所有分支合起来不含 `unknown`（及 `n/a`）。
+> 共 11 篇。所有构码分支都不含内容模态（`Text`、`Img`、`Audio`、`Video`、`MM`），且所有分支合起来不含 `Other`（及 `n/a`）。
 
 | 论文 | 发表 | 问题 × 阶段 | 构码输入 | 领域 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -225,7 +226,7 @@
 
 ## 含协同信号
 
-> 共 50 篇。所有构码分支合起来含 `CF`，且还有其他模态或信号。
+> 共 52 篇。所有构码分支合起来含 `CF`，且还有其他模态或信号。
 
 | 论文 | 发表 | 问题 × 阶段 | 构码输入 | 领域 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -235,7 +236,7 @@
 | [DAS](../papers/das.md) | CIKM’25 | I × Tokenization | `Text` + `CF` | `广告` |
 | [DiscRec](../papers/discrec.md) | arXiv’25 | I × Backbone | A: `Text` · B: `Text` + `CF` | `电商` |
 | [EAGER-LLM](../papers/eager-llm.md) | WWW’25 | I × Tokenization | semantic: `Text` · behavior: `CF` | `电商` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `电商` · `短视频与直播` · `工业场景未明` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `电商` · `短视频与直播` · `其他`（未具名商业平台的内部数据） |
 | [FORGE](../papers/forge.md) | KDD’26 | 范式、系统与基准 | `Text` + `Img` + `CF` | `电商` · `搜索` |
 | [GenSAR](../papers/gensar.md) | RecSys’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `Text` + `CF` | `电商` · `搜索` |
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `本地生活与 POI` |
@@ -249,11 +250,12 @@
 | [UTGRec](../papers/utgrec.md) | arXiv’25 | VI × Tokenization | `Text` + `Img` + `CF` | `电商` |
 | [AdaSID](../papers/adasid.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `电商` |
 | [Align3GR](../papers/align3gr.md) | AAAI’26 | III × Tokenization | `Text` + `CF` | `电商` · `本地生活与 POI` · `广告` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `电商` · `工业场景未明` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `其他`（沿用对比基线的编码器，未写） · B: `Text` + `Img` + `CF` | `电商` · `其他`（大型社交媒体平台） |
 | [CARD](../papers/card.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `电商` |
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Text` + `Img` + `CF` | `广告` · `电商` |
 | [DACT](../papers/dact.md) | SIGIR’26 | VI × Tokenization | `Text` + `CF` | `电商` |
 | [DOS](../papers/dos.md) | WWW’26 Short | III × Tokenization | `Text` + `CF` | `本地生活与 POI` |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` | `音乐` · `电商` |
 | [DREAM](../papers/dream.md) | arXiv’26 | VI × Tokenization | `Text` + `CF` | `电商` |
 | [GenRec-JD](../papers/genrec-jd.md) | SIGIR’26 | IV × Training | `Text` + `Img` + `CF` | `电商` |
 | [GeoGR](../papers/geogr.md) | arXiv’26 | I × Representation | `Text` + `Geo` + `CF` | `本地生活与 POI` · `搜索` |
@@ -266,7 +268,7 @@
 | [MMGRec](../papers/mmgrec.md) | TOMM’26 | I × Tokenization | `Text` + `Img` + `Audio` + `CF` | `电影` · `短视频与直播` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | image: `Img` · text: `Text` · collaborative: `CF` | `电商` · `短视频与直播` |
 | [OneLive](../papers/onelive.md) | KDD’26 ADS | VI × Tokenization | `Text` + `Img` + `Audio` + `CF` | `短视频与直播` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `电商` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `其他`（直播塔向量：商品编号与特征） | `电商` |
 | [OneRec-V2-Quantized](../papers/onerec-v2-quantized.md) | arXiv’26 | V × Inference | `Text` + `Img` + `CF` | `短视频与直播` |
 | [PAD-Rec](../papers/pad-rec.md) | arXiv’26 | V × Inference | `Text` + `CF` | `电商` · `本地生活与 POI` |
 | [PCR-CA](../papers/pcr-ca.md) | KDD’26 | I × Tokenization | `Text` + `CF` | `应用商店` |
@@ -279,16 +281,18 @@
 | [S2GR](../papers/s2gr.md) | KDD’26 | III × Backbone | `Text` + `CF` | `电商` · `短视频与直播` |
 | [SCRec](../papers/screc.md) | RecSys’26 | I × Representation | `Text` + `CF` | `电商` |
 | [SnapLGR](../papers/snaplgr.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `短视频与直播` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `电商` |
 
 ## 结构化属性
 
-> 共 7 篇。所有构码分支合起来含结构化属性（`Attr`）。
+> 共 8 篇。所有构码分支合起来含结构化属性（`Attr`）。
 
 | 论文 | 发表 | 问题 × 阶段 | 构码输入 | 领域 |
 | :--- | :--- | :--- | :--- | :--- |
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `本地生活与 POI` |
 | [HiD-VAE](../papers/hid-vae.md) | arXiv’25 | II × Tokenization | `Text` + `Attr` | `电商` · `短视频与直播` |
 | [KGTB](../papers/kgtb.md) | arXiv’25 | I × Tokenization | `Attr` + `Geo` + `CF` | `本地生活与 POI` |
+| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `其他`（广告语义向量，未写来源） + `Attr` | `广告` |
 | [HF-SID](../papers/hf-sid.md) | arXiv’26 | I × Representation | `Text` + `Attr` + `Geo` | `本地生活与 POI` |
 | [LGSID](../papers/lgsid.md) | AAAI’26 | I × Representation | `Text` + `Geo` + `Attr` + `CF` | `本地生活与 POI` |
 | [ReSID](../papers/resid.md) | arXiv’26 | I × Representation | `Attr` + `CF` | `电商` |
@@ -324,37 +328,34 @@
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `本地生活与 POI` |
 | [ChronoID](../papers/chronoid.md) | arXiv’26 | I × Tokenization | `Text` + `Time` | `电商` |
 
-## 待明确
+## 其他
 
-> 共 28 篇。构码输入模态整体或部分未明（至少一个分支含 `unknown`；待核信号见 `modality_open`）。
+> 共 25 篇。至少一个分支的输入不属于以上信号，或论文没有写明；每篇写出具体内容。
 
 | 论文 | 发表 | 问题 × 阶段 | 构码输入 | 领域 |
 | :--- | :--- | :--- | :--- | :--- |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `电商` · `工业场景未明` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `unknown` | `电商` · `工业场景未明` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `unknown` | `电商` · `电影` · `音乐` |
-| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `unknown` | `电商` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A: `unknown` · B: `Text` + `Img` | `音乐` · `电商` |
-| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `unknown` | `短视频与直播` |
-| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `unknown` | `电商` · `短视频与直播` · `工业场景未明` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `unknown` | `电商` · `图书与有声书` · `电影` |
-| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `unknown` | `广告` |
-| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `unknown` | `音乐` |
-| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `unknown` | `电商` |
-| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `unknown` | `电商` |
-| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `unknown` | `电商` · `音乐` |
-| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `unknown` | `工业场景未明` |
-| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `unknown` | `电商` · `游戏` |
-| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `unknown` | `电商` |
-| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | 范式、系统与基准 | `unknown` | `长视频` |
-| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `unknown` | `电商` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `电商` |
-| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `unknown` | `电商` · `广告` |
-| [SIDScope](../papers/sidscope.md) | arXiv’26 | 范式、系统与基准 | `unknown` | `电商` · `本地生活与 POI` |
-| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `unknown` | `电商` · `搜索` |
-| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `unknown` | `长视频` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `电商` |
-| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `unknown` | `电商` · `视频` |
-| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `unknown` | `本地生活与 POI` |
-| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `unknown` | `电商` |
-| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `unknown` | `电商` · `广告` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `其他`（沿用对比基线的编码器，未写） · B: `Text` + `Img` + `CF` | `电商` · `其他`（大型社交媒体平台） |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `其他`（内部四层 SID，未写输入） | `电商` · `其他`（私有推荐数据，业务未写） |
+| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `其他`（RQ-VAE 构码，未写输入） | `电商` |
+| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `其他`（OneRec 式构码，未写输入） | `短视频与直播` |
+| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `其他`（预计算的物品向量，未写来源） | `电商` · `短视频与直播` · `其他`（未具名的工业平台，业务未写） |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `其他`（MTM 上下文来源未写） | `电商` · `图书与有声书` · `电影` |
+| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `其他`（广告语义向量，未写来源） + `Attr` | `广告` |
+| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `其他`（残差 K-Means，未写输入） | `音乐` |
+| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `其他`（沿用 GenRec，未写输入） | `电商` |
+| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `其他`（物品原始向量，未写来源） | `电商` |
+| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `其他`（沿用 PSID 构码，未写输入） | `电商` · `音乐` |
+| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `其他`（BID词元，原始构码输入未写） | `广告` |
+| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `其他`（TIGER编号，输入未写） | `电商` · `游戏` |
+| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `其他`（量化前物品向量，来源未写） | `电商` |
+| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | 范式、系统与基准 | `其他`（内容向量，组成模态未写） | `长视频` |
+| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `其他`（固定OPQ，输入未写） | `电商` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | 范式、系统与基准 | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `其他`（直播塔向量：商品编号与特征） | `电商` |
+| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `其他`（四层编号，构码输入未写） | `电商` · `广告` |
+| [SIDScope](../papers/sidscope.md) | arXiv’26 | 范式、系统与基准 | `其他`（发布或重建的物品编号映射） | `电商` · `本地生活与 POI` |
+| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `其他`（沿用编号；淘宝构码输入未写） | `电商` · `搜索` |
+| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `其他`（负载均衡构码，向量来源未写） | `长视频` |
+| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `其他`（RQ-VAE特征，模态未写） | `电商` · `视频` |
+| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `其他`（地点编号，构码输入未写） | `本地生活与 POI` |
+| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `其他`（三层编号，构码输入未写） | `电商` |
+| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `其他`（RQ-VAE编号，输入未写） | `电商` · `广告` |

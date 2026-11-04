@@ -64,8 +64,14 @@ changes:
   objective: primary
   inference: none
 modality:
-  A:
-  - unknown
+  A (Spotify):
+  - Text
+  - Audio
+  - CF
+  A (POG):
+  - Text
+  - Img
+  - CF
   B:
   - Text
   - Img

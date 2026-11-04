@@ -65,7 +65,12 @@ changes:
       via Eq. ( 8 ), forming $x^{(\geq 1)}$ , and then decodes $s^{(2)},s^{(3)}$ autoregressively.
     where: arXiv:2511.12518v3 https://arxiv.org/html/2511.12518v3#S2.SS4.SSS2.p1
 modality:
-- unknown
+- Other
+modality_other:
+- en: RQ-KMeans per OneRec Technical Report, input unstated
+  zh: OneRec 式构码，未写输入
+  quote: We first pre-quantize videos into $L{=}3$ hierarchical SIDs via residual k-means (RQ-KMeans) (Zhou et al., 2025).
+  where: '2511.12518v3 #S2.SS2.p1.1；参考文献 Zhou et al. (2025) 为 "OneRec technical report"（arXiv:2506.13695）'
 modality_where:
   quote: We first pre-quantize videos into $L{=}3$ hierarchical SIDs via residual k-means (RQ-KMeans) ( Zhou et al., 2025
     ) .

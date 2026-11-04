@@ -6,10 +6,10 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 
 | Aspect | Groups |
 | :--- | :--- |
-| **Content** | [Text (115)](#text) · [Single non-text (8)](#single-non-text) · [Multimodal (36)](#multimodal) · [No content (11)](#no-content) |
-| **Collaborative** | [CF only (7)](#cf-only) · [With CF (50)](#with-cf) |
-| **Context** | [Attr (7)](#attr) · [Geo (14)](#geo) · [Time (2)](#time) |
-| **Unknown** | [Unknown (28)](#unknown) |
+| **Content** | [Text (115)](#text) · [Single non-text (9)](#single-non-text) · [Multimodal (36)](#multimodal) · [No content (11)](#no-content) |
+| **Collaborative** | [CF only (7)](#cf-only) · [With CF (52)](#with-cf) |
+| **Context** | [Attr (8)](#attr) · [Geo (14)](#geo) · [Time (2)](#time) |
+| **Other** | [Other (25)](#other) |
 
 ## Text
 
@@ -34,7 +34,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [DAS](../papers/das.md) | CIKM’25 | I × Tokenization | `Text` + `CF` | `Ads` |
 | [DiscRec](../papers/discrec.md) | arXiv’25 | I × Backbone | A: `Text` · B: `Text` + `CF` | `E-commerce` |
 | [EAGER-LLM](../papers/eager-llm.md) | WWW’25 | I × Tokenization | semantic: `Text` · behavior: `CF` | `E-commerce` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `E-commerce` · `Short video / Live` · `unknown (industrial)` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) |
 | [GenSAR](../papers/gensar.md) | RecSys’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `Text` + `CF` | `E-commerce` · `Search` |
 | [GMC](../papers/gmc.md) | arXiv’25 | VI × Tokenization | `Text` | `E-commerce` |
 | [GRAM](../papers/gram.md) | ACL’25 | I × Tokenization | `Text` | `E-commerce` · `POI / Local` |
@@ -62,8 +62,8 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [CITE](../papers/cite.md) | Electronics’26 | I × Inference | `Text` | `E-commerce` · `POI / Local` |
 | [CogRec](../papers/cogrec.md) | arXiv’26 | III × Tokenization | `Text` | `E-commerce` |
 | [DACT](../papers/dact.md) | SIGIR’26 | VI × Tokenization | `Text` + `CF` | `E-commerce` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `unknown` | `E-commerce` · `unknown (industrial)` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `unknown` | `E-commerce` · `Movie` · `Music` |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Audio` | `E-commerce` · `Movie` · `Music` |
 | [DECOR](../papers/decor.md) | SIGIR’26 | III × Backbone | `Text` | `E-commerce` |
 | [DIGER](../papers/diger.md) | SIGIR’26 | II × Tokenization | `Text` | `E-commerce` · `POI / Local` |
 | [DOS](../papers/dos.md) | WWW’26 Short | III × Tokenization | `Text` + `CF` | `POI / Local` |
@@ -72,7 +72,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [FedCGR](../papers/fedcgr.md) | CIKM’26 | VI × Backbone | `Text` | `E-commerce` |
 | [FLASH](../papers/flash.md) | NeurIPS’26 | III × Backbone | `Text` | `E-commerce` |
 | [GEM-Rec](../papers/gem-rec.md) | arXiv’26 | IV × Training | `Text` | `Games` · `E-commerce` · `Ads` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `unknown` | `E-commerce` · `Book` · `Movie` |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `Other` (MTM masked-code context, source unstated) | `E-commerce` · `Book` · `Movie` |
 | [GeoGR](../papers/geogr.md) | arXiv’26 | I × Representation | `Text` + `Geo` + `CF` | `POI / Local` · `Search` |
 | [GFlowGR](../papers/gflowgr.md) | SIGIR’26 | IV × Training | A: `Text` · B: `Text` + `CF` | `POI / Local` · `E-commerce` · `Ads` · `Search` |
 | [Ghost](../papers/ghost.md) | NeurIPS’26 | IV × Training | `Text` | `E-commerce` |
@@ -92,7 +92,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [LGRID](../papers/lgrid.md) | arXiv’26 | I × Representation | `Text` + `Geo` | `POI / Local` |
 | [LGSID](../papers/lgsid.md) | AAAI’26 | I × Representation | `Text` + `Geo` + `Attr` + `CF` | `POI / Local` |
 | [LION](../papers/lion.md) | CIKM’26 | VI × Backbone | `Text` | `E-commerce` |
-| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `Text` | `E-commerce` · `unknown (industrial)` |
+| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `Text` | `E-commerce` · `Other` (Tencent production recommender, business unstated) |
 | [MACRec](../papers/macrec.md) | AAAI’26 | I × Tokenization | text: `Text` · image: `Img` | `E-commerce` |
 | [MDGR](../papers/mdgr.md) | arXiv’26 | III × Backbone | `Text` | `E-commerce` |
 | [Merge-and-Branch](../papers/merge-and-branch.md) | arXiv’26 | V × Backbone | `Text` | `E-commerce` |
@@ -121,7 +121,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [SPRIG](../papers/sprig.md) | CIKM’26 Short | I × Tokenization | A: `Text` · B: `Audio` | `Movie` · `Music` |
 | [SPRINT](../papers/sprint.md) | arXiv’26 | V × Backbone | `Text` | `E-commerce` · `POI / Local` |
 | [SST](../papers/sst.md) | CIKM’26 | III × Tokenization | `Text` | `E-commerce` · `POI / Local` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `E-commerce` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `E-commerce` |
 | [SynGR](../papers/syngr.md) | ICML’26 | I × Training | text: `Text` · image: `Img` | `E-commerce` |
 | [TCBSA](../papers/tcbsa.md) | arXiv’26 | IV × Inference | `Text` | `E-commerce` · `POI / Local` |
 | [Tlow](../papers/tlow.md) | CIKM’26 Applied | I × Tokenization | A: `Text` · B: `Text` + `Img` | `E-commerce` · `Image / Article` |
@@ -135,13 +135,14 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 
 ## Single non-text
 
-> 8 papers. At least one tokenizer branch uses exactly one content modality and it is neither `Text` nor composite `MM` (`Img`, `Audio`, or `Video`).
+> 9 papers. At least one tokenizer branch uses exactly one content modality and it is neither `Text` nor composite `MM` (`Img`, `Audio`, or `Video`).
 
 | Paper | Venue | Problem × Stage | SID Inputs | Domain |
 | :--- | :--- | :--- | :--- | :--- |
 | [MME-SID](../papers/mme-sid.md) | CIKM’25 | I × Tokenization | collaborative: `CF` · text: `Text` · visual: `Img` | `E-commerce` |
 | [MQL4GRec](../papers/mql4grec.md) | ICLR’25 | I × Tokenization | text: `Text` · image: `Img` | `E-commerce` |
 | [PSRQ](../papers/psrq.md) | CIKM’25 | I × Tokenization | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` | `E-commerce` · `Music` |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Audio` | `E-commerce` · `Movie` · `Music` |
 | [MACRec](../papers/macrec.md) | AAAI’26 | I × Tokenization | text: `Text` · image: `Img` | `E-commerce` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | image: `Img` · text: `Text` · collaborative: `CF` | `E-commerce` · `Short video / Live` |
 | [NEO](../papers/neo.md) | arXiv’26 | Paradigms, Systems and Benchmarks | A: `Text` · B: `Audio` | `Music` · `Podcast` · `Book` · `Search` |
@@ -164,10 +165,10 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [Q-BERT4Rec](../papers/q-bert4rec.md) | arXiv’25 | I × Representation | `Text` + `Img` | `E-commerce` |
 | [UTGRec](../papers/utgrec.md) | arXiv’25 | VI × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
 | [AdaSID](../papers/adasid.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `E-commerce` · `unknown (industrial)` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` | `E-commerce` · `Other` (Large-scale social media platform) |
 | [CARD](../papers/card.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Text` + `Img` + `CF` | `Ads` · `E-commerce` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A: `unknown` · B: `Text` + `Img` | `Music` · `E-commerce` |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` | `Music` · `E-commerce` |
 | [GenRec-JD](../papers/genrec-jd.md) | SIGIR’26 | IV × Training | `Text` + `Img` + `CF` | `E-commerce` |
 | [Gwhere](../papers/gwhere.md) | RecSys’26 | II × Tokenization | `Text` + `Img` + `Geo` + `CF` | `POI / Local` |
 | [HASTE](../papers/haste.md) | arXiv’26 | IV × Training | A: `Text` · B: `MM` | `E-commerce` |
@@ -175,7 +176,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [MMQ](../papers/mmq.md) | WSDM’26 | I × Tokenization | `Text` + `Img` | `E-commerce` · `Ads` |
 | [OneLatent](../papers/onelatent.md) | arXiv’26 | V × Training | `MM` | `Ads` · `POI / Local` |
 | [OneLive](../papers/onelive.md) | KDD’26 ADS | VI × Tokenization | `Text` + `Img` + `Audio` + `CF` | `Short video / Live` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `E-commerce` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) | `E-commerce` |
 | [OneRec-V2-Quantized](../papers/onerec-v2-quantized.md) | arXiv’26 | V × Inference | `Text` + `Img` + `CF` | `Short video / Live` |
 | [PinGER](../papers/pinger.md) | arXiv’26 | V × Backbone | `Text` + `Img` + `CF` | `Image / Article` |
 | [PLUM](../papers/plum.md) | WWW’26 | Paradigms, Systems and Benchmarks | `MM` + `CF` | `Long video` · `Short video / Live` |
@@ -185,7 +186,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [RoFiGR](../papers/rofigr.md) | arXiv’26 | I × Tokenization | text: `Text` + `Img` + `CF` · image: `Text` + `Img` + `CF` | `E-commerce` |
 | [SAGE-SID](../papers/sage-sid.md) | arXiv’26 | IV × Training | `Text` + `Img` | `E-commerce` · `Short video / Live` · `Ads` |
 | [SnapLGR](../papers/snaplgr.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `Short video / Live` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `E-commerce` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `E-commerce` |
 | [Tlow](../papers/tlow.md) | CIKM’26 Applied | I × Tokenization | A: `Text` · B: `Text` + `Img` | `E-commerce` · `Image / Article` |
 | [TriAlignGR](../papers/trialigngr.md) | arXiv’26 | I × Representation | `Text` + `Img` | `E-commerce` |
 | [UniRec](../papers/unirec.md) | arXiv’26 | I × Tokenization | `MM` + `Attr` | `E-commerce` |
@@ -193,7 +194,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 
 ## No content
 
-> 11 papers. No tokenizer branch uses any content modality (`Text`, `Img`, `Audio`, `Video`, `MM`), and inputs across all branches contain no `unknown` (nor `n/a`).
+> 11 papers. No tokenizer branch uses any content modality (`Text`, `Img`, `Audio`, `Video`, `MM`), and inputs across all branches contain no `Other` (nor `n/a`).
 
 | Paper | Venue | Problem × Stage | SID Inputs | Domain |
 | :--- | :--- | :--- | :--- | :--- |
@@ -225,7 +226,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 
 ## With CF
 
-> 50 papers. Across all tokenizer branches combined, inputs include `CF` together with at least one other modality or signal.
+> 52 papers. Across all tokenizer branches combined, inputs include `CF` together with at least one other modality or signal.
 
 | Paper | Venue | Problem × Stage | SID Inputs | Domain |
 | :--- | :--- | :--- | :--- | :--- |
@@ -235,7 +236,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [DAS](../papers/das.md) | CIKM’25 | I × Tokenization | `Text` + `CF` | `Ads` |
 | [DiscRec](../papers/discrec.md) | arXiv’25 | I × Backbone | A: `Text` · B: `Text` + `CF` | `E-commerce` |
 | [EAGER-LLM](../papers/eager-llm.md) | WWW’25 | I × Tokenization | semantic: `Text` · behavior: `CF` | `E-commerce` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `E-commerce` · `Short video / Live` · `unknown (industrial)` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `CF` | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) |
 | [FORGE](../papers/forge.md) | KDD’26 | Paradigms, Systems and Benchmarks | `Text` + `Img` + `CF` | `E-commerce` · `Search` |
 | [GenSAR](../papers/gensar.md) | RecSys’25 | I × Tokenization | semantic: `Text` + `CF` · collaborative: `Text` + `CF` | `E-commerce` · `Search` |
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `POI / Local` |
@@ -249,11 +250,12 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [UTGRec](../papers/utgrec.md) | arXiv’25 | VI × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
 | [AdaSID](../papers/adasid.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
 | [Align3GR](../papers/align3gr.md) | AAAI’26 | III × Tokenization | `Text` + `CF` | `E-commerce` · `POI / Local` · `Ads` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `E-commerce` · `unknown (industrial)` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` | `E-commerce` · `Other` (Large-scale social media platform) |
 | [CARD](../papers/card.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `E-commerce` |
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Text` + `Img` + `CF` | `Ads` · `E-commerce` |
 | [DACT](../papers/dact.md) | SIGIR’26 | VI × Tokenization | `Text` + `CF` | `E-commerce` |
 | [DOS](../papers/dos.md) | WWW’26 Short | III × Tokenization | `Text` + `CF` | `POI / Local` |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` | `Music` · `E-commerce` |
 | [DREAM](../papers/dream.md) | arXiv’26 | VI × Tokenization | `Text` + `CF` | `E-commerce` |
 | [GenRec-JD](../papers/genrec-jd.md) | SIGIR’26 | IV × Training | `Text` + `Img` + `CF` | `E-commerce` |
 | [GeoGR](../papers/geogr.md) | arXiv’26 | I × Representation | `Text` + `Geo` + `CF` | `POI / Local` · `Search` |
@@ -266,7 +268,7 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [MMGRec](../papers/mmgrec.md) | TOMM’26 | I × Tokenization | `Text` + `Img` + `Audio` + `CF` | `Movie` · `Short video / Live` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | image: `Img` · text: `Text` · collaborative: `CF` | `E-commerce` · `Short video / Live` |
 | [OneLive](../papers/onelive.md) | KDD’26 ADS | VI × Tokenization | `Text` + `Img` + `Audio` + `CF` | `Short video / Live` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `E-commerce` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) | `E-commerce` |
 | [OneRec-V2-Quantized](../papers/onerec-v2-quantized.md) | arXiv’26 | V × Inference | `Text` + `Img` + `CF` | `Short video / Live` |
 | [PAD-Rec](../papers/pad-rec.md) | arXiv’26 | V × Inference | `Text` + `CF` | `E-commerce` · `POI / Local` |
 | [PCR-CA](../papers/pcr-ca.md) | KDD’26 | I × Tokenization | `Text` + `CF` | `Apps` |
@@ -279,16 +281,18 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [S2GR](../papers/s2gr.md) | KDD’26 | III × Backbone | `Text` + `CF` | `E-commerce` · `Short video / Live` |
 | [SCRec](../papers/screc.md) | RecSys’26 | I × Representation | `Text` + `CF` | `E-commerce` |
 | [SnapLGR](../papers/snaplgr.md) | arXiv’26 | II × Tokenization | `Text` + `Img` + `CF` | `Short video / Live` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `CF` | `E-commerce` |
 
 ## Attr
 
-> 7 papers. Across all tokenizer branches combined, inputs include structured item attributes (`Attr`).
+> 8 papers. Across all tokenizer branches combined, inputs include structured item attributes (`Attr`).
 
 | Paper | Venue | Problem × Stage | SID Inputs | Domain |
 | :--- | :--- | :--- | :--- | :--- |
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `POI / Local` |
 | [HiD-VAE](../papers/hid-vae.md) | arXiv’25 | II × Tokenization | `Text` + `Attr` | `E-commerce` · `Short video / Live` |
 | [KGTB](../papers/kgtb.md) | arXiv’25 | I × Tokenization | `Attr` + `Geo` + `CF` | `POI / Local` |
+| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `Other` (Ad semantic embedding, source unstated) + `Attr` | `Ads` |
 | [HF-SID](../papers/hf-sid.md) | arXiv’26 | I × Representation | `Text` + `Attr` + `Geo` | `POI / Local` |
 | [LGSID](../papers/lgsid.md) | AAAI’26 | I × Representation | `Text` + `Geo` + `Attr` + `CF` | `POI / Local` |
 | [ReSID](../papers/resid.md) | arXiv’26 | I × Representation | `Attr` + `CF` | `E-commerce` |
@@ -324,37 +328,34 @@ Papers grouped by the signals fed into the SID tokenizer (rules defined in `data
 | [GNPR-SID](../papers/gnpr-sid.md) | KDD’25 | I × Tokenization | `Attr` + `Geo` + `Time` + `CF` | `POI / Local` |
 | [ChronoID](../papers/chronoid.md) | arXiv’26 | I × Tokenization | `Text` + `Time` | `E-commerce` |
 
-## Unknown
+## Other
 
-> 28 papers. Tokenizer input modality is wholly or partially unreported (`unknown` present in at least one branch; open signals are listed in `modality_open`).
+> 25 papers. At least one branch reads an input outside the signals above, or one the paper does not state; each entry says what it is.
 
 | Paper | Venue | Problem × Stage | SID Inputs | Domain |
 | :--- | :--- | :--- | :--- | :--- |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `unknown` · B: `Text` + `Img` + `CF` | `E-commerce` · `unknown (industrial)` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `unknown` | `E-commerce` · `unknown (industrial)` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | A: `Text` · B: `unknown` | `E-commerce` · `Movie` · `Music` |
-| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `unknown` | `E-commerce` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | A: `unknown` · B: `Text` + `Img` | `Music` · `E-commerce` |
-| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `unknown` | `Short video / Live` |
-| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `unknown` | `E-commerce` · `Short video / Live` · `unknown (industrial)` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `unknown` | `E-commerce` · `Book` · `Movie` |
-| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `unknown` | `Ads` |
-| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `unknown` | `Music` |
-| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `unknown` | `E-commerce` |
-| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `unknown` | `E-commerce` |
-| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `unknown` | `E-commerce` · `Music` |
-| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `unknown` | `unknown (industrial)` |
-| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `unknown` | `E-commerce` · `Games` |
-| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `unknown` | `E-commerce` |
-| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | Paradigms, Systems and Benchmarks | `unknown` | `Long video` |
-| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `unknown` | `E-commerce` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` | `E-commerce` |
-| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `unknown` | `E-commerce` · `Ads` |
-| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `unknown` | `E-commerce` · `POI / Local` |
-| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `unknown` | `E-commerce` · `Search` |
-| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `unknown` | `Long video` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | A: `Text` · B: `Text` + `Img` + `unknown` | `E-commerce` |
-| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `unknown` | `E-commerce` · `Video` |
-| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `unknown` | `POI / Local` |
-| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `unknown` | `E-commerce` |
-| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `unknown` | `E-commerce` · `Ads` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` | `E-commerce` · `Other` (Large-scale social media platform) |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) |
+| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `Other` (RQ-VAE SIDs, input unstated) | `E-commerce` |
+| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `Other` (RQ-KMeans per OneRec Technical Report, input unstated) | `Short video / Live` |
+| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `Other` (Precomputed item embeddings, source unstated) | `E-commerce` · `Short video / Live` · `Other` (Unnamed industrial platform, business unstated) |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `Text` + `Other` (MTM masked-code context, source unstated) | `E-commerce` · `Book` · `Movie` |
+| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `Other` (Ad semantic embedding, source unstated) + `Attr` | `Ads` |
+| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `Other` (Residual K-Means SIDs, input unstated) | `Music` |
+| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `Other` (Four-token SIDs per GenRec pipeline, input unstated) | `E-commerce` |
+| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `Other` (Item "original embedding", source unstated) | `E-commerce` |
+| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `Other` (PSID with RQ-KMeans, input unstated) | `E-commerce` · `Music` |
+| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `Other` (BID token embeddings; original SID inputs unstated) | `Ads` |
+| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `Other` (TIGER teacher SIDs; tokenizer inputs unstated) | `E-commerce` · `Games` |
+| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `Other` (Pre-quantization item embeddings; source signals unstated) | `E-commerce` |
+| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | Paradigms, Systems and Benchmarks | `Other` (Content embeddings; constituent modalities unstated) | `Long video` |
+| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `Other` (Fixed OPQ index; quantizer inputs unstated) | `E-commerce` |
+| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) | `E-commerce` |
+| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `Other` (Four-level SIDs; tokenizer inputs unstated) | `E-commerce` · `Ads` |
+| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `Other` (Released and reconstructed item-to-SID mappings) | `E-commerce` · `POI / Local` |
+| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `Other` (FORGE SIDs; Taobao tokenizer inputs unstated) | `E-commerce` · `Search` |
+| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `Other` (RQ-PIB item embeddings; source signals unstated) | `Long video` |
+| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `Other` (RQ-VAE item features; source modalities unstated) | `E-commerce` · `Video` |
+| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `Other` (RQ-VAE POI identifiers; tokenizer inputs unstated) | `POI / Local` |
+| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `Other` (Three-level SIDs; tokenizer inputs unstated) | `E-commerce` |
+| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `Other` (RQ-VAE SIDs; tokenizer inputs unstated) | `E-commerce` · `Ads` |

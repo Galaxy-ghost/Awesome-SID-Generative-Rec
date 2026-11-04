@@ -8,7 +8,7 @@
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` · `POI` |
 | **Changes** | ● Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (RQ-VAE POI identifiers; tokenizer inputs unstated) |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701) |

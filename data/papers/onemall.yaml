@@ -90,11 +90,18 @@ modality:
   - CF
   C:
   - CF
-  - unknown
+  - Other
 modality_open:
 - 'C: Text'
 - 'C: Img'
 - 'C: Attr'
+modality_other:
+- branch: C
+  en: Live-stream item-tower embeddings (product SIDs, item features)
+  zh: 直播塔向量：商品编号与特征
+  quote: In OneMall, we utilize the two-tower style retrieval model’s item tower generated embedding to quantify
+  where: '2601.21770v2 #S3.SS1.SSS3.p1；#S2.F3(c)：物品塔输入为 ProductSID 与 ItemFeature；ProductSID 的 Text/Img 来源见 #S3.SS1.SSS2.p1，ItemFeature
+    字段未写；#S4.SS5.p2 的属性塔属于生成模型辅助损失，不能据此补 Attr。'
 modality_where:
   quote: In OneMall, we utilize the two-tower style retrieval model’s item tower generated embedding to quantify, and the
     real-time selling products’ Semantic IDs served as additional feature.

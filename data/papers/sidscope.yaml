@@ -115,7 +115,12 @@ changes:
   objective: none
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Released and reconstructed item-to-SID mappings
+  zh: 发布或重建的物品编号映射
+  quote: Adapters convert upstream files or checkpoints into a common item-to-code table.
+  where: '2608.18779v2 #S3.SS1.p2；#S3.T2；#A1.SS3.SSS0.Px1.p2：输入是多种上游发布、重建或导出的映射，不能压成一个统一构码模态。'
 modality_where:
   quote: Table 2 lists nine source-traced named exports from seven families across Amazon and Yelp.
   where: '2608.18779v2 #S3.SS4.p1.1；诊断资源，收的是七类构码器发布的映射，构码输入因族而异，本文不构码'

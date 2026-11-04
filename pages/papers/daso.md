@@ -8,8 +8,8 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective |
-| **SID inputs** | `Text` + `unknown` |
-| **Domain** | `E-commerce` · `unknown (industrial)` |
+| **SID inputs** | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) |
+| **Domain** | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) |
 | **Links** | [Paper](https://arxiv.org/abs/2608.20611) · [Code](https://github.com/LucasXinYu/DASO) |
 | **Reading level** | Overview (Level 1) |
 

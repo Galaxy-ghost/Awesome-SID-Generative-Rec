@@ -70,7 +70,13 @@ changes:
   objective: none
   inference: primary
 modality:
-- unknown
+- Other
+modality_other:
+- en: RQ-VAE item features; source modalities unstated
+  zh: RQ-VAE特征，模态未写
+  quote: In the TIGER framework ( Rajput et al., 2023 ) , Semantic IDs are created using a Residual-Quantized Variational
+    AutoEncoder (RQ-VAE).
+  where: '2602.22647v3 #S3.SS1.p2；#S5.SS1.p1；#S6.SS1.p1：说明 item features 和 YouTube/Amazon 的码本配置，未写构码特征来自哪些模态。'
 modality_where:
   quote: 'Central to this approach is the concept of the Semantic ID: a discrete, token-based identifier that captures the
     semantic properties of an item.'

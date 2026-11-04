@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (FORGE SIDs; Taobao tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Search` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34764) |
 | **Reading level** | Overview (Level 1) |

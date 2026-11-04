@@ -84,7 +84,7 @@ modality:
   A:
   - Text
   B:
-  - unknown
+  - Audio
 modality_where:
   quote: SIDs have K=4 levels of V=2048 codes, built by RQ-KMeans from multilingual E5-large text embeddings ( Wang et al.,
     2022 ; Wang et al., 2024a ) or from the provided 128-dimensional item embeddings on Yambda, with popularity-based collision

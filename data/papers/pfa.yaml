@@ -63,7 +63,13 @@ changes:
   objective: none
   inference: primary
 modality:
-- unknown
+- Other
+modality_other:
+- en: Four-level SIDs; tokenizer inputs unstated
+  zh: 四层编号，构码输入未写
+  quote: The SID codebook configuration is set to $[128,128,128,128]$ for Kindle Store and Tmall, and $[300,300,300,300]$
+    for Industry.
+  where: '2610.39273v1 #S4.SS1.SSS0.Px5.p1：仅给四层码本大小，未写构码算法或输入。'
 modality_where:
   quote: The SID codebook configuration is set to $[128,128,128,128]$ for Kindle Store and Tmall, and $[300,300,300,300]$
     for Industry.

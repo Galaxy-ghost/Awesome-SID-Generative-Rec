@@ -95,7 +95,13 @@ changes:
     quote: 'Consequently, the user-item preference score is reformulated as:'
     where: '2605.06331v1 #S4.SS2.p1.1；物品分数对不同潜在 token 路径做 sum 或 max 聚合（#S4.SS2.p1.2），束搜索近似这一聚合'
 modality:
-- unknown
+- Other
+modality_other:
+- en: PSID with RQ-KMeans, input unstated
+  zh: 沿用 PSID 构码，未写输入
+  quote: We adopt PSID Zhang et al. (2025b) with RQ-Kmeans Ju et al. (2025) item tokenization as our base model.
+  where: '2605.06331v1 #S5.SS1.SSS0.Px2.p1.1；附录 D（#A4.SS0.SSS0.Px2.p2.1）也没写。另：§6.2 的 MPD 分析实验另用三路构码，"We incorporate three
+    modalities: playlist, tag, and metadata."（#S6.SS2.SSS0.Px2.p1.1），分别是歌曲共现（CF）、标签（Attr）、文本描述（Text），只是分析实验'
 modality_where:
   quote: We adopt PSID Zhang et al. (2025b) with RQ-Kmeans Ju et al. (2025) item tokenization as our base model.
   where: '2605.06331v1 #S5.SS1.SSS0.Px2.p1.1；正文和附录 D（#A4.SS0.SSS0.Px2.p2.1）都没写主实验构码的输入；#S6.SS2 的 MPD 研究另用 playlist 共现、tag、metadata

@@ -88,7 +88,12 @@ changes:
       to high-value and high-ambiguity nodes.
     where: '2602.10699v2 #S1.I1.i2.p1.1'
 modality:
-- unknown
+- Other
+modality_other:
+- en: RQ-VAE SIDs; tokenizer inputs unstated
+  zh: RQ-VAE编号，输入未写
+  quote: Each item is represented by a 3-level SID derived from the RQ-VAE codebook ( Rajput et al., 2023 )
+  where: '2602.10699v2 #S5.SS1.p1；#S4.SS1.p2：确认 RQ-VAE 构码但未写输入；文本编码器用于稠密语义回报，不足以证明构码输入为 Text。'
 modality_where:
   quote: Each item is represented by a 3-level SID derived from the RQ-VAE codebook ( Rajput et al., 2023 ) , and all generative
     decoders operate under a hard constraint that restricts outputs to valid SIDs, ensuring that each generated sequence maps

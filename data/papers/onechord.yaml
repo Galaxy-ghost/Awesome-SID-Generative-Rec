@@ -70,7 +70,12 @@ changes:
       and inference.
     where: arXiv:2610.25805v1 https://arxiv.org/html/2610.25805v1#abstract1
 modality:
-- unknown
+- Other
+modality_other:
+- en: Fixed OPQ index; quantizer inputs unstated
+  zh: 固定OPQ，输入未写
+  quote: The fixed OPQ mapping covers every processed item.
+  where: '2610.25805v1 #A2.SS1.p2；#A1.SS5.SSS0.Px1.p1：仅说明固定四码位 OPQ、每位 256 码，未写被量化向量的来源。'
 modality_where:
   quote: The index is fixed before recommender training.
   where: arXiv:2610.25805v1 https://arxiv.org/html/2610.25805v1#S3.SS1；§3.1 和 Appendix A 仅交代固定 OPQ 及码本配置，未指明被量化 embedding

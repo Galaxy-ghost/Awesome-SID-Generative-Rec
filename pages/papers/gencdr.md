@@ -8,7 +8,7 @@
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
-| **SID inputs** | `Text` + `unknown` |
+| **SID inputs** | `Text` + `Other` (MTM masked-code context, source unstated) |
 | **Domain** | `E-commerce` · `Book` · `Movie` |
 | **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) |

@@ -70,11 +70,23 @@ changes:
   inference: none
 modality:
 - Text
-- unknown
+- Other
 modality_open:
 - 内部四层 SID 任务的构码输入
+modality_other:
+- en: Internal 4-level, 2048-code SIDs; input unstated
+  zh: 内部四层 SID，未写输入
+  quote: For the internal dataset, each item uses a four-level SID with 2048 possible codes per level; the first level covers
+    1,871 of 2,048 codes and the full target set contains 225,855 unique SIDs.
+  where: '2608.20611v1 #Sx5.SSx1.p2.1；附录 #A2.SSx3.p2.1 写明省略了 "production catalog metadata"'
 note: 公开数据用 MiniOneRec 冻结的 Qwen 文本嵌入 SID；内部数据的构码没写。
 domain:
 - E-commerce
-- unknown (industrial)
+- Other
+domain_other:
+  en: Proprietary user-to-item data, business unstated
+  zh: 私有推荐数据，业务未写
+  quote: We evaluate DASO on two public Amazon Reviews 2018 categories, Industrial and Scientific and Office Products, and
+    a proprietary internal user-to-item recommendation dataset.
+  where: '2608.20611v1 #Sx5.SSx1.p1.1；全文没有提平台或业务名'
 settings: []

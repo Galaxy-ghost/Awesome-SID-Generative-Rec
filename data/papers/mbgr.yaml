@@ -87,12 +87,17 @@ changes:
     where: '2604.02684v1 #S4.SS3.p1.1（公式按纯文本转写）；Label Dynamic Routing，w/o LDR 消融在 #S6.I6.i1.p1.1'
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: BID token embeddings; original SID inputs unstated
+  zh: BID词元，原始构码输入未写
+  quote: Two-stage process that involves token-level embedding look-up followed by online encoding via the BID encoder.
+  where: '2604.02684v1 #S6.I12.i2.p1；#S4.SS1.p3–p7：BID 编码已有词元向量并加入业务类型，原始 SID 的构码信号未写。'
 modality_where:
   quote: Transforms input token embeddings t_i=[t_{i,1},t_{i,2},...,t_{i,K}]∈R^{K·d_t} into business-aware item representations
     e_i∈R^{d_e}
   where: '2604.02684v1 #S4.SS1.p3.1（公式按纯文本转写）；原文没写原始 SID 由什么输入构建'
 note: Table 1 记 Text+CF；原文没写构码输入。
 domain:
-- unknown (industrial)
+- Ads
 settings: []

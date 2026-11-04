@@ -70,7 +70,12 @@ changes:
     where: arXiv:2610.16132v2 https://arxiv.org/html/2610.16132v2#S3.SS4.SSS2.p1
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: Three-level SIDs; tokenizer inputs unstated
+  zh: 三层编号，构码输入未写
+  quote: We use three-level semantic IDs, with a codebook size of 2,048 at each level.
+  where: '2610.16132v2 #S4.SS1.p4；#S3.SS3–S3.SS4：类别、店铺、品牌是生成器预测和交互的侧信息，未说明它们是构码输入，不能补 Attr。'
 modality_where:
   quote: We use three-level semantic IDs, with a codebook size of 2,048 at each level.
   where: arXiv:2610.16132v2 https://arxiv.org/html/2610.16132v2#S4.SS1.p4；只给层数和每层 2048；category/shop/brand 是 generator 的 target-side

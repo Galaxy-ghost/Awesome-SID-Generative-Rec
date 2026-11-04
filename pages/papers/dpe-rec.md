@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective |
-| **SID inputs** | A: `unknown` · B: `Text` + `Img` |
+| **SID inputs** | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` |
 | **Domain** | `Music` · `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34700) |
 | **Reading level** | Overview (Level 1) |

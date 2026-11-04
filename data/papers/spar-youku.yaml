@@ -70,9 +70,15 @@ changes:
   objective: none
   inference: none
 modality:
-- unknown
+- Other
 modality_open:
 - 原始物品 embedding 的输入信号（原文未披露）
+modality_other:
+- en: RQ-PIB item embeddings; source signals unstated
+  zh: 负载均衡构码，向量来源未写
+  quote: Let $\mathbf{f}_{i}$ denote the embedding of item $i$ , and let $\boldsymbol{\mu}_{\ell,k}$ be codeword $k$ at level
+    $\ell$ .
+  where: '2610.27898v1 #S3.SS3.p4；#S3.SS3.SSS0.Px1.p1：输入为物品向量，来源未写；交互计数只用于分支负载均衡，不能据此补 CF。'
 modality_where:
   quote: Let $\mathbf{f}_{i}$ denote the embedding of item $i$, and let $\boldsymbol{\mu}_{\ell,k}$ be codeword $k$ at level
     $\ell$.

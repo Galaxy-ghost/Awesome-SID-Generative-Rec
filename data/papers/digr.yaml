@@ -76,7 +76,13 @@ changes:
     quote: Given a context representation h_x , DiGR computes the catalog-level score vector as
     where: '2602.07847v2 #Sx4.SSx2.SSS0.Px3.p1.1（公式按纯文本转写）；全目录物品级打分取代逐码束搜索'
 modality:
-- unknown
+- Other
+modality_other:
+- en: RQ-VAE SIDs, input unstated
+  zh: RQ-VAE 构码，未写输入
+  quote: We construct the SIDs used by DiGR with RQ-VAE, while retaining the baseline-specific SID construction procedures
+    from their original implementations.
+  where: '2602.07847v2 #Sx5.SSx1.SSSx4.p2.1；数据集一节（#Sx5.SSx1.SSSx1.p1.1）和附录 D（#A4.p1.1）都没写构码输入'
 modality_where:
   quote: Because each item representation is constructed solely from shared SID-token embeddings, a new item can be scored
     once its SID is available and added to the candidate catalog, without learning item-specific parameters.

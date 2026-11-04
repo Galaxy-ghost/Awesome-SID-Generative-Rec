@@ -83,7 +83,7 @@ modality:
   B:
   - Text
   - Img
-  - unknown
+  - CF
 modality_open:
 - B：AL-GR 预处理 SID 是否用了协同增强（CF）
 modality_where:

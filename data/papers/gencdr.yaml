@@ -94,9 +94,15 @@ changes:
     where: '2511.08006v2 #Sx1.I1.i4.p1.1；设计在 #Sx4.SSx2.SSSx4'
 modality:
 - Text
-- unknown
+- Other
 modality_open:
 - CF
+modality_other:
+- en: MTM masked-code context, source unstated
+  zh: MTM 上下文来源未写
+  quote: 'To further ensure the codes are contextually coherent, we add a Masked Token Modeling (MTM) loss, which trains the
+    model to predict masked codes $c_{i}$ from their surrounding context $S_{\text{masked}}$:'
+  where: '2511.08006v2 #Sx4.SSx1.SSSx1.p2.2；S_masked 是同一物品的码序列还是用户序列没写；构码本身用文本（#Sx4.SSx1.SSSx1.p1.1），领域 LoRA 适配器也只对物品嵌入做重建（#Sx4.SSx1.SSSx2.p3.1）'
 modality_where:
   quote: The RQ-VAE, consisting of an encoder E , a decoder D , and M codebooks, is pre-trained on the textual features of
     all items.

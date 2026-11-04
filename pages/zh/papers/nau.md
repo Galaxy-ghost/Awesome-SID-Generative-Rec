@@ -8,7 +8,7 @@
 | **发表** | arXiv’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
 | **改动** | ● 训练目标 |
-| **构码输入** | `unknown` |
+| **构码输入** | `其他`（量化前物品向量，来源未写） |
 | **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.27232) · [代码](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) |
 | **阅读级别** | 概览（第 1 级） |

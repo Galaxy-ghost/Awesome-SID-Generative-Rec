@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
 | **Changes** | ● Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Four-level SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.39273) · [Code](https://anonymous.4open.science/r/PFA-review-088D) |
 | **Reading level** | Overview (Level 1) |

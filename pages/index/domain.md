@@ -11,7 +11,7 @@ Click any domain below to jump to its paper table:
 | **Commerce & Local** | [E-commerce (142)](#e-commerce) · [POI / Local (44)](#poi--local) · [Food / Recipe (1)](#food--recipe) · [Travel / Hotel (1)](#travel--hotel) |
 | **Video & Entertainment** | [Short video / Live (21)](#short-video--live) · [Movie (12)](#movie) · [Music (10)](#music) · [Games (5)](#games) · [Long video (3)](#long-video) · [Podcast (1)](#podcast) · [Video (1)](#video) |
 | **News, Reading & Visual** | [News (6)](#news) · [Book (5)](#book) · [Image / Article (3)](#image--article) |
-| **Platform Services & Other** | [Ads (17)](#ads) · [Search (10)](#search) · [Apps (1)](#apps) · [Recruitment (1)](#recruitment) · [unknown (industrial) (6)](#unknown-industrial) |
+| **Platform Services & Other** | [Ads (18)](#ads) · [Search (10)](#search) · [Apps (1)](#apps) · [Recruitment (1)](#recruitment) · [Other (5)](#other) |
 
 ## E-commerce
 
@@ -42,7 +42,7 @@ Click any domain below to jump to its paper table:
 | [DiscRec](../papers/discrec.md) | arXiv’25 | I × Backbone | `E-commerce` | A: `Text` · B: `Text` + `CF` |
 | [EAGER-LLM](../papers/eager-llm.md) | WWW’25 | I × Tokenization | `E-commerce` | semantic: `Text` · behavior: `CF` |
 | [ETEGRec](../papers/etegrec.md) | SIGIR’25 | III × Training | `E-commerce` | `CF` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | semantic: `Text` + `CF` · collaborative: `CF` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) | semantic: `Text` + `CF` · collaborative: `CF` |
 | [FORGE](../papers/forge.md) | KDD’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `Search` | `Text` + `Img` + `CF` |
 | [GenSAR](../papers/gensar.md) | RecSys’25 | I × Tokenization | `E-commerce` · `Search` | semantic: `Text` + `CF` · collaborative: `Text` + `CF` |
 | [GMC](../papers/gmc.md) | arXiv’25 | VI × Tokenization | `E-commerce` | `Text` |
@@ -70,26 +70,26 @@ Click any domain below to jump to its paper table:
 | [APAO](../papers/apao.md) | KDD’26 | IV × Training | `E-commerce` · `POI / Local` | `Text` |
 | [API](../papers/api.md) | arXiv’26 | II × Tokenization | `E-commerce` | `Text` |
 | [CAPE](../papers/cape.md) | arXiv’26 | I × Inference | `E-commerce` · `Music` | `Text` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | `E-commerce` · `unknown (industrial)` | A: `unknown` · B: `Text` + `Img` + `CF` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | `E-commerce` · `Other` (Large-scale social media platform) | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` |
 | [CARD](../papers/card.md) | arXiv’26 | II × Tokenization | `E-commerce` | `Text` + `Img` + `CF` |
 | [ChronoID](../papers/chronoid.md) | arXiv’26 | I × Tokenization | `E-commerce` | `Text` + `Time` |
 | [CITE](../papers/cite.md) | Electronics’26 | I × Inference | `E-commerce` · `POI / Local` | `Text` |
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Ads` · `E-commerce` | `Text` + `Img` + `CF` |
 | [CogRec](../papers/cogrec.md) | arXiv’26 | III × Tokenization | `E-commerce` | `Text` |
 | [DACT](../papers/dact.md) | SIGIR’26 | VI × Tokenization | `E-commerce` | `Text` + `CF` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `E-commerce` · `unknown (industrial)` | `Text` + `unknown` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `unknown` |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `Audio` |
 | [DECOR](../papers/decor.md) | SIGIR’26 | III × Backbone | `E-commerce` | `Text` |
 | [DIGER](../papers/diger.md) | SIGIR’26 | II × Tokenization | `E-commerce` · `POI / Local` | `Text` |
-| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `E-commerce` | `unknown` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | `Music` · `E-commerce` | A: `unknown` · B: `Text` + `Img` |
+| [DiGR](../papers/digr.md) | arXiv’26 | IV × Backbone | `E-commerce` | `Other` (RQ-VAE SIDs, input unstated) |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | `Music` · `E-commerce` | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` |
 | [DREAM](../papers/dream.md) | arXiv’26 | VI × Tokenization | `E-commerce` | `Text` + `CF` |
-| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | `unknown` |
+| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `Other` (Unnamed industrial platform, business unstated) | `Other` (Precomputed item embeddings, source unstated) |
 | [Evo-Rec](../papers/evo-rec.md) | arXiv’26 | III × Training | `E-commerce` | `Text` |
 | [FedCGR](../papers/fedcgr.md) | CIKM’26 | VI × Backbone | `E-commerce` | `Text` |
 | [FLASH](../papers/flash.md) | NeurIPS’26 | III × Backbone | `E-commerce` | `Text` |
 | [GEM-Rec](../papers/gem-rec.md) | arXiv’26 | IV × Training | `Games` · `E-commerce` · `Ads` | `Text` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `unknown` |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `Other` (MTM masked-code context, source unstated) |
 | [GenRec-JD](../papers/genrec-jd.md) | SIGIR’26 | IV × Training | `E-commerce` | `Text` + `Img` + `CF` |
 | [GFlowGR](../papers/gflowgr.md) | SIGIR’26 | IV × Training | `POI / Local` · `E-commerce` · `Ads` · `Search` | A: `Text` · B: `Text` + `CF` |
 | [Ghost](../papers/ghost.md) | NeurIPS’26 | IV × Training | `E-commerce` | `Text` |
@@ -99,30 +99,30 @@ Click any domain below to jump to its paper table:
 | [GRLM](../papers/grlm.md) | arXiv’26 | III × Tokenization | `E-commerce` | `Text` |
 | [GTI](../papers/gti.md) | arXiv’26 | III × Training | `Recruitment` · `E-commerce` | A: `Text` + `CF` · B: `Text` |
 | [HASTE](../papers/haste.md) | arXiv’26 | IV × Training | `E-commerce` | A: `Text` · B: `MM` |
-| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `E-commerce` | `unknown` |
-| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `E-commerce` | `unknown` |
+| [HCGRec](../papers/hcgrec.md) | CIKM’26 | IV × Training | `E-commerce` | `Other` (Four-token SIDs per GenRec pipeline, input unstated) |
+| [HoloRec](../papers/holorec.md) | arXiv’26 | III × Tokenization | `E-commerce` | `Other` (Item "original embedding", source unstated) |
 | [IBA](../papers/iba.md) | arXiv’26 | V × Backbone | `E-commerce` · `Short video / Live` | `Text` |
 | [IDM/CMM](../papers/idm-cmm.md) | arXiv’26 | IV × Training | `E-commerce` | `Text` |
 | [ISD](../papers/isd.md) | arXiv’26 | IV × Inference | `E-commerce` | `Text` |
 | [JevRec](../papers/jevrec.md) | arXiv’26 | V × Tokenization | `E-commerce` | `Text` |
 | [KL-MOPD](../papers/kl-mopd.md) | arXiv’26 | IV × Training | `E-commerce` · `Ads` | `CF` |
-| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `E-commerce` · `Music` | `unknown` |
+| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `E-commerce` · `Music` | `Other` (PSID with RQ-KMeans, input unstated) |
 | [LESSRec](../papers/lessrec.md) | arXiv’26 | III × Backbone | `E-commerce` | A: `Text` · B: `Text` + `CF` |
 | [LION](../papers/lion.md) | CIKM’26 | VI × Backbone | `E-commerce` | `Text` |
-| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `E-commerce` · `unknown (industrial)` | `Text` |
+| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `E-commerce` · `Other` (Tencent production recommender, business unstated) | `Text` |
 | [MACRec](../papers/macrec.md) | AAAI’26 | I × Tokenization | `E-commerce` | text: `Text` · image: `Img` |
 | [MDGR](../papers/mdgr.md) | arXiv’26 | III × Backbone | `E-commerce` | `Text` |
 | [Merge-and-Branch](../papers/merge-and-branch.md) | arXiv’26 | V × Backbone | `E-commerce` | `Text` |
 | [MMQ](../papers/mmq.md) | WSDM’26 | I × Tokenization | `E-commerce` · `Ads` | `Text` + `Img` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | `E-commerce` · `Short video / Live` | image: `Img` · text: `Text` · collaborative: `CF` |
-| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `E-commerce` · `Games` | `unknown` |
-| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `E-commerce` | `unknown` |
+| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `E-commerce` · `Games` | `Other` (TIGER teacher SIDs; tokenizer inputs unstated) |
+| [NAU](../papers/nau.md) | arXiv’26 | IV × Training | `E-commerce` | `Other` (Pre-quantization item embeddings; source signals unstated) |
 | [NEZHA](../papers/nezha.md) | WWW’26 Industry | V × Inference | `E-commerce` · `POI / Local` · `Ads` · `Search` | `Text` |
-| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `E-commerce` | `unknown` |
-| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | `E-commerce` | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` |
+| [OneChord](../papers/onechord.md) | arXiv’26 | IV × Training | `E-commerce` | `Other` (Fixed OPQ index; quantizer inputs unstated) |
+| [OneMall](../papers/onemall.md) | CIKM’26 | Paradigms, Systems and Benchmarks | `E-commerce` | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) |
 | [PAD-Rec](../papers/pad-rec.md) | arXiv’26 | V × Inference | `E-commerce` · `POI / Local` | `Text` + `CF` |
 | [Pctx](../papers/pctx.md) | CIKM’26 | I × Tokenization | `E-commerce` | `Text` + `CF` |
-| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `E-commerce` · `Ads` | `unknown` |
+| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `E-commerce` · `Ads` | `Other` (Four-level SIDs; tokenizer inputs unstated) |
 | [PROMISE](../papers/promise.md) | arXiv’26 | III × Inference | `E-commerce` · `Short video / Live` | `Text` |
 | [QuaSID](../papers/quasid.md) | KDD’26 ADS | II × Tokenization | `E-commerce` | `Text` + `Img` + `CF` |
 | [R3-VAE](../papers/r3-vae.md) | arXiv’26 | II × Tokenization | `E-commerce` · `Music` · `Movie` · `News` | `Text` |
@@ -139,13 +139,13 @@ Click any domain below to jump to its paper table:
 | [SCRec](../papers/screc.md) | RecSys’26 | I × Representation | `E-commerce` | `Text` + `CF` |
 | [SID-MLP](../papers/sid-mlp.md) | arXiv’26 | V × Backbone | `E-commerce` | `Text` |
 | [SIDReasoner](../papers/sidreasoner.md) | KDD’26 | III × Training | `E-commerce` | `Text` |
-| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `POI / Local` | `unknown` |
-| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `E-commerce` · `Search` | `unknown` |
+| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `POI / Local` | `Other` (Released and reconstructed item-to-SID mappings) |
+| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `E-commerce` · `Search` | `Other` (FORGE SIDs; Taobao tokenizer inputs unstated) |
 | [SpecGR](../papers/specgr.md) | AAAI’26 | VI × Inference | `E-commerce` | `Text` |
 | [SPRINT](../papers/sprint.md) | arXiv’26 | V × Backbone | `E-commerce` · `POI / Local` | `Text` |
 | [SST](../papers/sst.md) | CIKM’26 | III × Tokenization | `E-commerce` · `POI / Local` | `Text` |
-| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | `E-commerce` | A: `Text` · B: `Text` + `Img` + `unknown` |
-| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `E-commerce` · `Video` | `unknown` |
+| [STAMP](../papers/stamp.md) | arXiv’26 | V × Backbone | `E-commerce` | A: `Text` · B: `Text` + `Img` + `CF` |
+| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `E-commerce` · `Video` | `Other` (RQ-VAE item features; source modalities unstated) |
 | [SynGR](../papers/syngr.md) | ICML’26 | I × Training | `E-commerce` | text: `Text` · image: `Img` |
 | [TCBSA](../papers/tcbsa.md) | arXiv’26 | IV × Inference | `E-commerce` · `POI / Local` | `Text` |
 | [Tlow](../papers/tlow.md) | CIKM’26 Applied | I × Tokenization | `E-commerce` · `Image / Article` | A: `Text` · B: `Text` + `Img` |
@@ -156,10 +156,10 @@ Click any domain below to jump to its paper table:
 | [TrieRec](../papers/trierec.md) | NeurIPS’26 | III × Backbone | `E-commerce` · `Movie` | `Text` |
 | [UGR](../papers/ugr.md) | KDD’26 | IV × Training | `E-commerce` · `POI / Local` | `Text` |
 | [UniRec](../papers/unirec.md) | arXiv’26 | I × Tokenization | `E-commerce` | `MM` + `Attr` |
-| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `E-commerce` | `unknown` |
+| [UniSGR-V2](../papers/unisgr-v2.md) | arXiv’26 | I × Backbone | `E-commerce` | `Other` (Three-level SIDs; tokenizer inputs unstated) |
 | [UniSID](../papers/unisid.md) | arXiv’26 | I × Tokenization | `Ads` · `E-commerce` | `Text` + `Img` |
 | [UniTok](../papers/unitok.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `POI / Local` | `Text` |
-| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `E-commerce` · `Ads` | `unknown` |
+| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `E-commerce` · `Ads` | `Other` (RQ-VAE SIDs; tokenizer inputs unstated) |
 | [VarLenRec (TIGER)](../papers/varlenrec-tiger.md) | arXiv’26 | I × Tokenization | `E-commerce` · `POI / Local` | `Text` |
 
 ## POI / Local
@@ -202,12 +202,12 @@ Click any domain below to jump to its paper table:
 | [PAD-Rec](../papers/pad-rec.md) | arXiv’26 | V × Inference | `E-commerce` · `POI / Local` | `Text` + `CF` |
 | [ProGEO](../papers/progeo.md) | arXiv’26 | I × Tokenization | `POI / Local` · `Search` | `Text` + `Geo` |
 | [ROS](../papers/ros.md) | ACL’26 | I × Tokenization | `POI / Local` | `Text` + `Geo` |
-| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `POI / Local` | `unknown` |
+| [SIDScope](../papers/sidscope.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `POI / Local` | `Other` (Released and reconstructed item-to-SID mappings) |
 | [SPAR](../papers/spar.md) | arXiv’26 | I × Representation | `POI / Local` | `Text` + `Geo` |
 | [SPRINT](../papers/sprint.md) | arXiv’26 | V × Backbone | `E-commerce` · `POI / Local` | `Text` |
 | [SST](../papers/sst.md) | CIKM’26 | III × Tokenization | `E-commerce` · `POI / Local` | `Text` |
 | [TCBSA](../papers/tcbsa.md) | arXiv’26 | IV × Inference | `E-commerce` · `POI / Local` | `Text` |
-| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `POI / Local` | `unknown` |
+| [Think2Go](../papers/think2go.md) | KDD’26 | III × Training | `POI / Local` | `Other` (RQ-VAE POI identifiers; tokenizer inputs unstated) |
 | [Token-Weighted](../papers/token-weighted.md) | CIKM’26 | IV × Training | `E-commerce` · `POI / Local` · `Movie` | `Text` |
 | [UGR](../papers/ugr.md) | KDD’26 | IV × Training | `E-commerce` · `POI / Local` | `Text` |
 | [UniTok](../papers/unitok.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `POI / Local` | `Text` |
@@ -221,14 +221,14 @@ Click any domain below to jump to its paper table:
 | :--- | :--- | :--- | :--- | :--- |
 | [Molar](../papers/molar.md) | arXiv’24 | I × Representation | `E-commerce` · `Movie` · `Short video / Live` | `n/a` |
 | [SEATER](../papers/seater.md) | SIGIR-AP’24 | V × Tokenization | `POI / Local` · `E-commerce` · `News` · `Short video / Live` | `CF` |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | semantic: `Text` + `CF` · collaborative: `CF` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) | semantic: `Text` + `CF` · collaborative: `CF` |
 | [HiD-VAE](../papers/hid-vae.md) | arXiv’25 | II × Tokenization | `E-commerce` · `Short video / Live` | `Text` + `Attr` |
 | [OneRec](../papers/onerec.md) | arXiv’25 | Paradigms, Systems and Benchmarks | `Short video / Live` | `MM` + `CF` |
 | [OneRec-Think](../papers/onerec-think.md) | arXiv’25 | III × Training | `E-commerce` · `Short video / Live` | `MM` + `CF` |
 | [OneRec-V2](../papers/onerec-v2.md) | arXiv’25 | V × Backbone | `Short video / Live` | `Text` + `Img` + `CF` |
 | [RecBase](../papers/recbase.md) | EMNLP’25 | VI × Training | `News` · `Movie` · `Short video / Live` · `Book` · `POI / Local` · `Games` · `E-commerce` · `Travel / Hotel` | `Text` |
-| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `Short video / Live` | `unknown` |
-| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | `unknown` |
+| [DualGR](../papers/dualgr.md) | WWW’26 Short | VI × Backbone | `Short video / Live` | `Other` (RQ-KMeans per OneRec Technical Report, input unstated) |
+| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `Other` (Unnamed industrial platform, business unstated) | `Other` (Precomputed item embeddings, source unstated) |
 | [IBA](../papers/iba.md) | arXiv’26 | V × Backbone | `E-commerce` · `Short video / Live` | `Text` |
 | [MMGRec](../papers/mmgrec.md) | TOMM’26 | I × Tokenization | `Movie` · `Short video / Live` | `Text` + `Img` + `Audio` + `CF` |
 | [MSCGRec](../papers/mscgrec.md) | arXiv’26 | I × Tokenization | `E-commerce` · `Short video / Live` | image: `Img` · text: `Text` · collaborative: `CF` |
@@ -243,7 +243,7 @@ Click any domain below to jump to its paper table:
 
 ## Ads
 
-> 17 papers. Online advertising and sponsored recommendation.
+> 18 papers. Online advertising and sponsored recommendation.
 
 | Paper | Venue | Problem × Stage | Domain | SID Inputs |
 | :--- | :--- | :--- | :--- | :--- |
@@ -254,16 +254,17 @@ Click any domain below to jump to its paper table:
 | [CMRec](../papers/cmrec.md) | CIKM’26 Short | VI × Training | `Ads` · `E-commerce` | `Text` + `Img` + `CF` |
 | [GEM-Rec](../papers/gem-rec.md) | arXiv’26 | IV × Training | `Games` · `E-commerce` · `Ads` | `Text` |
 | [GFlowGR](../papers/gflowgr.md) | SIGIR’26 | IV × Training | `POI / Local` · `E-commerce` · `Ads` · `Search` | A: `Text` · B: `Text` + `CF` |
-| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `Ads` | `unknown` |
+| [GR4AD-X](../papers/gr4ad-x.md) | arXiv’26 | III × Tokenization | `Ads` | `Other` (Ad semantic embedding, source unstated) + `Attr` |
 | [GRC](../papers/grc.md) | CIKM’26 | III × Inference | `E-commerce` · `Ads` | `Text` |
 | [KL-MOPD](../papers/kl-mopd.md) | arXiv’26 | IV × Training | `E-commerce` · `Ads` | `CF` |
+| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `Ads` | `Other` (BID token embeddings; original SID inputs unstated) |
 | [MMQ](../papers/mmq.md) | WSDM’26 | I × Tokenization | `E-commerce` · `Ads` | `Text` + `Img` |
 | [NEZHA](../papers/nezha.md) | WWW’26 Industry | V × Inference | `E-commerce` · `POI / Local` · `Ads` · `Search` | `Text` |
 | [OneLatent](../papers/onelatent.md) | arXiv’26 | V × Training | `Ads` · `POI / Local` | `MM` |
-| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `E-commerce` · `Ads` | `unknown` |
+| [PFA](../papers/pfa.md) | arXiv’26 | V × Inference | `E-commerce` · `Ads` | `Other` (Four-level SIDs; tokenizer inputs unstated) |
 | [SAGE-SID](../papers/sage-sid.md) | arXiv’26 | IV × Training | `E-commerce` · `Short video / Live` · `Ads` | `Text` + `Img` |
 | [UniSID](../papers/unisid.md) | arXiv’26 | I × Tokenization | `Ads` · `E-commerce` | `Text` + `Img` |
-| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `E-commerce` · `Ads` | `unknown` |
+| [V-STAR](../papers/v-star.md) | KDD’26 | IV × Training | `E-commerce` · `Ads` | `Other` (RQ-VAE SIDs; tokenizer inputs unstated) |
 
 ## Movie
 
@@ -276,8 +277,8 @@ Click any domain below to jump to its paper table:
 | [RecBase](../papers/recbase.md) | EMNLP’25 | VI × Training | `News` · `Movie` · `Short video / Live` · `Book` · `POI / Local` · `Games` · `E-commerce` · `Travel / Hotel` | `Text` |
 | [TokenRec](../papers/tokenrec.md) | TKDE’25 | I × Tokenization | `Music` · `Movie` · `E-commerce` | `CF` |
 | [CausalDPO](../papers/causaldpo.md) | ICML’26 | VI × Training | `POI / Local` · `Movie` · `Book` | `n/a` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `unknown` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `unknown` |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `Audio` |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `Other` (MTM masked-code context, source unstated) |
 | [MMGRec](../papers/mmgrec.md) | TOMM’26 | I × Tokenization | `Movie` · `Short video / Live` | `Text` + `Img` + `Audio` + `CF` |
 | [R3-VAE](../papers/r3-vae.md) | arXiv’26 | II × Tokenization | `E-commerce` · `Music` · `Movie` · `News` | `Text` |
 | [SPRIG](../papers/sprig.md) | CIKM’26 Short | I × Tokenization | `Movie` · `Music` | A: `Text` · B: `Audio` |
@@ -293,10 +294,10 @@ Click any domain below to jump to its paper table:
 | [PSRQ](../papers/psrq.md) | CIKM’25 | I × Tokenization | `E-commerce` · `Music` | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` |
 | [TokenRec](../papers/tokenrec.md) | TKDE’25 | I × Tokenization | `Music` · `Movie` · `E-commerce` | `CF` |
 | [CAPE](../papers/cape.md) | arXiv’26 | I × Inference | `E-commerce` · `Music` | `Text` |
-| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `unknown` |
-| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | `Music` · `E-commerce` | A: `unknown` · B: `Text` + `Img` |
-| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `Music` | `unknown` |
-| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `E-commerce` · `Music` | `unknown` |
+| [Deco](../papers/deco.md) | arXiv’26 | V × Backbone | `E-commerce` · `Movie` · `Music` | A: `Text` · B: `Audio` |
+| [DPE-Rec](../papers/dpe-rec.md) | arXiv’26 | IV × Training | `Music` · `E-commerce` | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` |
+| [Gryphon](../papers/gryphon.md) | CIKM’26 Short | IV × Backbone | `Music` | `Other` (Residual K-Means SIDs, input unstated) |
+| [Latte](../papers/latte.md) | arXiv’26 | III × Backbone | `E-commerce` · `Music` | `Other` (PSID with RQ-KMeans, input unstated) |
 | [NEO](../papers/neo.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `Music` · `Podcast` · `Book` · `Search` | A: `Text` · B: `Audio` |
 | [R3-VAE](../papers/r3-vae.md) | arXiv’26 | II × Tokenization | `E-commerce` · `Music` · `Movie` · `News` | `Text` |
 | [SPRIG](../papers/sprig.md) | CIKM’26 Short | I × Tokenization | `Movie` · `Music` | A: `Text` · B: `Audio` |
@@ -316,7 +317,7 @@ Click any domain below to jump to its paper table:
 | [NEO](../papers/neo.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `Music` · `Podcast` · `Book` · `Search` | A: `Text` · B: `Audio` |
 | [NEZHA](../papers/nezha.md) | WWW’26 Industry | V × Inference | `E-commerce` · `POI / Local` · `Ads` · `Search` | `Text` |
 | [ProGEO](../papers/progeo.md) | arXiv’26 | I × Tokenization | `POI / Local` · `Search` | `Text` + `Geo` |
-| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `E-commerce` · `Search` | `unknown` |
+| [SLIDE](../papers/slide.md) | arXiv’26 | IV × Training | `E-commerce` · `Search` | `Other` (FORGE SIDs; Taobao tokenizer inputs unstated) |
 
 ## News
 
@@ -340,7 +341,7 @@ Click any domain below to jump to its paper table:
 | [AtSpeed](../papers/atspeed.md) | ICLR’25 | V × Inference | `E-commerce` · `Movie` · `Book` | `Text` |
 | [RecBase](../papers/recbase.md) | EMNLP’25 | VI × Training | `News` · `Movie` · `Short video / Live` · `Book` · `POI / Local` · `Games` · `E-commerce` · `Travel / Hotel` | `Text` |
 | [CausalDPO](../papers/causaldpo.md) | ICML’26 | VI × Training | `POI / Local` · `Movie` · `Book` | `n/a` |
-| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `unknown` |
+| [GenCDR](../papers/gencdr.md) | AAAI’26 | VI × Tokenization | `E-commerce` · `Book` · `Movie` | `Text` + `Other` (MTM masked-code context, source unstated) |
 | [NEO](../papers/neo.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `Music` · `Podcast` · `Book` · `Search` | A: `Text` · B: `Audio` |
 
 ## Games
@@ -353,7 +354,7 @@ Click any domain below to jump to its paper table:
 | [RecBase](../papers/recbase.md) | EMNLP’25 | VI × Training | `News` · `Movie` · `Short video / Live` · `Book` · `POI / Local` · `Games` · `E-commerce` · `Travel / Hotel` | `Text` |
 | [GEM-Rec](../papers/gem-rec.md) | arXiv’26 | IV × Training | `Games` · `E-commerce` · `Ads` | `Text` |
 | [GR-Generalize](../papers/gr-generalize.md) | arXiv’26 | Paradigms, Systems and Benchmarks | `E-commerce` · `Games` · `POI / Local` | `Text` |
-| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `E-commerce` · `Games` | `unknown` |
+| [MuSID-KD](../papers/musid-kd.md) | arXiv’26 | IV × Training | `E-commerce` · `Games` | `Other` (TIGER teacher SIDs; tokenizer inputs unstated) |
 
 ## Long video
 
@@ -361,9 +362,9 @@ Click any domain below to jump to its paper table:
 
 | Paper | Venue | Problem × Stage | Domain | SID Inputs |
 | :--- | :--- | :--- | :--- | :--- |
-| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | Paradigms, Systems and Benchmarks | `Long video` | `unknown` |
+| [Netflix-SID-Comparison](../papers/netflix-sid-comparison.md) | NeurIPS’26 PALM Workshop | Paradigms, Systems and Benchmarks | `Long video` | `Other` (Content embeddings; constituent modalities unstated) |
 | [PLUM](../papers/plum.md) | WWW’26 | Paradigms, Systems and Benchmarks | `Long video` · `Short video / Live` | `MM` + `CF` |
-| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `Long video` | `unknown` |
+| [SPAR-Youku](../papers/spar-youku.md) | arXiv’26 | I × Backbone | `Long video` | `Other` (RQ-PIB item embeddings; source signals unstated) |
 
 ## Image / Article
 
@@ -389,7 +390,7 @@ Click any domain below to jump to its paper table:
 
 | Paper | Venue | Problem × Stage | Domain | SID Inputs |
 | :--- | :--- | :--- | :--- | :--- |
-| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `E-commerce` · `Video` | `unknown` |
+| [STATIC](../papers/static.md) | KDD’26 ADS | V × Inference | `E-commerce` · `Video` | `Other` (RQ-VAE item features; source modalities unstated) |
 
 ## Apps
 
@@ -423,15 +424,14 @@ Click any domain below to jump to its paper table:
 | :--- | :--- | :--- | :--- | :--- |
 | [GTI](../papers/gti.md) | arXiv’26 | III × Training | `Recruitment` · `E-commerce` | A: `Text` + `CF` · B: `Text` |
 
-## unknown (industrial)
+## Other
 
-> 6 papers. Industrial logs where the specific business vertical is not disclosed in the paper.
+> 5 papers. Data from a business the domains above do not cover, or one the paper does not name; each entry says what the paper states.
 
 | Paper | Venue | Problem × Stage | Domain | SID Inputs |
 | :--- | :--- | :--- | :--- | :--- |
-| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | semantic: `Text` + `CF` · collaborative: `CF` |
-| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | `E-commerce` · `unknown (industrial)` | A: `unknown` · B: `Text` + `Img` + `CF` |
-| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `E-commerce` · `unknown (industrial)` | `Text` + `unknown` |
-| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `unknown (industrial)` | `unknown` |
-| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `E-commerce` · `unknown (industrial)` | `Text` |
-| [MBGR](../papers/mbgr.md) | arXiv’26 | VI × Tokenization | `unknown (industrial)` | `unknown` |
+| [FlexCode](../papers/flexcode.md) | arXiv’25 | I × Tokenization | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) | semantic: `Text` + `CF` · collaborative: `CF` |
+| [CapsID](../papers/capsid.md) | arXiv’26 | I × Tokenization | `E-commerce` · `Other` (Large-scale social media platform) | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` |
+| [DASO](../papers/daso.md) | arXiv’26 | IV × Training | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) |
+| [Dynamic-Single-Codebook](../papers/dynamic-single-codebook.md) | arXiv’26 | V × Tokenization | `E-commerce` · `Short video / Live` · `Other` (Unnamed industrial platform, business unstated) | `Other` (Precomputed item embeddings, source unstated) |
+| [LoopGR](../papers/loopgr.md) | arXiv’26 | V × Backbone | `E-commerce` · `Other` (Tencent production recommender, business unstated) | `Text` |

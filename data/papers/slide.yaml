@@ -64,7 +64,12 @@ changes:
   objective: primary
   inference: none
 modality:
-- unknown
+- Other
+modality_other:
+- en: FORGE SIDs; Taobao tokenizer inputs unstated
+  zh: 沿用编号；淘宝构码输入未写
+  quote: For FORGE, we use the SID vocabulary provided by the dataset
+  where: '2610.34764v1 #S5.SS1.SSS0.Px4.p1；#S5.SS1.SSS0.Px1.p1：FORGE 沿用数据集 SID；独立 Taobao Search 实验只给三层码本大小，未写构码输入，因此整体不能补成单一模态组合。'
 modality_where:
   quote: For FORGE, we use the SID vocabulary provided by the dataset and retain the single labeled target item in each training
     instance for direct training.

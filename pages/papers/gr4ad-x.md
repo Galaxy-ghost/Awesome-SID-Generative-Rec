@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Ad semantic embedding, source unstated) + `Attr` |
 | **Domain** | `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.38378) |
 | **Reading level** | Overview (Level 1) |

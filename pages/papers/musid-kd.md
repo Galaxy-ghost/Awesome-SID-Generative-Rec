@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (TIGER teacher SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Games` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.35218) · [Code](https://anonymous.4open.science/r/m7k2-review-83f9/) |
 | **Reading level** | Overview (Level 1) |

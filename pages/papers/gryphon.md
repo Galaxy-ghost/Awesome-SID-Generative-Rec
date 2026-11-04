@@ -8,7 +8,7 @@
 | **Venue** | CIKM’26 Short |
 | **Problem × Stage** | `IV. Utility` · `Backbone` |
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Residual K-Means SIDs, input unstated) |
 | **Domain** | `Music` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.08604) |
 | **Reading level** | Overview (Level 1) |

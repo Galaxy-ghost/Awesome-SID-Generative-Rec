@@ -8,7 +8,7 @@
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
 | **Changes** | ● Objective · ○ Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (RQ-VAE SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10699) |
 | **Reading level** | Reading Notes (Level 2) |

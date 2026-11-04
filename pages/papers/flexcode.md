@@ -9,7 +9,7 @@
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
 | **Changes** | ● Tokenization · ○ Tokenizer · ○ Objective |
 | **SID inputs** | semantic: `Text` + `CF` · collaborative: `CF` |
-| **Domain** | `E-commerce` · `Short video / Live` · `unknown (industrial)` |
+| **Domain** | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) |
 | **Links** | [Paper](https://arxiv.org/abs/2511.20673) |
 | **Reading level** | Overview (Level 1) |
 

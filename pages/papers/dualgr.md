@@ -8,7 +8,7 @@
 | **Venue** | WWW’26 Short |
 | **Problem × Stage** | `VI. Generalization` · `Backbone` |
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (RQ-KMeans per OneRec Technical Report, input unstated) |
 | **Domain** | `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.12518) |
 | **Reading level** | Overview (Level 1) |

@@ -8,8 +8,8 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
 | **Changes** | ● Tokenization |
-| **SID inputs** | A: `unknown` · B: `Text` + `Img` + `CF` |
-| **Domain** | `E-commerce` · `unknown (industrial)` |
+| **SID inputs** | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` |
+| **Domain** | `E-commerce` · `Other` (Large-scale social media platform) |
 | **Links** | [Paper](https://arxiv.org/abs/2605.05096) |
 | **Reading level** | Overview (Level 1) |
 

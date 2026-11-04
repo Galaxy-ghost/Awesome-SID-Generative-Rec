@@ -8,7 +8,7 @@
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Backbone` |
 | **Changes** | ● Backbone · ○ Objective |
-| **SID inputs** | `unknown` |
+| **SID inputs** | `Other` (Three-level SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.16132) |
 | **Reading level** | Overview (Level 1) |

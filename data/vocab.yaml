@@ -819,9 +819,9 @@ modality:
   description: No discrete SID tokenizer is built (items are represented as continuous vectors or plain text).
   description_zh: 不构建离散 SID 编号器（物品以连续向量或纯文本表示）。
   is_content: false
-- value: unknown
-  description: Tokenizer input modality not reported or partially unspecified in the paper.
-  description_zh: 论文未披露或部分未明确说明的构码输入模态。
+- value: Other
+  description: Tokenizer input outside the signals above, or not stated in the paper; `modality_other` says what it is.
+  description_zh: 不属于以上信号，或论文没有写明的构码输入；具体内容见 `modality_other`。
   is_content: false
 modality_groups:
 - value: Text
@@ -863,11 +863,11 @@ modality_groups:
   name_zh: 无内容模态
   rule: all_branches_no_content
   exclude:
-  - unknown
+  - Other
   - n/a
   description: No tokenizer branch uses any content modality (`Text`, `Img`, `Audio`, `Video`, `MM`), and inputs across all
-    branches contain no `unknown` (nor `n/a`).
-  description_zh: 所有构码分支都不含内容模态（`Text`、`Img`、`Audio`、`Video`、`MM`），且所有分支合起来不含 `unknown`（及 `n/a`）。
+    branches contain no `Other` (nor `n/a`).
+  description_zh: 所有构码分支都不含内容模态（`Text`、`Img`、`Audio`、`Video`、`MM`），且所有分支合起来不含 `Other`（及 `n/a`）。
 - value: CF only
   aspect: Collaborative
   aspect_zh: 协同
@@ -913,16 +913,16 @@ modality_groups:
   target: Time
   description: Across all tokenizer branches combined, inputs include temporal features (`Time`).
   description_zh: 所有构码分支合起来含时间特征（`Time`）。
-- value: Unknown
-  aspect: Unknown
-  aspect_zh: 未知
-  name: Unknown
-  name_zh: 待明确
+- value: Other
+  aspect: Other
+  aspect_zh: 其他
+  name: Other
+  name_zh: 其他
   rule: union_contains
-  target: unknown
-  description: Tokenizer input modality is wholly or partially unreported (`unknown` present in at least one branch; open
-    signals are listed in `modality_open`).
-  description_zh: 构码输入模态整体或部分未明（至少一个分支含 `unknown`；待核信号见 `modality_open`）。
+  target: Other
+  description: At least one branch reads an input outside the signals above, or one the paper does not state; each entry
+    says what it is.
+  description_zh: 至少一个分支的输入不属于以上信号，或论文没有写明；每篇写出具体内容。
 domain:
 - value: E-commerce
   name_zh: 电商
@@ -1032,12 +1032,13 @@ domain:
   category_zh: 平台服务与工业其他
   description: Job and recruitment recommendation.
   description_zh: 职位与招聘推荐。
-- value: unknown (industrial)
-  name_zh: 工业场景未明
+- value: Other
+  name_zh: 其他
   category: Platform Services & Other
   category_zh: 平台服务与工业其他
-  description: Industrial logs where the specific business vertical is not disclosed in the paper.
-  description_zh: 论文未披露具体业务垂直领域的工业日志数据。
+  description: Data from a business the domains above do not cover, or one the paper does not name; each entry says what
+    the paper states.
+  description_zh: 不属于以上领域，或论文没有写明业务的数据；每篇写出具体内容。
 settings:
 - value: cold-start
   name_zh: 冷启动
