@@ -1057,43 +1057,47 @@ scenario_task:
 - value: item
   name: General Item Recommendation
   name_zh: 一般物品推荐
-  description: Predicts the target item from user history or preferences, including non-generative next-item prediction.
-  description_zh: 根据用户历史或偏好预测目标物品，也包括非生成式的下一物品预测。
+  description: Next-item or candidate recommendation from user interaction history or preferences, including discriminative
+    and hybrid models that take SIDs as input.
+  description_zh: 根据用户交互历史或偏好预测目标物品，包括以 SID 为输入的判别式与混合式下一物品预测。
 - value: query
   name: Query-Conditioned Retrieval
   name_zh: 查询驱动检索
-  description: A user query is a model input, and the paper evaluates the query task.
-  description_zh: 用户查询是模型输入，并且论文评测了查询任务。
+  description: Product or content retrieval conditioned on an explicit user search query, with dedicated evaluation on query-based
+    retrieval tasks.
+  description_zh: 以显式用户搜索词作为模型输入，并在搜索或查询检索任务上单独开展实验评测。
 - value: poi
   name: POI and Local Services
   name_zh: POI 与本地生活
-  description: Recommends places or local merchants; trajectories, locations, or spatial ranges enter the input or the candidate
-    constraint.
-  description_zh: 推荐地点或本地商户，轨迹、位置或空间范围参与输入或候选约束。
+  description: Point-of-interest or local-merchant recommendation where user trajectories, coordinates, or spatial regions
+    enter the model input or decoding constraints.
+  description_zh: 面向兴趣点（POI）或本地生活商户的推荐，将用户轨迹、地理坐标或空间范围纳入模型输入或解码约束。
 - value: ranking
   name: Ranking and Reranking
   name_zh: 排序与重排
-  description: Scores or reranks given candidates instead of generating codes from the full catalog, for example click-through
-    rate prediction or list reranking.
-  description_zh: 对给定候选打分或重排，不从全库逐码生成，例如点击率预估或列表重排。
+  description: Candidate scoring or slate reranking over a given candidate set (such as CTR prediction or listwise reranking),
+    rather than decoding SID tokens across the full catalog.
+  description_zh: 对给定候选集做打分或列表重排（如点击率预估、候选列表重排），而非在全物品目录上逐 token 解码生成。
 - value: language
   name: Conversational and Instruction-Following Recommendation
   name_zh: 对话与指令推荐
-  description: Users state preferences or conditions in free text, and the paper evaluates this separately.
-  description_zh: 用户用自由文本提出偏好或条件，并且论文单独评测了这一点。
+  description: Recommendation where users express preferences or constraints in free-form natural language and the paper evaluates
+    this task separately (excluding internal chain-of-thought reasoning without user language input).
+  description_zh: 用户以自由文本提出偏好或约束条件、且论文对该任务做单独评测的推荐场景（不含无用户自然语言输入的模型内部思维链推理）。
 deploy:
 - value: public
   name: Public Benchmarks
   name_zh: 公开数据
-  description: Experiments use only public datasets, including datasets released by companies (for example KuaiRand or AL-GR).
-  description_zh: 实验只用公开数据集，公司公开发布的数据集也算（例如 KuaiRand、AL-GR）。
+  description: Evaluated exclusively on publicly available datasets, including open industrial datasets released by companies
+    (such as KuaiRand and AL-GR).
+  description_zh: 仅在公开数据集上完成实验评测，包括企业公开发布的工业数据集（如 KuaiRand、AL-GR）。
 - value: industrial-offline
   name: Industrial Data, Offline
   name_zh: 工业数据离线
-  description: Uses non-public business data without an online experiment or deployment.
-  description_zh: 用了未公开的业务数据，没有线上实验或部署。
+  description: Evaluated offline on proprietary industrial logs without reporting an online experiment or production deployment.
+  description_zh: 在未公开的工业业务日志上开展离线评测，未报告线上实验或生产环境部署。
 - value: online
   name: Online Experiment or Deployment
   name_zh: 线上实验或部署
-  description: Reports an online A/B test, an online experiment, or a production deployment.
-  description_zh: 报告了线上 A/B、线上实验或上线部署。
+  description: Reports an online A/B test, live traffic experiment, or production system deployment.
+  description_zh: 报告了线上 A/B 测试、真实流量实验或生产系统上线部署。

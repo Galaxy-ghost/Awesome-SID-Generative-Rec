@@ -2,11 +2,11 @@
 
 [← README](../../README.md#scenarios) · English | [中文](../zh/index/scenario.md)
 
-Papers grouped by application scenario: task forms can be several per paper, deployment is the highest level a paper reaches, and special evaluation settings are listed separately. A paper can appear in several groups.
+This page groups papers by task form, highest reported deployment level, and special evaluation setting. Because a paper may address multiple task forms and evaluation settings, it appears in every matching section.
 
 ## General Item Recommendation
 
-> 162 papers. Predicts the target item from user history or preferences, including non-generative next-item prediction.
+> 162 papers. Next-item or candidate recommendation from user interaction history or preferences, including discriminative and hybrid models that take SIDs as input.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -175,7 +175,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Query-Conditioned Retrieval
 
-> 8 papers. A user query is a model input, and the paper evaluates the query task.
+> 8 papers. Product or content retrieval conditioned on an explicit user search query, with dedicated evaluation on query-based retrieval tasks.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -190,7 +190,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## POI and Local Services
 
-> 16 papers. Recommends places or local merchants; trajectories, locations, or spatial ranges enter the input or the candidate constraint.
+> 16 papers. Point-of-interest or local-merchant recommendation where user trajectories, coordinates, or spatial regions enter the model input or decoding constraints.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -213,7 +213,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Ranking and Reranking
 
-> 12 papers. Scores or reranks given candidates instead of generating codes from the full catalog, for example click-through rate prediction or list reranking.
+> 12 papers. Candidate scoring or slate reranking over a given candidate set (such as CTR prediction or listwise reranking), rather than decoding SID tokens across the full catalog.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -232,7 +232,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Conversational and Instruction-Following Recommendation
 
-> 2 papers. Users state preferences or conditions in free text, and the paper evaluates this separately.
+> 2 papers. Recommendation where users express preferences or constraints in free-form natural language and the paper evaluates this task separately (excluding internal chain-of-thought reasoning without user language input).
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -241,7 +241,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Public Benchmarks
 
-> 113 papers. Experiments use only public datasets, including datasets released by companies (for example KuaiRand or AL-GR).
+> 113 papers. Evaluated exclusively on publicly available datasets, including open industrial datasets released by companies (such as KuaiRand and AL-GR).
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -361,7 +361,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Industrial Data, Offline
 
-> 18 papers. Uses non-public business data without an online experiment or deployment.
+> 18 papers. Evaluated offline on proprietary industrial logs without reporting an online experiment or production deployment.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -386,7 +386,7 @@ Papers grouped by application scenario: task forms can be several per paper, dep
 
 ## Online Experiment or Deployment
 
-> 50 papers. Reports an online A/B test, an online experiment, or a production deployment.
+> 50 papers. Reports an online A/B test, live traffic experiment, or production system deployment.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |

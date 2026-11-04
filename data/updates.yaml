@@ -1,6 +1,10 @@
 # Substantive updates, newest first. Rendered into README.md ("Recent Updates") and README.zh.md ("最近更新") by scripts/build.py.
 # Each entry: date (YYYY-MM-DD string), change (one English sentence), change_zh (one Chinese sentence), papers (list of record ids; may be empty).
 - date: '2026-11-04'
+  change: The repository added application scenario annotations (task form and deployment level) and a scenario index page.
+  change_zh: 仓库新增应用场景标注（任务形态与部署条件）及按场景找论文的索引页。
+  papers: []
+- date: '2026-11-04'
   change: The repository added a problem-by-stage taxonomy figure, per-paper multi-stage change markers, and an index by SID tokenizer input modality.
   change_zh: 仓库新增问题 × 阶段分类总图、逐篇多阶段改动标记与按 SID 编号器输入模态的索引页。
   papers: []

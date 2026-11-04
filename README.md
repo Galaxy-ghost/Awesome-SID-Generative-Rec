@@ -25,7 +25,7 @@ Each cell pairs a research problem (row) with a primary pipeline stage (column),
 
 ## Scenarios
 
-Papers by task form and deployment level (a paper can have several task forms); click a total to open its list:
+The table counts papers by task form (multi-label) and highest reported deployment level; click any row total to view its paper list:
 
 | Task form                                               | Public Benchmarks | Industrial Data, Offline | Online Experiment or Deployment |                                        Total                                         |
 | :------------------------------------------------------ | :---------------: | :----------------------: | :-----------------------------: | :----------------------------------------------------------------------------------: |
@@ -35,22 +35,22 @@ Papers by task form and deployment level (a paper can have several task forms); 
 | Ranking and Reranking                                   |         2         |            2             |                8                |                 [12](pages/index/scenario.md#ranking-and-reranking)                  |
 | Conversational and Instruction-Following Recommendation |         1         |            0             |                1                | [2](pages/index/scenario.md#conversational-and-instruction-following-recommendation) |
 
-Evaluation settings: [cold-start (18)](pages/index/scenario.md#cold-start) · [cross-domain (22)](pages/index/scenario.md#cross-domain) · [catalog-change (3)](pages/index/scenario.md#catalog-change)
+Special evaluation settings: [cold-start (18)](pages/index/scenario.md#cold-start) · [cross-domain (22)](pages/index/scenario.md#cross-domain) · [catalog-change (3)](pages/index/scenario.md#catalog-change)
 
 ## Where to Start
 
 Pick an entry point below based on what you want to look up:
 
-| I want to...                                                                                 | Where to go                                   |
-| :------------------------------------------------------------------------------------------- | :-------------------------------------------- |
-| Understand how Semantic IDs work and which papers to read first                              | [Start Here](guides/start-here.md)            |
-| Find methods for a specific research problem (e.g., collisions, alignment, efficiency)       | [All Papers](#all-papers)                     |
-| Compare methods side by side within one pipeline stage                                       | [Papers by Stage](pages/index/stages.md)      |
-| Find papers that tokenize multimodal content or collaborative filtering (CF) signals         | [Papers by Modality](pages/index/modality.md) |
-| Find papers in a specific domain (e.g., e-commerce, POI, short video)                        | [Papers by Domain](pages/index/domain.md)     |
-| Find papers by application scenario (e.g., query retrieval, POI, ranking, online deployment) | [Papers by Scenario](pages/index/scenario.md) |
-| Find papers with open-source code                                                            | [Papers with Code](pages/index/code.md)       |
-| Feed this repository to an LLM or search tool                                                | [llms.txt](llms.txt)                          |
+| I want to...                                                                                   | Where to go                                   |
+| :--------------------------------------------------------------------------------------------- | :-------------------------------------------- |
+| Understand how Semantic IDs work and which papers to read first                                | [Start Here](guides/start-here.md)            |
+| Find methods for a specific research problem (e.g., collisions, alignment, efficiency)         | [All Papers](#all-papers)                     |
+| Compare methods side by side within one pipeline stage                                         | [Papers by Stage](pages/index/stages.md)      |
+| Find papers that tokenize multimodal content or collaborative filtering (CF) signals           | [Papers by Modality](pages/index/modality.md) |
+| Find papers in a specific domain (e.g., e-commerce, POI, short video)                          | [Papers by Domain](pages/index/domain.md)     |
+| Find papers by task form or deployment level (e.g., query retrieval, POI, ranking, online A/B) | [Papers by Scenario](pages/index/scenario.md) |
+| Find papers with open-source code                                                              | [Papers with Code](pages/index/code.md)       |
+| Feed this repository to an LLM or search tool                                                  | [llms.txt](llms.txt)                          |
 
 ## Starter Papers
 
@@ -66,6 +66,7 @@ Read these three papers first for the standard five-stage pipeline, industrial l
 
 Recent additions and Table 1 synchronization logs in reverse chronological order:
 
+- 2026-11-04: The repository added application scenario annotations (task form and deployment level) and a scenario index page.
 - 2026-11-04: The repository added a problem-by-stage taxonomy figure, per-paper multi-stage change markers, and an index by SID tokenizer input modality.
 - 2026-11-01: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary. Papers: [TIGER][], [RPG][], [OneLoc][], [LETTER][], [SIDScope][].
 - 2026-10-30: Synchronized all 181 paper records with Table 1 of the survey across the six research problems and five pipeline stages.

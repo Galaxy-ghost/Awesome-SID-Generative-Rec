@@ -249,7 +249,7 @@ ZH_LABELS = {
             ("在同一个流程阶段内横向对比不同方法", "[按阶段索引](pages/zh/index/stages.md)"),
             ("找用多模态内容或协同过滤（CF）信号构码的论文", "[按模态找论文](pages/zh/index/modality.md)"),
             ("找某个业务领域的论文（如电商、本地生活 POI、短视频）", "[按领域找论文](pages/zh/index/domain.md)"),
-            ("按应用场景找论文（如查询检索、POI、排序、线上部署）", "[按场景找论文](pages/zh/index/scenario.md)"),
+            ("找特定任务形态或部署条件的论文（如查询检索、POI、排序重排、线上实验）", "[按场景找论文](pages/zh/index/scenario.md)"),
             ("找公开了开源代码的论文", "[有代码的论文](pages/zh/index/code.md)"),
             ("让大模型或检索工具直接读取这个仓库", "[llms.txt](llms.txt)（英文）"),
         ],
@@ -261,7 +261,7 @@ ZH_LABELS = {
         "domain_title": "按领域找论文",
         "domain_head": ("类别", "领域"),
         "scenario_section": "应用场景",
-        "scenario_note": "下表按任务形态和部署条件统计论文数（一篇可有多种任务形态），点击合计可跳到分组列表：",
+        "scenario_note": "下表按任务形态（可多选）与论文达到的最高部署条件统计篇数；点击行末合计可查看对应论文列表：",
         "scenario_total": "合计",
         "scenario_task_head": "任务形态",
         "settings_line": "特殊评测设置：",
@@ -297,7 +297,7 @@ ZH_LABELS = {
         "domain_col": "领域",
         "empty_group": "当前暂无论文归入本组。",
         "scenario_title": "按场景找论文",
-        "scenario_intro": "本页按应用场景分组列出论文：任务形态可多选，部署条件取论文达到的最高一级，特殊评测设置另列。一篇论文可进入多个分组。",
+        "scenario_intro": "本页按任务形态、论文达到的最高部署条件与特殊评测设置分组列出论文。任务形态与特殊评测设置均可多选，同一篇论文会同时列入所有匹配的分组。",
         "task_col": "任务形态",
         "deploy_col": "部署条件",
         "settings_col": "特殊设置",
@@ -850,10 +850,10 @@ def scenario_section(vocab: dict, papers: list, zh: bool = False) -> list:
         label = set_zh[e["value"]] if zh else e["value"]
         sets.append(f"[{label}（{n}）]({page}#{slugify_heading(label)})" if zh else f"[{label} ({n})]({page}#{slugify_heading(label)})")
     note = R["scenario_note"] if zh else (
-        "Papers by task form and deployment level (a paper can have several task forms); click a total to open its list:")
+        "The table counts papers by task form (multi-label) and highest reported deployment level; click any row total to view its paper list:")
     return [f"## {R['scenario_section'] if zh else 'Scenarios'}", "", note, "",
             *align([f"| {' | '.join(head)} |", "| :-- |" + " :-: |" * (len(head) - 1), *[f"| {' | '.join(r)} |" for r in rows]]), "",
-            (R["settings_line"] if zh else "Evaluation settings: ") + " · ".join(sets), ""]
+            (R["settings_line"] if zh else "Special evaluation settings: ") + " · ".join(sets), ""]
 
 
 def build_scenario_page(vocab: dict, papers: list, probs: dict, zh: bool = False) -> str:
@@ -873,8 +873,8 @@ def build_scenario_page(vocab: dict, papers: list, probs: dict, zh: bool = False
     ordered = by_year(papers)
     out = [f"# {X['scenario_title'] if zh else 'Papers by Scenario'}", "", f"[← README]({readme}#{back}) · {switch}", "",
            X["scenario_intro"] if zh else (
-               "Papers grouped by application scenario: task forms can be several per paper, deployment is the highest level a paper "
-               "reaches, and special evaluation settings are listed separately. A paper can appear in several groups."), ""]
+               "This page groups papers by task form, highest reported deployment level, and special evaluation setting. "
+               "Because a paper may address multiple task forms and evaluation settings, it appears in every matching section."), ""]
     count = lambda n: f"共 {n} 篇。" if zh else f"{n} paper{'s' if n != 1 else ''}. "
     groups = [(vocab_name(vocab, "scenario_task", e["value"], zh), e, [r for r in ordered if any(t["value"] == e["value"] for t in r["scenario"]["tasks"])])
               for e in vocab["scenario_task"]]
@@ -932,7 +932,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
                 ("Compare methods side by side within one pipeline stage", "[Papers by Stage](pages/index/stages.md)"),
                 ("Find papers that tokenize multimodal content or collaborative filtering (CF) signals", "[Papers by Modality](pages/index/modality.md)"),
                 ("Find papers in a specific domain (e.g., e-commerce, POI, short video)", "[Papers by Domain](pages/index/domain.md)"),
-                ("Find papers by application scenario (e.g., query retrieval, POI, ranking, online deployment)", "[Papers by Scenario](pages/index/scenario.md)"),
+                ("Find papers by task form or deployment level (e.g., query retrieval, POI, ranking, online A/B)", "[Papers by Scenario](pages/index/scenario.md)"),
                 ("Find papers with open-source code", "[Papers with Code](pages/index/code.md)"),
                 ("Feed this repository to an LLM or search tool", "[llms.txt](llms.txt)"),
             ]), "",
