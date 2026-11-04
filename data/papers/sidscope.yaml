@@ -132,3 +132,10 @@ settings:
 - value: catalog-change
   quote: A released DACT Tools mapping refresh provides a paired reuse case.
   where: '2608.18779v2 #S6.SS1.p1.1；映射刷新补齐 275 个无 SID 的物品，再检验旧生成器能否推荐新物品（#S7.SS3.p1.1）'
+scenario:
+  tasks:
+  - value: item
+    quote: We compare the old checkpoint, the repaired mapping without adaptation, and three adapted models on the same 5,364
+      held-out users and targets.
+    where: 2608.18779v2
+  deploy: public

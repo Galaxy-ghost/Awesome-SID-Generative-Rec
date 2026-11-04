@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Tokenization |
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services` · `Ranking and Reranking`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.27944) |
 | **Reading level** | Reading Notes (Level 2) |
 

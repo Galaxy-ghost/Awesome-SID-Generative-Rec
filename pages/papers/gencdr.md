@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Other` (MTM masked-code context, source unstated) |
 | **Domain** | `E-commerce` · `Book` · `Movie` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) |
 | **Reading level** | Reading Notes (Level 2) |
 

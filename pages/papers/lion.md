@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation) |
 | **Reading level** | Overview (Level 1) |
 

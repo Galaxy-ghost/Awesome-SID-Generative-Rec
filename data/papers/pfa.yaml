@@ -78,3 +78,7 @@ domain:
 - E-commerce
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

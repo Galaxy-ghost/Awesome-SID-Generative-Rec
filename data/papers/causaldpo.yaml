@@ -79,3 +79,7 @@ domain:
 - Movie
 - Book
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

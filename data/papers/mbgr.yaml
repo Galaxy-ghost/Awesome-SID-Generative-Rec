@@ -101,3 +101,13 @@ note: Table 1 记 Text+CF；原文没写构码输入。
 domain:
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: This architecture serves as the core generative engine that simultaneously predicts next items across multiple
+      business domains.
+    where: '2604.02684v1 #S4.SS2.p1（多业务下一物品预测；Hit@10 结果表 1 #S6.T1）'
+  - value: ranking
+    quote: Downstream CTCVR GAUC Comparison
+    where: '2604.02684v1 #S6.T2（表 2；下游预测任务和 GAUC 定义 #S6.SS1.SSS3.p3）'
+  deploy: online

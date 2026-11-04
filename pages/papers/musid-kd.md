@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Other` (TIGER teacher SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Games` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.35218) · [Code](https://anonymous.4open.science/r/m7k2-review-83f9/) |
 | **Reading level** | Overview (Level 1) |
 

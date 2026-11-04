@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Other` (Tencent production recommender, business unstated) |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34157) |
 | **Reading level** | Overview (Level 1) |
 

@@ -85,3 +85,10 @@ note: §3.1 固定文本编码输入，§3.2.7/3.3 构码器随 CTR 与协同配
 domain:
 - Apps
 settings: []
+scenario:
+  tasks:
+  - value: ranking
+    quote: We propose PCR-CA (Parallel Codebook Representations with Contrastive Alignment), an end-to-end framework for improved
+      CTR (Click-through Rate) prediction.
+    where: 2508.18166v5
+  deploy: online

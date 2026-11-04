@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | A: `Text` + `CF` · B: `Text` |
 | **Domain** | `Recruitment` · `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.02324) |
 | **Reading level** | Overview (Level 1) |
 

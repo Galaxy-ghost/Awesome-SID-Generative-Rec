@@ -99,3 +99,12 @@ domain:
 - Movie
 - News
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Generative offline MRR performance and online A/B test results on industrial dataset.
+    where: '2604.11440v3 #S4.T3（生成推荐结果表 3；任务与生成配置 #S4.SS3）'
+  - value: ranking
+    quote: The experiments are conducted on the CTR model.
+    where: '2604.11440v3 #S4.SS4.SSS1.p1（独立 CTR 任务；UAUC 结果表 4 #S4.T4）'
+  deploy: online

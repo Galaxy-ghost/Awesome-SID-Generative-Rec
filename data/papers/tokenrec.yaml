@@ -114,3 +114,7 @@ settings:
   quote: For this analysis, we consider the Beauty and LastFM datasets and exclude the 5% of users (ref as unseen users )
     with the least interaction history from the training data split to simulate newly added users.
   where: '2406.10450v3 #S3.SS3.p2.1；这些用户交互过的物品也一并移出训练集'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ○ Backbone · ● Objective |
 | **SID inputs** | `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2405.16871) · [Code](https://github.com/anananan116/MBGen) |
 | **Reading level** | Overview (Level 1) |
 

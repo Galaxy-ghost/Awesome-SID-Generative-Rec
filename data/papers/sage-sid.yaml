@@ -72,3 +72,19 @@ domain:
 - Short video / Live
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Experiments on Amazon Product Reviews and the large-scale RecIF-Bench demonstrate consistent improvements in top-K
+      accuracy, cold-start recall, and diversity across both Semantic-ID and native-text action spaces, while preserving numerical
+      stability during training.
+    where: 2601.21452v3
+  - value: language
+    quote: TextRec consistently outperforms OneRec-GBPO across the core recommendation tasks, with improvements that are especially
+      clear on instruction-conditioned settings (e.g., Interactive Rec and Label-Conditional Rec).
+    where: 2601.21452v3
+  - value: ranking
+    quote: We report results on the core five recommendation tasks (Short Video Rec, Ad Rec, Product Rec, Interactive Rec,
+      and Label-Conditional Rec) and the pointwise Label Prediction task.
+    where: 2601.21452v3
+  deploy: public

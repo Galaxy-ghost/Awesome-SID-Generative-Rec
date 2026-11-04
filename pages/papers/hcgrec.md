@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Other` (Four-token SIDs per GenRec pipeline, input unstated) |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.11980) · [Code](https://github.com/WncFht/GRec) |
 | **Reading level** | Overview (Level 1) |
 

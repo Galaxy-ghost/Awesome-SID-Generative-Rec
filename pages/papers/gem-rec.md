@@ -10,6 +10,7 @@
 | **Changes** | ● Objective · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `Games` · `E-commerce` · `Ads` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.22231) |
 | **Reading level** | Overview (Level 1) |
 

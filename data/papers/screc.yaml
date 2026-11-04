@@ -91,3 +91,7 @@ note: §3.1.9 量化仍直接采用 RQ-VAE；新信息变换归 Representation �
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

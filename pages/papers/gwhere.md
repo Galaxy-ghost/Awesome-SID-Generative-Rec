@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | `Text` + `Img` + `Geo` + `CF` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) |
 | **Reading level** | Reading Notes (Level 2) |
 

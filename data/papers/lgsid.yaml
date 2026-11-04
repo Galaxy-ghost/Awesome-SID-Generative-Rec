@@ -107,3 +107,16 @@ note: Table 1 记 Text+Geo+CF；第一层构码另用类目、品牌的结构化
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: Furthermore, we propose a hierarchical geographic item tokenization strategy, where primary tokens are derived
+      from discrete spatial and content attributes, and residual tokens are refined using the aligned LLM’s geographic representation
+      vectors.
+    where: '2511.14221v1 #abstract1；本地生活场景见 #abstract1 "local-life services"；生成式结果 Table 2（TIGER、OneRec）'
+  - value: ranking
+    quote: Table 1 reports offline AUC on the Kuaishou local-life dataset when DIN (Zhou et al. 2018), DIEN (Zhou et al. 2019),
+      ETA (Chen et al. 2021), SIM (Pi et al. 2020), and TWIN (Si et al. 2024) are augmented with different item tokenization
+      schemes.
+    where: '2511.14221v1 #Sx5.SSx2.SSSx1.p1.1'
+  deploy: industrial-offline

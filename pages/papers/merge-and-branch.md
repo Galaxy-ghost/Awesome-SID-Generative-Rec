@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.37973) |
 | **Reading level** | Overview (Level 1) |
 

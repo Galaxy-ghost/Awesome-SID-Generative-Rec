@@ -132,3 +132,11 @@ domain_other:
     (text, image, behavior) provided by a large-scale social media platform.
   where: '2605.05096v1 #S4.SS1.SSS0.Px1.p1.1'
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: 'Generative recommendation (GR) has recently emerged as a unified alternative to retrieval-and-ranking pipelines:
+      an item is converted into a short sequence of Semantic IDs (SIDs), and a sequence model generates the SID of the next
+      item a user may consume [20].'
+    where: 2605.05096v1
+  deploy: industrial-offline

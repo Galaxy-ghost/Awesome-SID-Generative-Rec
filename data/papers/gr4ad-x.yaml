@@ -96,3 +96,7 @@ modality_where:
 domain:
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

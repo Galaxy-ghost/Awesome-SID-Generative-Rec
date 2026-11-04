@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Backbone · ○ Objective |
 | **SID inputs** | `n/a` |
 | **Domain** | `E-commerce` · `Movie` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2412.18176) · [Code](https://anonymous.4open.science/r/Molar-8B06/) |
 | **Reading level** | Overview (Level 1) |
 

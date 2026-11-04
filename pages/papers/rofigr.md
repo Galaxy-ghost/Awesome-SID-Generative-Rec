@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | text: `Text` + `Img` + `CF` · image: `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.39470) |
 | **Reading level** | Overview (Level 1) |
 

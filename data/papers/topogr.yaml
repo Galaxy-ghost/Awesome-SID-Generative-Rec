@@ -87,3 +87,7 @@ modality:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

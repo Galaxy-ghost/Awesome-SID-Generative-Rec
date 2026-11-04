@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.10468) · [Code](https://github.com/yliuaa/DECOR.git) |
 | **Reading level** | Overview (Level 1) |
 

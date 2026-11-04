@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` |
 | **Settings** | `catalog-change` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.29705) · [Code](https://github.com/HomesAmaranta/DACT) |
 | **Reading level** | Overview (Level 1) |
 

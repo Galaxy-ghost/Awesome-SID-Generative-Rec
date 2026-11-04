@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Music` · `Movie` · `News` |
+| **Scenario** | `General Item Recommendation` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.11440) · [Code](https://github.com/wwqq/R3-VAE) |
 | **Reading level** | Overview (Level 1) |
 

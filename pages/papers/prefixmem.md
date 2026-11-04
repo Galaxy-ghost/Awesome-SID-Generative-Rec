@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective |
 | **SID inputs** | `MM` |
 | **Domain** | `Image / Article` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.00324) |
 | **Reading level** | Overview (Level 1) |
 

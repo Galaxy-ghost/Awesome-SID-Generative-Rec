@@ -111,3 +111,7 @@ note: Table 1 合并 Text+Img+CF；§3.1.2–3 分三类构码输入，直播塔
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

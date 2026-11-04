@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Objective |
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.02062) |
 | **Reading level** | Overview (Level 1) |
 

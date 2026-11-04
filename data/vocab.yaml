@@ -1053,3 +1053,47 @@ settings:
   name_zh: 目录动态变化
   description: Evaluation of identifier maintenance or recommendation after item catalog additions, deletions, or updates.
   description_zh: 评估物品目录增、删、改之后的标识符维护或推荐效果。
+scenario_task:
+- value: item
+  name: General Item Recommendation
+  name_zh: 一般物品推荐
+  description: Predicts the target item from user history or preferences, including non-generative next-item prediction.
+  description_zh: 根据用户历史或偏好预测目标物品，也包括非生成式的下一物品预测。
+- value: query
+  name: Query-Conditioned Retrieval
+  name_zh: 查询驱动检索
+  description: A user query is a model input, and the paper evaluates the query task.
+  description_zh: 用户查询是模型输入，并且论文评测了查询任务。
+- value: poi
+  name: POI and Local Services
+  name_zh: POI 与本地生活
+  description: Recommends places or local merchants; trajectories, locations, or spatial ranges enter the input or the candidate
+    constraint.
+  description_zh: 推荐地点或本地商户，轨迹、位置或空间范围参与输入或候选约束。
+- value: ranking
+  name: Ranking and Reranking
+  name_zh: 排序与重排
+  description: Scores or reranks given candidates instead of generating codes from the full catalog, for example click-through
+    rate prediction or list reranking.
+  description_zh: 对给定候选打分或重排，不从全库逐码生成，例如点击率预估或列表重排。
+- value: language
+  name: Conversational and Instruction-Following Recommendation
+  name_zh: 对话与指令推荐
+  description: Users state preferences or conditions in free text, and the paper evaluates this separately.
+  description_zh: 用户用自由文本提出偏好或条件，并且论文单独评测了这一点。
+deploy:
+- value: public
+  name: Public Benchmarks
+  name_zh: 公开数据
+  description: Experiments use only public datasets, including datasets released by companies (for example KuaiRand or AL-GR).
+  description_zh: 实验只用公开数据集，公司公开发布的数据集也算（例如 KuaiRand、AL-GR）。
+- value: industrial-offline
+  name: Industrial Data, Offline
+  name_zh: 工业数据离线
+  description: Uses non-public business data without an online experiment or deployment.
+  description_zh: 用了未公开的业务数据，没有线上实验或部署。
+- value: online
+  name: Online Experiment or Deployment
+  name_zh: 线上实验或部署
+  description: Reports an online A/B test, an online experiment, or a production deployment.
+  description_zh: 报告了线上 A/B、线上实验或上线部署。

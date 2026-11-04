@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Other` (RQ-KMeans per OneRec Technical Report, input unstated) |
 | **Domain** | `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.12518) |
 | **Reading level** | Overview (Level 1) |
 

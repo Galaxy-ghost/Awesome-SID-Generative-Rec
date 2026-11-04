@@ -10,6 +10,7 @@
 | **Changes** | ● Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Music` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.29298) |
 | **Reading level** | Overview (Level 1) |
 

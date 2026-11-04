@@ -94,3 +94,7 @@ settings:
   quote: To evaluate the generalization ability of UniTok , we adopt a zero-shot setting where our item tokenizer model, UniTok
     , is trained once on the ten source datasets and is directly tested on unseen datasets from three target domains
   where: '2511.12922v1 #Sx4.SSx4.p1.1'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

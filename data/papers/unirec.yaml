@@ -96,3 +96,7 @@ note: Table 1 记 Text+CF；原文只说 multimodal content，类目 token 进 I
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

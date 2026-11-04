@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` · `Search` |
+| **Scenario** | `POI and Local Services` · `Query-Conditioned Retrieval`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.23156) |
 | **Reading level** | Reading Notes (Level 2) |
 

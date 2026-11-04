@@ -10,6 +10,7 @@
 | **Changes** | ○ Objective · ● Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Movie` · `Book` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2410.05165) · [Code](https://github.com/Linxyhaha/AtSpeed) |
 | **Reading level** | Overview (Level 1) |
 

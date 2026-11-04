@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.20815) · [Code](https://github.com/Indolent-Kawhi/GRRM) |
 | **Reading level** | Reading Notes (Level 2) |
 

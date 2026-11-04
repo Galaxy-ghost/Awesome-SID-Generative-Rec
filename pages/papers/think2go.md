@@ -11,6 +11,7 @@
 | **SID inputs** | `Other` (RQ-VAE POI identifiers; tokenizer inputs unstated) |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `POI and Local Services`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701) |
 | **Reading level** | Reading Notes (Level 2) |
 

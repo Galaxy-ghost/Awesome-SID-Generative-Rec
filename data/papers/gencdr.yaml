@@ -116,3 +116,7 @@ settings:
   quote: 'We experiment on three cross-domain dataset pairs, each reflecting a distinct real-world scenario: Sports-Clothing
     (Leisure), Phones-Electronics (Technology), and Books-Movies (Entertainment).'
   where: '2511.08006v2 #Sx5.SSx1.p1.1；前两对来自 Amazon，Books-Movies 来自 Douban'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

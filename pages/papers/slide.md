@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Other` (FORGE SIDs; Taobao tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Search` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34764) |
 | **Reading level** | Overview (Level 1) |
 

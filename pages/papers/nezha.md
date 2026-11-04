@@ -10,6 +10,7 @@
 | **Changes** | ○ Backbone · ● Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` · `Ads` · `Search` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.18793) |
 | **Reading level** | Overview (Level 1) |
 

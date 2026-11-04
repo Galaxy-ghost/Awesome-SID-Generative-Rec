@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone |
 | **SID inputs** | collaborative: `CF` · text: `Text` · visual: `Img` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.02017) · [Code](https://github.com/Applied-Machine-Learning-Lab/MME-SID) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Tokenization |
 | **SID inputs** | `Text` + `Geo` + `Attr` + `CF` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services` · `Ranking and Reranking`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID) |
 | **Reading level** | Reading Notes (Level 2) |
 

@@ -92,3 +92,7 @@ domain_other:
     our model on an in-house industrial dataset collected from a commercial platform.
   where: '2511.20673v1 #S4.SS1.SSS1.Px2.p1.1'
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

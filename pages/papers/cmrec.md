@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Img` + `CF` |
 | **Domain** | `Ads` · `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.28972) |
 | **Reading level** | Overview (Level 1) |
 

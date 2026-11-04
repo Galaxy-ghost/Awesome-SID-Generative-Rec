@@ -95,3 +95,7 @@ settings:
   quote: To assess the generalizability of ETEGRec, we evaluate its recommendation performance on new users who are unseen
     during training.
   where: '2409.05546v3 #S4.SS4.SSS1.p1.1；从训练集删去部分用户的交互，测试时这些用户仍有输入序列'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

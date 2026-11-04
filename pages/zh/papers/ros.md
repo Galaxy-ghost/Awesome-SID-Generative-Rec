@@ -11,6 +11,7 @@
 | **构码输入** | `Text` + `Geo` |
 | **领域** | `本地生活与 POI` |
 | **特殊设置** | `跨域迁移` |
+| **应用场景** | `POI 与本地生活`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2601.04562) · [代码](https://github.com/amap-cvlab/Reasoning-Over-Space) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 

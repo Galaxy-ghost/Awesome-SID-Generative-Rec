@@ -79,3 +79,10 @@ settings:
   quote: To evaluate whether world knowledge facilitates transfer across cities, we train all models on NYC and directly evaluate
     on TKY and CA without any adaptation.
   where: '2605.11807v1 #S4.SS6.p1.1；Figure 5'
+scenario:
+  tasks:
+  - value: poi
+    quote: 'A central task in this domain is next point-of-interest (POI) recommendation: given a user’s historical check-in
+      trajectory, predicting the most likely next location they will visit Li et al.'
+    where: '2605.11807v1 #S1.p1.1'
+  deploy: public

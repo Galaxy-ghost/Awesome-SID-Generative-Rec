@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` + `Img` + `Audio` + `CF` |
 | **Domain** | `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.08612) |
 | **Reading level** | Overview (Level 1) |
 

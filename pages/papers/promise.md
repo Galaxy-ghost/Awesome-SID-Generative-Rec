@@ -10,6 +10,7 @@
 | **Changes** | ○ Objective · ● Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.04674) |
 | **Reading level** | Overview (Level 1) |
 

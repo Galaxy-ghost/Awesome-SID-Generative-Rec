@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Other` (RQ-VAE SIDs, input unstated) |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.07847) · [Code](https://anonymous.4open.science/r/SimGR-C408/) |
 | **Reading level** | Overview (Level 1) |
 

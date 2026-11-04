@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `POI and Local Services`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.11807) |
 | **Reading level** | Overview (Level 1) |
 

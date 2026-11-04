@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ○ Inference |
 | **SID inputs** | `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` · `Search` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid) |
 | **Reading level** | Reading Notes (Level 2) |
 

@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Search` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2310.07815) · [Code](https://github.com/PeterGriffinJin/LMIndexer) |
 | **Reading level** | Overview (Level 1) |
 

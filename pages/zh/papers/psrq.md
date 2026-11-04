@@ -10,6 +10,7 @@
 | **改动** | ● 构码 · ○ 生成骨干 |
 | **构码输入** | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` |
 | **领域** | `电商` · `音乐` |
+| **应用场景** | `排序与重排`；`线上实验或部署` |
 | **链接** | [论文](https://arxiv.org/abs/2508.20359) |
 | **阅读级别** | 概览（第 1 级） |
 

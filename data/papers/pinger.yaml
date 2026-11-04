@@ -93,3 +93,9 @@ note: §3.2 内容向量是编码时唯一输入，但 OmniSage 用户互动图�
 domain:
 - Image / Article
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Related Pins recommends Pins related to the one a user is viewing.
+    where: '2610.33435v1 #S5.SS3.SSS1.p1（Related Pins 线上实验；历史到目标 SID 的定义 #S3.SS1、离线结果 #S5.T2）'
+  deploy: online

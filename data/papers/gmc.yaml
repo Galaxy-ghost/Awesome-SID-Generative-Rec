@@ -96,3 +96,7 @@ settings:
     into one set of discrete codewords, and then train a unified generative recommender to fuse and transfer cross-domain
     knowledge.
   where: '2507.12871v3 #S1.I1.i2.p1.1；五个 Amazon 子域的多目标跨域推荐，w/o sharable codebook 消融在 #S5.SS3.p2.1'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

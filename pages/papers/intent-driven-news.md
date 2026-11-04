@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `News` |
 | **Settings** | `cold-start (user)` · `cold-start (item)` |
+| **Scenario** | `Conversational and Instruction-Following Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.07613) |
 | **Reading level** | Overview (Level 1) |
 

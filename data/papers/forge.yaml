@@ -99,3 +99,13 @@ domain:
 - E-commerce
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Example of the instruction-tuning dataset format for next-item prediction in e-commerce recommendation.
+    where: '2509.20904v3 #A1.T18（表题）；推荐结果 Table 3、Table 4'
+  - value: query
+    quote: In this section, we investigate whether SIDs trained on the recommendation task can generalize to the search task.
+    where: '2509.20904v3 #S4.SS3.SSS2.p1.1；查询来自淘宝搜索，结果 Table 11（"Retrieval performance on the generative search task of Taobao
+      across stages."）'
+  deploy: online

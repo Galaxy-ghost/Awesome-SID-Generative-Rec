@@ -101,3 +101,7 @@ settings:
     with $\leq K$ engagement) and items (e.g., titles launched after training cutoff), along with overall ranking.
   where: arXiv:2610.15864v1 https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px4.p1；Table 1 单列 New item；训练截止后推出，无训练 engagement，但可能有内容
     QA 暴露。New user 的 ≤K 桶不算零交互。
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

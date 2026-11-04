@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2405.07314) · [Code](https://github.com/HonghuiBao2000/LETTER) |
 | **Reading level** | Reading Notes (Level 2) |
 

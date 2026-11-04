@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.02730) · [Code](https://github.com/yuyq18/APAO) |
 | **Reading level** | Overview (Level 1) |
 

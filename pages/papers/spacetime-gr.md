@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ○ Tokenization · ● Backbone · ○ Objective |
 | **SID inputs** | `Geo` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.16126) |
 | **Reading level** | Overview (Level 1) |
 

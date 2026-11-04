@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | `MM` + `CF` |
 | **Domain** | `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2502.18965) |
 | **Reading level** | Reading Notes (Level 2) |
 

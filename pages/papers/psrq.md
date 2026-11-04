@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone |
 | **SID inputs** | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` |
 | **Domain** | `E-commerce` · `Music` |
+| **Scenario** | `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.20359) |
 | **Reading level** | Overview (Level 1) |
 

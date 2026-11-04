@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | `Text` |
 | **Domain** | `News` · `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2404.14774) |
 | **Reading level** | Overview (Level 1) |
 

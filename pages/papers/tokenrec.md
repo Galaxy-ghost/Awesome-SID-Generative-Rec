@@ -11,6 +11,7 @@
 | **SID inputs** | `CF` |
 | **Domain** | `Music` · `Movie` · `E-commerce` |
 | **Settings** | `cold-start (user)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 

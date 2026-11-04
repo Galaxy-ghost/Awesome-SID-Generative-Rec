@@ -11,6 +11,7 @@
 | **SID inputs** | `Other` (Released and reconstructed item-to-SID mappings) |
 | **Domain** | `E-commerce` · `POI / Local` |
 | **Settings** | `catalog-change` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) |
 | **Reading level** | Overview (Level 1) |
 

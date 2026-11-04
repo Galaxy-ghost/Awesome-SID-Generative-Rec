@@ -99,3 +99,14 @@ settings:
   quote: We simulate cold-start users by removing past listening behavior information and rely only on user metadata for predictions
     on recommendations and text-based retrieval.
   where: '2603.17533v1 #S4.SS1.SSS5.Px1.p1.1；删历史模拟'
+scenario:
+  tasks:
+  - value: item
+    quote: Given an instruction, lightweight user or context features, and a short interaction history represented as SIDs,
+      the model predicts the next consumed item of the specified type as a SID.
+    where: 2603.17533v1
+  - value: query
+    quote: Given a natural-language query (optionally with lightweight user context), the model generates the SID(s) of the
+      most relevant item(s).
+    where: 2603.17533v1
+  deploy: industrial-offline

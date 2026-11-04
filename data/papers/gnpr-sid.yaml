@@ -107,3 +107,10 @@ settings:
 - value: cross-domain
   quote: Table 5 shows the performance on out-of-domain datasets.
   where: '2506.01375v2 #S6.SS5.p1.1；NYC、TKY、CA 之间跨城市迁移'
+scenario:
+  tasks:
+  - value: poi
+    quote: Point-of-interest (POI) recommendation systems aim to predict the next destinations of user based on their preferences
+      and historical check-ins.
+    where: '2506.01375v2 #abstract1；数据为 Foursquare-NYC、Foursquare-TKY、GowallaCA（#S1.p7.1）'
+  deploy: public

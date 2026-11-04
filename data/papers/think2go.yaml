@@ -102,3 +102,9 @@ settings:
   quote: As shown in the Table 5 , Think2Go exhibits smaller performance degradation on out-of-domain datasets compared to
     other methods
   where: '2607.28997v1 #S5.SS8.p1.1；跨城市'
+scenario:
+  tasks:
+  - value: poi
+    quote: Each check-in record consists of userID, POIID, POI Category, Longitude, Latitude, and Timestamp.
+    where: '2607.28997v1 #S5.SS1.p1（时空签到序列与留末次评测；下一 POI 主结果 #S5.T2）'
+  deploy: public

@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.10929) · [Code](https://github.com/ZhuodLiu/FedCGR) |
 | **Reading level** | Overview (Level 1) |
 

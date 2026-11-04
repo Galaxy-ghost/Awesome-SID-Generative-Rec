@@ -10,6 +10,7 @@
 | **Changes** | – |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) |
 | **Reading level** | Reading Notes (Level 2) |
 

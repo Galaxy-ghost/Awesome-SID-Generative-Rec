@@ -82,3 +82,10 @@ settings:
     is $+.035$ (CI $[-.001,+.071]$), while the Gemini text reference is statistically indistinguishable from Random; post-training
     turns this margin into a significant one (Section 5.2).
   where: arXiv:2610.22797v1 https://arxiv.org/html/2610.22797v1#S4.SS0.SSS0.Px3.p1；Fig.2b 单独 k=0，删光输入历史模拟；不是预训练未见用户，§A.4 明确已有预训练暴露。
+scenario:
+  tasks:
+  - value: ranking
+    quote: We build ReRankID, a controlled testbed in which models reason and rank from a history and slate shown only as
+      SIDs, varying item rendering, history length, and slate size one at a time.
+    where: 2610.22797v1
+  deploy: public

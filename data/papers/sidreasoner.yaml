@@ -90,3 +90,9 @@ settings:
 - value: cross-domain
   quote: Figure 3 illustrates the cross-domain generalization ability of reasoning-based recommendation.
   where: '2603.23183v2 #S4.SS2.SSS2.p1.1；Games、Office、Industrial 统一 SID 空间，测域外物品'
+scenario:
+  tasks:
+  - value: item
+    quote: Generative recommendation aims to generate the next item that a user is likely to interact with.
+    where: '2603.23183v2 #S3.SS1.SSS1.p1（历史条件下的下一物品定义；主结果表 2 #S4.T2）'
+  deploy: public

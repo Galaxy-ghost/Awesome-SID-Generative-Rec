@@ -110,3 +110,14 @@ domain:
 - POI / Local
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: Each data contains the complete user search query, user geographic location, merchant exposure sequence, and actual
+      user interaction behavior.
+    where: '2604.23156v1 #A2.SS1.p1（地理输入与商户目标；工业结果 #S4.T1、另有 NYC/TKY 推荐结果 #A4）'
+  - value: query
+    quote: Each data contains the complete user search query, user geographic location, merchant exposure sequence, and actual
+      user interaction behavior.
+    where: '2604.23156v1 #A2.SS1.p1（工业搜索查询；实际 Query/City/GeoHash 输入模板 #A2.T4、工业检索结果 #S4.T1）'
+  deploy: industrial-offline

@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.12617) · [Code](https://github.com/ztguo715/SID-MLP.git) |
 | **Reading level** | Overview (Level 1) |
 

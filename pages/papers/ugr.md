@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.11719) · [Code](https://github.com/cxfann/UGR) |
 | **Reading level** | Overview (Level 1) |
 

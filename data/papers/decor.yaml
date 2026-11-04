@@ -86,3 +86,7 @@ note: Table 1 记 Text+CF；SID 由 Sentence-T5 嵌入经冻结 RQ-VAE 得到，
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

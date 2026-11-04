@@ -87,3 +87,7 @@ note: §3.1 教师目标由 ID、文本、图像表示归一化后求和；§3.2
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

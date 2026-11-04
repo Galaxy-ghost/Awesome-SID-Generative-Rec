@@ -95,3 +95,7 @@ settings:
   quote: We propose UTGRec, a transferable generative recommendation framework that can leverage both multimodal item content
     and collaborative knowledge for universal item tokenization.
   where: '2504.04405v3 #S1.p6.1；五个 Amazon 2023 域预训练构码器，迁到下游域'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

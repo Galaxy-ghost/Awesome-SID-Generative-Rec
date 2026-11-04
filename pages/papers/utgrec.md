@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2504.04405) · [Code](https://github.com/RUCAIBox/UTGRec) |
 | **Reading level** | Overview (Level 1) |
 

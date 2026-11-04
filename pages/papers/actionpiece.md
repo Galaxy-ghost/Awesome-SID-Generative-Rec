@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece) |
 | **Reading level** | Reading Notes (Level 2) |
 

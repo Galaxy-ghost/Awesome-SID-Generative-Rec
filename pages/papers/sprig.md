@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | A: `Text` · B: `Audio` |
 | **Domain** | `Movie` · `Music` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.06590) · [Code](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) |
 | **Reading level** | Overview (Level 1) |
 

@@ -82,3 +82,10 @@ domain:
 - Ads
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: This allows the model to efficiently predict the next item by itself, thus avoiding the training and serving of
+      extra models.
+    where: '2511.18793v1 #S1.p5（下一物品预测；公共基准设置 #S4.SS1.p1、主结果表 3 #S3.T3）'
+  deploy: online

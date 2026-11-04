@@ -11,6 +11,7 @@
 | **SID inputs** | `Attr` + `Geo` + `CF` |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `POI and Local Services`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.12350) |
 | **Reading level** | Overview (Level 1) |
 

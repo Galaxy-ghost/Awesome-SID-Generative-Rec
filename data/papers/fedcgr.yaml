@@ -78,3 +78,7 @@ settings:
   quote: We select five product domains—Grocery, Beauty, Sports, Food, and Kitchen—and compose six scenarios that span different
     domain counts and relatedness levels.
   where: arXiv:2608.10929v1 https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p1
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -103,3 +103,10 @@ domain:
 - Ads
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Extensive experiments on three real-world datasets with two representative LLM-based GR backbones show consistent
+      and significant improvements over strong baselines, validating the effectiveness of our approach.
+    where: '2506.16114v3 #abstract1；数据为 Yelp、Amazon Beauty、Amazon Instruments'
+  deploy: online

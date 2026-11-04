@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization · ○ Backbone |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.01673) · [Code](https://github.com/skleee/GRAM) |
 | **Reading level** | Reading Notes (Level 2) |
 

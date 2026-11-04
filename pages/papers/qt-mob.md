@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `POI and Local Services`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.11109) · [Code](https://github.com/shadowfall09/QT-Mob) |
 | **Reading level** | Overview (Level 1) |
 

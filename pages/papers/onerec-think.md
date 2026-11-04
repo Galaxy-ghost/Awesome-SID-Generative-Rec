@@ -10,6 +10,7 @@
 | **Changes** | ● Objective · ○ Inference |
 | **SID inputs** | `MM` + `CF` |
 | **Domain** | `E-commerce` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) |
 | **Reading level** | Reading Notes (Level 2) |
 

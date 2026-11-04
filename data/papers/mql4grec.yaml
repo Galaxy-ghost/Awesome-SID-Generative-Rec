@@ -108,3 +108,7 @@ settings:
 - value: cross-domain
   quote: We transfer recommendation knowledge from the source domain datasets to the target dataset through pre-training.
   where: '2504.05314v1 #S4.SS3.SSS0.Px3.p1.1；六个 Amazon 源域预训练，三个目标域微调；零样本见 #S4.SS5.p1.1'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

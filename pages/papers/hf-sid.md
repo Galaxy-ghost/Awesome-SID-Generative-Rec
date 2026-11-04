@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Tokenization |
 | **SID inputs** | `Text` + `Attr` + `Geo` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.30479) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ○ Tokenization · ○ Objective |
 | **SID inputs** | `MM` + `CF` |
 | **Domain** | `Long video` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.07784) |
 | **Reading level** | Overview (Level 1) |
 

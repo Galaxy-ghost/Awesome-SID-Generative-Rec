@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | semantic: `Text` · behavior: `CF` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) |
 | **Reading level** | Reading Notes (Level 2) |
 

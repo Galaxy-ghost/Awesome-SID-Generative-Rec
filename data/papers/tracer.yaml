@@ -86,3 +86,7 @@ note: 遗忘概念关联交互并重分配 SID，不等同于实测物品目录�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

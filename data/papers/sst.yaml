@@ -63,3 +63,10 @@ domain:
 - E-commerce
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Extensive experiments on three public datasets and three generative recommender backbones show empirical improvements
+      of SST over fixed-length and transferable variable-length SID baselines.
+    where: 2608.22734v1
+  deploy: public

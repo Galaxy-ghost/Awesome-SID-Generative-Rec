@@ -11,6 +11,7 @@
 | **SID inputs** | `Other` (Content embeddings; constituent modalities unstated) |
 | **Domain** | `Long video` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.15864) |
 | **Reading level** | Overview (Level 1) |
 

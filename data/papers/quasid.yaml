@@ -79,3 +79,7 @@ note: Table 1 为 Text+CF；§5.1 工业配置还含 Img。CF 是 tokenizer 的�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

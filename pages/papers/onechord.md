@@ -10,6 +10,7 @@
 | **Changes** | ○ Backbone · ● Objective · ○ Inference |
 | **SID inputs** | `Other` (Fixed OPQ index; quantizer inputs unstated) |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.25805) · [Code](https://anonymous.4open.science/r/OneChord-D1A2/) |
 | **Reading level** | Overview (Level 1) |
 

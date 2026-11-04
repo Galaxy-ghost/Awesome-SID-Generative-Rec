@@ -87,3 +87,12 @@ domain:
 - E-commerce
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: In generative retrieval, Recall@N and NDCG@N with N=5,10 are used to evaluate the performace.
+    where: 2508.15281v1
+  - value: ranking
+    quote: In discriminative ranking, AUC and GAUC are used to evaluate the performance.
+    where: 2508.15281v1
+  deploy: online

@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.24402) · [Code](https://github.com/caskcsg/CogRec) |
 | **Reading level** | Overview (Level 1) |
 

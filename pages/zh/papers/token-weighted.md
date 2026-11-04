@@ -10,6 +10,7 @@
 | **改动** | ● 训练目标 |
 | **构码输入** | `Text` |
 | **领域** | `电商` · `本地生活与 POI` · `电影` |
+| **应用场景** | `一般物品推荐`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2601.17787) · [代码](https://github.com/CHIUWEINING/Token-Weighted-Multi-Target-Learning-for-Generative-Recommenders-with-Curriculum-Learning) |
 | **阅读级别** | 概览（第 1 级） |
 

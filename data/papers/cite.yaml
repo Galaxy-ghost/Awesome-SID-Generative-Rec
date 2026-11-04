@@ -79,3 +79,7 @@ settings:
   scope: item
   quote: strict cold items have zero occurrences, low-frequency items have one to five occurrences,
   where: Electronics 2026, 15, 4749，§5.9 Cold Start Analysis，p18；Table 8 单列 strict cold 组
+scenario:
+  tasks:
+  - value: item
+  deploy: public

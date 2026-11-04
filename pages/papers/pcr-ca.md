@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Tokenizer · ○ Objective |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `Apps` |
+| **Scenario** | `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.18166) |
 | **Reading level** | Overview (Level 1) |
 

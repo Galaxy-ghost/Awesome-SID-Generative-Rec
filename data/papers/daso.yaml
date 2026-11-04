@@ -90,3 +90,7 @@ domain_other:
     a proprietary internal user-to-item recommendation dataset.
   where: '2608.20611v1 #Sx5.SSx1.p1.1；全文没有提平台或业务名'
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

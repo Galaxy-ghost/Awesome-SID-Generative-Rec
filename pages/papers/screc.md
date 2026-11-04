@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Backbone · ○ Objective |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.13678) · [Code](https://github.com/DanJiayi/SCRec) |
 | **Reading level** | Overview (Level 1) |
 

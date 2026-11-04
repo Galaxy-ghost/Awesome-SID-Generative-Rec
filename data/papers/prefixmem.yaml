@@ -74,3 +74,7 @@ note: 构码特征仅称 PinCLIP multimodal，生成 SID↔text 任务的图像�
 domain:
 - Image / Article
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

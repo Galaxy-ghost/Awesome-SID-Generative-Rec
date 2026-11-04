@@ -76,3 +76,10 @@ settings:
   quote: In this experiment, we analyze the performance of KGTB on out-of-domain datasets and show the performance comparison
     between KGTB and GNPR-SID in Tab. 4 .
   where: arXiv:2509.12350v1 https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx3.p1；Table 4 跨城市训练测试；低于 5 个访客的冷 POI 分桶不记 cold-start。
+scenario:
+  tasks:
+  - value: poi
+    quote: Generative paradigm, especially powered by Large Language Models (LLMs), has emerged as a new solution to the next
+      point-of-interest (POI) recommendation.
+    where: '2509.12350v1 #abstract1；数据为 Foursquare、Gowalla 的四个城市（#Sx5.SSx1.SSSx1.p1.1）'
+  deploy: public

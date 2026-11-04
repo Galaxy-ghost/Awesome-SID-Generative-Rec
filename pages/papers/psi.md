@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Search` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.16446) · [Code](https://github.com/wangshanyw/PurelySemanticIndexing) |
 | **Reading level** | Overview (Level 1) |
 

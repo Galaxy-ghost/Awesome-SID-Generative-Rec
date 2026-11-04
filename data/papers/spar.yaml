@@ -76,3 +76,10 @@ note: §4.1 在 R-KMeans 前融合坐标是 Representation 主格，不重复标
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: Given a user’s historical behavior and real-time context (e.g., query and location), it recommends the POI the
+      user will visit next.
+    where: '2609.02062v2 #S1.p1（下一 POI 定义；工业数据评测 #S5.SS1.p1、#S5.T3）'
+  deploy: industrial-offline

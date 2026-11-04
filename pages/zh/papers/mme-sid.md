@@ -10,6 +10,7 @@
 | **改动** | ● 构码 · ○ 生成骨干 |
 | **构码输入** | collaborative: `CF` · text: `Text` · visual: `Img` |
 | **领域** | `电商` |
+| **应用场景** | `一般物品推荐`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2509.02017) · [代码](https://github.com/Applied-Machine-Learning-Lab/MME-SID) |
 | **阅读级别** | 概览（第 1 级） |
 

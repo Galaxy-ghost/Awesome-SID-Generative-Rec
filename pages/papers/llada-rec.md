@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) |
 | **Reading level** | Reading Notes (Level 2) |
 

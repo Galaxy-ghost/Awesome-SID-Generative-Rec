@@ -106,3 +106,7 @@ settings:
   scope: item
   quote: we assess the cold-start performance by testing on items that are unseen during training
   where: '2411.18814v2 #S4.p1.1；冷启动物品不进 RQ-VAE 训练，Table 2 单列结果'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

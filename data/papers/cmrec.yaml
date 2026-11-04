@@ -85,3 +85,7 @@ settings:
     superior performance, effectively transfers knowledge from large to small countries, and offers practical insights for
     cross-country generative recommendation.
   where: '2609.28972v1 #S5.p1.1；跨国家迁移，各国用户和物品不重叠'
+scenario:
+  tasks:
+  - value: item
+  deploy: online

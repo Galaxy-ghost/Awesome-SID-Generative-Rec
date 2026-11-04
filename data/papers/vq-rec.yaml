@@ -100,3 +100,7 @@ settings:
   quote: The results indicate that VQ-Rec can learn and transfer general sequential patterns of discrete codes to downstream
     domains or platforms.
   where: '2210.12316v2 #S3.SS3.p2.1；五个 Amazon 域预训练，迁到五个下游域和 Online Retail 平台'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

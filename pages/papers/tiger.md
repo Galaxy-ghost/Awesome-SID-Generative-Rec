@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2305.05065) · [Code (third-party)](https://github.com/baiyimeng/TIGER) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 

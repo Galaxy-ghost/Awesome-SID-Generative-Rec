@@ -92,3 +92,7 @@ note: Appendix B.4/Fig.6 仅展示直播内容变化时 SID 随之更新的定�
 domain:
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

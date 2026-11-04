@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | `CF` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2305.06569) · [Code](https://github.com/Wenyueh/LLM-RecSys-ID) |
 | **Reading level** | Overview (Level 1) |
 

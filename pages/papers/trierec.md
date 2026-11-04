@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Movie` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.21677) |
 | **Reading level** | Overview (Level 1) |
 

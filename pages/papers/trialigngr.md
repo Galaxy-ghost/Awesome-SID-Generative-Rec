@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Objective |
 | **SID inputs** | `Text` + `Img` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.05249) |
 | **Reading level** | Overview (Level 1) |
 

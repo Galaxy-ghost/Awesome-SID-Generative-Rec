@@ -69,3 +69,9 @@ modality:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Generative recommendation treats next-item prediction as autoregressive item-identifier generation.
+    where: '2605.17648v1 #abstract1（任务定义；数据与留一评测 #S5.SS1.p1、主结果 #S5.T1）'
+  deploy: public

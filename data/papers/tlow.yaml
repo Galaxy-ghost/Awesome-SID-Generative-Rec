@@ -96,3 +96,7 @@ settings:
   quote: To further validate Tlow’s effectiveness on cold-start recommendations, we perform evaluations exclusively on newly
     published pictures each day.
   where: arXiv:2608.24176v1 https://arxiv.org/html/2608.24176v1#S3.SS6.SSS3.p2.1；当日新发布图片，未保证零交互（leader 11-04 裁决）。
+scenario:
+  tasks:
+  - value: item
+  deploy: online

@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | A (Spotify): `Text` + `Audio` + `CF` · A (POG): `Text` + `Img` + `CF` · B: `Text` + `Img` |
 | **Domain** | `Music` · `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.34700) |
 | **Reading level** | Overview (Level 1) |
 

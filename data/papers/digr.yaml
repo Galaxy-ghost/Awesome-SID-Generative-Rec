@@ -90,3 +90,7 @@ modality_where:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

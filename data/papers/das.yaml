@@ -86,3 +86,13 @@ modality:
 domain:
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Additionally, we employ HitRate@K and NDCG@K (Rajput et al., 2023) as primary metrics to evaluate the performance
+      of generative tasks.
+    where: '2508.10584v2 #S4.SS1.SSS2.p1.1；结果 Table 2'
+  - value: ranking
+    quote: For CTR tasks, we use AUC, UAUC, and GAUC (Luo et al., 2024) for offline evaluation.
+    where: '2508.10584v2 #S4.SS1.SSS2.p1.1；结果 Table 1'
+  deploy: online

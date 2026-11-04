@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.25093) · [Code](https://github.com/CQU-MM-Intelligent-Lab/SAHL) |
 | **Reading level** | Overview (Level 1) |
 

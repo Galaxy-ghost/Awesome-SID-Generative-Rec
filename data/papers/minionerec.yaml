@@ -88,3 +88,7 @@ settings:
   quote: The model is trained exclusively on the Industrial domain and then deployed, without any further tuning, to the never-seen
     Office domain.
   where: arXiv:2510.24431v1 https://arxiv.org/html/2510.24431v1#S5.SS4.p1
+scenario:
+  tasks:
+  - value: item
+  deploy: public

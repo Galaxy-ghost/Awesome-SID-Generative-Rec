@@ -86,3 +86,7 @@ settings:
   scope: user
   quote: 'Table IV: Performance comparison under user-level random split on Beauty.'
   where: '2506.15576v2 #S4.T4（表题）；测试用户不进训练'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

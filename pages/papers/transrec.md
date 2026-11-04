@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Inference |
 | **SID inputs** | id: – · title: `Text` · attribute: `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2310.06491) · [Code](https://github.com/Linxyhaha/TransRec/) |
 | **Reading level** | Overview (Level 1) |
 

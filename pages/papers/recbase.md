@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `News` · `Movie` · `Short video / Live` · `Book` · `POI / Local` · `Games` · `E-commerce` · `Travel / Hotel` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.03131) · [Code](https://github.com/reczoo/RecBase) |
 | **Reading level** | Overview (Level 1) |
 

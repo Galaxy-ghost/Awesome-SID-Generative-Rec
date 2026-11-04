@@ -73,3 +73,10 @@ modality_where:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Experiments on sequential recommendation benchmarks show that HCGRec substantially improves over supervised fine-tuning
+      and vanilla reward-based post-training, while reducing zero-advantage training samples from over 70% to below 20%.
+    where: 2608.11980v2
+  deploy: public

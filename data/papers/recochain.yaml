@@ -89,3 +89,7 @@ note: Table 1 记 Text+Img；原文只说 multimodal embeddings，不说组成�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

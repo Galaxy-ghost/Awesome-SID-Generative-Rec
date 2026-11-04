@@ -10,6 +10,7 @@
 | **Changes** | ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Games` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ○ Backbone · ● Objective |
 | **SID inputs** | item: `Text` · review: `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.17267) · [Code](https://github.com/Zhang-Yingyi/TKDE_RAGR) |
 | **Reading level** | Overview (Level 1) |
 

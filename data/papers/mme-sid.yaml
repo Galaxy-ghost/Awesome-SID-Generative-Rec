@@ -102,3 +102,11 @@ note: 协同、文本、视觉各出一套 SID（MM-RQ-VAE）。
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: We conduct extensive experiments on three public datasets of Amazon, demonstrating the superior recommendation
+      performance of MME-SID and providing in-depth analyses of its ability to address embedding collapse and catastrophic
+      forgetting.
+    where: 2509.02017v1
+  deploy: public

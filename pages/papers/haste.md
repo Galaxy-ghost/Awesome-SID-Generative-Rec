@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | A: `Text` · B: `MM` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.17368) |
 | **Reading level** | Overview (Level 1) |
 

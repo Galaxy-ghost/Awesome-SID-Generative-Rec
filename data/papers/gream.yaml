@@ -90,3 +90,11 @@ note: Table 1 记 Text+CF；原文构码输入是标题加 LLM 合成描述（#S
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: To comprehensively evaluate our approach, we conducted experiments on three real-world public datasets of Amazon
+      product reviews (McAuley et al., 2015; He and McAuley, 2016), which are widely recognized benchmarks in sequence recommendation
+      research.
+    where: '2510.20815v1 #S6.SS1.SSS1.p1.1'
+  deploy: public

@@ -11,6 +11,7 @@
 | **SID inputs** | A: `Text` · B: `Audio` |
 | **Domain** | `Music` · `Podcast` · `Book` · `Search` |
 | **Settings** | `cold-start (user)` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.17533) |
 | **Reading level** | Overview (Level 1) |
 

@@ -11,6 +11,7 @@
 | **SID inputs** | text: `Text` · image: `Img` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) |
 | **Reading level** | Overview (Level 1) |
 

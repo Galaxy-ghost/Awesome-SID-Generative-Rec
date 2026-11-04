@@ -188,6 +188,7 @@ ZH_LABELS = {
         "SID inputs": "构码输入",
         "Domain": "领域",
         "Settings": "特殊设置",
+        "Scenario": "应用场景",
         "Links": "链接",
         "Reading level": "阅读级别",
     },
@@ -232,7 +233,7 @@ ZH_LABELS = {
     "readme": {
         "badges": ("论文", "更新", "许可"),
         "intro": "围绕研究问题与五阶段流程组织的语义 ID（Semantic ID）生成式推荐论文索引与精读笔记。",
-        "toc": "[分类总图](#分类总图) · [阅读导航](#阅读导航) · [全部论文](#全部论文) · [参与贡献](#参与贡献)",
+        "toc": "[分类总图](#分类总图) · [应用场景](#应用场景) · [阅读导航](#阅读导航) · [全部论文](#全部论文) · [参与贡献](#参与贡献)",
         "scope_title": "收录范围",
         "scope": "本仓库收录 {n} 篇语义 ID（Semantic ID，SID）生成式推荐论文。这类方法用编号器将每个物品映射为离散 token，再由生成器逐位解码下一物品的 SID。"
                  "全库按研究问题与主要改动的流程阶段组织 {m} 篇方法论文，另收 {k} 篇范式、系统与基准论文。",
@@ -248,6 +249,7 @@ ZH_LABELS = {
             ("在同一个流程阶段内横向对比不同方法", "[按阶段索引](pages/zh/index/stages.md)"),
             ("找用多模态内容或协同过滤（CF）信号构码的论文", "[按模态找论文](pages/zh/index/modality.md)"),
             ("找某个业务领域的论文（如电商、本地生活 POI、短视频）", "[按领域找论文](pages/zh/index/domain.md)"),
+            ("按应用场景找论文（如查询检索、POI、排序、线上部署）", "[按场景找论文](pages/zh/index/scenario.md)"),
             ("找公开了开源代码的论文", "[有代码的论文](pages/zh/index/code.md)"),
             ("让大模型或检索工具直接读取这个仓库", "[llms.txt](llms.txt)（英文）"),
         ],
@@ -258,6 +260,11 @@ ZH_LABELS = {
         "modality_head": ("方面", "分组"),
         "domain_title": "按领域找论文",
         "domain_head": ("类别", "领域"),
+        "scenario_section": "应用场景",
+        "scenario_note": "下表按任务形态和部署条件统计论文数（一篇可有多种任务形态），点击合计可跳到分组列表：",
+        "scenario_total": "合计",
+        "scenario_task_head": "任务形态",
+        "settings_line": "特殊评测设置：",
         "updates_title": "最近更新",
         "updates_note": "按日期倒序记录仓库内容增补与综述 Table 1 同步情况：",
         "papers": "涉及论文：",
@@ -289,6 +296,11 @@ ZH_LABELS = {
         "sid_inputs_col": "构码输入",
         "domain_col": "领域",
         "empty_group": "当前暂无论文归入本组。",
+        "scenario_title": "按场景找论文",
+        "scenario_intro": "本页按应用场景分组列出论文：任务形态可多选，部署条件取论文达到的最高一级，特殊评测设置另列。一篇论文可进入多个分组。",
+        "task_col": "任务形态",
+        "deploy_col": "部署条件",
+        "settings_col": "特殊设置",
     },
     "glossary": {
         "title": "术语表",
@@ -426,6 +438,18 @@ def format_domain(rec: dict, dom_zh: dict, zh: bool = False, code_wrap: bool = T
     other = (rec.get("domain_other") or {}).get("zh" if zh else "en", "")
     return sep.join(with_detail(w(dom_zh[d] if zh else d), other, zh) if d == "Other" else w(dom_zh[d] if zh else d)
                     for d in rec["domain"])
+
+
+def vocab_name(vocab: dict, sec: str, value: str, zh: bool = False) -> str:
+    e = next(x for x in vocab[sec] if x["value"] == value)
+    return e["name_zh"] if zh else e.get("name", value)
+
+
+def format_scenario(rec: dict, vocab: dict, zh: bool = False, code_wrap: bool = True) -> str:
+    w = (lambda s: f"`{s}`") if code_wrap else str
+    sc = rec["scenario"]
+    tasks = (" · " if code_wrap else ", ").join(w(vocab_name(vocab, "scenario_task", t["value"], zh)) for t in sc["tasks"])
+    return f"{tasks}；{w(vocab_name(vocab, 'deploy', sc['deploy'], zh))}" if zh else f"{tasks}; {w(vocab_name(vocab, 'deploy', sc['deploy']))}"
 
 
 def format_settings(rec: dict, set_zh: dict, zh: bool = False, code_wrap: bool = True, empty: str = "") -> str:
@@ -740,6 +764,7 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
         ("SID inputs", format_modality(rec, code_wrap=True, zh=zh)),
         ("Domain", format_domain(rec, dom_zh, zh=zh, code_wrap=True)),
         *([("Settings", settings_str)] if settings_str else []),
+        ("Scenario", format_scenario(rec, vocab, zh=zh)),
         ("Links", link_line(rec, zh=zh)),
         ("Reading level", level_text),
     ]
@@ -793,7 +818,7 @@ def readme_head(papers: list, updates: list, zh: bool = False) -> list:
     intro = R["intro"] if zh else ("Papers and annotated deep dives on Semantic ID generative recommendation, "
                                    "indexed by research problem and pipeline stage.")
     toc = R["toc"] if zh else (
-        "[Taxonomy](#taxonomy) · [Where to Start](#where-to-start) · [All Papers](#all-papers) · [Contributing](#contributing)"
+        "[Taxonomy](#taxonomy) · [Scenarios](#scenarios) · [Where to Start](#where-to-start) · [All Papers](#all-papers) · [Contributing](#contributing)"
     )
     return ['<div align="center">', "",
             "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)", "",
@@ -802,6 +827,65 @@ def readme_head(papers: list, updates: list, zh: bool = False) -> list:
             "[English](README.md) | 中文" if zh else "English | [中文](README.zh.md)", "",
             toc, "",
             "</div>"]
+
+
+def scenario_section(vocab: dict, papers: list, zh: bool = False) -> list:
+    """README: task form x deployment counts; totals link to the scenario index page."""
+    R = ZH_LABELS["readme"]
+    page = "pages/zh/index/scenario.md" if zh else "pages/index/scenario.md"
+    deps = [e["value"] for e in vocab["deploy"]]
+    head = [R["scenario_task_head"] if zh else "Task form", *(vocab_name(vocab, "deploy", d, zh) for d in deps), R["scenario_total"] if zh else "Total"]
+    rows = []
+    for t in vocab["scenario_task"]:
+        members = [r for r in papers if any(x["value"] == t["value"] for x in r["scenario"]["tasks"])]
+        if not members:
+            continue
+        name = vocab_name(vocab, "scenario_task", t["value"], zh)
+        counts = [str(sum(r["scenario"]["deploy"] == d for r in members)) for d in deps]
+        rows.append([name, *counts, f"[{len(members)}]({page}#{slugify_heading(name)})"])
+    set_zh = settings_zh_map(vocab)
+    sets = []
+    for e in vocab["settings"]:
+        n = sum(any(s["value"] == e["value"] for s in r.get("settings") or []) for r in papers)
+        label = set_zh[e["value"]] if zh else e["value"]
+        sets.append(f"[{label}（{n}）]({page}#{slugify_heading(label)})" if zh else f"[{label} ({n})]({page}#{slugify_heading(label)})")
+    note = R["scenario_note"] if zh else (
+        "Papers by task form and deployment level (a paper can have several task forms); click a total to open its list:")
+    return [f"## {R['scenario_section'] if zh else 'Scenarios'}", "", note, "",
+            *align([f"| {' | '.join(head)} |", "| :-- |" + " :-: |" * (len(head) - 1), *[f"| {' | '.join(r)} |" for r in rows]]), "",
+            (R["settings_line"] if zh else "Evaluation settings: ") + " · ".join(sets), ""]
+
+
+def build_scenario_page(vocab: dict, papers: list, probs: dict, zh: bool = False) -> str:
+    X = ZH_LABELS["index"]
+    up = "../../../" if zh else "../../"
+    readme = f"{up}README.zh.md" if zh else f"{up}README.md"
+    back = slugify_heading(ZH_LABELS["readme"]["scenario_section"] if zh else "Scenarios")
+    switch = f"[English](../../index/scenario.md) | 中文" if zh else "English | [中文](../zh/index/scenario.md)"
+    head = X["head"] if zh else ("Paper", "Venue", "Problem")
+    cols = [head[0], head[1], X["cell"] if zh else "Problem × Stage", X["task_col"] if zh else "Task Form",
+            X["deploy_col"] if zh else "Deployment"]
+    link = lambda r: f"[{r['name']}](../papers/{r['id']}.md)"
+    task_cell = lambda r: " · ".join(f"`{vocab_name(vocab, 'scenario_task', t['value'], zh)}`" for t in r["scenario"]["tasks"])
+    dep_cell = lambda r: f"`{vocab_name(vocab, 'deploy', r['scenario']['deploy'], zh)}`"
+    table = lambda rows: [f"| {' | '.join(cols)} |", "|" + " :--- |" * len(cols),
+                          *[f"| {link(r)} | {r['venue']} | {cell_label(r, probs, zh)} | {task_cell(r)} | {dep_cell(r)} |" for r in rows]]
+    ordered = by_year(papers)
+    out = [f"# {X['scenario_title'] if zh else 'Papers by Scenario'}", "", f"[← README]({readme}#{back}) · {switch}", "",
+           X["scenario_intro"] if zh else (
+               "Papers grouped by application scenario: task forms can be several per paper, deployment is the highest level a paper "
+               "reaches, and special evaluation settings are listed separately. A paper can appear in several groups."), ""]
+    count = lambda n: f"共 {n} 篇。" if zh else f"{n} paper{'s' if n != 1 else ''}. "
+    groups = [(vocab_name(vocab, "scenario_task", e["value"], zh), e, [r for r in ordered if any(t["value"] == e["value"] for t in r["scenario"]["tasks"])])
+              for e in vocab["scenario_task"]]
+    groups += [(vocab_name(vocab, "deploy", e["value"], zh), e, [r for r in ordered if r["scenario"]["deploy"] == e["value"]]) for e in vocab["deploy"]]
+    set_zh = settings_zh_map(vocab)
+    groups += [(set_zh[e["value"]] if zh else e["value"], e, [r for r in ordered if any(s["value"] == e["value"] for s in r.get("settings") or [])])
+               for e in vocab["settings"]]
+    for title, e, members in groups:
+        out += [f"## {title}", "", f"> {count(len(members))}{e['description_zh'] if zh else e['description']}", ""]
+        out += [*table(members), ""] if members else [X["empty_group"] if zh else "No papers currently fall in this group.", ""]
+    return "\n".join(out)
 
 
 def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, fig_meta: dict, zh: bool = False) -> str:
@@ -825,6 +909,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
         top = [
             f"## {R['scope_title']}", "", R["scope"].format(n=n, m=m, k=k), "",
             f"## {R['taxonomy_title']}", "", R["taxonomy_note"], "", *tax_fig, "",
+            *scenario_section(vocab, papers, zh=True),
             f"## {R['start_title']}", "", R["start_note"], "", *two(R["start_head"], R["start"]), "",
             f"## {R['starter_title']}", "", R["starter_note"], "",
         ]
@@ -838,6 +923,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
             "Each cell pairs a research problem (row) with a primary pipeline stage (column), showing the cell total and up to five papers "
             "(published before arXiv, earliest first); the five stage-ordered dots after each name mark the stages that paper modifies.", "",
             *tax_fig, "",
+            *scenario_section(vocab, papers, zh=False),
             "## Where to Start", "",
             "Pick an entry point below based on what you want to look up:", "",
             *two(("I want to...", "Where to go"), [
@@ -846,6 +932,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
                 ("Compare methods side by side within one pipeline stage", "[Papers by Stage](pages/index/stages.md)"),
                 ("Find papers that tokenize multimodal content or collaborative filtering (CF) signals", "[Papers by Modality](pages/index/modality.md)"),
                 ("Find papers in a specific domain (e.g., e-commerce, POI, short video)", "[Papers by Domain](pages/index/domain.md)"),
+                ("Find papers by application scenario (e.g., query retrieval, POI, ranking, online deployment)", "[Papers by Scenario](pages/index/scenario.md)"),
                 ("Find papers with open-source code", "[Papers with Code](pages/index/code.md)"),
                 ("Feed this repository to an LLM or search tool", "[llms.txt](llms.txt)"),
             ]), "",
@@ -1007,6 +1094,7 @@ def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
         "poi.md": "\n".join(poi_page),
         "modality.md": "\n".join(mod_page),
         "domain.md": "\n".join(dom_page),
+        "scenario.md": build_scenario_page(vocab, papers, probs, zh=zh),
     }
 
 
@@ -1080,7 +1168,7 @@ def build_glossary(vocab: dict, zh: bool = False) -> str:
     return "\n".join(lines)
 
 
-def llm_fields(rec: dict, probs: dict, dom_zh: dict, set_zh: dict) -> list:
+def llm_fields(rec: dict, probs: dict, dom_zh: dict, set_zh: dict, vocab: dict) -> list:
     f = [
         f"Problem: {band(probs[rec['problem']])}",
         f"Stage: {stage_label(rec)}",
@@ -1088,6 +1176,7 @@ def llm_fields(rec: dict, probs: dict, dom_zh: dict, set_zh: dict) -> list:
         f"SID inputs: {format_modality(rec, code_wrap=False)}",
         f"Domain: {format_domain(rec, dom_zh, zh=False, code_wrap=False)}",
         f"Settings: {format_settings(rec, set_zh, zh=False, code_wrap=False, empty='none')}",
+        f"Scenario: {format_scenario(rec, vocab, zh=False, code_wrap=False)}",
         "; ".join(f"{c.capitalize()}: {rec[c]}" for c in TECH_COLS),
     ]
     f += [f"TL;DR: {rec['tldr'].strip()}"] if rec.get("tldr") else []
@@ -1133,7 +1222,7 @@ def build_llms(vocab: dict, papers: list, notes: dict) -> tuple:
         "- [schema/paper.schema.json](schema/paper.schema.json): JSON Schema for `data/papers/<id>.yaml`.", "",
     ]
     short = head + [f"## Papers ({len(papers)} records)", ""] + [
-        f"- [{r['name']}](pages/papers/{r['id']}.md) · {r['venue']} · " + " · ".join(llm_fields(r, probs, dom_zh, set_zh))
+        f"- [{r['name']}](pages/papers/{r['id']}.md) · {r['venue']} · " + " · ".join(llm_fields(r, probs, dom_zh, set_zh, vocab))
         for r in ordered
     ]
     full = list(head)
@@ -1142,7 +1231,7 @@ def build_llms(vocab: dict, papers: list, notes: dict) -> tuple:
             f"## {r['name']}", "",
             f"- Page: pages/papers/{r['id']}.md",
             f"- Venue: {r['venue']}",
-            *[f"- {x}" for x in llm_fields(r, probs, dom_zh, set_zh)],
+            *[f"- {x}" for x in llm_fields(r, probs, dom_zh, set_zh, vocab)],
             "",
         ]
         other_changes = [
@@ -1228,7 +1317,7 @@ def main():
     for name, text in singles.items():
         (root / name).write_text(text, encoding="utf-8")
     print(f"Built README.md, README.zh.md, {len(svg_files)} SVG figures, {len(papers)} paper pages in English and Chinese, "
-          "5 index pages in English and Chinese, 3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
+          "6 index pages in English and Chinese, 3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.36763) · [Code](https://anonymous.4open.science/r/API-C1F9/) |
 | **Reading level** | Overview (Level 1) |
 

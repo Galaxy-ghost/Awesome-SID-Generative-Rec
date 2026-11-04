@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.05781) · [Code](https://github.com/facebookresearch/RPG_KDD2025) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 

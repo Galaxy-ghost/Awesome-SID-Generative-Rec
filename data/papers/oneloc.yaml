@@ -114,3 +114,10 @@ note: Table 1 记 Text+Img+Geo；原文只说多模态，记 MM。快手本地�
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: Thus, recommendation in our scenario is challenging because we should take into account user’s interest and real-time
+      location at the same time.
+    where: 2508.14646v1
+  deploy: online

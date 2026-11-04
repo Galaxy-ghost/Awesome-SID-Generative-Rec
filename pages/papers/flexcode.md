@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Tokenizer · ○ Objective |
 | **SID inputs** | semantic: `Text` + `CF` · collaborative: `CF` |
 | **Domain** | `E-commerce` · `Short video / Live` · `Other` (In-house data from an unnamed commercial platform) |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.20673) |
 | **Reading level** | Overview (Level 1) |
 

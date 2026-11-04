@@ -97,3 +97,7 @@ settings:
   quote: 'For the cross-domain scenario, we conduct experiments on two dataset pairs: Sports-Clothing (Leisure) and Phones-Electronics
     (Technology).'
   where: '2601.06798v1 #S4.p4.1；按 GenCDR 合并重叠用户的交互'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

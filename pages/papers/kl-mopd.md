@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `CF` |
 | **Domain** | `E-commerce` · `Ads` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.36973) · [Code](https://github.com/Yandorn/KL-MOPD) |
 | **Reading level** | Overview (Level 1) |
 

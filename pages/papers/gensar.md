@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | semantic: `Text` + `CF` · collaborative: `Text` + `CF` |
 | **Domain** | `E-commerce` · `Search` |
+| **Scenario** | `General Item Recommendation` · `Query-Conditioned Retrieval`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2504.05730) |
 | **Reading level** | Overview (Level 1) |
 

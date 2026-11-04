@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | semantic: `Text` · behavior: `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2502.14735) |
 | **Reading level** | Overview (Level 1) |
 

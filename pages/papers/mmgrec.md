@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization · ○ Backbone |
 | **SID inputs** | `Text` + `Img` + `Audio` + `CF` |
 | **Domain** | `Movie` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2404.16555) · [Code](https://github.com/hanliu95/MMGRec) |
 | **Reading level** | Overview (Level 1) |
 

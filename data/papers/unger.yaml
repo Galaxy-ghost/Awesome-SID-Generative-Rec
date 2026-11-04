@@ -72,3 +72,7 @@ note: §3.3.5 明说量化沿用前作的 hierarchical k-means；统一码来自
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

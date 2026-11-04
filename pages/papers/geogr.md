@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Tokenizer |
 | **SID inputs** | `Text` + `Geo` + `CF` |
 | **Domain** | `POI / Local` · `Search` |
+| **Scenario** | `POI and Local Services` · `Query-Conditioned Retrieval`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10411) |
 | **Reading level** | Reading Notes (Level 2) |
 

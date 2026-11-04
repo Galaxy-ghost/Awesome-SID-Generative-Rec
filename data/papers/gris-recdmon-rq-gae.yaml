@@ -76,3 +76,7 @@ domain:
 - News
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.07402) · [Code](https://github.com/KevinC2015/Flash) |
 | **Reading level** | Overview (Level 1) |
 

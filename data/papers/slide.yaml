@@ -80,3 +80,12 @@ domain:
 - E-commerce
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: We conduct experiments on two datasets covering recommendation and e-commerce search.
+    where: '2610.34764v1 #S5.SS1.SSS0.Px1.p1（FORGE 推荐数据；独立推荐结果 #S5.T2）'
+  - value: query
+    quote: We conduct experiments on two datasets covering recommendation and e-commerce search.
+    where: '2610.34764v1 #S5.SS1.SSS0.Px1.p1（Taobao Search；查询上下文定义 #S3.SS1.p1、独立搜索结果 #S5.T2）'
+  deploy: industrial-offline

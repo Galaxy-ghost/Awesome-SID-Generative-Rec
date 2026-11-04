@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `Time` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.14260) |
 | **Reading level** | Overview (Level 1) |
 

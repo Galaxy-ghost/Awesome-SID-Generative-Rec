@@ -96,3 +96,11 @@ modality_where:
 domain:
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Different from traditional point-wise recommendation methods that only predict the next video, session-wise generation
+      aims to generate a list of high-value sessions based on users’ historical interaction sequences, which enables the recommendation
+      model to capture the dependencies between videos in the recommended list.
+    where: 2502.18965v1
+  deploy: online

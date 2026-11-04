@@ -76,3 +76,10 @@ domain:
 - E-commerce
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: It formulates the task as an autoregressive generation process, predicting tokens of the next item conditioned
+      on user interaction histories.
+    where: 2603.02730v4
+  deploy: online

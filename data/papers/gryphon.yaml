@@ -82,3 +82,7 @@ modality_where:
 domain:
 - Music
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

@@ -101,3 +101,7 @@ domain:
 - POI / Local
 - Ads
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

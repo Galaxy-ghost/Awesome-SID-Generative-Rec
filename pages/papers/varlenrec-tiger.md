@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.17779) |
 | **Reading level** | Overview (Level 1) |
 

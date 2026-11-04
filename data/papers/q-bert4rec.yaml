@@ -95,3 +95,7 @@ settings:
   quote: This setting evaluates the model’s ability to transfer multimodal and sequential knowledge from heterogeneous source
     domains to new target domains.
   where: '2512.02474v2 #S4.SS1.p3.1；六个源域预训练，三个目标域微调'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -92,3 +92,7 @@ domain:
 - Long video
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

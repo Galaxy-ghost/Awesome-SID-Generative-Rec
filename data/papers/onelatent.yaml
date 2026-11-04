@@ -74,3 +74,13 @@ domain:
 - Ads
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Results on public and industrial datasets.
+    where: '2610.30675v1 #S4.T2（表 2 的独立公共广告基准；数据定义 #S4.SS1.SSS1.p1）'
+  - value: poi
+    quote: The resulting input combines the compact user profile, local-life demand, explicit intent, and behavior-aware SID
+      sequence.
+    where: '2610.30675v1 #A1.SS2.p3（本地生活转化预测；地理请求上下文 #S3.SS3.SSS4.p1、工业结果 #S4.T2）'
+  deploy: online

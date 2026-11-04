@@ -10,6 +10,7 @@
 | **Changes** | ● Objective · ○ Inference |
 | **SID inputs** | `Other` (RQ-VAE SIDs; tokenizer inputs unstated) |
 | **Domain** | `E-commerce` · `Ads` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10699) |
 | **Reading level** | Reading Notes (Level 2) |
 

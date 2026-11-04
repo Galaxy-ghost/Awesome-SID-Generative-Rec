@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `Games` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2411.18814) |
 | **Reading level** | Reading Notes (Level 2) |
 

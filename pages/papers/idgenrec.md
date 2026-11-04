@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
 | **Settings** | `cold-start (item)` · `cold-start (user)` · `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 

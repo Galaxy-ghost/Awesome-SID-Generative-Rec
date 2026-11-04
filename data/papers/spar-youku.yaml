@@ -88,3 +88,7 @@ note: Table 1 representation 为 –；原始 embedding 输入未披露，记 un
 domain:
 - Long video
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

@@ -101,3 +101,9 @@ settings:
   quote: To evaluate cross city generalization, we train the model on one city and infer directly on the other two unseen
     cities.
   where: '2601.04562v2 #S3.SS4.SSS0.Px1.p1.1；Table 6'
+scenario:
+  tasks:
+  - value: poi
+    quote: Next POI recommendation performance.
+    where: '2601.04562v2 #S3.T1（表 1；轨迹与地理文本数据设置 #S3.SS1.p1）'
+  deploy: public

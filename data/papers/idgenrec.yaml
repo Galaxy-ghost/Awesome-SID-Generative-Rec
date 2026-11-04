@@ -106,3 +106,7 @@ settings:
   quote: then directly test its recommendation performance on each test dataset in a completely zero-shot setting (all the
     users and items are not seen in the training dataset).
   where: '2403.19021v2 #S3.SS5.p1.1；在 19 个 Amazon 类目上预训练，在 6 个未见数据集上零样本测试'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -10,6 +10,7 @@
 | **Changes** | ● Representation · ○ Backbone · ○ Objective |
 | **SID inputs** | `MM` + `Geo` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `POI and Local Services`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.14646) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 

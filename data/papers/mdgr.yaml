@@ -85,3 +85,7 @@ note: Table 1 representation 为 –；根据原文的纯文本 Qwen3-8B 编码�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

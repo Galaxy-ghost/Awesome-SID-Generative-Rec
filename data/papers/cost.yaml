@@ -89,3 +89,7 @@ domain:
 - News
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

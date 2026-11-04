@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | image: `Img` · text: `Text` · collaborative: `CF` |
 | **Domain** | `E-commerce` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.03713) |
 | **Reading level** | Overview (Level 1) |
 

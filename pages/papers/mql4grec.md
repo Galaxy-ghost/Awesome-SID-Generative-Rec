@@ -11,6 +11,7 @@
 | **SID inputs** | text: `Text` · image: `Img` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2504.05314) · [Code](https://github.com/zhaijianyang/MQL4GRec) |
 | **Reading level** | Reading Notes (Level 2) |
 

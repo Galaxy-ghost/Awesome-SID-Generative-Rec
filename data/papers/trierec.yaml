@@ -67,3 +67,7 @@ domain:
 - E-commerce
 - Movie
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -75,3 +75,10 @@ modality:
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: We evaluate both the quality of HF-SID and downstream performance through Next POI recommendation task (He et al.,
+      2026; Wang et al., 2025).
+    where: '2608.30479v1 #S4.SS1.p3.1'
+  deploy: online

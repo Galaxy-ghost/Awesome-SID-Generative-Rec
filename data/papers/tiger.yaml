@@ -107,3 +107,7 @@ settings:
   scope: item
   quote: To simulate newly added items, we remove 5% of test items from the training data split.
   where: arXiv:2305.05065v3 https://arxiv.org/html/2305.05065v3#S4.SS3.p3；模拟：构码器与生成器都排除该组，训练后再编码 unseen items。
+scenario:
+  tasks:
+  - value: item
+  deploy: public

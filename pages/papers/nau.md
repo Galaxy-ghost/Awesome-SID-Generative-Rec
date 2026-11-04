@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Other` (Pre-quantization item embeddings; source signals unstated) |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.27232) · [Code](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) |
 | **Reading level** | Overview (Level 1) |
 

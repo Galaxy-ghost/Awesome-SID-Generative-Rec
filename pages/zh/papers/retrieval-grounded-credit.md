@@ -10,6 +10,7 @@
 | **改动** | ● 训练目标 |
 | **构码输入** | `Text` |
 | **领域** | `电商` |
+| **应用场景** | `一般物品推荐`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2609.29983) · [代码](https://github.com/YuFan-Microsoft/Retrieval-Grounded-Credit-Assignment-for-Generative-Recommendation) |
 | **阅读级别** | 概览（第 1 级） |
 

@@ -96,3 +96,7 @@ note: 文本、图像各用一个 RQ-VAE 出一套码，两路在量化时做跨
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

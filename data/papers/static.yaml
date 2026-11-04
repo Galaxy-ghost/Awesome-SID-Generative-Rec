@@ -93,3 +93,10 @@ settings:
     as targets.
   where: arXiv:2602.22647v3 https://arxiv.org/html/2602.22647v3#S6.SS2.p1.1；§6.2 独立评估最新 2%/5% 物品；§2.1 明确定义为训练未见物品。§6.2 过滤方向有文字矛盾，按实验整体设计记
     item，未复现训练切分。
+scenario:
+  tasks:
+  - value: item
+    quote: We demonstrate how one can use constrained decoding to improve cold-start recommendation performance in a principled
+      setting using Amazon Reviews (He and McAuley, 2016) datasets.
+    where: 2602.22647v3
+  deploy: online

@@ -11,6 +11,7 @@
 | **SID inputs** | `Other` (Precomputed item embeddings, source unstated) |
 | **Domain** | `E-commerce` · `Short video / Live` · `Other` (Unnamed industrial platform, business unstated) |
 | **Settings** | `catalog-change` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.21012) |
 | **Reading level** | Overview (Level 1) |
 

@@ -82,3 +82,14 @@ note: Qwen3 嵌入编码餐厅名称、类目、预订状态、价格、菜品�
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Model performance is benchmarked against the Hit@10 metric on both the overall dataset and four distinct business
+      types (Busi_A to Busi_D).
+    where: '2602.04460v1 #S3.SS2.SSS2.p1.1；结果 Table 2（HSTU 生成）'
+  - value: ranking
+    quote: The item immediately following each sequence (the 51st) was treated as a positive sample (label=1), while negative
+      samples (label=0) were generated through random sampling.
+    where: '2602.04460v1 #S3.SS1.SSS1.p2.1；指标 "F1 score and AUC for the quantization task"（#S3.SS1.SSS2.p1.1），结果 Table 1'
+  deploy: online

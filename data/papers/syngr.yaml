@@ -89,3 +89,7 @@ settings:
 - value: cross-domain
   quote: Following the protocols in ( Zhai et al., 2025 ; Zhang et al., 2026a ) , we adopt a two-stage training paradigm.
   where: '2605.18920v2 #A3.p1.1；六个 Amazon 源域预训练，三个目标域微调，沿用 MQL4GRec 的协议，没有单独报迁移效果'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -88,3 +88,13 @@ domain:
 - E-commerce
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: To enable the LLM to perform well on the recommendation task, we let it predict the next recommended item.
+    where: 2504.05730v2
+  - value: query
+    quote: We prepend a token representing the behavior type to the item identifier and then input the user’s S&R history
+      into the LLM (with the user query also provided for search).
+    where: 2504.05730v2
+  deploy: industrial-offline

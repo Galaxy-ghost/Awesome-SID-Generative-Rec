@@ -81,3 +81,7 @@ domain:
 - Movie
 - Music
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

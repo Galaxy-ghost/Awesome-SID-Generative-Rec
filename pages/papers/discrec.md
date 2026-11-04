@@ -11,6 +11,7 @@
 | **SID inputs** | A: `Text` · B: `Text` + `CF` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cold-start (user)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.15576) · [Code](https://github.com/Ten-Mao/DiscRec) |
 | **Reading level** | Overview (Level 1) |
 

@@ -11,6 +11,7 @@
 | **SID inputs** | `CF` |
 | **Domain** | `E-commerce` |
 | **Settings** | `cold-start (user)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2409.05546) · [Code](https://github.com/RUCAIBox/ETEGRec) |
 | **Reading level** | Reading Notes (Level 2) |
 

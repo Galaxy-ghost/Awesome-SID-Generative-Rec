@@ -96,3 +96,10 @@ modality:
 domain:
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: We focus on next Point-of-Interest (POI) prediction, a fundamental location-based service task that predicts users’
+      future locations from historical check-ins and contextual signals.
+    where: '2607.26073v1 #S1.p2.1'
+  deploy: online

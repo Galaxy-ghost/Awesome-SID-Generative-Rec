@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) |
 | **Reading level** | Reading Notes (Level 2) |
 

@@ -90,3 +90,10 @@ modality_where:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: At serving time, the model generates beam-width items per query via beam search, following the standard point-wise
+      protocol.
+    where: '2604.14878v1 #S2.SS2.SSS0.Px2.p1.1'
+  deploy: online

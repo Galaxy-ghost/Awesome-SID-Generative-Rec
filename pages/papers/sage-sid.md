@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Text` + `Img` |
 | **Domain** | `E-commerce` · `Short video / Live` · `Ads` |
+| **Scenario** | `General Item Recommendation` · `Conversational and Instruction-Following Recommendation` · `Ranking and Reranking`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.21452) |
 | **Reading level** | Overview (Level 1) |
 

@@ -78,3 +78,9 @@ modality:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: We evaluate CogRec on three public sequential-recommendation benchmarks.
+    where: '2607.24402v1 #S1.p7.1'
+  deploy: public

@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `Ads` |
+| **Scenario** | `General Item Recommendation` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.10584) |
 | **Reading level** | Overview (Level 1) |
 

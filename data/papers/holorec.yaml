@@ -79,3 +79,11 @@ modality_where:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Experiments on multiple public recommendation datasets demonstrate that HoloRec consistently outperforms baselines,
+      with especially significant gains in sparse scenarios, and the thinking mode achieves better accuracy than the non-thinking
+      mode with only modest inference overhead.
+    where: '2606.15331v1 #abstract1；数据为 Amazon Beauty、Instruments（#S4.SS1.SSS1.p1.1）'
+  deploy: public

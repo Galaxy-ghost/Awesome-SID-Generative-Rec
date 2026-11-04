@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` + `Geo` |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `POI and Local Services`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.04562) · [Code](https://github.com/amap-cvlab/Reasoning-Over-Space) |
 | **Reading level** | Reading Notes (Level 2) |
 

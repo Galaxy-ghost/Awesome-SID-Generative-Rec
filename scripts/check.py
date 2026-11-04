@@ -46,7 +46,7 @@ VALID_GROUP_RULES = {
     "union_with_other",
     "union_contains",
 }
-VOCAB_LIST_SECTIONS = ["problem", "stage", *TECH_COLS, "modality", "domain", "settings"]
+VOCAB_LIST_SECTIONS = ["problem", "stage", *TECH_COLS, "modality", "domain", "settings", "scenario_task", "deploy"]
 
 
 def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) -> dict:
@@ -59,7 +59,7 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
     ev_fields = allowed_keys - {
         "changes", "modality", "modality_open", "modality_where", "modality_other", "note",
-        "domain_other", "featured",
+        "domain_other", "featured", "scenario",
         "domain", "settings", "evidence", "tldr", "tldr_zh", "setup", "related", "setup_where",
     }
 
@@ -71,7 +71,7 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
         for e in items:
             if not e.get("value") or not e.get("description") or not e.get("description_zh"):
                 errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires value, description, and description_zh")
-            if sec in ("domain", "settings"):
+            if sec in ("domain", "settings", "scenario_task", "deploy"):
                 nzh = e.get("name_zh", "")
                 if not isinstance(nzh, str) or not nzh.strip() or not CJK_RE.search(nzh):
                     errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires Chinese name_zh")
@@ -279,6 +279,27 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
             errors.append(f"[domain] {p.name}: domain_other is required exactly when domain includes 'Other'")
         elif has_dom_other and not _detail_ok(rec["domain_other"]):
             errors.append(f"[domain] {p.name}: domain_other needs non-empty en, zh, quote, where")
+        sc = rec.get("scenario")
+        if not isinstance(sc, dict) or set(sc) != {"tasks", "deploy"}:
+            errors.append(f"[scenario] {p.name}: scenario must have exactly tasks and deploy")
+        else:
+            tasks = sc["tasks"]
+            if not isinstance(tasks, list) or not tasks:
+                errors.append(f"[scenario] {p.name}: scenario.tasks must be a non-empty list")
+            else:
+                seen_t = set()
+                for ti, t in enumerate(tasks):
+                    tv = t.get("value") if isinstance(t, dict) else None
+                    if tv not in vocab_sets["scenario_task"]:
+                        errors.append(f"[scenario] {p.name}: scenario.tasks[{ti}].value={tv!r} not in data/vocab.yaml")
+                        continue
+                    if tv in seen_t:
+                        errors.append(f"[scenario] {p.name}: duplicate scenario task {tv!r}")
+                    seen_t.add(tv)
+                    if tv != "item" and not _detail_ok(t, ("quote", "where")):
+                        errors.append(f"[scenario] {p.name}: scenario task {tv!r} needs non-empty quote and where")
+            if sc["deploy"] not in vocab_sets["deploy"]:
+                errors.append(f"[scenario] {p.name}: scenario.deploy={sc['deploy']!r} not in data/vocab.yaml")
         if "featured" in rec and not isinstance(rec["featured"], bool):
             errors.append(f"[featured] {p.name}: featured must be true or false")
 

@@ -104,3 +104,10 @@ domain:
 - E-commerce
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: The model is given a sequence of a user’s recent interactions (up to 256 items) and is tasked with predicting the
+      next item.
+    where: '2510.11639v2 #A1.SS3.SSS1.Px1.p4（序列偏好建模；推荐主结果表 1 #S4.T1）'
+  deploy: online

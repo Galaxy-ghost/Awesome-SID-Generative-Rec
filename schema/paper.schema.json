@@ -27,7 +27,8 @@
     "changes",
     "modality",
     "domain",
-    "settings"
+    "settings",
+    "scenario"
   ],
   "$defs": {
     "changeValue": {
@@ -551,6 +552,46 @@
             "type": "string",
             "minLength": 1
           }
+        }
+      }
+    },
+    "scenario": {
+      "description": "Application scenario: task forms (one or more, values from data/vocab.yaml scenario_task; every value except 'item' carries quote and where) and the highest deployment level reached (data/vocab.yaml deploy).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tasks",
+        "deploy"
+      ],
+      "properties": {
+        "tasks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "where": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "deploy": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },

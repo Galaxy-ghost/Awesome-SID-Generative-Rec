@@ -10,6 +10,7 @@
 | **改动** | ● 训练目标 |
 | **构码输入** | A: `Text` · B: `Text` + `CF` |
 | **领域** | `本地生活与 POI` · `电商` · `广告` · `搜索` |
+| **应用场景** | `一般物品推荐`；`线上实验或部署` |
 | **链接** | [论文](https://arxiv.org/abs/2506.16114) · [代码](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 

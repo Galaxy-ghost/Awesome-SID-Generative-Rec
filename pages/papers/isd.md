@@ -10,6 +10,7 @@
 | **Changes** | ● Inference |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.24995) · [Code](https://anonymous.4open.science/r/ISD-CF7C) |
 | **Reading level** | Overview (Level 1) |
 

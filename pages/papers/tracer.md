@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Tokenizer · ○ Objective |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.07688) |
 | **Reading level** | Overview (Level 1) |
 

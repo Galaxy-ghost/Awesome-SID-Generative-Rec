@@ -90,3 +90,7 @@ note: 线上 cold-start VV 指标未给零交互定义，不记 cold-start。
 domain:
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

@@ -60,3 +60,7 @@ modality:
 domain:
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

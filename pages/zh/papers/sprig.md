@@ -10,6 +10,7 @@
 | **改动** | ● 构码 · ○ 训练目标 |
 | **构码输入** | A: `Text` · B: `Audio` |
 | **领域** | `电影` · `音乐` |
+| **应用场景** | `一般物品推荐`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2610.06590) · [代码](https://github.com/justinhangoebl/semantic-id-knowledge-graph-recommender) |
 | **阅读级别** | 概览（第 1 级） |
 

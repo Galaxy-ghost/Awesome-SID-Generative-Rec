@@ -99,3 +99,7 @@ note: Table 1 记 Text+Img；构码器的训练对来自 Swing 协同信号，�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

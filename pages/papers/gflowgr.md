@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | A: `Text` · B: `Text` + `CF` |
 | **Domain** | `POI / Local` · `E-commerce` · `Ads` · `Search` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.16114) · [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) |
 | **Reading level** | Reading Notes (Level 2) |
 

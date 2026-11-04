@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `Text` + `Other` (Internal 4-level, 2048-code SIDs; input unstated) |
 | **Domain** | `E-commerce` · `Other` (Proprietary user-to-item data, business unstated) |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.20611) · [Code](https://github.com/LucasXinYu/DASO) |
 | **Reading level** | Overview (Level 1) |
 

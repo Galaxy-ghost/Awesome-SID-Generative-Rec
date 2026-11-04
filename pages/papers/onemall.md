@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ○ Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `Other` (Live-stream item-tower embeddings (product SIDs, item features)) |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.21770) |
 | **Reading level** | Overview (Level 1) |
 

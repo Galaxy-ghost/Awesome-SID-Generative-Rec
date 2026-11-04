@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | `Other` (BID token embeddings; original SID inputs unstated) |
 | **Domain** | `Ads` |
+| **Scenario** | `General Item Recommendation` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.02684) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | A: `Other` (Encoder of each compared baseline, unspecified) · B: `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` · `Other` (Large-scale social media platform) |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.05096) |
 | **Reading level** | Overview (Level 1) |
 

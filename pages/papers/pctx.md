@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.21276) · [Code](https://github.com/YoungZ365/Pctx) |
 | **Reading level** | Overview (Level 1) |
 

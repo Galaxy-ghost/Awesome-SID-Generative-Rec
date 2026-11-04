@@ -11,6 +11,7 @@
 | **SID inputs** | `Other` (RQ-VAE item features; source modalities unstated) |
 | **Domain** | `E-commerce` · `Video` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding) |
 | **Reading level** | Overview (Level 1) |
 

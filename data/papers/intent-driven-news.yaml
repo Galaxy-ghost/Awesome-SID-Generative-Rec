@@ -83,3 +83,10 @@ settings:
   quote: All features are computed from historical data before the temporal split cutoff; test items are published after the
     cutoff.
   where: arXiv:2605.07613v1 https://arxiv.org/html/2605.07613v1#A20.p2；时间切分的后发布新闻，生成器未见；构码器是否也未见未报告。主协议即新物品，整个测试集均为截止后发布的新闻，没有另分新物品子组。
+scenario:
+  tasks:
+  - value: language
+    quote: On a mainstream Chinese news platform, we develop a chat-based news assistant that provides personalized recommendations
+      via natural-language dialogue.
+    where: 2605.07613v1
+  deploy: online

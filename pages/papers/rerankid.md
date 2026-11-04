@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `Short video / Live` |
 | **Settings** | `cold-start (user)` |
+| **Scenario** | `Ranking and Reranking`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.22797) · [Code](https://github.com/lilv98/ReRankID) |
 | **Reading level** | Overview (Level 1) |
 

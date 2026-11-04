@@ -80,3 +80,7 @@ domain:
 - Music
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

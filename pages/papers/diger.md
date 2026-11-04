@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Tokenizer |
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.19711) · [Code](https://github.com/junchen-fu/DIGER) |
 | **Reading level** | Overview (Level 1) |
 

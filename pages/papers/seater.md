@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | `CF` |
 | **Domain** | `POI / Local` · `E-commerce` · `News` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) |
 | **Reading level** | Overview (Level 1) |
 

@@ -106,3 +106,10 @@ domain:
 - E-commerce
 - Music
 settings: []
+scenario:
+  tasks:
+  - value: ranking
+    quote: To comprehensively evaluate the performance of models, we adopt the AUC (Area Under the Curve) (Hanley and McNeil,
+      1982) as the primary evaluation metric.
+    where: 2508.20359v1
+  deploy: online

@@ -75,3 +75,7 @@ note: A 为 RQ-VAE / R-KMeans 文本配置；B 为 LETTER 文本与 SASRec 协�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

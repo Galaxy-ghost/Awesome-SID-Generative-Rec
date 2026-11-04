@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Objective |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` · `POI / Local` · `Ads` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.11255) |
 | **Reading level** | Reading Notes (Level 2) |
 

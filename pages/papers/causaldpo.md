@@ -10,6 +10,7 @@
 | **Changes** | ● Objective |
 | **SID inputs** | `n/a` |
 | **Domain** | `POI / Local` · `Movie` · `Book` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Other` (Residual K-Means SIDs, input unstated) |
 | **Domain** | `Music` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.08604) |
 | **Reading level** | Overview (Level 1) |
 

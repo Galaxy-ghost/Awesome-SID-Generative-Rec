@@ -95,3 +95,7 @@ note: 码长按训练交互频次分配；按 11-04 新规则不把频次统计�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -97,3 +97,12 @@ settings:
   quote: The improvements are especially notable for items that never appeared during training, demonstrating that purely
     semantic IDs enhance generalization to real-world cold-start scenarios.
   where: '2509.16446v1 #Sx4.SSx10.p2.1；子集含训练中出现 0 次和 1 次的物品，Figure 5 分开报'
+scenario:
+  tasks:
+  - value: item
+    quote: 'Table 5: Performance on sequential recommendation tasks.'
+    where: 2509.16446v1
+  - value: query
+    quote: Given a query q, retrieve an item v from the corpus that matches the user’s intent.
+    where: 2509.16446v1
+  deploy: public

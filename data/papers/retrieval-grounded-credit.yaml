@@ -67,3 +67,9 @@ modality:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: Sequential recommendation predicts the next item a user will interact with from their interaction history.
+    where: 2609.29983v1 PDF p.1 §1；任务及推理 §3.1、§3.4，主结果 p.6 Table 4（https://arxiv.org/pdf/2609.29983v1#page=1）
+  deploy: public

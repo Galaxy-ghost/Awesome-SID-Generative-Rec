@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` · `News` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.01533) · [Code](https://github.com/hirc-airecs/graph-informed-sids) |
 | **Reading level** | Overview (Level 1) |
 

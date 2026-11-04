@@ -11,6 +11,7 @@
 | **SID inputs** | `Text` |
 | **Domain** | `E-commerce` · `POI / Local` |
 | **Settings** | `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://doi.org/10.3390/electronics15204749) |
 | **Reading level** | Overview (Level 1) |
 

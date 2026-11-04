@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` + `Img` + `CF` |
 | **Domain** | `Image / Article` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.33435) |
 | **Reading level** | Overview (Level 1) |
 

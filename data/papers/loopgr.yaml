@@ -79,3 +79,7 @@ domain_other:
     it with two generative recommendation baselines deployed in Tencent’s real-world services.
   where: '2610.34157v1 #S5.SS1.SSS0.Px1.p1.1；附录 A.1（#A1.SS1.p1.1）只介绍 Amazon 数据'
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

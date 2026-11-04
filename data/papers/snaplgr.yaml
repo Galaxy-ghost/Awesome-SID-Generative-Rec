@@ -75,3 +75,7 @@ note: §2.2 的冻结骨干 CPT 后 SFT 属于 SID 与文本的既有对齐训�
 domain:
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: online

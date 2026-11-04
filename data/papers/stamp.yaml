@@ -95,3 +95,7 @@ note: A 是 GRID 框架（Flan-T5-XL 文本嵌入），B 是 FORGE 框架（直�
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

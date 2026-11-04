@@ -10,6 +10,7 @@
 | **Changes** | ● Backbone · ○ Objective · ○ Inference |
 | **SID inputs** | `Other` (PSID with RQ-KMeans, input unstated) |
 | **Domain** | `E-commerce` · `Music` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.06331) · [Code](https://github.com/hyp1231/Latte) |
 | **Reading level** | Overview (Level 1) |
 

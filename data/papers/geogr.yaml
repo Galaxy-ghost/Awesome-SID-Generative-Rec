@@ -109,3 +109,14 @@ domain:
 - POI / Local
 - Search
 settings: []
+scenario:
+  tasks:
+  - value: poi
+    quote: Next Point-of-Interest (POI) prediction is a fundamental task in location-based services (LBS), especially critical
+      for large-scale navigation platforms such as AMAP that serve billions of users in diverse lifestyle scenarios.
+    where: '2602.10411v2 #abstract1；NYC、TKY 结果 Table 2'
+  - value: query
+    quote: Both datasets capture user intent through search queries and rich contextual signals, including GPS coordinates
+      and target-location metadata, with the goal of retrieving the most relevant POIs for display on the app’s homepage.
+    where: '2602.10411v2 #S5.SS1.SSS1.p2.1；AMAP 数据结果 Table 3'
+  deploy: online

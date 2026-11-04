@@ -99,3 +99,7 @@ settings:
 - value: cross-domain
   quote: Figure 3 evaluates learned tokenizers fitted on Beauty or Toys and frozen across all three target catalogs.
   where: '2610.36763v1 #S5.SS5.p1.1；构码器在源域拟合后冻结，用到其他目录；推荐器仍在目标域训练'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

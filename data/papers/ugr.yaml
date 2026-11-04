@@ -63,3 +63,7 @@ domain:
 - E-commerce
 - POI / Local
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

@@ -9,7 +9,7 @@ Papers and annotated deep dives on Semantic ID generative recommendation, indexe
 
 English | [中文](README.zh.md)
 
-[Taxonomy](#taxonomy) · [Where to Start](#where-to-start) · [All Papers](#all-papers) · [Contributing](#contributing)
+[Taxonomy](#taxonomy) · [Scenarios](#scenarios) · [Where to Start](#where-to-start) · [All Papers](#all-papers) · [Contributing](#contributing)
 
 </div>
 
@@ -23,19 +23,34 @@ Each cell pairs a research problem (row) with a primary pipeline stage (column),
 
 ![Taxonomy of 181 Semantic ID generative recommendation papers across six research problems (plus paradigms, systems and benchmarks) and five primary pipeline stages: each cell lists up to 5 papers (published before arXiv, earliest first), and five stage-ordered dots mark the stages each paper modifies.](assets/figures/taxonomy.svg)
 
+## Scenarios
+
+Papers by task form and deployment level (a paper can have several task forms); click a total to open its list:
+
+| Task form                                               | Public Benchmarks | Industrial Data, Offline | Online Experiment or Deployment |                                        Total                                         |
+| :------------------------------------------------------ | :---------------: | :----------------------: | :-----------------------------: | :----------------------------------------------------------------------------------: |
+| General Item Recommendation                             |        107        |            13            |                42               |              [162](pages/index/scenario.md#general-item-recommendation)              |
+| Query-Conditioned Retrieval                             |         2         |            4             |                2                |               [8](pages/index/scenario.md#query-conditioned-retrieval)               |
+| POI and Local Services                                  |         5         |            5             |                6                |                 [16](pages/index/scenario.md#poi-and-local-services)                 |
+| Ranking and Reranking                                   |         2         |            2             |                8                |                 [12](pages/index/scenario.md#ranking-and-reranking)                  |
+| Conversational and Instruction-Following Recommendation |         1         |            0             |                1                | [2](pages/index/scenario.md#conversational-and-instruction-following-recommendation) |
+
+Evaluation settings: [cold-start (18)](pages/index/scenario.md#cold-start) · [cross-domain (22)](pages/index/scenario.md#cross-domain) · [catalog-change (3)](pages/index/scenario.md#catalog-change)
+
 ## Where to Start
 
 Pick an entry point below based on what you want to look up:
 
-| I want to...                                                                           | Where to go                                   |
-| :------------------------------------------------------------------------------------- | :-------------------------------------------- |
-| Understand how Semantic IDs work and which papers to read first                        | [Start Here](guides/start-here.md)            |
-| Find methods for a specific research problem (e.g., collisions, alignment, efficiency) | [All Papers](#all-papers)                     |
-| Compare methods side by side within one pipeline stage                                 | [Papers by Stage](pages/index/stages.md)      |
-| Find papers that tokenize multimodal content or collaborative filtering (CF) signals   | [Papers by Modality](pages/index/modality.md) |
-| Find papers in a specific domain (e.g., e-commerce, POI, short video)                  | [Papers by Domain](pages/index/domain.md)     |
-| Find papers with open-source code                                                      | [Papers with Code](pages/index/code.md)       |
-| Feed this repository to an LLM or search tool                                          | [llms.txt](llms.txt)                          |
+| I want to...                                                                                 | Where to go                                   |
+| :------------------------------------------------------------------------------------------- | :-------------------------------------------- |
+| Understand how Semantic IDs work and which papers to read first                              | [Start Here](guides/start-here.md)            |
+| Find methods for a specific research problem (e.g., collisions, alignment, efficiency)       | [All Papers](#all-papers)                     |
+| Compare methods side by side within one pipeline stage                                       | [Papers by Stage](pages/index/stages.md)      |
+| Find papers that tokenize multimodal content or collaborative filtering (CF) signals         | [Papers by Modality](pages/index/modality.md) |
+| Find papers in a specific domain (e.g., e-commerce, POI, short video)                        | [Papers by Domain](pages/index/domain.md)     |
+| Find papers by application scenario (e.g., query retrieval, POI, ranking, online deployment) | [Papers by Scenario](pages/index/scenario.md) |
+| Find papers with open-source code                                                            | [Papers with Code](pages/index/code.md)       |
+| Feed this repository to an LLM or search tool                                                | [llms.txt](llms.txt)                          |
 
 ## Starter Papers
 

@@ -94,3 +94,7 @@ settings:
   quote: We evaluate our method through zero-shot recommendation experiments, pre-training our model on 15 diverse datasets
     and testing it on 8 unseen datasets to assess its generalization ability.
   where: '2509.03131v1 #S4.p1.1'
+scenario:
+  tasks:
+  - value: item
+  deploy: public

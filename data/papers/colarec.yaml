@@ -97,3 +97,7 @@ domain:
 - E-commerce
 - Food / Recipe
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: public

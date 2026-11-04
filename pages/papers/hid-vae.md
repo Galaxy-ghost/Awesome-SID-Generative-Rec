@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `Attr` |
 | **Domain** | `E-commerce` · `Short video / Live` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) |
 | **Reading level** | Reading Notes (Level 2) |
 

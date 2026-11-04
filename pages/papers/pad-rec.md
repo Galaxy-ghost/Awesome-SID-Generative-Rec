@@ -10,6 +10,7 @@
 | **Changes** | ● Inference |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` · `POI / Local` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.27747) · [Code](https://github.com/Jiaju-Chen/PAD-Rec) |
 | **Reading level** | Overview (Level 1) |
 

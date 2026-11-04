@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `Img` + `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.26427) · [Code](https://github.com/HAI-UESTC/CARD) |
 | **Reading level** | Overview (Level 1) |
 

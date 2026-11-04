@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization · ○ Tokenizer · ○ Objective · ○ Inference |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.06947) |
 | **Reading level** | Overview (Level 1) |
 

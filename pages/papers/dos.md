@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization |
 | **SID inputs** | `Text` + `CF` |
 | **Domain** | `POI / Local` |
+| **Scenario** | `General Item Recommendation` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.04460) |
 | **Reading level** | Overview (Level 1) |
 

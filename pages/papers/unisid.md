@@ -10,6 +10,7 @@
 | **Changes** | ○ Representation · ● Tokenization |
 | **SID inputs** | `Text` + `Img` |
 | **Domain** | `Ads` · `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Industrial Data, Offline` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10445) |
 | **Reading level** | Overview (Level 1) |
 

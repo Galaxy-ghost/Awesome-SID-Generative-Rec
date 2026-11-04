@@ -10,6 +10,7 @@
 | **Changes** | ○ Tokenization · ● Backbone |
 | **SID inputs** | `Other` (RQ-PIB item embeddings; source signals unstated) |
 | **Domain** | `Long video` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.27898) |
 | **Reading level** | Overview (Level 1) |
 

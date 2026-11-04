@@ -70,3 +70,10 @@ settings:
   quote: To evaluate this, we randomly sample 100 locations in test data and remove the trajectories that contain them in
     the training dataset.
   where: arXiv:2506.11109v1 https://arxiv.org/html/2506.11109v1#A4.SS4.p1；随机选 100 个测试位置，删去全部包含它们的训练轨迹，模拟未见 POI；构码器是否见过未报告。
+scenario:
+  tasks:
+  - value: poi
+    quote: 'To demonstrate this capability, we evaluate the performance on two representative tasks: next location prediction
+      and mobility recovery.'
+    where: '2506.11109v1 #S3.p2（轨迹任务定义；下一位置和轨迹恢复结果 #S5.T2、#S5.T3）'
+  deploy: industrial-offline

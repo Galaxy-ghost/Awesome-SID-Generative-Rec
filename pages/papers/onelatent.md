@@ -10,6 +10,7 @@
 | **Changes** | ○ Backbone · ● Objective · ○ Inference |
 | **SID inputs** | `MM` |
 | **Domain** | `Ads` · `POI / Local` |
+| **Scenario** | `General Item Recommendation` · `POI and Local Services`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.30675) |
 | **Reading level** | Overview (Level 1) |
 

@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Tokenizer · ○ Objective |
 | **SID inputs** | `Text` + `Img` |
 | **Domain** | `E-commerce` · `Ads` |
+| **Scenario** | `General Item Recommendation` · `Ranking and Reranking`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.15281) |
 | **Reading level** | Overview (Level 1) |
 

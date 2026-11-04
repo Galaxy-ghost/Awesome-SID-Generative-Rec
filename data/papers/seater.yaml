@@ -91,3 +91,7 @@ domain:
 - News
 - Short video / Live
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

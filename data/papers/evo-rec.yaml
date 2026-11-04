@@ -63,3 +63,10 @@ modality:
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: 'We evaluate our framework on three public benchmark datasets: Video Games (Games), Office Products (Office), and
+      Industrial and Scientific (Industrial) from the Amazon Review (Hou et al., 2026).'
+    where: '2609.29973v1 #S4.SS1.SSS1.p1.1'
+  deploy: public

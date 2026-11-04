@@ -10,6 +10,7 @@
 | **改动** | ● 训练目标 |
 | **构码输入** | `其他`（量化前物品向量，来源未写） |
 | **领域** | `电商` |
+| **应用场景** | `一般物品推荐`；`公开数据` |
 | **链接** | [论文](https://arxiv.org/abs/2610.27232) · [代码](https://github.com/pierre-lubitzsch/neighborhood-aware-unlearning) |
 | **阅读级别** | 概览（第 1 级） |
 

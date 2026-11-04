@@ -79,3 +79,7 @@ domain:
 - Ads
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+  deploy: industrial-offline

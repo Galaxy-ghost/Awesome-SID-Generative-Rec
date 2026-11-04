@@ -79,3 +79,11 @@ note: §6 明确删除交互同时保持用户、物品和 SID 固定，不记 c
 domain:
 - E-commerce
 settings: []
+scenario:
+  tasks:
+  - value: item
+    quote: On three Amazon recommendation datasets (Beauty, Sports, and Toys) and four SID or tokenization settings, NAU achieves
+      removal behavior close to retraining while retaining over 95% of its recommendation utility, at three orders of magnitude
+      lower runtime than retraining.
+    where: 2610.27232v1
+  deploy: public

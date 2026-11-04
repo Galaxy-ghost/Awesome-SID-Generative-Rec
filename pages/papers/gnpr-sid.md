@@ -11,6 +11,7 @@
 | **SID inputs** | `Attr` + `Geo` + `Time` + `CF` |
 | **Domain** | `POI / Local` |
 | **Settings** | `cross-domain` |
+| **Scenario** | `POI and Local Services`; `Public Benchmarks` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.01375) · [Code](https://github.com/wds1996/GNPR-SID) |
 | **Reading level** | Reading Notes (Level 2) |
 

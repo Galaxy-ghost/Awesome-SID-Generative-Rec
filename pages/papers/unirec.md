@@ -10,6 +10,7 @@
 | **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
 | **SID inputs** | `MM` + `Attr` |
 | **Domain** | `E-commerce` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.12234) |
 | **Reading level** | Overview (Level 1) |
 

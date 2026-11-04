@@ -89,3 +89,7 @@ settings:
   quote: Note that in the inductive setting, the target item may not appear in the training set, called new or unseen items
     in the following sections.
   where: arXiv:2410.02939v2 https://arxiv.org/html/2410.02939v2#Sx3.SSx1.p1；§4.1.3 单列 unseen items 结果；时间切分，构码器训练可见性未交代。
+scenario:
+  tasks:
+  - value: item
+  deploy: public

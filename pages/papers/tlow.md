@@ -11,6 +11,7 @@
 | **SID inputs** | A: `Text` · B: `Text` + `Img` |
 | **Domain** | `E-commerce` · `Image / Article` |
 | **Settings** | `cross-domain` · `cold-start (item)` |
+| **Scenario** | `General Item Recommendation`; `Online Experiment or Deployment` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.24176) · [Code](https://github.com/wjjln/Tlow) |
 | **Reading level** | Overview (Level 1) |
 
