@@ -1,6 +1,6 @@
 """Taxonomy figure: research problem (rows) x primary pipeline stage (columns), with representative papers.
 
-Each cell lists up to CONFIG["max_per_cell"] papers (published first, then arXiv, earliest first).
+Each cell lists up to CONFIG["max_per_cell"] papers: published papers first, then arXiv preprints, each group earliest first.
 Five dots after each name mark the stages the paper changes, in pipeline order.
 All layout and colour settings live in CONFIG; text width uses Arial-compatible glyph metrics.
 """
@@ -107,8 +107,9 @@ def esc(s) -> str:
 
 
 def date_key(rec: dict) -> tuple:
+    """Sort by the year shown in the figure; the arXiv posting date breaks ties within a year."""
     m = ARXIV_YM.search((rec.get("links") or {}).get("arxiv") or "")
-    return (2000 + int(m.group(1)), int(m.group(2))) if m else (int(rec["year"]), 12)
+    return int(rec["year"]), (int(m.group(1)), int(m.group(2))) if m else (99, 12)
 
 
 def is_published(rec: dict) -> bool:
@@ -118,7 +119,7 @@ def is_published(rec: dict) -> bool:
 def pick(recs: list, k: int) -> list:
     pub = sorted((r for r in recs if is_published(r)), key=date_key)
     rest = sorted((r for r in recs if not is_published(r)), key=date_key)
-    return sorted((pub + rest)[:k], key=date_key)
+    return (pub + rest)[:k]
 
 
 def _changed(val) -> bool:
