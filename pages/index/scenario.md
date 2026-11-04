@@ -6,7 +6,7 @@ This page groups papers by task form, highest reported deployment level, and spe
 
 ## General Item Recommendation
 
-> 162 papers. Next-item or candidate recommendation from user interaction history or preferences, including discriminative and hybrid models that take SIDs as input.
+> 162 papers. Predicts the next or target item from user interaction history or preferences, including non-generative next-item prediction that takes SIDs as input.
 
 | Paper | Venue | Problem × Stage | Task Form | Deployment |
 | :--- | :--- | :--- | :--- | :--- |

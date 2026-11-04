@@ -1057,9 +1057,9 @@ scenario_task:
 - value: item
   name: General Item Recommendation
   name_zh: 一般物品推荐
-  description: Next-item or candidate recommendation from user interaction history or preferences, including discriminative
-    and hybrid models that take SIDs as input.
-  description_zh: 根据用户交互历史或偏好预测目标物品，包括以 SID 为输入的判别式与混合式下一物品预测。
+  description: Predicts the next or target item from user interaction history or preferences, including non-generative
+    next-item prediction that takes SIDs as input.
+  description_zh: 根据用户交互历史或偏好预测下一个或目标物品，也包括以 SID 为输入的非生成式下一物品预测。
 - value: query
   name: Query-Conditioned Retrieval
   name_zh: 查询驱动检索
