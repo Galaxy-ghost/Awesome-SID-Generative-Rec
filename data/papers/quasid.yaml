@@ -60,3 +60,22 @@ related:
   relation: alternative
   note: Overlap regularization is contrasted with selectively repelling qualified conflicts.
   where: 'QuaSID v1, Section 2.2: https://arxiv.org/html/2603.00632v1#S2.SS2.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: Each item is associated with rich multimodal side information, including textual descriptions, automatic speech recognition
+    (ASR) transcripts, and key-frame images.
+  where: arXiv:2603.00632v1 https://arxiv.org/html/2603.00632v1#S5.SS1.SSS1.p1；工业构码为 Text+Img，ASR 输出是文本；§4.1 CF 配对进入构码训练。
+note: Table 1 为 Text+CF；§5.1 工业配置还含 Img。CF 是 tokenizer 的协同配对训练信号，直接影响码分配；按与 PinGER/PCR-CA 一致的口径计入，不是把推荐器独用的数据计入。
+domain:
+- E-commerce
+settings: []

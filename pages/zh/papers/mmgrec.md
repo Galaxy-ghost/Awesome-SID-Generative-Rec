@@ -1,22 +1,27 @@
 # MMGRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mmgrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/mmgrec.md) | 中文
 
 | **题目** | *Multimodal Generative Recommendation with Transformer Model* |
 | :-- | :-- |
 | **作者** | Liu et al. |
 | **发表** | TOMM’26 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ○ 物品表示 · ● 构码 · ○ 生成骨干 |
+| **构码输入** | `Text` + `Img` + `Audio` + `CF` |
+| **领域** | `电影` · `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2404.16555) · [代码](https://github.com/hanliu95/MMGRec) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>Graph RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>○ Text+Img+CF"] --> T["构码 Tokenization<br/>● Graph RQ-VAE"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > MMGRec 在多模态与协同特征上用 Graph RQ-VAE 为每个物品分配 Rec-ID，并训练带关系感知自注意力的 Transformer 生成该 ID，替代嵌入检索。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | MMGRec 在多模态与协同特征上用 Graph RQ-VAE 为每个物品分配 Rec-ID，并训练带关系感知自注意力的 Transformer 生成该 ID，替代嵌入检索。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

@@ -1,12 +1,15 @@
 # ActionPiece
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/actionpiece.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/actionpiece.md)
 
 | **Title** | *Contextually Tokenizing Action Sequences for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Hou et al. |
 | **Venue** | ICML’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2502.13581) · [Code](https://github.com/google-deepmind/action_piece) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Ensemble"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● OPQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>○ Ensemble"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ActionPiece represents each action as a set of item features and merges co-occurring feature patterns into new tokens, so identical actions get context-dependent tokens instead of fixed independent ones. |
-| Modified Stage | Tokenization |
 | Key Findings | Merging OPQ item feature sets into a 40,000-token context-dependent vocabulary improves Recall and NDCG@5/10 on Amazon Sports and Outdoors, Beauty, and CDs and Vinyl while shortening normalized sequence length, whereas scaling TIGER's vocabulary size alone does not match the gain (Sec. 4.3, Sec. 4.4.1, Table 4, Table 5, Fig. 4). |
 | Limitation | Inference averages beam-50 rankings across q = 5 random set-permutation segmentations, and the paper does not report measured inference latency or whether evaluation ranks the full catalog (Sec. 3.3.2, Sec. 3.4, Sec. 4.1). |
 

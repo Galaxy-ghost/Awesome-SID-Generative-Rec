@@ -1,22 +1,27 @@
 # GR4AD-X
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gr4ad-x.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gr4ad-x.md)
 
 | **Title** | *Towards Reliable, Scalable, and Value-Aligned Generative Recommendation for Large-Scale Advertising* |
 | :-- | :-- |
 | **Authors** | Xiao et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `unknown` |
+| **Domain** | `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.38378) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>Multi-Path R-KM+Hash"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + PV-RSPO + Rank + Aux."] --> I["Inference<br/>PV-Beam+Rerank"]
+    R["Representation<br/>–"] --> T["Tokenization<br/>● Multi-Path R-KM+Hash"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + PV-RSPO + Rank + Aux."] --> I["Inference<br/>○ PV-Beam+Rerank"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -31,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | GR4AD-X extends GR4AD for advertising with multi-path Semantic ID assignment, capacity scaling beyond wider or deeper backbones, and value-guided generation with beam pruning and discriminative reranking. |
-| Modified Stage | Tokenization |
 
 ---
 

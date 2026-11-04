@@ -51,3 +51,19 @@ related:
   relation: competitor
   note: TIGER is the semantic-ID generative baseline in the main comparison.
   where: 'HCGRec v2, Section 4.2 and Table 2: https://arxiv.org/html/2608.11980v2#S4.SS2.p2; https://arxiv.org/html/2608.11980v2#S4.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: Following the GenRec pipeline (Ji et al., 2023; Zou et al., 2026), each item is represented by a four-token Semantic
+    ID, and all variants share the same semantic index, backbone, and evaluation pipeline.
+  where: arXiv:2608.11980v2 https://arxiv.org/html/2608.11980v2#S4.SS1.SSS1.p1；仅声明沿用 GenRec 四码索引，未直接说明构码源信号；文本对齐任务不是构码输入证据。
+domain:
+- E-commerce
+settings: []

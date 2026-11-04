@@ -76,3 +76,23 @@ related:
     for item separability.
   where: 'Gwhere v1, Section 1: https://arxiv.org/html/2607.26073v1#S1.p1; Section 3.2: https://arxiv.org/html/2607.26073v1#S3.SS2.p1;
     not a baseline in Table 4.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We present Gwhere, an end-to-end LLM-based framework for cognitively aligned next POI prediction. Gwhere unifies
+      multi-modal semantic identifiers with generative mobility modeling, and adapts LLMs to the mobility domain through continued
+      pretraining, supervised fine-tuning, and Exposure-Aware Kahneman-Tversky Optimization (EAKTO).
+    where: '2607.26073v1 #S1.I1.i2.p1.1；EAKTO 在 #S3.SS4（KTO 加曝光感知）'
+  inference: none
+modality:
+- Text
+- Img
+- Geo
+- CF
+domain:
+- POI / Local
+settings: []

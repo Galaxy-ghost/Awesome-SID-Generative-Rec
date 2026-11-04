@@ -59,3 +59,15 @@ related:
     fixed.
   where: 'ISD v1, Sections 5.2/6.1.2 and Table 3: https://arxiv.org/html/2607.24995v1#S5.SS2; https://arxiv.org/html/2607.24995v1#S6.SS1.SSS2.p1;
     https://arxiv.org/html/2607.24995v1#S5.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

@@ -51,3 +51,28 @@ related:
   note: GNPR-SID is the closest baseline across accuracy, cold-start, transfer and compute experiments.
   where: 'KGTB v1, Cold-Start Scenario and Tables 2/4/5: https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx2.p1; https://arxiv.org/html/2509.12350v1#Sx5.T2;
     https://arxiv.org/html/2509.12350v1#Sx5.T4; https://arxiv.org/html/2509.12350v1#Sx5.T5.'
+changes:
+  representation:
+    value: other
+    quote: We introduce RGCN ( Schlichtkrull et al. 2018 ) to achieve the purpose.
+    where: arXiv:2509.12350v1 https://arxiv.org/html/2509.12350v1#Sx4.SSx2.SSSx1.p1
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Using generated IDs, KGTB proposes multi-behavior learning that introduces multiple behavior-specific prediction
+      tasks for LLM fine-tuning, e.g., POI, category, and region visit behaviors.
+    where: arXiv:2509.12350v1 https://arxiv.org/html/2509.12350v1#abstract1
+  inference: none
+modality:
+- Attr
+- Geo
+- CF
+domain:
+- POI / Local
+settings:
+- value: cross-domain
+  quote: In this experiment, we analyze the performance of KGTB on out-of-domain datasets and show the performance comparison
+    between KGTB and GNPR-SID in Tab. 4 .
+  where: arXiv:2509.12350v1 https://arxiv.org/html/2509.12350v1#Sx5.SSx3.SSSx3.p1；Table 4 跨城市训练测试；低于 5 个访客的冷 POI 分桶不记 cold-start。

@@ -54,3 +54,16 @@ related:
   relation: predecessor
   note: LETTER supplies the backbone for TrieRec's main ablations and efficiency comparison.
   where: 'TrieRec v1, Table 3 and Section 4.4: https://arxiv.org/html/2602.21677v1#S4.T3; https://arxiv.org/html/2602.21677v1#S4.SS4.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- Movie
+settings: []

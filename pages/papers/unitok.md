@@ -1,20 +1,24 @@
 # UniTok
 
-[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unitok.md)
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/unitok.md)
 
 | **Title** | *Tokenize Once, Recommend Anywhere: Unified Item Tokenization for Multi-domain LLM-based Recommendation* |
 | :-- | :-- |
 | **Authors** | Hou and Shin |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Changes** | ● Tokenization |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.12922) · [Code](https://github.com/jackfrost168/UniTok) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>TokenMoE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam†"]
+    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>● TokenMoE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks, calibrating mutual information across domains, instead of one tokenizer per domain.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | UniTok tokenizes items from multiple domains with a shared encoder, domain-specific and shared experts, and codebooks, calibrating mutual information across domains, instead of one tokenizer per domain. |
-| Modified Stage | Tokenization |
 
 ---
 

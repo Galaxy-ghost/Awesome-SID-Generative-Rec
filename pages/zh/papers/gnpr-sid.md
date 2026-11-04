@@ -1,12 +1,16 @@
 # GNPR-SID
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gnpr-sid.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gnpr-sid.md) | 中文
 
 | **题目** | *Generative Next POI Recommendation with Semantic ID* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | KDD’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` · `POI` |
+| **改动** | ○ 物品表示 · ● 构码 |
+| **构码输入** | `Attr` + `Geo` + `Time` + `CF` |
+| **领域** | `本地生活与 POI` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2506.01375) · [代码](https://github.com/wds1996/GNPR-SID) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Attr+Geo+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>○ Attr+Geo+CF"] --> T["构码 Tokenization<br/>● RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -38,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | GNPR-SID 用融合语义与协同特征并在多样性损失下训练的 RQ-VAE SID 替代随机数字 POI ID，并微调 LLM 生成下一访问 POI。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在三个基准数据集上，GNPR-SID 的推荐准确率（Acc@1）比对比方法最高提升 16%（Abstract）。 |
 | 局限 | 营业时段和协同特征均提取自历史签到记录，尚无访问记录的新兴趣点（POI）缺乏完整特征（Sec. 4.1.1）。 |
 

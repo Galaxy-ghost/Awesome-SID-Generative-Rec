@@ -80,3 +80,30 @@ related:
   where: 'Evidence is from the later GeoGR paper: it follows GNPR-SID preprocessing and compares against it in Tables 2, 3,
     and 5: https://arxiv.org/html/2602.10411v2#S5.SS1.SSS1.p2, https://arxiv.org/html/2602.10411v2#S5.T2, https://arxiv.org/html/2602.10411v2#S5.T3,
     https://arxiv.org/html/2602.10411v2#S5.T5.'
+changes:
+  representation:
+    value: other
+    quote: Since POI features are typically represented by numerical data, which are challenging for LLMs primarily designed
+      for text understanding, we propose a POI semantic representation method.
+    where: '2506.01375v2 #S1.p6.1；设计在 #S4.SS1.SSS1（类别、Plus Codes 区域、24 时段、共访用户的 one-hot）'
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Attr
+- Geo
+- Time
+- CF
+modality_where:
+  quote: where c represents the POI category, r denotes the region, t corresponds to the operating time slots, and c_u captures
+    the user collaboration signals based on shared interaction histories.
+  where: '2506.01375v2 #S4.SS1.SSS1.Px3.p2.2（公式按纯文本转写）'
+note: Table 1 记 Attr+Geo+CF，原文构码输入另有 Time（#S4.SS1.SSS1 Temporal Signals）。Table 1 不改。
+domain:
+- POI / Local
+settings:
+- value: cross-domain
+  quote: Table 5 shows the performance on out-of-domain datasets.
+  where: '2506.01375v2 #S6.SS5.p1.1；NYC、TKY、CA 之间跨城市迁移'

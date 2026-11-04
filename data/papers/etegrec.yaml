@@ -16,7 +16,6 @@ tokenizer: Altern.
 objective: NTP + Ctr.
 inference: Beam
 poi: false
-also: []
 tldr: ETEGRec trains the item tokenizer and the generator in alternation with sequence-item and preference-semantic alignment
   losses, instead of building the tokenizer separately before generator training.
 tldr_zh: ETEGRec 用序列-物品对齐损失与偏好-语义对齐损失交替训练物品编号器和生成器，替代先独立训练编号器再训练生成器的两阶段流程。
@@ -75,3 +74,24 @@ related:
   note: AdaSID keeps a pre-trained tokenizer and adapts collision repulsion, contrasting with ETEGRec's end-to-end downstream
     supervision of the tokenizer.
   where: 'Evidence is from the later AdaSID paper, Section 2.2: https://arxiv.org/html/2604.23522v1#S2.SS2.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: primary
+  objective:
+    value: other
+    quote: 'we propose a recommendation-oriented alignment strategy, which includes two key optimization objectives: sequence-item
+      alignment and preference-semantic alignment.'
+    where: '2409.05546v3 #abstract1.1；设计在 #S3.SS3.SSS1（对称 KL）、#S3.SS3.SSS2（InfoNCE）'
+  inference: none
+modality:
+- CF
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: user
+  quote: To assess the generalizability of ETEGRec, we evaluate its recommendation performance on new users who are unseen
+    during training.
+  where: '2409.05546v3 #S4.SS4.SSS1.p1.1；从训练集删去部分用户的交互，测试时这些用户仍有输入序列'

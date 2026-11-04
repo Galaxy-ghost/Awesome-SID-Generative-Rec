@@ -70,3 +70,19 @@ related:
     collaborative signals.
   where: 'Evidence is from the later ADC-SID paper: DAS is a baseline in Section 4.1.2 and Table 2: https://arxiv.org/html/2510.25622v3#S4.I3.i4.p1
     and https://arxiv.org/html/2510.25622v3#S4.T2.'
+changes:
+  representation:
+    value: other
+    quote: To generate accurate user and ad profiles, we leverage LLMs to purify and denoise key information.
+    where: '2508.10584v2 #S2.SS1.SSS1.p1.1；把标题、OCR、ASR、视觉描述转成文本，由 LLM 生成摘要后再编码构码'
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- Ads
+settings: []

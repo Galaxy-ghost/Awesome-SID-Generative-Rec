@@ -1,20 +1,24 @@
 # DACT
 
-[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dact.md)
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/dact.md)
 
 | **Title** | *Drift-Aware Continual Tokenization for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Feng et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Changes** | ● Tokenization |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `E-commerce` |
+| **Settings** | `catalog-change` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.29705) · [Code](https://github.com/HomesAmaranta/DACT) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>● RQ-VAE"] --> B["Backbone<br/>Enc-Dec / Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict code reassignment, to update Semantic IDs without full retraining or mass ID changes.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | DACT fine-tunes a collaborative tokenizer as interactions drift, with an item-level drift detector and relaxed-to-strict code reassignment, to update Semantic IDs without full retraining or mass ID changes. |
-| Modified Stage | Tokenization |
 
 ---
 

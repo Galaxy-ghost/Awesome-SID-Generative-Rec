@@ -60,15 +60,37 @@ related:
   relation: alternative
   note: RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
   where: 'Evidence is from the later RPG paper: Section 2 overview, https://arxiv.org/html/2506.05781v1#S2.p1; ...'
-- ...
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: '...'
+    where: '...'
+  backbone:
+    value: other
+    quote: '...'
+    where: '...'
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: '...'
+    where: '...'
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: item
+  quote: '...'
+  where: '...'
 ```
 
 - `problem`: `psb` (`Paradigms, Systems and Benchmarks`) or `I`–`VI` (`Informativeness`, `Uniqueness and Validity`, `SID–Model Alignment`, `Utility`, `Efficiency`, `Generalization`).
 - `stage`: `n/a` (for `psb`) or one of `Representation`, `Tokenization`, `Backbone`, `Training`, `Inference`.
 - Technical columns (`representation`, `tokenization`, `backbone`, `tokenizer`, `objective`, `inference`) are stored verbatim as in Table 1, including `†` (inferred) and `A / B` (dual-branch setups). Every value is defined in English (`description`) and Chinese (`description_zh`) in `data/vocab.yaml`.
 - `poi`: `true` when the paper targets POI, local-life, or spatial recommendation.
-- `also`: optional list of secondary `{problem?, stage?, quote, where}` tags beyond the primary Table 1 cell (`also: []` means checked with no qualifying tag; `psb` records omit `also`).
-- `modality`: optional `{content, cf, where}` override (or per-branch list) when `representation` does not determine the tokenizer input modality (`single`, `multi`, or `other`, plus boolean `cf`).
 - `links.code` is the authors' repository or `null`; `links.code_third_party` is an optional implementation by others.
 - `tldr`: one English sentence that `README.md`, the English paper page, and `llms.txt` copy verbatim.
 - `tldr_zh`: one Chinese sentence corresponding to `tldr`, used in `README.zh.md` and the Chinese paper page.
@@ -76,5 +98,9 @@ related:
 - `setup_where`: the paper location for each `setup` key; it appears only with `setup`.
 - `related`: 1–5 links to other records, each with `id`, `relation` (`predecessor`, `successor`, `competitor`, or `alternative`), `note`, and `where`.
 - `evidence`: an optional list of `{field, where, quote?, reason?}` items; each item has at least one of `quote` and `reason`.
+- `changes`: mapping over the six technical columns (`representation`, `tokenization`, `backbone`, `tokenizer`, `objective`, `inference`). Each value is `primary`, `none`, or `{value: other, quote, where}`. Non-`psb` papers have exactly one `primary` matching `stage` (and the bolded cell in Table 1); `psb` papers have no `primary`.
+- `modality`: SID tokenizer input modalities as a list of values from `data/vocab.yaml` (e.g. `[Text, CF]`) or a branch-name-to-list mapping (e.g. `{A: [Text], B: [Audio]}`). Optional companion fields: `modality_open` (list of open signals when `unknown` is present), `modality_where` (`{quote, where}`), and `note` (string).
+- `domain`: non-empty list of application domains from `data/vocab.yaml`.
+- `settings`: list of special evaluation settings (`{value, scope?, quote, where}`), where `value` is `cold-start` (requiring `scope: user` or `scope: item`), `cross-domain`, or `catalog-change`.
 - Optional reading notes are stored in `notes/<id>.md` and `notes/zh/<id>.md`, paired section-by-section via `data/i18n.yaml`, and embedded into `pages/papers/<id>.md` and `pages/zh/papers/<id>.md` during `make build`.
 - Optional architecture diagrams are stored as `architectures/<id>.png`, matching the record ID exactly. `make build` embeds each existing diagram into its paper page; no YAML field is needed.

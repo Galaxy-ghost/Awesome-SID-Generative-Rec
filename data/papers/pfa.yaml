@@ -55,3 +55,20 @@ related:
   note: DualGR retrieves coarse-SID history buckets; PFA shares and reuses an attention-derived history ranking.
   where: 'PFA v1, Sections 4.1/5 and Table 3: https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.39273v1#S5.SS0.SSS0.Px2.p1;
     https://arxiv.org/html/2610.39273v1#S4.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- unknown
+modality_where:
+  quote: The SID codebook configuration is set to $[128,128,128,128]$ for Kindle Store and Tmall, and $[300,300,300,300]$
+    for Industry.
+  where: arXiv:2610.39273v1 https://arxiv.org/html/2610.39273v1#S4.SS1.SSS0.Px5.p1；只给四层码本大小，没有构码输入。
+domain:
+- E-commerce
+- Ads
+settings: []

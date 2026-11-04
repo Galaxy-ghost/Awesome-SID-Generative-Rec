@@ -1,22 +1,27 @@
 # GR4AD-X
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gr4ad-x.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gr4ad-x.md) | 中文
 
 | **题目** | *Towards Reliable, Scalable, and Value-Aligned Generative Recommendation for Large-Scale Advertising* |
 | :-- | :-- |
 | **作者** | Xiao et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `unknown` |
+| **领域** | `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2610.38378) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Multi-Path R-KM+Hash"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + PV-RSPO + Rank + Aux."] --> I["推理 Inference<br/>PV-Beam+Rerank"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>● Multi-Path R-KM+Hash"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + PV-RSPO + Rank + Aux."] --> I["推理 Inference<br/>○ PV-Beam+Rerank"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -31,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | GR4AD-X 面向广告场景扩展 GR4AD，结合多路径 SID 分配、不单纯加宽加深骨干的容量扩展，以及带束剪枝和判别式重排的价值引导生成。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

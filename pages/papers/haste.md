@@ -1,20 +1,23 @@
 # HASTE
 
-[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/haste.md)
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/haste.md)
 
 | **Title** | *Hierarchical and Attribute-aware Supervision for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Shukla et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
+| **Changes** | ● Objective |
+| **SID inputs** | A: `Text` · B: `MM` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.17368) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>–"]
+    R["Representation<br/>Text / MM"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP + Aux."] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| Key Contribution | HASTE adds a loss at each Semantic ID level and attribute-specific losses to generator training, to speed convergence and improve tail items beyond a standard causal cross-entropy objective. |
-| Modified Stage | Training |
 
 ---
 

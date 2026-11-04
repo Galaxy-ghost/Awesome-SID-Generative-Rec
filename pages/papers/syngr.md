@@ -1,20 +1,24 @@
 # SynGR
 
-[← Problem × Stage Matrix](../../README.md#i--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/syngr.md)
+[← Problem × Stage Matrix](../../README.md#i--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/syngr.md)
 
 | **Title** | *Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | ICML’26 |
 | **Problem × Stage** | `I. Informativeness` · `Training` |
+| **Changes** | ● Objective |
+| **SID inputs** | text: `Text` · image: `Img` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP + Ctr."] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion. |
-| Modified Stage | Training |
 
 ---
 

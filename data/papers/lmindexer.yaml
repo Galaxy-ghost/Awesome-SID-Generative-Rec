@@ -60,3 +60,22 @@ related:
   relation: alternative
   note: Cited task-informed item indexing; LMIndexer learns IDs by self-supervised text reconstruction.
   where: 'LMIndexer v3, Section 2, citing Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- Search
+settings:
+- value: cold-start
+  scope: item
+  quote: We conduct zero-shot product search experiments on the Amazon beauty domain to test if the semantic indexer finetuned
+    on downstream tasks can generalize to items that are not seen during semantic index self-supervised training and downstream
+    finetuning.
+  where: arXiv:2310.07815v3 https://arxiv.org/html/2310.07815v3#A1.SS10.p1；Appendix A.10；Beauty 产品检索未见物品实验，明确是检索子实验。

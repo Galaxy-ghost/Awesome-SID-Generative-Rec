@@ -1,22 +1,27 @@
 # GR-Generalize
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gr-generalize.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gr-generalize.md)
 
 | **Title** | *How Well Does Generative Recommendation Generalize?* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `Games` · `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.19809) · [Code](https://github.com/Jamesding000/MemGen-GR) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP†"] --> I["Inference<br/>Hybrid"]
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed†<br/>Objective: NTP†"] --> I["Inference<br/>○ Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
 ```
 
 - `Text+SID`: Text representation plus semantic IDs (hybrid dense and generative retrieval).
@@ -30,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > GR-Generalize partitions test instances into memorization and generalization subsets, compares generative and item-ID recommenders on each, and ensembles both per instance.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | GR-Generalize partitions test instances into memorization and generalization subsets, compares generative and item-ID recommenders on each, and ensembles both per instance. |
-| Modified Stage | No single stage |
 
 ---
 

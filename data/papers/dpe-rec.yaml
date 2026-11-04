@@ -56,3 +56,21 @@ related:
   note: Cited SID-based autoregressive recommendation prior; DPE-Rec contrasts fixed left-to-right generation with bidirectional
     diffusion for unordered bundle construction.
   where: https://arxiv.org/html/2610.34700v1#S1.p2 (Rajput et al., Recommender Systems with Generative Retrieval)
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  A:
+  - unknown
+  B:
+  - Text
+  - Img
+note: A 是 Spotify、POG 发布的 CLHE 特征（来源没写），B 是 IQON3000 用文本和图像特征训练的 CLHE（记录 setup.sid）。
+domain:
+- Music
+- E-commerce
+settings: []

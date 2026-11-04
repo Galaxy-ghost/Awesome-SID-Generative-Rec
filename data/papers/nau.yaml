@@ -56,3 +56,20 @@ related:
   relation: competitor
   note: Reassigns concept-item SIDs; NAU deletes interactions while preserving the identifiers.
   where: 'NAU v1, Sections 4/6: https://arxiv.org/html/2610.27232v1#S4.p4; https://arxiv.org/html/2610.27232v1#S6.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: NAU’s training neighborhood $\mathcal{N}(i)$ is the top-$k$ ($k=8$) cosine neighbors of $i$ in the pre-quantization
+    embedding space.
+  where: arXiv:2610.27232v1 https://arxiv.org/html/2610.27232v1#S4.p5；未说明此 embedding 的源模态；不由 TIGER 名称推断输入。
+note: §6 明确删除交互同时保持用户、物品和 SID 固定，不记 catalog-change。
+domain:
+- E-commerce
+settings: []

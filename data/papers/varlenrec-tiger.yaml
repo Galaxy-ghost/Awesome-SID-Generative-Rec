@@ -58,3 +58,36 @@ related:
   note: LETTER improves codebook learning on TIGER/LCRec backbones; VarLenRec instead allocates variable ID lengths and compares
     against LETTER-TIGER.
   where: 'VarLenRec v2, Sections IV-A/IV-B: https://arxiv.org/html/2605.17779v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2605.17779v2#S4.SS2.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: 'A lightweight classification head maps this embedding to a distribution over the $K$ possible target lengths:
+      $\mathbf{v}_{u}=\mathrm{softmax}\bigl(\mathrm{MLP}_{\mathrm{tlen}}(\mathbf{g}_{u})\bigr)\in\Delta^{K-1}\,,$ (32) and
+      the predicted target length is obtained as $\hat{L}_{u}=\arg\max_{k}v_{u}^{(k)}$ .'
+    where: arXiv:2605.17779v2 https://arxiv.org/html/2605.17779v2#S3.SS4.p4
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'This head is trained jointly with the generative model using a cross-entropy loss against the HARQ-assigned length
+      of the ground-truth target item $i^{*}$: $\mathcal{L}_{\mathrm{tlen}}=-\sum_{k=1}^{K}\mathbbm{1}\bigl[k=L_{i^{*}}\bigr]\log
+      v_{u}^{(k)}\,,$ (33) so that the generative training objective becomes $\mathcal{L}_{\mathrm{gen}}+\lambda_{\mathrm{tlen}}\mathcal{L}_{\mathrm{tlen}}$,
+      where $\mathcal{L}_{\mathrm{gen}}$ is the standard next-token generation loss.'
+    where: arXiv:2605.17779v2 https://arxiv.org/html/2605.17779v2#S3.SS4.p4
+  inference:
+    value: other
+    quote: To resolve this, we introduce a user-side length predictor that determines the target ID length before generation
+      and constrains beam search to decode exactly that many tokens.
+    where: arXiv:2605.17779v2 https://arxiv.org/html/2605.17779v2#S3.SS4.p3
+modality:
+- Text
+modality_where:
+  quote: Each item $i\in\mathcal{I}$ has content features $\mathbf{x}_{i}\in\mathbb{R}^{F}$ and popularity $p_{i}$, defined
+    as the normalized interaction frequency in the training set.
+  where: arXiv:2605.17779v2 https://arxiv.org/html/2605.17779v2#S3.SS1.p1；码长按训练交互频次分配，频次统计量不计 CF。
+note: 码长按训练交互频次分配；按 11-04 新规则不把频次统计量计为 CF，modality 恢复 Text，与 Table 1 一致。§3.4 deployment discussion 未实际评测动态目录或新物品，不记相应 settings。
+domain:
+- E-commerce
+- POI / Local
+settings: []

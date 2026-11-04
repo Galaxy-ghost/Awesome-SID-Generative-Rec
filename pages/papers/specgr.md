@@ -1,22 +1,28 @@
 # SpecGR
 
-[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/specgr.md)
+[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/specgr.md)
 
 | **Title** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Inference` |
+| **Changes** | ○ Objective · ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Hybrid"]
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Rank"] --> I["Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training. |
-| Modified Stage | Inference |
 
 ---
 

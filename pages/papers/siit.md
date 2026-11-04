@@ -1,22 +1,27 @@
 # SIIT
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/siit.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/siit.md)
 
 | **Title** | *Enhancing item tokenization for generative recommendation through self-improvement* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | arXiv’24 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Tokenizer |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2412.17171) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Self-Imp."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● Self-Imp."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: ○ Altern.<br/>Objective: Multi-task NTP"] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | SIIT starts from item tokenizations of any external model and periodically adjusts them to the LLM's learned patterns during training, so tokenization matches the LLM's internal item understanding. |
-| Modified Stage | Tokenization |
 
 ---
 

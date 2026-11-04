@@ -1,20 +1,24 @@
 # CMRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cmrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/cmrec.md) | 中文
 
 | **题目** | *Cross-Country Code-Mixing for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Gao et al. |
 | **发表** | CIKM’26 Short |
 | **问题与阶段** | `VI. 泛化` · `训练（Training）` |
+| **改动** | ● 训练目标 |
+| **构码输入** | `Text` + `Img` + `CF` |
+| **领域** | `广告` · `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2609.28972) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>– / NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>Text+Img+CF"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only†"] --> TR["训练 Training<br/>编号器更新: –<br/>训练目标: ● NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -30,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。 |
-| 主要改动阶段 | 训练（Training） |
 
 ---
 

@@ -73,3 +73,20 @@ related:
   relation: competitor
   note: LC-Rec uses text-only SIDs with alignment tasks; TriAlignGR extends the task set with visual-semantic tasks.
   where: 'TriAlignGR v3, Table 2 baseline: https://arxiv.org/html/2605.05249v3#S4.T2.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce two new visual-semantic tasks (VisDesc → SID, VisDesc → Title) that enable the model to decode visual
+      semantics already embedded in SIDs through visual description tasks.
+    where: '2605.05249v3 #S1.I1.i2.p1.1'
+  inference: none
+modality:
+- Text
+- Img
+domain:
+- E-commerce
+settings: []

@@ -1,22 +1,27 @@
 # GenRec-JD
 
-[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/genrec-jd.md)
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/genrec-jd.md)
 
 | **Title** | *GenRec: A Preference-Oriented Generative Framework for Large-Scale Recommendation* |
 | :-- | :-- |
 | **Authors** | Zou et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
+| **Changes** | ○ Backbone · ● Objective |
+| **SID inputs** | `Text` + `Img` + `CF` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.14878) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>○ Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP → RL"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| Key Contribution | GenRec-JD trains a decoder-only generator with page-wise next-token prediction, compresses prompt Semantic IDs with a Token Merger, and aligns outputs with GRPO-SR under hybrid rewards. |
-| Modified Stage | Training |
 
 ---
 

@@ -1,22 +1,27 @@
 # PCR-CA
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pcr-ca.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/pcr-ca.md) | 中文
 
 | **题目** | *Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* |
 | :-- | :-- |
 | **作者** | Tan et al. |
 | **发表** | KDD’26 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 编号器更新 · ○ 训练目标 |
+| **构码输入** | `Text` + `CF` |
+| **领域** | `应用商店` |
 | **链接** | [论文](https://arxiv.org/abs/2508.18166) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>PC-AE"] --> B["骨干 Backbone<br/>Disc."] --> TR["训练 Training<br/>Joint / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>● PC-AE"] --> B["生成骨干 Backbone<br/>○ Disc."] --> TR["训练 Training<br/>编号器更新: ○ Joint<br/>训练目标: ○ Discrim."] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > PCR-CA 不同于层级 RQ-VAE，学习应用文本的并行码本表示，并通过对比学习将它与协同信号对齐，用于多类目应用的点击率预测。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | PCR-CA 不同于层级 RQ-VAE，学习应用文本的并行码本表示，并通过对比学习将它与协同信号对齐，用于多类目应用的点击率预测。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

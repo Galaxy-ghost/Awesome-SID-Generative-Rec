@@ -1,20 +1,23 @@
 # CausalDPO
 
-[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/causaldpo.md)
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/causaldpo.md)
 
 | **Title** | *Causal Direct Preference Optimization for Distributionally Robust Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhao et al. |
 | **Venue** | ICML’26 |
 | **Problem × Stage** | `VI. Generalization` · `Training` |
+| **Changes** | ● Objective |
+| **SID inputs** | `n/a` |
+| **Domain** | `POI / Local` · `Movie` · `Book` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.22335) · [Code](https://github.com/user683/CausalDPO) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP → DPO"] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | CausalDPO extends DPO for LLM-based recommendation with backdoor adjustment, soft clustering of latent environments, and invariance constraints, to remove spurious correlations that DPO amplifies under distribution shift. |
-| Modified Stage | Training |
 
 ---
 

@@ -55,3 +55,16 @@ related:
   relation: competitor
   note: Prefix-aware training comparator against test-time beam adaptation.
   where: 'TCBSA v1, Section 5.1 and Table 1: https://arxiv.org/html/2610.32098v1#S5.SS1.SSS0.Px3.p1; https://arxiv.org/html/2610.32098v1#S5.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings: []

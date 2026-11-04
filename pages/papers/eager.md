@@ -1,12 +1,15 @@
 # EAGER
 
-[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/eager.md)
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/eager.md)
 
 | **Title** | *Two-Stream Generative Recommender with Behavior-Semantic Collaboration* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | KDD’24 |
-| **Problem × Stage** | `I. Informativeness` · `Backbone` — Also: `I. Informativeness` × `Inference`; `I. Informativeness` × `Training` |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Changes** | ○ Tokenization · ● Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | semantic: `Text` · behavior: `CF` |
+| **Domain** | `E-commerce` · `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2406.14017) · [Code](https://github.com/yewzz/EAGER) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual H-KM"] --> B["Backbone<br/>Dual Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>Fusion"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>○ Dual H-KM"] --> B["Backbone<br/>● Dual Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Ctr."] --> I["Inference<br/>○ Fusion"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided transfer tasks, instead of using only one type of item information. |
-| Modified Stage | Backbone |
 | Key Findings | Across Amazon Beauty, Sports and Outdoors, Toys and Games, and Yelp, EAGER outperforms sequential, tree-based, and single-stream generative baselines (Table 2), removing the two-stream architecture causes the largest ablation drop (Sec. 4.3, Table 3), and inference on Beauty takes 0.0325 s per sample against 0.0281 s for TIGER (Table 6). |
 | Limitation | Inference runs beam search (size 100) in two separate decoders and merges 2k candidates by log-probability confidence, increasing per-sample latency on Beauty from 0.0281 s (TIGER) to 0.0325 s (Sec. 3.6, Table 6). |
 

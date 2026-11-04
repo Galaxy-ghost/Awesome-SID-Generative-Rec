@@ -67,3 +67,32 @@ related:
   note: NEZHA accelerates SID beam search using self-drafting and hash-set verification; this study addresses generation quality
     and cost rather than only decoding acceleration.
   where: 'Netflix comparison v1, Section 2: https://arxiv.org/html/2610.15864v1#S2.SS0.SSS0.Px3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We address this with a new auxiliary objective that directly optimizes the joint, item-level score.
+    where: arXiv:2610.15864v1 https://arxiv.org/html/2610.15864v1#S3.SS2.SSS2.Px1.p1
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: Each entity $e\in\mathcal{E}$ is mapped to a Semantic ID $\mathrm{SID}(e)=\big(c_{1}(e),c_{2}(e),\dots,c_{L}(e)\big),\qquad
+    c_{\ell}(e)\in\{1,\dots,K_{\ell}\},$ (1) a length- $L$ sequence of discrete codes drawn from per-level codebooks of sizes
+    $K_{1},\dots,K_{L}$ , obtained by residual quantization ( Lee et al., 2022 ) of a content embedding $\phi(e)\in\mathbb{R}^{d}$
+    .
+  where: arXiv:2610.15864v1 https://arxiv.org/html/2610.15864v1#S3.SS1.p1；原文仅给 content embedding，未说明文本、图像或行为组成；不由 content
+    QA 反推构码输入。
+note: MTP 对照明确比较 RPG 已有 MTP；标准 AR/RQ-VAE/合法前缀 beam 为继承，新增是 joint item ranking loss。Netflix titles 按 11-04 领域规则记 Long video。
+domain:
+- Long video
+settings:
+- value: cold-start
+  scope: item
+  quote: We also offer detailed metrics computed only on discoveries (i.e., watching new content) and new users (e.g., users
+    with $\leq K$ engagement) and items (e.g., titles launched after training cutoff), along with overall ranking.
+  where: arXiv:2610.15864v1 https://arxiv.org/html/2610.15864v1#S4.SS1.SSS0.Px4.p1；Table 1 单列 New item；训练截止后推出，无训练 engagement，但可能有内容
+    QA 暴露。New user 的 ≤K 桶不算零交互。

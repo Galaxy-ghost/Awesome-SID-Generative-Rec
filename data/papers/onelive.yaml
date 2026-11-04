@@ -57,3 +57,38 @@ related:
   relation: alternative
   note: MMQ aligns content with behavior; OneLive additionally updates author SIDs in real time.
   where: 'OneLive v1, Appendix A.2 and Section 2.1: https://arxiv.org/html/2602.08612v1#A1.SS2.p2; https://arxiv.org/html/2602.08612v1#S2.SS1.'
+changes:
+  representation:
+    value: other
+    quote: Consequently, we propose a unified dynamic tokenizer in OneLive, which jointly models real-time live-streaming
+      content and users’ immediate behavioral feedback during the item embedding generation stage.
+    where: arXiv:2602.08612v1 https://arxiv.org/html/2602.08612v1#S2.SS1.p2
+  tokenization: primary
+  backbone:
+    value: other
+    quote: Built upon a standard decoder-only backbone, we model temporal dynamics via a gated attention mechanism, improve
+      inference efficiency through sequential multi-token prediction, and enhance training stability with QK Norm.
+    where: arXiv:2602.08612v1 https://arxiv.org/html/2602.08612v1#S2.SS2.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'OneLive integrates four key components: (i) A Dynamic Tokenizer that continuously encodes evolving real-time live
+      content fused with behavior signal through residual quantization; (ii) A Time-Aware Gated Attention mechanism that explicitly
+      models temporal dynamics for timely decision making; (iii) An efficient decoder-only generative architecture enhanced
+      with Sequential MTP and QK Norm for stable training and accelerated inference; (iv) A Unified Multi-Objective Alignment
+      Framework reinforces policy optimization for personalized preferences.'
+    where: arXiv:2602.08612v1 https://arxiv.org/html/2602.08612v1#abstract1
+  inference:
+    value: other
+    quote: Built upon a standard decoder-only backbone, we model temporal dynamics via a gated attention mechanism, improve
+      inference efficiency through sequential multi-token prediction, and enhance training stability with QK Norm.
+    where: arXiv:2602.08612v1 https://arxiv.org/html/2602.08612v1#S2.SS2.p1；§2.2 主 decoder 只生成第一码，其余码用 lite decoder。
+modality:
+- Text
+- Img
+- Audio
+- CF
+note: Appendix B.4/Fig.6 仅展示直播内容变化时 SID 随之更新的定性案例，没有目录变更后的维护或推荐评估，不记 catalog-change。
+domain:
+- Short video / Live
+settings: []

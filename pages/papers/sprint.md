@@ -1,22 +1,27 @@
 # SPRINT
 
-[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sprint.md)
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/sprint.md)
 
 | **Title** | *Single-Step Generative Recommendation via Average Probability Velocity* |
 | :-- | :-- |
 | **Authors** | Cai et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Changes** | ● Backbone · ○ Objective |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.34306) · [Code](https://github.com/iamZhuoCai/SPRINT) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Dual-level Flow Ctr."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>● Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Dual-level Flow Ctr."] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > SPRINT predicts all Semantic ID token probabilities in one forward pass of a bidirectional Transformer, based on average probability velocity, and restores token coherence with a dual-level flow contrastive objective.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
-| Key Contribution | SPRINT predicts all Semantic ID token probabilities in one forward pass of a bidirectional Transformer, based on average probability velocity, and restores token coherence with a dual-level flow contrastive objective. |
-| Modified Stage | Backbone |
 
 ---
 

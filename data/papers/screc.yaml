@@ -69,3 +69,25 @@ related:
     inference overhead.
   where: 'SCRec v1, Section 4.5 and Table 3: https://arxiv.org/html/2609.13678v1#S4.SS5.p1; https://arxiv.org/html/2609.13678v1#S4.SS5.p2;
     https://arxiv.org/html/2609.13678v1#S4.T3.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone:
+    value: other
+    quote: This mechanism adaptively integrates collaborative representations with semantic priors according to the expressive
+      capacity of the code embeddings.
+    where: arXiv:2609.13678v1 https://arxiv.org/html/2609.13678v1#S3.SS2.p3
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'To capture cross-modal correspondence and facilitate downstream optimization, we introduce contrastive alignment
+      between the two representations via the InfoNCE loss: $\mathcal{L}_{align}=-\sum_{i\in\mathcal{I}}\log\frac{\exp(\mathrm{sim}(\mathbf{e}_{i}^{\text{code}},\mathbf{e}_{i}^{\text{sem}})/\tau)}{\sum_{j=1}^{N}\exp(\mathrm{sim}(\mathbf{e}_{i}^{\text{code}},\mathbf{e}_{j}^{\text{sem}})/\tau)}.$'
+    where: arXiv:2609.13678v1 https://arxiv.org/html/2609.13678v1#S3.SS2.p4
+  inference: none
+modality:
+- Text
+- CF
+note: §3.1.9 量化仍直接采用 RQ-VAE；新信息变换归 Representation 主格，不因旧 also 再将同一变换计 Tokenization。
+domain:
+- E-commerce
+settings: []

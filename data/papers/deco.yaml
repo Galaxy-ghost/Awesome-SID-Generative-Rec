@@ -73,3 +73,25 @@ related:
   relation: competitor
   note: NEZHA is a retrained efficient-generation comparison.
   where: 'Deco v2, Sec.4.1.3 and Table3: https://arxiv.org/html/2610.32980v2#S4.SS1.SSS3.p2; https://arxiv.org/html/2610.32980v2#S4.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - unknown
+modality_where:
+  quote: SIDs have K=4 levels of V=2048 codes, built by RQ-KMeans from multilingual E5-large text embeddings ( Wang et al.,
+    2022 ; Wang et al., 2024a ) or from the provided 128-dimensional item embeddings on Yambda, with popularity-based collision
+    resolution ( Zhou et al., 2025 ) .
+  where: '2610.32980v2 #S4.SS1.SSS4.p1.1；B 是 Yambda 自带嵌入，来源没写'
+domain:
+- E-commerce
+- Movie
+- Music
+settings: []

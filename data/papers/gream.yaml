@@ -68,3 +68,25 @@ related:
   relation: competitor
   note: P5-CID uses collaborative IDs for a T5 recommender; GREAM uses semantic RQ-KMeans indices with LLM reasoning.
   where: 'GREAM v1, generative baselines: https://arxiv.org/html/2510.20815v1#A2.I3.i1.p1; Table 2: https://arxiv.org/html/2510.20815v1#S6.T2.'
+changes:
+  representation:
+    value: other
+    quote: This composite text is then processed by a powerful, state-of-the-art generative model (i.e., GPT-5) instructed
+      to rewrite a comprehensive, feature-rich description that encapsulates both objective attributes and subjective user
+      perceptions.
+    where: '2510.20815v1 #S4.SS1.p1.1；构码前用 LLM 合成物品描述'
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+modality_where:
+  quote: By encoding the concatenation of the original item title and this newly synthesized description through our LLM,
+    we produce embeddings that are substantially more informative.
+  where: '2510.20815v1 #S4.SS1.p1.1；合成描述的输入含用户评论'
+note: Table 1 记 Text+CF；原文构码输入是标题加 LLM 合成描述（#S4.SS1.p1.1），协同语义对齐在训练阶段。
+domain:
+- E-commerce
+settings: []

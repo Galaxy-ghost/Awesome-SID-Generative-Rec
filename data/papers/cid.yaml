@@ -16,12 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-also:
-- problem: I
-  stage: Tokenization
-  quote: mistakenly assign related IDs to unrelated items
-  where: 2305.06569v6；问题原句：Introduction https://arxiv.org/html/2305.06569v6#S1.p3；四种新索引及协同索引：Introduction https://arxiv.org/html/2305.06569v6#S1.p5；协同关系构码：§4.2
-    https://arxiv.org/html/2305.06569v6#S4.SS2
 tldr: CID studies item indexing for the P5 foundation model and proposes sequential, collaborative, semantic, and hybrid indexing,
   replacing random, title, and independent IDs that cause long outputs or hallucinated items.
 tldr_zh: CID 研究 P5 基础模型的物品编号方式，提出顺序、协同、语义与混合索引，替代容易产生长输出或虚构物品的随机、标题和独立 ID。
@@ -67,3 +61,16 @@ related:
   note: LMIndexer cites this indexing study as earlier generative-recommendation work.
   where: 'Evidence from LMIndexer v3, Section 2 and reference Hua et al. (2023): https://arxiv.org/html/2310.07815v3#S2.p2
     ; https://arxiv.org/html/2310.07815v3#bib.bib11.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- CF
+domain:
+- E-commerce
+- POI / Local
+settings: []

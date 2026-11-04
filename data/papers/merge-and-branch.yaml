@@ -54,3 +54,23 @@ related:
   relation: alternative
   note: AtSpeed uses tree masks for speculative beam verification; M&B shares history during training and decoding.
   where: 'M&B v1, Section 2 and Table 1: https://arxiv.org/html/2610.37973v1#S2.SS0.SSS0.Px3.p1; https://arxiv.org/html/2610.37973v1#S2.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We design an interaction token merger and a multi-target training objective that combines observed and synthetic
+      targets while keeping target predictions independent.
+    where: arXiv:2610.37973v1 https://arxiv.org/html/2610.37973v1#S1
+  inference:
+    value: other
+    quote: We develop tree FlashAttention with forward and backward support and a shared-prefix KV cache to execute multi-target
+      training and constrained beam search efficiently.
+    where: arXiv:2610.37973v1 https://arxiv.org/html/2610.37973v1#S1
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

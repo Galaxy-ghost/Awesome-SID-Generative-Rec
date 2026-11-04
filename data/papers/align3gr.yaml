@@ -82,3 +82,22 @@ related:
     and DPO.
   where: 'Align3GR v2, baselines (10): https://arxiv.org/html/2511.11255v2#Sx4.SSx1.p2; Table 1: https://arxiv.org/html/2511.11255v2#Sx3.T1;
     industrial Table 2: https://arxiv.org/html/2511.11255v2#Sx4.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: In addition, we develop a progressive DPO strategy, including SP-DPO and RF-DPO, adapted for dynamic scenario preference
+      alignment in RS.
+    where: '2511.11255v2 #Sx1.p7.1；多任务 SFT 在 #Sx3.SSx3，渐进 DPO 在 #Sx3.SSx4'
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+- POI / Local
+- Ads
+settings: []

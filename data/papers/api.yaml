@@ -69,3 +69,33 @@ related:
   note: HiD-VAE supervises quantization levels with category tags for interpretability; API takes interpretability from labeled
     pretrained SAE features.
   where: 'API v1, tokenization baselines: https://arxiv.org/html/2610.36763v1#S5.SS1.p2; Table 2: https://arxiv.org/html/2610.36763v1#S5.T2.'
+changes:
+  representation:
+    value: other
+    quote: The feature encoder Psi_theta combines trainable feature-index embeddings with activation-strength encodings and
+      aggregates them into a fixed number of tokens per item.
+    where: '2610.36763v1 #S4.SS2.p2.1（公式按纯文本转写）；历史物品用候选特征池和激活强度编码'
+  tokenization: primary
+  backbone:
+    value: other
+    quote: SPA also predicts a strength vector q_u from H_u , where q_u,r estimates q_(i+),r at activation-ranked position
+      r .
+    where: '2610.36763v1 #S4.SS2.p3.1（公式按纯文本转写）；新增强度预测'
+  tokenizer: none
+  objective:
+    value: other
+    quote: We develop SPA to effective and interpretable recommendation, aligning user preferences through item-level supervision
+      and explain rankings through feature contributions.
+    where: '2610.36763v1 #S1.I1.i3.p1.1'
+  inference:
+    value: other
+    quote: At retrieval, SPA ranks items using the same score s_theta(u,i) .
+    where: '2610.36763v1 #S4.SS3.p4.1（公式按纯文本转写）；分数是序列似然减强度的 Hellinger 距离（#S4.SS3.p2.1）'
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: Figure 3 evaluates learned tokenizers fitted on Beauty or Toys and frozen across all three target catalogs.
+  where: '2610.36763v1 #S5.SS5.p1.1；构码器在源域拟合后冻结，用到其他目录；推荐器仍在目标域训练'

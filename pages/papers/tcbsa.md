@@ -1,20 +1,23 @@
 # TCBSA
 
-[← Problem × Stage Matrix](../../README.md#iv--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tcbsa.md)
+[← Problem × Stage Matrix](../../README.md#iv--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/tcbsa.md)
 
 | **Title** | *From Item Scores to Semantic Tokens: Test-Time Collaborative Adaptation for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Shan et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `IV. Utility` · `Inference` |
+| **Changes** | ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.32098) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec† / Dec-Only†"] --> TR["Training<br/>Fixed / NTP† / NTP → RL"] --> I["Inference<br/>CF-Guided C-Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec† / Dec-Only†"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP† / NTP → RL"] --> I["Inference<br/>● CF-Guided C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds them, gated by confidence, to path scores before beam pruning, without retraining.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| Key Contribution | TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds them, gated by confidence, to path scores before beam pruning, without retraining. |
-| Modified Stage | Inference |
 
 ---
 

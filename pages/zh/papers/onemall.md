@@ -1,22 +1,27 @@
 # OneMall
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onemall.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/onemall.md) | 中文
 
 | **题目** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
 | **发表** | CIKM’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 物品表示 · ○ 构码 · ○ 生成骨干 · ○ 训练目标 |
+| **构码输入** | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2601.21770) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>R-KM+FSQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>○ Text+Img+CF"] --> T["构码 Tokenization<br/>○ R-KM+FSQ"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ (NTP + Ctr.) → RL"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,T,B,TR other
 ```
 
 - `Text+Img+CF`：文本、图像表征结合协同过滤信号。
@@ -30,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | OneMall 用业务感知编号器、Query-Former、稀疏 MoE 层以及作为强化学习奖励的排序模型，在单一生成器中统一商品卡、短视频与直播电商。 |
-| 主要改动阶段 | 无单一阶段 |
 
 ---
 

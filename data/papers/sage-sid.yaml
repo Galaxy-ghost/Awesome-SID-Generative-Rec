@@ -56,3 +56,19 @@ related:
   relation: competitor
   note: RecIF comparison reuses TIGER's reported benchmark numbers.
   where: 'SAGE v3, Section 4.1.4: https://arxiv.org/html/2601.21452v3#S4.SS1.SSS4.p3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+- Img
+note: bottom 5% 冷物品组不保证零交互，不记 cold-start。
+domain:
+- E-commerce
+- Short video / Live
+- Ads
+settings: []

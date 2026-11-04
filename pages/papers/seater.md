@@ -1,22 +1,27 @@
 # SEATER
 
-[← Problem × Stage Matrix](../../README.md#v--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/seater.md)
+[← Problem × Stage Matrix](../../README.md#v--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/seater.md)
 
 | **Title** | *Generative retrieval with semantic tree-structured identifiers and contrastive learning* |
 | :-- | :-- |
 | **Authors** | Si et al. |
 | **Venue** | SIGIR-AP’24 |
 | **Problem × Stage** | `V. Efficiency` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | `CF` |
+| **Domain** | `POI / Local` · `E-commerce` · `News` · `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2309.13375) · [Code](https://github.com/Ethan00Si/SEATER_Generative_Retrieval) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>CF"] --> T["Tokenization<br/>Tree-Clus."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>CF"] --> T["Tokenization<br/>● Tree-Clus."] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Ctr."] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
-| Key Contribution | SEATER builds item identifiers on a balanced k-ary tree and trains an encoder-decoder with generation, infoNCE, and triplet losses, to learn token hierarchy with equal inference cost for all items. |
-| Modified Stage | Tokenization |
 
 ---
 

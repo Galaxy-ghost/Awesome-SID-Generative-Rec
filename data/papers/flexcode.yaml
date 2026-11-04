@@ -52,3 +52,37 @@ related:
   relation: competitor
   note: Compared semantic-ID baseline; FlexCode combines dual codebooks with adaptive routing.
   where: 'FlexCode v1, Section 4.1.2 and Table 1: https://arxiv.org/html/2511.20673v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2511.20673v1#S4.T1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: This end-to-end training allows the codebooks, the router, and the autoregressive model to co-adapt, leading to
+      a more effective and cohesive final system.
+    where: arXiv:2511.20673v1 https://arxiv.org/html/2511.20673v1#S3.SS5.p1
+  objective:
+    value: other
+    quote: 'The final objective function is a weighted sum of all components: the codebook reconstruction losses, the cross-codebook
+      alignment loss, the autoregressive generation loss, and the routing regularization losses.'
+    where: arXiv:2511.20673v1 https://arxiv.org/html/2511.20673v1#S3.SS5.p1；生成器、构码器和路由器共同训练，包含路由正则，按任务书记 Objective。
+  inference: none
+modality:
+  semantic:
+  - Text
+  - CF
+  collaborative:
+  - CF
+modality_where:
+  quote: Aligning the reconstructed vectors ensures that the alignment loss acts on the information that is actually preserved
+    by the codebooks, forcing them to learn quantized representations that are not only aligned but also decodable into a
+    coherent shared space.
+  where: arXiv:2511.20673v1 https://arxiv.org/html/2511.20673v1#S3.SS2.p1.1；§3.1.1 文本经 RQ-VAE 构建 semantic；§3.1.2 共购/共看信号构建
+    collaborative；§3.2 CCA 对齐两路码本重建表示，§3.5 联合更新码本，semantic 的 CF 来自此训练信号。§3.3 频次和物品年龄仅决定码长，不另记 CF 或 Time。
+note: 码长按交互频次、物品年龄等统计量分配；这些统计量不计 CF/Time，删除两路 Time。semantic 保留的 CF 改以 §3.2/§3.5 的协同码本对齐和联合更新为依据，而非频次；collaborative 的 CF 来自共购/共看表示。Table
+  1 为 Text/CF 两路，此处 semantic 另计参与构码训练的 CF。
+domain:
+- E-commerce
+- Short video / Live
+- unknown (industrial)
+settings: []

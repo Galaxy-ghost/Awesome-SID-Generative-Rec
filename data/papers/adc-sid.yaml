@@ -87,3 +87,21 @@ related:
     instead.
   where: 'ADC-SID v3, Section 4.1.2 describes the OPQ baseline as RPG: https://arxiv.org/html/2510.25622v3#S4.I3.i2.p1; Table
     2 row OPQ: https://arxiv.org/html/2510.25622v3#S4.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: In the case of generative retrieval, the learned weights are utilized as loss weights for SID generation.
+    where: '2510.25622v3 #S4.SS1.SSS3.p4.1；权重由构码器的 Dynamic Behavioral Weighting Gate 学出（#S3.SS4.SSS1）'
+  inference: none
+modality:
+- Text
+- Img
+- CF
+domain:
+- E-commerce
+- Ads
+settings: []

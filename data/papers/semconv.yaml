@@ -57,3 +57,24 @@ related:
   relation: predecessor
   note: SemConv draws on TIGER's residual codebooks while removing autoencoder reconstruction.
   where: 'SemConv v1, Alignment Tokenization: https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p2; https://arxiv.org/html/2412.13771v1#Sx3.SSx1.p11.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Additionally, we design a series of specialized supervised learning tasks aimed at aligning collaborative signals
+      with the subtleties of natural language semantics.
+    where: arXiv:2412.13771v1 https://arxiv.org/html/2412.13771v1#abstract1
+  inference:
+    value: other
+    quote: We only cache valid item codes. During the online inference phase, retrieval of the relevant user’s cached data
+      suffices.
+    where: arXiv:2412.13771v1 https://arxiv.org/html/2412.13771v1#Sx3.SSx3.p1；由离线生成到线上有效候选缓存检索的服务流程，非 beam 本身。
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+settings: []

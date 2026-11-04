@@ -59,3 +59,22 @@ related:
   relation: competitor
   note: Semantic-ID generative retrieval baseline in Table 1.
   where: https://arxiv.org/html/2610.16132v2#S4.SS1.p2 ; https://arxiv.org/html/2610.16132v2#S4.T1
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce an anchoring auxiliary tower that exists only during training.
+    where: arXiv:2610.16132v2 https://arxiv.org/html/2610.16132v2#S3.SS4.SSS2.p1
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: We use three-level semantic IDs, with a codebook size of 2,048 at each level.
+  where: arXiv:2610.16132v2 https://arxiv.org/html/2610.16132v2#S4.SS1.p4；只给层数和每层 2048；category/shop/brand 是 generator 的 target-side
+    特征，不能倒推为构码输入。
+domain:
+- E-commerce
+settings: []

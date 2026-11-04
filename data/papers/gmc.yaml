@@ -71,3 +71,28 @@ related:
   relation: competitor
   note: IDGenRec learns textual IDs with an ID generator; GMC quantizes LLM embeddings into codebook IDs shared across domains.
   where: 'GMC v3, generative baselines: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i3.p1; Table 3: https://arxiv.org/html/2507.12871v3#S5.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: Specifically, we introduce domain-specific LoRA ( Hu et al., 2022 ) modules into the unified model, which involves
+      freezing the backbone model’s parameter
+    where: '2507.12871v3 #S3.SS5.p2.1；统一模型之上的分域 LoRA'
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+modality_where:
+  quote: We first utilize large language models (LLMs) to extract the item’s semantic embedding x∈R^D based on its textual
+    information, where D is the dimension of LLM’s token embedding.
+  where: '2507.12871v3 #S3.SS3.p2.1（公式按纯文本转写）'
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: We propose a novel method, GMC, whose key idea is to extract the semantic information of items from different domains
+    into one set of discrete codewords, and then train a unified generative recommender to fuse and transfer cross-domain
+    knowledge.
+  where: '2507.12871v3 #S1.I1.i2.p1.1；五个 Amazon 子域的多目标跨域推荐，w/o sharable codebook 消融在 #S5.SS3.p2.1'

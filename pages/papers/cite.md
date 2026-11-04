@@ -1,20 +1,24 @@
 # CITE
 
-[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cite.md)
+[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/cite.md)
 
 | **Title** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
 | :-- | :-- |
 | **Authors** | Ma et al. |
 | **Venue** | Electronics’26 |
 | **Problem × Stage** | `I. Informativeness` · `Inference` |
+| **Changes** | ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
+| **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://doi.org/10.3390/electronics15204749) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: Discrim."] --> I["Inference<br/>● Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate. |
-| Modified Stage | Inference |
 
 ---
 

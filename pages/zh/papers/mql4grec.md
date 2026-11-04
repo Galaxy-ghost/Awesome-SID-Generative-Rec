@@ -1,12 +1,16 @@
 # MQL4GRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mql4grec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/mql4grec.md) | 中文
 
 | **题目** | *MULTIMODAL QUANTITATIVE LANGUAGE FOR GEN-ERATIVE RECOMMENDATION* |
 | :-- | :-- |
 | **作者** | Zhai et al. |
 | **发表** | ICLR’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | text: `Text` · image: `Img` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2504.05314) · [代码](https://github.com/zhaijianyang/MQL4GRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>Dual RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text+Img"] --> T["构码 Tokenization<br/>● Dual RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Multi-task NTP"] --> I["推理 Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | MQL4GRec 将多个域的物品文本与图像转化为共享量化语言并在其上预训练多类生成任务，跨领域和模态迁移推荐知识。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 Amazon Instruments、Arts 与 Games 的全库排序评测中，MQL4GRec 整体表现最优（NDCG 优势尤为突出），且双模态下的多源域预训练显著提升了 Instruments 与 Arts 的精度（Sec. 4.2，Sec. 4.3，Table 1）。 |
 | 局限 | 双模态预训练在 Games 数据集上未带来增益，且未经微调的跨领域零样本迁移能力仍较弱（Sec. 4.3，Sec. 4.5）。 |
 

@@ -16,17 +16,6 @@ tokenizer: Fixed
 objective: NTP → DPO
 inference: Beam
 poi: true
-also:
-- problem: I
-  stage: Backbone
-  quote: (2) geo-aware self-attention in the encoder leverages both video location similarity and user's real-time location,
-    and (3) neighbor-aware prompt captures rich context information surrounding users for generation
-  where: '2508.14646v1 Abstract；设计在 #S2.SS3、#S2.SS4'
-- problem: IV
-  stage: Training
-  quote: The second challenge is how to balance multiple objectives, including user interests, the distance between user and
-    stores, and some other business objectives.
-  where: '2508.14646v1 Abstract；设计（地理奖励、GMV 奖励）在 #S2.SS5'
 tldr: OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization,
   encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards.
 tldr_zh: OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。
@@ -99,3 +88,29 @@ related:
     into attention, neighborhood prompting, and rewards for local-life video consumption.
   where: 'OneLoc v1, Section 1 explains the geographic-modeling difference: https://arxiv.org/html/2508.14646v1#S1.p2, https://arxiv.org/html/2508.14646v1#S1.p3,
     and https://arxiv.org/html/2508.14646v1#S1.p4; Table 1 directly compares GNPR-SID and OneLoc: https://arxiv.org/html/2508.14646v1#S2.T1.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone:
+    value: other
+    quote: (2) geo-aware self-attention in the encoder leverages both video location similarity and user’s real-time location,
+      and (3) neighbor-aware prompt captures rich context information surrounding users for generation.
+    where: '2508.14646v1 #abstract1.1；设计在 #S2.SS3、#S2.SS4'
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'In reinforcement learning phase, we propose two reward functions: (1) Geographic Reward to reinforce the distance
+      factor between a user and stores in videos and (2) GMV Reward for business objectives.'
+    where: '2508.14646v1 #S1.I1.i3.p1.1；设计在 #S2.SS5'
+  inference: none
+modality:
+- MM
+- Geo
+modality_where:
+  quote: To inject geographic information, each residual r^0_i in the initial residual set R^0 is represented as an embedding
+    of video content and location context information, extracted by a multimodal large language model.
+  where: '2508.14646v1 #S2.SS2.p1.1（公式按纯文本转写）；位置上下文含坐标、品牌、类目（#S2.SS1.p1.1）'
+note: Table 1 记 Text+Img+Geo；原文只说多模态，记 MM。快手本地生活服务，视频是服务载体，领域只记 POI / Local。
+domain:
+- POI / Local
+settings: []

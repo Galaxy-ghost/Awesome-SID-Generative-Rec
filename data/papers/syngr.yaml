@@ -70,3 +70,22 @@ related:
   relation: competitor
   note: P5-CID uses collaborative IDs in a P5 model; SynGR uses multimodal semantic IDs.
   where: 'SynGR v2, sequential baselines (P5-CID): https://arxiv.org/html/2605.18920v2#S5.SS1.p2; Table 1: https://arxiv.org/html/2605.18920v2#S4.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  text:
+  - Text
+  image:
+  - Img
+note: 文本、图像各出一套码，合进一个词表。
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: Following the protocols in ( Zhai et al., 2025 ; Zhang et al., 2026a ) , we adopt a two-stage training paradigm.
+  where: '2605.18920v2 #A3.p1.1；六个 Amazon 源域预训练，三个目标域微调，沿用 MQL4GRec 的协议，没有单独报迁移效果'

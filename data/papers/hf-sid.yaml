@@ -57,3 +57,21 @@ related:
   relation: competitor
   note: GNPR-SID regularizes codeword diversity; HF-SID focuses on representation fidelity.
   where: 'HF-SID v1, Section 4.2 and Table 2: https://arxiv.org/html/2608.30479v1#S4.SS2.p2; https://arxiv.org/html/2608.30479v1#S4.T2.'
+changes:
+  representation: primary
+  tokenization:
+    value: other
+    quote: We therefore refine the second-order residual $\mathbf{R}_{p}^{(2)}$ before the final quantization, supervised
+      by the two-level tag of each POI.
+    where: arXiv:2608.30479v1 https://arxiv.org/html/2608.30479v1#S3.SS4.p2
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Attr
+- Geo
+domain:
+- POI / Local
+settings: []

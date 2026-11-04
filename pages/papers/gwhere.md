@@ -1,12 +1,15 @@
 # Gwhere
 
-[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gwhere.md)
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gwhere.md)
 
 | **Title** | *Guess Where You Go: Generative Next Point-of-Interest Recommendation in Amap* |
 | :-- | :-- |
 | **Authors** | Zhai et al. |
 | **Venue** | RecSys’26 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` · `POI` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | `Text` + `Img` + `Geo` + `CF` |
+| **Domain** | `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.26073) · [Code](https://github.com/alibaba/SimCIT) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+Geo+CF"] --> T["Tokenization<br/>Contr. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+Img+Geo+CF"] --> T["Tokenization<br/>● Contr. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → DPO"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -38,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
-| Key Contribution | Gwhere learns POI Semantic IDs with a contrastive residual-quantization tokenizer over text, image, spatial, and collaborative signals, then adapts an LLM through continued pretraining, fine-tuning, and exposure-aware KTO. |
-| Modified Stage | Tokenization |
 | Key Findings | In long-term online A/B tests on Amap, Gwhere reports improvements of 5.83% in P-CTR and 6.20% in U-CTR over the production baseline (Abstract). |
 | Limitation | The paper does not report a post-quantization collision rule, decoding strategy, or Amap codebook size, and deployed Gwhere-0.5B runs at about 30 ms p99 latency versus 20 ms for the cascade-ranking baseline at 50 QPS (Fig. 4). |
 

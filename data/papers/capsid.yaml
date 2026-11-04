@@ -94,3 +94,28 @@ related:
   where: 'CapsID v1, Section 2: https://arxiv.org/html/2605.05096v1#S2.SS0.SSS0.Px4.p1; Section 4.1 baselines and Table 3:
     https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.05096v1#S4.T3; cold-start protocol
     follows ReSID: https://arxiv.org/html/2605.05096v1#A2.SS2.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+  A:
+  - unknown
+  B:
+  - Text
+  - Img
+  - CF
+modality_open:
+- A：公开数据沿用对比基线的物品编码器，输入未写
+modality_where:
+  quote: For public benchmarks, each item representation x_i is initialized from the same item encoder used by the baseline
+    under comparison.
+  where: '2605.05096v1 #A1.SS1.SSS0.Px1.p1.1；工业数据是 text、image、behavior 三种嵌入（#S4.SS1.SSS0.Px1.p1.1）；公开数据的编码器没写'
+note: A 是公开数据（Amazon Beauty、Sports、Toys），B 是工业数据（text、image、behavior 三种嵌入）。Table 1 记 Text+CF；工业数据另有 Img。
+domain:
+- E-commerce
+- unknown (industrial)
+settings: []

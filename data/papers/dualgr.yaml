@@ -16,25 +16,6 @@ tokenizer: Fixed
 objective: NTP + Rank
 inference: Dual Beam
 poi: false
-also:
-- problem: III
-  stage: Inference
-  quote: context-induced noise in hierarchical SID generation
-  where: '2511.12518v3 Abstract；设计 S2D 在 #S2.SS4（推理在 #S2.SS4.SSS2）'
-- problem: IV
-  stage: Training
-  quote: the lack of explicit learning from exposed-but-unclicked feedback
-  where: '2511.12518v3 Abstract；设计 ENTP-Loss 在 #S2.SS5'
-- problem: V
-  stage: Inference
-  quote: improve computational efficiency
-  where: 2511.12518v3；长历史与延迟问题：Introduction https://arxiv.org/html/2511.12518v3#S1.p2；贡献原句：https://arxiv.org/html/2511.12518v3#S1.p3；设计与开销：§2.4.2
-    https://arxiv.org/html/2511.12518v3#S2.SS4.SSS2
-- problem: VI
-  stage: Training
-  quote: promote timely interest fade-out
-  where: '2511.12518v3 Abstract https://arxiv.org/html/2511.12518v3#abstract1；兴趣消退问题：Introduction #S1.p2；ENTP 对应贡献 #S1.p3；§2.5
-    https://arxiv.org/html/2511.12518v3#S2.SS5'
 tldr: DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket,
   and treats unclicked exposures as coarse-level hard negatives in training.
 tldr_zh: DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。
@@ -69,3 +50,26 @@ related:
   relation: competitor
   note: TIGER is reimplemented as the generative baseline; DualGR adds explicit long/short routing and exposure-aware training.
   where: 'DualGR v1, Section 3 and Table 1: https://arxiv.org/html/2511.12518v1#S3.p1; https://arxiv.org/html/2511.12518v1#S3.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: To encourage timely fade-out of non-interest directions, we propose an Exposure-aware NTP Loss ( ENTP-Loss ).
+    where: arXiv:2511.12518v3 §2.5 https://arxiv.org/html/2511.12518v3#S2.SS5.p1；Eq.(10) 在常规正例 NTP 外加入曝光未点击的粗层惩罚。
+  inference:
+    value: other
+    quote: Subsequently, S2D runs the global search on the full action list $\mathcal{H}_{t}$ to obtain $\widehat{\mathcal{H}}_{t}(\hat{s}^{(1)})$
+      via Eq. ( 8 ), forming $x^{(\geq 1)}$ , and then decodes $s^{(2)},s^{(3)}$ autoregressively.
+    where: arXiv:2511.12518v3 https://arxiv.org/html/2511.12518v3#S2.SS4.SSS2.p1
+modality:
+- unknown
+modality_where:
+  quote: We first pre-quantize videos into $L{=}3$ hierarchical SIDs via residual k-means (RQ-KMeans) ( Zhou et al., 2025
+    ) .
+  where: arXiv:2511.12518v3 https://arxiv.org/html/2511.12518v3#S2.SS2.p1；只说明残差 k-means 预量化视频，未披露被量化表示来源。
+domain:
+- Short video / Live
+settings: []

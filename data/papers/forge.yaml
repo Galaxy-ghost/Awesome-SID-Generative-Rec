@@ -72,3 +72,30 @@ related:
   relation: alternative
   note: OneRec-V2 is cited for the same RQ-Kmeans encoding route evaluated in FORGE's encoding comparison.
   where: 'FORGE v3, Section 4.1.6 cites Zhou et al. (2025): https://arxiv.org/html/2509.20904v3#S4.SS1.SSS6.p1.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: To alleviate this issue, in Figure 2 (c), we introduce two optional post-processing strategies to control the maximum
+      number of items mapped to each SID.
+    where: '2509.20904v3 #S3.SS1.SSS3.p1.1；KNN 限容分配和末层循环分配'
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: To address this, FORGE is equipped with dynamic beam search as illustrated in Figure 2 (d).
+    where: '2509.20904v3 #S3.SS2.p1.2；逐步放大束宽 300、600、1200'
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: To further enhance the discriminability of these representations and reflect patterns from user behaviors, we could
+    employ another contrastive loss L_InfoNCE .
+  where: '2509.20904v3 #S3.SS1.SSS1.p1.2（公式按纯文本转写）；CN-CLIP 文本和图像编码经 QFormer 融合（#S3.SS1.SSS1.p1.1）'
+note: 基准，比较多种构码配置；按 Table 1 的 Text+Img+CF 记主配置。
+domain:
+- E-commerce
+- Search
+settings: []

@@ -1,22 +1,28 @@
 # NEO
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/neo.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/neo.md) | 中文
 
 | **题目** | *A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* |
 | :-- | :-- |
 | **作者** | De Nadai et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 物品表示 · ○ 构码 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | A: `Text` · B: `Audio` |
+| **领域** | `音乐` · `播客` · `图书与有声书` · `搜索` |
+| **特殊设置** | `冷启动（用户）` |
 | **链接** | [论文](https://arxiv.org/abs/2603.17533) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text / Audio"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>○ Text / Audio"] --> T["构码 Tokenization<br/>○ R-KM"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Multi-task NTP"] --> I["推理 Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,T,TR,I other
 ```
 
 - `Text / Audio`：不同分支或评测设置下分别采用文本或音频表征。
@@ -30,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | NEO 改造仅解码器 LLM，使自然语言与带类型的物品 SID 在同一序列中交错生成，配合受约束解码在不调用外部工具的情况下统一搜索、推荐与推理。 |
-| 主要改动阶段 | 无单一阶段 |
 
 ---
 

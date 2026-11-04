@@ -1,12 +1,16 @@
 # TIGER
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tiger.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/tiger.md)
 
 | **Title** | *Recommender Systems with Generative Retrieval* |
 | :-- | :-- |
 | **Authors** | Rajput et al. |
 | **Venue** | NeurIPS’23 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Tokenization · ○ Backbone · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2305.05065) · [Code (third-party)](https://github.com/baiyimeng/TIGER) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>○ RQ-VAE"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,B,I other
 ```
 
 - `Text`: Textual item metadata (titles, descriptions, categories, or prompts).
@@ -37,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | TIGER encodes item text into RQ-VAE Semantic IDs and trains a Transformer encoder-decoder to decode the next item's ID, instead of retrieving items by approximate nearest neighbor search. |
-| Modified Stage | No single stage |
 | Key Findings | On Amazon Beauty, TIGER reports Recall@5 of 0.0454 against 0.0387 for SASRec, and RQ-VAE Semantic IDs outperform LSH and random IDs (Tables 1 and 2). |
 | Limitation | Autoregressive beam search over Semantic ID tokens makes inference more computationally expensive than ANN-based retrieval (Appendix E). |
 

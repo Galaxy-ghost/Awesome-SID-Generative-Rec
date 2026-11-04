@@ -47,3 +47,26 @@ related:
   relation: predecessor
   note: Its cited RQ-VAE tokenization approach informs QT-Mob's hierarchical location tokens.
   where: 'QT-Mob v1, Section 4.2, citing Zheng et al. (2024): https://arxiv.org/html/2506.11109v1#S4.SS2.p1; https://arxiv.org/html/2506.11109v1#S4.SS2.p4.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Furthermore, QT-Mob incorporates a series of complementary fine-tuning objectives that align the learned tokens
+      with the internal representations in LLMs, improving the model’s comprehension of sequential movement patterns and location
+      semantics.
+    where: arXiv:2506.11109v1 https://arxiv.org/html/2506.11109v1#abstract1
+  inference: none
+modality:
+- Text
+- Geo
+domain:
+- POI / Local
+settings:
+- value: cold-start
+  scope: item
+  quote: To evaluate this, we randomly sample 100 locations in test data and remove the trajectories that contain them in
+    the training dataset.
+  where: arXiv:2506.11109v1 https://arxiv.org/html/2506.11109v1#A4.SS4.p1；随机选 100 个测试位置，删去全部包含它们的训练轨迹，模拟未见 POI；构码器是否见过未报告。

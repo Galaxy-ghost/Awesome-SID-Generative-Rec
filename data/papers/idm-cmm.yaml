@@ -55,3 +55,15 @@ related:
   relation: alternative
   note: Iterative diffusion contrasts with the single-pass parallel predictor.
   where: 'IDM/CMM v1, Section 2.3: https://arxiv.org/html/2610.32943v1#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

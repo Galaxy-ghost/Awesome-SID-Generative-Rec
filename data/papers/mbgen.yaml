@@ -60,3 +60,22 @@ related:
   note: LMIndexer learns language-model semantic indices; MBGen instead uses pretrained collaborative embeddings for balanced
     item tokens.
   where: 'MBGen v1, Sections 2/4.1.4, citing Jin et al. (2023): https://arxiv.org/html/2405.16871v1#S2.p2; https://arxiv.org/html/2405.16871v1#S4.SS1.SSS4.p2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: In this section, we propose to tokenize items into distribution-balanced tokens.
+    where: arXiv:2405.16871v2 https://arxiv.org/html/2405.16871v2#S3.SS2
+  backbone:
+    value: other
+    quote: We propose a position-routed sparse network to route each input to different expert networks, which efficiently
+      scales up the model and improves performance.
+    where: arXiv:2405.16871v2 https://arxiv.org/html/2405.16871v2#S1
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- CF
+domain:
+- E-commerce
+settings: []

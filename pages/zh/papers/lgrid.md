@@ -1,12 +1,15 @@
 # LGRID
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/lgrid.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/lgrid.md) | 中文
 
 | **题目** | *Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `物品表示（Representation）` · `POI` |
+| **改动** | ● 物品表示 · ○ 构码 |
+| **构码输入** | `Text` + `Geo` |
+| **领域** | `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2607.27944) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Geo"] --> T["编号 Tokenization<br/>DSRQ"] --> B["骨干 Backbone<br/>Disc."] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>● Text+Geo"] --> T["构码 Tokenization<br/>○ DSRQ"] --> B["生成骨干 Backbone<br/>Disc."] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Discrim."] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | LGRID 用 LLM 联合编码物品各字段，将隐状态路由到地理与语义槽位并分别量化两路表示，替代对混杂表示做单一量化。 |
-| 主要改动阶段 | 表征（Representation） |
 | 主要发现 | 在快手和 Foursquare 上，LGRID 相比语义 ID（Semantic ID，SID）基线的 AUC 相对提升最高达 5.44%，并将完整 SID 冲突率从 LGSID 的 97.0% 降至 39.9%（Abstract）。 |
 | 局限 | 地理槽位固定绑定省、市、区、镇四级行政区划层级（Sec. 3.4.1）。 |
 

@@ -1,22 +1,27 @@
 # UniSGR-V2
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/unisgr-v2.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/unisgr-v2.md) | 中文
 
 | **题目** | *Stepwise Target-Side Feature Anticipation and Crossing for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` |
+| **问题与阶段** | `I. 信息量` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 · ○ 训练目标 |
+| **构码输入** | `unknown` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.16132) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>–"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>– / NTP + Rank"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>–"] --> B["生成骨干 Backbone<br/>● Enc-Dec"] --> TR["训练 Training<br/>编号器更新: –<br/>训练目标: ○ NTP + Rank"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -29,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

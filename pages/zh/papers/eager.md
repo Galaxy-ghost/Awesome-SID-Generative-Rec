@@ -1,12 +1,15 @@
 # EAGER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/eager.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/eager.md) | 中文
 
 | **题目** | *Two-Stream Generative Recommender with Behavior-Semantic Collaboration* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | KDD’24 |
-| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` — 补充：`I. 信息量` × `推理（Inference）`；`I. 信息量` × `训练（Training）` |
+| **问题与阶段** | `I. 信息量` · `生成骨干（Backbone）` |
+| **改动** | ○ 构码 · ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | semantic: `Text` · behavior: `CF` |
+| **领域** | `电商` · `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2406.14017) · [代码](https://github.com/yewzz/EAGER) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual H-KM"] --> B["骨干 Backbone<br/>Dual Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>Fusion"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>○ Dual H-KM"] --> B["生成骨干 Backbone<br/>● Dual Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Ctr."] --> I["推理 Inference<br/>○ Fusion"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | EAGER 用共享编码器和两个解码器分别解码行为 token 与语义 token，并加入对比学习与语义引导迁移任务，替代仅用单一物品信息的做法。 |
-| 主要改动阶段 | 骨干（Backbone） |
 | 主要发现 | 在 Amazon Beauty、Sports and Outdoors、Toys and Games 与 Yelp 上，EAGER 全面优于序列推荐、树结构与单流生成式基线（Table 2）；消融实验中移除双流架构带来最大性能下降（Sec. 4.3，Table 3）；在 Beauty 上单样本推理耗时为 0.0325 s，而 TIGER 为 0.0281 s（Table 6）。 |
 | 局限 | 推理时需在两个独立解码器中分别执行束搜索（束宽 100）并按对数概率置信度合并 2k 个候选，使 Beauty 上的单样本耗时从 TIGER 的 0.0281 s 增至 0.0325 s（Sec. 3.6，Table 6）。 |
 

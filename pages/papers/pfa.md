@@ -1,20 +1,23 @@
 # PFA
 
-[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pfa.md)
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/pfa.md)
 
 | **Title** | *Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhou et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Changes** | ● Inference |
+| **SID inputs** | `unknown` |
+| **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.39273) · [Code](https://anonymous.4open.science/r/PFA-review-088D) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>– / –"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>–"] --> T["Tokenization<br/>–"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: –<br/>Objective: –"] --> I["Inference<br/>● Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -28,16 +31,6 @@ flowchart LR
 
 > [!NOTE]
 > PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink the attended history at later steps, accelerating long-sequence generative decoding.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
-| Key Contribution | PFA keeps full attention at the first decoding step, then reuses a shared importance ranking across beams to shrink the attended history at later steps, accelerating long-sequence generative decoding. |
-| Modified Stage | Inference |
 
 ---
 

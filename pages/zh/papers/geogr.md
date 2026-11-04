@@ -1,12 +1,15 @@
 # GeoGR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/geogr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/geogr.md) | 中文
 
 | **题目** | *Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `物品表示（Representation）` · `POI` |
+| **改动** | ● 物品表示 · ○ 编号器更新 |
+| **构码输入** | `Text` + `Geo` + `CF` |
+| **领域** | `本地生活与 POI` · `搜索` |
 | **链接** | [论文](https://arxiv.org/abs/2602.10411) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Geo+CF"] --> T["编号 Tokenization<br/>R-KM+EM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Altern.† / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>● Text+Geo+CF"] --> T["构码 Tokenization<br/>R-KM+EM"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: ○ Altern.†<br/>训练目标: Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | GeoGR 从受地理约束的共访对出发，经对比学习与迭代修正构建地理感知 POI SID，再通过持续预训练与微调将 LLM 与之对齐。 |
-| 主要改动阶段 | 表征（Representation） |
 | 主要发现 | 在高德地图（AMAP）为期三个月的线上部署中，GeoGR 取得 WINRATE +2.91% 与 PV_CTR +5.55% 的在线收益（Abstract）。 |
 | 局限 | 语义 ID（Semantic ID，SID）依赖 LLM 的预测分布迭代重分配，码本版本与精修所用的特定 LLM 检查点绑定（Sec. 4.1.3）。 |
 

@@ -51,3 +51,26 @@ related:
   relation: alternative
   note: OneRec-Think reasons in natural language; HoloRec uses endogenous semantic codes.
   where: 'HoloRec v1, Section 2.3: https://arxiv.org/html/2606.15331v1#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: This coarse information is then transformed into a soft embedding and fused with the decoder contextual state via
+      a gating mechanism.
+    where: arXiv:2606.15331v1 https://arxiv.org/html/2606.15331v1#S3.SS3.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: The non-thinking mode introduces hierarchical supervision into the autoregressive generation process without altering
+      the inference pipeline or adding runtime overhead.
+    where: arXiv:2606.15331v1 https://arxiv.org/html/2606.15331v1#S3.SS2.p1
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: Given the original embedding $\mathbf{e}$ of an item, the encoder outputs a latent vector $\mathbf{z}\in\mathbb{R}^{D}.$
+  where: arXiv:2606.15331v1 https://arxiv.org/html/2606.15331v1#S3.SS1.SSS1.p1；原文未交代 original embedding 的源信号，保留 unknown。
+domain:
+- E-commerce
+settings: []

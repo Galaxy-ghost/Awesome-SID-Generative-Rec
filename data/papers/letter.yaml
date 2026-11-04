@@ -16,15 +16,6 @@ tokenizer: Fixed
 objective: NTP + Rank
 inference: C-Beam
 poi: false
-also:
-- problem: II
-  stage: Tokenization
-  quote: handling code assignment bias
-  where: '2405.07314v3 Abstract；设计 diversity loss 在 #S3.SS1'
-- stage: Training
-  quote: We instantiate LETTER on two generative recommender models and leverage a ranking-guided generation loss to theoretically
-    enhance the ranking ability of generative recommender models.
-  where: '2405.07314v3 §1 贡献第 2 条 #S1.I3.i2；设计在 #S3.SS2.SSS1.p2.1'
 tldr: LETTER regularizes an RQ-VAE tokenizer with a collaborative alignment loss and a diversity loss, so that item Semantic
   IDs carry collaborative signals and reduce code assignment bias found in earlier identifiers.
 tldr_zh: LETTER 用协同对齐损失与多样性损失约束 RQ-VAE 编号器，使物品 SID 融入协同信号并减轻早期标识中的码分配偏置。
@@ -93,3 +84,21 @@ related:
   where: 'LETTER, Section 4.1.2 identifies the P5-CID baseline from Hua et al.: https://arxiv.org/html/2405.07314v1#S4.SS1.SSS2.p1;
     Table 1 compares P5-CID with LETTER: https://arxiv.org/html/2405.07314v1#S4.T1; Section 3.1 defines LETTER''s RQ-VAE tokenizer:
     https://arxiv.org/html/2405.07314v1#S3.SS1.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We instantiate LETTER on two generative recommender models and leverage a ranking-guided generation loss to theoretically
+      enhance the ranking ability of generative recommender models.
+    where: '2405.07314v3 #S1.I3.i2.p1.1；设计在 #S3.SS2.SSS1.p2.1'
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+- POI / Local
+settings: []

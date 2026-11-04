@@ -1,22 +1,27 @@
 # UniSID
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/unisid.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/unisid.md)
 
 | **Title** | *End-to-End Semantic ID Generation for Generative Advertisement Recommendation* |
 | :-- | :-- |
 | **Authors** | Jiang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ○ Representation · ● Tokenization |
+| **SID inputs** | `Text` + `Img` |
+| **Domain** | `Ads` · `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10445) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+Attr"] --> T["Tokenization<br/>Direct SID Heads"] --> B["Backbone<br/>–"] --> TR["Training<br/>– / –"] --> I["Inference<br/>–"]
+    R["Representation<br/>○ Text+Img+Attr"] --> T["Tokenization<br/>● Direct SID Heads"] --> B["Backbone<br/>–"] --> TR["Training<br/>Tokenizer: –<br/>Objective: –"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -28,16 +33,6 @@ flowchart LR
 
 > [!NOTE]
 > UniSID optimizes embeddings and Semantic IDs end to end from raw advertising data with multi-granularity contrastive learning and summary-based reconstruction, instead of embedding first and quantizing afterwards.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | UniSID optimizes embeddings and Semantic IDs end to end from raw advertising data with multi-granularity contrastive learning and summary-based reconstruction, instead of embedding first and quantizing afterwards. |
-| Modified Stage | Tokenization |
 
 ---
 

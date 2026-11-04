@@ -55,3 +55,20 @@ related:
   relation: competitor
   note: UNGER aligns semantic/collaborative representations; ReSID uses structured-field masked prediction.
   where: 'ReSID v1, Section 3.1 and Appendix D: https://arxiv.org/html/2602.02338v1#S3.SS1.p3; https://arxiv.org/html/2602.02338v1#A4.p3.'
+changes:
+  representation: primary
+  tokenization:
+    value: other
+    quote: We propose Globally Aligned Orthogonal Quantization (GAOQ), which jointly reduces reconstruction errors and prefix-conditional
+      uncertainty in SIDs.
+    where: arXiv:2602.02338v1 https://arxiv.org/html/2602.02338v1#S1.p8
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Attr
+- CF
+domain:
+- E-commerce
+settings: []

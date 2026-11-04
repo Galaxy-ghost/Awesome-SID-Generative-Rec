@@ -62,3 +62,23 @@ related:
   note: RPG uses long semantic IDs and graph-based parallel decoding; NEZHA retains sequential dependencies through a lightweight
     autoregressive draft head.
   where: 'NEZHA v1, Sections 3.2/6: https://arxiv.org/html/2511.18793v1#S3.SS2.p7; https://arxiv.org/html/2511.18793v1#S6.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone:
+    value: other
+    quote: By prompting the input with positional placeholder tokens and utilizing an autoregressive draft head, we explicitly
+      provide the model with the positional awareness and sequential modeling capabilities necessary to generate valid, structured
+      IDs.
+    where: arXiv:2511.18793v2 https://arxiv.org/html/2511.18793v2#S3.SS2.p4
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+- Ads
+- Search
+settings: []

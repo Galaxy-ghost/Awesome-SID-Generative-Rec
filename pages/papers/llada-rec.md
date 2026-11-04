@@ -1,12 +1,15 @@
 # LLaDA-Rec
 
-[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/llada-rec.md)
+[← Problem × Stage Matrix](../../README.md#iii--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/llada-rec.md)
 
 | **Title** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Shi et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Backbone` |
+| **Changes** | ○ Tokenization · ● Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.06254) · [Code](https://github.com/TengShi-RUC/LLaDA-Rec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. VQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Diff."]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>○ Par. VQ"] --> B["Backbone<br/>● Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Masked"] --> I["Inference<br/>○ Diff."]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | LLaDA-Rec generates parallel Semantic IDs by discrete diffusion with bidirectional attention, history-level and item-level masking, and an adapted beam search, instead of left-to-right autoregressive decoding. |
-| Modified Stage | Backbone |
 | Key Findings | On Amazon Industrial Scientific, Musical Instruments, and Video Games, LLaDA-Rec outperforms ID-based, diffusion, and autoregressive SID baselines, with adaptive-order unmasking beating fixed left-to-right decoding (Table 3, Sec. 5.4.2, Fig. 4). |
 | Limitation | Fewer diffusion steps improve generation efficiency but lower recommendation performance, and the authors leave a better trade-off as an open question (Sec. 5.4.3, Fig. 5). |
 

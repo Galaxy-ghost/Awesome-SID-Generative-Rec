@@ -63,3 +63,18 @@ related:
   note: Textual rationale before item generation contrasts with SID-grounded routing; original scores enter Table 3 and reproduced
     Direct/CoT branches enter controlled comparisons.
   where: 'https://arxiv.org/html/2607.24402v1#S4.SS2.p4 ; #S4.SS5.p1'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We formulate recommendation reasoning as layer-wise Match , LateralJump , and Explore operations.
+    where: '2607.24402v1 #S1.I1.i2.p1.1；用 SID 图上的路由轨迹做推理监督（#S1.I1.i3.p1.1）'
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

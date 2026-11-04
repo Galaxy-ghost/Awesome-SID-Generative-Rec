@@ -54,3 +54,26 @@ related:
   relation: alternative
   note: Cited for autoregressive prefix errors; Gryphon addresses candidate ordering with jointly trained item-level scoring.
   where: 'Gryphon v1, Section 2.3, citing Guo et al. (2026): https://arxiv.org/html/2606.08604v1#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: In this work, we instantiate the ILSM with a next-item prediction objective optimized using sampled softmax, and
+      leave richer item-level objectives to future work.
+    where: arXiv:2606.08604v2 https://arxiv.org/html/2606.08604v2#S3.SS3.p1
+  inference:
+    value: other
+    quote: Beam likelihoods are used only to determine membership in $\mathcal{B}_{u}$, they are not used as final item scores.
+    where: arXiv:2606.08604v2 https://arxiv.org/html/2606.08604v2#S3.SS4.p1
+modality:
+- unknown
+modality_where:
+  quote: For SID-based models we quantize all items into SIDs using residual $K$-Means.
+  where: arXiv:2606.08604v2 https://arxiv.org/html/2606.08604v2#S4.SS1.SSS3.p1；实验写明 R-KMeans，未说明被量化表示的来源；ILSM 的 item-ID 不是
+    SID 构码输入。
+domain:
+- Music
+settings: []

@@ -1,12 +1,16 @@
 # ROS
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/ros.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/ros.md)
 
 | **Title** | *Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* |
 | :-- | :-- |
 | **Authors** | Lv et al. |
 | **Venue** | ACL’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | `Text` + `Geo` |
+| **Domain** | `POI / Local` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.04562) · [Code](https://github.com/amap-cvlab/Reasoning-Over-Space) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>● Geo-Prefix+RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → RL"] --> I["Inference<br/>CoT+C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ROS adds hierarchical spatial Semantic IDs, a mobility chain-of-thought with locality-informed pruning, and spatial-guided reinforcement learning to LLM-based next-POI generation. |
-| Modified Stage | Tokenization |
 | Key Findings | On NYC, ROS reports HR@1 of 0.4478 against 0.4027 for CoAST (+11.2%), and the paper reports gains of +11.0% on TKY and +15.7% on Gowalla-CA over the strongest LLM-based baselines (Table 1). |
 | Limitation | A monotonic prior treats long moves within short intervals as unlikely, so ROS can underweight fast trips by metro rail or highway, especially near transit hubs (Limitations). |
 

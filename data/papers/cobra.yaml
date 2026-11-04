@@ -16,22 +16,6 @@ tokenizer: Fixed
 objective: NTP + Dense
 inference: BeamFusion
 poi: false
-also:
-- problem: I
-  stage: Inference
-  quote: starting with sparse ID generation and refining them into dense vectors
-  where: '2503.02453v1 Abstract https://arxiv.org/html/2503.02453v1#abstract1；信息损失问题及粗到细生成：Introduction #S1.p3；第三条贡献 #S1.p4；§3.4
-    https://arxiv.org/html/2503.02453v1#S3.SS4（含 BeamFusion 新评分，非单纯沿用 beam）'
-- problem: I
-  stage: Representation
-  quote: end-to-end trainable dense encoder
-  where: 2503.02453v1；信息损失问题：Abstract https://arxiv.org/html/2503.02453v1#abstract1；可学习稠密表征贡献：Introduction https://arxiv.org/html/2503.02453v1#S1.p4；具体新编码器原句：§3.1.2
-    https://arxiv.org/html/2503.02453v1#S3.SS1.SSS2.p1
-- problem: I
-  stage: Training
-  quote: End-to-end training enables dynamic refinement of dense representations, capturing both semantic insights and collaborative
-    signals from user-item interactions.
-  where: '2503.02453v1 Abstract；贡献第 2 条 #S1.I1.i2；设计在 #S3.SS3'
 tldr: COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes
   with BeamFusion, which combines beam search with nearest-neighbor scores.
 tldr_zh: COBRA 先生成稀疏 SID 再以它为条件生成稠密向量，端到端联合训练二者，并在解码时用 BeamFusion 融合束搜索分数与最近邻相似度。
@@ -93,3 +77,31 @@ related:
     COBRA's per-query latency at similar Recall@100.
   where: 'Evidence is from the later CapsID paper: COBRA is a patch-route baseline in Tables 3, 4, and 6: https://arxiv.org/html/2605.05096v1#S4.T3,
     https://arxiv.org/html/2605.05096v1#S4.T4, https://arxiv.org/html/2605.05096v1#S4.T6; latency comparison: https://arxiv.org/html/2605.05096v1#S4.SS5.SSS0.Px5.p2.'
+changes:
+  representation:
+    value: other
+    quote: To capture nuanced attribute information, we develop an end-to-end trainable dense encoder, encoding item textual
+      contents.
+    where: '2503.02453v1 #S3.SS1.SSS2.p1.1；这个编码器给生成器用，不是 SID 构码输入'
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: End-to-end training enables dynamic refinement of dense representations, capturing both semantic insights and collaborative
+      signals from user-item interactions.
+    where: '2503.02453v1 #abstract1.1；设计在 #S3.SS3（稀疏 ID 与稠密向量联合损失）'
+  inference:
+    value: other
+    quote: starting with sparse ID generation and refining them into dense vectors
+    where: '2503.02453v1 #abstract1.1；BeamFusion 在 #S3.SS4'
+modality:
+- Text
+modality_where:
+  quote: For each item, we extract its attributes to generate a textual description, which is embedded into a dense vector
+    space and quantized to produce sparse IDs.
+  where: '2503.02453v1 #S3.SS1.SSS1.p1.1'
+domain:
+- E-commerce
+- Ads
+settings: []

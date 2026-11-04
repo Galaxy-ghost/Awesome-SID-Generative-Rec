@@ -66,3 +66,17 @@ related:
   relation: alternative
   note: LIGER is contrasted as a trained hybrid retrieval approach.
   where: 'CAPE v1, Sec.6: https://arxiv.org/html/2610.29298v1#S6.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+note: 构码沿用 TIGER、MiniOneRec 的冻结标识符（Table 1 记 Text†）。
+domain:
+- E-commerce
+- Music
+settings: []

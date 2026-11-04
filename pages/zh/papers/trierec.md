@@ -1,20 +1,23 @@
 # TrieRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/trierec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/trierec.md) | 中文
 
 | **题目** | *Trie-Aware Transformers for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
 | **发表** | NeurIPS’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `电影` |
 | **链接** | [论文](https://arxiv.org/abs/2602.21677) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP†"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>● Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed†<br/>训练目标: NTP†"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

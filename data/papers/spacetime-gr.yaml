@@ -53,3 +53,28 @@ related:
   relation: alternative
   note: Cited MoE/DPO recommender; Spacetime-GR specializes generation for spatiotemporal POI contexts.
   where: 'Spacetime-GR v1, Section 2.1, citing Deng et al. (2025): https://arxiv.org/html/2508.16126v1#S2.SS1.p3.'
+changes:
+  representation:
+    value: other
+    quote: Therefore, at this stage, we attempt to leverage the multimodal capabilities of LLMs to enhance the input information
+      on the POI side.
+    where: arXiv:2508.16126v1 https://arxiv.org/html/2508.16126v1#S3.SS2.SSS2.Px4.p1
+  tokenization:
+    value: other
+    quote: In the input part, to efficiently model the ID information of hundreds of millions of POIs, we propose a geographic-aware
+      hierarchical POI indexing strategy.
+    where: arXiv:2508.16126v1 https://arxiv.org/html/2508.16126v1#S3.SS2
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'We classify SFT approaches into two types based on the output formats: embedding-based ranking SFT and generative
+      ranking SFT.'
+    where: arXiv:2508.16126v1 https://arxiv.org/html/2508.16126v1#S3.SS2.SSS2.p1；为 embedding/ranking/generation 输出设计后训练任务，另有
+      §3.2.3 DPO。
+  inference: none
+modality:
+- Geo
+domain:
+- POI / Local
+settings: []

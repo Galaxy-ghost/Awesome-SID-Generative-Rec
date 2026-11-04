@@ -49,3 +49,39 @@ related:
     app features and CTR prediction.
   where: 'PCR-CA v1, Introduction and Section 2.2, citing Yongchao Zhu et al. (2024): https://arxiv.org/html/2508.18166v1#S1.p4;
     https://arxiv.org/html/2508.18166v1#S2.SS2.p3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: Additionally, a dual-attention fusion mechanism combines ID-based and semantic features to capture user interests,
+      especially for long-tail apps.
+    where: arXiv:2508.18166v5 https://arxiv.org/html/2508.18166v5#abstract1
+  tokenizer:
+    value: other
+    quote: 'Figure 3 illustrates the overall architecture of PCR-CA, which consists of four components: (1) Parallel Codebook
+      Auto-Encoder (PC-AE), which compresses high-dimensional multi-modal embeddings into discrete code vectors and reconstructs
+      them, jointly trained with the main CTR model using reconstruction, alignment, and CTR losses; (2) Contrastive Alignment,
+      which computes alignment losses on both user and item levels, where user representations are aggregated from behavior
+      sequences and item representations include both ID and semantic embeddings; (3) Dual-Attention Fusion, which trains
+      two attention networks for ID and semantic embeddings and integrates them by averaging their outputs over user history;
+      and (4) the CTR Prediction Network, a standard embedding-plus-MLP architecture with attention, optimized using cross-entropy
+      loss.'
+    where: arXiv:2508.18166v5 https://arxiv.org/html/2508.18166v5#S3.p1
+  objective:
+    value: other
+    quote: To bridge semantic and collaborative signals, we employ a contrastive alignment loss at both the user and item
+      levels, enhancing representation learning for long-tail items.
+    where: arXiv:2508.18166v5 https://arxiv.org/html/2508.18166v5#abstract1
+  inference: none
+modality:
+- Text
+- CF
+modality_where:
+  quote: We use textual features (title and description) as they are universally available and rich in semantics.
+  where: arXiv:2508.18166v5 https://arxiv.org/html/2508.18166v5#S3.SS1.p1；PC-AE 前向编码文本；§3.2.7/§3.3 的 CTR 与协同配对监督随联合训练更新构码器，CF
+    因参与构码训练而计入。
+note: §3.1 固定文本编码输入，§3.2.7/3.3 构码器随 CTR 与协同配对监督更新，CF 直接参与构码训练。§4.3 只报 [0,50) 混合频次桶，没有单独零交互指标，不记 cold-start。
+domain:
+- Apps
+settings: []

@@ -1,20 +1,24 @@
 # AWARE
 
-[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/aware.md)
+[← Problem × Stage Matrix](../../README.md#vi--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/aware.md)
 
 | **Title** | *Why Users Go There: World Knowledge-Augmented Generative Next POI Recommendation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Training` · `POI` |
+| **Changes** | ● Objective |
+| **SID inputs** | `Text` + `Geo` |
+| **Domain** | `POI / Local` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2605.11807) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+HClus"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>Geo-Prefix+HClus"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior, to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | AWARE adds agent-generated narratives about local events, culture, and seasonal trends, grounded in each user's behavior, to LLM-based next-POI generation, whose knowledge otherwise stays fixed after training. |
-| Modified Stage | Training |
 
 ---
 

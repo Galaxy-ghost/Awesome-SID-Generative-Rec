@@ -58,3 +58,33 @@ related:
   relation: alternative
   note: MMQ is cited among multimodal quantization studies; GR4AD-X targets SID reliability with alternative first-level paths.
   where: 'GR4AD-X v1, Section 2.1 (Xu et al., 2026): https://arxiv.org/html/2610.38378v1#S2.SS1.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: 'GR4AD-X therefore adopts serving-efficient capacity scaling along five dimensions: input signals, encoder capacity,
+      vocabulary memory, residual streams, and generation decision depth.'
+    where: arXiv:2610.38378v1 https://arxiv.org/html/2610.38378v1#S3.SS3.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: Multi-dimensional capacity scaling strengthens model capability under strict serving constraints, while UniVGD
+      aligns generation with commercial value through prefix-level reward optimization, value-guided beam pruning, and discriminative
+      reranking.
+    where: arXiv:2610.38378v1 https://arxiv.org/html/2610.38378v1#S5.p1
+  inference:
+    value: other
+    quote: Multi-dimensional capacity scaling strengthens model capability under strict serving constraints, while UniVGD
+      aligns generation with commercial value through prefix-level reward optimization, value-guided beam pruning, and discriminative
+      reranking.
+    where: arXiv:2610.38378v1 https://arxiv.org/html/2610.38378v1#S5.p1
+modality:
+- unknown
+modality_where:
+  quote: For advertisements near coarse cluster boundaries, however, multiple first-level centroids may be similarly close
+    in the embedding space.
+  where: arXiv:2610.38378v1 https://arxiv.org/html/2610.38378v1#S3.SS2.p1；§3.2 仅写广告 embedding；未明确构码 embedding 的源信号，不能从生成器的输入特征倒推。
+domain:
+- Ads
+settings: []

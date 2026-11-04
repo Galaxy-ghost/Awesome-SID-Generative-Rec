@@ -58,3 +58,19 @@ related:
   relation: predecessor
   note: PrefixMem simplifies the cited multi-stage SID-language pipeline to single-stage multitask training.
   where: 'PrefixMem v1, Section 3.1 (Liu et al., 2025b, arXiv:2510.11639): https://arxiv.org/html/2606.00324v1#S3.SS1.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: Predict $c_{\ell+1}$ from $\mathbf{m}_{\ell}$ via a linear head and cross-entropy loss.
+    where: arXiv:2606.00324v1 https://arxiv.org/html/2606.00324v1#S3.SS3.p2；前缀记忆表新增分类预训练，再接 LLM；不涉及重建 SID 分配。
+  inference: none
+modality:
+- MM
+note: 构码特征仅称 PinCLIP multimodal，生成 SID↔text 任务的图像描述不能直接等同构码输入，保留 MM；Pinterest 业务按 11-04 新规记 Image / Article。
+domain:
+- Image / Article
+settings: []

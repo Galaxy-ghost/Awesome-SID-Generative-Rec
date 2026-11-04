@@ -1,22 +1,27 @@
 # GRC
 
-[← Problem × Stage Matrix](../../README.md#iii--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/grc.md)
+[← Problem × Stage Matrix](../../README.md#iii--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/grc.md)
 
 | **Title** | *Learning to Reflect and Correct: Towards Better Decoding Trajectories for Large-Scale Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Xing et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Inference` |
+| **Changes** | ○ Objective · ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.23639) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>GRC+Beam"]
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → RL"] --> I["Inference<br/>● GRC+Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -31,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | GRC extends single-pass decoding into generation, reflection, and correction in the semantic token space, trains the trajectory with GRPO, and allocates correction budget by entropy during beam search. |
-| Modified Stage | Inference |
 
 ---
 

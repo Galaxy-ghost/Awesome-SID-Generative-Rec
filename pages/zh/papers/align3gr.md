@@ -1,12 +1,15 @@
 # Align3GR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/align3gr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/align3gr.md) | 中文
 
 | **题目** | *Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Ye et al. |
 | **发表** | AAAI’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 训练目标 |
+| **构码输入** | `Text` + `CF` |
+| **领域** | `电商` · `本地生活与 POI` · `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2511.11255) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>● Dual RQ"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → DPO"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | Align3GR 从双语义-协同编号、行为建模中的双向语义对齐，以及结合自博弈与真实反馈的渐进式 DPO 三个层面，对齐 LLM 推荐模型。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在公开基准数据集上，Align3GR 相比最强基线的 Recall@10 最高提升 +17.8%、NDCG@10 最高提升 +20.2%，并在工业广告平台的离线 Recall@100 与线上收入指标上取得提升（Abstract，Table 1，Table 2）。 |
 | 局限 | Align3GR 需在 Llama2-7B 上依次完成用户/物品双路 3 层 RQ-VAE 编号、四任务 SFT、3 阶段 SP-DPO 和 RF-DPO 训练，且论文未报告冲突消解规则与推理延迟（Experimental Settings）。 |
 

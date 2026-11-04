@@ -1,20 +1,24 @@
 # UTGRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/utgrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/utgrec.md) | 中文
 
 | **题目** | *Universal Item Tokenization for Transferable Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zheng et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 |
+| **构码输入** | `Text` + `Img` + `CF` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2504.04405) · [代码](https://github.com/RUCAIBox/UTGRec) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Multi-Dom"] --> T["编号 Tokenization<br/>Tree"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Multi-Dom"] --> T["构码 Tokenization<br/>● Tree"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > UTGRec 基于多模态 LLM 结合树结构码本、图文重构与共现对齐构建通用物品编号器，并预训练可跨域迁移的生成器。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | UTGRec 基于多模态 LLM 结合树结构码本、图文重构与共现对齐构建通用物品编号器，并预训练可跨域迁移的生成器。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

@@ -1,12 +1,15 @@
 # ADC-SID
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/adc-sid.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/adc-sid.md) | 中文
 
 | **题目** | *Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 训练目标 |
+| **构码输入** | `Text` + `Img` + `CF` |
+| **领域** | `电商` · `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2510.25622) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>MoE-VQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed† / NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>Text+Img+CF"] --> T["构码 Tokenization<br/>● MoE-VQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed†<br/>训练目标: ○ NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -38,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | ADC-SID 在 SID 量化中引入随协同噪声自适应的对齐强度与可学习的行为 ID 权重，替代统一强度的对齐和等权重聚合。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在含 48,106,880 个广告的工业数据集与 Amazon Beauty 上，ADC-SID 在 R@100、N@100 和 AUC 上全面优于纯内容基线（RQ-VAE、OPQ）及固定强度对齐基线（LETTER），在曝光量后 25% 的长尾物品上取得最大 AUC 增幅，并通过 5 天在线 A/B 测试验证收益（Sec. 4.2，Sec. 4.5，Sec. 5，Table 2，Table 5，Fig. 6）。 |
 | 局限 | 行为 token 权重直接由预训练协同嵌入的 L2 模长计算，效果受制于上游协同模型的标定质量，且论文未报告冲突处理策略与推理延迟（Sec. 3.4.1，Sec. 4.1.3）。 |
 

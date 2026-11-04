@@ -57,3 +57,24 @@ related:
   relation: predecessor
   note: Related work identifies VQ-Rec as an earlier transferable quantized-item representation method.
   where: 'FedCGR v1, Section 5: https://arxiv.org/html/2608.10929v1#S5.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'The auxiliary loss is a confidence-weighted local InfoNCE (Information Noise-Contrastive Estimation) objective:
+      (12) $\mathcal{L}_{\mathrm{dense}}=-\frac{1}{|\mathcal{B}|}\sum_{n\in\mathcal{B}}\rho_{v_{n}^{+},i}\log\frac{\exp(\hat{\mathbf{z}}_{n}^{\top}\operatorname{sg}(\mathbf{z}_{n}^{+})/\tau)}{\sum_{m\in\mathcal{B}}\exp(\hat{\mathbf{z}}_{n}^{\top}\operatorname{sg}(\mathbf{z}_{m}^{+})/\tau)},$
+      where $\operatorname{sg}(\cdot)$ denotes stop-gradient and $\tau$ is the InfoNCE temperature.'
+    where: arXiv:2608.10929v1 https://arxiv.org/html/2608.10929v1#S3.SS2.p6
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: We select five product domains—Grocery, Beauty, Sports, Food, and Kitchen—and compose six scenarios that span different
+    domain counts and relatedness levels.
+  where: arXiv:2608.10929v1 https://arxiv.org/html/2608.10929v1#S4.SS1.SSS1.p1

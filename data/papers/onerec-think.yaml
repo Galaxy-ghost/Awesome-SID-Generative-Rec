@@ -82,3 +82,25 @@ related:
   note: GRLM later compares against OneRec-Think and replaces numeric itemic tokens with natural-language term IDs.
   where: 'Evidence is from the later GRLM paper: LLM-based baselines and Table 2: https://arxiv.org/html/2601.06798v1#S4.I1.i3.p1
     and https://arxiv.org/html/2601.06798v1#S5.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference:
+    value: other
+    quote: To address this critical bottleneck, we introduce a novel Think-Ahead Inference Architecture.
+    where: '2510.11639v2 #S4.SS4.p2.1；推理路径和前两位码离线生成，在线只补后续码'
+modality:
+- MM
+- CF
+modality_where:
+  quote: Following OneRec ( Zhou et al., 2025a ; Rajput et al., 2023 ) , we map each item v to a sequence of such tokens s_v=(s_v^1,
+    ..., s_v^L) , which are generated from the item’s multi-modal and collaborative content.
+  where: '2510.11639v2 #S3.SS0.SSS0.Px1.p1.1（公式按纯文本转写）；只说多模态和协同，没写多模态组成'
+note: Table 1 记 Text+Img+CF†；原文只说 multi-modal，记 MM。
+domain:
+- E-commerce
+- Short video / Live
+settings: []

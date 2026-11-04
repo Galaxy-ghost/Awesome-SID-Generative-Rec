@@ -1,12 +1,16 @@
 # VQ-Rec
 
-[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/vq-rec.md)
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/vq-rec.md)
 
 | **Title** | *Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* |
 | :-- | :-- |
 | **Authors** | Hou et al. |
 | **Venue** | WWW’23 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Backbone · ○ Objective |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2210.12316) · [Code](https://github.com/RUCAIBox/VQ-Rec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>OPQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Multi-Dom"] --> T["Tokenization<br/>● OPQ"] --> B["Backbone<br/>○ Encoder"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Discrim."] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | VQ-Rec maps item text to discrete codes and looks up code embeddings as item representations, with contrastive pre-training and cross-domain fine-tuning, to loosen the binding between text and representation. |
-| Modified Stage | Tokenization |
 | Key Findings | Pre-trained across five Amazon source domains, VQ-Rec ranks first or second on all six cross-domain and cross-platform downstream datasets and outperforms SASRec in every item-popularity bucket, particularly cold-start items (Sec. 3.4.3, Table 2, Fig. 4). |
 | Limitation | Evaluating the pre-trained encoder without downstream code-embedding fine-tuning causes a sharp drop in accuracy across target domains (Sec. 3.3, Table 3). |
 

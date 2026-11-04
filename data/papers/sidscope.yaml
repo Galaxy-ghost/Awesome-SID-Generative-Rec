@@ -107,3 +107,23 @@ related:
   where: 'SIDScope v2, Table 2 identifies LC-Rec''s released Instruments index: https://arxiv.org/html/2608.18779v2#S3.T2;
     Section 4.1 compares its mapping properties with LETTER and states the shared bounded protocol: https://arxiv.org/html/2608.18779v2#S4.SS1.p2
     and https://arxiv.org/html/2608.18779v2#S4.SS1.p3; Table 3 reports both profiles: https://arxiv.org/html/2608.18779v2#S4.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: Table 2 lists nine source-traced named exports from seven families across Amazon and Yelp.
+  where: '2608.18779v2 #S3.SS4.p1.1；诊断资源，收的是七类构码器发布的映射，构码输入因族而异，本文不构码'
+note: 诊断资源，不提出构码、生成或推理方法。
+domain:
+- E-commerce
+- POI / Local
+settings:
+- value: catalog-change
+  quote: A released DACT Tools mapping refresh provides a paired reuse case.
+  where: '2608.18779v2 #S6.SS1.p1.1；映射刷新补齐 275 个无 SID 的物品，再检验旧生成器能否推荐新物品（#S7.SS3.p1.1）'

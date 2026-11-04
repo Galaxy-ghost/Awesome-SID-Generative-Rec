@@ -1,12 +1,16 @@
 # GenCDR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gencdr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gencdr.md) | 中文
 
 | **题目** | *From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization* |
 | :-- | :-- |
 | **作者** | Hu et al. |
 | **发表** | AAAI’26 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` + `unknown` |
+| **领域** | `电商` · `图书与有声书` · `电影` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2511.08006) · [代码](https://github.com/hupeiyu21/GenCDR) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Cross-Dom"] --> T["编号 Tokenization<br/>RQ+LoRA"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Cross-Dom"] --> T["构码 Tokenization<br/>● RQ+LoRA"] --> B["生成骨干 Backbone<br/>○ Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP"] --> I["推理 Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | GenCDR 在通用编码器与域适配器之间路由以生成域解耦的 SID，并在域感知前缀树上解码，不依赖跨域共享的用户或物品 ID。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 Amazon Sports-Clothing（物品重合率 1.73%）、Phones-Electronics（0.55%）与 Douban Books-Movies（7.48%）三组低重合跨域对的六个领域上，GenCDR 在 Recall@10 与 NDCG@10 上全面优于单域、生成式（TIGER、VQ-Rec）和跨域基线，且推理耗时随物品库规模扩大保持恒定（Sec. 5.1，Sec. 5.6，Table 1，Table 2，Table 3，Fig. 6）。 |
 | 局限 | 每个领域均需维护独立的 LoRA 编号器适配器与离线前缀树，且论文未报告 RQ-VAE 码本层数 M、码本大小、冲突处理策略及解码束宽（Domain-adaptive Tokenization，Domain-aware Prefix-tree，Sec. 5.1）。 |
 

@@ -1,22 +1,27 @@
 # RecoChain
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/recochain.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/recochain.md) | 中文
 
 | **题目** | *Harmonizing Generative Retrieval and Ranking in Chain-of-Recommendation* |
 | :-- | :-- |
 | **作者** | Liu and Cao |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `IV. 实用目标` · `骨干（Backbone）` |
+| **问题与阶段** | `IV. 实用目标` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `MM` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2604.25787) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Hybrid"]
+    R["物品表示 Representation<br/>Text+Img"] --> T["构码 Tokenization<br/>RQ"] --> B["生成骨干 Backbone<br/>● Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Rank"] --> I["推理 Inference<br/>○ Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > RecoChain 在同一 Transformer 中先通过层级 SID 预测生成候选，再用基于 SIM 的点击率估计做排序，弥合生成与排序之间的差距。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | RecoChain 在同一 Transformer 中先通过层级 SID 预测生成候选，再用基于 SIM 的点击率估计做排序，弥合生成与排序之间的差距。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

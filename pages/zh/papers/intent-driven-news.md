@@ -1,22 +1,28 @@
 # Intent-Driven-News
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/intent-driven-news.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/intent-driven-news.md) | 中文
 
 | **题目** | *Intent-Driven Semantic ID Generation for Grounded Conversational News Recommendation* |
 | :-- | :-- |
 | **作者** | Su et al. |
 | **发表** | ACL’26 Industry |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ● 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `新闻` |
+| **特殊设置** | `冷启动（用户）` · `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2605.07613) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>CoT+Fuzzy Match"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● Multi-task NTP"] --> I["推理 Inference<br/>○ CoT+Fuzzy Match"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > Intent-Driven-News 训练 LLM 将对话中的隐含意图映射为层级 SID 前缀，再与当前新闻池做模糊匹配，替代先检索文章的流程。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | Intent-Driven-News 训练 LLM 将对话中的隐含意图映射为层级 SID 前缀，再与当前新闻池做模糊匹配，替代先检索文章的流程。 |
-| 主要改动阶段 | 训练（Training） |
 
 ---
 

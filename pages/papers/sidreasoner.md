@@ -1,12 +1,16 @@
 # SIDReasoner
 
-[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sidreasoner.md)
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/sidreasoner.md)
 
 | **Title** | *Reasoning over Semantic IDs Enhances Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | He et al. |
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Changes** | ● Objective |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.23183) · [Code](https://github.com/HappyPointer/SIDReasoner) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP → RL"] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | SIDReasoner strengthens Semantic ID-language alignment with multi-task training on a teacher-synthesized corpus, then improves reasoning through outcome-driven reinforcement learning, without annotated recommendation reasoning traces. |
-| Modified Stage | Training |
 | Key Findings | Enriching multi-task SID–language alignment with teacher-synthesized descriptions and mixing general reasoning corpora lifts full-catalog accuracy across Amazon Games, Office, and Industrial both before and after GRPO reinforcement learning (Tables 2 and 3). |
 | Limitation | Outcome-based GRPO scores only the terminal Semantic ID—by longest matching prefix and catalog validity—without directly supervising the intermediate reasoning text (Sec. 3.3.2). |
 

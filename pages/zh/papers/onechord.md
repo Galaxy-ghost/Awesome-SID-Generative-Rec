@@ -1,22 +1,27 @@
 # OneChord
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onechord.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/onechord.md) | 中文
 
 | **题目** | *Distill What You Rank, Recommend in One Pass* |
 | :-- | :-- |
 | **作者** | Li et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **改动** | ○ 生成骨干 · ● 训练目标 · ○ 推理 |
+| **构码输入** | `unknown` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.25805) · [代码](https://anonymous.4open.science/r/OneChord-D1A2/) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Next-item CE + Cons. KD + Rank KD"] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>Par. OPQ"] --> B["生成骨干 Backbone<br/>○ Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● Next-item CE + Cons. KD + Rank KD"] --> I["推理 Inference<br/>○ Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -31,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > OneChord 在并行解码器中用经全库归一化的 SID 证据与物品匹配分数融合形式统一监督、蒸馏与推理，使训练目标与线上排序一致。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | OneChord 在并行解码器中用经全库归一化的 SID 证据与物品匹配分数融合形式统一监督、蒸馏与推理，使训练目标与线上排序一致。 |
-| 主要改动阶段 | 训练（Training） |
 
 ---
 

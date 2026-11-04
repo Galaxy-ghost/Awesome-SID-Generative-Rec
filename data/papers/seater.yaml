@@ -72,3 +72,22 @@ related:
   note: EAGER, a later paper that cites SEATER among generative recommenders, builds two tree-structured codes (behavior and
     semantic) with hierarchical k-means instead of one collaborative tree.
   where: 'Evidence is from the later EAGER paper, Section 1: https://arxiv.org/html/2406.14017v2#S1.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Utilizing two contrastive learning tasks, the model captures the semantics of the tokens and the hierarchies within
+      the tree structure.
+    where: '2309.13375v2 #S1.p7.1'
+  inference: none
+modality:
+- CF
+domain:
+- POI / Local
+- E-commerce
+- News
+- Short video / Live
+settings: []

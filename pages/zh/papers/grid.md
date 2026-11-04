@@ -1,12 +1,15 @@
 # GRID
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/grid.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/grid.md) | 中文
 
 | **题目** | *Generative Recommendation with Semantic IDs: A Practitioner's Handbook* |
 | :-- | :-- |
 | **作者** | Ju et al. |
 | **发表** | CIKM’25 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | – |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2507.22224) · [代码](https://github.com/snap-research/GRID) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>R-KM"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
 ```
@@ -37,9 +40,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | GRID 提供开源模块化框架，支持自由替换 SID 编号器、生成骨干与解码策略，并在公开基准上系统消融各组件的设计选择。 |
-| 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 在 Amazon Beauty、Sports 和 Toys 上的 5 随机种子消融实验（Tables 1–8）表明，编码器-解码器结构与滑动窗口数据增强主导推荐精度，而若干高开销默认组件可替换为更高效的替代方案且不损效果（Sec. 5）。 |
 | 局限 | GRID 围绕固定的 RK-Means $`(3, 256)`$ 与 Flan-T5-XL 默认配置做单因素消融，未覆盖组件间的交互效应，也未报告束宽数值与实测推理延迟（Sec. 4.1）。 |
 

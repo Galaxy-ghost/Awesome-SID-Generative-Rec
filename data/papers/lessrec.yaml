@@ -58,3 +58,20 @@ related:
   relation: competitor
   note: RPG predicts long unordered codes in parallel; LESSRec models hierarchical level-specific histories.
   where: 'LESSRec v1, Section 4.1.2 and Table 2: https://arxiv.org/html/2610.37286v1#S4.SS1.SSS2.p1; https://arxiv.org/html/2610.37286v1#S4.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Text
+  - CF
+note: A 为 RQ-VAE / R-KMeans 文本配置；B 为 LETTER 文本与 SASRec 协同配置，按 Table 1 的 A / B 分支保留。
+domain:
+- E-commerce
+settings: []

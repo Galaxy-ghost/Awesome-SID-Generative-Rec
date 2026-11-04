@@ -1,12 +1,15 @@
 # ProGEO
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/progeo.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/progeo.md) | 中文
 
 | **题目** | *Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* |
 | :-- | :-- |
 | **作者** | He et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` · `POI` |
+| **改动** | ● 构码 |
+| **构码输入** | `Text` + `Geo` |
+| **领域** | `本地生活与 POI` · `搜索` |
 | **链接** | [论文](https://arxiv.org/abs/2604.23156) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Geo"] --> T["编号 Tokenization<br/>R-KM+Geo-CB"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam+Geo-Filter"]
+    R["物品表示 Representation<br/>Text+Geo"] --> T["构码 Tokenization<br/>● R-KM+Geo-CB"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>Beam+Geo-Filter"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +42,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | ProGEO 结合地理质心局部坐标系与地理旋转位置编码构建邻近感知地理码本，使 SID 同时刻画语义与地理邻近性。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在工业数据集上，ProGEO 的 Hit@50 为 0.4243（RQ-Kmeans 为 0.4056），平均地理聚类距离降至 25.41 km（RQ-OPQ 为 46.71 km）（Table 1）。 |
 | 局限 | 地理编码仅作用于第三层量化，且按最近用户距离消解 SID 冲突依赖公开 Foursquare 基准中缺失的实时用户坐标（Sec. 3.3，Table 3）。 |
 

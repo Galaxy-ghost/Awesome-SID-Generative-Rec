@@ -1,22 +1,27 @@
 # MSCGRec
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/mscgrec.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/mscgrec.md)
 
 | **Title** | *Multimodal Generative Recommendation for Fusing Semantic and Collaborative Signals* |
 | :-- | :-- |
 | **Authors** | Vandenhirtz et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | image: `Img` · text: `Text` · collaborative: `CF` |
+| **Domain** | `E-commerce` · `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.03713) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE+DINO"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>Trie/C-Beam"]
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>● RQ-VAE+DINO"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed†<br/>Objective: ○ NTP"] --> I["Inference<br/>Trie/C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > MSCGRec quantizes images with self-supervised DINO-based learning, adds collaborative features as a separate modality, and restricts training outputs to permissible tokens, to scale generative recommendation to large catalogs.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | MSCGRec quantizes images with self-supervised DINO-based learning, adds collaborative features as a separate modality, and restricts training outputs to permissible tokens, to scale generative recommendation to large catalogs. |
-| Modified Stage | Tokenization |
 
 ---
 

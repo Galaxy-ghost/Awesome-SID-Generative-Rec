@@ -1,22 +1,28 @@
 # Tlow
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tlow.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/tlow.md) | 中文
 
 | **题目** | *Flow-based Item Tokenizer for Recommendation* |
 | :-- | :-- |
 | **作者** | Li et al. |
 | **发表** | CIKM’26 Applied |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 训练目标 |
+| **构码输入** | A: `Text` · B: `Text` + `Img` |
+| **领域** | `电商` · `图文与文章` |
+| **特殊设置** | `跨域迁移` · `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2608.24176) · [代码](https://github.com/wjjln/Tlow) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Flow+PQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Rel.MSE"] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Flow+PQ"] --> B["生成骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ MTP + Rel.MSE"] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > Tlow 在独立量化前用归一化流将语义嵌入映射到标准正态隐空间，并对齐码本与 token 嵌入空间，区别于 RQ-VAE 和 OPQ。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | Tlow 在独立量化前用归一化流将语义嵌入映射到标准正态隐空间，并对齐码本与 token 嵌入空间，区别于 RQ-VAE 和 OPQ。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

@@ -77,3 +77,27 @@ related:
   note: VQ-Rec pools product-quantized codes into an item representation for discriminative ranking; LLaDA-Rec generates parallel
     codes directly.
   where: 'LLaDA-Rec v1, baselines: https://arxiv.org/html/2511.06254v1#S5.SS1.SSS2.p2; Table 3: https://arxiv.org/html/2511.06254v1#S4.T3.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: We design Multi-Head VQ-VAE that encode the item embedding and split it into several sub - vectors, each queried
+      against a separate codebook
+    where: '2511.06254v1 #S1.p7.1；并行 SID 供扩散模型双向生成'
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We propose LLaDA-Rec, a generative recommendation model based on discrete diffusion, which introduces parallel
+      semantic IDs and develops discrete diffusion training and inference methods tailored to recommendation tasks.
+    where: '2511.06254v1 #S1.I1.i2.p1.1；掩码扩散训练目标借自离散扩散语言模型'
+  inference:
+    value: other
+    quote: We propose LLaDA-Rec, a generative recommendation model based on discrete diffusion, which introduces parallel
+      semantic IDs and develops discrete diffusion training and inference methods tailored to recommendation tasks.
+    where: '2511.06254v1 #S1.I1.i2.p1.1；扩散解码中的束搜索在 #S4.SS3.SSS3'
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

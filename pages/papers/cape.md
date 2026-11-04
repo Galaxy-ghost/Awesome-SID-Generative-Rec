@@ -1,20 +1,23 @@
 # CAPE
 
-[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cape.md)
+[← Problem × Stage Matrix](../../README.md#i--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/cape.md)
 
 | **Title** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
 | :-- | :-- |
 | **Authors** | Huang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Inference` |
+| **Changes** | ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `Music` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.29298) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["Inference<br/>Hybrid"]
+    R["Representation<br/>Text†"] --> T["Tokenization<br/>RQ-VAE†"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: Multi-task NTP† / NTP†"] --> I["Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | CAPE is a training-free plug-in that retrieves co-occurrence-supported tail items outside the beam and fuses co-occurrence evidence into ranking, restoring item-level memorization that shared-prefix generation lacks. |
-| Modified Stage | Inference |
 
 ---
 

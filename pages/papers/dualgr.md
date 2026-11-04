@@ -1,24 +1,27 @@
 # DualGR
 
-[← Problem × Stage Matrix](../../README.md#vi--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dualgr.md)
+[← Problem × Stage Matrix](../../README.md#vi--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/dualgr.md)
 
 | **Title** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
 | :-- | :-- |
 | **Authors** | Yi et al. |
 | **Venue** | WWW’26 Short |
-| **Problem × Stage** | `VI. Generalization` · `Backbone` — Also: `III. SID–Model Alignment` × `Inference`; `IV. Utility` × `Training`; `V. Efficiency` × `Inference`; `VI. Generalization` × `Training` |
+| **Problem × Stage** | `VI. Generalization` · `Backbone` |
+| **Changes** | ● Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `unknown` |
+| **Domain** | `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.12518) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Rank"] --> I["Inference<br/>Dual Beam"]
+    R["Representation<br/>–"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>● Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Rank"] --> I["Inference<br/>○ Dual Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -33,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | DualGR adds a long- and short-term interest router, decodes fine Semantic ID levels inside the current coarse bucket, and treats unclicked exposures as coarse-level hard negatives in training. |
-| Modified Stage | Backbone |
 
 ---
 

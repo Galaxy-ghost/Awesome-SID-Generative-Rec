@@ -1,12 +1,16 @@
 # LIGER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/liger.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/liger.md) | 中文
 
 | **题目** | *Unifying generative and dense retrieval for sequential recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
 | **发表** | arXiv’24 |
-| **问题与阶段** | `VI. 泛化` · `推理（Inference）` — 补充：`VI. 泛化` × `骨干（Backbone）`；`VI. 泛化` × `训练（Training）` |
+| **问题与阶段** | `VI. 泛化` · `推理（Inference）` |
+| **改动** | ○ 生成骨干 · ○ 训练目标 · ● 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `游戏` |
+| **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2411.18814) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,11 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Dense"] --> I["推理 Inference<br/>Hybrid"]
+    R["物品表示 Representation<br/>Text+SID"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Dense"] --> I["推理 Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class B,TR also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -41,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | LIGER 在受控对比序列稠密检索与 SID 生成式检索后，将稠密检索融入生成式检索器，缩小二者性能差距并改善冷启动推荐。 |
-| 主要改动阶段 | 推理（Inference） |
 | 主要发现 | LIGER 将束搜索召回的 K = 20 个 SID 候选与冷启动物品合并后做稠密重排，在 Amazon Beauty、Sports、Toys 和 Steam 上缩小了与全库稠密检索的差距并提升了冷启动推荐效果（Abstract，Sec. 4.2，Table 2）。 |
 | 局限 | 所有冷启动物品都会并入每次推理的候选集，该设计依赖冷启动物品数量较少的前提假设（Sec. 3）。 |
 

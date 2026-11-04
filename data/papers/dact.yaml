@@ -60,3 +60,21 @@ related:
   relation: predecessor
   note: DACT follows LETTER's CF-to-quantized-embedding collaborative regularization, then adds drift-aware continual adaptation.
   where: https://arxiv.org/html/2603.29705v1#S2.SS1.p5
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+settings:
+- value: catalog-change
+  quote: DACT consistently performs best by jointly handling (i) code assignment for new items and (ii) selective code updates
+    for drifting items, while constraining stationary identifiers to preserve token–embedding alignment and avoid disruptive
+    token shifts.
+  where: '2603.29705v1 #S4.I1.i4.p1.1；按时期增量到来的新物品和交互'

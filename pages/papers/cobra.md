@@ -1,24 +1,27 @@
 # COBRA
 
-[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/cobra.md)
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/cobra.md)
 
 | **Title** | *Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | NeurIPS’25 |
-| **Problem × Stage** | `I. Informativeness` · `Backbone` — Also: `I. Informativeness` × `Inference`; `I. Informativeness` × `Representation`; `I. Informativeness` × `Training` |
+| **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Changes** | ○ Representation · ● Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2503.02453) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>Casc. RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>BeamFusion"]
+    R["Representation<br/>○ Text+SID"] --> T["Tokenization<br/>Casc. RQ"] --> B["Backbone<br/>● Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Dense"] --> I["Inference<br/>○ BeamFusion"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class R,TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -34,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | COBRA generates a sparse Semantic ID and then a dense vector conditioned on it, trains both end to end, and decodes with BeamFusion, which combines beam search with nearest-neighbor scores. |
-| Modified Stage | Backbone |
 
 ---
 

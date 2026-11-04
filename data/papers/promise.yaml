@@ -79,3 +79,20 @@ related:
     search is a cheaper way to scale.
   where: 'Promise v1, Section 6.1 describes OneRec V2 (Zhou et al., 2025c): https://arxiv.org/html/2601.04674v1#S6.SS1.p1;
     Section 4.6.1 contrasts parameter scaling with test-time scaling: https://arxiv.org/html/2601.04674v1#S4.SS6.SSS1.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: A lightweight path-level PRM , trained end-to-end together with the generative backbone, is explicitly optimized
+      to supervise intermediate inference steps.
+    where: '2601.04674v1 #S1.I1.i1.p1.1；设计在 #S3.SS2'
+  inference: primary
+modality:
+- Text
+domain:
+- E-commerce
+- Short video / Live
+settings: []

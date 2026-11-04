@@ -71,3 +71,28 @@ related:
   note: OneRec unifies the whole pipeline in one end-to-end model; MBGR keeps the industrial cascade and adds multi-business
     generation for recall.
   where: 'MBGR v1, Section 6.6 contrasts with OneRec: https://arxiv.org/html/2604.02684v1#S6.SS6.p2; related work: https://arxiv.org/html/2604.02684v1#S2.SS1.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: To bridge the gap between universal item representations and business-specific requirements, we propose a module
+      that dynamically transforms shared embeddings into domain-specific representations.
+    where: '2604.02684v1 #S4.SS2.SSS2.p1.1；MoE 结构的业务感知物品表示（MBP 模块）'
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'For each position t in the sequence and each business type b_k , the prediction target is determined by finding
+      the nearest future interaction of the same business type:'
+    where: '2604.02684v1 #S4.SS3.p1.1（公式按纯文本转写）；Label Dynamic Routing，w/o LDR 消融在 #S6.I6.i1.p1.1'
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: Transforms input token embeddings t_i=[t_{i,1},t_{i,2},...,t_{i,K}]∈R^{K·d_t} into business-aware item representations
+    e_i∈R^{d_e}
+  where: '2604.02684v1 #S4.SS1.p3.1（公式按纯文本转写）；原文没写原始 SID 由什么输入构建'
+note: Table 1 记 Text+CF；原文没写构码输入。
+domain:
+- unknown (industrial)
+settings: []

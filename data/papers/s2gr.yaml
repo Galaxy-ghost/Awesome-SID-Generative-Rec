@@ -79,3 +79,25 @@ related:
   note: PLUM feeds ID tokens to a pretrained LLM for explicit reasoning, whereas S2GR adds lightweight implicit reasoning
     steps.
   where: 'S2GR v3, Section 2.2: https://arxiv.org/html/2601.18664v3#S2.SS2.p2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: We enhance reasoning capability through comprehensive codebook optimization integrating collaborative signals,
+      distribution uniformity, and load balancing.
+    where: '2601.18664v3 #S1.I1.i2.p1.1；CoBa RQ-VAE 与共现传播平滑'
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We propose the stepwise latent reasoning that aligns with SID’s hierarchical semantics and incorporates physically
+      interpretable supervision to ensure reliable reasoning paths in GR.
+    where: '2601.18664v3 #S1.I1.i1.p1.1；对每步潜在推理加对比式监督'
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+- Short video / Live
+settings: []

@@ -65,3 +65,20 @@ related:
   relation: competitor
   note: SID-MLP is the closest compared efficiency-oriented baseline.
   where: 'SPRINT v1, Appendix D.6: https://arxiv.org/html/2609.34306v1#A4.SS6.p2; https://arxiv.org/html/2609.34306v1#A4.T10.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: As these probabilities are generated independently across positions and the coherence among tokens is lost, we
+      further design a dual-level flow contrastive objective to restore the coherence among an item’s tokens.
+    where: arXiv:2609.34306v1 https://arxiv.org/html/2609.34306v1#abstract1
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings: []

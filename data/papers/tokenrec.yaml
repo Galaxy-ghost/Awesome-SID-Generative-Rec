@@ -80,3 +80,37 @@ related:
     quantization.
   where: 'Evidence is from the later R3-VAE paper: baselines and Tables 1, 4: https://arxiv.org/html/2604.11440v3#S4.SS1.SSS2.p1,
     https://arxiv.org/html/2604.11440v3#S3.T1, https://arxiv.org/html/2604.11440v3#S4.T4.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: 'More specifically, the hidden state h_i from LLM4Rec(·) will be projected to a latent representation z_i in R^d
+      through a projection layer Proj(·) , to make the alignment between the LLM-generated representation and item representations
+      learned from GNNs as follows:'
+    where: '2406.10450v3 #S2.SS4.SSS3.p2.1（公式按纯文本转写）；Proj 是三层 MLP（#S2.SS4.SSS3.p2.2）'
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'Mathematically, we utilize a pairwise ranking loss for our tuning process, which encourages the query closer to
+      the positive set (i.e., when lambda=1 ) than to the negative set by a fixed margin gamma (i.e., when lambda=-1 ) as
+      follows:'
+    where: '2406.10450v3 #S2.I1.i2.p1.1（公式按纯文本转写）；生成器训练用度量学习的排序损失，不用 NTP'
+  inference:
+    value: other
+    quote: We propose a novel framework ( TokenRec ) for recommender systems in the era of LLMs, where a generative retrieval
+      paradigm is designed to effectively and efficiently recommend top- K items for users rather than directly generating
+      tokens in natural language.
+    where: '2406.10450v3 #S1.I1.i2.p1.1；LLM 输出用户表示，再与物品表示打分检索'
+modality:
+- CF
+domain:
+- Music
+- Movie
+- E-commerce
+settings:
+- value: cold-start
+  scope: user
+  quote: For this analysis, we consider the Beauty and LastFM datasets and exclude the 5% of users (ref as unseen users )
+    with the least interaction history from the training data split to simulate newly added users.
+  where: '2406.10450v3 #S3.SS3.p2.1；这些用户交互过的物品也一并移出训练集'

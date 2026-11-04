@@ -1,12 +1,15 @@
 # MACRec
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/macrec.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/macrec.md)
 
 | **Title** | *Multi-aspect cross-modal quantization for generative recommendation* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | text: `Text` · image: `Img` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.15122) · [Code](https://github.com/zhangfw123/MACRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>Cross RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text+Img"] --> T["Tokenization<br/>● Cross RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Ctr."] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | MACRec applies cross-modal quantization over text and image features to build Semantic IDs with fewer conflicts, and adds implicit and explicit cross-modal alignment to generator training. |
-| Modified Stage | Tokenization |
 | Key Findings | MACRec leads all baselines on HR@10, NDCG@5, and NDCG@10 on all three datasets, while on Games HR@5 MISSRec reports 0.0674 against 0.0671 for MACRec (Table 2). |
 | Limitation | MACRec trains separate 4-level RQ-VAE tokenizers and runs constrained beam search in both text and image modalities before averaging their scores at inference, and the paper does not report beam width or inference latency (Methodology, Table 4). |
 

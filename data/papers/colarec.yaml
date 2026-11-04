@@ -76,3 +76,24 @@ related:
     LightGCN embeddings and adds content-based item-item indexing.
   where: 'ColaRec v2, Section 1 and Section 2.2 cite SEATER among generative identifier methods: https://arxiv.org/html/2403.18480v2#S1.p3
     and https://arxiv.org/html/2403.18480v2#S2.SS2.p3; not a baseline in Table 2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We propose an auxiliary item indexing task and a contrastive loss to perform better alignment between item content
+      information and user-item collaborative signals to further enhance the performance of generative recommendation.
+    where: '2403.18480v2 #S1.I1.i2.p1.1；设计在 #S4（物品索引任务与对比损失和推荐任务联合训练）'
+  inference: none
+modality:
+- CF
+modality_where:
+  quote: ColaRec constructs the GID using a graph-based CF model, which effectively captures collaborative signals.
+  where: '2403.18480v2 #S4.SS1.p1.1；GID 由 LightGCN 物品嵌入做层次约束 K-means 得到；文本只进生成器的输入和索引任务'
+note: Table 1 记 Text+CF；原文构码只用 LightGCN 嵌入（#S4.SS1.p1.1），文本不进构码。
+domain:
+- E-commerce
+- Food / Recipe
+settings: []

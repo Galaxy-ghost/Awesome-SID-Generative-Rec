@@ -1,22 +1,27 @@
 # PSRQ
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/psrq.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/psrq.md) | 中文
 
 | **题目** | *Progressive Semantic Residual Quantization for Multimodal-Joint Interest Modeling in Music Recommendation* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | CIKM’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 |
+| **构码输入** | text: `Text` · image: `Img` · audio: `Audio` · joint_Amazon: `Text` + `Img` · joint_Music: `Text` + `Audio` |
+| **领域** | `电商` · `音乐` |
 | **链接** | [论文](https://arxiv.org/abs/2508.20359) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>Prog. RQ"] --> B["骨干 Backbone<br/>Encoder"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Text+Img"] --> T["构码 Tokenization<br/>● Prog. RQ"] --> B["生成骨干 Backbone<br/>○ Encoder"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Discrim."] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > PSRQ 生成保留前缀语义特征的模态特定与模态联合 SID，并用多码本交叉注意力建模音乐兴趣，减轻残差量化中的语义漂移。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | PSRQ 生成保留前缀语义特征的模态特定与模态联合 SID，并用多码本交叉注意力建模音乐兴趣，减轻残差量化中的语义漂移。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

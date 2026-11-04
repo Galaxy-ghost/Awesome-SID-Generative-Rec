@@ -1,22 +1,27 @@
 # FlexCode
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/flexcode.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/flexcode.md) | 中文
 
 | **题目** | *Semantics Meet Signals: Dual Codebook Representationl Learning for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Hui et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 编号器更新 · ○ 训练目标 |
+| **构码输入** | semantic: `Text` + `CF` · collaborative: `CF` |
+| **领域** | `电商` · `短视频与直播` · `工业场景未明` |
 | **链接** | [论文](https://arxiv.org/abs/2511.20673) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>Dual RQ-VAE"] --> B["骨干 Backbone<br/>–"] --> TR["训练 Training<br/>Joint / NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>● Dual RQ-VAE"] --> B["生成骨干 Backbone<br/>–"] --> TR["训练 Training<br/>编号器更新: ○ Joint<br/>训练目标: ○ NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -30,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > FlexCode 通过轻量 MoE 按物品流行度在协同码本与语义码本之间分配固定 token 预算，替代所有物品共用单一码本的做法。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | FlexCode 通过轻量 MoE 按物品流行度在协同码本与语义码本之间分配固定 token 预算，替代所有物品共用单一码本的做法。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

@@ -59,3 +59,26 @@ related:
     and couples this with stepwise personalization.
   where: 'SPAR-Youku v1, Introduction and Section 2.1; cited alternative, not an evaluated baseline: https://arxiv.org/html/2610.27898v1#S1.p2;
     https://arxiv.org/html/2610.27898v1#S2.SS1.p2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: RQ-PIB, summarized in Algorithm 1, constructs semantic IDs with prefix-balanced branch organization.
+    where: arXiv:2610.27898v1 https://arxiv.org/html/2610.27898v1#S3.SS3.p3
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- unknown
+modality_open:
+- 原始物品 embedding 的输入信号（原文未披露）
+modality_where:
+  quote: Let $\mathbf{f}_{i}$ denote the embedding of item $i$, and let $\boldsymbol{\mu}_{\ell,k}$ be codeword $k$ at level
+    $\ell$.
+  where: arXiv:2610.27898v1 https://arxiv.org/html/2610.27898v1#S3.SS3.p4；原始物品 embedding 的内容来源未披露；容量或负载分配依据交互负载，该统计量不计 CF。
+note: Table 1 representation 为 –；原始 embedding 输入未披露，记 unknown，保留 modality_open。容量或负载分配依据交互负载，不把该统计量计为 CF。Youku 按长视频业务记 Long
+  video。
+domain:
+- Long video
+settings: []

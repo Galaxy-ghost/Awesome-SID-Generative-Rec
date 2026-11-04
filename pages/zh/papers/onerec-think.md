@@ -1,12 +1,15 @@
 # OneRec-Think
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onerec-think.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/onerec-think.md) | 中文
 
 | **题目** | *In-text reasoning for generative recommendation* |
 | :-- | :-- |
 | **作者** | Liu et al. |
 | **发表** | arXiv’25 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ● 训练目标 · ○ 推理 |
+| **构码输入** | `MM` + `CF` |
+| **领域** | `电商` · `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2510.11639) · [代码](https://github.com/wangshy31/OneRec-Think) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF†"] --> T["编号 Tokenization<br/>R-KM†"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>CoT"]
+    R["物品表示 Representation<br/>Text+Img+CF†"] --> T["构码 Tokenization<br/>R-KM†"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP → RL"] --> I["推理 Inference<br/>○ CoT"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | OneRec-Think 通过物品-文本对齐、推理脚手架和面向多合法目标的推荐奖励，在 OneRec 式生成中加入显式文本推理，替代单纯隐式预测。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在快手线上 A/B 测试中，Think-Ahead 部署使 App 停留时长相比线上基线提升 0.159%，同时在 Amazon Beauty、Toys 与 Sports 公开基准上全面超越对比方法（Sec. 5.2，Sec. 5.4.2，Tables 1 and 3）。 |
 | 局限 | 多步思维链推理超出实时推荐延迟预算，完整模型只能离线预生成前两层粗粒度码，交由线上实时 OneRec 补全末位 token（Sec. 4.4）。 |
 

@@ -1,12 +1,16 @@
 # TokenRec
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tokenrec.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/tokenrec.md)
 
 | **Title** | *Learning to tokenize id for llm-based generative recommendations* |
 | :-- | :-- |
 | **Authors** | Qu et al. |
 | **Venue** | TKDE’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `CF` |
+| **Domain** | `Music` · `Movie` · `E-commerce` |
+| **Settings** | `cold-start (user)` |
 | **Links** | [Paper](https://arxiv.org/abs/2406.10450) · [Code](https://github.com/Quhaoh233/TokenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>CF"] --> T["Tokenization<br/>Masked VQ"] --> B["Backbone<br/>Encoder"] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>CF"] --> T["Tokenization<br/>● Masked VQ"] --> B["Backbone<br/>○ Encoder"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Discrim."] --> I["Inference<br/>○ Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | TokenRec quantizes masked collaborative user and item representations into discrete tokens and retrieves top-K items without autoregressive decoding or beam search, to generalize to new users and items. |
-| Modified Stage | Tokenization |
 | Key Findings | Across LastFM, MovieLens-1M, Amazon Beauty, and Clothing, TokenRec outperforms collaborative, sequential, and LLM baselines while cutting per-user top-20 inference time to 5.76–8.43 ms against 76–102 ms for beam-search LLM baselines (Abstract, Tables 2, 3, and 5). |
 | Limitation | Onboarding unseen users or items still requires updating the upstream GNN collaborative filtering model to produce their base embeddings, even though the MQ-Tokenizer and LLM remain frozen (Sec. II-E.2). |
 

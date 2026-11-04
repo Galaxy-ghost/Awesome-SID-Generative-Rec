@@ -49,3 +49,27 @@ setup_where:
     no inference settings found.'
   results_from: 'Main: https://arxiv.org/html/2412.18176v2#S4.T2; modalities: https://arxiv.org/html/2412.18176v2#S4.T3; post-alignment:
     https://arxiv.org/html/2412.18176v2#S4.T4; ablation: https://arxiv.org/html/2412.18176v2#S4.T5; backbones: https://arxiv.org/html/2412.18176v2#A1.T6.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone:
+    value: other
+    quote: We design a Dynamic User Embedding Generator (DUEG) to effectively model user preferences using multimodal item
+      embeddings, enabling dynamic and accurate user interest prediction.
+    where: '2412.18176v2 #S1.I1.i2.p1.1'
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce a post-alignment contrastive learning mechanism to integrate collaborative filtering signals from
+      ID-based and content-based models, preserving their complementary strengths and enhancing recommendation performance.
+    where: '2412.18176v2 #S1.I1.i3.p1.1'
+  inference: none
+modality:
+- n/a
+note: '不构建 SID（记录 setup.sid 为 n/a），连续表示推荐，本字段只记 SID 构码输入，记 n/a（表外占位）；Table 1 记 Text+Img+CF。PixelRec 是短视频封面数据（2309.06789v2
+  #S1.p5.1：400,000 high-resolution micro-video cover images），记 Short video / Live。'
+domain:
+- E-commerce
+- Movie
+- Short video / Live
+settings: []

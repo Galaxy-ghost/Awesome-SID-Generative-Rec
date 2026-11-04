@@ -1,12 +1,15 @@
 # LGSID
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lgsid.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/lgsid.md)
 
 | **Title** | *LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* |
 | :-- | :-- |
 | **Authors** | Jiang et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Changes** | ● Representation · ○ Tokenization |
+| **SID inputs** | `Text` + `Geo` + `Attr` + `CF` |
+| **Domain** | `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.14221) · [Code](https://github.com/JiangHaoPG11/LGSID) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>Geo-Idx+RQ"] --> B["Backbone<br/>Disc. / Enc-Dec"] --> TR["Training<br/>Fixed / Discrim. / NTP"] --> I["Inference<br/>Scoring / Beam†"]
+    R["Representation<br/>● Text+Geo+CF"] --> T["Tokenization<br/>○ Geo-Idx+RQ"] --> B["Backbone<br/>Disc. / Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: Discrim. / NTP"] --> I["Inference<br/>Scoring / Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | LGSID aligns an LLM to spatial relationships with a reward model and G-DPO, then builds Semantic IDs from spatial and content attributes plus residual tokens from the aligned LLM representation. |
-| Modified Stage | Representation |
 | Key Findings | On Kuaishou local-life recommendation data, LGSID improves five discriminative rankers (DIN, DIEN, SIM, TWIN, ETA) and two generative backbones (TIGER and OneRec) over existing item tokenizers (Tables 1–2). |
 | Limitation | LLM alignment needs a separately trained list-wise reward model before G-DPO, and the residual tokens change whenever that alignment is redone (Abstract). |
 

@@ -16,16 +16,6 @@ tokenizer: Fixed
 objective: MTP + Ctr. + Aux.
 inference: Scoring
 poi: false
-also:
-- problem: I
-  stage: Backbone
-  quote: compact yet faithful latent tokens
-  where: '2602.13573v2 Abstract https://arxiv.org/html/2602.13573v2#abstract1；语义被平均池化模糊的问题：Introduction https://arxiv.org/html/2602.13573v2#S1.p2；ATM
-    与第一条贡献 #S1.p3；§3.1 https://arxiv.org/html/2602.13573v2#S3.SS1.SSSx2'
-- stage: Training
-  quote: We introduce a context-conditioned Intent Token to capture evolving user preferences, together with a dual-granularity
-    objective that combines fine-grained semantic ID prediction with item-level intent–target alignment.
-  where: '2602.13573v2 §1 贡献第 2 条 #S1.I1.i2；设计在 #S3.SS2'
 tldr: ACERec compresses long Semantic IDs into compact latent tokens with an Attentive Token Merger and adds an Intent Token
   with a dual-granularity objective, to keep long-ID expressiveness at short-ID cost.
 tldr_zh: ACERec 用注意力 token 合并器将长 SID 压缩为紧凑隐 token，并加入意图 token 与双粒度训练目标，以短 ID 的开销保留长 ID 的表达力。
@@ -86,3 +76,19 @@ related:
   note: ACERec follows VQ-Rec and RPG in using OPQ-based semantic IDs and their evaluation protocol.
   where: 'ACERec v2, Section 4.1 protocol follows Hou et al. (2023): https://arxiv.org/html/2602.13573v2#S4.SS1.p1; related
     work: https://arxiv.org/html/2602.13573v2#S2.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce a context-conditioned Intent Token to capture evolving user preferences, together with a dual-granularity
+      objective that combines fine-grained semantic ID prediction with item-level intent–target alignment.
+    where: '2602.13573v2 #S1.I1.i2.p1.1；设计在 #S3.SS2'
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

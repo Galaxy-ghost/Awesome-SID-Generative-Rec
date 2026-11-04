@@ -1,22 +1,27 @@
 # NEZHA
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/nezha.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/nezha.md) | 中文
 
 | **题目** | *A Zero-sacrifice and Hyperspeed Decoding Architecture for Generative Recommendations* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | WWW’26 Industry |
 | **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **改动** | ○ 生成骨干 · ● 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `本地生活与 POI` · `广告` · `搜索` |
 | **链接** | [论文](https://arxiv.org/abs/2511.18793) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Self-Draft+Hash"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>○ Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>● Self-Draft+Hash"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | NEZHA 在主模型内部加入自回归草稿头实现自起草，并用合法 ID 哈希集合验证草稿，省去独立草稿模型和基于模型的验证器。 |
-| 主要改动阶段 | 推理（Inference） |
 
 ---
 

@@ -1,12 +1,16 @@
 # IDGenRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/idgenrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/idgenrec.md) | 中文
 
 | **题目** | *Llm-recsys alignment with textual id learning* |
 | :-- | :-- |
 | **作者** | Tan et al. |
 | **发表** | SIGIR’24 |
-| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 编号器更新 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `本地生活与 POI` |
+| **特殊设置** | `冷启动（物品）` · `冷启动（用户）` · `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2403.19021) · [代码](https://github.com/agiresearch/IDGenRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>LLM-Vocab"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Altern. / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● LLM-Vocab"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: ○ Altern.<br/>训练目标: NTP"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | IDGenRec 将文本 ID 生成器与 LLM 推荐器协同训练，为每个物品生成由自然语言 token 组成的简短 ID，并测试向未见平台的零样本迁移。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 19 个数据集上联合预训练并直接在跨平台 6 个未见数据集上零样本评测时，IDGenRec 达到或超越域内有监督传统推荐模型，且在标准序列推荐评测中优于对比基线（Abstract，Tables 4 and 7）。 |
 | 局限 | 交替更新文本 ID 生成器会改变全库物品的 ID，训练期间需随之重建合法候选前缀树（Sec. 2.4）。 |
 

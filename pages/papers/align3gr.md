@@ -1,12 +1,15 @@
 # Align3GR
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/align3gr.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/align3gr.md)
 
 | **Title** | *Align$^3$GR: Unified Multi-Level Alignment for LLM-based Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Ye et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `E-commerce` · `POI / Local` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.11255) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Dual RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>● Dual RQ"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → DPO"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | Align3GR aligns an LLM recommender at three levels, with dual semantic and collaborative tokenization, bidirectional semantic alignment in behavior modeling, and progressive DPO from self-play and real-world feedback. |
-| Modified Stage | Tokenization |
 | Key Findings | Across public benchmarks, Align3GR reports gains of up to +17.8% in Recall@10 and +20.2% in NDCG@10 over the strongest baseline, alongside offline Recall@100 and online revenue gains in industrial deployment (Abstract, Table 1, Table 2). |
 | Limitation | Align3GR requires sequential training across dual user/item 3-level RQ-VAEs, four-task SFT, 3-stage SP-DPO, and RF-DPO on Llama2-7B, while collision handling and inference latency are not reported (Experimental Settings). |
 

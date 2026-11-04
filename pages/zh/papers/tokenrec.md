@@ -1,12 +1,16 @@
 # TokenRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tokenrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/tokenrec.md) | 中文
 
 | **题目** | *Learning to tokenize id for llm-based generative recommendations* |
 | :-- | :-- |
 | **作者** | Qu et al. |
 | **发表** | TKDE’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `CF` |
+| **领域** | `音乐` · `电影` · `电商` |
+| **特殊设置** | `冷启动（用户）` |
 | **链接** | [论文](https://arxiv.org/abs/2406.10450) · [代码](https://github.com/Quhaoh233/TokenRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>CF"] --> T["编号 Tokenization<br/>Masked VQ"] --> B["骨干 Backbone<br/>Encoder"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>CF"] --> T["构码 Tokenization<br/>● Masked VQ"] --> B["生成骨干 Backbone<br/>○ Encoder"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Discrim."] --> I["推理 Inference<br/>○ Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | TokenRec 将掩码协同用户与物品表示量化为离散 token，无需自回归解码或束搜索即可检索 top-K 物品，并泛化到新用户与新物品。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 LastFM、MovieLens-1M、Amazon Beauty 与 Clothing 四个数据集上，TokenRec 全面超越协同、序列与 LLM 基线，并将单用户 top-20 推理耗时降至 5.76–8.43 ms（自回归束搜索基线为 76–102 ms）（Abstract，Tables 2, 3, and 5）。 |
 | 局限 | 面对新用户或新物品时，尽管编号器与 LLM 保持冻结，仍需重训上游 GNN 协同过滤模型以生成初始协同表征（Sec. II-E.2）。 |
 

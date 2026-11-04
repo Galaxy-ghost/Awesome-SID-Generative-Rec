@@ -55,3 +55,26 @@ related:
   relation: competitor
   note: LLaDA-Rec is a diffusion-based baseline in the accuracy/cost comparison.
   where: 'OneChord v1, Tables 1-2: https://arxiv.org/html/2610.25805v1#S3.T1; https://arxiv.org/html/2610.25805v1#S3.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone:
+    value: other
+    quote: A shared parallel decoder produces joint SID evidence and item-matching scores.
+    where: arXiv:2610.25805v1 https://arxiv.org/html/2610.25805v1#abstract1
+  tokenizer: none
+  objective: primary
+  inference:
+    value: other
+    quote: We present OneChord, which uses one learned, catalog-normalized fusion for next-item supervision, refinement distillation,
+      and inference.
+    where: arXiv:2610.25805v1 https://arxiv.org/html/2610.25805v1#abstract1
+modality:
+- unknown
+modality_where:
+  quote: The index is fixed before recommender training.
+  where: arXiv:2610.25805v1 https://arxiv.org/html/2610.25805v1#S3.SS1；§3.1 和 Appendix A 仅交代固定 OPQ 及码本配置，未指明被量化 embedding
+    的原始输入。
+domain:
+- E-commerce
+settings: []

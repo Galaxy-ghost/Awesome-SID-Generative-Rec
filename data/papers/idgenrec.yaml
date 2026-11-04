@@ -75,3 +75,34 @@ related:
   note: GMC later compares against IDGenRec in a multi-domain setting with codebook IDs shared across domains.
   where: 'Evidence is from the later GMC paper: generative baselines and Table 3: https://arxiv.org/html/2507.12871v3#S5.I1.i4.I1.i3.p1
     and https://arxiv.org/html/2507.12871v3#S5.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: We propose an alternate training strategy that trains the LLM-based ID generator and the base recommender asynchronously,
+      ensuring that their learned knowledge is well-aligned
+    where: '2403.19021v2 #S1.I1.i3.p1.1；设计在 #S2.SS5'
+  objective: none
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings:
+- value: cold-start
+  scope: item
+  quote: then directly test its recommendation performance on each test dataset in a completely zero-shot setting (all the
+    users and items are not seen in the training dataset).
+  where: '2403.19021v2 #S3.SS5.p1.1；零样本实验中目标物品没有训练交互'
+- value: cold-start
+  scope: user
+  quote: then directly test its recommendation performance on each test dataset in a completely zero-shot setting (all the
+    users and items are not seen in the training dataset).
+  where: '2403.19021v2 #S3.SS5.p1.1；训练中未见、测试时有历史的用户（11-04 规则）'
+- value: cross-domain
+  quote: then directly test its recommendation performance on each test dataset in a completely zero-shot setting (all the
+    users and items are not seen in the training dataset).
+  where: '2403.19021v2 #S3.SS5.p1.1；在 19 个 Amazon 类目上预训练，在 6 个未见数据集上零样本测试'

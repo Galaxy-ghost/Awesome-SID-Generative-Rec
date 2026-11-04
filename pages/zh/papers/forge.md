@@ -1,12 +1,15 @@
 # FORGE
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/forge.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/forge.md) | 中文
 
 | **题目** | *Forming semantic identifiers for generative retrieval in industrial datasets* |
 | :-- | :-- |
 | **作者** | Fu et al. |
 | **发表** | KDD’26 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 构码 · ○ 推理 |
+| **构码输入** | `Text` + `Img` + `CF` |
+| **领域** | `电商` · `搜索` |
 | **链接** | [论文](https://arxiv.org/abs/2509.20904) · [代码](https://github.com/selous123/al_sid) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Dyn. Beam"]
+    R["物品表示 Representation<br/>Text+Img+CF"] --> T["构码 Tokenization<br/>○ RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>○ Dyn. Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,I other
 ```
 
 - `Text+Img+CF`：文本、图像表征结合协同过滤信号。
@@ -37,9 +42,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | FORGE 在开源淘宝工业数据集上评测不同 SID 构建策略，并提出无需训练生成器即可评估 ID 质量的指标。 |
-| 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 在淘宝在线 A/B 测试中，依据 FORGE 基准结论选出的语义 ID（Semantic ID，SID）构建策略使成交笔数提升 0.35%；离线实验表明免训练指标 Embedding HitRate 与 Gini 系数在 250 million 物品的 AL-GR 数据集上与下游 HR@20–HR@1000 强相关（Abstract，Sec. 3.4，Sec. 4.2，Table 3，Fig. 3）。 |
 | 局限 | 动态束搜索在最后一步扩展至 1,200 个候选 SID 且未报告实测推理延迟，免训练 SID 质量指标也仅在本基准的数据集内验证了相关性（Sec. 3.2，Sec. 3.4）。 |
 

@@ -1,20 +1,23 @@
 # GTI
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gti.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gti.md) | 中文
 
 | **题目** | *Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Chen et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ● 训练目标 |
+| **构码输入** | A: `Text` + `CF` · B: `Text` |
+| **领域** | `招聘` · `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2604.02324) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF / Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>Text+CF / Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● Multi-task NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > GTI 在微调前借助配对语言监督，把新增 SID token 映射到预训练嵌入空间中的区分性位置，而非用已有嵌入的均值初始化。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | GTI 在微调前借助配对语言监督，把新增 SID token 映射到预训练嵌入空间中的区分性位置，而非用已有嵌入的均值初始化。 |
-| 主要改动阶段 | 训练（Training） |
 
 ---
 

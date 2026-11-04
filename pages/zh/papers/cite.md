@@ -1,20 +1,24 @@
 # CITE
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cite.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/cite.md) | 中文
 
 | **题目** | *Contextual Item Transition Embeddings for Generative Recommendation with Parallel Semantic Identifiers* |
 | :-- | :-- |
 | **作者** | Ma et al. |
 | **发表** | Electronics’26 |
 | **问题与阶段** | `I. 信息量` · `推理（Inference）` |
+| **改动** | ● 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `本地生活与 POI` |
+| **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://doi.org/10.3390/electronics15204749) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. OPQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>Par. OPQ"] --> B["生成骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Discrim."] --> I["推理 Inference<br/>● Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。 |
-| 主要改动阶段 | 推理（Inference） |
 
 ---
 

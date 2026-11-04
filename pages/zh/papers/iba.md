@@ -1,22 +1,27 @@
 # IBA
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/iba.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/iba.md) | 中文
 
 | **题目** | *Where Reasoning Matters: Rethinking Latent Reasoning in Semantic ID-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Yang et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **问题与阶段** | `V. 效率` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2607.12425) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → (NTP + Aux.)"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>● Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → (NTP + Aux.)"] --> I["推理 Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > IBA 按信息增益在各 SID 位置之间分配隐式推理步数，将更多计算分给信息量更大的前序位置，替代每个位置固定步数的做法。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | IBA 按信息增益在各 SID 位置之间分配隐式推理步数，将更多计算分给信息量更大的前序位置，替代每个位置固定步数的做法。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

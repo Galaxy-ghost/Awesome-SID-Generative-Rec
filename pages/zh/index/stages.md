@@ -6,9 +6,9 @@
 
 多维并排对比表（英文）：[Tokenizer](../../../comparisons/tokenizer.md) · [Training](../../../comparisons/training.md) · [Inference](../../../comparisons/inference.md)
 
-## 表征（Representation）
+## 物品表示（Representation）
 
-| 论文 | 发表 | 研究问题 | 表征（Representation） |
+| 论文 | 发表 | 研究问题 | 物品表示（Representation） |
 | :-- | :-- | :-- | :-- |
 | [Molar](../papers/molar.md) | arXiv’24 | I. 信息量 | `Text+Img+CF` |
 | [OneLoc](../papers/oneloc.md) | arXiv’25 | I. 信息量 | `Text+Img+Geo†` |
@@ -23,9 +23,9 @@
 | [SPAR](../papers/spar.md) | arXiv’26 | I. 信息量 | `Text+Geo` |
 | [TriAlignGR](../papers/trialigngr.md) | arXiv’26 | I. 信息量 | `Text+Img` |
 
-## 编号（Tokenization）
+## 构码（Tokenization）
 
-| 论文 | 发表 | 研究问题 | 编号（Tokenization） |
+| 论文 | 发表 | 研究问题 | 构码（Tokenization） |
 | :-- | :-- | :-- | :-- |
 | [CID](../papers/cid.md) | SIGIR-AP’23 | II. 唯一性与合法性 | `Spectral Clus.` |
 | [VQ-Rec](../papers/vq-rec.md) | WWW’23 | VI. 泛化 | `OPQ` |
@@ -98,9 +98,9 @@
 | [UniTok](../papers/unitok.md) | AAAI’26 | VI. 泛化 | `TokenMoE` |
 | [VarLenRec (TIGER)](../papers/varlenrec-tiger.md) | arXiv’26 | I. 信息量 | `HARQ` |
 
-## 骨干（Backbone）
+## 生成骨干（Backbone）
 
-| 论文 | 发表 | 研究问题 | 骨干（Backbone） |
+| 论文 | 发表 | 研究问题 | 生成骨干（Backbone） |
 | :-- | :-- | :-- | :-- |
 | [ColaRec](../papers/colarec.md) | CIKM’24 | I. 信息量 | `Enc-Dec` |
 | [EAGER](../papers/eager.md) | KDD’24 | I. 信息量 | `Dual Enc-Dec` |

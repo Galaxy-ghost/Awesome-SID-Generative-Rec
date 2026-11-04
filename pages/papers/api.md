@@ -1,22 +1,28 @@
 # API
 
-[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/api.md)
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/api.md)
 
 | **Title** | *The Vocabulary Is Already Here: Adapting Pretrained Interpretable Features for Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Luo et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Changes** | ○ Representation · ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.36763) · [Code](https://anonymous.4open.science/r/API-C1F9/) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>PID (P-SAE)"] --> B["Backbone<br/>Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["Training<br/>Fixed / NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["Inference<br/>C-Beam / Scoring"]
+    R["Representation<br/>○ Text"] --> T["Tokenization<br/>● PID (P-SAE)"] --> B["Backbone<br/>○ Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["Inference<br/>○ C-Beam / Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains an adapter to predict indices and strengths, instead of fitting a new vocabulary.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
-| Key Contribution | API reuses feature indices of a pretrained sparse autoencoder as an interpretable Semantic ID vocabulary and trains an adapter to predict indices and strengths, instead of fitting a new vocabulary. |
-| Modified Stage | Tokenization |
 
 ---
 

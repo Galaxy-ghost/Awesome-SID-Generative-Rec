@@ -1,22 +1,27 @@
 # PCR-CA
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/pcr-ca.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/pcr-ca.md)
 
 | **Title** | *Parallel Codebook Representations with Contrastive Alignment for Multiple-Category App Recommendation* |
 | :-- | :-- |
 | **Authors** | Tan et al. |
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Backbone · ○ Tokenizer · ○ Objective |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `Apps` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.18166) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>PC-AE"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Joint / Discrim."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>● PC-AE"] --> B["Backbone<br/>○ Disc."] --> TR["Training<br/>Tokenizer: ○ Joint<br/>Objective: ○ Discrim."] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | PCR-CA learns parallel codebook representations of app text, unlike hierarchical RQ-VAE, and aligns them contrastively with collaborative signals for CTR prediction on multiple-category apps. |
-| Modified Stage | Tokenization |
 
 ---
 

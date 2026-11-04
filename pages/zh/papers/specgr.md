@@ -1,22 +1,28 @@
 # SpecGR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/specgr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/specgr.md) | 中文
 
 | **题目** | *Inductive Generative Recommendation via Retrieval-based Speculation* |
 | :-- | :-- |
 | **作者** | Ding et al. |
 | **发表** | AAAI’26 |
 | **问题与阶段** | `VI. 泛化` · `推理（Inference）` |
+| **改动** | ○ 训练目标 · ● 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Hybrid"]
+    R["物品表示 Representation<br/>Text+SID"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Rank"] --> I["推理 Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。 |
-| 主要改动阶段 | 推理（Inference） |
 
 ---
 

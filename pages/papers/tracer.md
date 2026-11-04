@@ -1,22 +1,27 @@
 # TRACER
 
-[← Problem × Stage Matrix](../../README.md#iv--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tracer.md)
+[← Problem × Stage Matrix](../../README.md#iv--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/tracer.md)
 
 | **Title** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Chen et al. |
 | **Venue** | NeurIPS’26 |
 | **Problem × Stage** | `IV. Utility` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Tokenizer · ○ Objective |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.07688) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Soft Reassign. RQ"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Joint / NTP + Aux."] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● Soft Reassign. RQ"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Tokenizer: ○ Joint<br/>Objective: ○ NTP + Aux."] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| Key Contribution | TRACER removes sensitive concepts from a generative recommender by reassigning concept-related items to alternative Semantic ID tokens with a coherence regularizer, instead of suppressing tokens shared with retained items. |
-| Modified Stage | Tokenization |
 
 ---
 

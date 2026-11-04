@@ -1,20 +1,23 @@
 # IDM/CMM
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/idm-cmm.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/idm-cmm.md) | 中文
 
 | **题目** | *Knowledge Distillation across Item and Code Spaces for Parallel Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Xu et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **改动** | ● 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.32943) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Subspace RQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / MTP + Aux."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>Subspace RQ"] --> B["生成骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● MTP + Aux."] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | IDM/CMM 通过匹配重构的物品分布或各位置码的边缘分布，将序列推荐教师蒸馏到并行 SID 生成器，而非仅用单物品硬标签训练。 |
-| 主要改动阶段 | 训练（Training） |
 
 ---
 

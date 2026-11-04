@@ -1,12 +1,15 @@
 # HiD-VAE
 
-[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/hid-vae.md)
+[← Problem × Stage Matrix](../../README.md#ii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/hid-vae.md)
 
 | **Title** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
 | :-- | :-- |
 | **Authors** | Fang et al. |
 | **Venue** | arXiv’25 |
-| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` — Also: `I. Informativeness` × `Tokenization` |
+| **Problem × Stage** | `II. Uniqueness and Validity` · `Tokenization` |
+| **Changes** | ○ Representation · ● Tokenization |
+| **SID inputs** | `Text` + `Attr` |
+| **Domain** | `E-commerce` · `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.04618) · [Code](https://anonymous.4open.science/r/HiD-VAE-84B2) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Hier. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>○ Text"] --> T["Tokenization<br/>● Hier. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | II. Uniqueness and Validity: Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly? |
-| Key Contribution | HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization. |
-| Modified Stage | Tokenization |
 | Key Findings | HiD-VAE cuts Semantic ID collision rates to 2.1% on Beauty, 2.8% on Sports, and 1.9% on KuaiRand versus 18.7%, 19.5%, and 17.8% for unsupervised RQ-VAE, outperforming baselines across all three benchmarks (Abstract, Table 1, Table 3). |
 | Limitation | Hierarchically supervised quantization requires multi-level category tags, forcing datasets without taxonomies to rely on LLM-synthesized tags (Sec. 3.4). |
 

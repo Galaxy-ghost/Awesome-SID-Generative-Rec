@@ -70,3 +70,28 @@ related:
   relation: competitor
   note: P5-CID uses collaborative IDs in a prompt-based LLM; Q-BERT4Rec uses multimodal semantic IDs in a small masked Transformer.
   where: 'Q-BERT4Rec v2, Table 2 prompt-LLM baseline: https://arxiv.org/html/2512.02474v2#S3.T2; Appendix A: https://arxiv.org/html/2512.02474v2#A1.I4.i1.p1.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: a multi-mask pretraining strategy that enhances temporal reasoning and robustness
+    where: '2512.02474v2 #S1.I1.i2.p1.1'
+  inference: none
+modality:
+- Text
+- Img
+modality_where:
+  quote: The Dynamic Cross-Modal Semantic Injection module aims to inject multimodal semantics into randomly initialized item
+    IDs, enabling the model to align and fuse heterogeneous information from text and images before quantization.
+  where: '2512.02474v2 #S3.SS3.p1.1；可学习的物品 ID 向量只作查询，量化前只用文本、图像的对比损失训练（#S3.SS3.p5.1）；交互预训练在构码之后（#S3.SS5.p1.1）'
+note: Table 1 记 Text+Img+CF；量化前没有行为信号，不记 CF。
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: This setting evaluates the model’s ability to transfer multimodal and sequential knowledge from heterogeneous source
+    domains to new target domains.
+  where: '2512.02474v2 #S4.SS1.p3.1；六个源域预训练，三个目标域微调'

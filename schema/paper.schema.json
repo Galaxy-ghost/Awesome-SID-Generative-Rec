@@ -23,8 +23,49 @@
     "inference",
     "poi",
     "tldr",
-    "tldr_zh"
+    "tldr_zh",
+    "changes",
+    "modality",
+    "domain",
+    "settings"
   ],
+  "$defs": {
+    "changeValue": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["primary", "none"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "quote", "where"],
+          "properties": {
+            "value": {
+              "type": "string",
+              "const": "other"
+            },
+            "quote": {
+              "type": "string",
+              "minLength": 1
+            },
+            "where": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "modalityList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
   "properties": {
     "id": {
       "description": "Stable file key matching data/papers/<id>.yaml.",
@@ -122,51 +163,6 @@
       "description": "Whether the paper targets POI / local-life / spatial recommendation.",
       "type": "boolean"
     },
-    "also": {
-      "description": "Optional curated list of secondary problem and/or stage tags beyond the primary Table 1 cell; empty array means audited with no qualifying secondary tag.",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["quote", "where"],
-        "anyOf": [{"required": ["problem"]}, {"required": ["stage"]}],
-        "properties": {
-          "problem": {"type": "string", "enum": ["I", "II", "III", "IV", "V", "VI"]},
-          "stage": {"type": "string", "enum": ["Representation", "Tokenization", "Backbone", "Training", "Inference"]},
-          "quote": {"type": "string", "minLength": 1},
-          "where": {"type": "string", "minLength": 1}
-        }
-      }
-    },
-    "modality": {
-      "description": "Optional paper-level override for tokenizer input modality when the Table 1 representation cell (e.g. Multi-Dom, Cross-Dom, Text+SID, –) does not determine it.",
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["content", "cf", "where"],
-          "properties": {
-            "content": {"type": "string", "enum": ["single", "multi", "other"]},
-            "cf": {"type": "boolean"},
-            "where": {"type": "string", "minLength": 1}
-          }
-        },
-        {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["content", "cf", "where"],
-            "properties": {
-              "content": {"type": "string", "enum": ["single", "multi", "other"]},
-              "cf": {"type": "boolean"},
-              "where": {"type": "string", "minLength": 1}
-            }
-          }
-        }
-      ]
-    },
     "evidence": {
       "description": "Optional list of locations in the paper, each with a verbatim quote, the curator's reason, or both.",
       "type": "array",
@@ -236,6 +232,90 @@
           "id": {"type": "string", "minLength": 1},
           "relation": {"type": "string", "enum": ["predecessor", "successor", "competitor", "alternative"]},
           "note": {"type": "string", "minLength": 1},
+          "where": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "changes": {
+      "description": "Per-column change markers across the six Table 1 technical columns ('primary', 'none', or {value: 'other', quote, where}).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "representation",
+        "tokenization",
+        "backbone",
+        "tokenizer",
+        "objective",
+        "inference"
+      ],
+      "properties": {
+        "representation": {"$ref": "#/$defs/changeValue"},
+        "tokenization": {"$ref": "#/$defs/changeValue"},
+        "backbone": {"$ref": "#/$defs/changeValue"},
+        "tokenizer": {"$ref": "#/$defs/changeValue"},
+        "objective": {"$ref": "#/$defs/changeValue"},
+        "inference": {"$ref": "#/$defs/changeValue"}
+      }
+    },
+    "modality": {
+      "description": "SID tokenizer input modalities as a list of vocabulary values or a branch-name-to-list mapping.",
+      "oneOf": [
+        {"$ref": "#/$defs/modalityList"},
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "modality_open": {
+      "description": "Optional list of open/unverified tokenizer input signals when modality includes 'unknown'.",
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "modality_where": {
+      "description": "Optional quote and location when modality is re-verified from the paper.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote", "where"],
+      "properties": {
+        "quote": {"type": "string", "minLength": 1},
+        "where": {"type": "string", "minLength": 1}
+      }
+    },
+    "note": {
+      "description": "Optional curator note explaining modality or annotation details.",
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "description": "Application domain(s) evaluated in the paper, checked against data/vocab.yaml.",
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "settings": {
+      "description": "Special experimental evaluation settings ('cold-start' with required 'scope' in ['user', 'item'], 'cross-domain', 'catalog-change').",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "quote", "where"],
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": ["cold-start", "cross-domain", "catalog-change"]
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["user", "item"]
+          },
+          "quote": {"type": "string", "minLength": 1},
           "where": {"type": "string", "minLength": 1}
         }
       }

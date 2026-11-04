@@ -61,3 +61,27 @@ related:
     masked diffusion.
   where: 'MDGR v1, Sections 2.1/5.1.2 and Table 2: https://arxiv.org/html/2601.19501v1#S2.SS1.p1; https://arxiv.org/html/2601.19501v1#S5.SS1.SSS2.p1;
     https://arxiv.org/html/2601.19501v1#S4.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: To this end, we propose a history-aware mask allocation strategy that dynamically selects positions to mask according
+      to how frequently each token of the target item appears in the user’s history.
+    where: arXiv:2601.19501v2 https://arxiv.org/html/2601.19501v2#S4.SS3.SSS2.p1
+  inference:
+    value: other
+    quote: During inference, we develop a warm-up–based two-stage parallel decoding strategy to efficiently generate SIDs.
+    where: arXiv:2601.19501v2 https://arxiv.org/html/2601.19501v2#S1
+modality:
+- Text
+modality_where:
+  quote: '(1) Codebook construction: we use a pretrained Qwen3-8B (Bai et al., 2023) model to encode the content modality
+    of items and obtain their representation vectors.'
+  where: arXiv:2601.19501v2 https://arxiv.org/html/2601.19501v2#S5.SS1.SSS3.p1；原文明确编码器为纯文本 Qwen3-8B，按 11-04 新规则推断构码输入为 Text；这是一项基于编码器的推断，原文未逐项列出文本字段。
+note: Table 1 representation 为 –；根据原文的纯文本 Qwen3-8B 编码器推断为 Text，依据和推断性质见 modality_where，不改 Table 1。
+domain:
+- E-commerce
+settings: []

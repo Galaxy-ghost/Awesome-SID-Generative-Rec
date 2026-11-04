@@ -55,3 +55,18 @@ related:
     and optimization.
   where: 'Ghost v3, Section V and Table II: https://arxiv.org/html/2605.16825v3#S5.p2; https://arxiv.org/html/2605.16825v3#S5.T2;
     https://arxiv.org/html/2605.16825v3#S5.SS2.p1.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: To overcome this limitation, we propose the skeleton-founded item tokenization (SKT).
+    where: arXiv:2605.16825v3 https://arxiv.org/html/2605.16825v3#S4.SS1.p1
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

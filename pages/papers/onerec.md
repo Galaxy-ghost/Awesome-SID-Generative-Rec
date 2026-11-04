@@ -1,12 +1,15 @@
 # OneRec
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/onerec.md)
 
 | **Title** | *Unifying retrieve and rank with generative recommender and iterative preference alignment* |
 | :-- | :-- |
 | **Authors** | Deng et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Tokenization · ○ Backbone · ○ Objective |
+| **SID inputs** | `MM` + `CF` |
+| **Domain** | `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2502.18965) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>MM+CF"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
+    R["Representation<br/>MM+CF"] --> T["Tokenization<br/>○ R-KM"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → DPO"] --> I["Inference<br/>Sess. Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,B,TR other
 ```
 
 - `MM+CF`: Multimodal item representations aligned with collaborative signals.
@@ -37,9 +42,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | OneRec replaces the retrieve-and-rank cascade with one encoder-decoder generator using sparse MoE, generates whole sessions of videos, and aligns preferences by iterative DPO with a reward model. |
-| Modified Stage | No single stage |
 | Key Findings | OneRec outperforms dot-product retrieval and pointwise generators such as TIGER on offline reward-model metrics (Table 1), and OneRec-1B+IPA reports +1.68% total watch time and +6.56% average view duration in online A/B testing on Kuaishou (Table 2). |
 | Limitation | In the online test, OneRec improves watch time but is weaker on interaction indicators such as likes (Sec. 6). |
 

@@ -55,3 +55,20 @@ related:
   relation: predecessor
   note: SID-MLP supplies the Base KD objective and lightweight student design.
   where: 'MuSID-KD v1, Sections 2.3/6.1: https://arxiv.org/html/2610.35218v1#S2.SS3.p1; https://arxiv.org/html/2610.35218v1#S6.SS1.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: We distill a pretrained SID teacher into a lightweight student using the same fixed item to SID mapping and valid
+    SID constraints.
+  where: arXiv:2610.35218v1 https://arxiv.org/html/2610.35218v1#S3.SS2.p1；固定 TIGER 教师及映射，但本篇未披露构码特征来源；保留 unknown。
+domain:
+- E-commerce
+- Games
+settings: []

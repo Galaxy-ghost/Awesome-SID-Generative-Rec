@@ -80,3 +80,30 @@ related:
   note: RPG predicts long OPQ IDs in parallel and uses graph-constrained decoding, while TIGER generates RQ-VAE IDs autoregressively.
   where: 'Evidence is from the later RPG paper: Section 2 overview, https://arxiv.org/html/2506.05781v1#S2.p1; Section 2.1.1,
     https://arxiv.org/html/2506.05781v1#S2.SS1.SSS1.p1; its TIGER baseline description in Section 3.1, https://arxiv.org/html/2506.05781v1#S3.SS1.p4.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: Residual-Quantized Variational AutoEncoder (RQ-VAE) [40] is a multi-level vector quantizer that applies quantization
+      on residuals to generate a tuple of codewords (aka Semantic IDs).
+    where: arXiv:2305.05065v3 https://arxiv.org/html/2305.05065v3#S3.SS1.p3；从推荐外的 RQ-VAE 引入 SID 推荐；另增碰撞消歧末码。
+  backbone:
+    value: other
+    quote: A Transformer model is trained on the sequential recommendation task using sequences of Semantic IDs.
+    where: arXiv:2305.05065v3 https://arxiv.org/html/2305.05065v3#S3.I1.i2.p1；将推荐外的序列生成检索构架引入 SID 推荐，输入为行为 SID 序列、输出为下一项 SID。
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: Finally, when retrieving a set of top-K candidates, we introduce a hyperparameter $\epsilon$ which specifies the
+      maximum proportion of unseen items chosen by our framework.
+    where: arXiv:2305.05065v3 https://arxiv.org/html/2305.05065v3#S4.SS3.p4；生成前三码匹配新物品，并用 epsilon 控制新物品配额，不是普通 beam 本身。
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: item
+  quote: To simulate newly added items, we remove 5% of test items from the training data split.
+  where: arXiv:2305.05065v3 https://arxiv.org/html/2305.05065v3#S4.SS3.p3；模拟：构码器与生成器都排除该组，训练后再编码 unseen items。

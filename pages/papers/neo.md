@@ -1,22 +1,28 @@
 # NEO
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/neo.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/neo.md)
 
 | **Title** | *A Unified Language Model for Large Scale Search, Recommendation, and Reasoning* |
 | :-- | :-- |
 | **Authors** | De Nadai et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Representation · ○ Tokenization · ○ Objective · ○ Inference |
+| **SID inputs** | A: `Text` · B: `Audio` |
+| **Domain** | `Music` · `Podcast` · `Book` · `Search` |
+| **Settings** | `cold-start (user)` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.17533) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / Audio"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>○ Text / Audio"] --> T["Tokenization<br/>○ R-KM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Multi-task NTP"] --> I["Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,T,TR,I other
 ```
 
 - `Text / Audio`: Text or audio representations in different branches or evaluation settings.
@@ -30,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained decoding, to unify search, recommendation, and reasoning without tools.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | NEO adapts a decoder-only LLM to interleave natural language and typed item Semantic IDs in one sequence, with constrained decoding, to unify search, recommendation, and reasoning without tools. |
-| Modified Stage | No single stage |
 
 ---
 

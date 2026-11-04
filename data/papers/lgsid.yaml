@@ -84,3 +84,26 @@ related:
     and semantic streams.
   where: 'Evidence is from the later LGRID paper: protocol https://arxiv.org/html/2607.27944v1#A1.SS3.p2; baseline and collision
     comparison https://arxiv.org/html/2607.27944v1#S4.SS1.p2 and https://arxiv.org/html/2607.27944v1#S4.T5.'
+changes:
+  representation: primary
+  tokenization:
+    value: other
+    quote: We introduce a Hierarchical Geographic Item Tokenization module on top of aligned LLM semantic representations.
+    where: '2511.14221v1 #Sx4.SSx3.p1.1；第一层用经纬度、行政区、类目、品牌的组合特征做 K-Means 得到地理码（#Sx4.SSx3.p2.1），其余层做残差量化'
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Geo
+- Attr
+- CF
+modality_where:
+  quote: Similarly, category codes f_cat are fixed scaling factors based on the primary category and the secondary category.
+    Brand codes f_brand are fixed scaling factors determined by the brand ID.
+  where: '2511.14221v1 #Sx4.SSx3.p2.1（公式按纯文本转写）；LLM 表示用用户共现物品对做对齐（#Sx4.SSx2.SSSx2.p2.1）'
+note: Table 1 记 Text+Geo+CF；第一层构码另用类目、品牌的结构化特征，补 Attr。
+domain:
+- POI / Local
+settings: []

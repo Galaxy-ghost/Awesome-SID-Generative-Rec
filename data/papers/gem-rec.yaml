@@ -71,3 +71,21 @@ related:
   where: 'GEM-Rec v1, Section 5.4 adopts the codebase of Yang et al. (2024): https://arxiv.org/html/2603.22231v1#S5.SS4.p1;
     Appendix B.1 follows its 5-core filtering: https://arxiv.org/html/2603.22231v1#A2.SS1.p1; Appendix F matches its model
     scale: https://arxiv.org/html/2603.22231v1#A6.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference:
+    value: other
+    quote: We derive an inference-time mechanism to inject bids directly into the decoding search space.
+    where: '2603.22231v1 #S1.I1.i3.p1.1；设计在 #S4（在展示位决策和物品决策两级注入出价）'
+modality:
+- Text
+note: Ads 是合成广告实验：在 Steam 和 Amazon 数据上随机指定 20% 物品为赞助物品并赋出价（#S5.SS1.p3.1），评估广告分配和出价；不是线上广告日志。
+domain:
+- Games
+- E-commerce
+- Ads
+settings: []

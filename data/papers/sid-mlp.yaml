@@ -76,3 +76,18 @@ related:
   relation: competitor
   note: NEZHA is reproduced on both TIGER and LC-Rec.
   where: 'SID-MLP v1, Appendix D.4: https://arxiv.org/html/2605.12617v1#A4.SS4.p1; https://arxiv.org/html/2605.12617v1#A4.SS4.p5.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We train Sid-Mlp via offline knowledge distillation from the frozen teacher.
+    where: arXiv:2605.12617v1 https://arxiv.org/html/2605.12617v1#S3.SS4
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

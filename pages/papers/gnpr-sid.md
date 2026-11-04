@@ -1,12 +1,16 @@
 # GNPR-SID
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gnpr-sid.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gnpr-sid.md)
 
 | **Title** | *Generative Next POI Recommendation with Semantic ID* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | KDD’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Changes** | ○ Representation · ● Tokenization |
+| **SID inputs** | `Attr` + `Geo` + `Time` + `CF` |
+| **Domain** | `POI / Local` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.01375) · [Code](https://github.com/wds1996/GNPR-SID) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Attr+Geo+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>–"]
+    R["Representation<br/>○ Attr+Geo+CF"] --> T["Tokenization<br/>● RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -38,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | GNPR-SID replaces random numeric POI IDs with RQ-VAE Semantic IDs built from semantic and collaborative features under a diversity loss, and fine-tunes an LLM to generate the next POI. |
-| Modified Stage | Tokenization |
 | Key Findings | On three benchmark datasets, GNPR-SID reports up to 16% improvement in recommendation accuracy over the compared methods (Abstract). |
 | Limitation | Operating hours and collaborative features come from check-ins, so a new point of interest (POI) without visits has incomplete features (Sec. 4.1.1). |
 

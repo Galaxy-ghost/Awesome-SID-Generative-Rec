@@ -1,12 +1,15 @@
 # OneRec-Think
 
-[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec-think.md)
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/onerec-think.md)
 
 | **Title** | *In-text reasoning for generative recommendation* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Changes** | ● Objective · ○ Inference |
+| **SID inputs** | `MM` + `CF` |
+| **Domain** | `E-commerce` · `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.11639) · [Code](https://github.com/wangshy31/OneRec-Think) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT"]
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP → RL"] --> I["Inference<br/>○ CoT"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | OneRec-Think adds explicit in-text reasoning to OneRec-style generation through item-text alignment, reasoning scaffolding, and a recommendation reward for multiple valid targets, instead of implicit prediction alone. |
-| Modified Stage | Training |
 | Key Findings | In Kuaishou's online A/B test, Think-Ahead deployment raises App Stay Time by 0.159% over the production baseline while outperforming sequential and generative baselines on Amazon Beauty, Toys, and Sports (Sec. 5.2, Sec. 5.4.2, Tables 1 and 3). |
 | Limitation | Autoregressive chain-of-thought reasoning exceeds strict online latency budgets, forcing the full model to pre-compute prefixes offline while a separate real-time OneRec model completes the final token online (Sec. 4.4). |
 

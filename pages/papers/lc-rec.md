@@ -1,12 +1,15 @@
 # LC-Rec
 
-[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lc-rec.md)
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/lc-rec.md)
 
 | **Title** | *Adapting large language models by integrating collaborative semantics for recommendation* |
 | :-- | :-- |
 | **Authors** | Zheng et al. |
 | **Venue** | ICDE’24 |
-| **Problem × Stage** | `III. SID–Model Alignment` · `Training` — Also: `II. Uniqueness and Validity` × `Tokenization` |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Changes** | ○ Tokenization · ● Objective |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2311.09049) · [Code](https://github.com/RUCAIBox/LC-Rec/) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>○ RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● Multi-task NTP"] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class T also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with alignment tasks, so it generates items from the whole catalog without candidate lists. |
-| Modified Stage | Training |
 | Key Findings | Across Amazon Instruments, Arts, and Games under full-catalog evaluation, LC-Rec outperforms traditional sequential recommenders, TIGER, and prior LLM-based recommenders (Abstract, Table 3). |
 | Limitation | Item indices are quantized solely from LLaMA text embeddings, so collaborative signals enter only indirectly during instruction tuning (Sec. III-B). |
 

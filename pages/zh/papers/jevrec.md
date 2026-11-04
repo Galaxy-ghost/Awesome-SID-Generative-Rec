@@ -1,22 +1,27 @@
 # JevRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/jevrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/jevrec.md) | 中文
 
 | **题目** | *Linguistic Encoding with Jev-like Decision Modeling for LLM-based Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhong et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `编号（Tokenization）` |
+| **问题与阶段** | `V. 效率` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2610.36937) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Freq. R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>Length-Quota Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Freq. R-KM"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Aux."] --> I["推理 Inference<br/>○ Length-Quota Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | JevRec 为高频物品分配较短 SID、为长尾物品分配较长 SID，并用独立预测头分别预测长度与内容，替代固定长度编码。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

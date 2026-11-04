@@ -61,3 +61,26 @@ related:
   relation: competitor
   note: Autoregressive SID-generation baseline in the main comparison.
   where: https://arxiv.org/html/2602.07847v2#Sx5.SSx1.SSSx2.p1 ; https://arxiv.org/html/2602.07847v2#Sx5.T2
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: Motivated by this analysis, we propose DiGR, which preserves the semantic information of SID while directly parameterizing
+      user preference at the item level, thereby avoiding the systematic bias introduced by multi-step token decoding.
+    where: '2602.07847v2 #Sx1.I1.i2.p1.1；训练用物品级条件分布，不再逐码 NTP'
+  inference:
+    value: other
+    quote: Given a context representation h_x , DiGR computes the catalog-level score vector as
+    where: '2602.07847v2 #Sx4.SSx2.SSS0.Px3.p1.1（公式按纯文本转写）；全目录物品级打分取代逐码束搜索'
+modality:
+- unknown
+modality_where:
+  quote: Because each item representation is constructed solely from shared SID-token embeddings, a new item can be scored
+    once its SID is available and added to the candidate catalog, without learning item-specific parameters.
+  where: '2602.07847v2 #Sx4.SSx3.SSS0.Px1.p1.1；RQ-VAE 的输入编码器正文没写（记录 setup.sid）'
+domain:
+- E-commerce
+settings: []

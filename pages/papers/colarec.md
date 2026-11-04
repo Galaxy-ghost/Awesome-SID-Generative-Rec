@@ -1,12 +1,15 @@
 # ColaRec
 
-[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/colarec.md)
+[← Problem × Stage Matrix](../../README.md#i--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/colarec.md)
 
 | **Title** | *Content-based collaborative generation for recommender systems* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | CIKM’24 |
 | **Problem × Stage** | `I. Informativeness` · `Backbone` |
+| **Changes** | ● Backbone · ○ Objective |
+| **SID inputs** | `CF` |
+| **Domain** | `E-commerce` · `Food / Recipe` |
 | **Links** | [Paper](https://arxiv.org/abs/2403.18480) · [Code](https://github.com/Junewang0614/ColaRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Ctr."] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>H-KM"] --> B["Backbone<br/>● Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Ctr."] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ColaRec builds generative identifiers from a pretrained collaborative filtering model and generates them from interacted-item content, with an item indexing task and a contrastive loss aligning both spaces. |
-| Modified Stage | Backbone |
 | Key Findings | Across full-catalog evaluation on Amazon Beauty, Sports and Outdoors, Cell Phones and Accessories, and Food.com Recipe, ColaRec outperforms collaborative, content-enhanced, and generative baselines (including TIGER and LC-Rec) on Recall@5/10 and NDCG@5/10, with ablations confirming gains from both item-to-GID indexing and contrastive alignment (Sec. 5.2, Table 2, Table 3, Table 4). |
 | Limitation | Generative identifiers (GIDs) are built offline by running constrained hierarchical K-means over pretrained LightGCN embeddings, so cold-start items without interactions lack collaborative representations to cluster (Sec. 4.2). |
 

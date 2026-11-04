@@ -57,3 +57,45 @@ related:
   relation: alternative
   note: Motivates testing collaborative SID signals; NEO favors content-derived SIDs in its experiments.
   where: 'NEO v1, Section 4.2.1, citing Hong et al. (2025): https://arxiv.org/html/2603.17533v1#S4.SS2.SSS1.Px4.p1.'
+changes:
+  representation:
+    value: other
+    quote: To mitigate this, we generate richer episode summaries using a pre-trained LLM applied to multiple available metadata
+      fields, and embed these summaries using the same text encoder.
+    where: '2603.17533v1 #S4.SS1.SSS2.p1.1；构码前用 LLM 补全元数据，原始与补全元数据的对比在 #S4.SS2.SSS1'
+  tokenization:
+    value: other
+    quote: We construct separate SID vocabularies per item type, as early experiments showed that embedding spaces differ
+      substantially across types.
+    where: '2603.17533v1 #S4.SS1.SSS2.p2.1'
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: we treat SIDs as a distinct modality and study design choices for integrating discrete entity representations into
+      LLMs via staged alignment and instruction tuning
+    where: '2603.17533v1 #abstract1.3；损失仍是 NTP（#S3.p2.1），新在分阶段对齐任务（#S3.SS2、#S3.SS3）'
+  inference:
+    value: other
+    quote: trie-based masking only within
+    where: '2603.17533v1 #S3.SS4.p1.1；只在 SID 段内做 trie 约束，段外保留自由文本'
+modality:
+  A:
+  - Text
+  B:
+  - Audio
+modality_where:
+  quote: For artists, we encode tracks from track spectrograms into audio embeddings and average them by artist to obtain
+    artist-level vectors.
+  where: '2603.17533v1 #S4.SS1.SSS2.p1.1；A 是节目、单集、有声书（Qwen3 文本嵌入），B 是艺人（音频）；#S4.SS2.SSS1 的 CF 替换是消融，不收'
+domain:
+- Music
+- Podcast
+- Book
+- Search
+settings:
+- value: cold-start
+  scope: user
+  quote: We simulate cold-start users by removing past listening behavior information and rely only on user metadata for predictions
+    on recommendations and text-based retrieval.
+  where: '2603.17533v1 #S4.SS1.SSS5.Px1.p1.1；删历史模拟'

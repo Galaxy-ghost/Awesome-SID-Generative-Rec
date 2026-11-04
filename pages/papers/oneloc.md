@@ -1,12 +1,15 @@
 # OneLoc
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/oneloc.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/oneloc.md)
 
 | **Title** | *Geo-Aware Generative Recommender Systems for Local Life Service* |
 | :-- | :-- |
 | **Authors** | Wei et al. |
 | **Venue** | arXiv’25 |
-| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` — Also: `I. Informativeness` × `Backbone`; `IV. Utility` × `Training` |
+| **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Changes** | ● Representation · ○ Backbone · ○ Objective |
+| **SID inputs** | `MM` + `Geo` |
+| **Domain** | `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2508.14646) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+Geo†"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP → DPO"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>● Text+Img+Geo†"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP → DPO"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class B,TR also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | OneLoc extends end-to-end generative recommendation to local-life videos by adding geographic information to tokenization, encoder attention, and a decoder prompt, and by DPO with geographic and GMV rewards. |
-| Modified Stage | Representation |
 | Key Findings | In a one-week online A/B test on 10% of traffic, OneLoc reports GMV +21.016% and order volume +17.891% against the production multi-stage pipeline (Sec. 5, Table 4). |
 | Limitation | Location enters the SID only through one fused embedding before residual k-means, so no SID position is tied to geography (Sec. 2.2). |
 

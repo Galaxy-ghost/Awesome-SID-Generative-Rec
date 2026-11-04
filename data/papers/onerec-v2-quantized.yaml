@@ -46,3 +46,17 @@ related:
   relation: predecessor
   note: Provides the unchanged base architecture and training procedure for FP8 deployment.
   where: 'Quantized Inference for OneRec-V2 v1, Introduction and Section 4.1: https://arxiv.org/html/2603.11486v1#S1.p3; https://arxiv.org/html/2603.11486v1#S4.SS1.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+- Img
+- CF
+domain:
+- Short video / Live
+settings: []

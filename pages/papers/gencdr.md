@@ -1,12 +1,16 @@
 # GenCDR
 
-[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gencdr.md)
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gencdr.md)
 
 | **Title** | *From ids to semantics: A generative framework for cross-domain recommendation with adaptive semantic tokenization* |
 | :-- | :-- |
 | **Authors** | Hu et al. |
 | **Venue** | AAAI’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` + `unknown` |
+| **Domain** | `E-commerce` · `Book` · `Movie` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2511.08006) · [Code](https://github.com/hupeiyu21/GenCDR) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Cross-Dom"] --> T["Tokenization<br/>RQ+LoRA"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Cross-Dom"] --> T["Tokenization<br/>● RQ+LoRA"] --> B["Backbone<br/>○ Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP"] --> I["Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | GenCDR generates domain-disentangled Semantic IDs by routing between a universal encoder and domain adapters, and decodes over a domain-aware prefix tree, instead of relying on shared user or item IDs. |
-| Modified Stage | Tokenization |
 | Key Findings | Across six domains in three low-overlap cross-domain pairs—Amazon Sports-Clothing (1.73% item overlap), Phones-Electronics (0.55%), and Douban Books-Movies (7.48%)—GenCDR outperforms single-domain, generative (TIGER, VQ-Rec), and cross-domain baselines on Recall@10 and NDCG@10 while maintaining constant inference cost as catalog size grows (Sec. 5.1, Sec. 5.6, Table 1, Table 2, Table 3, Fig. 6). |
 | Limitation | Each domain requires a dedicated LoRA tokenizer adapter and a separate offline prefix tree, while the number of RQ-VAE codebooks M, codebook size, collision handling, and beam width are not reported (Domain-adaptive Tokenization, Domain-aware Prefix-tree, Sec. 5.1). |
 

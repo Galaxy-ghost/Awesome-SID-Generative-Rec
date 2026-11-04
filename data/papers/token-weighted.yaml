@@ -52,3 +52,17 @@ related:
     and token-frequency weights through a curriculum.
   where: 'Token-Weighted v2, Sections 4.1/5.1.2 and Table 3; comparison is to the adapted Rank objective, not the full LETTER
     system: https://arxiv.org/html/2601.17787v2#S4.SS1.p2; https://arxiv.org/html/2601.17787v2#S5.SS1.SSS2.p2; https://arxiv.org/html/2601.17787v2#S4.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+- Movie
+settings: []

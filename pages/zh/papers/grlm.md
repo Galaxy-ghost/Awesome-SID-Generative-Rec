@@ -1,12 +1,16 @@
 # GRLM
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/grlm.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/grlm.md) | 中文
 
 | **题目** | *Unleashing the Native Recommendation Potential: LLM-Based Generative Recommendation via Structured Term Identifiers* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `III. SID 与模型对齐` · `编号（Tokenization）` — 补充：`I. 信息量` × `编号（Tokenization）`；`II. 唯一性与合法性` × `推理（Inference）`；`II. 唯一性与合法性` × `编号（Tokenization）`；`III. SID 与模型对齐` × `训练（Training）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2601.06798) · [代码](https://github.com/ZY0025/GRLM) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,11 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Term-ID"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / Multi-task NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Term-ID"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Multi-task NTP"] --> I["推理 Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -41,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | GRLM 用从元数据生成的标准化文本关键词（Term ID）标识物品并据此微调 LLM，避免自由文本幻觉以及 SID 带来的词表扩张。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在域内 Amazon 基准（Beauty、Sports 和 Toys）及跨域配对（Sports-Clothing 和 Phones-Electronics）上，GRLM 均优于生成式与 LLM 基线，且 Top-10 生成 Term ID 的合法率达 0.989–0.998（Abstract，Tables 2, 3, and 5）。 |
 | 局限 | 生成的 Term ID 若无精确匹配的物品，需经结构匹配落地到候选库，因此最终排序部分取决于落地匹配规则而非生成器本身（Sec. 3.3）。 |
 

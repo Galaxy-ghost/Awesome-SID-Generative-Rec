@@ -82,3 +82,18 @@ related:
     neighboring actions.
   where: 'ActionPiece v3, Table 1 and Section 4.1 baselines: https://arxiv.org/html/2502.13581v3#S1.T1 and https://arxiv.org/html/2502.13581v3#S4.SS1.p2;
     Table 4: https://arxiv.org/html/2502.13581v3#S3.T4.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: During model inference, we tokenize each action sequence q times using set permutation regularization.
+    where: '2502.13581v3 #S3.SS3.SSS2.p1.1；多次分词后平均各排序列表的分数'
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

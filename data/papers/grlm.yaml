@@ -16,26 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: Beam
 poi: false
-also:
-- problem: I
-  stage: Tokenization
-  quote: fine-grained discriminative features
-  where: '2601.06798v1；标题缺乏辨识信息的问题：Introduction https://arxiv.org/html/2601.06798v1#S1.p2；CTG 设计原句：https://arxiv.org/html/2601.06798v1#S1.p5；贡献
-    #S1.p7；§3.1 https://arxiv.org/html/2601.06798v1#S3.SS1'
-- problem: II
-  stage: Inference
-  quote: Text-based methods introduce LLMs' vast output space, leading to hallucination
-  where: '2601.06798v1 Abstract；设计 Elastic Identifier Grounding 在 #S3.SS3'
-- problem: II
-  stage: Tokenization
-  quote: reduce grounding ambiguity and hallucination
-  where: '2601.06798v1；问题：Introduction https://arxiv.org/html/2601.06798v1#S1.p4；CTG 设计原句：https://arxiv.org/html/2601.06798v1#S1.p5；贡献
-    #S1.p7；§3.1 https://arxiv.org/html/2601.06798v1#S3.SS1'
-- problem: III
-  stage: Training
-  quote: methods based on Semantic IDs (SIDs) encounter a semantic gap between SIDs and LLMs' native vocabulary, requiring
-    costly vocabulary expansion and alignment training
-  where: '2601.06798v1 Abstract；设计 Integrative Instruction Fine-tuning 在 #S3.SS2'
 tldr: GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them,
   avoiding free-text hallucination and the vocabulary expansion of Semantic IDs.
 tldr_zh: GRLM 用从元数据生成的标准化文本关键词（Term ID）标识物品并据此微调 LLM，避免自由文本幻觉以及 SID 带来的词表扩张。
@@ -97,3 +77,23 @@ related:
   note: GenCDR adapts semantic-ID tokenization per domain; GRLM transfers across domains through shared vocabulary terms.
   where: 'GRLM v1, cross-domain baselines and protocol: https://arxiv.org/html/2601.06798v1#S4.I1.i4.p1 and https://arxiv.org/html/2601.06798v1#S4.p4;
     Table 3: https://arxiv.org/html/2601.06798v1#S5.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: 'To fully harness this architectural advantage, we design Elastic Identifier Grounding (EIG), a dual-level retrieval
+      mechanism that mapping the generated sequence to the recommend item:'
+    where: '2601.06798v1 #S3.SS3.p1.1'
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: 'For the cross-domain scenario, we conduct experiments on two dataset pairs: Sports-Clothing (Leisure) and Phones-Electronics
+    (Technology).'
+  where: '2601.06798v1 #S4.p4.1；按 GenCDR 合并重叠用户的交互'

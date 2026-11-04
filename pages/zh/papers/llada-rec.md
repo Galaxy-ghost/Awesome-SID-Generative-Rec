@@ -1,12 +1,15 @@
 # LLaDA-Rec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/llada-rec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/llada-rec.md) | 中文
 
 | **题目** | *Discrete Diffusion for Parallel Semantic ID Generation in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Shi et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `III. SID 与模型对齐` · `骨干（Backbone）` |
+| **问题与阶段** | `III. SID 与模型对齐` · `生成骨干（Backbone）` |
+| **改动** | ○ 构码 · ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2511.06254) · [代码](https://github.com/TengShi-RUC/LLaDA-Rec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Par. VQ"] --> B["骨干 Backbone<br/>Non-AR"] --> TR["训练 Training<br/>Fixed / Masked"] --> I["推理 Inference<br/>Diff."]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>○ Par. VQ"] --> B["生成骨干 Backbone<br/>● Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Masked"] --> I["推理 Inference<br/>○ Diff."]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | LLaDA-Rec 用带双向注意力、历史级与物品级掩码以及适配束搜索的离散扩散模型并行生成 SID，替代从左到右的自回归解码。 |
-| 主要改动阶段 | 骨干（Backbone） |
 | 主要发现 | 在 Amazon Industrial Scientific、Musical Instruments 和 Video Games 上，LLaDA-Rec 优于基于 ID、扩散与自回归的 SID 基线，且自适应顺序去掩码优于固定的从左到右解码（Table 3，Sec. 5.4.2，Fig. 4）。 |
 | 局限 | 减少扩散步数虽能提高生成效率但会降低推荐精度，论文将更优的效率-效果权衡留作开放问题（Sec. 5.4.3，Fig. 5）。 |
 

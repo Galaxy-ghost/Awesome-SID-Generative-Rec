@@ -1,12 +1,15 @@
 # GRAM
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gram.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gram.md) | 中文
 
 | **题目** | *Generative recommendation via semantic-aware multi-granular late fusion* |
 | :-- | :-- |
 | **作者** | Lee et al. |
 | **发表** | ACL’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ○ 物品表示 · ● 构码 · ○ 生成骨干 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2506.01673) · [代码](https://github.com/skleee/GRAM) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>H-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>○ Text+CF"] --> T["构码 Tokenization<br/>● H-KM"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | GRAM 将层级与协同物品关系转化为 LLM 词表中的词，分别编码多粒度提示并仅在解码时融合，以利用长物品文本。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在四个基准数据集上，GRAM 的 Recall@5 比八个生成式推荐模型高 11.5–16.0%，NDCG@5 高 5.3–13.6%（Abstract）。 |
 | 局限 | 作者指出，用 TF-IDF 挑选词表词以及仅在大模型架构上测试小规模 T5（T5-small 和 T5-base）是主要局限（Sec. 7）。 |
 

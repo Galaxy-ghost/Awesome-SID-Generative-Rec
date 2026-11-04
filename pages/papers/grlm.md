@@ -1,12 +1,16 @@
 # GRLM
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/grlm.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/grlm.md)
 
 | **Title** | *Unleashing the Native Recommendation Potential: LLM-Based Generative Recommendation via Structured Term Identifiers* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | arXiv’26 |
-| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` — Also: `I. Informativeness` × `Tokenization`; `II. Uniqueness and Validity` × `Inference`; `II. Uniqueness and Validity` × `Tokenization`; `III. SID–Model Alignment` × `Training` |
+| **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.06798) · [Code](https://github.com/ZY0025/GRLM) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,11 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Term-ID"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● Term-ID"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: Multi-task NTP"] --> I["Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -41,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | GRLM identifies items by Term IDs, standardized textual keywords generated from metadata, and fine-tunes an LLM on them, avoiding free-text hallucination and the vocabulary expansion of Semantic IDs. |
-| Modified Stage | Tokenization |
 | Key Findings | Across in-domain Amazon benchmarks (Beauty, Sports, and Toys) and cross-domain pairs (Sports-Clothing and Phones-Electronics), GRLM outperforms generative and LLM baselines while achieving a top-10 Term ID valid rate of 0.989–0.998 (Abstract, Tables 2, 3, and 5). |
 | Limitation | A generated Term ID that matches no item is grounded by structural matching, so part of the final ranking comes from the grounding step rather than the generator (Sec. 3.3). |
 

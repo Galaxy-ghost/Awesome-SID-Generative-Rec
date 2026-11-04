@@ -1,22 +1,28 @@
 # Q-BERT4Rec
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/q-bert4rec.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/q-bert4rec.md)
 
 | **Title** | *Quantized Semantic-ID Representation Learning for Multimodal Recommendation* |
 | :-- | :-- |
 | **Authors** | Huang and Gai |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` |
+| **Changes** | ● Representation · ○ Objective |
+| **SID inputs** | `Text` + `Img` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2512.02474) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Encoder (Non-AR)"] --> TR["Training<br/>Fixed / Masked"] --> I["Inference<br/>Non-AR"]
+    R["Representation<br/>● Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Encoder (Non-AR)"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Masked"] --> I["Inference<br/>Non-AR"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | Q-BERT4Rec fuses text, image, and structural features into item embeddings, quantizes them into Semantic ID tokens by residual vector quantization, and pre-trains a bidirectional encoder with several masking strategies. |
-| Modified Stage | Representation |
 
 ---
 

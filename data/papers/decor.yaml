@@ -73,3 +73,16 @@ related:
   relation: competitor
   note: P5-CID is a collaborative-indexing baseline.
   where: 'DECOR v2, Section 4.2 and Table 2: https://arxiv.org/html/2509.10468v2#S4.SS2.p1 ; https://arxiv.org/html/2509.10468v2#S3.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+note: Table 1 记 Text+CF；SID 由 Sentence-T5 嵌入经冻结 RQ-VAE 得到，协同嵌入只在生成器里与码嵌入融合（#S3.SS3.p1.1）。
+domain:
+- E-commerce
+settings: []

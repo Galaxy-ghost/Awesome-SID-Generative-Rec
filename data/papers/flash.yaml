@@ -62,3 +62,27 @@ related:
   relation: competitor
   note: DIGER jointly learns residual quantization and recommendation; FLASH uses a fixed tokenizer.
   where: 'FLASH v1, Section A.2 and Table 1: https://arxiv.org/html/2610.07402v1#A1.SS2.p3; https://arxiv.org/html/2610.07402v1#S3.T1.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: We construct semantic IDs by applying SimHash [4] to pre-computed LLM text embeddings.
+    where: arXiv:2610.07402v1 https://arxiv.org/html/2610.07402v1#S2.SS1.p1；本轮按借自推荐外领域的具体构码组件计 other；旧 also 的排除规则不沿用。
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: To compensate for this loss, we introduce a semantic alignment objective that regularizes the input representation
+      space toward the original LLM embedding space, thereby preserving semantic consistency.
+    where: arXiv:2610.07402v1 https://arxiv.org/html/2610.07402v1#S2.SS2.SSS3.p1
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: item
+  quote: We then remove all interactions involving these items from the training set, ensuring that they remain completely
+    unseen during training.
+  where: arXiv:2610.07402v1 https://arxiv.org/html/2610.07402v1#A1.SS4.p1；随机抽取 5% 测试目标物品，删除其全部训练交互，模拟零交互物品。

@@ -83,3 +83,19 @@ related:
   note: FORGE proposes Embedding HitRate and Gini to evaluate SIDs without full training; R3-VAE proposes semantic cohesion
     and preference discrimination for the same purpose.
   where: 'R3-VAE v3, Section 3.4 draws on FORGE [4]: https://arxiv.org/html/2604.11440v3#S3.SS4.p1; Section 1: https://arxiv.org/html/2604.11440v3#S1.p3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+note: 工业数据是今日头条日志，记 News。
+domain:
+- E-commerce
+- Music
+- Movie
+- News
+settings: []

@@ -1,12 +1,15 @@
 # HiD-VAE
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/hid-vae.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/hid-vae.md) | 中文
 
 | **题目** | *Interpretable Generative Recommendation via Hierarchical and Disentangled Semantic IDs* |
 | :-- | :-- |
 | **作者** | Fang et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` — 补充：`I. 信息量` × `编号（Tokenization）` |
+| **问题与阶段** | `II. 唯一性与合法性` · `构码（Tokenization）` |
+| **改动** | ○ 物品表示 · ● 构码 |
+| **构码输入** | `Text` + `Attr` |
+| **领域** | `电商` · `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2508.04618) · [代码](https://anonymous.4open.science/r/HiD-VAE-84B2) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Hier. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>○ Text"] --> T["构码 Tokenization<br/>● Hier. RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
-| 核心贡献 | HiD-VAE 通过层级监督量化将各 SID 层与多级物品标签对齐，并加入防冲突唯一性损失，替代扁平的无监督编号。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | HiD-VAE 将 Beauty、Sports 与 KuaiRand 上的 SID 冲突率从无监督 RQ-VAE 的 18.7%、19.5%、17.8% 降至 2.1%、2.8%、1.9%，并在三个基准上全面优于对比基线（Abstract，Table 1，Table 3）。 |
 | 局限 | 层级监督量化依赖多级类目标签，缺失类目树的物品库需依赖 LLM 合成标签（Sec. 3.4）。 |
 

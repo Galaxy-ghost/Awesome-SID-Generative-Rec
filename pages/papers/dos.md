@@ -1,20 +1,23 @@
 # DOS
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dos.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/dos.md)
 
 | **Title** | *Dual-Flow Orthogonal Semantic IDs for Recommendation in Meituan* |
 | :-- | :-- |
 | **Authors** | Yin et al. |
 | **Venue** | WWW’26 Short |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` · `POI` |
+| **Changes** | ● Tokenization |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.04460) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>Orth. RQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>● Orth. RQ"] --> B["Backbone<br/>Dec-Only†"] --> TR["Training<br/>Tokenizer: Fixed†<br/>Objective: NTP"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | DOS aligns the Semantic ID codebook with the generation space through a user-item dual flow over collaborative signals and rotates the semantic space with orthogonal residual quantization. |
-| Modified Stage | Tokenization |
 
 ---
 

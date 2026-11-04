@@ -1,12 +1,15 @@
 # ProGEO
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/progeo.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/progeo.md)
 
 | **Title** | *Birds of a Feather Cluster Nearby: A Proximity-Aware Geo-Codebook for Local Service Recommendation* |
 | :-- | :-- |
 | **Authors** | He et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` · `POI` |
+| **Changes** | ● Tokenization |
+| **SID inputs** | `Text` + `Geo` |
+| **Domain** | `POI / Local` · `Search` |
 | **Links** | [Paper](https://arxiv.org/abs/2604.23156) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>R-KM+Geo-CB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam+Geo-Filter"]
+    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>● R-KM+Geo-CB"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>Beam+Geo-Filter"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +42,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ProGEO builds a proximity-aware geo-codebook with a geo-centroid local coordinate system and geo-rotary position encoding, so Semantic IDs model semantics and geography jointly. |
-| Modified Stage | Tokenization |
 | Key Findings | On the industrial dataset, ProGEO reports Hit@50 of 0.4243 against 0.4056 for RQ-Kmeans, and an average geographic clustering distance of 25.41 km against 46.71 km for RQ-OPQ (Table 1). |
 | Limitation | Geographic encoding enters only at the third quantization layer, and resolving SID collisions by closest user distance requires real-time user coordinates that are unavailable on the public Foursquare benchmarks (Sec. 3.3, Table 3). |
 

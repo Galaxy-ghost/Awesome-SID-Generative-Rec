@@ -1,20 +1,23 @@
 # Deco
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/deco.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/deco.md) | 中文
 
 | **题目** | *Separating Thinking from Spelling for Efficient Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Gusak et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **问题与阶段** | `V. 效率` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 |
+| **构码输入** | A: `Text` · B: `unknown` |
+| **领域** | `电商` · `电影` · `音乐` |
 | **链接** | [论文](https://arxiv.org/abs/2610.32980) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text / –"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text / –"] --> T["构码 Tokenization<br/>R-KM"] --> B["生成骨干 Backbone<br/>● Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > Deco 将每个历史物品读作单个融合 token，把交互历史浓缩为下一物品概念，并在带 KV 缓存的轻量解码器而非完整骨干网络中执行束搜索。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | Deco 将每个历史物品读作单个融合 token，把交互历史浓缩为下一物品概念，并在带 KV 缓存的轻量解码器而非完整骨干网络中执行束搜索。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

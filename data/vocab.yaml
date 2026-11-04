@@ -1,5 +1,5 @@
 # Allowed vocabulary values for data/papers/<id>.yaml, aligned with Table 1 in the survey paper (main.tex and supplementary.tex).
-# Checked by scripts/check.py. Problem names, stage names, and bilingual descriptions are defined here only.
+# Checked by scripts/check.py. Problem names, stage names, modality groups, domains, settings, and bilingual descriptions are defined here only.
 
 problem:
 - value: psb
@@ -60,253 +60,111 @@ representation:
 - value: Attr+CF
   description: Structured item attributes combined with collaborative signals.
   description_zh: 结构化物品属性结合协同过滤信号。
-  modality:
-  - content: other
-    cf: true
 - value: Attr+Geo+CF
   description: Category and other attributes, plus geography, plus CF (POI).
   description_zh: 类目等结构化属性、地理空间特征与协同过滤信号融合（POI 场景）。
-  modality:
-  - content: other
-    cf: true
-    signals:
-    - Geo
 - value: Attr+Geo+CF†
   description: Structured item attributes, geographic information, and collaborative signals (inferred).
   description_zh: 结构化属性、地理信息与协同信号融合（由配置推断）。
-  modality:
-  - content: other
-    cf: true
-    signals:
-    - Geo
 - value: CF
   description: Collaborative filtering signal.
   description_zh: 纯协同过滤交互信号。
-  modality:
-  - content: other
-    cf: true
 - value: Cross-Dom
   description: Item representations transferred or shared across multiple domains.
   description_zh: 跨多个领域迁移或共享的物品表征。
-  modality:
-  - content: unknown
-    cf: null
 - value: Geo
   description: Geographic coordinates or spatial features.
   description_zh: 地理坐标或空间拓扑特征。
-  modality:
-  - content: other
-    cf: false
-    signals:
-    - Geo
 - value: MM
   description: Multimodal item representations.
   description_zh: 多模态物品表征。
-  modality:
-  - content: multi
-    cf: false
 - value: MM+CF
   description: Multimodal item representations aligned with collaborative signals.
   description_zh: 与协同过滤信号对齐的多模态物品表征。
-  modality:
-  - content: multi
-    cf: true
 - value: Multi-Dom
   description: Unified item representations built jointly across multiple domains.
   description_zh: 面向多领域联合构建的统一物品表征。
-  modality:
-  - content: unknown
-    cf: null
 - value: Text
   description: Textual item metadata (titles, descriptions, categories, or prompts).
   description_zh: 物品文本元数据（标题、描述、类目或提示词）。
-  modality:
-  - content: single
-    cf: false
 - value: Text + CF
   description: Text representations combined with collaborative signals.
   description_zh: 文本表征结合协同过滤信号。
-  modality:
-  - content: single
-    cf: true
 - value: Text + Img + CF
   description: Text and image representations combined with collaborative signals.
   description_zh: 文本、图像表征结合协同过滤信号。
-  modality:
-  - content: multi
-    cf: true
 - value: Text / Audio
   description: Text or audio representations in different branches or evaluation settings.
   description_zh: 不同分支或评测设置下分别采用文本或音频表征。
-  modality:
-  - content: single
-    cf: false
-  - content: single
-    cf: false
 - value: Text / MM
   description: Text-only or multimodal representations in different configurations.
   description_zh: 不同配置下分别采用纯文本或多模态表征。
-  modality:
-  - content: single
-    cf: false
-  - content: multi
-    cf: false
 - value: Text / Text+CF
   description: Text-only representations or text representations combined with collaborative signals.
   description_zh: 不同配置下分别采用纯文本表征或文本加协同信号。
-  modality:
-  - content: single
-    cf: false
-  - content: single
-    cf: true
 - value: Text / –
   description: Text representations in one configuration; the representation source is not reported in another.
   description_zh: 一种配置采用文本表征，另一种配置未报告表征来源。
-  modality:
-  - content: single
-    cf: false
-  - content: unknown
-    cf: null
 - value: Text+Attr+Geo
   description: Text, structured attributes, and geographic information.
   description_zh: 文本、结构化属性与地理空间信息融合。
-  modality:
-  - content: single
-    cf: false
-    signals:
-    - Geo
 - value: Text+CF
   description: Text representations combined with collaborative signals.
   description_zh: 文本表征结合协同过滤信号。
-  modality:
-  - content: single
-    cf: true
 - value: Text+CF / Text
   description: Text with collaborative signals, or text-only representations, in different configurations.
   description_zh: 不同配置下分别采用文本加协同信号或纯文本表征。
-  modality:
-  - content: single
-    cf: true
-  - content: single
-    cf: false
 - value: Text+Geo
   description: Text representations combined with geographic or spatial features.
   description_zh: 文本表征结合地理空间特征。
-  modality:
-  - content: single
-    cf: false
-    signals:
-    - Geo
 - value: Text+Geo+CF
   description: Text representations combined with geographic features and collaborative signals.
   description_zh: 文本表征结合地理空间特征与协同信号。
-  modality:
-  - content: single
-    cf: true
-    signals:
-    - Geo
 - value: Text+Img
   description: Text and visual item representations.
   description_zh: 文本与视觉图像表征。
-  modality:
-  - content: multi
-    cf: false
 - value: Text+Img+Attr
   description: Text, images, and structured item attributes.
   description_zh: 文本、图像与结构化物品属性。
-  modality:
-  - content: multi
-    cf: false
 - value: Text+Img+Audio+CF
   description: Text, visual, and audio content combined with collaborative signals.
   description_zh: 文本、视觉、音频内容结合协同过滤信号。
-  modality:
-  - content: multi
-    cf: true
 - value: Text+Img+CF
   description: Text and image representations combined with collaborative signals.
   description_zh: 文本、图像表征结合协同过滤信号。
-  modality:
-  - content: multi
-    cf: true
 - value: Text+Img+CF†
   description: Text, image, and collaborative representations (inferred).
   description_zh: 文本、图像与协同信号融合表征（由配置推断）。
-  modality:
-  - content: multi
-    cf: true
 - value: Text+Img+Geo
   description: Text, images, and geographic information.
   description_zh: 文本、图像与地理空间信息。
-  modality:
-  - content: multi
-    cf: false
-    signals:
-    - Geo
 - value: Text+Img+Geo+CF
   description: Text, image, geographic, and collaborative representations.
   description_zh: 文本、图像、地理空间与协同信号融合表征。
-  modality:
-  - content: multi
-    cf: true
-    signals:
-    - Geo
 - value: Text+Img+Geo†
   description: Text, image, and geographic representations (inferred).
   description_zh: 文本、图像与地理空间表征（由配置推断）。
-  modality:
-  - content: multi
-    cf: false
-    signals:
-    - Geo
 - value: Text+Img†
   description: Text and image representations (inferred).
   description_zh: 文本与图像多模态表征（由配置推断）。
-  modality:
-  - content: multi
-    cf: false
 - value: Text+SID
   description: Text representation plus semantic IDs (hybrid dense and generative retrieval).
   description_zh: 稠密文本表征拼接离散语义 ID（稠密与生成式混合检索）。
-  modality:
-  - content: single
-    cf: false
-    signals:
-    - SID
 - value: Text+Time
   description: Text representations combined with interaction timestamps.
   description_zh: 文本表征结合交互时间戳信息。
-  modality:
-  - content: single
-    cf: false
-    signals:
-    - Time
 - value: Text†
   description: Textual item representations (inferred).
   description_zh: 物品文本表征（由配置推断）。
-  modality:
-  - content: single
-    cf: false
 - value: n/a
   description: Not applicable to this method.
   description_zh: 不适用于该方法。
-  modality:
-  - content: na
-    cf: null
 - value: –
   description: Not reported in the paper.
   description_zh: 论文未报告。
-  modality:
-  - content: unknown
-    cf: null
 - value: – / Text+Img
   description: The representation source is unreported in one configuration; text and image representations are used in another.
   description_zh: 一种配置未报告表征来源，另一种配置采用文本与图像表征。
-  modality:
-  - content: unknown
-    cf: null
-  - content: multi
-    cf: false
 tokenization:
 - value: Align. RQ
   description: Residual quantization trained with alignment objectives.
@@ -920,3 +778,239 @@ inference:
 - value: –
   description: Not reported in the paper.
   description_zh: 论文未报告。
+modality:
+- value: Text
+  description: Textual item metadata, titles, descriptions, categories, or text-formatted attributes fed to the tokenizer.
+  description_zh: 输入编号器的物品文本元数据、标题、描述、类目或格式化为文本的属性。
+  is_content: true
+- value: Img
+  description: Visual item images or image frames fed to the tokenizer.
+  description_zh: 输入编号器的物品图像或视觉帧。
+  is_content: true
+- value: Audio
+  description: Audio tracks or acoustic spectrograms fed to the tokenizer.
+  description_zh: 输入编号器的音频曲目或声学频谱特征。
+  is_content: true
+- value: Video
+  description: Video streams or video-level representations fed to the tokenizer.
+  description_zh: 输入编号器的视频流或视频级特征。
+  is_content: true
+- value: MM
+  description: Multimodal item representations whose specific constituent modalities are not disaggregated in the paper.
+  description_zh: 论文统称为多模态、未拆分具体模态组成的构码输入表征。
+  is_content: true
+- value: CF
+  description: Collaborative filtering or user–item interaction signals fed to the tokenizer.
+  description_zh: 输入编号器的协同过滤或用户-物品交互信号。
+  is_content: false
+- value: Attr
+  description: Structured tabular or categorical item attributes fed to the tokenizer without text serialization.
+  description_zh: 未拼成自由文本、作为结构化或类别特征输入编号器的物品属性。
+  is_content: false
+- value: Geo
+  description: Geographic coordinates, spatial grids, or location features fed to the tokenizer.
+  description_zh: 输入编号器的地理坐标、空间网格或位置特征。
+  is_content: false
+- value: Time
+  description: Interaction timestamps or temporal features fed to the tokenizer.
+  description_zh: 输入编号器的交互时间戳或时间特征。
+  is_content: false
+- value: n/a
+  description: No discrete SID tokenizer is built (items are represented as continuous vectors or plain text).
+  description_zh: 不构建离散 SID 编号器（物品以连续向量或纯文本表示）。
+  is_content: false
+- value: unknown
+  description: Tokenizer input modality not reported or partially unspecified in the paper.
+  description_zh: 论文未披露或部分未明确说明的构码输入模态。
+  is_content: false
+modality_groups:
+- value: Text
+  aspect: Content
+  aspect_zh: 内容
+  name: Text
+  name_zh: 纯文本
+  rule: branch_content_exact
+  target: Text
+  description: At least one tokenizer branch uses `Text` as its only content modality (`Img`, `Audio`, `Video`, `MM` absent
+    in that branch).
+  description_zh: 至少一个构码分支的内容模态只有 `Text`（该分支不含 `Img`、`Audio`、`Video`、`MM`）。
+- value: Single non-text
+  aspect: Content
+  aspect_zh: 内容
+  name: Single non-text
+  name_zh: 单一非文本
+  rule: branch_content_single_excluding
+  exclude:
+  - Text
+  - MM
+  description: At least one tokenizer branch uses exactly one content modality and it is neither `Text` nor composite `MM`
+    (`Img`, `Audio`, or `Video`).
+  description_zh: 至少一个构码分支的内容模态只有一种，且不是 `Text` 或未细分的 `MM`（即 `Img`、`Audio` 或 `Video`）。
+- value: Multimodal
+  aspect: Content
+  aspect_zh: 内容
+  name: Multimodal
+  name_zh: 多模态
+  rule: branch_content_multi_or_any
+  include_any:
+  - MM
+  description: At least one tokenizer branch combines two or more content modalities, or uses `MM`.
+  description_zh: 至少一个构码分支包含两种以上内容模态，或包含 `MM`。
+- value: No content
+  aspect: Content
+  aspect_zh: 内容
+  name: No content
+  name_zh: 无内容模态
+  rule: all_branches_no_content
+  exclude:
+  - unknown
+  - n/a
+  description: No tokenizer branch uses any content modality (`Text`, `Img`, `Audio`, `Video`, `MM`), and inputs across all
+    branches contain no `unknown` (nor `n/a`).
+  description_zh: 所有构码分支都不含内容模态（`Text`、`Img`、`Audio`、`Video`、`MM`），且所有分支合起来不含 `unknown`（及 `n/a`）。
+- value: CF only
+  aspect: Collaborative
+  aspect_zh: 协同
+  name: CF only
+  name_zh: 仅协同信号
+  rule: union_exact
+  target: CF
+  description: Across all tokenizer branches combined, `CF` is the only input signal.
+  description_zh: 所有构码分支合起来只有 `CF`。
+- value: With CF
+  aspect: Collaborative
+  aspect_zh: 协同
+  name: With CF
+  name_zh: 含协同信号
+  rule: union_with_other
+  target: CF
+  description: Across all tokenizer branches combined, inputs include `CF` together with at least one other modality or signal.
+  description_zh: 所有构码分支合起来含 `CF`，且还有其他模态或信号。
+- value: Attr
+  aspect: Context
+  aspect_zh: 上下文
+  name: Attr
+  name_zh: 结构化属性
+  rule: union_contains
+  target: Attr
+  description: Across all tokenizer branches combined, inputs include structured item attributes (`Attr`).
+  description_zh: 所有构码分支合起来含结构化属性（`Attr`）。
+- value: Geo
+  aspect: Context
+  aspect_zh: 上下文
+  name: Geo
+  name_zh: 地理空间
+  rule: union_contains
+  target: Geo
+  description: Across all tokenizer branches combined, inputs include geographic or spatial features (`Geo`).
+  description_zh: 所有构码分支合起来含地理或空间特征（`Geo`）。
+- value: Time
+  aspect: Context
+  aspect_zh: 上下文
+  name: Time
+  name_zh: 时间特征
+  rule: union_contains
+  target: Time
+  description: Across all tokenizer branches combined, inputs include temporal features (`Time`).
+  description_zh: 所有构码分支合起来含时间特征（`Time`）。
+- value: Unknown
+  aspect: Unknown
+  aspect_zh: 未知
+  name: Unknown
+  name_zh: 待明确
+  rule: union_contains
+  target: unknown
+  description: Tokenizer input modality is wholly or partially unreported (`unknown` present in at least one branch; open
+    signals are listed in `modality_open`).
+  description_zh: 构码输入模态整体或部分未明（至少一个分支含 `unknown`；待核信号见 `modality_open`）。
+domain:
+- value: E-commerce
+  name_zh: 电商
+  description: E-commerce product recommendation (including all Amazon review subsets, Taobao, JD, etc.).
+  description_zh: 电商商品推荐（含 Amazon 各评测子集、淘宝、京东等）。
+- value: POI / Local
+  name_zh: 本地生活与 POI
+  description: Point-of-interest, check-in, and local-life service recommendation (including Yelp, Gowalla, Foursquare, etc.).
+  description_zh: 兴趣点（POI）、签到与本地生活服务推荐（含 Yelp、Gowalla、Foursquare 等）。
+- value: Short video / Live
+  name_zh: 短视频与直播
+  description: Short-video feed and live-streaming recommendation (including Kuaishou, KuaiRand, Douyin, etc.).
+  description_zh: 短视频信息流与直播推荐（含快手、KuaiRand、抖音等）。
+- value: Ads
+  name_zh: 广告
+  description: Online advertising and sponsored recommendation.
+  description_zh: 在线广告与商业化推荐。
+- value: Movie
+  name_zh: 电影
+  description: Movie recommendation (including MovieLens, Douban Movie, Netflix, etc.).
+  description_zh: 电影推荐（含 MovieLens、豆瓣电影、Netflix 等）。
+- value: Music
+  name_zh: 音乐
+  description: Music track and artist recommendation (including Last.fm, Spotify, etc.).
+  description_zh: 音乐曲目与艺人推荐（含 Last.fm、Spotify 等）。
+- value: Search
+  name_zh: 搜索
+  description: Product search, content search, and joint search–recommendation.
+  description_zh: 商品搜索、内容搜索及搜推联合场景。
+- value: News
+  name_zh: 新闻
+  description: News article recommendation (including MIND, etc.).
+  description_zh: 新闻资讯推荐（含 MIND 等）。
+- value: Book
+  name_zh: 图书与有声书
+  description: Book and audiobook recommendation (including Douban Book, Goodreads, etc.).
+  description_zh: 图书与有声书推荐（含豆瓣读书、Goodreads 等）。
+- value: Games
+  name_zh: 游戏
+  description: Video game platform recommendation (including Steam).
+  description_zh: 游戏平台推荐（含 Steam 等）。
+- value: Podcast
+  name_zh: 播客
+  description: Podcast show and episode recommendation.
+  description_zh: 播客节目与单集推荐。
+- value: Long video
+  name_zh: 长视频
+  description: Long-form video platform recommendation.
+  description_zh: 长视频平台推荐。
+- value: Video
+  name_zh: 视频
+  description: General video platform recommendation.
+  description_zh: 通用视频平台推荐。
+- value: Image / Article
+  name_zh: 图文与文章
+  description: Image discovery and article content recommendation.
+  description_zh: 图片发现与文章内容推荐。
+- value: Apps
+  name_zh: 应用商店
+  description: Mobile application recommendation.
+  description_zh: 移动应用商店推荐。
+- value: Food / Recipe
+  name_zh: 美食与食谱
+  description: Food and recipe recommendation.
+  description_zh: 美食与食谱推荐。
+- value: Travel / Hotel
+  name_zh: 旅行与酒店
+  description: Travel and hotel accommodation recommendation.
+  description_zh: 旅行与酒店住宿推荐。
+- value: Recruitment
+  name_zh: 招聘
+  description: Job and recruitment recommendation.
+  description_zh: 职位与招聘推荐。
+- value: unknown (industrial)
+  name_zh: 工业场景未明
+  description: Industrial logs where the specific business vertical is not disclosed in the paper.
+  description_zh: 论文未披露具体业务垂直领域的工业日志数据。
+settings:
+- value: cold-start
+  name_zh: 冷启动
+  description: 'Dedicated evaluation on zero-interaction users (`scope: user`), zero-interaction items (`scope: item`), or
+    simulated history removal.'
+  description_zh: '单独评估零交互用户（`scope: user`）、零交互物品（`scope: item`）或删去历史模拟的冷启动实验。'
+- value: cross-domain
+  name_zh: 跨域迁移
+  description: Cross-domain transfer, cross-city transfer, or unseen-domain zero-shot evaluation.
+  description_zh: 跨领域迁移、跨城市迁移或未见领域零样本评测。
+- value: catalog-change
+  name_zh: 目录动态变化
+  description: Evaluation of identifier maintenance or recommendation after item catalog additions, deletions, or updates.
+  description_zh: 评估物品目录增、删、改之后的标识符维护或推荐效果。

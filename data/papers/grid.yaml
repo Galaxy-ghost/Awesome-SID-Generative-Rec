@@ -66,3 +66,16 @@ related:
   note: GRID's default RK-Means tokenizer is taken from OneRec; GRID compares it with R-VQ and RQ-VAE.
   where: 'GRID v1, Section 4 setup cites Deng et al. (2025) for RK-Means: https://arxiv.org/html/2507.22224v1#S4.p2; Table
     1: https://arxiv.org/html/2507.22224v1#S3.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+note: 开源框架，比较已有组件，不提出新机制。
+domain:
+- E-commerce
+settings: []

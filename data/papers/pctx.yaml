@@ -63,3 +63,23 @@ related:
   note: LC-Rec is discussed as static tokenization under a universal item-similarity assumption; Pctx maps an item to personalized
     IDs under different user contexts.
   where: 'Pctx v1, Section 2.4: https://arxiv.org/html/2510.21276v1#S2.SS4.SSS0.Px1.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: '(c) Data augmentation: actions are augmented with alternative semantic IDs of the same item in both model inputs
+      and prediction targets.'
+    where: arXiv:2510.21276v1 https://arxiv.org/html/2510.21276v1#S1.p6
+  inference:
+    value: other
+    quote: We then aggregate semantic ID probabilities to obtain the next-item probabilities.
+    where: arXiv:2510.21276v1 https://arxiv.org/html/2510.21276v1#S2.SS3
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+settings: []

@@ -16,18 +16,6 @@ tokenizer: Fixed
 objective: NTP + Ctr.
 inference: Fusion
 poi: false
-also:
-- problem: I
-  stage: Inference
-  quote: a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens
-    and semantic tokens with a confidence-based ranking strategy
-  where: '2406.14017v2 Abstract；设计在 #S1.p5.1（按预测熵合并两路结果）、#S3.SS6'
-- problem: I
-  stage: Training
-  quote: (2) a global contrastive task with summary tokens to achieve discriminative decoding for each type of information;
-    and (3) a semantic-guided transfer task designed to implicitly promote cross-interactions through reconstruction and estimation
-    objectives
-  where: '2406.14017v2 Abstract；设计在 #S3.SS4、#S3.SS5'
 tldr: EAGER decodes behavior tokens and semantic tokens with a shared encoder and two decoders, adding contrastive and semantic-guided
   transfer tasks, instead of using only one type of item information.
 tldr_zh: EAGER 用共享编码器和两个解码器分别解码行为 token 与语义 token，并加入对比学习与语义引导迁移任务，替代仅用单一物品信息的做法。
@@ -90,3 +78,32 @@ related:
     on the generator side.
   where: 'EAGER v2, Section 2 cites CoST: https://arxiv.org/html/2406.14017v2#S2.p2. CoST v2, Section 2 in turn cites EAGER
     as a hierarchical k-means tokenizer: https://arxiv.org/html/2404.14774v2#S2.p2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: our approach constructs separate codes for behavior and semantics, employing a two-stream generation architecture
+      where each serves as a distinct supervision signal at the decoder side
+    where: '2406.14017v2 #S1.p5.1；构码方法是沿用的层次 k-means，新在一物两套码（#S3.SS3.p3.1）'
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: (2) a global contrastive task with summary tokens to achieve discriminative decoding for each type of information;
+      and (3) a semantic-guided transfer task designed to implicitly promote cross-interactions through reconstruction and
+      estimation objectives
+    where: '2406.14017v2 #abstract1.1；设计在 #S3.SS4、#S3.SS5'
+  inference:
+    value: other
+    quote: a two-stream generation architecture leveraging a shared encoder and two separate decoders to decode behavior tokens
+      and semantic tokens with a confidence-based ranking strategy
+    where: '2406.14017v2 #abstract1.1；两路 top-k 按置信度合并在 #S3.SS6.p2.1'
+modality:
+  semantic:
+  - Text
+  behavior:
+  - CF
+domain:
+- E-commerce
+- POI / Local
+settings: []

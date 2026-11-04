@@ -1,4 +1,4 @@
-<!--lint disable awesome-github-->
+<!--lint disable awesome-github table-pipe-alignment-->
 <div align="center">
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
@@ -24,14 +24,16 @@ This repository indexes 181 papers on generative recommendation with Semantic ID
 
 ## Where to Start
 
-| Goal                               | Entry point                                      |
-| :--------------------------------- | :----------------------------------------------- |
-| New to the topic                   | [Start Here](guides/start-here.md)               |
-| Locate papers by research problem  | [Problem × Stage Matrix](#problem--stage-matrix) |
-| Compare methods within one stage   | [Papers by Stage](pages/index/stages.md)         |
-| Browse by tokenizer input modality | [Papers by Modality](pages/index/modality.md)    |
-| Find open-source implementations   | [Papers with Code](pages/index/code.md)          |
-| Feed LLMs and search tools         | [llms.txt](llms.txt)                             |
+| Goal                               | Entry point                                         |
+| :--------------------------------- | :-------------------------------------------------- |
+| New to the topic                   | [Start Here](guides/start-here.md)                  |
+| Locate papers by research problem  | [Problem × Stage Matrix](#problem--stage-matrix)    |
+| Inspect per-paper stage changes    | [What Each Paper Changes](#what-each-paper-changes) |
+| Compare methods within one stage   | [Papers by Stage](pages/index/stages.md)            |
+| Browse by tokenizer input modality | [Papers by Modality](pages/index/modality.md)       |
+| Browse by application domain       | [Papers by Domain](pages/index/domain.md)           |
+| Find open-source implementations   | [Papers with Code](pages/index/code.md)             |
+| Feed LLMs and search tools         | [llms.txt](llms.txt)                                |
 
 ## Starter Papers
 
@@ -43,47 +45,288 @@ This repository indexes 181 papers on generative recommendation with Semantic ID
 
 ## Problem × Stage Matrix
 
-Primary placement follows the survey's Table 1; additional tags list other problems or stages the paper explicitly targets.
+| Problem                         |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |  Total  |
+| :------------------------------ | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
+| **I.** Informativeness          | [![12](https://img.shields.io/badge/12-bad8f7?style=for-the-badge)](#i--representation) |  [![34](https://img.shields.io/badge/34-96c5f3?style=for-the-badge)](#i--tokenization)  |  [![7](https://img.shields.io/badge/7-d6e8fa?style=for-the-badge)](#i--backbone)  |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#i--training)   |  [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#i--inference)  |  **59** |
+| **II.** Uniqueness and Validity |                                                                                         |  [![12](https://img.shields.io/badge/12-bad8f7?style=for-the-badge)](#ii--tokenization) |                                                                                   |                                                                                    |                                                                                    |  **12** |
+| **III.** SID–Model Alignment    |                                                                                         | [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#iii--tokenization) | [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#iii--backbone) | [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#iii--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iii--inference) |  **31** |
+| **IV.** Utility                 |                                                                                         |   [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone) | [![22](https://img.shields.io/badge/22-96c5f3?style=for-the-badge)](#iv--training) | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)  |  **28** |
+| **V.** Efficiency               |                                                                                         |   [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)   | [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone) |  [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#v--training)   |  [![6](https://img.shields.io/badge/6-d6e8fa?style=for-the-badge)](#v--inference)  |  **21** |
+| **VI.** Generalization          |                                                                                         |   [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)  |  **18** |
+| **Total**                       |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
 
-| Problem                         |                                                    Representation                                                   |                                                     Tokenization                                                    |                                                    Backbone                                                   |                                                    Training                                                    |                                                   Inference                                                    |  Total  |
-| :------------------------------ | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :-----: |
-| **I.** Informativeness          | [![12 (+1)](https://img.shields.io/badge/12-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#i--representation) |  [![34 (+3)](https://img.shields.io/badge/34-%2B3-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#i--tokenization)  |  [![7 (+4)](https://img.shields.io/badge/7-%2B4-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--backbone)  |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--training)   |  [![2 (+2)](https://img.shields.io/badge/2-%2B2-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#i--inference)  |  **59** |
-| **II.** Uniqueness and Validity |                                                                                                                     |  [![12 (+3)](https://img.shields.io/badge/12-%2B3-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#ii--tokenization) |                                                                                                               |                                                                                                                |             [![+2](https://img.shields.io/badge/%2B2-f1f5f9?style=for-the-badge)](#ii--inference)              |  **12** |
-| **III.** SID–Model Alignment    |                                                                                                                     | [![11 (+1)](https://img.shields.io/badge/11-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--tokenization) | [![9 (+1)](https://img.shields.io/badge/9-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--backbone) | [![9 (+2)](https://img.shields.io/badge/9-%2B2-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--training)  | [![2 (+1)](https://img.shields.io/badge/2-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#iii--inference) |  **31** |
-| **IV.** Utility                 |                                                                                                                     |                 [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)                |                [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone)               | [![22 (+2)](https://img.shields.io/badge/22-%2B2-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#iv--training) |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)                |  **28** |
-| **V.** Efficiency               |                                                                                                                     |                 [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)                 |               [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone)               |  [![1 (+1)](https://img.shields.io/badge/1-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#v--training)   |  [![6 (+2)](https://img.shields.io/badge/6-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#v--inference)  |  **21** |
-| **VI.** Generalization          |                                                                                                                     |                 [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)                |  [![3 (+1)](https://img.shields.io/badge/3-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#vi--backbone) |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#vi--training)  |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)                |  **18** |
-| **Total**                       |                                                        **12**                                                       |                                                        **70**                                                       |                                                     **33**                                                    |                                                     **40**                                                     |                                                     **14**                                                     | **169** |
+Click a badge to jump to its papers; darker light-blue indicates more primary placements.
 
-Click a badge to jump to its papers; the left count is primary placements (darker light-blue indicates more papers) and `+n` counts papers with a paired secondary tag in that cell.
-
-| Mark       | Meaning                                          |
-| :--------- | :----------------------------------------------- |
-| `†`        | Inferred from the configuration the paper names. |
-| `A / B`    | Two branches or configurations.                  |
-| `–`        | Not reported.                                    |
-| `n/a`      | Not applicable.                                  |
-| **Bold**   | The stage the paper mainly changes.              |
-| Empty cell | No paper yet.                                    |
-| `warm`     | Protocol label in setup cards.                   |
+| Mark       | Meaning                                                                      |
+| :--------- | :--------------------------------------------------------------------------- |
+| `†`        | Inferred from the configuration the paper names.                             |
+| `A / B`    | Two branches or configurations.                                              |
+| `–`        | Not reported.                                                                |
+| `n/a`      | Not applicable.                                                              |
+| `●` / `○`  | Primary Table 1 cell (`●`) and additional column with a new mechanism (`○`). |
+| **Bold**   | The stage the paper mainly changes.                                          |
+| Empty cell | No paper yet.                                                                |
+| `warm`     | Protocol label in setup cards.                                               |
 
 The [glossary](guides/glossary.md) defines every symbol and column value used across the paper pages.
 
-## Tokenizer Input Modality
+## What Each Paper Changes
 
-Grouped by the content modality and collaborative filtering (`CF`) signal in the survey's Table 1 `representation` column; `CF` here refers only to the tokenizer input, and `A / B` dual-branch configurations appear in each branch's cell.
+● marks the primary modified cell from Table 1, ○ marks another column where the paper introduces a concrete mechanism, and blank cells keep inherited or standard choices. The Training stage is split into Tokenizer (how the tokenizer is updated during generator training) and Objective (generator training loss).
 
-| Content Modality | No CF tagged                                              | With CF                                                            |
-| :--------------- | :-------------------------------------------------------- | :----------------------------------------------------------------- |
-| **Single-modal** | [Single-modal (82)](pages/index/modality.md#single-modal) | [Single-modal + CF (32)](pages/index/modality.md#single-modal--cf) |
-| **Multimodal**   | [Multimodal (15)](pages/index/modality.md#multimodal)     | [Multimodal + CF (21)](pages/index/modality.md#multimodal--cf)     |
-| **Other**        | [Other (1)](pages/index/modality.md#other)                | [Other + CF (10)](pages/index/modality.md#other--cf)               |
+<details>
+<summary>I. Informativeness · 59 papers</summary>
 
-**Unspecified representation**: [25 papers](pages/index/modality.md#unspecified-representation) (`–`, `Multi-Dom`, `Cross-Dom`, or an unreported branch).
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [Molar](pages/papers/molar.md) | ● `Text+Img+CF` |  | ○ `Dec-Only` |  | ○ `Discrim.` |  |
+| [OneLoc](pages/papers/oneloc.md) | ● `Text+Img+Geo†` |  | ○ `Enc-Dec` |  | ○ `NTP → DPO` |  |
+| [Q-BERT4Rec](pages/papers/q-bert4rec.md) | ● `Text+Img+CF` |  |  |  | ○ `Masked` |  |
+| [UNGER](pages/papers/unger.md) | ● `Text+CF` |  |  |  | ○ `NTP + Ctr.` |  |
+| [GeoGR](pages/papers/geogr.md) | ● `Text+Geo+CF` |  |  | ○ `Altern.†` |  |  |
+| [HF-SID](pages/papers/hf-sid.md) | ● `Text+Attr+Geo` | ○ `R-KM` |  |  |  |  |
+| [LGRID](pages/papers/lgrid.md) | ● `Text+Geo` | ○ `DSRQ` |  |  |  |  |
+| [LGSID](pages/papers/lgsid.md) | ● `Text+Geo+CF` | ○ `Geo-Idx+RQ` |  |  |  |  |
+| [ReSID](pages/papers/resid.md) | ● `Attr+CF` | ○ `GAOQ` |  |  |  |  |
+| [SCRec](pages/papers/screc.md) | ● `Text+CF` |  | ○ `Non-AR / Enc-Dec` |  | ○ `MTP + Ctr.` |  |
+| [SPAR](pages/papers/spar.md) | ● `Text+Geo` |  |  |  | ○ `Multi-task NTP` |  |
+| [TriAlignGR](pages/papers/trialigngr.md) | ● `Text+Img` |  |  |  | ○ `Multi-task NTP` |  |
+| [CoST](pages/papers/cost.md) |  | ● `C-RQ` |  |  |  |  |
+| [LETTER](pages/papers/letter.md) |  | ● `Learn. RQ` |  |  | ○ `NTP + Rank` |  |
+| [LMIndexer](pages/papers/lmindexer.md) |  | ● `Self-Sup. ID` |  |  |  |  |
+| [ActionPiece](pages/papers/actionpiece.md) |  | ● `OPQ` |  |  |  | ○ `Ensemble` |
+| [ADC-SID](pages/papers/adc-sid.md) |  | ● `MoE-VQ` |  |  | ○ `NTP` |  |
+| [DAS](pages/papers/das.md) | ○ `Text+CF` | ● `Dual RQ` |  |  |  |  |
+| [EAGER-LLM](pages/papers/eager-llm.md) |  | ● `Dual H-KM` | ○ `Dec-Only` |  | ○ `Multi-task NTP` |  |
+| [FlexCode](pages/papers/flexcode.md) |  | ● `Dual RQ-VAE` |  | ○ `Joint` | ○ `NTP` |  |
+| [GenSAR](pages/papers/gensar.md) |  | ● `Shared/Spec. RQ` |  |  | ○ `Multi-task NTP` |  |
+| [GNPR-SID](pages/papers/gnpr-sid.md) | ○ `Attr+Geo+CF` | ● `RQ-VAE` |  |  |  |  |
+| [GRAM](pages/papers/gram.md) | ○ `Text+CF` | ● `H-KM` | ○ `Enc-Dec` |  |  |  |
+| [KGTB](pages/papers/kgtb.md) | ○ `Attr+Geo+CF` | ● `KG-RQ` |  |  | ○ `Multi-task NTP` |  |
+| [MME-SID](pages/papers/mme-sid.md) |  | ● `MM-RQ` | ○ `Dec-Only` |  |  |  |
+| [MQL4GRec](pages/papers/mql4grec.md) |  | ● `Dual RQ` |  |  | ○ `Multi-task NTP` | ○ `Beam` |
+| [PSRQ](pages/papers/psrq.md) |  | ● `Prog. RQ` | ○ `Encoder` |  |  |  |
+| [QT-Mob](pages/papers/qt-mob.md) |  | ● `RQ-VAE` |  |  | ○ `Multi-task NTP` |  |
+| [TokenRec](pages/papers/tokenrec.md) |  | ● `Masked VQ` | ○ `Encoder` |  | ○ `Discrim.` | ○ `Scoring` |
+| [CapsID](pages/papers/capsid.md) |  | ● `Soft-RQ` |  |  |  |  |
+| [ChronoID](pages/papers/chronoid.md) | ○ `Text+Time` | ● `RQ-VAE / Par. VQ` |  |  |  |  |
+| [GrIS (RecDMoN / RQ-GAE)](pages/papers/gris-recdmon-rq-gae.md) | ○ `Text+CF` | ● `RecDMoN / RQ-GAE` |  |  |  |  |
+| [MACRec](pages/papers/macrec.md) |  | ● `Cross RQ` |  |  | ○ `NTP + Ctr.` |  |
+| [MMGRec](pages/papers/mmgrec.md) | ○ `Text+Img+CF` | ● `Graph RQ-VAE` | ○ `Enc-Dec` |  |  |  |
+| [MMQ](pages/papers/mmq.md) |  | ● `MoE-VQ` |  | ○ `Joint` | ○ `MTP` |  |
+| [MSCGRec](pages/papers/mscgrec.md) |  | ● `RQ-VAE+DINO` |  |  | ○ `NTP` |  |
+| [PCR-CA](pages/papers/pcr-ca.md) |  | ● `PC-AE` | ○ `Disc.` | ○ `Joint` | ○ `Discrim.` |  |
+| [Pctx](pages/papers/pctx.md) |  | ● `RQ` |  |  | ○ `NTP` | ○ `Beam+Agg.` |
+| [ProGEO](pages/papers/progeo.md) |  | ● `R-KM+Geo-CB` |  |  |  |  |
+| [RoFiGR](pages/papers/rofigr.md) |  | ● `CF-Aligned MM RQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [ROS](pages/papers/ros.md) |  | ● `Geo-Prefix+RQ-VAE` |  |  | ○ `NTP → RL` |  |
+| [SPRIG](pages/papers/sprig.md) |  | ● `R-KM` |  |  | ○ `NTP` |  |
+| [Tlow](pages/papers/tlow.md) |  | ● `Flow+PQ` |  |  | ○ `MTP + Rel.MSE` |  |
+| [UniRec](pages/papers/unirec.md) |  | ● `RQ` | ○ `Dec-Only` |  | ○ `NTP → DPO` |  |
+| [UniSID](pages/papers/unisid.md) | ○ `Text+Img+Attr` | ● `Direct SID Heads` |  |  |  |  |
+| [VarLenRec (TIGER)](pages/papers/varlenrec-tiger.md) |  | ● `HARQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` | ○ `C-Beam` |
+| [ColaRec](pages/papers/colarec.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Ctr.` |  |
+| [EAGER](pages/papers/eager.md) |  | ○ `Dual H-KM` | ● `Dual Enc-Dec` |  | ○ `NTP + Ctr.` | ○ `Fusion` |
+| [COBRA](pages/papers/cobra.md) | ○ `Text+SID` |  | ● `Dec-Only` |  | ○ `NTP + Dense` | ○ `BeamFusion` |
+| [DiscRec](pages/papers/discrec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [Spacetime-GR](pages/papers/spacetime-gr.md) | ○ `Geo` | ○ `Geo-Idx` | ● `Dec-Only` |  | ○ `NTP → DPO` |  |
+| [SPAR-Youku](pages/papers/spar-youku.md) |  | ○ `RQ-PIB` | ● `Dec-Only` |  |  |  |
+| [UniSGR-V2](pages/papers/unisgr-v2.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Rank` |  |
+| [MBGen](pages/papers/mbgen.md) |  | ○ `Bal. VQ+KM` | ○ `Enc-Dec` |  | ● `NTP` |  |
+| [RAGR](pages/papers/ragr.md) |  | ○ `RQ-VAE` | ○ `Enc-Dec` |  | ● `NTP → DPO` |  |
+| [REGER](pages/papers/reger.md) |  |  | ○ `Enc-Dec` |  | ● `NTP → (NTP + Aux.)` |  |
+| [SynGR](pages/papers/syngr.md) |  |  |  |  | ● `NTP + Ctr.` |  |
+| [CAPE](pages/papers/cape.md) |  |  |  |  |  | ● `Hybrid` |
+| [CITE](pages/papers/cite.md) |  |  |  |  |  | ● `Scoring` |
 
-**Not applicable**: [1 paper](pages/index/modality.md#not-applicable) (`n/a`).
+</details>
 
-**Auxiliary signals**: [`Geo` (15)](pages/index/modality.md#geo) · [`Time` (1)](pages/index/modality.md#time) · [`SID` (5)](pages/index/modality.md#sid).
+<details>
+<summary>II. Uniqueness and Validity · 12 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [CID](pages/papers/cid.md) |  | ● `Spectral Clus.` |  |  |  |  |
+| [TransRec](pages/papers/transrec.md) |  | ● `Multi-Facet ID` |  |  |  | ○ `FM-Index+Agg.` |
+| [HiD-VAE](pages/papers/hid-vae.md) | ○ `Text` | ● `Hier. RQ` |  |  |  |  |
+| [PSI](pages/papers/psi.md) |  | ● `Post-hoc RQ` |  |  |  |  |
+| [AdaSID](pages/papers/adasid.md) |  | ● `RQ` |  |  |  |  |
+| [API](pages/papers/api.md) | ○ `Text` | ● `PID (P-SAE)` | ○ `Enc-Dec / Dec-Only (AR); Non-AR (PR)` |  | ○ `NTP + Rank + Aux. / MTP + Rank + Aux.` | ○ `C-Beam / Scoring` |
+| [CARD](pages/papers/card.md) | ○ `Text+Img+CF` | ● `NU-RQ` |  |  |  |  |
+| [DIGER](pages/papers/diger.md) |  | ● `Learn. RQ` |  | ○ `Joint` |  |  |
+| [Gwhere](pages/papers/gwhere.md) |  | ● `Contr. RQ` |  |  | ○ `NTP → DPO` |  |
+| [QuaSID](pages/papers/quasid.md) |  | ● `QA-RQ` |  |  |  |  |
+| [R3-VAE](pages/papers/r3-vae.md) |  | ● `Ref.-RQ` |  |  |  |  |
+| [SnapLGR](pages/papers/snaplgr.md) |  | ● `RQ-VAE+PPR` |  |  |  | ○ `Beam` |
+
+</details>
+
+<details>
+<summary>III. SID–Model Alignment · 31 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [IDGenRec](pages/papers/idgenrec.md) |  | ● `LLM-Vocab` |  | ○ `Altern.` |  |  |
+| [SIIT](pages/papers/siit.md) |  | ● `Self-Imp.` |  | ○ `Altern.` |  |  |
+| [SemConv](pages/papers/semconv.md) |  | ● `Align. RQ` |  |  | ○ `Multi-task NTP` | ○ `Beam` |
+| [Align3GR](pages/papers/align3gr.md) |  | ● `Dual RQ` |  |  | ○ `NTP → DPO` |  |
+| [CogRec](pages/papers/cogrec.md) |  | ● `R-KM+Graph` |  |  | ○ `Multi-task NTP` |  |
+| [DOS](pages/papers/dos.md) |  | ● `Orth. RQ` |  |  |  |  |
+| [GR4AD-X](pages/papers/gr4ad-x.md) |  | ● `Multi-Path R-KM+Hash` | ○ `Enc-Dec` |  | ○ `NTP + PV-RSPO + Rank + Aux.` | ○ `PV-Beam+Rerank` |
+| [GRLM](pages/papers/grlm.md) |  | ● `Term-ID` |  |  |  | ○ `Beam` |
+| [HoloRec](pages/papers/holorec.md) |  | ● `Nested RQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [SST](pages/papers/sst.md) |  | ● `RQ+IST` |  |  |  |  |
+| [TopoGR](pages/papers/topogr.md) |  | ● `BDQ` | ○ `Non-AR` |  | ○ `MTP + Aux.` | ○ `Scoring+Rerank` |
+| [LLaDA-Rec](pages/papers/llada-rec.md) |  | ○ `Par. VQ` | ● `Non-AR` |  | ○ `Masked` | ○ `Diff.` |
+| [DECOR](pages/papers/decor.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [FLASH](pages/papers/flash.md) |  | ○ `SimHash` | ● `Non-AR` |  | ○ `MTP + Aux.` |  |
+| [Latte](pages/papers/latte.md) |  |  | ● `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [LESSRec](pages/papers/lessrec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [MDGR](pages/papers/mdgr.md) |  |  | ● `Non-AR` |  | ○ `Masked` | ○ `Diff.+Beam` |
+| [PrefixMem](pages/papers/prefixmem.md) |  |  | ● `Dec-Only` |  | ○ `Multi-task NTP` |  |
+| [S2GR](pages/papers/s2gr.md) |  | ○ `CoBa RQ-VAE` | ● `Enc-Dec` |  | ○ `NTP + Ctr.` |  |
+| [TrieRec](pages/papers/trierec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [LC-Rec](pages/papers/lc-rec.md) |  | ○ `RQ-VAE` |  |  | ● `Multi-task NTP` |  |
+| [ETEGRec](pages/papers/etegrec.md) |  |  |  | ● `Altern.` | ○ `NTP + Ctr.` |  |
+| [GREAM](pages/papers/gream.md) | ○ `Text+CF` |  |  |  | ● `NTP → RL` |  |
+| [OneRec-Think](pages/papers/onerec-think.md) |  |  |  |  | ● `NTP → RL` | ○ `CoT` |
+| [Evo-Rec](pages/papers/evo-rec.md) |  |  |  |  | ● `NTP → RL` |  |
+| [GTI](pages/papers/gti.md) |  |  |  |  | ● `Multi-task NTP` |  |
+| [Intent-Driven-News](pages/papers/intent-driven-news.md) |  |  |  |  | ● `Multi-task NTP` | ○ `CoT+Fuzzy Match` |
+| [SIDReasoner](pages/papers/sidreasoner.md) |  |  |  |  | ● `NTP → RL` |  |
+| [Think2Go](pages/papers/think2go.md) |  |  |  |  | ● `NTP → RL` |  |
+| [GRC](pages/papers/grc.md) |  |  |  |  | ○ `NTP → RL` | ● `GRC+Beam` |
+| [PROMISE](pages/papers/promise.md) |  |  |  |  | ○ `NTP + Aux.` | ● `PRM-Beam` |
+
+</details>
+
+<details>
+<summary>IV. Utility · 28 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [TRACER](pages/papers/tracer.md) |  | ● `Soft Reassign. RQ` |  | ○ `Joint` | ○ `NTP + Aux.` |  |
+| [DiGR](pages/papers/digr.md) |  |  | ● `Dec-Only` |  | ○ `Discrim.` | ○ `Scoring` |
+| [Gryphon](pages/papers/gryphon.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Rank` | ○ `Hybrid` |
+| [RecoChain](pages/papers/recochain.md) |  |  | ● `Dec-Only` |  | ○ `NTP + Rank` | ○ `Hybrid` |
+| [APAO](pages/papers/apao.md) |  |  |  |  | ● `NTP + Rank` |  |
+| [DASO](pages/papers/daso.md) |  |  |  |  | ● `NTP → RL` |  |
+| [DPE-Rec](pages/papers/dpe-rec.md) |  |  |  |  | ● `Masked → RL (→ Masked KD for Fast)` |  |
+| [GEM-Rec](pages/papers/gem-rec.md) |  |  |  |  | ● `NTP` | ○ `Bid-Aware Beam` |
+| [GenRec-JD](pages/papers/genrec-jd.md) |  |  | ○ `Dec-Only` |  | ● `NTP → RL` |  |
+| [GFlowGR](pages/papers/gflowgr.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [Ghost](pages/papers/ghost.md) |  | ○ `Skeleton R-KM` |  |  | ● `NTP + Aux.` |  |
+| [HASTE](pages/papers/haste.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [HCGRec](pages/papers/hcgrec.md) |  |  |  |  | ● `NTP → RL` |  |
+| [IDM/CMM](pages/papers/idm-cmm.md) |  |  |  |  | ● `MTP + Aux.` |  |
+| [KL-MOPD](pages/papers/kl-mopd.md) |  |  |  |  | ● `(NTP† / (NTP + Aux.)†) → KL-weighted OPD` |  |
+| [MuSID-KD](pages/papers/musid-kd.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [NAU](pages/papers/nau.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [OneChord](pages/papers/onechord.md) |  |  | ○ `Non-AR` |  | ● `Next-item CE + Cons. KD + Rank KD` | ○ `Scoring` |
+| [Retrieval-Grounded-Credit](pages/papers/retrieval-grounded-credit.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SAGE-SID](pages/papers/sage-sid.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SAHL](pages/papers/sahl.md) |  | ○ `SRBQ` |  |  | ● `(MTP + Masked Rec.) → MTP` |  |
+| [SAPO](pages/papers/sapo.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SLIDE](pages/papers/slide.md) |  |  |  |  | ● `NTP` |  |
+| [Token-Weighted](pages/papers/token-weighted.md) |  |  |  |  | ● `NTP` |  |
+| [UGR](pages/papers/ugr.md) |  |  |  |  | ● `NTP → (RL + Rank)` |  |
+| [V-STAR](pages/papers/v-star.md) |  |  |  |  | ● `NTP → RL` | ○ `C-Beam` |
+| [ISD](pages/papers/isd.md) |  |  |  |  |  | ● `ISD Beam` |
+| [TCBSA](pages/papers/tcbsa.md) |  |  |  |  |  | ● `CF-Guided C-Beam` |
+
+</details>
+
+<details>
+<summary>V. Efficiency · 21 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [SEATER](pages/papers/seater.md) |  | ● `Tree-Clus.` |  |  | ○ `NTP + Ctr.` |  |
+| [Dynamic-Single-Codebook](pages/papers/dynamic-single-codebook.md) |  | ● `Dyn. KM+Disamb.` |  |  |  |  |
+| [JevRec](pages/papers/jevrec.md) |  | ● `Freq. R-KM` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` | ○ `Length-Quota Beam` |
+| [OneRec-V2](pages/papers/onerec-v2.md) |  |  | ● `Lazy Dec-Only` |  | ○ `NTP → RL` |  |
+| [RPG](pages/papers/rpg.md) |  |  | ● `Non-AR` |  | ○ `MTP` | ○ `Graph` |
+| [ACERec](pages/papers/acerec.md) |  |  | ● `Non-AR` |  | ○ `MTP + Ctr. + Aux.` |  |
+| [Deco](pages/papers/deco.md) |  |  | ● `Dec-Only` |  |  |  |
+| [IBA](pages/papers/iba.md) |  |  | ● `Enc-Dec` |  | ○ `NTP → (NTP + Aux.)` | ○ `C-Beam` |
+| [LoopGR](pages/papers/loopgr.md) |  |  | ● `Enc-Dec` |  | ○ `NTP / NTP + Aux.` |  |
+| [Merge-and-Branch](pages/papers/merge-and-branch.md) |  |  | ● `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [PinGER](pages/papers/pinger.md) |  | ○ `RQ-VAE` | ● `Dec-Only` |  | ○ `NTP → DPO` | ○ `Div. C-Beam` |
+| [SID-MLP](pages/papers/sid-mlp.md) |  |  | ● `Enc-MLP` |  | ○ `NTP + Aux.` |  |
+| [SPRINT](pages/papers/sprint.md) |  |  | ● `Non-AR` |  | ○ `Dual-level Flow Ctr.` |  |
+| [STAMP](pages/papers/stamp.md) |  |  | ● `Enc-Dec / Dec-Only` |  | ○ `NTP + Aux.` |  |
+| [OneLatent](pages/papers/onelatent.md) |  |  | ○ `Dec-Only` |  | ● `Multi-task NTP` | ○ `Beam` |
+| [AtSpeed](pages/papers/atspeed.md) |  |  |  |  | ○ `NTP` | ● `Spec. Dec.` |
+| [NEZHA](pages/papers/nezha.md) |  |  | ○ `Dec-Only` |  |  | ● `Self-Draft+Hash` |
+| [OneRec-V2-Quantized](pages/papers/onerec-v2-quantized.md) |  |  |  |  |  | ● `FP8+RecoGEM` |
+| [PAD-Rec](pages/papers/pad-rec.md) |  |  |  |  |  | ● `Spec. Dec.` |
+| [PFA](pages/papers/pfa.md) |  |  |  |  |  | ● `Beam` |
+| [STATIC](pages/papers/static.md) |  |  |  |  |  | ● `Vec. C-Beam` |
+
+</details>
+
+<details>
+<summary>VI. Generalization · 18 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [VQ-Rec](pages/papers/vq-rec.md) |  | ● `OPQ` | ○ `Encoder` |  | ○ `Discrim.` |  |
+| [GMC](pages/papers/gmc.md) |  | ● `Unified RQ` | ○ `Enc-Dec` |  |  |  |
+| [UTGRec](pages/papers/utgrec.md) |  | ● `Tree` |  |  |  |  |
+| [DACT](pages/papers/dact.md) |  | ● `RQ-VAE` |  |  |  |  |
+| [DREAM](pages/papers/dream.md) | ○ `Text+CF` | ● `CART` |  | ○ `Altern.` | ○ `NTP + Aux.` | ○ `C-Beam` |
+| [GenCDR](pages/papers/gencdr.md) |  | ● `RQ+LoRA` | ○ `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [MBGR](pages/papers/mbgr.md) |  | ● `RQ` | ○ `Dec-Only` |  | ○ `NTP + Aux.` |  |
+| [OneLive](pages/papers/onelive.md) | ○ `Text+Img+Audio+CF` | ● `R-KM` | ○ `Lazy Dec-Only` |  | ○ `NTP → RL` | ○ `Beam` |
+| [UniTok](pages/papers/unitok.md) |  | ● `TokenMoE` |  |  |  |  |
+| [DualGR](pages/papers/dualgr.md) |  |  | ● `Dec-Only` |  | ○ `NTP + Rank` | ○ `Dual Beam` |
+| [FedCGR](pages/papers/fedcgr.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [LION](pages/papers/lion.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [RecBase](pages/papers/recbase.md) |  | ○ `Curr. RQ` |  |  | ● `NTP` |  |
+| [AWARE](pages/papers/aware.md) |  |  |  |  | ● `NTP` |  |
+| [CausalDPO](pages/papers/causaldpo.md) |  |  |  |  | ● `NTP → DPO` |  |
+| [CMRec](pages/papers/cmrec.md) |  |  |  |  | ● `NTP` |  |
+| [LIGER](pages/papers/liger.md) |  |  | ○ `Enc-Dec` |  | ○ `NTP + Dense` | ● `Hybrid` |
+| [SpecGR](pages/papers/specgr.md) |  |  |  |  | ○ `NTP + Rank` | ● `Hybrid` |
+
+</details>
+
+<details>
+<summary>Paradigms, Systems and Benchmarks · 12 papers</summary>
+
+| Method | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [TIGER](pages/papers/tiger.md) |  | ○ `RQ-VAE` | ○ `Enc-Dec` |  |  | ○ `Beam` |
+| [FORGE](pages/papers/forge.md) |  | ○ `RQ-VAE` |  |  |  | ○ `Dyn. Beam` |
+| [GRID](pages/papers/grid.md) |  |  |  |  |  |  |
+| [MiniOneRec](pages/papers/minionerec.md) |  |  |  |  | ○ `NTP → RL` |  |
+| [OneRec](pages/papers/onerec.md) |  | ○ `R-KM` | ○ `Enc-Dec` |  | ○ `NTP → DPO` |  |
+| [GR-Generalize](pages/papers/gr-generalize.md) |  |  |  |  |  | ○ `Hybrid` |
+| [NEO](pages/papers/neo.md) | ○ `Text / Audio` | ○ `R-KM` |  |  | ○ `Multi-task NTP` | ○ `C-Beam` |
+| [Netflix-SID-Comparison](pages/papers/netflix-sid-comparison.md) |  |  |  |  | ○ `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` |  |
+| [OneMall](pages/papers/onemall.md) | ○ `Text+Img+CF` | ○ `R-KM+FSQ` | ○ `Enc-Dec` |  | ○ `(NTP + Ctr.) → RL` |  |
+| [PLUM](pages/papers/plum.md) | ○ `Text+Img+CF` | ○ `RQ-VAE` |  |  | ○ `Multi-task NTP` |  |
+| [ReRankID](pages/papers/rerankid.md) |  |  |  |  | ○ `NTP → RL` | ○ `CoT+Greedy` |
+| [SIDScope](pages/papers/sidscope.md) |  |  |  |  |  |  |
+
+</details>
+
+## Papers by Modality
+
+Grouped by the signals fed into the SID tokenizer; content groups are evaluated per branch, collaborative and context groups across all branches combined, and a paper may appear in multiple groups.
+
+| Aspect | Groups |
+| :--- | :--- |
+| **Content** | [Text (115)](pages/index/modality.md#text) · [Single non-text (8)](pages/index/modality.md#single-non-text) · [Multimodal (36)](pages/index/modality.md#multimodal) · [No content (11)](pages/index/modality.md#no-content) |
+| **Collaborative** | [CF only (7)](pages/index/modality.md#cf-only) · [With CF (50)](pages/index/modality.md#with-cf) |
+| **Context** | [Attr (7)](pages/index/modality.md#attr) · [Geo (14)](pages/index/modality.md#geo) · [Time (2)](pages/index/modality.md#time) |
+| **Unknown** | [Unknown (28)](pages/index/modality.md#unknown) |
+
+## Papers by Domain
+
+Grouped by the platform business domain of the evaluation datasets; multi-domain papers appear in each applicable group.
+
+[E-commerce (142)](pages/index/domain.md#e-commerce) · [POI / Local (44)](pages/index/domain.md#poi--local) · [Short video / Live (21)](pages/index/domain.md#short-video--live) · [Ads (17)](pages/index/domain.md#ads) · [Movie (12)](pages/index/domain.md#movie) · [Music (10)](pages/index/domain.md#music) · [Search (10)](pages/index/domain.md#search) · [News (6)](pages/index/domain.md#news) · [Book (5)](pages/index/domain.md#book) · [Games (5)](pages/index/domain.md#games) · [Long video (3)](pages/index/domain.md#long-video) · [Image / Article (3)](pages/index/domain.md#image--article) · [Podcast (1)](pages/index/domain.md#podcast) · [Video (1)](pages/index/domain.md#video) · [Apps (1)](pages/index/domain.md#apps) · [Food / Recipe (1)](pages/index/domain.md#food--recipe) · [Travel / Hotel (1)](pages/index/domain.md#travel--hotel) · [Recruitment (1)](pages/index/domain.md#recruitment) · [unknown (industrial) (6)](pages/index/domain.md#unknown-industrial)
 
 ## Recent Updates
 
@@ -183,8 +426,6 @@ Grouped by the content modality and collaborative filtering (`CF`) signal in the
 - [TriAlignGR][] - arXiv’26<br>
   TriAlignGR adds visual content and LLM-mined user intents to Semantic ID construction and trains several generation tasks linking Semantic IDs, text, and images under one autoregressive loss.<br>
   [Paper](https://arxiv.org/abs/2605.05249)
-
-Also in this cell: [COBRA][].
 
 ### I × Tokenization
 
@@ -291,8 +532,6 @@ Also in this cell: [COBRA][].
   VarLenRec (TIGER) gives popular items shorter Semantic IDs and tail items longer ones through hyperbolic residual quantization and a soft length controller, instead of fixed-length tokenization.<br>
   [Paper](https://arxiv.org/abs/2605.17779)
 
-Also in this cell: [CID][], [HiD-VAE][], [GRLM][].
-
 ### I × Backbone
 
 - [ColaRec][] - CIKM’24<br>
@@ -317,8 +556,6 @@ Also in this cell: [CID][], [HiD-VAE][], [GRLM][].
   UniSGR-V2 anticipates a continuous target-side feature vector before each codeword and crosses it with the semantic prefix and user behavior inside the decoder, using it for generation and ranking.<br>
   [Paper](https://arxiv.org/abs/2610.16132)
 
-Also in this cell: [MME-SID][], [OneLoc][], [RPG][], [ACERec][].
-
 ### I × Training
 
 - [MBGen][] - CIKM’24<br>
@@ -334,8 +571,6 @@ Also in this cell: [MME-SID][], [OneLoc][], [RPG][], [ACERec][].
   SynGR constrains reliance on dominant modalities during generation, so the generator uses synergistic cross-modal information beyond shared or modality-specific signals, instead of alignment-centric fusion.<br>
   [Paper](https://arxiv.org/abs/2605.18920) · [Code](https://github.com/gxingyu/SynGR)
 
-Also in this cell: [EAGER][], [COBRA][].
-
 ### I × Inference
 
 - [CAPE][] - arXiv’26<br>
@@ -344,8 +579,6 @@ Also in this cell: [EAGER][], [COBRA][].
 - [CITE][] - Electronics’26<br>
   CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.<br>
   [Paper](https://doi.org/10.3390/electronics15204749)
-
-Also in this cell: [EAGER][], [COBRA][].
 
 ## II. Uniqueness and Validity
 
@@ -390,12 +623,6 @@ Also in this cell: [EAGER][], [COBRA][].
   SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.<br>
   [Paper](https://arxiv.org/abs/2607.28895)
 
-Also in this cell: [LC-Rec][], [LETTER][], [GRLM][].
-
-### II × Inference
-
-Also in this cell: [RPG][], [GRLM][].
-
 ## III. SID–Model Alignment
 
 > Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal?
@@ -436,8 +663,6 @@ Also in this cell: [RPG][], [GRLM][].
   TopoGR learns bit-decomposable binary Semantic IDs and uses their Hamming geometry in input features, soft training targets, and reranking, instead of treating Semantic ID tokens as independent symbols.<br>
   [Paper](https://arxiv.org/abs/2607.25216)
 
-Also in this cell: [MME-SID][].
-
 ### III × Backbone
 
 - [LLaDA-Rec][] - arXiv’25<br>
@@ -467,8 +692,6 @@ Also in this cell: [MME-SID][].
 - [TrieRec][] - NeurIPS’26<br>
   TrieRec adds a trie-aware absolute positional encoding and a topology-aware relative positional encoding to Transformer generators, so attention reflects the Semantic ID prefix tree instead of a flat token stream.<br>
   [Paper](https://arxiv.org/abs/2602.21677)
-
-Also in this cell: [MME-SID][].
 
 ### III × Training
 
@@ -500,8 +723,6 @@ Also in this cell: [MME-SID][].
   Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs.<br>
   [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701)
 
-Also in this cell: [DIGER][], [GRLM][].
-
 ### III × Inference
 
 - [GRC][] - CIKM’26<br>
@@ -510,8 +731,6 @@ Also in this cell: [DIGER][], [GRLM][].
 - [PROMISE][] - arXiv’26<br>
   PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.<br>
   [Paper](https://arxiv.org/abs/2601.04674)
-
-Also in this cell: [DualGR][].
 
 ## IV. Utility
 
@@ -604,8 +823,6 @@ Also in this cell: [DualGR][].
   V-STAR deepens high-value prefixes with value-guided decoding during reinforcement learning sampling and computes sibling-relative advantages with Sibling-GRPO, instead of likelihood-driven beam search.<br>
   [Paper](https://arxiv.org/abs/2602.10699)
 
-Also in this cell: [OneLoc][], [DualGR][].
-
 ### IV × Inference
 
 - [ISD][] - arXiv’26<br>
@@ -673,8 +890,6 @@ Also in this cell: [OneLoc][], [DualGR][].
   OneLatent compresses explicit chain-of-thought into learnable latent tokens through multi-view teacher traces, staged alignment, and curriculum post-training, instead of generating long reasoning traces at inference.<br>
   [Paper](https://arxiv.org/abs/2610.30675)
 
-Also in this cell: [RPG][].
-
 ### V × Inference
 
 - [AtSpeed][] - ICLR’25<br>
@@ -695,8 +910,6 @@ Also in this cell: [RPG][].
 - [STATIC][] - KDD’26 ADS<br>
   STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized operations for constrained decoding on TPUs and GPUs.<br>
   [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding)
-
-Also in this cell: [RPG][], [DualGR][].
 
 ## VI. Generalization
 
@@ -744,8 +957,6 @@ Also in this cell: [RPG][], [DualGR][].
   LION adds a sparse key-value memory layer that isolates the evolution of different behavior patterns, with a consolidation loss, instead of updating all shared parameters on streaming interactions.<br>
   [Paper](https://arxiv.org/abs/2609.15598) · [Code](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 
-Also in this cell: [LIGER][].
-
 ### VI × Training
 
 - [RecBase][] - EMNLP’25<br>
@@ -760,8 +971,6 @@ Also in this cell: [LIGER][].
 - [CMRec][] - CIKM’26 Short<br>
   CMRec learns a shared cross-country codebook and synthesizes mixed-country sequences by constrained token substitution, so knowledge transfers at the data level and not only through shared parameters.<br>
   [Paper](https://arxiv.org/abs/2609.28972)
-
-Also in this cell: [LIGER][], [DualGR][].
 
 ### VI × Inference
 

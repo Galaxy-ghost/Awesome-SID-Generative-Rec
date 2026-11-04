@@ -96,3 +96,17 @@ related:
   note: LGSID aligns LLM embeddings with geographic rewards before quantization; Pro-GEO encodes geography within the quantization
     layers.
   where: 'Pro-GEO v1, Section 2.1 cites LGSID: https://arxiv.org/html/2604.23156v1#S2.SS1.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Geo
+domain:
+- POI / Local
+- Search
+settings: []

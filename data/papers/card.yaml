@@ -81,3 +81,21 @@ related:
   note: VQ-Rec pools product-quantized code embeddings in a discriminative model; CARD generates hierarchical non-uniform
     RQ codes autoregressively.
   where: 'CARD v1, Section 4.1.4 baselines: https://arxiv.org/html/2604.26427v1#S4.I1.i5.p1; Table 2: https://arxiv.org/html/2604.26427v1#S4.T2.'
+changes:
+  representation:
+    value: other
+    quote: We propose a visual semantic unit that unifies heterogeneous semantic signals into a visual representation, enabling
+      holistic and quantization-friendly semantic modeling while simplifying heterogeneous information fusion.
+    where: '2604.26427v1 #S1.I1.i2.p1.1；设计在 #S3.SS1（把图、标题、协同邻居缩略图排成一张卡片，再用视觉语言编码器编码）'
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+- CF
+domain:
+- E-commerce
+settings: []

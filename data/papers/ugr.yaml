@@ -50,3 +50,16 @@ related:
   relation: competitor
   note: TIGER supplies the standard SID-based baseline for UGR's uncertainty-aware alignment.
   where: 'UGR v2, Section 4.1.3 and Table 1: https://arxiv.org/html/2602.11719v2#S4.SS1.SSS3.p1; https://arxiv.org/html/2602.11719v2#S3.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings: []

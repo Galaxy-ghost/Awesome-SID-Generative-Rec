@@ -1,12 +1,15 @@
 # V-STAR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/v-star.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/v-star.md) | 中文
 
 | **题目** | *Spend Search Where It Pays: Value-Guided Structured Sampling and Optimization for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Jiang et al. |
 | **发表** | KDD’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **改动** | ● 训练目标 · ○ 推理 |
+| **构码输入** | `unknown` |
+| **领域** | `电商` · `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2602.10699) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text†"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text†"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP → RL"] --> I["推理 Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在相同训练期 token 计算预算下，V-STAR 在 Amazon Industrial 与 Office 上超越包括 MiniOneRec 在内的束搜索强化学习基线，并在微信视频号广告线上 A/B 测试中带来 +1.23% 的 GMV 提升（Sec. 5.3–5.5，Tables 1 and 4，Fig. 4）。 |
 | 局限 | 价值引导的前缀树扩展仅用于训练期强化学习候选采样，线上实时推理仍回退为常规似然束搜索（Sec. 4.4）。 |
 

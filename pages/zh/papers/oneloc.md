@@ -1,12 +1,15 @@
 # OneLoc
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/oneloc.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/oneloc.md) | 中文
 
 | **题目** | *Geo-Aware Generative Recommender Systems for Local Life Service* |
 | :-- | :-- |
 | **作者** | Wei et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` — 补充：`I. 信息量` × `骨干（Backbone）`；`IV. 实用目标` × `训练（Training）` |
+| **问题与阶段** | `I. 信息量` · `物品表示（Representation）` · `POI` |
+| **改动** | ● 物品表示 · ○ 生成骨干 · ○ 训练目标 |
+| **构码输入** | `MM` + `Geo` |
+| **领域** | `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2508.14646) |
 | **阅读级别** | 代码级精读（第 3 级） |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+Geo†"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>● Text+Img+Geo†"] --> T["构码 Tokenization<br/>R-KM"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → DPO"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class B,TR also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | OneLoc 在编号、编码器注意力与解码器提示中融入地理信息，并结合地理与 GMV 奖励做 DPO，将端到端生成式推荐扩展到本地生活短视频。 |
-| 主要改动阶段 | 表征（Representation） |
 | 主要发现 | 在 10% 流量上做了一周的在线 A/B 测试，相比线上多阶段推荐链路，OneLoc 的 GMV +21.016%，订单量 +17.891%（Sec. 5，Table 4）。 |
 | 局限 | 位置只通过残差 k-means 之前的一个融合嵌入进入语义 ID（Semantic ID，SID），SID 的任何一位都不直接对应地理（Sec. 2.2）。 |
 

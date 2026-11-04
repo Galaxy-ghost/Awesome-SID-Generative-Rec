@@ -58,3 +58,19 @@ related:
   relation: alternative
   note: LC-Rec adds alignment tasks; HASTE changes losses.
   where: https://arxiv.org/html/2610.17368v1#S2.p2.
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - MM
+note: A 为公开文本配置，B 为 Internal-fashion 多模态配置；§9.1.4 未列 Qwen3-VL embedding 的具体输入组成，保留 MM。
+domain:
+- E-commerce
+settings: []

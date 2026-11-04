@@ -66,3 +66,19 @@ related:
   note: REGER follows Pctx in choosing DuoRec as its auxiliary recommender, but transfers collaborative preferences through
     distillation rather than personalized tokenization.
   where: 'REGER v1, Section 4.3.2: https://arxiv.org/html/2610.37584v1#S4.SS3.SSS2.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone:
+    value: other
+    quote: We combine global attention with local attention aligned with SID boundaries to capture historical context and
+      directed transitions between adjacent items.
+    where: arXiv:2610.37584v2 https://arxiv.org/html/2610.37584v2#abstract1
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

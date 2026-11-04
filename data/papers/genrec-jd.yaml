@@ -69,3 +69,24 @@ related:
     generator.
   where: 'GenRec v1, Section 4 cites Wang et al. (2025), LETTER: https://arxiv.org/html/2604.14878v1#S4.p1; not a baseline
     in Table 1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone:
+    value: other
+    quote: We propose an asymmetric representation architecture utilizing a linear Token Merger in prefilling side.
+    where: '2604.14878v1 #S1.I1.i2.p1.1；设计在 #S2.SS2.SSS0.Px3（输入侧把每个物品的三位 SID 压成一个向量）'
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: A multi-modal model (i.e., Qwen2.5-VL ( Bai et al., 2025 ) ) is employed to jointly encode both visual appearance
+    and textual descriptions of each item into a continuous representation to capture more comprehensive item information.
+  where: '2604.14878v1 #S2.SS1.p2.1；同段写明用领域协同物品对微调嵌入模型'
+domain:
+- E-commerce
+settings: []

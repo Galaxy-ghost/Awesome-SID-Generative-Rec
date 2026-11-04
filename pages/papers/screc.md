@@ -1,22 +1,27 @@
 # SCRec
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/screc.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/screc.md)
 
 | **Title** | *Addressing Cross-Stage Decoupling of Semantic and Collaborative Signals in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Dan |
 | **Venue** | RecSys’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` |
+| **Changes** | ● Representation · ○ Backbone · ○ Objective |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2609.13678) · [Code](https://github.com/DanJiayi/SCRec) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Non-AR / Enc-Dec"] --> TR["Training<br/>Fixed / MTP + Ctr."] --> I["Inference<br/>Scoring / Beam†"]
+    R["Representation<br/>● Text+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>○ Non-AR / Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ MTP + Ctr."] --> I["Inference<br/>Scoring / Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | SCRec injects textualized collaborative signals into semantic tokenization, recalibrates semantic priors with learnable code embeddings during generation, and aligns codebook and semantic spaces, to couple the two stages. |
-| Modified Stage | Representation |
 
 ---
 

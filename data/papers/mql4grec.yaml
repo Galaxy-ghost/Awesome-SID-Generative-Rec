@@ -82,3 +82,29 @@ related:
     alignment during quantization.
   where: 'Evidence is from the later MACRec paper: https://arxiv.org/html/2511.15122v2#Sx3.SSx1.SSSx3.p5 and https://arxiv.org/html/2511.15122v2#Sx3.SSx2.SSSx3.p3;
     MQL4GRec is its main baseline in Table 2: https://arxiv.org/html/2511.15122v2#Sx4.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We design a series of quantitative language generation tasks that endow quantitative language with rich semantic
+      information and prior knowledge, and enhance the performance of recommendation tasks through pre-training and fine-tuning.
+    where: '2504.05314v1 #S1.I1.i2.p1.1；设计在 #S3.SS3'
+  inference:
+    value: other
+    quote: Therefore, we re-rank items by utilizing the recommendation lists generated from the two sub-tasks
+    where: '2504.05314v1 #S3.SS3.SSS0.Px2.p1.1；文本码、图像码两路结果重排合并'
+modality:
+  text:
+  - Text
+  image:
+  - Img
+note: 文本、图像各训一个量化翻译器，各出一套码。
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: We transfer recommendation knowledge from the source domain datasets to the target dataset through pre-training.
+  where: '2504.05314v1 #S4.SS3.SSS0.Px3.p1.1；六个 Amazon 源域预训练，三个目标域微调；零样本见 #S4.SS5.p1.1'

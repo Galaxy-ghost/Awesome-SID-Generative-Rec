@@ -1,22 +1,27 @@
 # OneMall
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onemall.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/onemall.md)
 
 | **Title** | *One Architecture, More Scenarios -- End-to-End Generative Recommender Family at Kuaishou E-Commerce* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | CIKM’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Representation · ○ Tokenization · ○ Backbone · ○ Objective |
+| **SID inputs** | A: `Text` + `Img` + `CF` · B: `Text` + `Img` + `CF` · C: `CF` + `unknown` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2601.21770) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>R-KM+FSQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / (NTP + Ctr.) → RL"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>○ Text+Img+CF"] --> T["Tokenization<br/>○ R-KM+FSQ"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ (NTP + Ctr.) → RL"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,T,B,TR other
 ```
 
 - `Text+Img+CF`: Text and image representations combined with collaborative signals.
@@ -30,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | OneMall unifies product-card, short-video, and live-streaming e-commerce in one generator, with a business-aware tokenizer, Query-Former and sparse MoE layers, and a ranking model as reinforcement learning reward. |
-| Modified Stage | No single stage |
 
 ---
 

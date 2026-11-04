@@ -1,12 +1,15 @@
 # MACRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/macrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/macrec.md) | 中文
 
 | **题目** | *Multi-aspect cross-modal quantization for generative recommendation* |
 | :-- | :-- |
 | **作者** | Zhang et al. |
 | **发表** | AAAI’26 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 训练目标 |
+| **构码输入** | text: `Text` · image: `Img` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2511.15122) · [代码](https://github.com/zhangfw123/MACRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img"] --> T["编号 Tokenization<br/>Cross RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text+Img"] --> T["构码 Tokenization<br/>● Cross RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Ctr."] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | MACRec 对文本与图像特征做跨模态量化以构建低冲突 SID，并在生成器训练中加入隐式与显式跨模态对齐。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | MACRec 在三个数据集上的 HR@10、NDCG@5 和 NDCG@10 均领先所有基线；仅在 Games 的 HR@5 上，MISSRec 为 0.0674，MACRec 为 0.0671（Table 2）。 |
 | 局限 | MACRec 维护两套独立的 4 层 RQ-VAE 编号器，推理时需在文本和图像两个模态分别运行受约束束搜索再平均得分，且未报告束宽与推理延迟（Methodology，Table 4）。 |
 

@@ -1,22 +1,27 @@
 # MBGR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/mbgr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/mbgr.md) | 中文
 
 | **题目** | *Multi-Business Prediction for Generative Recommendation at Meituan* |
 | :-- | :-- |
 | **作者** | Li et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 |
+| **构码输入** | `unknown` |
+| **领域** | `工业场景未明` |
 | **链接** | [论文](https://arxiv.org/abs/2604.02684) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed† / NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>● RQ"] --> B["生成骨干 Backbone<br/>○ Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed†<br/>训练目标: ○ NTP + Aux."] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | MBGR 在生成式推荐中加入业务感知 SID、业务特定预测与动态标签路由，避免共享同一 ID 空间的多个业务之间出现跷跷板效应。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

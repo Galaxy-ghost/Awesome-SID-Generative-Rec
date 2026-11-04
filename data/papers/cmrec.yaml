@@ -61,3 +61,27 @@ related:
   relation: alternative
   note: Shared-token cross-domain transfer contrasted with data-level code mixing.
   where: https://arxiv.org/html/2609.28972v1#S1.p2
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: CMRec first learns a shared semantic codebook from multi-modal content and behavioral co-occurrence across countries,
+    which serves as both the GR tokenizer and a common semantic space for cross-country substitution.
+  where: '2609.28972v1 #S1.p4.1；编码器是 Qwen-VL-32B'
+domain:
+- Ads
+- E-commerce
+settings:
+- value: cross-domain
+  quote: Extensive experiments on offline datasets and an online multi-country e-commerce platform show that CMRec achieves
+    superior performance, effectively transfers knowledge from large to small countries, and offers practical insights for
+    cross-country generative recommendation.
+  where: '2609.28972v1 #S5.p1.1；跨国家迁移，各国用户和物品不重叠'

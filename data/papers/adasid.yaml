@@ -80,3 +80,22 @@ related:
     pre-trained tokenizer and regulates code overlaps adaptively.
   where: 'AdaSID v1, Section 2.2 cites Liu et al. (2025) for end-to-end downstream supervision: https://arxiv.org/html/2604.23522v1#S2.SS2.p1;
     not a baseline in Table 2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: Each item input x denotes a multimodal item feature extracted from heterogeneous content signals such as text, image,
+    and video by a pretrained multimodal model.
+  where: '2604.23522v1 #S3.SS1.p1.1；构码器在 Swing 协同物品对上训练（同段）；公开数据只用文本（#S5.SS1.SSS1.p1.1），工业数据用图像、文本、关键帧、音频转写（#S5.SS3.p1.1）'
+note: Table 1 记 Text+Img；构码器的训练对来自 Swing 协同信号，补 CF。关键帧并入 Img，音频转写并入 Text。工业数据是快手电商的短视频带货，业务记 E-commerce（#S5.SS3.p1.1）。
+domain:
+- E-commerce
+settings: []

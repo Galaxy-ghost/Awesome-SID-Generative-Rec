@@ -53,3 +53,21 @@ related:
   relation: competitor
   note: LC-Rec uses multi-task alignment; GTI adds grounding before fine-tuning.
   where: 'https://arxiv.org/html/2604.02324v1#S4.SS1.SSS0.Px2.p3 ; #S4.T1 ; #S7.T4.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  A:
+  - Text
+  - CF
+  B:
+  - Text
+note: A 为招聘工业数据，B 为 Vibrent 衣物租赁。招聘领域按原文单列 Recruitment。
+domain:
+- Recruitment
+- E-commerce
+settings: []

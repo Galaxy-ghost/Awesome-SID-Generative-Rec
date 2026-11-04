@@ -68,3 +68,31 @@ related:
     trajectories.
   where: 'Evidence is from the later GFlowGR paper: IPA baseline and Table 2: https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1
     and https://arxiv.org/html/2506.16114v3#S4.T2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: To construct a balanced codebook C_l={c_1^l,…,c_K^l} , we apply the Balanced K-means as detailed in Algorithm 1
+      for itemset partitioning.
+    where: '2502.18965v1 #S3.SS1.p3.1（公式按纯文本转写）；多层平衡残差 K-means'
+  backbone:
+    value: other
+    quote: We highlight the necessity of model capacity and contextual information of target items through a session-wise
+      generation manner, which enables more accurate predictions and enhances the diversity of generated items.
+    where: '2502.18965v1 #S1.I1.i2.p1.1；MoE 扩容的编码器–解码器，按会话生成'
+  tokenizer: none
+  objective:
+    value: other
+    quote: We propose a novel self-hard negative samples selection strategy based on personalized reward model.
+    where: '2502.18965v1 #S1.I1.i3.p1.1；奖励模型选负样本后做 DPO'
+  inference: none
+modality:
+- MM
+- CF
+modality_where:
+  quote: For each video v_i , we describe them with multi-modal embeddings e_i∈R^d which are aligned with the real user-item
+    behaviour distribution ( Luo et al., 2024 ) .
+  where: '2502.18965v1 #S3.SS1.p2.1（公式按纯文本转写）'
+domain:
+- Short video / Live
+settings: []

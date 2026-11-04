@@ -1,24 +1,27 @@
 # COBRA
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cobra.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/cobra.md) | 中文
 
 | **题目** | *Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations* |
 | :-- | :-- |
 | **作者** | Yang et al. |
 | **发表** | NeurIPS’25 |
-| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` — 补充：`I. 信息量` × `推理（Inference）`；`I. 信息量` × `表征（Representation）`；`I. 信息量` × `训练（Training）` |
+| **问题与阶段** | `I. 信息量` · `生成骨干（Backbone）` |
+| **改动** | ○ 物品表示 · ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2503.02453) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+SID"] --> T["编号 Tokenization<br/>Casc. RQ"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Dense"] --> I["推理 Inference<br/>BeamFusion"]
+    R["物品表示 Representation<br/>○ Text+SID"] --> T["构码 Tokenization<br/>Casc. RQ"] --> B["生成骨干 Backbone<br/>● Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Dense"] --> I["推理 Inference<br/>○ BeamFusion"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class R,TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -34,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > COBRA 先生成稀疏 SID 再以它为条件生成稠密向量，端到端联合训练二者，并在解码时用 BeamFusion 融合束搜索分数与最近邻相似度。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | COBRA 先生成稀疏 SID 再以它为条件生成稠密向量，端到端联合训练二者，并在解码时用 BeamFusion 融合束搜索分数与最近邻相似度。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

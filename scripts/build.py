@@ -14,6 +14,22 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 TECH_COLS = ["representation", "tokenization", "backbone", "tokenizer", "objective", "inference"]
 COL_STAGES = ["Representation", "Tokenization", "Backbone", "Training", "Training", "Inference"]
+COL_HEADERS_EN = {
+    "representation": "Representation",
+    "tokenization": "Tokenization",
+    "backbone": "Backbone",
+    "tokenizer": "Tokenizer",
+    "objective": "Objective",
+    "inference": "Inference",
+}
+COL_HEADERS_ZH = {
+    "representation": "物品表示",
+    "tokenization": "构码",
+    "backbone": "生成骨干",
+    "tokenizer": "编号器更新",
+    "objective": "训练目标",
+    "inference": "推理",
+}
 PROB_MAP = {
     "Paradigms, Systems and Benchmarks": "psb",
     "I. Informativeness": "I",
@@ -68,6 +84,7 @@ def parse_table1_tex(paths) -> list:
                 c = [x.strip() for x in ln.rstrip().rstrip("\\").split("&")]
                 name = norm_tex(re.sub(r"~?\\cite\{[^}]*\}", "", c[0]))
                 stage = "n/a"
+                primary_col = None
                 vals = {}
                 for i, key in enumerate(TECH_COLS):
                     v = c[i + 2]
@@ -75,8 +92,16 @@ def parse_table1_tex(paths) -> list:
                     if mm:
                         v = mm.group(1)
                         stage = COL_STAGES[i]
+                        primary_col = key
                     vals[key] = norm_tex(v)
-                rows.append({"name": name, "venue": norm_tex(c[1]), "problem": cur_prob, "stage": stage, **vals})
+                rows.append({
+                    "name": name,
+                    "venue": norm_tex(c[1]),
+                    "problem": cur_prob,
+                    "stage": stage,
+                    "primary_col": primary_col,
+                    **vals,
+                })
     return rows
 
 
@@ -109,43 +134,6 @@ def sync_table1(root: Path, tex_paths: list):
 
 STAGES = ["Representation", "Tokenization", "Backbone", "Training", "Inference"]
 HEAT = [(1, "eef5fc"), (4, "d6e8fa"), (9, "bad8f7"), (16, "96c5f3")]
-ALSO_BADGE_BG = "f1f5f9"
-MODALITY_ROWS = [
-    ("single", "Single-modal", "单模态", ("single-modal", "single-modal--cf")),
-    ("multi", "Multimodal", "多模态", ("multimodal", "multimodal--cf")),
-    ("other", "Other", "其他", ("other", "other--cf")),
-]
-MODALITY_BUCKETS = [
-    (("single", False), "Single-modal", "单模态",
-     "One content modality (`Text` or `Audio`), without `CF` in the tokenizer input.",
-     "构码输入含单一内容模态（`Text` 或 `Audio`），未标 `CF`。"),
-    (("single", True), "Single-modal + CF", "单模态 + 协同",
-     "One content modality combined with collaborative filtering (`CF`) in the tokenizer input.",
-     "构码输入含单一内容模态并融合协同过滤信号（`CF`）。"),
-    (("multi", False), "Multimodal", "多模态",
-     "Two or more content modalities (or `MM`), without `CF` in the tokenizer input.",
-     "构码输入含两种及以上内容模态（或 `MM`），未标 `CF`。"),
-    (("multi", True), "Multimodal + CF", "多模态 + 协同",
-     "Two or more content modalities (or `MM`) combined with `CF` in the tokenizer input.",
-     "构码输入含两种及以上内容模态（或 `MM`）并融合协同过滤信号（`CF`）。"),
-    (("other", False), "Other", "其他",
-     "Non-content tokenizer representations (such as spatial features alone), without `CF`.",
-     "构码输入仅含非内容模态特征（如纯空间特征），未标 `CF`。"),
-    (("other", True), "Other + CF", "其他 + 协同",
-     "Pure collaborative (`CF`) or structured-attribute + `CF` representations without text, image, or audio.",
-     "构码输入为纯协同信号（`CF`）或结构化属性加 `CF`，不含文本、图像或音频模态。"),
-    (("unknown", None), "Unspecified Representation", "表征未明",
-     "Table 1 `representation` is unreported (`–`) or records domain scope (`Multi-Dom`, `Cross-Dom`) without a modality override.",
-     "Table 1 的 `representation` 未报告（`–`），或仅记录领域范围（`Multi-Dom`、`Cross-Dom`）且暂无模态覆盖字段。"),
-    (("na", None), "Not Applicable", "不适用",
-     "Diagnostic or non-method entries where tokenizer input representation does not apply (`n/a`).",
-     "不涉及构码输入表征的诊断资源或非单一方法条目（`n/a`）。"),
-]
-AUX_SIGNAL_LIST = [
-    ("Geo", "Geographic or spatial features in the representation.", "表征中包含地理或空间特征。"),
-    ("Time", "Explicit interaction timestamps in the representation.", "表征中包含显式交互时间特征。"),
-    ("SID", "Discrete Semantic IDs concatenated with dense representations.", "表征中拼接离散 SID（稠密与生成混合检索）。"),
-]
 SETUP_KEYS = ["datasets", "split", "candidates", "visibility", "sid", "inference_budget", "results_from"]
 SETUP_LABELS = ["Datasets", "Split", "Candidates", "Visibility", "SID", "Inference budget", "Results from"]
 SECTIONS = ["1. Why This Paper Matters", "2. How It Works", "3. Experimental Findings", "4. Limitations & Critical Analysis"]
@@ -156,37 +144,50 @@ TOC_SHORT = {"1. Why This Paper Matters": "1. Why It Matters", "2. How It Works"
 RELATED_TITLE = "5. Connections to Related Work"
 LEVELS = ["Overview", "Reading Notes", "Annotated Deep Dive"]
 GLANCE_KEYS = ["Key Findings", "Limitation"]
-LEGEND = [  # (mark, meaning); the first four are the cell symbols listed in the glossary
+LEGEND = [  # (mark, meaning); the first six are the symbols listed in the glossary
     ("`†`", "Inferred from the configuration the paper names."),
     ("`A / B`", "Two branches or configurations."),
     ("`–`", "Not reported."),
     ("`n/a`", "Not applicable."),
+    ("`●` / `○`", "Primary Table 1 cell (`●`) and additional column with a new mechanism (`○`)."),
     ("**Bold**", "The stage the paper mainly changes."),
     ("Empty cell", "No paper yet."),
     ("`warm`", "Protocol label in setup cards."),
 ]
 ZH_LABELS = {
     "stages_zh": {
-        "Representation": "表征",
-        "Tokenization": "编号",
-        "Backbone": "骨干",
+        "Representation": "物品表示",
+        "Tokenization": "构码",
+        "Backbone": "生成骨干",
         "Training": "训练",
         "Inference": "推理",
     },
     "cols_zh": {
-        "representation": "表征（Representation）",
-        "tokenization": "编号（Tokenization）",
+        "representation": "物品表示（Representation）",
+        "tokenization": "构码（Tokenization）",
         "backbone": "生成骨干（Backbone）",
         "tokenizer": "编号器更新（Training）",
         "objective": "训练目标（Training）",
-        "inference": "推理解码（Inference）",
+        "inference": "推理（Inference）",
     },
     "setup": ["数据集", "切分", "候选集", "可见性", "SID 规格", "推理预算", "结果来源"],
     "setup_title": "实验设置",
     "source": "出处",
     "levels": ["概览", "阅读笔记", "代码级精读"],
     "reading_level": "阅读级别",
-    "card": {"Title": "题目", "Authors": "作者", "Venue": "发表", "Cell": "问题与阶段", "Links": "链接", "Reading level": "阅读级别"},
+    "card": {
+        "Title": "题目",
+        "Authors": "作者",
+        "Venue": "发表",
+        "Cell": "问题与阶段",
+        "Changes": "改动",
+        "SID inputs": "构码输入",
+        "Domain": "领域",
+        "Settings": "特殊设置",
+        "Links": "链接",
+        "Reading level": "阅读级别",
+    },
+    "scope_zh": {"user": "用户", "item": "物品"},
     "overview": "篇",
     "level_n": "第 {n} 级",
     "glance_title": "速览",
@@ -194,9 +195,6 @@ ZH_LABELS = {
     "on_this_page": "本页目录",
     "glance_head": ("维度", "摘要"),
     "glance_rows": {
-        "Research Problem": "研究问题",
-        "Key Contribution": "核心贡献",
-        "Modified Stage": "主要改动阶段",
         "Key Findings": "主要发现",
         "Limitation": "局限",
     },
@@ -209,9 +207,15 @@ ZH_LABELS = {
     },
     "view_cell": "查看同格全部论文",
     "no_single_stage": "无单一阶段",
-    "also_label": "补充",
-    "links": {"Paper": "论文", "Code": "代码", "Code (third-party)": "代码（第三方）",
-              "Matrix": "问题 × 阶段矩阵", "Stages": "按阶段索引", "Modality": "按模态索引"},
+    "links": {
+        "Paper": "论文",
+        "Code": "代码",
+        "Code (third-party)": "代码（第三方）",
+        "Matrix": "问题 × 阶段矩阵",
+        "Stages": "按阶段索引",
+        "Modality": "按模态找论文",
+        "Domain": "按领域找论文",
+    },
     "problems": {
         "psb": "范式、系统与基准",
         "I": "I. 信息量",
@@ -230,26 +234,31 @@ ZH_LABELS = {
                  "汇总见 [POI 索引](pages/zh/index/poi.md)。",
         "start_title": "阅读导航",
         "start_head": ("阅读目标", "推荐入口"),
-        "start": [("初次了解本方向", "[入门指南](guides/start-here.zh.md)"),
-                  ("按研究问题定位论文", "[问题 × 阶段矩阵](#问题--阶段矩阵)"),
-                  ("按流程阶段横向对比", "[按阶段索引](pages/zh/index/stages.md)"),
-                  ("按构码输入模态检索", "[按构码输入模态索引](pages/zh/index/modality.md)"),
-                  ("查找开源实现", "[有代码的论文](pages/zh/index/code.md)"),
-                  ("供 LLM 与检索工具读取", "[llms.txt](llms.txt)（英文）")],
+        "start": [
+            ("初次了解本方向", "[入门指南](guides/start-here.zh.md)"),
+            ("按研究问题定位论文", "[问题 × 阶段矩阵](#问题--阶段矩阵)"),
+            ("逐篇查看各阶段改动", "[每篇改了什么](#每篇改了什么)"),
+            ("按流程阶段横向对比", "[按阶段索引](pages/zh/index/stages.md)"),
+            ("按构码输入模态查找", "[按模态找论文](pages/zh/index/modality.md)"),
+            ("按应用领域查找", "[按领域找论文](pages/zh/index/domain.md)"),
+            ("查找开源实现", "[有代码的论文](pages/zh/index/code.md)"),
+            ("供 LLM 与检索工具读取", "[llms.txt](llms.txt)（英文）"),
+        ],
         "starter_title": "代表性必读论文",
         "starter_head": ("论文", "核心机制", "发表"),
         "matrix_title": "问题 × 阶段矩阵",
-        "matrix_note": "主归类与综述 Table 1 一致；补充标签列出论文明确针对的其他研究问题或流程阶段。",
         "problem": "研究问题",
         "total": "合计",
-        "click": "点击数字跳转至对应格子的论文列表；左段为主归类篇数（浅蓝越深篇数越多），右段 `+n` 为补充标签同时配对该问题与阶段的篇数。",
-        "also_in_cell": "补充归入本格：",
-        "modality_title": "构码输入模态",
-        "modality_note": "按综述 Table 1 `representation` 列的构码输入内容模态与协同过滤（`CF`）信号分组；“协同”仅指构码输入含 `CF`，`A / B` 双分支配置分别计入各分支所在格。",
-        "modality_head": ("内容模态", "未标 CF", "含协同（CF）"),
-        "modality_unknown": "**表征未明**：[{n} 篇]({path}#{anchor})（`–`、`Multi-Dom`、`Cross-Dom` 或含未报告分支）。",
-        "modality_na": "**不适用**：[{n} 篇]({path}#{anchor})（`n/a`）。",
-        "modality_aux": "**附加信号**：{links}。",
+        "click": "点击数字跳转至对应格子的论文列表；浅蓝越深表示主归类篇数越多。",
+        "changes_title": "每篇改了什么",
+        "changes_legend": "● 表示综述 Table 1 的主改动列，○ 表示本文新增了具体机制的其他列，空格表示沿用既有或标准做法。"
+                          "训练阶段（Training）拆为“编号器更新”（Tokenizer）和“训练目标”（Objective）两列。",
+        "changes_method": "方法",
+        "modality_title": "按模态找论文",
+        "modality_note": "按输入 SID 编号器的信号分组；内容组按各构码分支分别判定，协同与上下文组按全部分支合起来判定，同一篇论文可进入多个分组。",
+        "modality_head": ("方面", "分组"),
+        "domain_title": "按领域找论文",
+        "domain_note": "按实验数据集所属的平台业务领域分组；涉及多个领域的论文分别列入对应分组。",
         "legend_head": ("标记", "含义"),
         "glossary": "论文页与矩阵中的全部符号及缩写释义见 [术语表](guides/glossary.zh.md)。",
         "updates_title": "最近更新",
@@ -271,25 +280,30 @@ ZH_LABELS = {
         "code_intro": "共 {n} 篇论文附有公开代码。`代码` 为作者官方仓库，`代码（第三方）` 为社区复现。",
         "poi_title": "POI 与本地生活论文",
         "poi_intro": "共 {n} 篇论文面向 POI、本地生活或地理空间推荐。加粗项标出各篇主要改动的流程阶段。",
-        "modality_title": "按构码输入模态索引",
-        "modality_intro": "本页按综述 Table 1 `representation` 列（或记录中的 `modality` 覆盖字段）所报告的构码输入内容模态与协同过滤（`CF`）信号分组列出论文。"
-                          "此处的“协同”仅指构码输入中包含 `CF`，不代表生成骨干或训练目标中的协同信号。`A / B` 双分支配置分别列入各分支对应小节，各小节计不同论文数。",
-        "rep_col": "表征（Representation）",
-        "aux_col": "附加信号",
-        "aux_title": "附加信号",
-        "override": "（覆盖）",
+        "modality_title": "按模态找论文",
+        "modality_intro": "本页按输入 SID 编号器的信息类型分组列出论文（分组规则定义于 `data/vocab.yaml`）。"
+                          "内容方面按各构码分支分别判定，协同与上下文方面按全部分支合起来判定；同一篇论文可进入多个分组，各节列出完整的构码分支值与应用领域。",
+        "domain_title": "按领域找论文",
+        "domain_intro": "本页按实验数据集所属的平台业务领域分组列出论文。涉及多个领域的论文分别列入各对应小节，各节同时列出完整的应用领域与构码输入分支。",
+        "sid_inputs_col": "构码输入",
+        "domain_col": "领域",
+        "empty_group": "当前暂无论文归入本组。",
     },
     "glossary": {
         "title": "术语表",
         "intro": "本页由 [`data/vocab.yaml`](../data/vocab.yaml) 自动生成，定义综述 Table 1、论文详情页与各索引页中的受控词表取值。",
         "symbols": "表内符号",
         "problems": "研究问题",
+        "modality": "构码输入模态（SID Inputs）",
+        "domain": "应用领域（Domain）",
+        "settings": "特殊实验设置（Settings）",
     },
     "legend": [
         ("`†`", "根据论文点名沿用的基座或配置推断得到。"),
         ("`A / B`", "包含两个分支或两种评测配置。"),
         ("`–`", "论文未报告。"),
         ("`n/a`", "不适用于该方法。"),
+        ("`●` / `○`", "综述 Table 1 主改动列（`●`）与新增具体机制的其他列（`○`）。"),
         ("**加粗**", "该论文主要改动的流程阶段。"),
         ("空白格", "该主分类下暂无论文。"),
         ("`warm`", "实验设置卡中的热启动过滤协议标签。"),
@@ -298,7 +312,7 @@ ZH_LABELS = {
 FLOW_IDS = ["R", "T", "B", "TR", "I"]
 BASE_STYLE = "fill:#f8fafc,stroke:#cbd5e1"
 MAIN_STYLE = "fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px"
-ALSO_STYLE = "fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3"
+OTHER_STYLE = "fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3"
 LICENSE_ID = "CC0-1.0"  # SPDX id of LICENSE, shown in the README badge
 BADGE_COLORS = {"papers": "d6e8fa", "updated": "d9ead3", "license": "e5dcef"}  # light shields.io backgrounds
 
@@ -321,102 +335,253 @@ def mm_label(s: str) -> str:
     return '"' + str(s).replace('"', "#quot;") + '"'
 
 
+def change_kind(val) -> str:
+    if val == "primary":
+        return "primary"
+    if isinstance(val, dict) and val.get("value") == "other":
+        return "other"
+    return "none"
+
+
+def change_dot(val) -> str:
+    k = change_kind(val)
+    return "● " if k == "primary" else ("○ " if k == "other" else "")
+
+
 def flow_chart(rec: dict, zh: bool = False) -> list:
-    """Mermaid flowchart of the five stages; primary stage gets light blue fill, secondary stages get dashed borders."""
+    """Mermaid flowchart of the five stages; primary stage gets light-blue fill, stages with ○ get dashed borders."""
+    ch = rec["changes"]
     s_disp = lambda s: f"{ZH_LABELS['stages_zh'][s]} {s}" if zh else s
-    nodes = " --> ".join(f"{i}[{mm_label(f'{s_disp(s)}<br/>{v}')}]" for i, s, v in zip(FLOW_IDS, STAGES, stage_values(rec)))
+    tok_lbl = COL_HEADERS_ZH["tokenizer"] if zh else "Tokenizer"
+    obj_lbl = COL_HEADERS_ZH["objective"] if zh else "Objective"
+    node_texts = [
+        f"{s_disp('Representation')}<br/>{change_dot(ch['representation'])}{rec['representation']}",
+        f"{s_disp('Tokenization')}<br/>{change_dot(ch['tokenization'])}{rec['tokenization']}",
+        f"{s_disp('Backbone')}<br/>{change_dot(ch['backbone'])}{rec['backbone']}",
+        f"{s_disp('Training')}<br/>{tok_lbl}: {change_dot(ch['tokenizer'])}{rec['tokenizer']}"
+        f"<br/>{obj_lbl}: {change_dot(ch['objective'])}{rec['objective']}",
+        f"{s_disp('Inference')}<br/>{change_dot(ch['inference'])}{rec['inference']}",
+    ]
+    nodes = " --> ".join(f"{fid}[{mm_label(txt)}]" for fid, txt in zip(FLOW_IDS, node_texts))
+    stage_cols = [
+        ["representation"],
+        ["tokenization"],
+        ["backbone"],
+        ["tokenizer", "objective"],
+        ["inference"],
+    ]
+    main_ids = [fid for fid, cols in zip(FLOW_IDS, stage_cols) if any(change_kind(ch[c]) == "primary" for c in cols)]
+    other_ids = [
+        fid for fid, cols in zip(FLOW_IDS, stage_cols)
+        if fid not in main_ids and any(change_kind(ch[c]) == "other" for c in cols)
+    ]
     styles = [f"    classDef base {BASE_STYLE}", f"    class {','.join(FLOW_IDS)} base"]
-    also_stages = [s for s in STAGES if s != rec["stage"] and any(a.get("stage") == s for a in rec.get("also", []))]
-    if also_stages:
-        styles += [f"    classDef also {ALSO_STYLE}", f"    class {','.join(FLOW_IDS[STAGES.index(s)] for s in also_stages)} also"]
-    if rec["stage"] in STAGES:
-        styles += [f"    classDef main {MAIN_STYLE}", f"    class {FLOW_IDS[STAGES.index(rec['stage'])]} main"]
+    if other_ids:
+        styles += [f"    classDef other {OTHER_STYLE}", f"    class {','.join(other_ids)} other"]
+    if main_ids:
+        styles += [f"    classDef main {MAIN_STYLE}", f"    class {','.join(main_ids)} main"]
     return ["```mermaid", "flowchart LR", f"    {nodes}", *styles, "```"]
 
 
-def format_also_item(item: dict, probs: dict, zh: bool = False, code_wrap: bool = True) -> str:
+def format_changes_inline(rec: dict, zh: bool = False, sep: str = " · ", empty: str = "–") -> str:
+    headers = COL_HEADERS_ZH if zh else COL_HEADERS_EN
+    ch = rec["changes"]
+    items = []
+    for c in TECH_COLS:
+        dot = change_dot(ch[c])
+        if dot:
+            items.append(f"{dot}{headers[c]}")
+    return sep.join(items) if items else empty
+
+
+def format_modality(rec: dict, code_wrap: bool = True) -> str:
     w = (lambda s: f"`{s}`") if code_wrap else str
-    pr, stg = item.get("problem"), item.get("stage")
-    p_txt = w(band(probs[pr], zh)) if pr else ""
-    s_txt = w(f"{ZH_LABELS['stages_zh'][stg]}（{stg}）" if zh else stg) if stg else ""
-    if p_txt and s_txt:
-        return f"{p_txt} × {s_txt}"
-    return p_txt or s_txt
+    m = rec["modality"]
+    if isinstance(m, dict):
+        sep = " · " if code_wrap else "; "
+        return sep.join(f"{br}: " + (" + ".join(w(x) for x in vals) if vals else "–") for br, vals in m.items())
+    return " + ".join(w(x) for x in m)
 
 
-def rep_modality_map(vocab: dict) -> dict:
-    return {e["value"]: e["modality"] for e in vocab["representation"]}
+def domain_zh_map(vocab: dict) -> dict:
+    return {e["value"]: e["name_zh"] for e in vocab["domain"]}
 
 
-def paper_modality(rec: dict, rmap: dict) -> tuple:
-    """Return (deduplicated list of (content, cf) buckets, auxiliary signal list, overridden bool)."""
-    v_branches = rmap[rec["representation"]]
-    signals = list(dict.fromkeys(sig for b in v_branches for sig in b.get("signals", [])))
-    if "modality" in rec:
-        ov = rec["modality"] if isinstance(rec["modality"], list) else [rec["modality"]]
-        buckets = list(dict.fromkeys((b["content"], b["cf"]) for b in ov))
-        return buckets, signals, True
-    buckets = list(dict.fromkeys((b["content"], b["cf"]) for b in v_branches))
-    return buckets, signals, False
+def settings_zh_map(vocab: dict) -> dict:
+    return {e["value"]: e["name_zh"] for e in vocab["settings"]}
 
 
-def modality_label(bucket: tuple, zh: bool = False) -> str:
-    for key, en_name, zh_name, *_ in MODALITY_BUCKETS:
-        if key == bucket:
-            if key == ("unknown", None):
-                return "表征未明" if zh else "Unspecified"
-            return zh_name if zh else en_name
-    return str(bucket)
+def format_domain(rec: dict, dom_zh: dict, zh: bool = False, code_wrap: bool = True) -> str:
+    w = (lambda s: f"`{s}`") if code_wrap else str
+    sep = " · " if code_wrap else ", "
+    return sep.join(w(dom_zh[d] if zh else d) for d in rec["domain"])
 
 
-def modality_summary_en(rec: dict, rmap: dict) -> str:
-    buckets, signals, _ = paper_modality(rec, rmap)
-    base = " / ".join(modality_label(b, zh=False) for b in buckets)
-    return f"{base} ({', '.join(signals)})" if signals else base
+def format_settings(rec: dict, set_zh: dict, zh: bool = False, code_wrap: bool = True, empty: str = "") -> str:
+    if not rec.get("settings"):
+        return empty
+    w = (lambda s: f"`{s}`") if code_wrap else str
+    sep = " · " if code_wrap else ", "
+    parts = []
+    for s in rec["settings"]:
+        if zh:
+            lbl = (
+                f"{set_zh[s['value']]}（{ZH_LABELS['scope_zh'][s['scope']]}）"
+                if "scope" in s else set_zh[s["value"]]
+            )
+        else:
+            lbl = f"{s['value']} ({s['scope']})" if "scope" in s else s["value"]
+        parts.append(w(lbl))
+    return sep.join(parts)
 
 
-def build_modality_table(papers: list, rmap: dict, mod_path: str, zh: bool = False) -> list:
-    """Render the 3x2 modality summary table plus the three lines below it (unknown, n/a, auxiliary signals)."""
-    R = ZH_LABELS["readme"]
+def content_modality_set(vocab: dict) -> set:
+    return {e["value"] for e in vocab["modality"] if e.get("is_content")}
+
+
+def match_modality_group(rec: dict, group: dict, content_set: set) -> bool:
+    """Evaluate a declarative grouping rule from data/vocab.yaml against a paper's modality field."""
+    m = rec["modality"]
+    branches = list(m.values()) if isinstance(m, dict) else [m]
+    union = {x for b in branches for x in b}
+    b_contents = [set(b) & content_set for b in branches]
+    rule = group["rule"]
+    if rule == "branch_content_exact":
+        return any(bc == {group["target"]} for bc in b_contents)
+    if rule == "branch_content_single_excluding":
+        excl = set(group["exclude"])
+        return any(len(bc) == 1 and not (bc <= excl) for bc in b_contents)
+    if rule == "branch_content_multi_or_any":
+        inc = set(group["include_any"])
+        return any(len(bc) >= 2 or bool(bc & inc) for bc in b_contents)
+    if rule == "all_branches_no_content":
+        excl = set(group.get("exclude", ()))
+        excl_only = set(group.get("exclude_all_only", ()))
+        return (
+            all(len(bc) == 0 for bc in b_contents)
+            and not (union & excl)
+            and (not excl_only or not (union <= excl_only))
+        )
+    if rule == "union_exact":
+        return union == {group["target"]}
+    if rule == "union_with_other":
+        return group["target"] in union and len(union) > 1
+    if rule == "union_contains":
+        return group["target"] in union
+    raise ValueError(f"Unsupported modality_groups rule in data/vocab.yaml: {rule!r}")
+
+
+def group_papers_by_modality(papers: list, vocab: dict) -> dict:
+    cset = content_modality_set(vocab)
     ordered = by_year(papers)
-    bucket_papers = {key: [] for key, *_ in MODALITY_BUCKETS}
-    sig_papers = {sig: [] for sig, *_ in AUX_SIGNAL_LIST}
-    for r in ordered:
-        buckets, signals, _ = paper_modality(r, rmap)
-        for b in buckets:
-            bucket_papers[b].append(r)
-        for s in signals:
-            sig_papers[s].append(r)
-    b_meta = {key: (en_n, zh_n) for key, en_n, zh_n, *_ in MODALITY_BUCKETS}
-    cell_link = lambda key: (
-        f"[{b_meta[key][1 if zh else 0]}{'（' if zh else ' ('}{len(bucket_papers[key])}{'）' if zh else ')'}]"
-        f"({mod_path}#{slugify_heading(b_meta[key][1 if zh else 0])})"
+    return {
+        g["value"]: [r for r in ordered if match_modality_group(r, g, cset)]
+        for g in vocab["modality_groups"]
+    }
+
+
+def ordered_domains(papers: list, vocab: dict) -> list:
+    """Return [(domain_entry, papers_in_domain), ...] ordered by descending paper count, keeping unknown last."""
+    ordered = by_year(papers)
+    buckets = []
+    for idx, entry in enumerate(vocab["domain"]):
+        val = entry["value"]
+        members = [r for r in ordered if val in r["domain"]]
+        is_unk = val.startswith("unknown")
+        buckets.append((is_unk, -len(members), idx, entry, members))
+    buckets.sort(key=lambda x: (x[0], x[1], x[2]))
+    return [(entry, members) for _, _, _, entry, members in buckets]
+
+
+def format_group_entry(label: str, count: int, target_path: str, zh: bool = False) -> str:
+    """Link to target_path#anchor with paper count; zero-paper groups render plain text with no link."""
+    disp = f"{label}（{count}）" if zh else f"{label} ({count})"
+    if count == 0:
+        return disp
+    anchor = slugify_heading(label)
+    prefix = f"{target_path}#{anchor}" if target_path else f"#{anchor}"
+    return f"[{disp}]({prefix})"
+
+
+def build_modality_nav(papers: list, vocab: dict, mod_path: str, zh: bool = False) -> list:
+    R = ZH_LABELS["readme"]
+    grouped = group_papers_by_modality(papers, vocab)
+    aspects = []
+    seen_aspects = {}
+    for g in vocab["modality_groups"]:
+        asp = g["aspect_zh"] if zh else g["aspect"]
+        if asp not in seen_aspects:
+            seen_aspects[asp] = []
+            aspects.append(asp)
+        label = g["name_zh"] if zh else g["name"]
+        seen_aspects[asp].append(format_group_entry(label, len(grouped[g["value"]]), mod_path, zh=zh))
+    head = R["modality_head"] if zh else ("Aspect", "Groups")
+    rows = [f"| {head[0]} | {head[1]} |", "| :--- | :--- |"]
+    for asp in aspects:
+        rows.append(f"| **{asp}** | {' · '.join(seen_aspects[asp])} |")
+    return rows
+
+
+def build_domain_nav(papers: list, vocab: dict, dom_path: str, zh: bool = False) -> str:
+    dom_buckets = ordered_domains(papers, vocab)
+    entries = [
+        format_group_entry(e["name_zh"] if zh else e["value"], len(members), dom_path, zh=zh)
+        for e, members in dom_buckets
+    ]
+    return " · ".join(entries)
+
+
+def build_changes_section(vocab: dict, cell: dict, psb_list: list, zh: bool = False) -> list:
+    """Render 'What Each Paper Changes' with one legend above seven collapsed <details> tables."""
+    R = ZH_LABELS["readme"]
+    probs = {e["value"]: e for e in vocab["problem"]}
+    problems = [p for p in vocab["problem"] if p["value"] != "psb"]
+    psb = probs["psb"]
+    page_dir = "pages/zh/papers" if zh else "pages/papers"
+    col_heads = [COL_HEADERS_ZH[c] if zh else COL_HEADERS_EN[c] for c in TECH_COLS]
+    head_row = [R["changes_method"] if zh else "Method", *col_heads]
+
+    legend = R["changes_legend"] if zh else (
+        "● marks the primary modified cell from Table 1, ○ marks another column where the paper introduces "
+        "a concrete mechanism, and blank cells keep inherited or standard choices. "
+        "The Training stage is split into Tokenizer (how the tokenizer is updated during generator training) "
+        "and Objective (generator training loss)."
     )
-    head = R["modality_head"] if zh else ("Content Modality", "No CF tagged", "With CF")
-    rows = [f"| {head[0]} | {head[1]} | {head[2]} |", "| :-- | :-- | :-- |"]
-    for c_key, en_row, zh_row, _ in MODALITY_ROWS:
-        r_label = f"**{zh_row}**" if zh else f"**{en_row}**"
-        rows.append(f"| {r_label} | {cell_link((c_key, False))} | {cell_link((c_key, True))} |")
-    unk_title = b_meta[("unknown", None)][1 if zh else 0]
-    na_title = b_meta[("na", None)][1 if zh else 0]
-    unk_n, na_n = len(bucket_papers[("unknown", None)]), len(bucket_papers[("na", None)])
-    aux_links = " · ".join(
-        f"[`{sig}`{'（' if zh else ' ('}{len(sig_papers[sig])}{'）' if zh else ')'}]({mod_path}#{slugify_heading(sig)})"
-        for sig, *_ in AUX_SIGNAL_LIST
-    )
-    if zh:
-        foot = [
-            R["modality_unknown"].format(n=unk_n, path=mod_path, anchor=slugify_heading(unk_title)), "",
-            R["modality_na"].format(n=na_n, path=mod_path, anchor=slugify_heading(na_title)), "",
-            R["modality_aux"].format(links=aux_links),
+    out = [
+        f"## {R['changes_title'] if zh else 'What Each Paper Changes'}", "",
+        legend, "",
+    ]
+
+    bands = [
+        *((p, [r for s in STAGES for r in cell[(p["value"], s)]]) for p in problems),
+        (psb, psb_list),
+    ]
+    for p, band_papers in bands:
+        cnt = len(band_papers)
+        cnt_str = f"{cnt} 篇" if zh else f"{cnt} paper{'s' if cnt != 1 else ''}"
+        summary = f"{band(p, zh)} · {cnt_str}"
+        t_rows = [
+            f"| {' | '.join(head_row)} |",
+            "|" + " :--- |" * len(head_row),
         ]
-    else:
-        foot = [
-            f"**Unspecified representation**: [{unk_n} papers]({mod_path}#{slugify_heading(unk_title)}) (`–`, `Multi-Dom`, `Cross-Dom`, or an unreported branch).", "",
-            f"**Not applicable**: [{na_n} paper{'s' if na_n != 1 else ''}]({mod_path}#{slugify_heading(na_title)}) (`n/a`).", "",
-            f"**Auxiliary signals**: {aux_links}.",
+        for r in band_papers:
+            m_link = f"[{r['name']}]({page_dir}/{r['id']}.md)"
+            ch_cells = []
+            for c in TECH_COLS:
+                dot = change_dot(r["changes"][c])
+                val = cell_text(r[c])
+                ch_cells.append(f"{dot}`{val}`" if dot else "")
+            t_rows.append(f"| {' | '.join([m_link, *ch_cells])} |")
+        out += [
+            "<details>",
+            f"<summary>{summary}</summary>",
+            "",
+            *t_rows,
+            "",
+            "</details>",
+            "",
         ]
-    return [*align(rows), "", *foot]
+    return out
 
 
 def related_chart(rec: dict, by_id: dict, zh: bool = False) -> str:
@@ -538,20 +703,20 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
     readme = f"{up}README.zh.md" if zh else f"{up}README.md"
     probs = {e["value"]: e for e in vocab["problem"]}
     prob = probs[rec["problem"]]
+    dom_zh = domain_zh_map(vocab)
+    set_zh = settings_zh_map(vocab)
     anchor = slugify_heading(cell_label(rec, probs, zh))
     sections = SECTIONS_ZH if zh else SECTIONS
     level = reading_level(n, sections)
     desc_key = "description_zh" if zh else "description"
     defs = {c: {e["value"]: e.get(desc_key) or e.get("description") for e in vocab.get(c, [])} for c in TECH_COLS}
     tldr = ((rec.get("tldr_zh") if zh else rec.get("tldr")) or "").strip()
-    prob_desc = prob.get("description_zh") if zh else prob["description"]
-    glance = [("Research Problem", f"{band(prob, zh)}{Z['colon'] if zh else ': '}{prob_desc}"), ("Key Contribution", tldr),
-              ("Modified Stage", stage_label(rec, zh)), *((k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS)]
+    glance = [(k, (n or {}).get("glance", {}).get(k)) for k in GLANCE_KEYS]
     head = Z["glance_head"] if zh else ("Aspect", "Summary")
-    rows = [f"| {Z['glance_rows'][a] if zh else a} | {v.strip().replace('|', chr(92) + '|')} |" for a, v in glance if v]
+    glance_rows = [f"| {Z['glance_rows'][a] if zh else a} | {v.strip().replace('|', chr(92) + '|')} |" for a, v in glance if v]
     colon = Z["colon"] if zh else ": "
     blocks = [("TL;DR", [f"> [!NOTE]\n> {tldr}"])] if tldr else []
-    blocks += [(Z["glance_title"] if zh else "At a Glance", ["\n".join([f"| {head[0]} | {head[1]} |", "| :-- | :-- |", *rows])])] if rows else []
+    blocks += [(Z["glance_title"] if zh else "At a Glance", ["\n".join([f"| {head[0]} | {head[1]} |", "| :-- | :-- |", *glance_rows])])] if glance_rows else []
     image = root / "architectures" / f"{rec['id']}.png"
     inserts = {sections[1]: f"![{rec['name']} architecture diagram]({up}architectures/{image.name})" if image.is_file() else "",
                sections[2]: setup_card(rec, folded=True, zh=zh)}
@@ -568,10 +733,6 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
                    [p for p in (related_chart(rec, by_id, zh=zh), rel, f"[{view}]({readme}#{anchor})") if p]))
     tags = [band(prob, zh), stage_label(rec, zh)] + (["POI"] if rec.get("poi") else [])
     cell_str = " · ".join(f"`{t}`" for t in tags)
-    if rec.get("also"):
-        sep = "；" if zh else "; "
-        also_prefix = f" — {Z['also_label']}：" if zh else " — Also: "
-        cell_str += also_prefix + sep.join(format_also_item(a, probs, zh=zh, code_wrap=True) for a in rec["also"])
     toc = " · ".join(f"[{t if zh else TOC_SHORT.get(t, t)}](#{slugify_heading(t)})" for t, _ in blocks if t)
     vals = dict.fromkeys(
         f"- `{rec[c]}`{colon}{defs[c][rec[c]]}"
@@ -580,16 +741,28 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
     )
     nav_bar = (
         f"[← {Z['links']['Matrix']}]({readme}#{anchor}) · [{Z['links']['Stages']}](../index/stages.md) · "
-        f"[{Z['links']['Modality']}](../index/modality.md) · [English](../../papers/{rec['id']}.md) | 中文"
+        f"[{Z['links']['Modality']}](../index/modality.md) · [{Z['links']['Domain']}](../index/domain.md) · "
+        f"[English](../../papers/{rec['id']}.md) | 中文"
         if zh else
         f"[← Problem × Stage Matrix]({readme}#{anchor}) · [Papers by Stage](../index/stages.md) · "
-        f"[Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/{rec['id']}.md)"
+        f"[Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · "
+        f"English | [中文](../zh/papers/{rec['id']}.md)"
     )
     level_name = (Z["levels"] if zh else LEVELS)[level - 1]
     level_text = f"{level_name}（{Z['level_n'].format(n=level)}）" if zh else f"{level_name} (Level {level})"
-    card = [("Title", f"*{title_of(rec)}*"), ("Authors", rec["authors"]), ("Venue", rec["venue"]),
-            ("Cell", cell_str), ("Links", link_line(rec, zh=zh)),
-            ("Reading level", level_text)]
+    settings_str = format_settings(rec, set_zh, zh=zh, code_wrap=True)
+    card = [
+        ("Title", f"*{title_of(rec)}*"),
+        ("Authors", rec["authors"]),
+        ("Venue", rec["venue"]),
+        ("Cell", cell_str),
+        ("Changes", format_changes_inline(rec, zh=zh)),
+        ("SID inputs", format_modality(rec, code_wrap=True)),
+        ("Domain", format_domain(rec, dom_zh, zh=zh, code_wrap=True)),
+        *([("Settings", settings_str)] if settings_str else []),
+        ("Links", link_line(rec, zh=zh)),
+        ("Reading level", level_text),
+    ]
     lab = lambda k: Z["card"][k] if zh else ("Problem × Stage" if k == "Cell" else k)
     rows = [f"| **{lab(k)}** | {v.replace('|', chr(92) + '|')} |" for k, v in card]
     lines = [
@@ -605,16 +778,11 @@ def build_paper_page(rec: dict, vocab: dict, by_id: dict, n, root: Path, zh: boo
     return "\n".join(lines)
 
 
-def heat(n: int, also_n: int, anchor: str) -> str:
-    if not n and not also_n:
+def heat(n: int, anchor: str) -> str:
+    if not n:
         return ""
-    if n and also_n:
-        color = [c for lo, c in HEAT if n >= lo][-1]
-        return f"[![{n} (+{also_n})](https://img.shields.io/badge/{n}-%2B{also_n}-{ALSO_BADGE_BG}?style=for-the-badge&labelColor={color})](#{anchor})"
-    if n:
-        color = [c for lo, c in HEAT if n >= lo][-1]
-        return f"[![{n}](https://img.shields.io/badge/{n}-{color}?style=for-the-badge)](#{anchor})"
-    return f"[![+{also_n}](https://img.shields.io/badge/%2B{also_n}-{ALSO_BADGE_BG}?style=for-the-badge)](#{anchor})"
+    color = [c for lo, c in HEAT if n >= lo][-1]
+    return f"[![{n}](https://img.shields.io/badge/{n}-{color}?style=for-the-badge)](#{anchor})"
 
 
 def align(rows: list) -> list:
@@ -671,15 +839,10 @@ def readme_head(papers: list, updates: list, zh: bool = False) -> list:
 
 def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, zh: bool = False) -> str:
     R = ZH_LABELS["readme"]
-    rmap = rep_modality_map(vocab)
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
     psb = next(p for p in vocab["problem"] if p["value"] == "psb")
     ordered = by_year(papers)
     cell = {(p["value"], s): [r for r in ordered if (r["problem"], r["stage"]) == (p["value"], s)] for p in problems for s in STAGES}
-    also_cell = {
-        (p["value"], s): [r for r in ordered if any((a.get("problem"), a.get("stage")) == (p["value"], s) for a in r.get("also", []))]
-        for p in problems for s in STAGES
-    }
     psb_list = [r for r in ordered if r["problem"] == "psb"]
     pname = lambda p: ZH_LABELS["problems"][p["value"]].split(". ", 1)[1] if zh else p["name"]
     pdesc = lambda p: p.get("description_zh") if zh else p["description"]
@@ -687,9 +850,8 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
              "| :-- |" + " :-: |" * (len(STAGES) + 1)]
     for p in problems:
         counts = [len(cell[(p["value"], s)]) for s in STAGES]
-        also_counts = [len(also_cell[(p["value"], s)]) for s in STAGES]
         anchors = [slugify_heading(f"{p['value']} × {s}") for s in STAGES]
-        table.append(f"| **{p['value']}.** {pname(p)} | " + " | ".join(map(heat, counts, also_counts, anchors)) + f" | **{sum(counts)}** |")
+        table.append(f"| **{p['value']}.** {pname(p)} | " + " | ".join(map(heat, counts, anchors)) + f" | **{sum(counts)}** |")
     totals = [sum(len(cell[(p["value"], s)]) for p in problems) for s in STAGES]
     table.append(f"| **{R['total'] if zh else 'Total'}** | " + " | ".join(f"**{t}**" for t in totals) + f" | **{sum(totals)}** |")
     starters = [r for r in ordered if levels[r["id"]] == 3]
@@ -700,50 +862,57 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
         top = [
             f"## {R['scope_title']}", "", R["scope"].format(n=n, m=m, k=k), "",
             f"## {R['start_title']}", "", *two(R["start_head"], R["start"]), "",
-            f"## {R['starter_title']}", ""]
+            f"## {R['starter_title']}", "",
+        ]
     else:
-        top = ["## Scope", "",
-               f"This repository indexes {n} papers on generative recommendation with Semantic IDs (SIDs). "
-               f"The matrix organizes {m} of them by research problem and primary modified stage, while {k} cover {psb['name'].lower()}. "
-               "Approaches that feed discrete SIDs into discriminative or hybrid architectures are included alongside autoregressive and parallel generators. "
-               "POI and local-life papers carry a `POI` tag and are collected in the [POI index](pages/index/poi.md).", "",
-               "## Where to Start", "",
-               *two(("Goal", "Entry point"), [
-                   ("New to the topic", "[Start Here](guides/start-here.md)"),
-                   ("Locate papers by research problem", "[Problem × Stage Matrix](#problem--stage-matrix)"),
-                   ("Compare methods within one stage", "[Papers by Stage](pages/index/stages.md)"),
-                   ("Browse by tokenizer input modality", "[Papers by Modality](pages/index/modality.md)"),
-                   ("Find open-source implementations", "[Papers with Code](pages/index/code.md)"),
-                   ("Feed LLMs and search tools", "[llms.txt](llms.txt)")]), "",
-               "## Starter Papers", ""]
+        top = [
+            "## Scope", "",
+            f"This repository indexes {n} papers on generative recommendation with Semantic IDs (SIDs). "
+            f"The matrix organizes {m} of them by research problem and primary modified stage, while {k} cover {psb['name'].lower()}. "
+            "Approaches that feed discrete SIDs into discriminative or hybrid architectures are included alongside autoregressive and parallel generators. "
+            "POI and local-life papers carry a `POI` tag and are collected in the [POI index](pages/index/poi.md).", "",
+            "## Where to Start", "",
+            *two(("Goal", "Entry point"), [
+                ("New to the topic", "[Start Here](guides/start-here.md)"),
+                ("Locate papers by research problem", "[Problem × Stage Matrix](#problem--stage-matrix)"),
+                ("Inspect per-paper stage changes", "[What Each Paper Changes](#what-each-paper-changes)"),
+                ("Compare methods within one stage", "[Papers by Stage](pages/index/stages.md)"),
+                ("Browse by tokenizer input modality", "[Papers by Modality](pages/index/modality.md)"),
+                ("Browse by application domain", "[Papers by Domain](pages/index/domain.md)"),
+                ("Find open-source implementations", "[Papers with Code](pages/index/code.md)"),
+                ("Feed LLMs and search tools", "[llms.txt](llms.txt)"),
+            ]), "",
+            "## Starter Papers", "",
+        ]
     uchange = lambda u: (u.get("change_zh") or u["change"]).strip() if zh else u["change"].strip()
     mod_path = "pages/zh/index/modality.md" if zh else "pages/index/modality.md"
-    matrix_note = R["matrix_note"] if zh else (
-        "Primary placement follows the survey's Table 1; additional tags list other problems or stages the paper explicitly targets."
-    )
+    dom_path = "pages/zh/index/domain.md" if zh else "pages/index/domain.md"
     mod_note = R["modality_note"] if zh else (
-        "Grouped by the content modality and collaborative filtering (`CF`) signal in the survey's Table 1 `representation` column; "
-        "`CF` here refers only to the tokenizer input, and `A / B` dual-branch configurations appear in each branch's cell."
+        "Grouped by the signals fed into the SID tokenizer; content groups are evaluated per branch, "
+        "collaborative and context groups across all branches combined, and a paper may appear in multiple groups."
+    )
+    dom_note = R["domain_note"] if zh else (
+        "Grouped by the platform business domain of the evaluation datasets; multi-domain papers appear in each applicable group."
     )
     lines = [
-        "<!--lint disable awesome-github-->",
+        "<!--lint disable awesome-github table-pipe-alignment-->",
         *readme_head(papers, updates, zh), "",
         *top,
         *two(R["starter_head"] if zh else ("Paper", "Core mechanism", "Venue"),
              [(ref(r), tl(r).replace("|", "\\|"), r["venue"]) for r in starters]), "",
         f"## {R['matrix_title'] if zh else 'Problem × Stage Matrix'}", "",
-        matrix_note, "",
         *align(table), "",
-        R["click"] if zh else (
-            "Click a badge to jump to its papers; the left count is primary placements (darker light-blue indicates more papers) "
-            "and `+n` counts papers with a paired secondary tag in that cell."
-        ), "",
+        R["click"] if zh else "Click a badge to jump to its papers; darker light-blue indicates more primary placements.", "",
         *align([f"| {' | '.join(R['legend_head'] if zh else ('Mark', 'Meaning'))} |", "| :-- | :-- |",
                 *[f"| {mk} | {t} |" for mk, t in (ZH_LABELS["legend"] if zh else LEGEND)]]), "",
         R["glossary"] if zh else "The [glossary](guides/glossary.md) defines every symbol and column value used across the paper pages.", "",
-        f"## {R['modality_title'] if zh else 'Tokenizer Input Modality'}", "",
+        *build_changes_section(vocab, cell, psb_list, zh=zh),
+        f"## {R['modality_title'] if zh else 'Papers by Modality'}", "",
         mod_note, "",
-        *build_modality_table(papers, rmap, mod_path, zh=zh), "",
+        *build_modality_nav(papers, vocab, mod_path, zh=zh), "",
+        f"## {R['domain_title'] if zh else 'Papers by Domain'}", "",
+        dom_note, "",
+        build_domain_nav(papers, vocab, dom_path, zh=zh), "",
         f"## {R['updates_title'] if zh else 'Recent Updates'}", "",
         *[f"- {u['date']}: {uchange(u)}" + ((f"{R['papers']}{'、'.join(ref(by_id[x]) for x in u['papers'])}。" if zh else
                                              f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}.") if u["papers"] else "")
@@ -756,30 +925,24 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
         lines += [f"## {band(p, zh)}", "", f"> {pdesc(p)}", ""]
         for s in STAGES:
             prim = cell[(p["value"], s)]
-            sec = also_cell[(p["value"], s)]
-            if prim or sec:
-                lines += [f"### {p['value']} × {s}", ""]
-                if prim:
-                    lines += [*(format_item(r, zh) for r in prim), ""]
-                if sec:
-                    also_line = (
-                        f"{R['also_in_cell']}{'、'.join(ref(r) for r in sec)}。"
-                        if zh else
-                        f"Also in this cell: {', '.join(ref(r) for r in sec)}."
-                    )
-                    lines += [also_line, ""]
+            if prim:
+                lines += [f"### {p['value']} × {s}", "", *(format_item(r, zh) for r in prim), ""]
     page_dir = "pages/zh/papers" if zh else "pages/papers"
-    lines += [f"## {R['contrib_title'] if zh else 'Contributing'}", "",
-              R["contrib"] if zh else "Add or update `data/papers/<id>.yaml` and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).", "",
-              *[f"[{band(p, zh).lower()}]: #{slugify_heading(band(p, zh))}" for p in [psb, *problems]],
-              *[f"[{r['id']}]: {page_dir}/{r['id']}.md" for r in sorted(papers, key=lambda x: x["id"])], ""]
+    lines += [
+        f"## {R['contrib_title'] if zh else 'Contributing'}", "",
+        R["contrib"] if zh else "Add or update `data/papers/<id>.yaml` and run `make build && make check`; see [`CONTRIBUTING.md`](CONTRIBUTING.md).", "",
+        *[f"[{band(p, zh).lower()}]: #{slugify_heading(band(p, zh))}" for p in [psb, *problems]],
+        *[f"[{r['id']}]: {page_dir}/{r['id']}.md" for r in sorted(papers, key=lambda x: x["id"])], "",
+    ]
     return "\n".join(lines)
 
 
 def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
     X = ZH_LABELS["index"]
+    R = ZH_LABELS["readme"]
     up = "../../../" if zh else "../../"
     probs = {e["value"]: e for e in vocab["problem"]}
+    dom_zh = domain_zh_map(vocab)
     ordered = by_year(papers)
     link = lambda r: f"[{r['name']}](../papers/{r['id']}.md)"
     table = lambda head, rows: [f"| {' | '.join(head)} |", "|" + " :-- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]]
@@ -789,68 +952,106 @@ def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
     cell_h = X["cell"] if zh else "Problem × Stage"
     compare = " · ".join(f"[{t}]({up}comparisons/{f}.md)" for f, t, *_ in COMPARISONS)
     switch = lambda f: f"[English](../../index/{f}) | 中文" if zh else f"English | [中文](../zh/index/{f})"
-    stages = [f"# {X['stages_title'] if zh else 'Papers by Stage'}", "", switch("stages.md"), "",
-              X["stages_intro"].format(readme=readme, anchor=psb_anchor) if zh else
-              "Each table groups papers by the pipeline stage they primarily modify, alongside that stage's Table 1 value. "
-              f"Papers under {probs['psb']['name'].lower()} span multiple stages or provide benchmarks; see the [README]({readme}#{psb_anchor}).", "",
-              (X["compare"] if zh else "Side-by-side comparison tables: ") + compare, ""]
+
+    stages = [
+        f"# {X['stages_title'] if zh else 'Papers by Stage'}", "", switch("stages.md"), "",
+        X["stages_intro"].format(readme=readme, anchor=psb_anchor) if zh else
+        "Each table groups papers by the pipeline stage they primarily modify, alongside that stage's Table 1 value. "
+        f"Papers under {probs['psb']['name'].lower()} span multiple stages or provide benchmarks; see the [README]({readme}#{psb_anchor}).", "",
+        (X["compare"] if zh else "Side-by-side comparison tables: ") + compare, "",
+    ]
     for s in STAGES:
         s_head = f"{ZH_LABELS['stages_zh'][s]}（{s}）" if zh else s
         rows = [[link(r), r["venue"], band(probs[r["problem"]], zh),
                  f"`{r['tokenizer']} / {r['objective']}`" if s == "Training" else f"`{r[s.lower()]}`"]
                 for r in ordered if r["stage"] == s]
         stages += [f"## {s_head}", "", *table([*head, s_head], rows), ""]
+
     coded = [r for r in ordered if code_links(r)]
-    code = [f"# {X['code_title'] if zh else 'Papers with Code'}", "", switch("code.md"), "",
-            X["code_intro"].format(n=len(coded)) if zh else
-            f"{len(coded)} papers link to public code. `Code` marks an official author repository; `Code (third-party)` marks a community implementation.", "",
-            *table([head[0], head[1], cell_h, X["code"] if zh else "Code"],
-                   [[link(r), r["venue"], cell_label(r, probs, zh), " · ".join(f"[{l}]({u})" for l, u in code_links(r, zh))]
-                    for r in coded]), ""]
-    poi = [r for r in ordered if r.get("poi")]
-    poi_page = [f"# {X['poi_title'] if zh else 'POI and Local-Life Papers'}", "", switch("poi.md"), "",
-                X["poi_intro"].format(n=len(poi)) if zh else
-                f"{len(poi)} papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper primarily modifies.", "",
-                *table([head[0], head[1], cell_h, X["pipeline"] if zh else "Pipeline"],
-                       [[link(r), r["venue"], cell_label(r, probs, zh), pipeline(r)] for r in poi]), ""]
-    rmap = rep_modality_map(vocab)
-    bucket_papers = {key: [] for key, *_ in MODALITY_BUCKETS}
-    sig_papers = {sig: [] for sig, *_ in AUX_SIGNAL_LIST}
-    paper_mod_info = {}
-    for r in ordered:
-        buckets, signals, overridden = paper_modality(r, rmap)
-        paper_mod_info[r["id"]] = (buckets, signals, overridden)
-        for b in buckets:
-            bucket_papers[b].append(r)
-        for s in signals:
-            sig_papers[s].append(r)
-    rep_cell = lambda r: (
-        f"`{r['representation']}`{X['override'] if zh else ' *(override)*'}"
-        if paper_mod_info[r["id"]][2] else f"`{r['representation']}`"
-    )
-    aux_cell = lambda r: " · ".join(f"`{s}`" for s in paper_mod_info[r["id"]][1]) or "–"
-    mod_cols = [head[0], head[1], cell_h, X["rep_col"] if zh else "Representation", X["aux_col"] if zh else "Auxiliary"]
-    mod_page = [
-        f"# {X['modality_title'] if zh else 'Papers by Tokenizer Input Modality'}", "",
-        switch("modality.md"), "",
-        X["modality_intro"] if zh else (
-            "Papers grouped by the content modality and collaborative filtering (`CF`) signal reported in the survey's Table 1 "
-            "`representation` column (or paper-level `modality` override where recorded). Collaborative signal here refers only "
-            "to `CF` in the tokenizer input, not to collaborative supervision in the generator backbone or training objective. "
-            "Dual-branch `A / B` configurations appear in each branch's section, with distinct papers counted per section."
-        ), "",
-        *build_modality_table(papers, rmap, "", zh=zh), "",
+    code = [
+        f"# {X['code_title'] if zh else 'Papers with Code'}", "", switch("code.md"), "",
+        X["code_intro"].format(n=len(coded)) if zh else
+        f"{len(coded)} papers link to public code. `Code` marks an official author repository; `Code (third-party)` marks a community implementation.", "",
+        *table([head[0], head[1], cell_h, X["code"] if zh else "Code"],
+               [[link(r), r["venue"], cell_label(r, probs, zh), " · ".join(f"[{l}]({u})" for l, u in code_links(r, zh))]
+                for r in coded]), "",
     ]
-    for key, en_name, zh_name, en_desc, zh_desc in MODALITY_BUCKETS:
-        sec_title = zh_name if zh else en_name
-        sec_desc = zh_desc if zh else en_desc
-        rows = [[link(r), r["venue"], cell_label(r, probs, zh), rep_cell(r), aux_cell(r)] for r in bucket_papers[key]]
-        mod_page += [f"## {sec_title}", "", f"> {sec_desc}", "", *table(mod_cols, rows), ""]
-    mod_page += [f"## {X['aux_title'] if zh else 'Auxiliary Signals'}", ""]
-    for sig, en_sdesc, zh_sdesc in AUX_SIGNAL_LIST:
-        rows = [[link(r), r["venue"], cell_label(r, probs, zh), rep_cell(r), aux_cell(r)] for r in sig_papers[sig]]
-        mod_page += [f"### {sig}", "", f"> {zh_sdesc if zh else en_sdesc}", "", *table(mod_cols, rows), ""]
-    return {"stages.md": "\n".join(stages), "code.md": "\n".join(code), "poi.md": "\n".join(poi_page), "modality.md": "\n".join(mod_page)}
+
+    poi = [r for r in ordered if r.get("poi")]
+    poi_page = [
+        f"# {X['poi_title'] if zh else 'POI and Local-Life Papers'}", "", switch("poi.md"), "",
+        X["poi_intro"].format(n=len(poi)) if zh else
+        f"{len(poi)} papers target POI, local-life, or spatial recommendation. Bold marks the stage each paper primarily modifies.", "",
+        *table([head[0], head[1], cell_h, X["pipeline"] if zh else "Pipeline"],
+               [[link(r), r["venue"], cell_label(r, probs, zh), pipeline(r)] for r in poi]), "",
+    ]
+
+    new_table = lambda head, rows: [f"| {' | '.join(head)} |", "|" + " :--- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]]
+    grouped_mod = group_papers_by_modality(papers, vocab)
+    mod_back_anchor = slugify_heading(R["modality_title"] if zh else "Papers by Modality")
+    sid_col = X["sid_inputs_col"] if zh else "SID Inputs"
+    dom_col = X["domain_col"] if zh else "Domain"
+    mod_cols = [head[0], head[1], cell_h, sid_col, dom_col]
+    mod_page = [
+        f"# {X['modality_title'] if zh else 'Papers by Modality'}", "",
+        f"[← README]({readme}#{mod_back_anchor}) · {switch('modality.md')}", "",
+        X["modality_intro"] if zh else (
+            "Papers grouped by the signals fed into the SID tokenizer (rules defined in `data/vocab.yaml`). "
+            "Content groups are evaluated per branch, collaborative and context groups across all branches combined; "
+            "a paper appears in every matching group with its full branch values and application domains."
+        ), "",
+        *build_modality_nav(papers, vocab, "", zh=zh), "",
+    ]
+    for g in vocab["modality_groups"]:
+        sec_title = g["name_zh"] if zh else g["name"]
+        sec_desc = g["description_zh"] if zh else g["description"]
+        members = grouped_mod[g["value"]]
+        cnt = len(members)
+        cnt_txt = f"共 {cnt} 篇。" if zh else f"{cnt} paper{'s' if cnt != 1 else ''}. "
+        mod_page += [f"## {sec_title}", "", f"> {cnt_txt}{sec_desc}", ""]
+        if members:
+            rows = [
+                [link(r), r["venue"], cell_label(r, probs, zh), format_modality(r), format_domain(r, dom_zh, zh=zh)]
+                for r in members
+            ]
+            mod_page += [*new_table(mod_cols, rows), ""]
+        else:
+            mod_page += [X["empty_group"] if zh else "No papers currently fall in this group.", ""]
+
+    dom_buckets = ordered_domains(papers, vocab)
+    dom_back_anchor = slugify_heading(R["domain_title"] if zh else "Papers by Domain")
+    dom_cols = [head[0], head[1], cell_h, dom_col, sid_col]
+    dom_page = [
+        f"# {X['domain_title'] if zh else 'Papers by Domain'}", "",
+        f"[← README]({readme}#{dom_back_anchor}) · {switch('domain.md')}", "",
+        X["domain_intro"] if zh else (
+            "Papers grouped by the platform business domain of their evaluation datasets. "
+            "Multi-domain papers appear in each applicable section alongside their full domain list and SID tokenizer inputs."
+        ), "",
+        build_domain_nav(papers, vocab, "", zh=zh), "",
+    ]
+    for entry, members in dom_buckets:
+        sec_title = entry["name_zh"] if zh else entry["value"]
+        sec_desc = entry["description_zh"] if zh else entry["description"]
+        cnt = len(members)
+        cnt_txt = f"共 {cnt} 篇。" if zh else f"{cnt} paper{'s' if cnt != 1 else ''}. "
+        dom_page += [f"## {sec_title}", "", f"> {cnt_txt}{sec_desc}", ""]
+        if members:
+            rows = [
+                [link(r), r["venue"], cell_label(r, probs, zh), format_domain(r, dom_zh, zh=zh), format_modality(r)]
+                for r in members
+            ]
+            dom_page += [*new_table(dom_cols, rows), ""]
+        else:
+            dom_page += [X["empty_group"] if zh else "No papers currently fall in this group.", ""]
+
+    return {
+        "stages.md": "\n".join(stages),
+        "code.md": "\n".join(code),
+        "poi.md": "\n".join(poi_page),
+        "modality.md": "\n".join(mod_page),
+        "domain.md": "\n".join(dom_page),
+    }
 
 
 COMPARISONS = [  # (file, title, intro, sort keys, [(header, record key or setup.<key>)])
@@ -891,59 +1092,122 @@ def build_glossary(vocab: dict, zh: bool = False) -> str:
     pname = lambda p: band(p, True).split(". ", 1)[-1] + "。" if zh else p["name"] + "."
     pdesc = lambda p: p.get("description_zh") if zh else p["description"]
     desc_key = "description_zh" if zh else "description"
-    lines = [f"# {G['title'] if zh else 'Glossary'}", "",
-             "[English](glossary.md) | 中文" if zh else "English | [中文](glossary.zh.md)", "",
-             G["intro"] if zh else "This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). "
-             "It defines the controlled vocabulary values used in Table 1, the paper pages, and the indexes.", "",
-             f"## {G['symbols'] if zh else 'Symbols'}", "", *[f"- {m}{colon}{t}" for m, t in (ZH_LABELS["legend"] if zh else LEGEND)[:4]], "",
-             f"## {G['problems'] if zh else 'Problems'}", "",
-             *[entry(p["value"], f"**{pname(p)}** {pdesc(p)}") for p in vocab["problem"]], ""]
+    lines = [
+        f"# {G['title'] if zh else 'Glossary'}", "",
+        "[English](glossary.md) | 中文" if zh else "English | [中文](glossary.zh.md)", "",
+        G["intro"] if zh else "This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). "
+        "It defines the controlled vocabulary values used in Table 1, the paper pages, and the indexes.", "",
+        f"## {G['symbols'] if zh else 'Symbols'}", "", *[f"- {m}{colon}{t}" for m, t in (ZH_LABELS["legend"] if zh else LEGEND)[:5]], "",
+        f"## {G['problems'] if zh else 'Problems'}", "",
+        *[entry(p["value"], f"**{pname(p)}** {pdesc(p)}") for p in vocab["problem"]], "",
+    ]
     for c, s in zip(TECH_COLS, COL_STAGES):
         head = ZH_LABELS["cols_zh"][c] if zh else (c.capitalize() + ("" if s == c.capitalize() else f" ({s})"))
         lines += [f"## {head}", "", *[entry(e["value"], e.get(desc_key) or e.get("description")) for e in vocab[c]], ""]
+    extra_sections = [
+        ("modality", G["modality"] if zh else "SID Input Modalities"),
+        ("domain", G["domain"] if zh else "Domains"),
+        ("settings", G["settings"] if zh else "Evaluation Settings"),
+    ]
+    for sec_key, sec_head in extra_sections:
+        lines += [
+            f"## {sec_head}", "",
+            *[
+                entry(
+                    f"{e['name_zh']} / {e['value']}" if zh and e.get("name_zh") else e["value"],
+                    e.get(desc_key) or e.get("description"),
+                )
+                for e in vocab[sec_key]
+            ],
+            "",
+        ]
     return "\n".join(lines)
 
 
-def llm_fields(rec: dict, probs: dict, rmap: dict) -> list:
-    f = [f"Problem: {band(probs[rec['problem']])}", f"Stage: {stage_label(rec)}"]
-    if rec.get("also"):
-        f.append("Also: " + "; ".join(format_also_item(a, probs, zh=False, code_wrap=False) for a in rec["also"]))
-    f += [f"Modality: {modality_summary_en(rec, rmap)}",
-          "; ".join(f"{c.capitalize()}: {rec[c]}" for c in TECH_COLS)]
+def llm_fields(rec: dict, probs: dict, dom_zh: dict, set_zh: dict) -> list:
+    f = [
+        f"Problem: {band(probs[rec['problem']])}",
+        f"Stage: {stage_label(rec)}",
+        f"Changes: {format_changes_inline(rec, zh=False, sep='; ', empty='none')}",
+        f"SID inputs: {format_modality(rec, code_wrap=False)}",
+        f"Domain: {format_domain(rec, dom_zh, zh=False, code_wrap=False)}",
+        f"Settings: {format_settings(rec, set_zh, zh=False, code_wrap=False, empty='none')}",
+        "; ".join(f"{c.capitalize()}: {rec[c]}" for c in TECH_COLS),
+    ]
     f += [f"TL;DR: {rec['tldr'].strip()}"] if rec.get("tldr") else []
     f += [f"[{l}]({u})" for l, u in code_links(rec)]
     return f + [f"Setup card: {'yes' if rec.get('setup') else 'no'}", f"Relations: {len(rec.get('related', []))}"]
 
 
+WHERE_TOKEN_RE = re.compile(
+    r"https?://[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]+"
+    r"|(?:arXiv:)?\b\d{4}\.\d{4,5}(?:v\d+)?\b"
+    r"|#[A-Za-z0-9][A-Za-z0-9._-]*"
+)
+
+
+def extract_en_where(s: str) -> str:
+    """Extract only URLs, arXiv version IDs, and section anchors from where; fall back to 'see paper'."""
+    seen = []
+    for m in WHERE_TOKEN_RE.finditer(s or ""):
+        tok = m.group(0).rstrip(".,;:)")
+        if tok and tok not in seen:
+            seen.append(tok)
+    return ", ".join(seen) if seen else "see paper"
+
+
 def build_llms(vocab: dict, papers: list, notes: dict) -> tuple:
     probs = {e["value"]: e for e in vocab["problem"]}
-    rmap = rep_modality_map(vocab)
+    dom_zh = domain_zh_map(vocab)
+    set_zh = settings_zh_map(vocab)
     ordered = sorted(papers, key=lambda x: x["id"])
     head = [
         "# Awesome Semantic ID Generative Recommendation", "",
         f"> {len(papers)} papers on generative recommendation with Semantic IDs (SIDs), organized by research problem "
         "and primary modified pipeline stage.", "",
         "## Core Files", "",
-        "- [README.md](README.md): Problem × Stage matrix, tokenizer input modality table, and the full list of papers.",
-        "- [guides/glossary.md](guides/glossary.md): Definitions of every problem and Table 1 value.",
+        "- [README.md](README.md): Problem × Stage matrix, per-paper stage changes tables, modality and domain entry points, and the full list of papers.",
+        "- [guides/glossary.md](guides/glossary.md): Definitions of every problem, Table 1 value, modality, domain, and evaluation setting.",
         "- [pages/index/stages.md](pages/index/stages.md): Papers grouped by the stage they mainly change.",
-        "- [pages/index/modality.md](pages/index/modality.md): Papers grouped by tokenizer input modality and collaborative signal.",
+        "- [pages/index/modality.md](pages/index/modality.md): Papers grouped by SID tokenizer input modality.",
+        "- [pages/index/domain.md](pages/index/domain.md): Papers grouped by application domain.",
         "- [pages/index/code.md](pages/index/code.md): Papers that link to code.",
         "- [pages/index/poi.md](pages/index/poi.md): Papers on POI and local-life recommendation.",
-        "- [data/vocab.yaml](data/vocab.yaml): Controlled vocabulary for problems, stages, and the six Table 1 columns.",
+        "- [data/vocab.yaml](data/vocab.yaml): Controlled vocabulary and modality grouping rules.",
         "- [schema/paper.schema.json](schema/paper.schema.json): JSON Schema for `data/papers/<id>.yaml`.", "",
     ]
     short = head + [f"## Papers ({len(papers)} records)", ""] + [
-        f"- [{r['name']}](pages/papers/{r['id']}.md) · {r['venue']} · " + " · ".join(llm_fields(r, probs, rmap)) for r in ordered]
+        f"- [{r['name']}](pages/papers/{r['id']}.md) · {r['venue']} · " + " · ".join(llm_fields(r, probs, dom_zh, set_zh))
+        for r in ordered
+    ]
     full = list(head)
     for r in ordered:
-        full += [f"## {r['name']}", "", f"- Page: pages/papers/{r['id']}.md", f"- Venue: {r['venue']}",
-                 *[f"- {x}" for x in llm_fields(r, probs, rmap)], ""]
-        if r.get("also"):
+        full += [
+            f"## {r['name']}", "",
+            f"- Page: pages/papers/{r['id']}.md",
+            f"- Venue: {r['venue']}",
+            *[f"- {x}" for x in llm_fields(r, probs, dom_zh, set_zh)],
+            "",
+        ]
+        other_changes = [
+            (COL_HEADERS_EN[c], r[c], r["changes"][c])
+            for c in TECH_COLS
+            if change_kind(r["changes"][c]) == "other"
+        ]
+        if other_changes:
             full += [
-                "### Additional tags", "",
-                *[f"- {format_also_item(a, probs, zh=False, code_wrap=False)} — \"{a['quote']}\" ({a['where']})"
-                  for a in r["also"]],
+                "### Other stage changes", "",
+                *[f"- {col_name} ({col_val}): \"{info['quote']}\" ({extract_en_where(info['where'])})"
+                  for col_name, col_val, info in other_changes],
+                "",
+            ]
+        if r.get("settings"):
+            full += [
+                "### Special settings", "",
+                *[
+                    f"- {s['value'] + (' (' + s['scope'] + ')' if 'scope' in s else '')}: \"{s['quote']}\" ({extract_en_where(s['where'])})"
+                    for s in r["settings"]
+                ],
                 "",
             ]
         if r.get("setup"):
@@ -1000,7 +1264,7 @@ def main():
     singles["llms.txt"], singles["llms-full.txt"] = build_llms(vocab, papers, notes)
     for name, text in singles.items():
         (root / name).write_text(text, encoding="utf-8")
-    print(f"Built README.md, README.zh.md, {len(papers)} paper pages in English and Chinese, 4 index pages in English and Chinese, "
+    print(f"Built README.md, README.zh.md, {len(papers)} paper pages in English and Chinese, 5 index pages in English and Chinese, "
           "3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
 
 

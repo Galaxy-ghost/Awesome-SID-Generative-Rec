@@ -76,3 +76,26 @@ related:
   note: OneRec applies preference alignment with beam-sampled responses; V-STAR argues that probability-based beam sampling
     under-explores high-reward items.
   where: 'V-STAR v2, Sections 1 and 2.3 cite OneRec: https://arxiv.org/html/2602.10699v2#S1.p1 and https://arxiv.org/html/2602.10699v2#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference:
+    value: other
+    quote: We develop Value-Guided Efficient Decoding (VED) for budgeted candidate construction by allocating decoding compute
+      to high-value and high-ambiguity nodes.
+    where: '2602.10699v2 #S1.I1.i2.p1.1'
+modality:
+- unknown
+modality_where:
+  quote: Each item is represented by a 3-level SID derived from the RQ-VAE codebook ( Rajput et al., 2023 ) , and all generative
+    decoders operate under a hard constraint that restricts outputs to valid SIDs, ensuring that each generated sequence maps
+    to a unique catalog item.
+  where: '2602.10699v2 #S5.SS1.p1.1；只说预处理沿用 MiniOneRec、SID 来自 RQ-VAE，没写构码输入；#S4.SS1.p2.1 的文本编码器只用于稠密语义回报'
+note: Table 1 记 Text†；本文没写构码输入，记 unknown。
+domain:
+- E-commerce
+- Ads
+settings: []

@@ -54,3 +54,31 @@ related:
   relation: predecessor
   note: TIGER's SID-generation paradigm is the background contrasted with SID-only slate reranking.
   where: 'ReRankID v1, Section 2: https://arxiv.org/html/2610.22797v1#S2.SS0.SSS0.Px1.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: The reward equals the primary NDCG@5 metric, with no auxiliary shaping, and training runs $100$ optimizer steps
+      at each scale.
+    where: arXiv:2610.22797v1 https://arxiv.org/html/2610.22797v1#S5.SS1.SSS0.Px4.p1；相对 OpenOneRec 新增 reason-then-rank SFT
+      和合法列表 NDCG 奖励。
+  inference:
+    value: other
+    quote: SID inference first permits free reasoning; a fixed forced-extraction stage is invoked only when no valid ranking
+      is produced, and a response still invalid after that stage scores zero.
+    where: arXiv:2610.22797v1 https://arxiv.org/html/2610.22797v1#S4.SS0.SSS0.Px1.p1
+modality:
+- Text
+note: 无历史模拟符合任务书，但不声称真实新用户。继承 OpenOneRec 的固定构码器和 backbone。
+domain:
+- Short video / Live
+settings:
+- value: cold-start
+  scope: user
+  quote: With no history at all ($k{=}0$, Figure 2b), the 8B margin over Random from the SID rendering of the candidates alone
+    is $+.035$ (CI $[-.001,+.071]$), while the Gemini text reference is statistically indistinguishable from Random; post-training
+    turns this margin into a significant one (Section 5.2).
+  where: arXiv:2610.22797v1 https://arxiv.org/html/2610.22797v1#S4.SS0.SSS0.Px3.p1；Fig.2b 单独 k=0，删光输入历史模拟；不是预训练未见用户，§A.4 明确已有预训练暴露。

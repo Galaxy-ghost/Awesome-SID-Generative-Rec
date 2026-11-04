@@ -82,3 +82,21 @@ related:
   note: SpecGR uses speculative generation for inductive recommendation, while PAD-Rec speeds up decoding without changing
     the target model's outputs.
   where: 'PAD-Rec v1, Section 2.3: https://arxiv.org/html/2604.27747v1#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- Text
+- CF
+modality_where:
+  quote: Following [ 40 ] , we first obtain item semantic embeddings using a pretrained encoder that integrates semantic and
+    collaborative signals, and then discretize items into semantic IDs as described in Sec. III-A .
+  where: '2604.27747v1 #S5.SS1.SSS1.p3.1；[40] 即 LETTER'
+domain:
+- E-commerce
+- POI / Local
+settings: []

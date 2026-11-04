@@ -81,3 +81,23 @@ related:
   note: LGSID aligns embeddings with geographic rewards before quantization; ROS separates geographic and semantic tokens
     inside the SID.
   where: 'ROS v2, Section 1 cites LGSID: https://arxiv.org/html/2601.04562v2#S1.p3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Align the model with real world geography via spatial-guided Reinforcement Learning (RL).
+    where: '2601.04562v2 #S1.p4.1；三阶段推理链 SFT 与空间奖励 RL（#S2.SS4）'
+  inference: none
+modality:
+- Text
+- Geo
+domain:
+- POI / Local
+settings:
+- value: cross-domain
+  quote: To evaluate cross city generalization, we train the model on one city and infer directly on the other two unseen
+    cities.
+  where: '2601.04562v2 #S3.SS4.SSS0.Px1.p1.1；Table 6'

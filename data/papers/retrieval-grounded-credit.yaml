@@ -55,3 +55,15 @@ related:
   relation: alternative
   note: SAPO aligns reasoning blocks with SID tokens; this method attributes query hits to interest lines.
   where: 'Retrieval-Grounded-Credit v1, Section 2.3, p. 3: https://arxiv.org/pdf/2609.29983v1#page=3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

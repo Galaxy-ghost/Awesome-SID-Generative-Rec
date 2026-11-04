@@ -1,12 +1,15 @@
 # FORGE
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/forge.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/forge.md)
 
 | **Title** | *Forming semantic identifiers for generative retrieval in industrial datasets* |
 | :-- | :-- |
 | **Authors** | Fu et al. |
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Tokenization · ○ Inference |
+| **SID inputs** | `Text` + `Img` + `CF` |
+| **Domain** | `E-commerce` · `Search` |
 | **Links** | [Paper](https://arxiv.org/abs/2509.20904) · [Code](https://github.com/selous123/al_sid) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Dyn. Beam"]
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>○ RQ-VAE"] --> B["Backbone<br/>Dec-Only / Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>○ Dyn. Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,I other
 ```
 
 - `Text+Img+CF`: Text and image representations combined with collaborative signals.
@@ -37,9 +42,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | FORGE benchmarks Semantic ID construction strategies on a released Taobao dataset and proposes metrics that evaluate ID quality without training a generator. |
-| Modified Stage | No single stage |
 | Key Findings | In online A/B tests on Taobao, Semantic ID (SID) construction strategies selected from FORGE's benchmark increase transaction count by 0.35%, while offline Embedding HitRate and Gini coefficient correlate strongly with downstream HR@20–HR@1000 on the 250-million-item AL-GR dataset (Abstract, Sec. 3.4, Sec. 4.2, Table 3, Fig. 3). |
 | Limitation | Dynamic beam search expands to 1,200 candidate SIDs at the final decoding step without reported inference latency, and the training-free SID quality metrics are validated only on the benchmark's datasets (Sec. 3.2, Sec. 3.4). |
 

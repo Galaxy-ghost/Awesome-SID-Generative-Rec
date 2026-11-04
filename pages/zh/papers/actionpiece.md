@@ -1,12 +1,15 @@
 # ActionPiece
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/actionpiece.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/actionpiece.md) | 中文
 
 | **题目** | *Contextually Tokenizing Action Sequences for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Hou et al. |
 | **发表** | ICML’25 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2502.13581) · [代码](https://github.com/google-deepmind/action_piece) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>OPQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Ensemble"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● OPQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>○ Ensemble"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | ActionPiece 将每次交互表示为物品特征集合，把共现特征模式合并为新 token，使相同动作获得随上下文变化的 token，而非固定独立的 token。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 Amazon Sports and Outdoors、Beauty 和 CDs and Vinyl 上，将 OPQ 物品特征集合合并为 40,000 token 的上下文相关词表提升了 Recall@5/10 与 NDCG@5/10 并缩短归一化序列长度，而单纯缩放 TIGER 词表规模无法取得同等收益（Sec. 4.3，Sec. 4.4.1，Table 4，Table 5，Fig. 4）。 |
 | 局限 | 推理需对 q = 5 种随机集合置换切分分别执行束宽 50 的束搜索再平均得分，且论文未报告实测推理延迟及评测是否覆盖全量物品目录（Sec. 3.3.2，Sec. 3.4，Sec. 4.1）。 |
 

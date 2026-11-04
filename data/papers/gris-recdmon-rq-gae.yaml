@@ -56,3 +56,23 @@ related:
     quantization.
   where: 'GrIS v1, Sections 2.3/5.1 and Table 3: https://arxiv.org/html/2610.01533v1#S2.SS3.p2; https://arxiv.org/html/2610.01533v1#S5.SS1.SSS0.Px2.p1;
     https://arxiv.org/html/2610.01533v1#S5.T3.'
+changes:
+  representation:
+    value: other
+    quote: 'Once the graph $G$ is built, GrIS computes graph-informed item representations by propagating information across
+      neighbours: $H=f_{GNN}(G,X)$ where $X$ is the matrix of initial item embeddings and $h_{i}$ is the graph-informed representation
+      of item $i$.'
+    where: arXiv:2610.01533v1 https://arxiv.org/html/2610.01533v1#S4.SS3.SSS1.p1
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- CF
+domain:
+- E-commerce
+- News
+- POI / Local
+settings: []

@@ -1,12 +1,15 @@
 # GRID
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/grid.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/grid.md)
 
 | **Title** | *Generative Recommendation with Semantic IDs: A Practitioner's Handbook* |
 | :-- | :-- |
 | **Authors** | Ju et al. |
 | **Venue** | CIKM’25 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | – |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2507.22224) · [Code](https://github.com/snap-research/GRID) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>R-KM"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: NTP"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
 ```
@@ -37,9 +40,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | GRID provides an open-source modular framework with swappable Semantic ID tokenizers, backbones, and decoding rules to ablate design choices on public benchmarks. |
-| Modified Stage | No single stage |
 | Key Findings | Across 5-seed ablations on Amazon Beauty, Sports, and Toys (Tables 1–8), GRID shows that encoder-decoder generators and sliding-window data augmentation drive accuracy while several compute-heavy defaults can be replaced with more efficient alternatives without losing performance (Sec. 5). |
 | Limitation | GRID ablates one design choice at a time around a fixed RK-Means $`(3, 256)`$ and Flan-T5-XL default without testing cross-component interactions, and does not report beam width or inference latency (Sec. 4.1). |
 

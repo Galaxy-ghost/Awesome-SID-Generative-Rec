@@ -71,3 +71,22 @@ related:
   relation: successor
   note: Adds FP8 post-training quantization and an optimized inference stack.
   where: 'Evidence from Quantized Inference for OneRec-V2 v1, Section 4.1: https://arxiv.org/html/2603.11486v1#S4.SS1.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce a comprehensive post-training framework that directly leverages real-world user feedback signals to
+      address the fundamental challenges of reward modeling in generative recommender systems.
+    where: arXiv:2508.20900v4 https://arxiv.org/html/2508.20900v4#S1.I1.i2.p1
+  inference: none
+modality:
+- Text
+- Img
+- CF
+note: 线上 cold-start VV 指标未给零交互定义，不记 cold-start。
+domain:
+- Short video / Live
+settings: []

@@ -1,12 +1,15 @@
 # GFlowGR
 
-[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/gflowgr.md)
+[← Problem × Stage Matrix](../../README.md#iv--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/gflowgr.md)
 
 | **Title** | *Fine-Tuning Generative Recommendation Frameworks with Generative Flow Networks* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | SIGIR’26 |
 | **Problem × Stage** | `IV. Utility` · `Training` |
+| **Changes** | ● Objective |
+| **SID inputs** | A: `Text` · B: `Text` + `CF` |
+| **Domain** | `POI / Local` · `E-commerce` · `Ads` · `Search` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.16114) · [Code](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Fixed / NTP + Aux."] --> I["Inference<br/>Beam† / C-Beam†"]
+    R["Representation<br/>Text / Text+CF"] --> T["Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["Backbone<br/>Enc-Dec†"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP + Aux."] --> I["Inference<br/>Beam† / C-Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +42,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | IV. Utility: Are training and search aimed at what users and the platform value, rather than at token likelihood? |
-| Key Contribution | GFlowGR fine-tunes generative recommenders as multi-step generation with GFlowNets, using a collaborative trajectory sampler and reward model to explore unobserved positives, instead of next-token or DPO fine-tuning. |
-| Modified Stage | Training |
 | Key Findings | On Taobao production data, GFlowGR reports H@20 of 0.444 and N@20 of 0.452 against 0.358 and 0.371 for SFT, and a 15-day online A/B test delivers a +0.43% lift in total revenue (Sec. 5, Table 7). |
 | Limitation | The behavior-aware reward model fits item utility from logged user feedback, bounding fine-tuning quality by historical exposure bias (Sec. 3.2). |
 

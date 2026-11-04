@@ -55,3 +55,35 @@ related:
   relation: competitor
   note: RoFiGR adopts MQL4GRec's domain data setting and compares against it.
   where: 'RoFiGR v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.39470v1#S4.SS1.p1; https://arxiv.org/html/2610.39470v1#S3.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: Together, these biases let encoder attention distinguish item boundaries and source levels while leaving the decoder
+      unchanged.
+    where: arXiv:2610.39470v1 https://arxiv.org/html/2610.39470v1#S3.SS3.SSS0.Px2.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: We add a fourth family in which every historical item supplies both complete identifiers.
+    where: arXiv:2610.39470v1 https://arxiv.org/html/2610.39470v1#S3.SS3.SSS0.Px1.p1；另有 §3.4 合法分支教师蒸馏与层级加权。
+  inference: none
+modality:
+  text:
+  - Text
+  - Img
+  - CF
+  image:
+  - Text
+  - Img
+  - CF
+modality_where:
+  quote: The static item target is the normalized sum of the separately normalized ID, text, and image representations from
+    the frozen teacher; it is denoted $b_{i}$ in Figure 3 and $\mathbf{e}(i)$ here.
+  where: arXiv:2610.39470v1 https://arxiv.org/html/2610.39470v1#S3.SS1.p2.2；§3.1 教师目标同时含 ID、文本、图像；§3.2 两棵码树的 L1–L2 均直接向该目标对齐。按构码训练信号也计入的口径，两路均保留
+    Text、Img、CF；不把树间码本分离等同于监督信号分离。
+note: §3.1 教师目标由 ID、文本、图像表示归一化后求和；§3.2 文本树和图像树的粗前缀都向此目标对齐。两套码本保持分离，但训练信号并不分离，因此两路均记 Text+Img+CF。这不是把生成器独用的信息计入构码输入。
+domain:
+- E-commerce
+settings: []

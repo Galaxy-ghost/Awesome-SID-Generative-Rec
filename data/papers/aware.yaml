@@ -61,3 +61,21 @@ related:
   relation: competitor
   note: SpaceTime-GR is a compared spatial-temporal generative baseline.
   where: 'AWARE v1, Appendix D and Table1: https://arxiv.org/html/2605.11807v1#A4.SS0.SSS0.Px7.p1; https://arxiv.org/html/2605.11807v1#S4.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+- Geo
+note: 沿用 ROS 的空间 SID（POI 文本嵌入层次聚类加 S2 地理前缀）。
+domain:
+- POI / Local
+settings:
+- value: cross-domain
+  quote: To evaluate whether world knowledge facilitates transfer across cities, we train all models on NYC and directly evaluate
+    on TKY and CA without any adaptation.
+  where: '2605.11807v1 #S4.SS6.p1.1；Figure 5'

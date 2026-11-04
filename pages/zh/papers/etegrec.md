@@ -1,12 +1,16 @@
 # ETEGRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/etegrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/etegrec.md) | 中文
 
 | **题目** | *Generative recommender with end-to-end learnable item tokenization* |
 | :-- | :-- |
 | **作者** | Liu et al. |
 | **发表** | SIGIR’25 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ● 编号器更新 · ○ 训练目标 |
+| **构码输入** | `CF` |
+| **领域** | `电商` |
+| **特殊设置** | `冷启动（用户）` |
 | **链接** | [论文](https://arxiv.org/abs/2409.05546) · [代码](https://github.com/RUCAIBox/ETEGRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>CF"] --> T["编号 Tokenization<br/>Learn. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Altern. / NTP + Ctr."] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>CF"] --> T["构码 Tokenization<br/>Learn. RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: ● Altern.<br/>训练目标: ○ NTP + Ctr."] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | ETEGRec 用序列-物品对齐损失与偏好-语义对齐损失交替训练物品编号器和生成器，替代先独立训练编号器再训练生成器的两阶段流程。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在 Amazon Musical Instruments、Industrial and Scientific 与 Video Games 的全量目录评测中，ETEGRec 在 Recall@5/10 和 NDCG@5/10 上优于序列推荐及固定编号器生成式基线（含 TIGER、LETTER 和 CID），并在留出的未见新用户（交互最少的 5% 用户）上保持领先（Sec. 4.2，Sec. 4.4.1，Table 3，Table 4，Fig. 2）。 |
 | 局限 | RQ-VAE 编号器仅读取协同物品嵌入，无历史交互的新物品无法获得离散编码，且论文未报告实测推理延迟（Sec. 3.2.1，Sec. 3.5）。 |
 

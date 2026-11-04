@@ -59,3 +59,37 @@ related:
   relation: predecessor
   note: PinGER retains COBRA-style SID/dense interleaving during training and removes past SIDs at serving.
   where: 'PinGER v1, Section 2: https://arxiv.org/html/2610.33435v1#S2.SS0.SSS0.Px1.p1.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: Because content alone misses the Pin–Pin similarities induced by engagement, we also distill the Pin’s OmniSage
+      (Badrinath et al., 2025) embedding $\mathbf{y}$, a graph embedding that combines content features with user engagement,
+      into the quantized representation, while keeping $\mathbf{x}$ as the only input so that SIDs do not change when OmniSage
+      is updated.
+    where: arXiv:2610.33435v1 https://arxiv.org/html/2610.33435v1#S3.SS2.p1；向内容 RQ-VAE 的量化表示蒸馏协同教师，为本文新增构码侧目标。
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity
+      penalty, which together steer retrieval toward surface-specific goals and diverse candidates.
+    where: arXiv:2610.33435v1 https://arxiv.org/html/2610.33435v1#abstract1
+  inference:
+    value: other
+    quote: (2) Generation is controllable through goal-conditioned outputs, reinforcement learning, and a prefix-diversity
+      penalty, which together steer retrieval toward surface-specific goals and diverse candidates.
+    where: arXiv:2610.33435v1 https://arxiv.org/html/2610.33435v1#abstract1
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: Because content alone misses the Pin–Pin similarities induced by engagement, we also distill the Pin’s OmniSage (Badrinath
+    et al., 2025) embedding $\mathbf{y}$, a graph embedding that combines content features with user engagement, into the
+    quantized representation, while keeping $\mathbf{x}$ as the only input so that SIDs do not change when OmniSage is updated.
+  where: arXiv:2610.33435v1 https://arxiv.org/html/2610.33435v1#S3.SS2.p1；§3.2 明说唯一前向构码输入是 PinCLIP 的 image/text；OmniSage 是蒸馏教师，并非量化器前向输入。
+note: §3.2 内容向量是编码时唯一输入，但 OmniSage 用户互动图表示直接蒸馏到量化表示，因此构码训练信号记 CF；不是生成器额外特征。
+domain:
+- Image / Article
+settings: []

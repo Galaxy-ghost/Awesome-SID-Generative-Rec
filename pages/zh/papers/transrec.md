@@ -1,22 +1,27 @@
 # TransRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/transrec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/transrec.md) | 中文
 
 | **题目** | *Bridging Items and Language: A Transition Paradigm for Large Language Model-Based Recommendation* |
 | :-- | :-- |
 | **作者** | Lin et al. |
 | **发表** | KDD’24 |
-| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **问题与阶段** | `II. 唯一性与合法性` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 推理 |
+| **构码输入** | id: – · title: `Text` · attribute: `Text` |
+| **领域** | `电商` · `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2310.06491) · [代码](https://github.com/Linxyhaha/TransRec/) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Multi-Facet ID"] --> B["骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>FM-Index+Agg."]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Multi-Facet ID"] --> B["生成骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>○ FM-Index+Agg."]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > TransRec 用结合 ID、标题与属性的多面标识索引物品，通过 FM-index 子串索引约束生成，并聚合生成的标识为物品库打分排序。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
-| 核心贡献 | TransRec 用结合 ID、标题与属性的多面标识索引物品，通过 FM-index 子串索引约束生成，并聚合生成的标识为物品库打分排序。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

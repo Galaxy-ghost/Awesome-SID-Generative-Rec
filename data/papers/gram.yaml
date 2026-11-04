@@ -85,3 +85,29 @@ related:
   note: LETTER learns a regularized RQ-VAE tokenizer; GRAM avoids learned codebooks and uses text clustering mapped to vocabulary
     tokens.
   where: 'GRAM v1, baselines and Table 2: https://arxiv.org/html/2506.01673v1#S4.p3 and https://arxiv.org/html/2506.01673v1#S4.T2.'
+changes:
+  representation:
+    value: other
+    quote: To bridge collaborative semantics to LLMs, we extract collaborative signals and convert them as an additional item
+      attribute.
+    where: '2506.01673v1 #S3.SS2.SSS2.p1.1；用 SASRec 取相似物品，再用层次 ID 写成文本属性（#S3.SS2.SSS2.p3.1），给生成器用，不进构码'
+  tokenization: primary
+  backbone:
+    value: other
+    quote: 'To effectively handle rich yet lengthy item metadata, we process user history as multiple prompts with different
+      granularities: coarse-grained user prompts for holistic user preferences and fine-grained item prompts for detailed
+      item attributes.'
+    where: '2506.01673v1 #S1.p10.1；设计在 #S3.SS3（多粒度编码、在解码器里晚融合）'
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+modality_where:
+  quote: We design semantic-to-lexical translation to represent item relationships in the vocabulary space of LLMs.
+  where: '2506.01673v1 #S1.p12.1；层次 ID 由物品文本嵌入递归 k-means 得到（#S3.SS2.SSS1）'
+note: Table 1 记 Text+CF；协同信号只作文本属性进生成器输入（#S3.SS2.SSS2），不进构码。
+domain:
+- E-commerce
+- POI / Local
+settings: []

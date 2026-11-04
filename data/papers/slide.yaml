@@ -56,3 +56,22 @@ related:
   relation: predecessor
   note: SLIDE replaces the conventional item-level search interface with a distilled list rollout.
   where: 'SLIDE v1, Introduction and Section 2.1: https://arxiv.org/html/2610.34764v1#S1.p1; https://arxiv.org/html/2610.34764v1#S2.SS1.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: For FORGE, we use the SID vocabulary provided by the dataset and retain the single labeled target item in each training
+    instance for direct training.
+  where: arXiv:2610.34764v1 https://arxiv.org/html/2610.34764v1#S5.SS1.SSS0.Px4.p1；构码输入未明；FORGE 对应淘宝电商搜索业务。
+note: §3 继承 FORGE 的 AL-GR；业务参照 FORGE 原始记录为淘宝电商搜索，记 E-commerce/Search。未披露 SID 源表示，modality 保持 unknown。 §1 已把 single greedy
+  list decoding 列为已有方案，§4.2 沿用同一 list-wise 模型；新机制是离线 search-to-list 蒸馏，故不另标 Inference。
+domain:
+- E-commerce
+- Search
+settings: []

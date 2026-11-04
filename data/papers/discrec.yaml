@@ -65,3 +65,24 @@ related:
   relation: competitor
   note: Two-stream baseline compared with DiscRec's single-workflow disentanglement.
   where: https://arxiv.org/html/2506.15576v2#S4.SS1.SSS2.p2 ; https://arxiv.org/html/2506.15576v2#S4.SS1.SSS4.p1
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Text
+  - CF
+note: A 是 DiscRec-T（TIGER 构码），B 是 DiscRec-L（LETTER 构码，加 SASRec 协同嵌入），照记录的 representation 分支写。
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: user
+  quote: 'Table IV: Performance comparison under user-level random split on Beauty.'
+  where: '2506.15576v2 #S4.T4（表题）；测试用户不进训练'

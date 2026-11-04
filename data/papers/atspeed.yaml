@@ -68,3 +68,21 @@ related:
   note: PAD-Rec later also applies speculative decoding to LLM generative recommendation, targeting list-wise generation with
     position-aware drafts.
   where: 'Evidence is from the later PAD-Rec paper, Sections 1 and 2.3: https://arxiv.org/html/2604.27747v1#S1.p2 and https://arxiv.org/html/2604.27747v1#S2.SS3.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: AtSpeed designs two effective alignment objectives for the draft model to get a higher acceptance rate under the
+      strict top- K verification (Section 3.1 ) and the proposed novel relaxed verification (Section 3.2 ).
+    where: '2410.05165v3 #S3.p1.1；草稿模型的对齐训练目标'
+  inference: primary
+modality:
+- Text
+domain:
+- E-commerce
+- Movie
+- Book
+settings: []

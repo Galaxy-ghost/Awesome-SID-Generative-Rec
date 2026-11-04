@@ -10,6 +10,7 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `A / B`: Two branches or configurations.
 - `–`: Not reported.
 - `n/a`: Not applicable.
+- `●` / `○`: Primary Table 1 cell (`●`) and additional column with a new mechanism (`○`).
 
 ## Problems
 
@@ -275,3 +276,45 @@ This page is generated from [`data/vocab.yaml`](../data/vocab.yaml). It defines 
 - `Vec. C-Beam`: Vectorized constrained beam search.
 - `n/a`: Not applicable to this method.
 - `–`: Not reported in the paper.
+
+## SID Input Modalities
+
+- `Text`: Textual item metadata, titles, descriptions, categories, or text-formatted attributes fed to the tokenizer.
+- `Img`: Visual item images or image frames fed to the tokenizer.
+- `Audio`: Audio tracks or acoustic spectrograms fed to the tokenizer.
+- `Video`: Video streams or video-level representations fed to the tokenizer.
+- `MM`: Multimodal item representations whose specific constituent modalities are not disaggregated in the paper.
+- `CF`: Collaborative filtering or user–item interaction signals fed to the tokenizer.
+- `Attr`: Structured tabular or categorical item attributes fed to the tokenizer without text serialization.
+- `Geo`: Geographic coordinates, spatial grids, or location features fed to the tokenizer.
+- `Time`: Interaction timestamps or temporal features fed to the tokenizer.
+- `n/a`: No discrete SID tokenizer is built (items are represented as continuous vectors or plain text).
+- `unknown`: Tokenizer input modality not reported or partially unspecified in the paper.
+
+## Domains
+
+- `E-commerce`: E-commerce product recommendation (including all Amazon review subsets, Taobao, JD, etc.).
+- `POI / Local`: Point-of-interest, check-in, and local-life service recommendation (including Yelp, Gowalla, Foursquare, etc.).
+- `Short video / Live`: Short-video feed and live-streaming recommendation (including Kuaishou, KuaiRand, Douyin, etc.).
+- `Ads`: Online advertising and sponsored recommendation.
+- `Movie`: Movie recommendation (including MovieLens, Douban Movie, Netflix, etc.).
+- `Music`: Music track and artist recommendation (including Last.fm, Spotify, etc.).
+- `Search`: Product search, content search, and joint search–recommendation.
+- `News`: News article recommendation (including MIND, etc.).
+- `Book`: Book and audiobook recommendation (including Douban Book, Goodreads, etc.).
+- `Games`: Video game platform recommendation (including Steam).
+- `Podcast`: Podcast show and episode recommendation.
+- `Long video`: Long-form video platform recommendation.
+- `Video`: General video platform recommendation.
+- `Image / Article`: Image discovery and article content recommendation.
+- `Apps`: Mobile application recommendation.
+- `Food / Recipe`: Food and recipe recommendation.
+- `Travel / Hotel`: Travel and hotel accommodation recommendation.
+- `Recruitment`: Job and recruitment recommendation.
+- `unknown (industrial)`: Industrial logs where the specific business vertical is not disclosed in the paper.
+
+## Evaluation Settings
+
+- `cold-start`: Dedicated evaluation on zero-interaction users (`scope: user`), zero-interaction items (`scope: item`), or simulated history removal.
+- `cross-domain`: Cross-domain transfer, cross-city transfer, or unseen-domain zero-shot evaluation.
+- `catalog-change`: Evaluation of identifier maintenance or recommendation after item catalog additions, deletions, or updates.

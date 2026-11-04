@@ -57,3 +57,50 @@ related:
   relation: predecessor
   note: OneMall adapts OneRec's end-to-end short-video paradigm to e-commerce scenarios.
   where: 'OneMall v1, Section 1 (Deng et al., 2025, arXiv:2502.18965; distinct from Zhou et al., 2025 Technical Report): https://arxiv.org/html/2601.21770v1#S1.p5.'
+changes:
+  representation:
+    value: other
+    quote: Based on the filtered Commercial (product-card ID, product-card ID) and Watching (short-video ID, product-card
+      ID) Item2Item corpus, we next utilize them as alignment supervision signal to fine-tune an LLM to adapt e-commerce business.
+    where: arXiv:2601.21770v2 https://arxiv.org/html/2601.21770v2#S3.SS1.SSS2.p1
+  tokenization:
+    value: other
+    quote: 'To transform them as Semantic IDs, we devise an elaborate pipeline for the Product-card, Short-Video and Live-streaming
+      inference, which includes two quantization techniques: Res-Kmeans and FSQ (Mentzer et al., 2023).'
+    where: arXiv:2601.21770v2 https://arxiv.org/html/2601.21770v2#S3.SS1.SSS3.p1；三类业务映射不同；在 residual k-means 两层后增 FSQ 末层。
+  backbone:
+    value: other
+    quote: To avoid the higher computation cost by long sequence, we introduce the Q-former for early sequence compression.
+    where: arXiv:2601.21770v2 https://arxiv.org/html/2601.21770v2#S4.SS5.p2
+  tokenizer: none
+  objective:
+    value: other
+    quote: Specifically, we feed important item attributes (e.g., product category, price, shop information) into an item
+      tower and apply in-batch contrastive learning as an auxiliary objective.
+    where: arXiv:2601.21770v2 https://arxiv.org/html/2601.21770v2#S4.SS5.p2
+  inference: none
+modality:
+  A:
+  - Text
+  - Img
+  - CF
+  B:
+  - Text
+  - Img
+  - CF
+  C:
+  - CF
+  - unknown
+modality_open:
+- 'C: Text'
+- 'C: Img'
+- 'C: Attr'
+modality_where:
+  quote: In OneMall, we utilize the two-tower style retrieval model’s item tower generated embedding to quantify, and the
+    real-time selling products’ Semantic IDs served as additional feature.
+  where: arXiv:2601.21770v2 https://arxiv.org/html/2601.21770v2#S3.SS1.SSS3.p1；A 商品卡片，B 带货短视频，C 直播。A/B 图像+文本表征用商业/观看行为配对微调；C
+    的物品塔内容特征未列明。ASR/OCR 均为文本。
+note: Table 1 合并 Text+Img+CF；§3.1.2–3 分三类构码输入，直播塔内容组成未披露，拆 A/B/C。三场景均为电商业务，跨任务联合训练不记跨域迁移。
+domain:
+- E-commerce
+settings: []

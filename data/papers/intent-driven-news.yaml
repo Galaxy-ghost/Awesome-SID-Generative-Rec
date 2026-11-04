@@ -57,3 +57,29 @@ related:
   relation: alternative
   note: Disentangles semantic and collaborative signals; this work focuses on conversational intent grounding.
   where: 'Intent-Driven News v1, Section 2: https://arxiv.org/html/2605.07613v1#S2.SS0.SSS0.Px2.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference:
+    value: other
+    quote: By mapping 6 intent types to hierarchical SID prefixes with fuzzy matching, the system eliminates hallucinations
+      by construction while handling implicit intents that challenge retrieve-first approaches.
+    where: arXiv:2605.07613v1 https://arxiv.org/html/2605.07613v1#S5.p1
+modality:
+- Text
+note: 每日新闻池更新属于系统背景，未单列增删改维护实验，不记 catalog-change；跨类别含 absent or rare 混合组，不当作已证明未见域迁移。用户冷启动按 Table 6 的 zero history 输入设置记，旧行为聚合档案可能仍在，不声称零终身交互。
+domain:
+- News
+settings:
+- value: cold-start
+  scope: user
+  quote: 'Cold L1: pure cold-start (zero history) L1 match.'
+  where: arXiv:2605.07613v1 https://arxiv.org/html/2605.07613v1#S4.SS5.SSS0.Px2；Table 6。零近期点击/输入序列；Appendix T 的档案仍可能包含截止日前行为摘要，非零终身交互。
+- value: cold-start
+  scope: item
+  quote: All features are computed from historical data before the temporal split cutoff; test items are published after the
+    cutoff.
+  where: arXiv:2605.07613v1 https://arxiv.org/html/2605.07613v1#A20.p2；时间切分的后发布新闻，生成器未见；构码器是否也未见未报告。主协议即新物品，整个测试集均为截止后发布的新闻，没有另分新物品子组。

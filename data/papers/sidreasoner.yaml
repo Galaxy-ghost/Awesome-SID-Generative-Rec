@@ -75,3 +75,18 @@ related:
     and outcome-reward GRPO.
   where: 'SIDReasoner v2, Sections 1 and 2.2 cite OneRec-Think: https://arxiv.org/html/2603.23183v2#S1.p2 and https://arxiv.org/html/2603.23183v2#S2.SS2.p2;
     not a baseline in Table 2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: Figure 3 illustrates the cross-domain generalization ability of reasoning-based recommendation.
+  where: '2603.23183v2 #S4.SS2.SSS2.p1.1；Games、Office、Industrial 统一 SID 空间，测域外物品'

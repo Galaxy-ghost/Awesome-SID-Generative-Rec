@@ -1,22 +1,28 @@
 # API
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/api.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/api.md) | 中文
 
 | **题目** | *The Vocabulary Is Already Here: Adapting Pretrained Interpretable Features for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Luo et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **问题与阶段** | `II. 唯一性与合法性` · `构码（Tokenization）` |
+| **改动** | ○ 物品表示 · ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2610.36763) · [代码](https://anonymous.4open.science/r/API-C1F9/) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>PID (P-SAE)"] --> B["骨干 Backbone<br/>Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["训练 Training<br/>Fixed / NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["推理 Inference<br/>C-Beam / Scoring"]
+    R["物品表示 Representation<br/>○ Text"] --> T["构码 Tokenization<br/>● PID (P-SAE)"] --> B["生成骨干 Backbone<br/>○ Enc-Dec / Dec-Only (AR); Non-AR (PR)"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Rank + Aux. / MTP + Rank + Aux."] --> I["推理 Inference<br/>○ C-Beam / Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > API 直接复用预训练稀疏自编码器的特征下标作为可解释 SID 词表，并训练适配器预测下标与激活强度，无需重新拟合词表。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
-| 核心贡献 | API 直接复用预训练稀疏自编码器的特征下标作为可解释 SID 词表，并训练适配器预测下标与激活强度，无需重新拟合词表。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

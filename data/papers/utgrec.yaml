@@ -73,3 +73,25 @@ related:
   note: GenCDR later cites UTGRec as single-domain-oriented tokenization and adds domain-specific adapters and routing for
     cross-domain generation.
   where: 'Evidence is from the later GenCDR paper, Related Work: https://arxiv.org/html/2511.08006v2#Sx2.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+- CF
+modality_where:
+  quote: In our framework, each item i is associated with textual information T_i ( e.g., the item title, features, and category)
+    and a corresponding image V_i .
+  where: '2504.04405v3 #S2.SS2.SSS1.p1.1（公式按纯文本转写）；构码器另用共现物品对齐与重构损失训练（#S1.p7.1）'
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: We propose UTGRec, a transferable generative recommendation framework that can leverage both multimodal item content
+    and collaborative knowledge for universal item tokenization.
+  where: '2504.04405v3 #S1.p6.1；五个 Amazon 2023 域预训练构码器，迁到下游域'

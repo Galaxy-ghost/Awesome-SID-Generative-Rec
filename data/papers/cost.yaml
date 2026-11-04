@@ -76,3 +76,16 @@ related:
     over semantic embeddings.
   where: 'CoST v2, Section 2 cites Qu et al. (2024), TokenRec: https://arxiv.org/html/2404.14774v2#S2.p2; not compared in
     Tables 2-3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+domain:
+- News
+- E-commerce
+settings: []

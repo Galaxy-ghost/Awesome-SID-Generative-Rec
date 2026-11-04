@@ -1,12 +1,15 @@
 # ADC-SID
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/adc-sid.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/adc-sid.md)
 
 | **Title** | *Taming the Long Tail: Denoising Collaborative Information for Robust Semantic ID Generation* |
 | :-- | :-- |
 | **Authors** | Xu et al. |
 | **Venue** | arXiv’25 |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | `Text` + `Img` + `CF` |
+| **Domain** | `E-commerce` · `Ads` |
 | **Links** | [Paper](https://arxiv.org/abs/2510.25622) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>MoE-VQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed† / NTP"] --> I["Inference<br/>–"]
+    R["Representation<br/>Text+Img+CF"] --> T["Tokenization<br/>● MoE-VQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed†<br/>Objective: ○ NTP"] --> I["Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -38,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | ADC-SID adds collaborative information to Semantic ID quantization with alignment strength that adapts to collaborative noise and learned weights for behavioral IDs, instead of uniform alignment and equal weights. |
-| Modified Stage | Tokenization |
 | Key Findings | On a 48,106,880-item industrial advertising dataset and Amazon Beauty, ADC-SID outperforms content-only (RQ-VAE, OPQ) and fixed-alignment (LETTER) baselines on R@100, N@100, and AUC, achieving its largest AUC gains on bottom-25% long-tail items and validating in a 5-day online A/B test (Sec. 4.2, Sec. 4.5, Sec. 5, Table 2, Table 5, Fig. 6). |
 | Limitation | Behavioral token weights are computed from the L2 magnitude of a pre-trained collaborative embedding, tying weighting quality to that upstream model, while collision handling and inference latency are not reported (Sec. 3.4.1, Sec. 4.1.3). |
 

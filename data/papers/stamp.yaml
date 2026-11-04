@@ -66,3 +66,32 @@ related:
   relation: alternative
   note: AtSpeed accelerates inference by speculative decoding; STAMP targets training-time cost instead.
   where: 'STAMP v3, Section 2 acceleration paragraph: https://arxiv.org/html/2604.05329v3#S2.p3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: which simulates the step- (t+1) hidden state and forces the backbone to encode features transferable to future
+      contexts.
+    where: '2604.05329v3 #S4.SS3.SSS1.p1.2；辅助多步预测仿 DeepSeek-V3 的 MTP 模块'
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Text
+  - Img
+  - unknown
+modality_open:
+- B：AL-GR 预处理 SID 是否用了协同增强（CF）
+modality_where:
+  quote: 'AL-GR-Tiny : To evaluate scalability in a massive industrial context, we use AL-GR-Tiny, a subset of the AL-GR benchmark
+    originating from a large-scale e-commerce platform in China—the first industrial-scale benchmark designed for forming
+    SIDs in GR, integrating multimodal (text and image) features across over 250 million items.'
+  where: '2604.05329v3 #S5.I2.i2.p1.1'
+note: A 是 GRID 框架（Flan-T5-XL 文本嵌入），B 是 FORGE 框架（直接用 AL-GR 预处理好的 SID，文本和图像已写明，是否含 CF 没写）。Table 1 记 Text。
+domain:
+- E-commerce
+settings: []

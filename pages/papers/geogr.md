@@ -1,12 +1,15 @@
 # GeoGR
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/geogr.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/geogr.md)
 
 | **Title** | *Enabling Spatio-Temporal Aware Industrial-Scale Generative POI Recommendations* |
 | :-- | :-- |
 | **Authors** | Wang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Changes** | ● Representation · ○ Tokenizer |
+| **SID inputs** | `Text` + `Geo` + `CF` |
+| **Domain** | `POI / Local` · `Search` |
 | **Links** | [Paper](https://arxiv.org/abs/2602.10411) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo+CF"] --> T["Tokenization<br/>R-KM+EM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern.† / Multi-task NTP"] --> I["Inference<br/>Beam"]
+    R["Representation<br/>● Text+Geo+CF"] --> T["Tokenization<br/>R-KM+EM"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: ○ Altern.†<br/>Objective: Multi-task NTP"] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | GeoGR builds geo-aware POI Semantic IDs from geographically constrained co-visited pairs, contrastive learning, and iterative refinement, then aligns an LLM to them through continued pre-training and fine-tuning. |
-| Modified Stage | Representation |
 | Key Findings | In a three-month deployment on the AMAP platform, GeoGR reports online gains of +2.91% in WINRATE and +5.55% in PV_CTR (Abstract). |
 | Limitation | Semantic IDs (SIDs) are updated from the LLM's predictions, tying each codebook version to the specific LLM checkpoint used during refinement (Sec. 4.1.3). |
 

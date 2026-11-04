@@ -1,20 +1,23 @@
 # CAPE
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/cape.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/cape.md) | 中文
 
 | **题目** | *Generative Recommenders Forget the Long Tail: Restoring Memorization in Retrieval and Ranking* |
 | :-- | :-- |
 | **作者** | Huang et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `I. 信息量` · `推理（Inference）` |
+| **改动** | ● 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `音乐` |
 | **链接** | [论文](https://arxiv.org/abs/2610.29298) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text†"] --> T["编号 Tokenization<br/>RQ-VAE†"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Fixed / Multi-task NTP† / NTP†"] --> I["推理 Inference<br/>Hybrid"]
+    R["物品表示 Representation<br/>Text†"] --> T["构码 Tokenization<br/>RQ-VAE†"] --> B["生成骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Multi-task NTP† / NTP†"] --> I["推理 Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | CAPE 是免训练插件，在束搜索范围外召回有共现支撑的长尾物品并将共现证据融入排序，补足共享前缀生成缺失的物品级记忆能力。 |
-| 主要改动阶段 | 推理（Inference） |
 
 ---
 

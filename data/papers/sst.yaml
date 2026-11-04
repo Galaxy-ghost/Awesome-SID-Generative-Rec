@@ -49,3 +49,17 @@ related:
   relation: predecessor
   note: LETTER is the collaborative-tokenization backbone used for the third SST configuration.
   where: 'SST v1, Section 3.1.2 and Table 1: https://arxiv.org/html/2608.22734v1#S3.SS1.SSS2.p2; https://arxiv.org/html/2608.22734v1#S3.T1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+note: 构码主配置 Text；LETTER 是兼容性/替换基线配置，其 CF 不并入主字段。
+domain:
+- E-commerce
+- POI / Local
+settings: []

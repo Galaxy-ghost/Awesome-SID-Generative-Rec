@@ -66,3 +66,26 @@ related:
   relation: predecessor
   note: ChronoID extends the static residual-quantization paradigm with time-aware IDs.
   where: 'ChronoID v1, Section 6: https://arxiv.org/html/2606.14260v1#S6.p1.'
+changes:
+  representation:
+    value: other
+    quote: In general, as shown in fig. 1 , ChronoID first produces a time embedding for each user-item interaction, then
+      fuses the time embedding with the item embedding, and quantizes the fused embedding to extract the semantic ID via codebook
+      training;
+    where: '2606.14260v1 #S3.p1.1；量化前先学时间嵌入并与物品嵌入融合'
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Time
+modality_where:
+  quote: In general, as shown in fig. 1 , ChronoID first produces a time embedding for each user-item interaction, then fuses
+    the time embedding with the item embedding, and quantizes the fused embedding to extract the semantic ID via codebook
+    training;
+  where: '2606.14260v1 #S3.p1.1'
+domain:
+- E-commerce
+settings: []

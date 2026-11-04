@@ -1,4 +1,4 @@
-<!--lint disable awesome-github-->
+<!--lint disable awesome-github table-pipe-alignment-->
 <div align="center">
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
@@ -13,7 +13,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>12 篇"] --> T["编号 Tokenization<br/>70 篇"] --> B["骨干 Backbone<br/>33 篇"] --> TR["训练 Training<br/>40 篇"] --> I["推理 Inference<br/>14 篇"]
+    R["物品表示 Representation<br/>12 篇"] --> T["构码 Tokenization<br/>70 篇"] --> B["生成骨干 Backbone<br/>33 篇"] --> TR["训练 Training<br/>40 篇"] --> I["推理 Inference<br/>14 篇"]
     classDef stage fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I stage
 ```
@@ -24,14 +24,16 @@ flowchart LR
 
 ## 阅读导航
 
-| 阅读目标          | 推荐入口                                    |
-| :------------ | :-------------------------------------- |
-| 初次了解本方向       | [入门指南](guides/start-here.zh.md)         |
-| 按研究问题定位论文     | [问题 × 阶段矩阵](#问题--阶段矩阵)                  |
-| 按流程阶段横向对比     | [按阶段索引](pages/zh/index/stages.md)       |
-| 按构码输入模态检索     | [按构码输入模态索引](pages/zh/index/modality.md) |
-| 查找开源实现        | [有代码的论文](pages/zh/index/code.md)        |
-| 供 LLM 与检索工具读取 | [llms.txt](llms.txt)（英文）                |
+| 阅读目标          | 推荐入口                                 |
+| :------------ | :----------------------------------- |
+| 初次了解本方向       | [入门指南](guides/start-here.zh.md)      |
+| 按研究问题定位论文     | [问题 × 阶段矩阵](#问题--阶段矩阵)               |
+| 逐篇查看各阶段改动     | [每篇改了什么](#每篇改了什么)                    |
+| 按流程阶段横向对比     | [按阶段索引](pages/zh/index/stages.md)    |
+| 按构码输入模态查找     | [按模态找论文](pages/zh/index/modality.md) |
+| 按应用领域查找       | [按领域找论文](pages/zh/index/domain.md)   |
+| 查找开源实现        | [有代码的论文](pages/zh/index/code.md)     |
+| 供 LLM 与检索工具读取 | [llms.txt](llms.txt)（英文）             |
 
 ## 代表性必读论文
 
@@ -43,47 +45,288 @@ flowchart LR
 
 ## 问题 × 阶段矩阵
 
-主归类与综述 Table 1 一致；补充标签列出论文明确针对的其他研究问题或流程阶段。
+| 研究问题               |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |    合计   |
+| :----------------- | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
+| **I.** 信息量         | [![12](https://img.shields.io/badge/12-bad8f7?style=for-the-badge)](#i--representation) |  [![34](https://img.shields.io/badge/34-96c5f3?style=for-the-badge)](#i--tokenization)  |  [![7](https://img.shields.io/badge/7-d6e8fa?style=for-the-badge)](#i--backbone)  |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#i--training)   |  [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#i--inference)  |  **59** |
+| **II.** 唯一性与合法性    |                                                                                         |  [![12](https://img.shields.io/badge/12-bad8f7?style=for-the-badge)](#ii--tokenization) |                                                                                   |                                                                                    |                                                                                    |  **12** |
+| **III.** SID 与模型对齐 |                                                                                         | [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#iii--tokenization) | [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#iii--backbone) | [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#iii--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iii--inference) |  **31** |
+| **IV.** 实用目标       |                                                                                         |   [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone) | [![22](https://img.shields.io/badge/22-96c5f3?style=for-the-badge)](#iv--training) | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)  |  **28** |
+| **V.** 效率          |                                                                                         |   [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)   | [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone) |  [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#v--training)   |  [![6](https://img.shields.io/badge/6-d6e8fa?style=for-the-badge)](#v--inference)  |  **21** |
+| **VI.** 泛化         |                                                                                         |   [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)  |  **18** |
+| **合计**             |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
 
-| 研究问题               |                                                    Representation                                                   |                                                     Tokenization                                                    |                                                    Backbone                                                   |                                                    Training                                                    |                                                   Inference                                                    |    合计   |
-| :----------------- | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :-----: |
-| **I.** 信息量         | [![12 (+1)](https://img.shields.io/badge/12-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#i--representation) |  [![34 (+3)](https://img.shields.io/badge/34-%2B3-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#i--tokenization)  |  [![7 (+4)](https://img.shields.io/badge/7-%2B4-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--backbone)  |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#i--training)   |  [![2 (+2)](https://img.shields.io/badge/2-%2B2-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#i--inference)  |  **59** |
-| **II.** 唯一性与合法性    |                                                                                                                     |  [![12 (+3)](https://img.shields.io/badge/12-%2B3-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#ii--tokenization) |                                                                                                               |                                                                                                                |             [![+2](https://img.shields.io/badge/%2B2-f1f5f9?style=for-the-badge)](#ii--inference)              |  **12** |
-| **III.** SID 与模型对齐 |                                                                                                                     | [![11 (+1)](https://img.shields.io/badge/11-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--tokenization) | [![9 (+1)](https://img.shields.io/badge/9-%2B1-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--backbone) | [![9 (+2)](https://img.shields.io/badge/9-%2B2-f1f5f9?style=for-the-badge&labelColor=bad8f7)](#iii--training)  | [![2 (+1)](https://img.shields.io/badge/2-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#iii--inference) |  **31** |
-| **IV.** 实用目标       |                                                                                                                     |                 [![1](https://img.shields.io/badge/1-eef5fc?style=for-the-badge)](#iv--tokenization)                |                [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#iv--backbone)               | [![22 (+2)](https://img.shields.io/badge/22-%2B2-f1f5f9?style=for-the-badge&labelColor=96c5f3)](#iv--training) |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#iv--inference)                |  **28** |
-| **V.** 效率          |                                                                                                                     |                 [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#v--tokenization)                 |               [![11](https://img.shields.io/badge/11-bad8f7?style=for-the-badge)](#v--backbone)               |  [![1 (+1)](https://img.shields.io/badge/1-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#v--training)   |  [![6 (+2)](https://img.shields.io/badge/6-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#v--inference)  |  **21** |
-| **VI.** 泛化         |                                                                                                                     |                 [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)                |  [![3 (+1)](https://img.shields.io/badge/3-%2B1-f1f5f9?style=for-the-badge&labelColor=eef5fc)](#vi--backbone) |  [![4 (+2)](https://img.shields.io/badge/4-%2B2-f1f5f9?style=for-the-badge&labelColor=d6e8fa)](#vi--training)  |               [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)                |  **18** |
-| **合计**             |                                                        **12**                                                       |                                                        **70**                                                       |                                                     **33**                                                    |                                                     **40**                                                     |                                                     **14**                                                     | **169** |
+点击数字跳转至对应格子的论文列表；浅蓝越深表示主归类篇数越多。
 
-点击数字跳转至对应格子的论文列表；左段为主归类篇数（浅蓝越深篇数越多），右段 `+n` 为补充标签同时配对该问题与阶段的篇数。
-
-| 标记      | 含义                  |
-| :------ | :------------------ |
-| `†`     | 根据论文点名沿用的基座或配置推断得到。 |
-| `A / B` | 包含两个分支或两种评测配置。      |
-| `–`     | 论文未报告。              |
-| `n/a`   | 不适用于该方法。            |
-| **加粗**  | 该论文主要改动的流程阶段。       |
-| 空白格     | 该主分类下暂无论文。          |
-| `warm`  | 实验设置卡中的热启动过滤协议标签。   |
+| 标记        | 含义                                    |
+| :-------- | :------------------------------------ |
+| `†`       | 根据论文点名沿用的基座或配置推断得到。                   |
+| `A / B`   | 包含两个分支或两种评测配置。                        |
+| `–`       | 论文未报告。                                |
+| `n/a`     | 不适用于该方法。                              |
+| `●` / `○` | 综述 Table 1 主改动列（`●`）与新增具体机制的其他列（`○`）。 |
+| **加粗**    | 该论文主要改动的流程阶段。                         |
+| 空白格       | 该主分类下暂无论文。                            |
+| `warm`    | 实验设置卡中的热启动过滤协议标签。                     |
 
 论文页与矩阵中的全部符号及缩写释义见 [术语表](guides/glossary.zh.md)。
 
-## 构码输入模态
+## 每篇改了什么
 
-按综述 Table 1 `representation` 列的构码输入内容模态与协同过滤（`CF`）信号分组；“协同”仅指构码输入含 `CF`，`A / B` 双分支配置分别计入各分支所在格。
+● 表示综述 Table 1 的主改动列，○ 表示本文新增了具体机制的其他列，空格表示沿用既有或标准做法。训练阶段（Training）拆为“编号器更新”（Tokenizer）和“训练目标”（Objective）两列。
 
-| 内容模态    | 未标 CF                                     | 含协同（CF）                                            |
-| :------ | :---------------------------------------- | :------------------------------------------------- |
-| **单模态** | [单模态（82）](pages/zh/index/modality.md#单模态) | [单模态 + 协同（32）](pages/zh/index/modality.md#单模态--协同) |
-| **多模态** | [多模态（15）](pages/zh/index/modality.md#多模态) | [多模态 + 协同（21）](pages/zh/index/modality.md#多模态--协同) |
-| **其他**  | [其他（1）](pages/zh/index/modality.md#其他)    | [其他 + 协同（10）](pages/zh/index/modality.md#其他--协同)   |
+<details>
+<summary>I. 信息量 · 59 篇</summary>
 
-**表征未明**：[25 篇](pages/zh/index/modality.md#表征未明)（`–`、`Multi-Dom`、`Cross-Dom` 或含未报告分支）。
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [Molar](pages/zh/papers/molar.md) | ● `Text+Img+CF` |  | ○ `Dec-Only` |  | ○ `Discrim.` |  |
+| [OneLoc](pages/zh/papers/oneloc.md) | ● `Text+Img+Geo†` |  | ○ `Enc-Dec` |  | ○ `NTP → DPO` |  |
+| [Q-BERT4Rec](pages/zh/papers/q-bert4rec.md) | ● `Text+Img+CF` |  |  |  | ○ `Masked` |  |
+| [UNGER](pages/zh/papers/unger.md) | ● `Text+CF` |  |  |  | ○ `NTP + Ctr.` |  |
+| [GeoGR](pages/zh/papers/geogr.md) | ● `Text+Geo+CF` |  |  | ○ `Altern.†` |  |  |
+| [HF-SID](pages/zh/papers/hf-sid.md) | ● `Text+Attr+Geo` | ○ `R-KM` |  |  |  |  |
+| [LGRID](pages/zh/papers/lgrid.md) | ● `Text+Geo` | ○ `DSRQ` |  |  |  |  |
+| [LGSID](pages/zh/papers/lgsid.md) | ● `Text+Geo+CF` | ○ `Geo-Idx+RQ` |  |  |  |  |
+| [ReSID](pages/zh/papers/resid.md) | ● `Attr+CF` | ○ `GAOQ` |  |  |  |  |
+| [SCRec](pages/zh/papers/screc.md) | ● `Text+CF` |  | ○ `Non-AR / Enc-Dec` |  | ○ `MTP + Ctr.` |  |
+| [SPAR](pages/zh/papers/spar.md) | ● `Text+Geo` |  |  |  | ○ `Multi-task NTP` |  |
+| [TriAlignGR](pages/zh/papers/trialigngr.md) | ● `Text+Img` |  |  |  | ○ `Multi-task NTP` |  |
+| [CoST](pages/zh/papers/cost.md) |  | ● `C-RQ` |  |  |  |  |
+| [LETTER](pages/zh/papers/letter.md) |  | ● `Learn. RQ` |  |  | ○ `NTP + Rank` |  |
+| [LMIndexer](pages/zh/papers/lmindexer.md) |  | ● `Self-Sup. ID` |  |  |  |  |
+| [ActionPiece](pages/zh/papers/actionpiece.md) |  | ● `OPQ` |  |  |  | ○ `Ensemble` |
+| [ADC-SID](pages/zh/papers/adc-sid.md) |  | ● `MoE-VQ` |  |  | ○ `NTP` |  |
+| [DAS](pages/zh/papers/das.md) | ○ `Text+CF` | ● `Dual RQ` |  |  |  |  |
+| [EAGER-LLM](pages/zh/papers/eager-llm.md) |  | ● `Dual H-KM` | ○ `Dec-Only` |  | ○ `Multi-task NTP` |  |
+| [FlexCode](pages/zh/papers/flexcode.md) |  | ● `Dual RQ-VAE` |  | ○ `Joint` | ○ `NTP` |  |
+| [GenSAR](pages/zh/papers/gensar.md) |  | ● `Shared/Spec. RQ` |  |  | ○ `Multi-task NTP` |  |
+| [GNPR-SID](pages/zh/papers/gnpr-sid.md) | ○ `Attr+Geo+CF` | ● `RQ-VAE` |  |  |  |  |
+| [GRAM](pages/zh/papers/gram.md) | ○ `Text+CF` | ● `H-KM` | ○ `Enc-Dec` |  |  |  |
+| [KGTB](pages/zh/papers/kgtb.md) | ○ `Attr+Geo+CF` | ● `KG-RQ` |  |  | ○ `Multi-task NTP` |  |
+| [MME-SID](pages/zh/papers/mme-sid.md) |  | ● `MM-RQ` | ○ `Dec-Only` |  |  |  |
+| [MQL4GRec](pages/zh/papers/mql4grec.md) |  | ● `Dual RQ` |  |  | ○ `Multi-task NTP` | ○ `Beam` |
+| [PSRQ](pages/zh/papers/psrq.md) |  | ● `Prog. RQ` | ○ `Encoder` |  |  |  |
+| [QT-Mob](pages/zh/papers/qt-mob.md) |  | ● `RQ-VAE` |  |  | ○ `Multi-task NTP` |  |
+| [TokenRec](pages/zh/papers/tokenrec.md) |  | ● `Masked VQ` | ○ `Encoder` |  | ○ `Discrim.` | ○ `Scoring` |
+| [CapsID](pages/zh/papers/capsid.md) |  | ● `Soft-RQ` |  |  |  |  |
+| [ChronoID](pages/zh/papers/chronoid.md) | ○ `Text+Time` | ● `RQ-VAE / Par. VQ` |  |  |  |  |
+| [GrIS (RecDMoN / RQ-GAE)](pages/zh/papers/gris-recdmon-rq-gae.md) | ○ `Text+CF` | ● `RecDMoN / RQ-GAE` |  |  |  |  |
+| [MACRec](pages/zh/papers/macrec.md) |  | ● `Cross RQ` |  |  | ○ `NTP + Ctr.` |  |
+| [MMGRec](pages/zh/papers/mmgrec.md) | ○ `Text+Img+CF` | ● `Graph RQ-VAE` | ○ `Enc-Dec` |  |  |  |
+| [MMQ](pages/zh/papers/mmq.md) |  | ● `MoE-VQ` |  | ○ `Joint` | ○ `MTP` |  |
+| [MSCGRec](pages/zh/papers/mscgrec.md) |  | ● `RQ-VAE+DINO` |  |  | ○ `NTP` |  |
+| [PCR-CA](pages/zh/papers/pcr-ca.md) |  | ● `PC-AE` | ○ `Disc.` | ○ `Joint` | ○ `Discrim.` |  |
+| [Pctx](pages/zh/papers/pctx.md) |  | ● `RQ` |  |  | ○ `NTP` | ○ `Beam+Agg.` |
+| [ProGEO](pages/zh/papers/progeo.md) |  | ● `R-KM+Geo-CB` |  |  |  |  |
+| [RoFiGR](pages/zh/papers/rofigr.md) |  | ● `CF-Aligned MM RQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [ROS](pages/zh/papers/ros.md) |  | ● `Geo-Prefix+RQ-VAE` |  |  | ○ `NTP → RL` |  |
+| [SPRIG](pages/zh/papers/sprig.md) |  | ● `R-KM` |  |  | ○ `NTP` |  |
+| [Tlow](pages/zh/papers/tlow.md) |  | ● `Flow+PQ` |  |  | ○ `MTP + Rel.MSE` |  |
+| [UniRec](pages/zh/papers/unirec.md) |  | ● `RQ` | ○ `Dec-Only` |  | ○ `NTP → DPO` |  |
+| [UniSID](pages/zh/papers/unisid.md) | ○ `Text+Img+Attr` | ● `Direct SID Heads` |  |  |  |  |
+| [VarLenRec (TIGER)](pages/zh/papers/varlenrec-tiger.md) |  | ● `HARQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` | ○ `C-Beam` |
+| [ColaRec](pages/zh/papers/colarec.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Ctr.` |  |
+| [EAGER](pages/zh/papers/eager.md) |  | ○ `Dual H-KM` | ● `Dual Enc-Dec` |  | ○ `NTP + Ctr.` | ○ `Fusion` |
+| [COBRA](pages/zh/papers/cobra.md) | ○ `Text+SID` |  | ● `Dec-Only` |  | ○ `NTP + Dense` | ○ `BeamFusion` |
+| [DiscRec](pages/zh/papers/discrec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [Spacetime-GR](pages/zh/papers/spacetime-gr.md) | ○ `Geo` | ○ `Geo-Idx` | ● `Dec-Only` |  | ○ `NTP → DPO` |  |
+| [SPAR-Youku](pages/zh/papers/spar-youku.md) |  | ○ `RQ-PIB` | ● `Dec-Only` |  |  |  |
+| [UniSGR-V2](pages/zh/papers/unisgr-v2.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Rank` |  |
+| [MBGen](pages/zh/papers/mbgen.md) |  | ○ `Bal. VQ+KM` | ○ `Enc-Dec` |  | ● `NTP` |  |
+| [RAGR](pages/zh/papers/ragr.md) |  | ○ `RQ-VAE` | ○ `Enc-Dec` |  | ● `NTP → DPO` |  |
+| [REGER](pages/zh/papers/reger.md) |  |  | ○ `Enc-Dec` |  | ● `NTP → (NTP + Aux.)` |  |
+| [SynGR](pages/zh/papers/syngr.md) |  |  |  |  | ● `NTP + Ctr.` |  |
+| [CAPE](pages/zh/papers/cape.md) |  |  |  |  |  | ● `Hybrid` |
+| [CITE](pages/zh/papers/cite.md) |  |  |  |  |  | ● `Scoring` |
 
-**不适用**：[1 篇](pages/zh/index/modality.md#不适用)（`n/a`）。
+</details>
 
-**附加信号**：[`Geo`（15）](pages/zh/index/modality.md#geo) · [`Time`（1）](pages/zh/index/modality.md#time) · [`SID`（5）](pages/zh/index/modality.md#sid)。
+<details>
+<summary>II. 唯一性与合法性 · 12 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [CID](pages/zh/papers/cid.md) |  | ● `Spectral Clus.` |  |  |  |  |
+| [TransRec](pages/zh/papers/transrec.md) |  | ● `Multi-Facet ID` |  |  |  | ○ `FM-Index+Agg.` |
+| [HiD-VAE](pages/zh/papers/hid-vae.md) | ○ `Text` | ● `Hier. RQ` |  |  |  |  |
+| [PSI](pages/zh/papers/psi.md) |  | ● `Post-hoc RQ` |  |  |  |  |
+| [AdaSID](pages/zh/papers/adasid.md) |  | ● `RQ` |  |  |  |  |
+| [API](pages/zh/papers/api.md) | ○ `Text` | ● `PID (P-SAE)` | ○ `Enc-Dec / Dec-Only (AR); Non-AR (PR)` |  | ○ `NTP + Rank + Aux. / MTP + Rank + Aux.` | ○ `C-Beam / Scoring` |
+| [CARD](pages/zh/papers/card.md) | ○ `Text+Img+CF` | ● `NU-RQ` |  |  |  |  |
+| [DIGER](pages/zh/papers/diger.md) |  | ● `Learn. RQ` |  | ○ `Joint` |  |  |
+| [Gwhere](pages/zh/papers/gwhere.md) |  | ● `Contr. RQ` |  |  | ○ `NTP → DPO` |  |
+| [QuaSID](pages/zh/papers/quasid.md) |  | ● `QA-RQ` |  |  |  |  |
+| [R3-VAE](pages/zh/papers/r3-vae.md) |  | ● `Ref.-RQ` |  |  |  |  |
+| [SnapLGR](pages/zh/papers/snaplgr.md) |  | ● `RQ-VAE+PPR` |  |  |  | ○ `Beam` |
+
+</details>
+
+<details>
+<summary>III. SID 与模型对齐 · 31 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [IDGenRec](pages/zh/papers/idgenrec.md) |  | ● `LLM-Vocab` |  | ○ `Altern.` |  |  |
+| [SIIT](pages/zh/papers/siit.md) |  | ● `Self-Imp.` |  | ○ `Altern.` |  |  |
+| [SemConv](pages/zh/papers/semconv.md) |  | ● `Align. RQ` |  |  | ○ `Multi-task NTP` | ○ `Beam` |
+| [Align3GR](pages/zh/papers/align3gr.md) |  | ● `Dual RQ` |  |  | ○ `NTP → DPO` |  |
+| [CogRec](pages/zh/papers/cogrec.md) |  | ● `R-KM+Graph` |  |  | ○ `Multi-task NTP` |  |
+| [DOS](pages/zh/papers/dos.md) |  | ● `Orth. RQ` |  |  |  |  |
+| [GR4AD-X](pages/zh/papers/gr4ad-x.md) |  | ● `Multi-Path R-KM+Hash` | ○ `Enc-Dec` |  | ○ `NTP + PV-RSPO + Rank + Aux.` | ○ `PV-Beam+Rerank` |
+| [GRLM](pages/zh/papers/grlm.md) |  | ● `Term-ID` |  |  |  | ○ `Beam` |
+| [HoloRec](pages/zh/papers/holorec.md) |  | ● `Nested RQ` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [SST](pages/zh/papers/sst.md) |  | ● `RQ+IST` |  |  |  |  |
+| [TopoGR](pages/zh/papers/topogr.md) |  | ● `BDQ` | ○ `Non-AR` |  | ○ `MTP + Aux.` | ○ `Scoring+Rerank` |
+| [LLaDA-Rec](pages/zh/papers/llada-rec.md) |  | ○ `Par. VQ` | ● `Non-AR` |  | ○ `Masked` | ○ `Diff.` |
+| [DECOR](pages/zh/papers/decor.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [FLASH](pages/zh/papers/flash.md) |  | ○ `SimHash` | ● `Non-AR` |  | ○ `MTP + Aux.` |  |
+| [Latte](pages/zh/papers/latte.md) |  |  | ● `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [LESSRec](pages/zh/papers/lessrec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [MDGR](pages/zh/papers/mdgr.md) |  |  | ● `Non-AR` |  | ○ `Masked` | ○ `Diff.+Beam` |
+| [PrefixMem](pages/zh/papers/prefixmem.md) |  |  | ● `Dec-Only` |  | ○ `Multi-task NTP` |  |
+| [S2GR](pages/zh/papers/s2gr.md) |  | ○ `CoBa RQ-VAE` | ● `Enc-Dec` |  | ○ `NTP + Ctr.` |  |
+| [TrieRec](pages/zh/papers/trierec.md) |  |  | ● `Enc-Dec` |  |  |  |
+| [LC-Rec](pages/zh/papers/lc-rec.md) |  | ○ `RQ-VAE` |  |  | ● `Multi-task NTP` |  |
+| [ETEGRec](pages/zh/papers/etegrec.md) |  |  |  | ● `Altern.` | ○ `NTP + Ctr.` |  |
+| [GREAM](pages/zh/papers/gream.md) | ○ `Text+CF` |  |  |  | ● `NTP → RL` |  |
+| [OneRec-Think](pages/zh/papers/onerec-think.md) |  |  |  |  | ● `NTP → RL` | ○ `CoT` |
+| [Evo-Rec](pages/zh/papers/evo-rec.md) |  |  |  |  | ● `NTP → RL` |  |
+| [GTI](pages/zh/papers/gti.md) |  |  |  |  | ● `Multi-task NTP` |  |
+| [Intent-Driven-News](pages/zh/papers/intent-driven-news.md) |  |  |  |  | ● `Multi-task NTP` | ○ `CoT+Fuzzy Match` |
+| [SIDReasoner](pages/zh/papers/sidreasoner.md) |  |  |  |  | ● `NTP → RL` |  |
+| [Think2Go](pages/zh/papers/think2go.md) |  |  |  |  | ● `NTP → RL` |  |
+| [GRC](pages/zh/papers/grc.md) |  |  |  |  | ○ `NTP → RL` | ● `GRC+Beam` |
+| [PROMISE](pages/zh/papers/promise.md) |  |  |  |  | ○ `NTP + Aux.` | ● `PRM-Beam` |
+
+</details>
+
+<details>
+<summary>IV. 实用目标 · 28 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [TRACER](pages/zh/papers/tracer.md) |  | ● `Soft Reassign. RQ` |  | ○ `Joint` | ○ `NTP + Aux.` |  |
+| [DiGR](pages/zh/papers/digr.md) |  |  | ● `Dec-Only` |  | ○ `Discrim.` | ○ `Scoring` |
+| [Gryphon](pages/zh/papers/gryphon.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Rank` | ○ `Hybrid` |
+| [RecoChain](pages/zh/papers/recochain.md) |  |  | ● `Dec-Only` |  | ○ `NTP + Rank` | ○ `Hybrid` |
+| [APAO](pages/zh/papers/apao.md) |  |  |  |  | ● `NTP + Rank` |  |
+| [DASO](pages/zh/papers/daso.md) |  |  |  |  | ● `NTP → RL` |  |
+| [DPE-Rec](pages/zh/papers/dpe-rec.md) |  |  |  |  | ● `Masked → RL (→ Masked KD for Fast)` |  |
+| [GEM-Rec](pages/zh/papers/gem-rec.md) |  |  |  |  | ● `NTP` | ○ `Bid-Aware Beam` |
+| [GenRec-JD](pages/zh/papers/genrec-jd.md) |  |  | ○ `Dec-Only` |  | ● `NTP → RL` |  |
+| [GFlowGR](pages/zh/papers/gflowgr.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [Ghost](pages/zh/papers/ghost.md) |  | ○ `Skeleton R-KM` |  |  | ● `NTP + Aux.` |  |
+| [HASTE](pages/zh/papers/haste.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [HCGRec](pages/zh/papers/hcgrec.md) |  |  |  |  | ● `NTP → RL` |  |
+| [IDM/CMM](pages/zh/papers/idm-cmm.md) |  |  |  |  | ● `MTP + Aux.` |  |
+| [KL-MOPD](pages/zh/papers/kl-mopd.md) |  |  |  |  | ● `(NTP† / (NTP + Aux.)†) → KL-weighted OPD` |  |
+| [MuSID-KD](pages/zh/papers/musid-kd.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [NAU](pages/zh/papers/nau.md) |  |  |  |  | ● `NTP + Aux.` |  |
+| [OneChord](pages/zh/papers/onechord.md) |  |  | ○ `Non-AR` |  | ● `Next-item CE + Cons. KD + Rank KD` | ○ `Scoring` |
+| [Retrieval-Grounded-Credit](pages/zh/papers/retrieval-grounded-credit.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SAGE-SID](pages/zh/papers/sage-sid.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SAHL](pages/zh/papers/sahl.md) |  | ○ `SRBQ` |  |  | ● `(MTP + Masked Rec.) → MTP` |  |
+| [SAPO](pages/zh/papers/sapo.md) |  |  |  |  | ● `NTP → RL` |  |
+| [SLIDE](pages/zh/papers/slide.md) |  |  |  |  | ● `NTP` |  |
+| [Token-Weighted](pages/zh/papers/token-weighted.md) |  |  |  |  | ● `NTP` |  |
+| [UGR](pages/zh/papers/ugr.md) |  |  |  |  | ● `NTP → (RL + Rank)` |  |
+| [V-STAR](pages/zh/papers/v-star.md) |  |  |  |  | ● `NTP → RL` | ○ `C-Beam` |
+| [ISD](pages/zh/papers/isd.md) |  |  |  |  |  | ● `ISD Beam` |
+| [TCBSA](pages/zh/papers/tcbsa.md) |  |  |  |  |  | ● `CF-Guided C-Beam` |
+
+</details>
+
+<details>
+<summary>V. 效率 · 21 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [SEATER](pages/zh/papers/seater.md) |  | ● `Tree-Clus.` |  |  | ○ `NTP + Ctr.` |  |
+| [Dynamic-Single-Codebook](pages/zh/papers/dynamic-single-codebook.md) |  | ● `Dyn. KM+Disamb.` |  |  |  |  |
+| [JevRec](pages/zh/papers/jevrec.md) |  | ● `Freq. R-KM` | ○ `Enc-Dec` |  | ○ `NTP + Aux.` | ○ `Length-Quota Beam` |
+| [OneRec-V2](pages/zh/papers/onerec-v2.md) |  |  | ● `Lazy Dec-Only` |  | ○ `NTP → RL` |  |
+| [RPG](pages/zh/papers/rpg.md) |  |  | ● `Non-AR` |  | ○ `MTP` | ○ `Graph` |
+| [ACERec](pages/zh/papers/acerec.md) |  |  | ● `Non-AR` |  | ○ `MTP + Ctr. + Aux.` |  |
+| [Deco](pages/zh/papers/deco.md) |  |  | ● `Dec-Only` |  |  |  |
+| [IBA](pages/zh/papers/iba.md) |  |  | ● `Enc-Dec` |  | ○ `NTP → (NTP + Aux.)` | ○ `C-Beam` |
+| [LoopGR](pages/zh/papers/loopgr.md) |  |  | ● `Enc-Dec` |  | ○ `NTP / NTP + Aux.` |  |
+| [Merge-and-Branch](pages/zh/papers/merge-and-branch.md) |  |  | ● `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [PinGER](pages/zh/papers/pinger.md) |  | ○ `RQ-VAE` | ● `Dec-Only` |  | ○ `NTP → DPO` | ○ `Div. C-Beam` |
+| [SID-MLP](pages/zh/papers/sid-mlp.md) |  |  | ● `Enc-MLP` |  | ○ `NTP + Aux.` |  |
+| [SPRINT](pages/zh/papers/sprint.md) |  |  | ● `Non-AR` |  | ○ `Dual-level Flow Ctr.` |  |
+| [STAMP](pages/zh/papers/stamp.md) |  |  | ● `Enc-Dec / Dec-Only` |  | ○ `NTP + Aux.` |  |
+| [OneLatent](pages/zh/papers/onelatent.md) |  |  | ○ `Dec-Only` |  | ● `Multi-task NTP` | ○ `Beam` |
+| [AtSpeed](pages/zh/papers/atspeed.md) |  |  |  |  | ○ `NTP` | ● `Spec. Dec.` |
+| [NEZHA](pages/zh/papers/nezha.md) |  |  | ○ `Dec-Only` |  |  | ● `Self-Draft+Hash` |
+| [OneRec-V2-Quantized](pages/zh/papers/onerec-v2-quantized.md) |  |  |  |  |  | ● `FP8+RecoGEM` |
+| [PAD-Rec](pages/zh/papers/pad-rec.md) |  |  |  |  |  | ● `Spec. Dec.` |
+| [PFA](pages/zh/papers/pfa.md) |  |  |  |  |  | ● `Beam` |
+| [STATIC](pages/zh/papers/static.md) |  |  |  |  |  | ● `Vec. C-Beam` |
+
+</details>
+
+<details>
+<summary>VI. 泛化 · 18 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [VQ-Rec](pages/zh/papers/vq-rec.md) |  | ● `OPQ` | ○ `Encoder` |  | ○ `Discrim.` |  |
+| [GMC](pages/zh/papers/gmc.md) |  | ● `Unified RQ` | ○ `Enc-Dec` |  |  |  |
+| [UTGRec](pages/zh/papers/utgrec.md) |  | ● `Tree` |  |  |  |  |
+| [DACT](pages/zh/papers/dact.md) |  | ● `RQ-VAE` |  |  |  |  |
+| [DREAM](pages/zh/papers/dream.md) | ○ `Text+CF` | ● `CART` |  | ○ `Altern.` | ○ `NTP + Aux.` | ○ `C-Beam` |
+| [GenCDR](pages/zh/papers/gencdr.md) |  | ● `RQ+LoRA` | ○ `Dec-Only` |  | ○ `NTP` | ○ `C-Beam` |
+| [MBGR](pages/zh/papers/mbgr.md) |  | ● `RQ` | ○ `Dec-Only` |  | ○ `NTP + Aux.` |  |
+| [OneLive](pages/zh/papers/onelive.md) | ○ `Text+Img+Audio+CF` | ● `R-KM` | ○ `Lazy Dec-Only` |  | ○ `NTP → RL` | ○ `Beam` |
+| [UniTok](pages/zh/papers/unitok.md) |  | ● `TokenMoE` |  |  |  |  |
+| [DualGR](pages/zh/papers/dualgr.md) |  |  | ● `Dec-Only` |  | ○ `NTP + Rank` | ○ `Dual Beam` |
+| [FedCGR](pages/zh/papers/fedcgr.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [LION](pages/zh/papers/lion.md) |  |  | ● `Enc-Dec` |  | ○ `NTP + Aux.` |  |
+| [RecBase](pages/zh/papers/recbase.md) |  | ○ `Curr. RQ` |  |  | ● `NTP` |  |
+| [AWARE](pages/zh/papers/aware.md) |  |  |  |  | ● `NTP` |  |
+| [CausalDPO](pages/zh/papers/causaldpo.md) |  |  |  |  | ● `NTP → DPO` |  |
+| [CMRec](pages/zh/papers/cmrec.md) |  |  |  |  | ● `NTP` |  |
+| [LIGER](pages/zh/papers/liger.md) |  |  | ○ `Enc-Dec` |  | ○ `NTP + Dense` | ● `Hybrid` |
+| [SpecGR](pages/zh/papers/specgr.md) |  |  |  |  | ○ `NTP + Rank` | ● `Hybrid` |
+
+</details>
+
+<details>
+<summary>范式、系统与基准 · 12 篇</summary>
+
+| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| [TIGER](pages/zh/papers/tiger.md) |  | ○ `RQ-VAE` | ○ `Enc-Dec` |  |  | ○ `Beam` |
+| [FORGE](pages/zh/papers/forge.md) |  | ○ `RQ-VAE` |  |  |  | ○ `Dyn. Beam` |
+| [GRID](pages/zh/papers/grid.md) |  |  |  |  |  |  |
+| [MiniOneRec](pages/zh/papers/minionerec.md) |  |  |  |  | ○ `NTP → RL` |  |
+| [OneRec](pages/zh/papers/onerec.md) |  | ○ `R-KM` | ○ `Enc-Dec` |  | ○ `NTP → DPO` |  |
+| [GR-Generalize](pages/zh/papers/gr-generalize.md) |  |  |  |  |  | ○ `Hybrid` |
+| [NEO](pages/zh/papers/neo.md) | ○ `Text / Audio` | ○ `R-KM` |  |  | ○ `Multi-task NTP` | ○ `C-Beam` |
+| [Netflix-SID-Comparison](pages/zh/papers/netflix-sid-comparison.md) |  |  |  |  | ○ `Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT` |  |
+| [OneMall](pages/zh/papers/onemall.md) | ○ `Text+Img+CF` | ○ `R-KM+FSQ` | ○ `Enc-Dec` |  | ○ `(NTP + Ctr.) → RL` |  |
+| [PLUM](pages/zh/papers/plum.md) | ○ `Text+Img+CF` | ○ `RQ-VAE` |  |  | ○ `Multi-task NTP` |  |
+| [ReRankID](pages/zh/papers/rerankid.md) |  |  |  |  | ○ `NTP → RL` | ○ `CoT+Greedy` |
+| [SIDScope](pages/zh/papers/sidscope.md) |  |  |  |  |  |  |
+
+</details>
+
+## 按模态找论文
+
+按输入 SID 编号器的信号分组；内容组按各构码分支分别判定，协同与上下文组按全部分支合起来判定，同一篇论文可进入多个分组。
+
+| 方面 | 分组 |
+| :--- | :--- |
+| **内容** | [纯文本（115）](pages/zh/index/modality.md#纯文本) · [单一非文本（8）](pages/zh/index/modality.md#单一非文本) · [多模态（36）](pages/zh/index/modality.md#多模态) · [无内容模态（11）](pages/zh/index/modality.md#无内容模态) |
+| **协同** | [仅协同信号（7）](pages/zh/index/modality.md#仅协同信号) · [含协同信号（50）](pages/zh/index/modality.md#含协同信号) |
+| **上下文** | [结构化属性（7）](pages/zh/index/modality.md#结构化属性) · [地理空间（14）](pages/zh/index/modality.md#地理空间) · [时间特征（2）](pages/zh/index/modality.md#时间特征) |
+| **未知** | [待明确（28）](pages/zh/index/modality.md#待明确) |
+
+## 按领域找论文
+
+按实验数据集所属的平台业务领域分组；涉及多个领域的论文分别列入对应分组。
+
+[电商（142）](pages/zh/index/domain.md#电商) · [本地生活与 POI（44）](pages/zh/index/domain.md#本地生活与-poi) · [短视频与直播（21）](pages/zh/index/domain.md#短视频与直播) · [广告（17）](pages/zh/index/domain.md#广告) · [电影（12）](pages/zh/index/domain.md#电影) · [音乐（10）](pages/zh/index/domain.md#音乐) · [搜索（10）](pages/zh/index/domain.md#搜索) · [新闻（6）](pages/zh/index/domain.md#新闻) · [图书与有声书（5）](pages/zh/index/domain.md#图书与有声书) · [游戏（5）](pages/zh/index/domain.md#游戏) · [长视频（3）](pages/zh/index/domain.md#长视频) · [图文与文章（3）](pages/zh/index/domain.md#图文与文章) · [播客（1）](pages/zh/index/domain.md#播客) · [视频（1）](pages/zh/index/domain.md#视频) · [应用商店（1）](pages/zh/index/domain.md#应用商店) · [美食与食谱（1）](pages/zh/index/domain.md#美食与食谱) · [旅行与酒店（1）](pages/zh/index/domain.md#旅行与酒店) · [招聘（1）](pages/zh/index/domain.md#招聘) · [工业场景未明（6）](pages/zh/index/domain.md#工业场景未明)
 
 ## 最近更新
 
@@ -183,8 +426,6 @@ flowchart LR
 - [TriAlignGR][] - arXiv’26<br>
   TriAlignGR 在 SID 构建中引入视觉内容与 LLM 挖掘的用户意图，并在统一自回归损失下训练连接 SID、文本与图像的多项生成任务。<br>
   [论文](https://arxiv.org/abs/2605.05249)
-
-补充归入本格：[COBRA][]。
 
 ### I × Tokenization
 
@@ -291,8 +532,6 @@ flowchart LR
   VarLenRec (TIGER) 通过双曲残差量化与软长度控制器为热门物品分配较短 SID、为长尾物品分配较长 SID，替代固定长度编号。<br>
   [论文](https://arxiv.org/abs/2605.17779)
 
-补充归入本格：[CID][]、[HiD-VAE][]、[GRLM][]。
-
 ### I × Backbone
 
 - [ColaRec][] - CIKM’24<br>
@@ -317,8 +556,6 @@ flowchart LR
   UniSGR-V2 在每个码字前预测连续目标侧特征向量，并在解码器内将它与语义前缀和用户行为交叉，同时用于生成与排序。<br>
   [论文](https://arxiv.org/abs/2610.16132)
 
-补充归入本格：[MME-SID][]、[OneLoc][]、[RPG][]、[ACERec][]。
-
 ### I × Training
 
 - [MBGen][] - CIKM’24<br>
@@ -334,8 +571,6 @@ flowchart LR
   SynGR 在生成阶段限制模型对主导模态的依赖，促使生成器利用超出模态共享或模态特定信号的跨模态协同信息，替代以对齐为中心的融合。<br>
   [论文](https://arxiv.org/abs/2605.18920) · [代码](https://github.com/gxingyu/SynGR)
 
-补充归入本格：[EAGER][]、[COBRA][]。
-
 ### I × Inference
 
 - [CAPE][] - arXiv’26<br>
@@ -344,8 +579,6 @@ flowchart LR
 - [CITE][] - Electronics’26<br>
   CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。<br>
   [论文](https://doi.org/10.3390/electronics15204749)
-
-补充归入本格：[EAGER][]、[COBRA][]。
 
 ## II. 唯一性与合法性
 
@@ -390,12 +623,6 @@ flowchart LR
   SnapLGR 用个性化 PageRank 对比学习从多模态嵌入构建 SID，经持续预训练奠定表示后再微调 LLM，并用 TensorRT-LLM 部署束搜索。<br>
   [论文](https://arxiv.org/abs/2607.28895)
 
-补充归入本格：[LC-Rec][]、[LETTER][]、[GRLM][]。
-
-### II × Inference
-
-补充归入本格：[RPG][]、[GRLM][]。
-
 ## III. SID 与模型对齐
 
 > 生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？
@@ -436,8 +663,6 @@ flowchart LR
   TopoGR 学习可按位分解的二值 SID，并在输入特征、软训练目标与重排中利用其汉明几何结构，不再将 SID token 视作彼此独立的符号。<br>
   [论文](https://arxiv.org/abs/2607.25216)
 
-补充归入本格：[MME-SID][]。
-
 ### III × Backbone
 
 - [LLaDA-Rec][] - arXiv’25<br>
@@ -467,8 +692,6 @@ flowchart LR
 - [TrieRec][] - NeurIPS’26<br>
   TrieRec 为 Transformer 生成器加入前缀树感知绝对位置编码与拓扑感知相对位置编码，使注意力反映 SID 前缀树结构而非扁平 token 流。<br>
   [论文](https://arxiv.org/abs/2602.21677)
-
-补充归入本格：[MME-SID][]。
 
 ### III × Training
 
@@ -500,8 +723,6 @@ flowchart LR
   Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。<br>
   [论文](https://arxiv.org/abs/2607.28997) · [代码](https://doi.org/10.5281/zenodo.18206701)
 
-补充归入本格：[DIGER][]、[GRLM][]。
-
 ### III × Inference
 
 - [GRC][] - CIKM’26<br>
@@ -510,8 +731,6 @@ flowchart LR
 - [PROMISE][] - arXiv’26<br>
   PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。<br>
   [论文](https://arxiv.org/abs/2601.04674)
-
-补充归入本格：[DualGR][]。
 
 ## IV. 实用目标
 
@@ -604,8 +823,6 @@ flowchart LR
   V-STAR 在强化学习采样期间用价值引导解码加深高价值前缀的搜索，并用 Sibling-GRPO 计算兄弟分支相对优势，替代似然驱动的束搜索。<br>
   [论文](https://arxiv.org/abs/2602.10699)
 
-补充归入本格：[OneLoc][]、[DualGR][]。
-
 ### IV × Inference
 
 - [ISD][] - arXiv’26<br>
@@ -673,8 +890,6 @@ flowchart LR
   OneLatent 通过多视图教师轨迹、分阶段对齐与课程式后训练，将显式思维链压缩为可学习隐 token，避免在推理时生成长推理文本。<br>
   [论文](https://arxiv.org/abs/2610.30675)
 
-补充归入本格：[RPG][]。
-
 ### V × Inference
 
 - [AtSpeed][] - ICLR’25<br>
@@ -695,8 +910,6 @@ flowchart LR
 - [STATIC][] - KDD’26 ADS<br>
   STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。<br>
   [论文](https://arxiv.org/abs/2602.22647) · [代码](https://github.com/youtube/static-constraint-decoding)
-
-补充归入本格：[RPG][]、[DualGR][]。
 
 ## VI. 泛化
 
@@ -744,8 +957,6 @@ flowchart LR
   LION 加入稀疏键值记忆层与巩固损失，将不同行为模式的演化隔离开来，避免在流式交互上直接更新全部共享参数。<br>
   [论文](https://arxiv.org/abs/2609.15598) · [代码](https://github.com/JazyJiang/Self-Evolving-Memory-for-Generative-Recommendation)
 
-补充归入本格：[LIGER][]。
-
 ### VI × Training
 
 - [RecBase][] - EMNLP’25<br>
@@ -760,8 +971,6 @@ flowchart LR
 - [CMRec][] - CIKM’26 Short<br>
   CMRec 学习跨国共享码本，并通过受约束的 token 替换合成跨国混合序列，在数据层面而不仅靠共享参数实现跨市场知识迁移。<br>
   [论文](https://arxiv.org/abs/2609.28972)
-
-补充归入本格：[LIGER][]、[DualGR][]。
 
 ### VI × Inference
 

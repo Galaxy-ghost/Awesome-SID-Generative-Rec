@@ -63,3 +63,16 @@ related:
     prefix level.
   where: 'APAO v4, Section 5.1.1 follows Wang et al. (2024): https://arxiv.org/html/2603.02730v4#S5.SS1.SSS1.p1; Section 1:
     https://arxiv.org/html/2603.02730v4#S1.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings: []

@@ -58,3 +58,24 @@ related:
   relation: alternative
   note: SIDReasoner aligns IDs with language; IBA allocates hidden refinement steps.
   where: 'IBA v1, Section V-B2: https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p2; https://arxiv.org/html/2607.12425v1#S5.SS2.SSS2.p3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: To make this score meaningful, the refinement gain predictor is supervised by empirical refinement gains estimated
+      from the Stage 1 model.
+    where: arXiv:2607.12425v1 https://arxiv.org/html/2607.12425v1#S3.SS4.p3
+  inference:
+    value: other
+    quote: The predicted score $\widehat{s}_{i,r}$ estimates the user-conditioned gain score of assigning the $r$ -th refinement
+      step to position $i$ for the current user sequence.
+    where: arXiv:2607.12425v1 https://arxiv.org/html/2607.12425v1#S3.SS4.p2；§3.4 在总预算内为各码位选取推理细化步数；与骨干中的细化模块分列。
+modality:
+- Text
+domain:
+- E-commerce
+- Short video / Live
+settings: []

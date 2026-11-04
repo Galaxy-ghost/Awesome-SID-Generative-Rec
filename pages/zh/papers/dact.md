@@ -1,20 +1,24 @@
 # DACT
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dact.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/dact.md) | 中文
 
 | **题目** | *Drift-Aware Continual Tokenization for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Feng et al. |
 | **发表** | SIGIR’26 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 |
+| **构码输入** | `Text` + `CF` |
+| **领域** | `电商` |
+| **特殊设置** | `目录动态变化` |
 | **链接** | [论文](https://arxiv.org/abs/2603.29705) · [代码](https://github.com/HomesAmaranta/DACT) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>–"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>● RQ-VAE"] --> B["生成骨干 Backbone<br/>Enc-Dec / Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>–"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | DACT 在交互分布漂移时利用物品级漂移检测器与由松到紧的码重分配机制微调协同编号器，在不完全重训或大规模变动 ID 的前提下更新 SID。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

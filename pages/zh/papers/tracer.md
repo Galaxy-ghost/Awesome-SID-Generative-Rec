@@ -1,22 +1,27 @@
 # TRACER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tracer.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/tracer.md) | 中文
 
 | **题目** | *Token ReAssignment for Concept ERasure in Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Chen et al. |
 | **发表** | NeurIPS’26 |
-| **问题与阶段** | `IV. 实用目标` · `编号（Tokenization）` |
+| **问题与阶段** | `IV. 实用目标` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 编号器更新 · ○ 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2606.07688) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Soft Reassign. RQ"] --> B["骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>Joint / NTP + Aux."] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Soft Reassign. RQ"] --> B["生成骨干 Backbone<br/>Dec-Only / Enc-Dec"] --> TR["训练 Training<br/>编号器更新: ○ Joint<br/>训练目标: ○ NTP + Aux."] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | TRACER 通过带连贯性正则的重分配机制将敏感概念相关物品映射到替代 SID token，实现概念级遗忘，避免直接压制与保留物品共享的 token。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

@@ -1,12 +1,16 @@
 # Think2Go
 
-[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/think2go.md)
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/think2go.md)
 
 | **Title** | *Generative Next POI Recommendation with LLM Reasoning* |
 | :-- | :-- |
 | **Authors** | Zhuang et al. |
 | **Venue** | KDD’26 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` · `POI` |
+| **Changes** | ● Objective |
+| **SID inputs** | `unknown` |
+| **Domain** | `POI / Local` |
+| **Settings** | `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.28997) · [Code](https://doi.org/10.5281/zenodo.18206701) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Attr+Geo+CF†"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Fixed / NTP → RL"] --> I["Inference<br/>CoT+Beam"]
+    R["Representation<br/>Attr+Geo+CF†"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ● NTP → RL"] --> I["Inference<br/>CoT+Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | Think2Go unifies supervised fine-tuning and reinforcement learning reasoning for next-POI generation, weighting advantages by prompt epistemic uncertainty and normalized rewards, to deepen the LLM's understanding of Semantic IDs. |
-| Modified Stage | Training |
 | Key Findings | Across Foursquare NYC, TKY, and Gowalla CA, Think2Go outperforms sequential, graph, LLM, and reasoning POI baselines while improving 10-way SID category identification over GNPR and curbing cross-city out-of-domain drop (Sec. 5.5–5.8, Tables 2–5). |
 | Limitation | Prompts contain only discrete POI Semantic IDs and timestamps without raw textual names or coordinates, relying entirely on RQ-VAE codes and KDE uncertainty weights to carry spatial context (Sec. 4.2.1, Appendix E). |
 

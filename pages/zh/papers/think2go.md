@@ -1,12 +1,16 @@
 # Think2Go
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/think2go.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/think2go.md) | 中文
 
 | **题目** | *Generative Next POI Recommendation with LLM Reasoning* |
 | :-- | :-- |
 | **作者** | Zhuang et al. |
 | **发表** | KDD’26 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` · `POI` |
+| **改动** | ● 训练目标 |
+| **构码输入** | `unknown` |
+| **领域** | `本地生活与 POI` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2607.28997) · [代码](https://doi.org/10.5281/zenodo.18206701) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Attr+Geo+CF†"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>CoT+Beam"]
+    R["物品表示 Representation<br/>Attr+Geo+CF†"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP → RL"] --> I["推理 Inference<br/>CoT+Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | Think2Go 统一监督微调与强化学习推理以用于下一 POI 生成，按提示的认知不确定性与归一化奖励为优势加权，加深 LLM 对 SID 的理解。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在 Foursquare NYC、TKY 与 Gowalla CA 上，Think2Go 超越序列、图网络、LLM 与推理类 POI 基线，在 10 选 1 SID 品类识别任务上优于 GNPR，并在跨城市域外迁移中保持更小性能衰减（Sec. 5.5–5.8，Tables 2–5）。 |
 | 局限 | 模型输入仅含离散 POI 语义 ID（Semantic ID，SID）与时间戳，不含原始名称或经纬度文本，空间信息完全依赖 RQ-VAE 码与核密度不确定性权重传递（Sec. 4.2.1，Appendix E）。 |
 

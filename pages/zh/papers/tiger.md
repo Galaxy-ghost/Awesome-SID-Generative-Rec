@@ -1,12 +1,16 @@
 # TIGER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/tiger.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/tiger.md) | 中文
 
 | **题目** | *Recommender Systems with Generative Retrieval* |
 | :-- | :-- |
 | **作者** | Rajput et al. |
 | **发表** | NeurIPS’23 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 构码 · ○ 生成骨干 · ○ 推理 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2305.05065) · [代码（第三方）](https://github.com/baiyimeng/TIGER) |
 | **阅读级别** | 代码级精读（第 3 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>○ RQ-VAE"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,B,I other
 ```
 
 - `Text`：物品文本元数据（标题、描述、类目或提示词）。
@@ -37,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | TIGER 用 RQ-VAE 将物品文本编码为语义 ID（SID），并训练 Transformer 编码器-解码器自回归解码下一物品的 SID，替代近似最近邻检索。 |
-| 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 在 Amazon Beauty 上，TIGER 的 Recall@5 为 0.0454，SASRec 为 0.0387；RQ-VAE 语义 ID（Semantic ID，SID）好于 LSH ID 和随机 ID（Tables 1 and 2）。 |
 | 局限 | 在语义 ID token 上执行自回归束搜索，使 TIGER 在推理时的计算开销高于基于 ANN 的检索模型（Appendix E）。 |
 

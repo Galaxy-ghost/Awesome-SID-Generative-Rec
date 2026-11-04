@@ -1,20 +1,23 @@
 # PFA
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pfa.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--inference) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/pfa.md) | 中文
 
 | **题目** | *Attention Can Be Progressively Focused in Long-Sequence Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Zhou et al. |
 | **发表** | arXiv’26 |
 | **问题与阶段** | `V. 效率` · `推理（Inference）` |
+| **改动** | ● 推理 |
+| **构码输入** | `unknown` |
+| **领域** | `电商` · `广告` |
 | **链接** | [论文](https://arxiv.org/abs/2610.39273) · [代码](https://anonymous.4open.science/r/PFA-review-088D) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>–"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>– / –"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>–"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: –<br/>训练目标: –"] --> I["推理 Inference<br/>● Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -28,16 +31,6 @@ flowchart LR
 
 > [!NOTE]
 > PFA 在首个解码步保留完整注意力，随后在各束之间复用共享的重要性排序以缩减后续步关注的历史长度，加速长序列生成式解码。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | PFA 在首个解码步保留完整注意力，随后在各束之间复用共享的重要性排序以缩减后续步关注的历史长度，加速长序列生成式解码。 |
-| 主要改动阶段 | 推理（Inference） |
 
 ---
 

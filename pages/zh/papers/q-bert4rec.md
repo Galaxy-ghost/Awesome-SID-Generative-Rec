@@ -1,22 +1,28 @@
 # Q-BERT4Rec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/q-bert4rec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/q-bert4rec.md) | 中文
 
 | **题目** | *Quantized Semantic-ID Representation Learning for Multimodal Recommendation* |
 | :-- | :-- |
 | **作者** | Huang and Gai |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `I. 信息量` · `表征（Representation）` |
+| **问题与阶段** | `I. 信息量` · `物品表示（Representation）` |
+| **改动** | ● 物品表示 · ○ 训练目标 |
+| **构码输入** | `Text` + `Img` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2512.02474) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Encoder (Non-AR)"] --> TR["训练 Training<br/>Fixed / Masked"] --> I["推理 Inference<br/>Non-AR"]
+    R["物品表示 Representation<br/>● Text+Img+CF"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Encoder (Non-AR)"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Masked"] --> I["推理 Inference<br/>Non-AR"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > Q-BERT4Rec 将文本、图像与结构化特征融合为物品嵌入，经残差向量量化转为 SID token，并用多种掩码策略预训练双向编码器。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | Q-BERT4Rec 将文本、图像与结构化特征融合为物品嵌入，经残差向量量化转为 SID token，并用多种掩码策略预训练双向编码器。 |
-| 主要改动阶段 | 表征（Representation） |
 
 ---
 

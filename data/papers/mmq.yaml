@@ -61,3 +61,29 @@ related:
   relation: alternative
   note: LC-Rec aligns indices through multitask fine-tuning; MMQ adapts multimodal tokenization directly.
   where: 'MMQ v1, Sections 2 and 3.3: https://arxiv.org/html/2508.15281v1#S2.p2; https://arxiv.org/html/2508.15281v1#S3.SS3.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: To address this, we propose a novel behavior-aware fine-tuning framework that replaces the discrete index lookup
+      with a differentiable, "soft" indexing mechanism.
+    where: arXiv:2508.15281v1 https://arxiv.org/html/2508.15281v1#S3.SS3.p1
+  objective:
+    value: other
+    quote: 'To preserve the semantic knowledge of the item tokenizer, the joint optimization training object is as follows:
+      (19) $\displaystyle\mathcal{L}_{finetune}=\mathcal{L}_{downstream_{task}}+\alpha^{\prime}*\mathcal{L}_{recon}+\beta^{\prime}*\mathcal{L}_{aux}$
+      where $\hat{v}_{t+1}$ is the predicted next item vector, $\alpha^{\prime}$ and $\beta^{\prime}$ are hyperparameters
+      to balance the downstream retrieval task and the reconstruction object of the item tokenizer, $\alpha^{\prime}=0.5$,
+      $\beta^{\prime}=0.5$ is set in experiments.'
+    where: arXiv:2508.15281v1 https://arxiv.org/html/2508.15281v1#S3.SS3.p4；Eq.(19) 下游生成训练与多模态重建项联合；码侧预训练损失已在 Tokenization
+      主格内。
+  inference: none
+modality:
+- Text
+- Img
+domain:
+- E-commerce
+- Ads
+settings: []

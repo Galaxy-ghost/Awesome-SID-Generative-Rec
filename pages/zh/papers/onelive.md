@@ -1,22 +1,27 @@
 # OneLive
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onelive.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/onelive.md) | 中文
 
 | **题目** | *Dynamically Unified Generative Framework for Live-Streaming Recommendation* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | KDD’26 ADS |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ○ 物品表示 · ● 构码 · ○ 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` + `Img` + `Audio` + `CF` |
+| **领域** | `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2602.08612) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+Audio+CF"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Lazy Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>○ Text+Img+Audio+CF"] --> T["构码 Tokenization<br/>● R-KM"] --> B["生成骨干 Backbone<br/>○ Lazy Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → RL"] --> I["推理 Inference<br/>○ Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,B,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > OneLive 结合动态残差量化编号器、时间感知门控注意力、带序列式多 token 预测的仅解码器生成器与多目标对齐，将生成式推荐用于直播场景。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | OneLive 结合动态残差量化编号器、时间感知门控注意力、带序列式多 token 预测的仅解码器生成器与多目标对齐，将生成式推荐用于直播场景。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

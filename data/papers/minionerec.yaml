@@ -68,3 +68,23 @@ related:
   note: LC-Rec aligns an LLM to SIDs with SFT tasks; MiniOneRec keeps such alignment throughout SFT and RL and adds reinforced
     preference optimization.
   where: 'MiniOneRec v1, Table 1 generative baselines (LCRec): https://arxiv.org/html/2510.24431v1#S5.T1; related work: https://arxiv.org/html/2510.24431v1#S2.SS1.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We introduce an auxiliary ranking-shaped reward to penalize harder negatives with lower scores.
+    where: arXiv:2510.24431v1 https://arxiv.org/html/2510.24431v1#S3.I3.i2.p1
+  inference: none
+modality:
+- Text
+note: RQ-VAE、Qwen decoder、beam sampler 沿用既有方法，不单因消融而记新增。OOD 记跨域；未另外证明单独的零交互用户/物品子集评估。
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: The model is trained exclusively on the Industrial domain and then deployed, without any further tuning, to the never-seen
+    Office domain.
+  where: arXiv:2510.24431v1 https://arxiv.org/html/2510.24431v1#S5.SS4.p1

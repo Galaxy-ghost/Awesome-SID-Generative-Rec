@@ -1,12 +1,16 @@
 # IDGenRec
 
-[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/idgenrec.md)
+[← Problem × Stage Matrix](../../README.md#iii--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/idgenrec.md)
 
 | **Title** | *Llm-recsys alignment with textual id learning* |
 | :-- | :-- |
 | **Authors** | Tan et al. |
 | **Venue** | SIGIR’24 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Tokenizer |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `POI / Local` |
+| **Settings** | `cold-start (item)` · `cold-start (user)` · `cross-domain` |
 | **Links** | [Paper](https://arxiv.org/abs/2403.19021) · [Code](https://github.com/agiresearch/IDGenRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>LLM-Vocab"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / NTP"] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● LLM-Vocab"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: ○ Altern.<br/>Objective: NTP"] --> I["Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | IDGenRec trains a textual ID generator alongside an LLM recommender, so each item receives a concise ID made of natural-language tokens, and tests zero-shot transfer to unseen platforms. |
-| Modified Stage | Tokenization |
 | Key Findings | Pre-trained on a 19-dataset corpus and evaluated zero-shot on 6 unseen datasets across platforms, IDGenRec matches or surpasses supervised traditional recommenders while outperforming sequential baselines in standard evaluation (Abstract, Tables 4 and 7). |
 | Limitation | Updating the textual ID generator changes item IDs across the catalog, requiring periodic prefix-tree reconstruction during alternating training (Sec. 2.4). |
 

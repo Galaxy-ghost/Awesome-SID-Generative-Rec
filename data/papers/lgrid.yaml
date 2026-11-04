@@ -92,3 +92,20 @@ related:
     geographic codes.
   where: 'LGRID v1, Section 1 and Section 2.1: https://arxiv.org/html/2607.27944v1#S1.p3 and https://arxiv.org/html/2607.27944v1#S2.SS1.p1;
     not a baseline in Table 1.'
+changes:
+  representation: primary
+  tokenization:
+    value: other
+    quote: It instantiates an encode → disentangle → align → quantize pipeline that preserves geo-content dependencies, constructs
+      attribute-aligned geographic and semantic slots, and separately quantizes these slots into compact SIDs.
+    where: '2607.27944v1 #S1.I1.i2.p1.1；地理槽和语义槽分开量化，各出两位码（DSRQ）'
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Geo
+domain:
+- POI / Local
+settings: []

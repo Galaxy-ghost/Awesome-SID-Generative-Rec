@@ -62,3 +62,35 @@ related:
   relation: competitor
   note: SpecGR drafts and verifies candidates; DREAM refines cold-item SID assignments.
   where: 'DREAM v1, Section 4.1 and Table 2: https://arxiv.org/html/2606.06947v1#S4.SS1.p2; https://arxiv.org/html/2606.06947v1#S4.T2.'
+changes:
+  representation:
+    value: other
+    quote: 'CART starts from the pre-computed item embedding $\mathbf{e}_{i}$ and augments it with a learnable per-item collaborative
+      residual $\mathbf{r}_{i}\in\mathbb{R}^{d}$ , initialized to zero: (2) $\mathbf{z}_{i}=\mathrm{LN}\!\left(W_{c}\,\mathbf{e}_{i}+\mathbf{r}_{i}\right),$
+      where $W_{c}$ is a linear content projection and $\mathrm{LN}$ is layer normalization.'
+    where: arXiv:2606.06947v1 https://arxiv.org/html/2606.06947v1#S3.SS3.p2
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: After a short warm-up of $E_{0}$ epochs, CPDE periodically refreshes the beam weights every $K_{e}$ optimization
+      steps using the current student model.
+    where: arXiv:2606.06947v1 https://arxiv.org/html/2606.06947v1#S3.SS5.p4；更新 SID 候选权重随生成器交替进行；不是重新训练 CART 参数。
+  objective:
+    value: other
+    quote: 'The model is trained with a soft multi-target objective weighted by the current beam distribution $\tilde{w}_{i}^{(k)}\propto\exp(w_{i}^{(k)}/T)$
+      : (19) $\mathcal{L}_{\mathrm{soft}}=-\sum_{k=1}^{B}\tilde{w}_{i}^{(k)}\cdot\frac{1}{L}\sum_{l=1}^{L}\log p_{\theta}\!\left(t_{i,l}^{(k)}\mid\mathbf{s}_{h_{u}},t_{i,<l}^{(k)}\right).$'
+    where: arXiv:2606.06947v1 https://arxiv.org/html/2606.06947v1#S3.SS5.p3
+  inference:
+    value: other
+    quote: 'For cold-start items, DREAM performs multi-path inference as its primary retrieval mechanism: all surviving beam
+      SIDs are registered in the constrained-decoding trie so that the model can reach a cold-start item through any of its
+      learned paths, increasing retrieval probability without additional scoring modules.'
+    where: arXiv:2606.06947v1 https://arxiv.org/html/2606.06947v1#S3.SS6.p1
+modality:
+- Text
+- CF
+note: §3.1/§4.1 的 cold 为至多 5 次交互，未单列零交互组，不记 cold-start。
+domain:
+- E-commerce
+settings: []

@@ -71,3 +71,28 @@ related:
     extra attribute decoding.
   where: 'Evidence is from the later CapsID paper: baselines and Table 3: https://arxiv.org/html/2605.05096v1#S4.SS1.SSS0.Px2.p1
     and https://arxiv.org/html/2605.05096v1#S4.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: To address this, we explicitly model Cartesian product interactions along the decoding path.
+    where: '2604.12234v5 #S3.SS4.SSS0.Px2.p2.1；Content Summary 用哈希嵌入表示解码路径上的码组合，另有 Task-Conditioned BOS（#S3.SS4.SSS0.Px1）'
+  tokenizer: none
+  objective:
+    value: other
+    quote: To preserve the stability of prefix predictions that serve as conditioning context for subsequent generation, we
+      apply stop-gradient to all decoding steps except the final SID layer, whose gradients are allowed to flow.
+    where: '2604.12234v5 #S3.SS6.SSS2.Px1.p1.1；DPO 只更新末层 Rank Head，另有奖励驱动微调（#S3.SS6.SSS1）'
+  inference: none
+modality:
+- MM
+- Attr
+modality_where:
+  quote: 'Multi-layer SIDs {s_0,s_1,s_2} derived from multimodal content alignment are embedded and fused with their corresponding
+    item embeddings before projection to ensure temporal alignment with the behavior sequence:'
+  where: '2604.12234v5 #S3.SS5.SSS1.Px3.p1.1（公式符号已简化）；Chain-of-Attribute 用 L2、L3 类目 token 作 SID 前缀（#S3.SS3）'
+note: Table 1 记 Text+CF；原文只说 multimodal content，类目 token 进 ID，记 Attr；容量按曝光量分配，不记 CF（11-04 规则）。
+domain:
+- E-commerce
+settings: []

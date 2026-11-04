@@ -56,3 +56,20 @@ related:
   relation: competitor
   note: Context-dependent action tokens contrast with LoopGR's standard RQ-VAE identifiers.
   where: 'LoopGR v1, Section 5.2 and Table 1: https://arxiv.org/html/2610.34157v1#S5.SS2.p2; https://arxiv.org/html/2610.34157v1#S5.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: For efficient inference, we further develop recurrent trajectory self-distillation that distills a low-budget student
+      from a high-budget teacher by aligning both predictive distributions and evolution directions.
+    where: arXiv:2610.34157v1 https://arxiv.org/html/2610.34157v1#abstract1
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- unknown (industrial)
+settings: []

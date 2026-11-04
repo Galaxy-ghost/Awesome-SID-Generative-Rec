@@ -59,3 +59,25 @@ related:
   relation: predecessor
   note: GRID supplies the residual K-means quantization choice.
   where: 'SPRIG v1, Sec.1 and Sec.3: https://arxiv.org/html/2610.06590v1#S1.p2; https://arxiv.org/html/2610.06590v1#S3.p4.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Mirroring KGGLM’s generic pretraining (Balloccu et al., 2024b), this stage uses no user-item interaction as supervision;
+      it lets the model absorb structural regularities of the graph, such as frequent relation chains and co-occurrence between
+      attribute entities and SID prefixes.
+    where: arXiv:2610.06590v1 https://arxiv.org/html/2610.06590v1#S2.SS3.p2；将 generic KG 路径预训练和 user-to-item 微调目标扩展到 SID 序列；A
+      为电影文本，B 为音乐音频。
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Audio
+domain:
+- Movie
+- Music
+settings: []

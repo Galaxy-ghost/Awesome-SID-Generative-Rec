@@ -1,12 +1,15 @@
 # LGSID
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/lgsid.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--representation) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/lgsid.md) | 中文
 
 | **题目** | *LLM-Aligned Geographic Item Tokenization for Local-Life Recommendation* |
 | :-- | :-- |
 | **作者** | Jiang et al. |
 | **发表** | AAAI’26 |
-| **问题与阶段** | `I. 信息量` · `表征（Representation）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `物品表示（Representation）` · `POI` |
+| **改动** | ● 物品表示 · ○ 构码 |
+| **构码输入** | `Text` + `Geo` + `Attr` + `CF` |
+| **领域** | `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2511.14221) · [代码](https://github.com/JiangHaoPG11/LGSID) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Geo+CF"] --> T["编号 Tokenization<br/>Geo-Idx+RQ"] --> B["骨干 Backbone<br/>Disc. / Enc-Dec"] --> TR["训练 Training<br/>Fixed / Discrim. / NTP"] --> I["推理 Inference<br/>Scoring / Beam†"]
+    R["物品表示 Representation<br/>● Text+Geo+CF"] --> T["构码 Tokenization<br/>○ Geo-Idx+RQ"] --> B["生成骨干 Backbone<br/>Disc. / Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: Discrim. / NTP"] --> I["推理 Inference<br/>Scoring / Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | LGSID 用奖励模型与 G-DPO 将 LLM 对齐到空间关系，再由空间与内容属性加上对齐后 LLM 表示的残差 token 构建 SID。 |
-| 主要改动阶段 | 表征（Representation） |
 | 主要发现 | 在快手本地生活推荐数据上，LGSID 在五个判别式排序模型（DIN、DIEN、SIM、TWIN、ETA）和两个生成式骨干（TIGER、OneRec）上均优于现有物品编号器（Tables 1–2）。 |
 | 局限 | LLM 对齐在执行 G-DPO 前需单独训练列表式奖励模型，且每次重新对齐都会改变残差 token（Abstract）。 |
 

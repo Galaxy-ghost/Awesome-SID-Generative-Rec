@@ -1,20 +1,24 @@
 # SIDScope
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/sidscope.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/sidscope.md)
 
 | **Title** | *A Diagnostic Resource for Semantic-ID Interfaces in Generative Recommendation* |
 | :-- | :-- |
 | **Authors** | Ding et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | – |
+| **SID inputs** | `unknown` |
+| **Domain** | `E-commerce` · `POI / Local` |
+| **Settings** | `catalog-change` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>n/a"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>n/a"] --> TR["Training<br/>n/a / n/a"] --> I["Inference<br/>n/a"]
+    R["Representation<br/>n/a"] --> T["Tokenization<br/>n/a"] --> B["Backbone<br/>n/a"] --> TR["Training<br/>Tokenizer: n/a<br/>Objective: n/a"] --> I["Inference<br/>n/a"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
 ```
@@ -23,16 +27,6 @@ flowchart LR
 
 > [!NOTE]
 > SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes. |
-| Modified Stage | No single stage |
 
 ---
 

@@ -83,3 +83,23 @@ related:
     proportional to rewards over many trajectories.
   where: 'GFlowGR v3, IPA baseline from OneRec, reimplemented with the same reward model: https://arxiv.org/html/2506.16114v3#S4.I2.i6.p1
     and https://arxiv.org/html/2506.16114v3#S4.SS1.p3; Table 2: https://arxiv.org/html/2506.16114v3#S4.T2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Text
+  - CF
+note: A、B 是 TIGER、LETTER 两种基座的构码，照记录的 representation 分支写。
+domain:
+- POI / Local
+- E-commerce
+- Ads
+- Search
+settings: []

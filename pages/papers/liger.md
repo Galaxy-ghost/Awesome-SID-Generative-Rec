@@ -1,12 +1,16 @@
 # LIGER
 
-[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/liger.md)
+[← Problem × Stage Matrix](../../README.md#vi--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/liger.md)
 
 | **Title** | *Unifying generative and dense retrieval for sequential recommendation* |
 | :-- | :-- |
 | **Authors** | Yang et al. |
 | **Venue** | arXiv’24 |
-| **Problem × Stage** | `VI. Generalization` · `Inference` — Also: `VI. Generalization` × `Backbone`; `VI. Generalization` × `Training` |
+| **Problem × Stage** | `VI. Generalization` · `Inference` |
+| **Changes** | ○ Backbone · ○ Objective · ● Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` · `Games` |
+| **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2411.18814) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,11 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Fixed / NTP + Dense"] --> I["Inference<br/>Hybrid"]
+    R["Representation<br/>Text+SID"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>○ Enc-Dec"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ NTP + Dense"] --> I["Inference<br/>● Hybrid"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class B,TR also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class I main
 ```
@@ -41,9 +45,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | LIGER integrates sequential dense retrieval into a Semantic ID generative retriever, after a controlled comparison of both approaches, to narrow their performance gap and improve cold-start recommendation. |
-| Modified Stage | Inference |
 | Key Findings | By combining K = 20 beam-searched SID candidates with cold-start items for dense re-ranking, LIGER narrows the performance gap to full-catalog dense retrieval and improves cold-start recommendation across Amazon Beauty, Sports, Toys, and Steam (Abstract, Sec. 4.2, Table 2). |
 | Limitation | Every cold-start item joins the candidate set, and the design assumes that cold-start items are few (Sec. 3). |
 

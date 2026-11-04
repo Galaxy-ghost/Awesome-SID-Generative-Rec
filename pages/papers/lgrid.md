@@ -1,12 +1,15 @@
 # LGRID
 
-[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/lgrid.md)
+[← Problem × Stage Matrix](../../README.md#i--representation) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/lgrid.md)
 
 | **Title** | *Interpretable Representation via LLM-Driven Generative Disentanglement for Local-Life Service Recommendation* |
 | :-- | :-- |
 | **Authors** | Zhang et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `I. Informativeness` · `Representation` · `POI` |
+| **Changes** | ● Representation · ○ Tokenization |
+| **SID inputs** | `Text` + `Geo` |
+| **Domain** | `POI / Local` |
 | **Links** | [Paper](https://arxiv.org/abs/2607.27944) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Geo"] --> T["Tokenization<br/>DSRQ"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Fixed / Discrim."] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>● Text+Geo"] --> T["Tokenization<br/>○ DSRQ"] --> B["Backbone<br/>Disc."] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: Discrim."] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class R main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | LGRID encodes item fields jointly with an LLM, routes hidden states into geographic and semantic slots, and quantizes the two streams separately, instead of quantizing one entangled representation. |
-| Modified Stage | Representation |
 | Key Findings | On Kuaishou and Foursquare, LGRID reports up to a 5.44% relative AUC gain over SID baselines, and reduces the full-SID collision rate to 39.9% against 97.0% for LGSID (Abstract). |
 | Limitation | The geographic slots mirror a fixed administrative hierarchy of province, city, district, and town (Sec. 3.4.1). |
 

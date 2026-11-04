@@ -61,3 +61,20 @@ related:
   relation: competitor
   note: V-STAR's Sibling-GRPO is a compared tree-structured training baseline.
   where: 'DASO v1, Related Work and Appendix D: https://arxiv.org/html/2608.20611v1#Sx2.SSx2.p2; https://arxiv.org/html/2608.20611v1#A4.SSx3.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+- unknown
+modality_open:
+- 内部四层 SID 任务的构码输入
+note: 公开数据用 MiniOneRec 冻结的 Qwen 文本嵌入 SID；内部数据的构码没写。
+domain:
+- E-commerce
+- unknown (industrial)
+settings: []

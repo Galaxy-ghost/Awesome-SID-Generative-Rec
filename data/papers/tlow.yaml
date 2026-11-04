@@ -60,3 +60,39 @@ related:
   note: Included tokenizer comparator; general baseline scores are reused from the RPG paper.
   where: 'Tlow v1, Sections 3.1.2/3.1.4 and Table 2: https://arxiv.org/html/2608.24176v1#S3.SS1.SSS2.p1; https://arxiv.org/html/2608.24176v1#S3.SS1.SSS4.p1;
     https://arxiv.org/html/2608.24176v1#S3.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: Therefore, learning token embeddings with the codebook guidance will help enhance recommendations.
+    where: arXiv:2608.24176v1 https://arxiv.org/html/2608.24176v1#S2.SS5
+  inference: none
+modality:
+  A:
+  - Text
+  B:
+  - Text
+  - Img
+modality_where:
+  quote: We verify Tlow’s online performance on China’s largest social media platform WeChat, in the picture recommendation
+    scenario involving image-text multi-modal features, comparing sequential models that use Tlow’s tokenized embeddings $\mathbf{e}$
+    against those using randomly assigned item-ID embeddings.
+  where: arXiv:2608.24176v1 https://arxiv.org/html/2608.24176v1#S3.SS6.SSS1.p1；A=离线 Amazon 文本；B=WeChat 图片/文章线上图文配置。
+note: Table 1 只写 Text；§3.6 线上配置是 Text+Img，分支保留。WeChat 图片/文章推荐记 Image / Article。§3.6.2 的新内容编码吞吐不构成目录变更后的评估，删除 catalog-change；§3.6.3/Table
+  6 只限定当天发布并曝光的图片，没有保证评估前零交互，不增加 cold-start。
+domain:
+- E-commerce
+- Image / Article
+settings:
+- value: cross-domain
+  quote: We also use a processed dataset “Cloth-Sports” from a state-of-the-art (SOTA) work (Liu et al., 2025) for cross-domain
+    sequential recommendation.
+  where: arXiv:2608.24176v1 https://arxiv.org/html/2608.24176v1#S3.SS1.SSS1.p1；§3.4 Clothing–Sports 迁移；§3.6 另有图片/文章跨域。
+- value: cold-start
+  scope: item
+  quote: To further validate Tlow’s effectiveness on cold-start recommendations, we perform evaluations exclusively on newly
+    published pictures each day.
+  where: arXiv:2608.24176v1 https://arxiv.org/html/2608.24176v1#S3.SS6.SSS3.p2.1；当日新发布图片，未保证零交互（leader 11-04 裁决）。

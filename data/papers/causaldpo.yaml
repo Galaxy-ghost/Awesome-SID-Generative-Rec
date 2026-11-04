@@ -64,3 +64,18 @@ related:
     adjustment over latent environments to DPO for text-generating LLM recommenders under distribution shift.
   where: 'CausalDPO v2, Section 4 cites Deng et al. (2025), OneRec, among DPO adoptions in recommendation: https://arxiv.org/html/2603.22335v2#S4.p2;
     not a baseline in Table 1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- n/a
+note: 不构建 SID，物品以文本生成（记录 setup.sid 为 n/a），本字段只记 SID 构码输入，记 n/a（表外占位）；Table 1 记 Text。
+domain:
+- POI / Local
+- Movie
+- Book
+settings: []

@@ -74,3 +74,19 @@ related:
   note: SIIT follows LC-Rec's preprocessing and its idea of aligning LLMs to item identifiers through auxiliary tasks.
   where: 'SIIT v1, Section 4.1.1 follows Zheng et al. (2024): https://arxiv.org/html/2412.17171v1#S4.SS1.SSS1.p1; Section
     5.2 related work: https://arxiv.org/html/2412.17171v1#S5.SS2.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: To address this, we propose a method that allows the LLM to self-tune item tokenization during training.
+    where: '2412.17171v1 #S1.I1.i1.p1.1；LLM 重新生成标识符后继续训练，迭代 2–5 轮（#S3.SS3.p5.1）'
+  objective: none
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+- POI / Local
+settings: []

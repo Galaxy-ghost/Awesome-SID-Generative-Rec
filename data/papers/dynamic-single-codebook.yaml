@@ -54,3 +54,27 @@ related:
   relation: alternative
   note: LETTER regularizes residual quantization; this method changes semantic codebook width and depth.
   where: 'Dynamic-Single-Codebook v1, Section 2.1: https://arxiv.org/html/2608.21012v1#S2.SS1.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- unknown
+modality_open:
+- 原始物品 embedding 的输入信号（原文未披露）
+modality_where:
+  quote: Each item $i\in\mathcal{I}_{t}$ is represented by a precomputed embedding $\mathbf{e}_{i}\in\mathbb{R}^{d}$, a stable
+    item key $\mathbf{m}_{i}$, and an exposure count $p_{i}^{(t)}$.
+  where: arXiv:2608.21012v1 https://arxiv.org/html/2608.21012v1#S3.SS1.p1；原始物品 embedding 的内容来源未披露；容量或负载分配依据曝光量，该统计量不计 CF。
+note: Table 1 representation 为 –；原始 embedding 输入未披露，记 unknown，保留 modality_open。容量或负载分配依据曝光量，不把该统计量计为 CF。每日快照稳定性评估支持保留 catalog-change。
+domain:
+- E-commerce
+- Short video / Live
+- unknown (industrial)
+settings:
+- value: catalog-change
+  quote: We evaluate the industrial codebooks on seven consecutive daily snapshots.
+  where: arXiv:2608.21012v1 https://arxiv.org/html/2608.21012v1#S4.SS4.p1；动态工业码本随每日目录/表示快照更新并测稳定性；§3.3–3.5。

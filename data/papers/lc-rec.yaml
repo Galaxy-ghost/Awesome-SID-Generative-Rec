@@ -16,12 +16,6 @@ tokenizer: Fixed
 objective: Multi-task NTP
 inference: C-Beam
 poi: false
-also:
-- problem: II
-  stage: Tokenization
-  quote: However, original VQ methods are likely to assign the same IDs to multiple items, which should be avoided in recommender
-    systems.
-  where: '2311.09049v4 §1 #S1.p6.1；设计 uniform semantic mapping 在 #S3.SS2'
 tldr: LC-Rec assigns non-conflicting item indices by vector quantization with uniform semantic mapping and tunes an LLM with
   alignment tasks, so it generates items from the whole catalog without candidate lists.
 tldr_zh: LC-Rec 通过带均匀语义映射的向量量化分配无冲突物品索引，并用多类对齐任务微调 LLM，使模型无需候选列表即可从全库生成物品。
@@ -80,3 +74,20 @@ related:
   note: TransRec also builds LLM-based generative recommendation with multi-facet identifiers; LC-Rec uses learned VQ indices
     with alignment tuning.
   where: 'LC-Rec v4, Section 2.2 and Section 3.5 related work: https://arxiv.org/html/2311.09049v4#S2.SS2.p3 and https://arxiv.org/html/2311.09049v4#S3.SS5.p3.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: For item indexing (Section III-B ), we represent an item with several learned discrete IDs via vector quantization
+      based on text embeddings by LLMs, and further propose a uniform semantic mapping method to mitigate the potential conflicts
+      in index assignment.
+    where: '2311.09049v4 #S3.I1.i1.p1.1；设计在 #S3.SS2'
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

@@ -1,24 +1,27 @@
 # DualGR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/dualgr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/dualgr.md) | 中文
 
 | **题目** | *Generative Retrieval with Long and Short-Term Interests Modeling* |
 | :-- | :-- |
 | **作者** | Yi et al. |
 | **发表** | WWW’26 Short |
-| **问题与阶段** | `VI. 泛化` · `骨干（Backbone）` — 补充：`III. SID 与模型对齐` × `推理（Inference）`；`IV. 实用目标` × `训练（Training）`；`V. 效率` × `推理（Inference）`；`VI. 泛化` × `训练（Training）` |
+| **问题与阶段** | `VI. 泛化` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `unknown` |
+| **领域** | `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2511.12518) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP + Rank"] --> I["推理 Inference<br/>Dual Beam"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>R-KM"] --> B["生成骨干 Backbone<br/>● Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Rank"] --> I["推理 Inference<br/>○ Dual Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -33,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | DualGR 加入长短期兴趣路由器，在当前粗粒度桶内解码细粒度 SID 层级，并在训练中把未点击曝光作为粗粒度难负例。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

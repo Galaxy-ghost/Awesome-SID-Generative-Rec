@@ -1,12 +1,16 @@
 # ROS
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/ros.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/ros.md) | 中文
 
 | **题目** | *Reasoning Over Space: Enabling Geographic Reasoning for LLM-Based Generative Next POI Recommendation* |
 | :-- | :-- |
 | **作者** | Lv et al. |
 | **发表** | ACL’26 |
-| **问题与阶段** | `I. 信息量` · `编号（Tokenization）` · `POI` |
+| **问题与阶段** | `I. 信息量` · `构码（Tokenization）` · `POI` |
+| **改动** | ● 构码 · ○ 训练目标 |
+| **构码输入** | `Text` + `Geo` |
+| **领域** | `本地生活与 POI` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2601.04562) · [代码](https://github.com/amap-cvlab/Reasoning-Over-Space) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Geo"] --> T["编号 Tokenization<br/>Geo-Prefix+RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>CoT+C-Beam"]
+    R["物品表示 Representation<br/>Text+Geo"] --> T["构码 Tokenization<br/>● Geo-Prefix+RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → RL"] --> I["推理 Inference<br/>CoT+C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | ROS 为基于 LLM 的下一 POI 生成加入层级空间 SID、带局部性剪枝的移动思维链以及空间引导强化学习。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在 NYC 上，ROS 的 HR@1 为 0.4478，优于 CoAST 的 0.4027（+11.2%）；在 TKY 和 Gowalla-CA 上，较最强 LLM 基线分别提升 +11.0% 和 +15.7%（Table 1）。 |
 | 局限 | 单调空间距离先验将短时间内的长距离移动视为低概率事件，因此在地铁或高速公路沿线及交通枢纽附近会低估快速跨区出行（Limitations）。 |
 

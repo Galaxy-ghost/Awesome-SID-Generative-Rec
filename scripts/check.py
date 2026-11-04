@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """Validate all paper records and generated views:
-1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + bilingual descriptions + 3 hard content rules)
+1. Schema & vocabulary compliance (schema/paper.schema.json + data/vocab.yaml + modality grouping rules + bilingual descriptions + 3 hard content rules)
 2. Global uniqueness (file stem, id, name, links.arxiv)
-3. Table 1 cell-by-cell round-trip against Table 1 in the survey paper (main.tex and supplementary.tex)
+3. Table 1 cell-by-cell round-trip (including bold primary column vs changes) against Table 1 in the survey paper (main.tex and supplementary.tex)
 4. Relative Markdown links, reference definitions, and anchors across README.md, README.zh.md, CONTRIBUTING.md,
    CONTRIBUTING.zh.md, schema/README.md, notes/, notes/zh/, pages/papers/, pages/zh/papers/, pages/index/,
    pages/zh/index/, guides/, comparisons/
 5. data/updates.yaml entries (date, change, change_zh, papers)
 6. No constraint-*.md or tension-*.md file anywhere in the repository
-7. Bilingual pairing & Chinese notes sync (modeled on @deepseek-ai/dsh): paired Markdown files share identical heading
-   level trees, fenced block counts, verbatim English quotations, and numbers, and match per-section SHA-256 hashes in
-   data/i18n.yaml (updated via --write-i18n)
+7. Bilingual pairing & Chinese sync: hand-maintained pairs (via data/i18n.yaml) plus generated bilingual views
+   (READMEs, paper cards and 5-stage diagrams, modality/domain indexes, and glossaries)
 """
 import argparse
 import hashlib
@@ -20,17 +19,33 @@ import re
 import sys
 from pathlib import Path
 import yaml
-from build import ROOT, SETUP_KEYS, TECH_COLS, na_to_dash, parse_table1_tex, slugify_heading
+from build import (
+    COL_STAGES,
+    ROOT,
+    SETUP_KEYS,
+    TECH_COLS,
+    na_to_dash,
+    parse_table1_tex,
+    slugify_heading,
+)
 
 QUOTE_RE = re.compile(r'"([^"\n]*\s[^"\n]*)"')  # double-quoted text with at least two words
 NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)*")
 FENCE_RE = re.compile(r"^\s*```.*?^\s*```", re.S | re.M)
+CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 
 FORBIDDEN_STAMP_KEYS = {"status", "label_status", "verified_by", "review_stamp", "evidence_grade", "claim_kind"}
 RELATIONS = {"predecessor", "successor", "competitor", "alternative"}
-MODALITY_CONTENTS = {"single", "multi", "other"}
-VOCAB_MODALITY_CONTENTS = MODALITY_CONTENTS | {"unknown", "na"}
-AUX_SIGNALS = {"Geo", "Time", "SID"}
+VALID_GROUP_RULES = {
+    "branch_content_exact",
+    "branch_content_single_excluding",
+    "branch_content_multi_or_any",
+    "all_branches_no_content",
+    "union_exact",
+    "union_with_other",
+    "union_contains",
+}
+VOCAB_LIST_SECTIONS = ["problem", "stage", *TECH_COLS, "modality", "domain", "settings"]
 
 
 def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) -> dict:
@@ -41,38 +56,52 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     ev_req = set(ev_item_schema["required"])
     ev_keys = list(ev_item_schema["properties"].keys())
     ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
-    ev_fields = allowed_keys - {"also", "modality", "evidence", "tldr", "tldr_zh", "setup", "related", "setup_where"}
+    ev_fields = allowed_keys - {
+        "changes", "modality", "modality_open", "modality_where", "note",
+        "domain", "settings", "evidence", "tldr", "tldr_zh", "setup", "related", "setup_where",
+    }
 
-    for sec, items in vocab.items():
+    for sec in VOCAB_LIST_SECTIONS:
+        items = vocab.get(sec)
+        if not isinstance(items, list) or not items:
+            errors.append(f"[vocab] data/vocab.yaml: missing or empty section {sec!r}")
+            continue
         for e in items:
-            if not e.get("description") or not e.get("description_zh"):
-                errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires both description and description_zh")
-            if sec == "representation":
-                mods = e.get("modality")
-                if not isinstance(mods, list) or not mods:
-                    errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r}): missing non-empty modality mapping")
-                    continue
-                for bi, br in enumerate(mods):
-                    if not isinstance(br, dict) or not ({"content", "cf"} <= set(br.keys()) <= {"content", "cf", "signals"}):
-                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid modality keys")
-                        continue
-                    ct, cf = br.get("content"), br.get("cf")
-                    if ct not in VOCAB_MODALITY_CONTENTS:
-                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid content={ct!r}")
-                    elif ct in MODALITY_CONTENTS and not isinstance(cf, bool):
-                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: cf must be boolean for content={ct!r}")
-                    elif ct in {"unknown", "na"} and cf is not None:
-                        errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: cf must be null for content={ct!r}")
-                    if "signals" in br:
-                        sigs = br["signals"]
-                        if not isinstance(sigs, list) or not sigs or len(sigs) != len(set(sigs)) or any(s not in AUX_SIGNALS for s in sigs):
-                            errors.append(f"[vocab] data/vocab.yaml (representation={e.get('value')!r})[{bi}]: invalid signals={sigs!r}")
+            if not e.get("value") or not e.get("description") or not e.get("description_zh"):
+                errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires value, description, and description_zh")
+            if sec in ("domain", "settings"):
+                nzh = e.get("name_zh", "")
+                if not isinstance(nzh, str) or not nzh.strip() or not CJK_RE.search(nzh):
+                    errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires Chinese name_zh")
+            if sec == "modality" and not isinstance(e.get("is_content"), bool):
+                errors.append(f"[vocab] data/vocab.yaml (modality={e.get('value')!r}): requires boolean is_content")
 
     vocab_sets = {
-        "problem": {e["value"] for e in vocab["problem"]},
-        "stage": {e["value"] for e in vocab["stage"]},
-        **{c: {e["value"] for e in vocab.get(c, [])} for c in TECH_COLS},
+        sec: {e["value"] for e in vocab.get(sec, []) if isinstance(e, dict) and "value" in e}
+        for sec in VOCAB_LIST_SECTIONS
     }
+
+    mgroups = vocab.get("modality_groups")
+    if not isinstance(mgroups, list) or not mgroups:
+        errors.append("[vocab] data/vocab.yaml: missing or empty modality_groups")
+    else:
+        for gi, g in enumerate(mgroups):
+            req_g = {"value", "aspect", "aspect_zh", "name", "name_zh", "rule", "description", "description_zh"}
+            if not isinstance(g, dict) or not (req_g <= set(g.keys())):
+                errors.append(f"[vocab] data/vocab.yaml modality_groups[{gi}]: missing required keys {sorted(req_g)}")
+                continue
+            if not CJK_RE.search(str(g.get("aspect_zh", ""))) or not CJK_RE.search(str(g.get("name_zh", ""))):
+                errors.append(f"[vocab] data/vocab.yaml modality_groups[{gi}] ({g.get('value')!r}): aspect_zh and name_zh must contain Chinese")
+            rule = g.get("rule")
+            if rule not in VALID_GROUP_RULES:
+                errors.append(f"[vocab] data/vocab.yaml modality_groups[{gi}] ({g.get('value')!r}): invalid rule {rule!r}")
+            if "target" in g and g["target"] not in vocab_sets["modality"]:
+                errors.append(f"[vocab] data/vocab.yaml modality_groups[{gi}]: target={g['target']!r} not in modality vocab")
+            for k_list in ("exclude", "include_any", "exclude_all_only"):
+                if k_list in g:
+                    vals = g[k_list]
+                    if not isinstance(vals, list) or not vals or any(x not in vocab_sets["modality"] for x in vals):
+                        errors.append(f"[vocab] data/vocab.yaml modality_groups[{gi}]: invalid {k_list}={vals!r}")
 
     records = {}
     for p in sorted((root / "data/papers").glob("*.yaml")):
@@ -109,9 +138,9 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
             if "code_third_party" in links and (not isinstance(links["code_third_party"], str) or not links["code_third_party"].startswith("http")):
                 errors.append(f"[schema] {p.name}: links.code_third_party must be a non-empty URL")
 
-        for vk, vset in vocab_sets.items():
+        for vk in ("problem", "stage", *TECH_COLS):
             val = rec.get(vk)
-            if val not in vset:
+            if val not in vocab_sets[vk]:
                 errors.append(f"[vocab] {p.name}: {vk}={val!r} not in data/vocab.yaml")
 
         if rec.get("problem") == "psb" and rec.get("stage") != "n/a":
@@ -119,51 +148,130 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
         if rec.get("problem") != "psb" and rec.get("stage") == "n/a":
             errors.append(f"[vocab] {p.name}: problem={rec.get('problem')} cannot have stage=n/a")
 
-        if "also" in rec:
+        # 1. Validate changes
+        ch = rec.get("changes")
+        if not isinstance(ch, dict) or set(ch.keys()) != set(TECH_COLS):
+            errors.append(f"[changes] {p.name}: changes must be a mapping with exact keys {TECH_COLS}")
+        else:
+            prim_cols = []
+            for col in TECH_COLS:
+                cv = ch[col]
+                if cv == "primary":
+                    prim_cols.append(col)
+                elif cv == "none":
+                    continue
+                elif isinstance(cv, dict):
+                    if set(cv.keys()) != {"value", "quote", "where"} or cv.get("value") != "other":
+                        errors.append(f"[changes] {p.name}: changes.{col} object must have exact keys value='other', quote, where")
+                    elif any(not isinstance(cv[k], str) or not cv[k].strip() for k in ("quote", "where")):
+                        errors.append(f"[changes] {p.name}: changes.{col} quote and where must be non-empty strings")
+                else:
+                    errors.append(f"[changes] {p.name}: invalid changes.{col}={cv!r}")
             if rec.get("problem") == "psb":
-                errors.append(f"[also] {p.name}: problem=psb cannot have 'also'")
-            elif not isinstance(rec["also"], list):
-                errors.append(f"[also] {p.name}: also must be a list")
+                if prim_cols:
+                    errors.append(f"[changes] {p.name}: problem=psb cannot have primary in changes (found {prim_cols})")
             else:
-                valid_probs = vocab_sets["problem"] - {"psb"}
-                valid_stages = vocab_sets["stage"] - {"n/a"}
-                seen_also = set()
-                for idx, item in enumerate(rec["also"]):
-                    if not isinstance(item, dict) or not ({"quote", "where"} <= set(item.keys()) <= {"problem", "stage", "quote", "where"}) \
-                            or not ({"problem", "stage"} & set(item.keys())):
-                        errors.append(f"[also] {p.name}: also[{idx}] must have quote, where, at least one of problem/stage, and no other keys")
-                        continue
-                    if any(not isinstance(v, str) or not v.strip() for v in item.values()):
-                        errors.append(f"[also] {p.name}: also[{idx}] values must be non-empty strings")
-                        continue
-                    pr, stg = item.get("problem"), item.get("stage")
-                    if pr is not None and pr not in valid_probs:
-                        errors.append(f"[also] {p.name}: also[{idx}].problem={pr!r} not in allowed problems {sorted(valid_probs)}")
-                    if stg is not None and stg not in valid_stages:
-                        errors.append(f"[also] {p.name}: also[{idx}].stage={stg!r} not in allowed stages {sorted(valid_stages)}")
-                    pair = (pr, stg)
-                    if pair == (rec.get("problem"), rec.get("stage")) or pair == (rec.get("problem"), None) or pair == (None, rec.get("stage")):
-                        errors.append(f"[also] {p.name}: also[{idx}]={pair!r} duplicates primary cell ({rec.get('problem')!r}, {rec.get('stage')!r})")
-                    if pair in seen_also:
-                        errors.append(f"[also] {p.name}: duplicate also entry {pair!r}")
-                    seen_also.add(pair)
+                if len(prim_cols) != 1:
+                    errors.append(f"[changes] {p.name}: non-psb record must have exactly 1 primary in changes (found {prim_cols})")
+                else:
+                    pcol = prim_cols[0]
+                    expected_stage = COL_STAGES[TECH_COLS.index(pcol)]
+                    if expected_stage != rec.get("stage"):
+                        errors.append(
+                            f"[changes] {p.name}: primary column {pcol!r} maps to stage {expected_stage!r}, "
+                            f"but record stage is {rec.get('stage')!r}"
+                        )
 
-        if "modality" in rec:
-            raw_mod = rec["modality"]
-            branches = raw_mod if isinstance(raw_mod, list) else [raw_mod]
-            if not branches or any(not isinstance(b, dict) for b in branches):
-                errors.append(f"[modality] {p.name}: modality must be an object or non-empty list of objects")
+        # 2. Validate modality, modality_open, modality_where, note
+        mod = rec.get("modality")
+        if isinstance(mod, list):
+            if not mod:
+                errors.append(f"[modality] {p.name}: modality list cannot be empty")
             else:
-                for bi, br in enumerate(branches):
-                    if set(br.keys()) != {"content", "cf", "where"}:
-                        errors.append(f"[modality] {p.name}: modality[{bi}] must have exact keys content, cf, where")
+                if len(mod) != len(set(mod)):
+                    errors.append(f"[modality] {p.name}: duplicate values in modality={mod!r}")
+                for mv in mod:
+                    if mv not in vocab_sets["modality"]:
+                        errors.append(f"[modality] {p.name}: modality value {mv!r} not in data/vocab.yaml")
+        elif isinstance(mod, dict):
+            if not mod:
+                errors.append(f"[modality] {p.name}: modality dict cannot be empty")
+            else:
+                non_empty_branches = 0
+                for br, bvals in mod.items():
+                    if not isinstance(br, str) or not br.strip():
+                        errors.append(f"[modality] {p.name}: invalid branch key {br!r}")
+                    if not isinstance(bvals, list):
+                        errors.append(f"[modality] {p.name}: modality[{br!r}] must be a list")
                         continue
-                    if br["content"] not in MODALITY_CONTENTS:
-                        errors.append(f"[modality] {p.name}: modality[{bi}].content={br['content']!r} must be in {sorted(MODALITY_CONTENTS)}")
-                    if not isinstance(br["cf"], bool):
-                        errors.append(f"[modality] {p.name}: modality[{bi}].cf must be boolean")
-                    if not isinstance(br["where"], str) or not br["where"].strip():
-                        errors.append(f"[modality] {p.name}: modality[{bi}].where must be a non-empty string")
+                    if bvals:
+                        non_empty_branches += 1
+                    if len(bvals) != len(set(bvals)):
+                        errors.append(f"[modality] {p.name}: duplicate values in modality[{br!r}]={bvals!r}")
+                    for mv in bvals:
+                        if mv not in vocab_sets["modality"]:
+                            errors.append(f"[modality] {p.name}: modality[{br!r}] value {mv!r} not in data/vocab.yaml")
+                if non_empty_branches == 0:
+                    errors.append(f"[modality] {p.name}: modality dict must have at least one non-empty branch")
+        else:
+            errors.append(f"[modality] {p.name}: modality must be a non-empty list or branch mapping")
+
+        if "modality_open" in rec:
+            mo = rec["modality_open"]
+            if not isinstance(mo, list) or not mo or any(not isinstance(x, str) or not x.strip() for x in mo):
+                errors.append(f"[modality] {p.name}: modality_open must be a non-empty list of non-empty strings")
+
+        if "modality_where" in rec:
+            mw = rec["modality_where"]
+            if not isinstance(mw, dict) or set(mw.keys()) != {"quote", "where"} or any(
+                not isinstance(mw[k], str) or not mw[k].strip() for k in ("quote", "where")
+            ):
+                errors.append(f"[modality] {p.name}: modality_where must have non-empty quote and where")
+
+        if "note" in rec:
+            if not isinstance(rec["note"], str) or not rec["note"].strip():
+                errors.append(f"[modality] {p.name}: note must be a non-empty string")
+
+        # 3. Validate domain
+        dom = rec.get("domain")
+        if not isinstance(dom, list) or not dom:
+            errors.append(f"[domain] {p.name}: domain must be a non-empty list")
+        else:
+            if len(dom) != len(set(dom)):
+                errors.append(f"[domain] {p.name}: duplicate values in domain={dom!r}")
+            for dv in dom:
+                if dv not in vocab_sets["domain"]:
+                    errors.append(f"[domain] {p.name}: domain value {dv!r} not in data/vocab.yaml")
+
+        # 4. Validate settings
+        stgs = rec.get("settings")
+        if not isinstance(stgs, list):
+            errors.append(f"[settings] {p.name}: settings must be a list")
+        else:
+            seen_stgs = set()
+            for si, sitem in enumerate(stgs):
+                if not isinstance(sitem, dict):
+                    errors.append(f"[settings] {p.name}: settings[{si}] must be an object")
+                    continue
+                sval = sitem.get("value")
+                if sval not in vocab_sets["settings"]:
+                    errors.append(f"[settings] {p.name}: settings[{si}].value={sval!r} not in data/vocab.yaml")
+                if sval == "cold-start":
+                    if set(sitem.keys()) != {"value", "scope", "quote", "where"}:
+                        errors.append(f"[settings] {p.name}: cold-start settings[{si}] must have exact keys value, scope, quote, where")
+                        continue
+                    if sitem.get("scope") not in ("user", "item"):
+                        errors.append(f"[settings] {p.name}: cold-start settings[{si}].scope={sitem.get('scope')!r} must be 'user' or 'item'")
+                else:
+                    if set(sitem.keys()) != {"value", "quote", "where"}:
+                        errors.append(f"[settings] {p.name}: settings[{si}] ({sval!r}) must have exact keys value, quote, where")
+                        continue
+                if any(not isinstance(sitem.get(k), str) or not sitem[k].strip() for k in ("quote", "where")):
+                    errors.append(f"[settings] {p.name}: settings[{si}] quote and where must be non-empty strings")
+                pair_key = (sval, sitem.get("scope"))
+                if pair_key in seen_stgs:
+                    errors.append(f"[settings] {p.name}: duplicate settings entry {pair_key!r}")
+                seen_stgs.add(pair_key)
 
         if "evidence" in rec:
             if not isinstance(rec["evidence"], list):
@@ -270,6 +378,13 @@ def check_table1_roundtrip(records: dict, table1_paths: list, errors: list):
             repo_val = na_to_dash(rec[col])
             if repo_val != r[col]:
                 errors.append(f"[table1] cell mismatch for {nm} / {col}: repo={rec[col]!r} ({repo_val!r}) vs table1={r[col]!r}")
+        ch = rec.get("changes", {})
+        prim_cols = [c for c in TECH_COLS if ch.get(c) == "primary"]
+        repo_prim = prim_cols[0] if len(prim_cols) == 1 else None
+        if repo_prim != r.get("primary_col"):
+            errors.append(
+                f"[table1] primary bold cell mismatch for {nm}: changes primary={repo_prim!r} vs tex bold={r.get('primary_col')!r}"
+            )
     for nm in sorted(set(by_name) - seen):
         errors.append(f"[table1] repo record {nm!r} missing from Table 1 tex")
 
@@ -392,6 +507,77 @@ def bilingual_pairs(root: Path) -> list:
     return pairs
 
 
+def check_generated_bilingual_views(root: Path, records: dict, errors: list):
+    """Verify structural and content parity across generated English and Chinese READMEs, indexes, paper pages, and glossaries."""
+    r_en_path, r_zh_path = root / "README.md", root / "README.zh.md"
+    if r_en_path.exists() and r_zh_path.exists():
+        r_en = r_en_path.read_text(encoding="utf-8")
+        r_zh = r_zh_path.read_text(encoding="utf-8")
+        for h_prefix in ("## ", "### "):
+            c_en = len(re.findall(rf"^{h_prefix}", r_en, re.M))
+            c_zh = len(re.findall(rf"^{h_prefix}", r_zh, re.M))
+            if c_en != c_zh:
+                errors.append(f"[sync-gen] README.zh.md has {c_zh} '{h_prefix.strip()}' headings, README.md has {c_en}")
+        sum_en = re.findall(r"<summary>(.*?)</summary>", r_en)
+        sum_zh = re.findall(r"<summary>(.*?)</summary>", r_zh)
+        if len(sum_en) != 7 or len(sum_zh) != 7:
+            errors.append(f"[sync-gen] README <details> summary count must be 7 (en={len(sum_en)}, zh={len(sum_zh)})")
+        else:
+            for s_e, s_z in zip(sum_en, sum_zh):
+                if not CJK_RE.search(s_z) or "篇" not in s_z:
+                    errors.append(f"[sync-gen] README.zh.md <summary> must be in Chinese: {s_z!r}")
+                n_e = re.findall(r"\d+", s_e)
+                n_z = re.findall(r"\d+", s_z)
+                if n_e != n_z:
+                    errors.append(f"[sync-gen] README <summary> paper count mismatch: {s_e!r} vs {s_z!r}")
+        if "| 方法 | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |" not in re.sub(r" +", " ", r_zh):
+            errors.append("[sync-gen] README.zh.md missing required Chinese comparison table header")
+        for sym in ("●", "○"):
+            if r_en.count(sym) != r_zh.count(sym):
+                errors.append(f"[sync-gen] README {sym!r} count mismatch: en={r_en.count(sym)} vs zh={r_zh.count(sym)}")
+
+    en_idx_files = sorted(p.name for p in (root / "pages/index").glob("*.md"))
+    zh_idx_files = sorted(p.name for p in (root / "pages/zh/index").glob("*.md"))
+    if en_idx_files != zh_idx_files or "modality.md" not in en_idx_files or "domain.md" not in en_idx_files:
+        errors.append(f"[sync-gen] index file mismatch: en={en_idx_files} vs zh={zh_idx_files}")
+    else:
+        for fn in en_idx_files:
+            t_en = (root / "pages/index" / fn).read_text(encoding="utf-8")
+            t_zh = (root / "pages/zh/index" / fn).read_text(encoding="utf-8")
+            h2_en = re.findall(r"^##\s+(.+)$", t_en, re.M)
+            h2_zh = re.findall(r"^##\s+(.+)$", t_zh, re.M)
+            if len(h2_en) != len(h2_zh):
+                errors.append(f"[sync-gen] pages/zh/index/{fn}: {len(h2_zh)} H2 sections vs {len(h2_en)} in English")
+            if fn in ("modality.md", "domain.md"):
+                for hz in h2_zh:
+                    if not CJK_RE.search(hz):
+                        errors.append(f"[sync-gen] pages/zh/index/{fn}: H2 group heading {hz!r} must use Chinese")
+            rows_en = len(re.findall(r"^\| \[", t_en, re.M))
+            rows_zh = len(re.findall(r"^\| \[", t_zh, re.M))
+            if rows_en != rows_zh:
+                errors.append(f"[sync-gen] pages/zh/index/{fn}: table row count {rows_zh} != English {rows_en}")
+
+    for pid in sorted(records):
+        p_en = root / "pages/papers" / f"{pid}.md"
+        p_zh = root / "pages/zh/papers" / f"{pid}.md"
+        if not p_en.exists() or not p_zh.exists():
+            errors.append(f"[sync-gen] missing generated paper page pair for {pid}")
+            continue
+        t_en = p_en.read_text(encoding="utf-8")
+        t_zh = p_zh.read_text(encoding="utf-8")
+        for sym in ("●", "○"):
+            if t_en.count(sym) != t_zh.count(sym):
+                errors.append(f"[sync-gen] {pid}.md {sym!r} count mismatch: en={t_en.count(sym)} vs zh={t_zh.count(sym)}")
+        for dup_row in ("| Key Contribution |", "| Modified Stage |", "| 核心贡献 |", "| 主要改动阶段 |"):
+            if dup_row in t_en or dup_row in t_zh:
+                errors.append(f"[sync-gen] {pid}.md still contains duplicate At a Glance row {dup_row!r}")
+
+    for llm_fn in ("llms.txt", "llms-full.txt"):
+        lp = root / llm_fn
+        if lp.exists() and CJK_RE.search(lp.read_text(encoding="utf-8")):
+            errors.append(f"[llms] {llm_fn} must be English-only (found CJK characters)")
+
+
 def check_bilingual_sync(root: Path, errors: list, write_i18n: bool = False):
     """Verify bilingual Markdown pairs (structure, quotations, numbers, and @deepseek-ai/dsh section hashes)."""
     for zp in sorted((root / "notes/zh").glob("*.md")):
@@ -507,6 +693,7 @@ def main():
     check_bilingual_sync(args.root, errors, write_i18n=args.write_i18n)
     if args.write_i18n and not errors:
         return
+    check_generated_bilingual_views(args.root, records, errors)
     check_links_and_content_rules(args.root, vocab, errors)
     check_updates(args.root, records, errors)
 

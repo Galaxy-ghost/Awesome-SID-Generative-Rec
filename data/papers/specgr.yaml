@@ -63,3 +63,29 @@ related:
   note: AtSpeed adapts speculative decoding to accelerate top-K generative recommendation; SpecGR uses draft-and-verify to
     introduce unseen-item recommendation capability.
   where: 'SpecGR v2, Related Work, citing Lin et al. (2024), arXiv:2410.05165: https://arxiv.org/html/2410.02939v2#Sx2.p3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: To obtain strong inductive embeddings, we jointly train the GR encoder with a contrastive objective following (
+      Chen et al. 2020 ; Hou et al. 2022 ) .
+    where: arXiv:2410.02939v2 https://arxiv.org/html/2410.02939v2#Sx3.SSx3.SSSx2.p3；SpecGR++ 自草稿的新增表征训练，另有 learning-to-rank
+      微调；不更新 SID 编号器。
+  inference: primary
+modality:
+- Text
+modality_where:
+  quote: We use UniSRec ( Hou et al. 2022 ) as the auxiliary drafter model for SpecGR Aux and TIGER ( Rajput et al. 2024 )
+    as the GR backbone for both SpecGR variants.
+  where: arXiv:2410.02939v2 https://arxiv.org/html/2410.02939v2#Sx4.SSx1.SSSx4.p1；TIGER 文本 RQ-VAE；Table 1 的 SID 是额外输入给推荐器的编码，不是构码源模态。
+domain:
+- E-commerce
+settings:
+- value: cold-start
+  scope: item
+  quote: Note that in the inductive setting, the target item may not appear in the training set, called new or unseen items
+    in the following sections.
+  where: arXiv:2410.02939v2 https://arxiv.org/html/2410.02939v2#Sx3.SSx1.p1；§4.1.3 单列 unseen items 结果；时间切分，构码器训练可见性未交代。

@@ -55,3 +55,25 @@ related:
   note: COBRA supplements token generation with dense retrieval; GRC explicitly detects and corrects token trajectories.
   where: 'GRC v1, Sections 2.1/5.1 and Table 1: https://arxiv.org/html/2602.23639v1#S2.SS1.p1; https://arxiv.org/html/2602.23639v1#S5.SS1.p2;
     https://arxiv.org/html/2602.23639v1#S5.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: We further enhance GRC’s self-reflection and self-correction capabilities by introducing a GRPO-based reinforcement
+      learning stage.
+    where: arXiv:2602.23639v1 https://arxiv.org/html/2602.23639v1#S1.I1.i2.p1
+  inference: primary
+modality:
+- Text
+modality_where:
+  quote: We employ the pretrained Qwen3-8B model ( Yang et al., 2025a ) to encode item embeddings and train an RQ-VAE with
+    a 4-layer codebook (300 codewords per layer) on each dataset.
+  where: arXiv:2602.23639v1 https://arxiv.org/html/2602.23639v1#S5.SS1.p4；原文明确编码器为纯文本 Qwen3-8B，按 11-04 新规则推断构码输入为 Text；这是一项基于编码器的推断，原文未逐项列出文本字段。
+note: Table 1 representation 为 –；根据原文的纯文本 Qwen3-8B 编码器推断为 Text，依据和推断性质见 modality_where，不改 Table 1。
+domain:
+- E-commerce
+- Ads
+settings: []

@@ -1,12 +1,16 @@
 # VQ-Rec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/vq-rec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/vq-rec.md) | 中文
 
 | **题目** | *Learning Vector-Quantized Item Representation for Transferable Sequential Recommenders* |
 | :-- | :-- |
 | **作者** | Hou et al. |
 | **发表** | WWW’23 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 · ○ 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2210.12316) · [代码](https://github.com/RUCAIBox/VQ-Rec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Multi-Dom"] --> T["编号 Tokenization<br/>OPQ"] --> B["骨干 Backbone<br/>Encoder"] --> TR["训练 Training<br/>Fixed / Discrim."] --> I["推理 Inference<br/>Scoring"]
+    R["物品表示 Representation<br/>Multi-Dom"] --> T["构码 Tokenization<br/>● OPQ"] --> B["生成骨干 Backbone<br/>○ Encoder"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Discrim."] --> I["推理 Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B,TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | VQ-Rec 将物品文本映射为离散码并查表组合码嵌入作为物品表示，配合对比预训练与跨域微调，解除文本与物品表示之间的强绑定。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在五个 Amazon 源领域预训练后，VQ-Rec 在六个跨领域与跨平台下游基准上均位列第一或第二，并在所有热度分组（尤其是冷启动长尾组）上全面优于 SASRec（Sec. 3.4.3，Table 2，Fig. 4）。 |
 | 局限 | 若跳过目标领域的码嵌入表微调而直接零样本评估预训练编码器，下游推荐精度会大幅下滑（Sec. 3.3，Table 3）。 |
 

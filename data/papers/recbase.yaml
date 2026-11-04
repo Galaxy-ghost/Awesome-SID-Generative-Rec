@@ -66,3 +66,31 @@ related:
   note: LC-Rec adapts an existing LLM to one domain's item indices; RecBase pre-trains from scratch on recommendation corpora
     for zero-shot transfer.
   where: 'RecBase v1, Section 2.2: https://arxiv.org/html/2509.03131v1#S2.SS2.p1.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: Each item is tokenized into multi-level concept IDs, learned in a coarse-to-fine manner inspired by curriculum
+      learning.
+    where: '2509.03131v1 #S1.p3.1；CL-VAE 设计在 #S3.SS2'
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+note: 领域按 8 个测试集（MIND、MovieLens、MicroLens、Goodreads、Yelp、Steam、H&M、HotelRec）记；15 个预训练集未逐一列。
+domain:
+- News
+- Movie
+- Short video / Live
+- Book
+- POI / Local
+- Games
+- E-commerce
+- Travel / Hotel
+settings:
+- value: cross-domain
+  quote: We evaluate our method through zero-shot recommendation experiments, pre-training our model on 15 diverse datasets
+    and testing it on 8 unseen datasets to assess its generalization ability.
+  where: '2509.03131v1 #S4.p1.1'

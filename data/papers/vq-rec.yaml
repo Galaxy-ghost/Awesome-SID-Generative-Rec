@@ -72,3 +72,31 @@ related:
     for generative recommendation.
   where: 'Evidence is from the later UTGRec paper: content-based baselines and Table 2: https://arxiv.org/html/2504.04405v3#S3.SS1.SSS2.p11
     and https://arxiv.org/html/2504.04405v3#S3.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: To transfer the pre-trained model to a downstream domain, we propose a differentiable permutation-based network
+      to learn the code-embedding alignment
+    where: '2210.12316v2 #S1.p5.1；设计在 #S2.SS4.SSS1'
+  tokenizer: none
+  objective:
+    value: other
+    quote: Both mixed-domain and semi-synthetic code representations are used as hard negatives to enhance the contrastive
+      training.
+    where: '2210.12316v2 #S1.p5.1；设计在 #S2.SS3.SSS2'
+  inference: none
+modality:
+- Text
+modality_where:
+  quote: To obtain semantically-rich and distinguishable item codes, we utilize optimized product quantization (OPQ) techniques
+    to discretize text encodings of items.
+  where: '2210.12316v2 #S1.p5.1'
+domain:
+- E-commerce
+settings:
+- value: cross-domain
+  quote: The results indicate that VQ-Rec can learn and transfer general sequential patterns of discrete codes to downstream
+    domains or platforms.
+  where: '2210.12316v2 #S3.SS3.p2.1；五个 Amazon 域预训练，迁到五个下游域和 Online Retail 平台'

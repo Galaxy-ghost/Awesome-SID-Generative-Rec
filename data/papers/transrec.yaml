@@ -71,3 +71,26 @@ related:
   relation: competitor
   note: TIGER is compared as a quantized semantic-identifier baseline.
   where: 'TransRec v2, Sec.4.1 Baselines and Sec.4.2: https://arxiv.org/html/2310.06491v2#S4.SS1.SSS2.p1; https://arxiv.org/html/2310.06491v2#S4.SS2.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: Remarkably, we introduce FM-index (Ferragina and Manzini, 2000), a specialized data structure, that simultaneously
+      supports position-free and constrained generation.
+    where: arXiv:2310.06491v2 https://arxiv.org/html/2310.06491v2#S3.SS2
+modality:
+  id: []
+  title:
+  - Text
+  attribute:
+  - Text
+note: '§3.1 ID/title/attribute 三分支；随机数字 ID 不代表输入模态，保留 id: []；文本化属性归 Text。§4.3.1 Table 2 cold 子集混合未见用户和未见物品，未分别报告两种 scope，settings
+  保持空。'
+domain:
+- E-commerce
+- POI / Local
+settings: []

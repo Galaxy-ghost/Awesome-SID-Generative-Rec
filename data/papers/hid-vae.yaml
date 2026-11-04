@@ -16,11 +16,6 @@ tokenizer: Fixed
 objective: NTP
 inference: C-Beam
 poi: false
-also:
-- problem: I
-  stage: Tokenization
-  quote: they are semantically flat and uninterpretable, lacking a coherent hierarchy
-  where: '2508.04618v2 Abstract；设计（层级标签监督的量化）在 #S3.SS4、#S3.SS5'
 tldr: HiD-VAE aligns each Semantic ID level with multi-level item tags through hierarchically supervised quantization and
   adds a uniqueness loss against ID collisions, instead of flat unsupervised tokenization.
 tldr_zh: HiD-VAE 通过层级监督量化将各 SID 层与多级物品标签对齐，并加入防冲突唯一性损失，替代扁平的无监督编号。
@@ -82,3 +77,26 @@ related:
   note: AdaSID later argues that HiD-VAE's overlap-aware objective treats collisions under a fixed standard, and makes the
     repulsion adaptive.
   where: 'Evidence is from the later AdaSID paper, Sections 1 and 2.2: https://arxiv.org/html/2604.23522v1#S1.p3 and https://arxiv.org/html/2604.23522v1#S2.SS2.p1.'
+changes:
+  representation:
+    value: other
+    quote: For datasets lacking explicit categorical structures ( e . g ., KuaiRand), we showcase our method’s broad applicability
+      by employing a practical, LLM-based strategy to generate high-quality hierarchical tags.
+    where: '2508.04618v2 #S1.I1.i3.p1.1；设计在 #S3.SS4（LLM 生成层级标签，供构码监督）'
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Attr
+modality_where:
+  quote: a hierarchically-supervised process, driven by tag alignment and prediction losses, to ensure an interpretable semantic
+    hierarchy
+  where: '2508.04618v2 #S1.I1.i2.p1.1；量化器输入是 SentenceTransformer 文本嵌入，层级类别标签作为结构化监督进构码（#S3.SS5）'
+note: Table 1 记 Text；层级类别标签作为结构化监督进构码，记 Attr。
+domain:
+- E-commerce
+- Short video / Live
+settings: []

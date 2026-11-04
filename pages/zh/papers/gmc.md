@@ -1,12 +1,16 @@
 # GMC
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gmc.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#vi--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gmc.md) | 中文
 
 | **题目** | *Generative Multi-Target Cross-Domain Recommendation* |
 | :-- | :-- |
 | **作者** | Jin et al. |
 | **发表** | arXiv’25 |
-| **问题与阶段** | `VI. 泛化` · `编号（Tokenization）` |
+| **问题与阶段** | `VI. 泛化` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 生成骨干 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2507.12871) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Cross-Dom"] --> T["编号 Tokenization<br/>Unified RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Cross-Dom"] --> T["构码 Tokenization<br/>● Unified RQ"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class B other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -39,9 +45,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | VI. 泛化：面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？ |
-| 核心贡献 | GMC 用域感知对比损失分配跨域共享 SID，并在多个域上训练单一序列到序列生成器，不依赖域间重叠的用户或物品。 |
-| 主要改动阶段 | 编号（Tokenization） |
 | 主要发现 | 在五个无重叠 Amazon 领域（Scientific、Pantry、Instruments、Arts 和 Office）上，GMC 在 Recall@5、Recall@10、NDCG@5 和 NDCG@10 上均优于基于 ID、文本、预训练和生成式的基线方法（Abstract，Table 3）。 |
 | 局限 | 语义 ID（Semantic ID，SID）仅由文本嵌入生成，协同信号只能通过生成器的训练序列进入模型（Sec. 3）。 |
 

@@ -47,3 +47,20 @@ related:
   note: LION adds sparse evolving memory to TIGER's continual fine-tuning baseline.
   where: 'LION v1, Sections 5.1.3/5.1.4 and Table 1: https://arxiv.org/html/2609.15598v1#S5.SS1.SSS3.p1; https://arxiv.org/html/2609.15598v1#S5.SS1.SSS4.p1;
     https://arxiv.org/html/2609.15598v1#S5.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: primary
+  tokenizer: none
+  objective:
+    value: other
+    quote: Specifically, LION introduces sparse memory activation to isolate the evolution of different behavioral patterns,
+      while a consolidation loss is designed to reinforce the learning of underrepresented preference dynamics during continual
+      adaptation.
+    where: arXiv:2609.15598v1 https://arxiv.org/html/2609.15598v1#abstract1
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

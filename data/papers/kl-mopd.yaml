@@ -47,3 +47,16 @@ related:
   relation: predecessor
   note: TIGER is a backbone for token-wise multi-teacher distillation, with CF-derived SIDs in this study.
   where: 'KL-MOPD v1, Section 4.1 and Table 3: https://arxiv.org/html/2610.36973v1#S4.SS1.p2; https://arxiv.org/html/2610.36973v1#S2.T3.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- CF
+domain:
+- E-commerce
+- Ads
+settings: []

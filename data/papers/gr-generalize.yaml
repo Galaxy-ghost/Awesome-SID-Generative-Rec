@@ -76,3 +76,24 @@ related:
   relation: predecessor
   note: The paper follows ETEGRec in training SASRec with full cross-entropy for a fair comparison and uses its datasets.
   where: 'GR-Generalize v1, Section 3.1: https://arxiv.org/html/2603.19809v1#S3.SS1.p1 and https://arxiv.org/html/2603.19809v1#S3.SS1.p2.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: We introduce an adaptive ensembling method that combines a GR model with an item ID-based model.
+    where: '2603.19809v1 #S1.p7.1；按实例预测需要记忆还是泛化，分配两个模型的权重'
+modality:
+- Text
+modality_where:
+  quote: 'Models. We benchmark two models: TIGER ( Rajput et al., 2023 ) , representing the generative recommendation paradigm,
+    and SASRec ( Kang and McAuley, 2018 ) , representing the conventional sequential recommendation paradigm.'
+  where: '2603.19809v1 #S3.SS1.p2.1；SID 按 TIGER 构建（Table 1 判定依据：SID 设置 consistent with Rajput et al. (2023)）'
+domain:
+- E-commerce
+- Games
+- POI / Local
+settings: []

@@ -1,12 +1,15 @@
 # GREAM
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gream.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gream.md) | 中文
 
 | **题目** | *Generative Reasoning Recommendation via LLMs* |
 | :-- | :-- |
 | **作者** | Hong et al. |
 | **发表** | arXiv’25 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ○ 物品表示 · ● 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
 | **链接** | [论文](https://arxiv.org/abs/2510.20815) · [代码](https://github.com/Indolent-Kawhi/GRRM) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>RQ-KM"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>○ Text+CF"] --> T["构码 Tokenization<br/>RQ-KM"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP → RL"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class TR main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | GREAM 结合协同-语义物品索引、思维链课程学习与 SRPO 后训练将 LLM 改造为推理推荐模型，同时支持直接生成和先推理后生成两种模式。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在 Amazon Beauty、Sports and Outdoors 和 Musical Instruments 上，GREAM 在直接模式和推理模式下均优于生成式与 LLM 基线，并将 RQ-KMeans 索引冲突率降低约 50%（Abstract，Sec. 4.1，Table 2）。 |
 | 局限 | 物品索引依赖 GPT-5 改写的描述，推理数据来自外部 LLM，复现结果受限于对这些闭源或外部模型的调用条件（Sec. 4.1，Sec. 4.2）。 |
 

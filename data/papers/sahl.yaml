@@ -55,3 +55,18 @@ related:
   relation: competitor
   note: Included semantic-ID baseline; SAHL adds quantizer-aligned history reconstruction.
   where: 'SAHL v1, Section 5.3 and Table 2: https://arxiv.org/html/2610.25093v1#S5.SS3.p1; https://arxiv.org/html/2610.25093v1#S5.T2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: Within each subspace, SRBQ uses $D$ successive quantizers to encode complementary residual information.
+    where: arXiv:2610.25093v1 https://arxiv.org/html/2610.25093v1#S4.SS2；新子空间残差平衡量化；骨干与图检索沿用 RPG。
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

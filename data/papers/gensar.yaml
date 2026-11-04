@@ -65,3 +65,26 @@ related:
   note: P5-CID is a generative recommendation baseline; GenSAR uses learned shared/task-specific codebooks.
   where: 'GenSAR v2, Sections 2 and 4.1.2, Table 3: https://arxiv.org/html/2504.05730v2#S2.p2; https://arxiv.org/html/2504.05730v2#S4.SS1.SSS2.p2;
     https://arxiv.org/html/2504.05730v2#S4.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: To enhance the LLM’s understanding of both the collaborative and semantic identifiers of each item, we designed
+      an identifier-language alignment task.
+    where: arXiv:2504.05730v2 https://arxiv.org/html/2504.05730v2#S3.SS3.SSS4.p1
+  inference: none
+modality:
+  semantic:
+  - Text
+  - CF
+  collaborative:
+  - Text
+  - CF
+note: §3.2.2 两条 SID 共享由 Text+CF 拼接构码的前缀，因此两个完整码流都含 Text 和 CF；专属后缀分别偏语义/协同。
+domain:
+- E-commerce
+- Search
+settings: []

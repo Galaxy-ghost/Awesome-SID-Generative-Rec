@@ -1,12 +1,16 @@
 # ETEGRec
 
-[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/etegrec.md)
+[← Problem × Stage Matrix](../../README.md#iii--training) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/etegrec.md)
 
 | **Title** | *Generative recommender with end-to-end learnable item tokenization* |
 | :-- | :-- |
 | **Authors** | Liu et al. |
 | **Venue** | SIGIR’25 |
 | **Problem × Stage** | `III. SID–Model Alignment` · `Training` |
+| **Changes** | ● Tokenizer · ○ Objective |
+| **SID inputs** | `CF` |
+| **Domain** | `E-commerce` |
+| **Settings** | `cold-start (user)` |
 | **Links** | [Paper](https://arxiv.org/abs/2409.05546) · [Code](https://github.com/RUCAIBox/ETEGRec) |
 | **Reading level** | Reading Notes (Level 2) |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>CF"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Altern. / NTP + Ctr."] --> I["Inference<br/>Beam"]
+    R["Representation<br/>CF"] --> T["Tokenization<br/>Learn. RQ"] --> B["Backbone<br/>Enc-Dec"] --> TR["Training<br/>Tokenizer: ● Altern.<br/>Objective: ○ NTP + Ctr."] --> I["Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | III. SID–Model Alignment: Can the generator read, write, and reason over SIDs, and do the tokenizer and generator work toward the same goal? |
-| Key Contribution | ETEGRec trains the item tokenizer and the generator in alternation with sequence-item and preference-semantic alignment losses, instead of building the tokenizer separately before generator training. |
-| Modified Stage | Training |
 | Key Findings | Under full-catalog evaluation on Amazon Musical Instruments, Industrial and Scientific, and Video Games, ETEGRec outperforms sequential and fixed-tokenizer generative baselines (including TIGER, LETTER, and CID) on Recall@5/10 and NDCG@5/10, and keeps its lead on held-out unseen users (the 5% with the fewest interactions) (Sec. 4.2, Sec. 4.4.1, Table 3, Table 4, Fig. 2). |
 | Limitation | The RQ-VAE tokenizer reads collaborative item embeddings only, leaving unseen items without interaction history unable to receive tokens, while measured inference latency is not reported (Sec. 3.2.1, Sec. 3.5). |
 

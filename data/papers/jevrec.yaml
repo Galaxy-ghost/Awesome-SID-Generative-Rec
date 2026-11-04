@@ -68,3 +68,30 @@ related:
     frequencies.
   where: 'JevRec v1, Sections 2/3.2/3.3: https://arxiv.org/html/2610.36937v1#S2.p1; https://arxiv.org/html/2610.36937v1#S3.SS2.p1;
     https://arxiv.org/html/2610.36937v1#S3.SS3.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: A candidate-conditioned decision head estimates a distribution over SID lengths, and a content head generates item
+      codes under a specified length prefix.
+    where: arXiv:2610.36937v2 https://arxiv.org/html/2610.36937v2#S3.SS1.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: We jointly optimize the length and content losses with unit weights in one stage.
+    where: arXiv:2610.36937v2 https://arxiv.org/html/2610.36937v2#S3.SS5.p3
+  inference:
+    value: other
+    quote: Invalid codes do not consume recommendation slots.
+    where: arXiv:2610.36937v2 https://arxiv.org/html/2610.36937v2#S3.SS6.p2
+modality:
+- Text
+modality_where:
+  quote: The high-, medium-, and low-frequency groups retain two, three, and four semantic codes, respectively, producing
+    SID lengths of three, four, and five after adding the collision token.
+  where: arXiv:2610.36937v2 https://arxiv.org/html/2610.36937v2#S3.SS3；码长按训练交互频次分配，频次统计量不计 CF。
+note: 码长按训练交互频次分配；按 11-04 新规则不把频次统计量计为 CF，modality 恢复 Text，与 Table 1 一致。
+domain:
+- E-commerce
+settings: []

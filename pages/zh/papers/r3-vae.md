@@ -1,20 +1,23 @@
 # R3-VAE
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/r3-vae.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/r3-vae.md) | 中文
 
 | **题目** | *Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Wan et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` |
+| **问题与阶段** | `II. 唯一性与合法性` · `构码（Tokenization）` |
+| **改动** | ● 构码 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `音乐` · `电影` · `新闻` |
 | **链接** | [论文](https://arxiv.org/abs/2604.11440) · [代码](https://github.com/wwqq/R3-VAE) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Ref.-RQ"] --> B["骨干 Backbone<br/>–"] --> TR["训练 Training<br/>Fixed / NTP"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Ref.-RQ"] --> B["生成骨干 Backbone<br/>–"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: NTP"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -31,16 +34,6 @@ flowchart LR
 
 > [!NOTE]
 > R3-VAE 用作为语义锚点的参考向量与点积评分机制稳定残差量化，并将两项 SID 质量指标作为训练正则项。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
-| 核心贡献 | R3-VAE 用作为语义锚点的参考向量与点积评分机制稳定残差量化，并将两项 SID 质量指标作为训练正则项。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

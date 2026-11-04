@@ -60,3 +60,30 @@ related:
     adds binary-topology supervision and reranking.
   where: 'TopoGR v1, Related Work and Section 4.3; cited alternative rather than a listed baseline: https://arxiv.org/html/2607.25216v1#S2.p2;
     https://arxiv.org/html/2607.25216v1#S4.SS3.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: 'TopoGR exploits this topology at three stages: binary SID features preserve Hamming proximity at the input layer;
+      Hamming soft targets inject topology-aware supervision; and Hamming-consistent reranking aligns candidate items with
+      the predicted binary prototype during inference.'
+    where: arXiv:2607.25216v1 https://arxiv.org/html/2607.25216v1#abstract1
+  tokenizer: none
+  objective:
+    value: other
+    quote: 'TopoGR exploits this topology at three stages: binary SID features preserve Hamming proximity at the input layer;
+      Hamming soft targets inject topology-aware supervision; and Hamming-consistent reranking aligns candidate items with
+      the predicted binary prototype during inference.'
+    where: arXiv:2607.25216v1 https://arxiv.org/html/2607.25216v1#abstract1
+  inference:
+    value: other
+    quote: 'TopoGR exploits this topology at three stages: binary SID features preserve Hamming proximity at the input layer;
+      Hamming soft targets inject topology-aware supervision; and Hamming-consistent reranking aligns candidate items with
+      the predicted binary prototype during inference.'
+    where: arXiv:2607.25216v1 https://arxiv.org/html/2607.25216v1#abstract1
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

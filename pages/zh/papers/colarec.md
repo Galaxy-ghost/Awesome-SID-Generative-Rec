@@ -1,12 +1,15 @@
 # ColaRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/colarec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#i--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/colarec.md) | 中文
 
 | **题目** | *Content-based collaborative generation for recommender systems* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | CIKM’24 |
-| **问题与阶段** | `I. 信息量` · `骨干（Backbone）` |
+| **问题与阶段** | `I. 信息量` · `生成骨干（Backbone）` |
+| **改动** | ● 生成骨干 · ○ 训练目标 |
+| **构码输入** | `CF` |
+| **领域** | `电商` · `美食与食谱` |
 | **链接** | [论文](https://arxiv.org/abs/2403.18480) · [代码](https://github.com/Junewang0614/ColaRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+CF"] --> T["编号 Tokenization<br/>H-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP + Ctr."] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text+CF"] --> T["构码 Tokenization<br/>H-KM"] --> B["生成骨干 Backbone<br/>● Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP + Ctr."] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -39,9 +44,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | I. 信息量：SID 或读取它的模型是否充分携带了推荐所需的协同、多模态与时空信号？ |
-| 核心贡献 | ColaRec 从预训练协同过滤模型构造生成式标识，结合物品索引任务与对比损失对齐协同与内容空间，从交互物品内容生成目标 ID。 |
-| 主要改动阶段 | 骨干（Backbone） |
 | 主要发现 | 在 Amazon Beauty、Sports and Outdoors、Cell Phones and Accessories 与 Food.com Recipe 的全量目录评测中，ColaRec 在 Recall@5/10 与 NDCG@5/10 上优于协同过滤、内容增强与生成式基线（含 TIGER 和 LC-Rec），消融实验证实了物品到 GID 索引任务及对比对齐的有效性（Sec. 5.2，Table 2，Table 3，Table 4）。 |
 | 局限 | 生成式标识（GID）由预训练 LightGCN 嵌入经离线层级约束 K-means 聚类构建，无交互记录的冷启动物品缺少可用于聚类的协同表征（Sec. 4.2）。 |
 

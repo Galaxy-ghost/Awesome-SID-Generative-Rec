@@ -1,12 +1,15 @@
 # RPG
 
-[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/rpg.md)
+[← Problem × Stage Matrix](../../README.md#v--backbone) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/rpg.md)
 
 | **Title** | *Generating long semantic ids in parallel for recommendation* |
 | :-- | :-- |
 | **Authors** | Hou et al. |
 | **Venue** | KDD’25 |
-| **Problem × Stage** | `V. Efficiency` · `Backbone` — Also: `I. Informativeness` × `Backbone`; `II. Uniqueness and Validity` × `Inference`; `V. Efficiency` × `Inference`; `V. Efficiency` × `Training` |
+| **Problem × Stage** | `V. Efficiency` · `Backbone` |
+| **Changes** | ● Backbone · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2506.05781) · [Code](https://github.com/facebookresearch/RPG_KDD2025) |
 | **Reading level** | Annotated Deep Dive (Level 3) |
 
@@ -14,11 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP"] --> I["Inference<br/>Graph"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>Par. OPQ"] --> B["Backbone<br/>● Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ MTP"] --> I["Inference<br/>○ Graph"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR,I also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -41,9 +44,6 @@ flowchart LR
 
 | Aspect | Summary |
 | :-- | :-- |
-| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
-| Key Contribution | RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs. |
-| Modified Stage | Backbone |
 | Key Findings | With 64-token IDs, RPG outperforms generative baselines by an average of 12.6% on NDCG@10 and also improves inference efficiency (Abstract). |
 | Limitation | The authors assume that the tokens of an SID are conditionally independent given the input sequence (Sec. 2.2.1). |
 

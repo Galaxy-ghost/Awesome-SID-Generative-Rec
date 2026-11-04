@@ -76,3 +76,24 @@ related:
   note: OneLoc is a geo-aware generative recommender trained without explicit reasoning; Think2Go relies on reasoning to use
     spatial context.
   where: 'Think2Go v1, Section 1 cites OneLoc: https://arxiv.org/html/2607.28997v1#S1.p4.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- unknown
+modality_where:
+  quote: This improvement is mainly attributed to the correlation among semantic IDs learned through RQ-VAE, which allows
+    the listwise IDs to leverage the autoregressive prediction advantages of LLMs and thus reduce the difficulty of POI prediction.
+  where: '2607.28997v1 #S5.SS5.p2.1；只说 SID 由 RQ-VAE 学得，方法和实验都没写构码输入；#S5.SS1.p1.1 沿用 GNPR 的只是数据预处理'
+note: Table 1 记 Attr+Geo+CF†（沿用 GNPR-SID）；本文没写构码输入，记 unknown。
+domain:
+- POI / Local
+settings:
+- value: cross-domain
+  quote: As shown in the Table 5 , Think2Go exhibits smaller performance degradation on out-of-domain datasets compared to
+    other methods
+  where: '2607.28997v1 #S5.SS8.p1.1；跨城市'

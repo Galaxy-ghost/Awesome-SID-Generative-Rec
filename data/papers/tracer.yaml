@@ -65,3 +65,24 @@ related:
   relation: predecessor
   note: ETEGRec is a tested joint-training backbone.
   where: 'TRACER v1, Sec.4 Models and Appendix D.2: https://arxiv.org/html/2606.07688v1#S4.SS0.SSS0.Px3.p1; https://arxiv.org/html/2606.07688v1#A4.SS2.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer:
+    value: other
+    quote: To enable end-to-end token reassignment while preserving the semantic hierarchy of the original tokenizer $\mathcal{T}$
+      , we further introduce a learnable perturbation parameter $\phi$ over the codeword logit.
+    where: arXiv:2606.07688v1 https://arxiv.org/html/2606.07688v1#S3.SS1.p2；可微的分配扰动通过生成器学习信号更新。
+  objective:
+    value: other
+    quote: To preserve recommendation coherence, we further encourage the model to generate retain items that are semantically
+      similar to $i$ under the same history $\mathcal{H}_{u}$ .
+    where: arXiv:2606.07688v1 https://arxiv.org/html/2606.07688v1#S3.SS2.p3
+  inference: none
+modality:
+- Text
+note: 遗忘概念关联交互并重分配 SID，不等同于实测物品目录增删改，不记 catalog-change。
+domain:
+- E-commerce
+settings: []

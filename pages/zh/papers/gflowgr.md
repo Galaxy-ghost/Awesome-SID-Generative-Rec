@@ -1,12 +1,15 @@
 # GFlowGR
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/gflowgr.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iv--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/gflowgr.md) | 中文
 
 | **题目** | *Fine-Tuning Generative Recommendation Frameworks with Generative Flow Networks* |
 | :-- | :-- |
 | **作者** | Wang et al. |
 | **发表** | SIGIR’26 |
 | **问题与阶段** | `IV. 实用目标` · `训练（Training）` |
+| **改动** | ● 训练目标 |
+| **构码输入** | A: `Text` · B: `Text` + `CF` |
+| **领域** | `本地生活与 POI` · `电商` · `广告` · `搜索` |
 | **链接** | [论文](https://arxiv.org/abs/2506.16114) · [代码](https://github.com/Applied-Machine-Learning-Lab/SIGIR26_GFlowGR) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +17,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text / Text+CF"] --> T["编号 Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["骨干 Backbone<br/>Enc-Dec†"] --> TR["训练 Training<br/>Fixed / NTP + Aux."] --> I["推理 Inference<br/>Beam† / C-Beam†"]
+    R["物品表示 Representation<br/>Text / Text+CF"] --> T["构码 Tokenization<br/>RQ-VAE / Learn. RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec†"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP + Aux."] --> I["推理 Inference<br/>Beam† / C-Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +42,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | IV. 实用目标：训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？ |
-| 核心贡献 | GFlowGR 用 GFlowNets 将生成式推荐微调建模为多步生成，借助协同轨迹采样器与奖励模型探索未观测正例，替代下一 token 或 DPO 微调。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 在淘宝生产数据上，GFlowGR 取得 H@20 = 0.444、N@20 = 0.452（SFT 为 0.358 与 0.371）；15 天线上 A/B 测试带来总收入 +0.43% 的提升（Sec. 5，Table 7）。 |
 | 局限 | 行为感知奖励模型从历史曝光日志拟合物品效用，优化上限受限于日志自身的曝光偏差（Sec. 3.2）。 |
 

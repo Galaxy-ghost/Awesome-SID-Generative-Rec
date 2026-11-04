@@ -54,3 +54,21 @@ related:
   relation: competitor
   note: Collaborative/content baseline reimplemented in Table 3.
   where: https://arxiv.org/html/2502.06269v3#S4.SS2.SSS1.p3 ; https://arxiv.org/html/2502.06269v3#S4.T3
+changes:
+  representation: primary
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: To compensate for the information loss caused by the quantization process in the first stage, we introduce an intra-modality
+      knowledge distillation task to distill the global knowledge.
+    where: arXiv:2502.06269v3 https://arxiv.org/html/2502.06269v3#S3.SS4
+  inference: none
+modality:
+- Text
+- CF
+note: §3.3.5 明说量化沿用前作的 hierarchical k-means；统一码来自 Representation 主格的表示对齐，不把量化或单一码本重复记为 Tokenization 新机制。
+domain:
+- E-commerce
+settings: []

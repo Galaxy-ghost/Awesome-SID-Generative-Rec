@@ -51,3 +51,27 @@ related:
   relation: predecessor
   note: LETTER is the second backbone receiving the same review augmentation and item-centric DPO alignment.
   where: 'RAGR v1, Section IV-A and Table II: https://arxiv.org/html/2605.17267v1#S4.SS1.SSS4.p1; https://arxiv.org/html/2605.17267v1#S4.T2.'
+changes:
+  representation: none
+  tokenization:
+    value: other
+    quote: To address the need for a unified discrete token space for both item interactions and review feedback, we first
+      train a semantic tokenizer based on item text.
+    where: arXiv:2605.17267v2 https://arxiv.org/html/2605.17267v2#S3.SS2.p1；同一构码器另给 review 构码，新增物品/评论双码流组织。
+  backbone:
+    value: other
+    quote: Specifically, RAGR introduces a Review-Augmented User Sequence Modeling mechanism that interleaves item semantic
+      IDs and review semantic IDs in chronological order to construct a mixed behavioral-semantic sequence, enabling review
+      signals to participate directly in autoregressive next-token generation.
+    where: arXiv:2605.17267v2 https://arxiv.org/html/2605.17267v2#abstract1
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+  item:
+  - Text
+  review:
+  - Text
+domain:
+- E-commerce
+settings: []

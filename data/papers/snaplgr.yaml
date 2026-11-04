@@ -55,3 +55,23 @@ related:
   relation: predecessor
   note: SnapLGR follows PLUM's CPT/SFT pipeline and adds PPR supervision and serving optimizations.
   where: 'SnapLGR v4, Sections 2.1/5: https://arxiv.org/html/2607.28895v4#S2.SS1.p6; https://arxiv.org/html/2607.28895v4#S5.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference:
+    value: other
+    quote: 'Within each SID bucket, stories are ranked using a multi-objective linear value function that weighs downstream
+      engagement signals: (9) $V(i)=\sum_{m\in\mathcal{M}}w_{m}\cdot S_{m}(i),$ where $S_{m}(i)$ represents the estimated
+      rate for metric $m$ and $w_{m}$ is the corresponding weight that favors stronger engagement signals.'
+    where: arXiv:2607.28895v4 https://arxiv.org/html/2607.28895v4#A1.SS3.SSS1.p1；共享 SID 桶内按业务价值物化候选。
+modality:
+- Text
+- Img
+- CF
+note: §2.2 的冻结骨干 CPT 后 SFT 属于 SID 与文本的既有对齐训练做法，未确认相对既有 SID 推荐方法新增的目标机制，Objective 记 none；桶内业务价值排序仍记 Inference other。
+domain:
+- Short video / Live
+settings: []

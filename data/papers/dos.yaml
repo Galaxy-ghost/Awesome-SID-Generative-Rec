@@ -68,3 +68,17 @@ related:
   relation: alternative
   note: Cited as task-agnostic SID learning whose codebook-generation gap motivates context-aware DOS quantization.
   where: https://arxiv.org/html/2602.04460v1#S1.p2 (Rajput et al., 2023)
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- CF
+note: Qwen3 嵌入编码餐厅名称、类目、预订状态、价格、菜品文本；用户–物品双流结构引入协同信号。
+domain:
+- POI / Local
+settings: []

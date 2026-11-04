@@ -85,3 +85,25 @@ related:
   relation: competitor
   note: ETEGRec trains tokenizer and generator end to end; MSCGRec quantizes frozen pretrained embeddings per modality.
   where: 'MSCGRec v1, baselines: https://arxiv.org/html/2602.03713v1#S4.SS1.SSS0.Px2.p1; Table 2: https://arxiv.org/html/2602.03713v1#S4.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: The ablation of the constrained training in Table 3 (a) shows the efficacy of the adapted loss function.
+    where: '2602.03713v1 #S4.SS3.SSS0.Px3.p1.1；贡献 #S1.I1.i2.p1.1 的 constrained training：损失只在合法下一码中归一化'
+  inference: none
+modality:
+  image:
+  - Img
+  text:
+  - Text
+  collaborative:
+  - CF
+note: '图像（DINO 自监督量化）、文本、SASRec 协同嵌入各出一套码。PixelRec 是短视频封面数据（2309.06789v2 #S1.p5.1），记 Short video / Live。'
+domain:
+- E-commerce
+- Short video / Live
+settings: []

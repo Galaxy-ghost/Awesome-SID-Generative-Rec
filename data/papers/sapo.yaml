@@ -57,3 +57,15 @@ related:
   note: TIGER is the non-reasoning residual-SID generation baseline; SAPO adds structured reasoning and step-aligned policy
     optimization.
   where: 'SAPO v1, Appendix G and Table 1: https://arxiv.org/html/2605.17648v1#A7.p2; https://arxiv.org/html/2605.17648v1#S5.T1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: primary
+  inference: none
+modality:
+- Text
+domain:
+- E-commerce
+settings: []

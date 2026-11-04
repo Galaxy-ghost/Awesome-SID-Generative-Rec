@@ -73,3 +73,40 @@ related:
     GenCDR targets multi-domain tokenization with domain adapters.
   where: 'GenCDR v2, Related Work cites Zheng et al. (2025): https://arxiv.org/html/2511.08006v2#Sx2.p2; not a baseline in
     Table 2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: We design a symmetric and collaborative Cross-Domain Autoregressive Recommendation module that effectively disentangles
+      and fuses universal and user-wise domain-specific interests during the recommendation process.
+    where: '2511.08006v2 #Sx1.I1.i3.p1.1；设计在 #Sx4.SSx2（通用与领域 LoRA 专家、用户级路由）'
+  tokenizer: none
+  objective:
+    value: other
+    quote: Symmetrically to the item-level router, we employ a VIB-regularized User-level Dynamic Interest Routing Network
+      to prevent negative transfer during inference.
+    where: '2511.08006v2 #Sx4.SSx2.SSSx3.p1.1；生成侧路由器的 VIB 正则'
+  inference:
+    value: other
+    quote: We propose a Domain-aware Prefix-tree based decoding strategy to ensure efficient and accurate generation in cross-domain
+      scenarios.
+    where: '2511.08006v2 #Sx1.I1.i4.p1.1；设计在 #Sx4.SSx2.SSSx4'
+modality:
+- Text
+- unknown
+modality_open:
+- CF
+modality_where:
+  quote: The RQ-VAE, consisting of an encoder E , a decoder D , and M codebooks, is pre-trained on the textual features of
+    all items.
+  where: '2511.08006v2 #Sx4.SSx1.SSSx1.p1.1（公式按纯文本转写）；MTM 的周边码是否来自交互没写（#Sx4.SSx1.SSSx1.p2）'
+domain:
+- E-commerce
+- Book
+- Movie
+settings:
+- value: cross-domain
+  quote: 'We experiment on three cross-domain dataset pairs, each reflecting a distinct real-world scenario: Sports-Clothing
+    (Leisure), Phones-Electronics (Technology), and Books-Movies (Entertainment).'
+  where: '2511.08006v2 #Sx5.SSx1.p1.1；前两对来自 Amazon，Books-Movies 来自 Douban'

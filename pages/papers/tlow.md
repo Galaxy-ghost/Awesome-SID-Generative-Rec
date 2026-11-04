@@ -1,22 +1,28 @@
 # Tlow
 
-[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/tlow.md)
+[← Problem × Stage Matrix](../../README.md#i--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/tlow.md)
 
 | **Title** | *Flow-based Item Tokenizer for Recommendation* |
 | :-- | :-- |
 | **Authors** | Li et al. |
 | **Venue** | CIKM’26 Applied |
 | **Problem × Stage** | `I. Informativeness` · `Tokenization` |
+| **Changes** | ● Tokenization · ○ Objective |
+| **SID inputs** | A: `Text` · B: `Text` + `Img` |
+| **Domain** | `E-commerce` · `Image / Article` |
+| **Settings** | `cross-domain` · `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2608.24176) · [Code](https://github.com/wjjln/Tlow) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text"] --> T["Tokenization<br/>Flow+PQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Fixed / MTP + Rel.MSE"] --> I["Inference<br/>Scoring"]
+    R["Representation<br/>Text"] --> T["Tokenization<br/>● Flow+PQ"] --> B["Backbone<br/>Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ MTP + Rel.MSE"] --> I["Inference<br/>Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +38,6 @@ flowchart LR
 
 > [!NOTE]
 > Tlow maps semantic embeddings with a normalizing flow into a standard normal latent space before independent quantization, and aligns codebook and token embedding spaces, unlike RQ-VAE or OPQ.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | I. Informativeness: Do the SIDs, or the model reading them, carry the collaborative and multimodal signals recommendation needs? |
-| Key Contribution | Tlow maps semantic embeddings with a normalizing flow into a standard normal latent space before independent quantization, and aligns codebook and token embedding spaces, unlike RQ-VAE or OPQ. |
-| Modified Stage | Tokenization |
 
 ---
 

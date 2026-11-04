@@ -1,20 +1,23 @@
 # OneRec-V2-Quantized
 
-[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/onerec-v2-quantized.md)
+[← Problem × Stage Matrix](../../README.md#v--inference) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/onerec-v2-quantized.md)
 
 | **Title** | *Quantized Inference for OneRec-V2* |
 | :-- | :-- |
 | **Authors** | Su et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `V. Efficiency` · `Inference` |
+| **Changes** | ● Inference |
+| **SID inputs** | `Text` + `Img` + `CF` |
+| **Domain** | `Short video / Live` |
 | **Links** | [Paper](https://arxiv.org/abs/2603.11486) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only†"] --> TR["Training<br/>Fixed† / NTP → RL†"] --> I["Inference<br/>FP8+RecoGEM"]
+    R["Representation<br/>Text+Img+CF†"] --> T["Tokenization<br/>R-KM†"] --> B["Backbone<br/>Lazy Dec-Only†"] --> TR["Training<br/>Tokenizer: Fixed†<br/>Objective: NTP → RL†"] --> I["Inference<br/>● FP8+RecoGEM"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -32,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | V. Efficiency: Can it be trained and served within latency and cost budgets? |
-| Key Contribution | OneRec-V2-Quantized applies low-precision floating-point post-training quantization and an optimized inference stack to OneRec-V2, whose weight and activation statistics resemble LLMs more than traditional recommenders. |
-| Modified Stage | Inference |
 
 ---
 

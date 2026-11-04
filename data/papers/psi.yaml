@@ -78,3 +78,22 @@ related:
   relation: successor
   note: Latte later uses PSID as its base model and its ESM conflict resolution, and adds latent prefix tokens.
   where: 'Evidence is from the later Latte paper: https://arxiv.org/html/2605.06331v1#S5.SS1.SSS0.Px2.p1 and https://arxiv.org/html/2605.06331v1#A4.SS0.SSS0.Px2.p2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+note: 另有 NQ320k、MS MARCO 文档检索，记 Search。
+domain:
+- E-commerce
+- Search
+settings:
+- value: cold-start
+  scope: item
+  quote: The improvements are especially notable for items that never appeared during training, demonstrating that purely
+    semantic IDs enhance generalization to real-world cold-start scenarios.
+  where: '2509.16446v1 #Sx4.SSx10.p2.1；子集含训练中出现 0 次和 1 次的物品，Figure 5 分开报'

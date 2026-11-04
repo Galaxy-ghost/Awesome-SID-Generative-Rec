@@ -73,3 +73,36 @@ related:
   note: OneRec uses residual K-means SIDs inside an end-to-end generator; PSRQ keeps a discriminative ranker and feeds it
     multimodal SID embeddings.
   where: 'PSRQ v1, contribution list and Section 2.2 cite OneRec: https://arxiv.org/html/2508.20359v1#S1.I1.i2.p1 and https://arxiv.org/html/2508.20359v1#S2.SS2.p1.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: We proposed a Multi-Codebook Cross-Attention Network for multimodal interest learning, simultaneously capturing
+      modality specificity and cross-modal associations.
+    where: '2508.20359v1 #S1.I2.i2.p1.1'
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+  text:
+  - Text
+  image:
+  - Img
+  audio:
+  - Audio
+  joint_Amazon:
+  - Text
+  - Img
+  joint_Music:
+  - Text
+  - Audio
+modality_where:
+  quote: Specifically, for the modal-joint information, we concatenated X^m as modal-joint embeddings X^o in R^(|I| x 2d)
+    to perform PSRQ and generate modal-joint semantic IDs S^o_i for each item, where o represents multimodal joint information.
+  where: '2508.20359v1 #S4.SS1.p1.2（公式按纯文本转写）；各模态单独构码，另把各模态拼接构联合码；数据集的提取器见 #S5.I2.i1.p1.1 至 #S5.I2.i3.p1.1'
+note: Table 1 记 Text+Img。Amazon Baby 用文本和图像（text、image、joint_Amazon）；工业音乐数据和 Music4all 用文本和音频（text、audio、joint_Music）。
+domain:
+- E-commerce
+- Music
+settings: []

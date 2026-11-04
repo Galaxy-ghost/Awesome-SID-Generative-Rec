@@ -76,3 +76,23 @@ related:
     against MACRec.
   where: 'Evidence is from the later CARD paper: baselines and Table 2: https://arxiv.org/html/2604.26427v1#S4.I1.i9.p1 and
     https://arxiv.org/html/2604.26427v1#S4.T2.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective:
+    value: other
+    quote: To enable the model to learn common features from different modalities, we employ multi-aspect alignment strategies,
+      including both implicit alignment in the latent space and explicit alignment in the generative task.
+    where: '2511.15122v2 #Sx1.I1.i2.p1.1；生成任务里的显式对齐'
+  inference: none
+modality:
+  text:
+  - Text
+  image:
+  - Img
+note: 文本、图像各用一个 RQ-VAE 出一套码，两路在量化时做跨模态对比。
+domain:
+- E-commerce
+settings: []

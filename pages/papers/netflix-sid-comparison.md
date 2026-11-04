@@ -1,22 +1,28 @@
 # Netflix-SID-Comparison
 
-[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/netflix-sid-comparison.md)
+[← Problem × Stage Matrix](../../README.md#paradigms-systems-and-benchmarks) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/netflix-sid-comparison.md)
 
 | **Title** | *Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction* |
 | :-- | :-- |
 | **Authors** | Oh et al. |
 | **Venue** | NeurIPS’26 PALM Workshop |
 | **Problem × Stage** | `Paradigms, Systems and Benchmarks` · `No single stage` |
+| **Changes** | ○ Objective |
+| **SID inputs** | `unknown` |
+| **Domain** | `Long video` |
+| **Settings** | `cold-start (item)` |
 | **Links** | [Paper](https://arxiv.org/abs/2610.15864) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Non-AR"] --> TR["Training<br/>Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["Inference<br/>C-Beam / Scoring"]
+    R["Representation<br/>–"] --> T["Tokenization<br/>RQ-VAE"] --> B["Backbone<br/>Dec-Only / Non-AR"] --> TR["Training<br/>Tokenizer: Fixed<br/>Objective: ○ Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["Inference<br/>C-Beam / Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
 ```
 
 - `RQ-VAE`: Residual-Quantized Variational AutoEncoder.
@@ -29,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > Netflix-SID-Comparison evaluates single-head autoregressive beam search against multi-token prediction for LLM Semantic ID generation on ranking quality and serving cost.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | Paradigms, Systems and Benchmarks: Baseline (TIGER), end-to-end multi-stage paradigms, open-source frameworks, benchmarks, and diagnostic resources. |
-| Key Contribution | Netflix-SID-Comparison evaluates single-head autoregressive beam search against multi-token prediction for LLM Semantic ID generation on ranking quality and serving cost. |
-| Modified Stage | No single stage |
 
 ---
 

@@ -1,22 +1,27 @@
 # DREAM
 
-[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · English | [中文](../zh/papers/dream.md)
+[← Problem × Stage Matrix](../../README.md#vi--tokenization) · [Papers by Stage](../index/stages.md) · [Papers by Modality](../index/modality.md) · [Papers by Domain](../index/domain.md) · English | [中文](../zh/papers/dream.md)
 
 | **Title** | *Dynamic Refinement of Early Assignment Mappings* |
 | :-- | :-- |
 | **Authors** | Guan et al. |
 | **Venue** | arXiv’26 |
 | **Problem × Stage** | `VI. Generalization` · `Tokenization` |
+| **Changes** | ○ Representation · ● Tokenization · ○ Tokenizer · ○ Objective · ○ Inference |
+| **SID inputs** | `Text` + `CF` |
+| **Domain** | `E-commerce` |
 | **Links** | [Paper](https://arxiv.org/abs/2606.06947) |
 | **Reading level** | Overview (Level 1) |
 
-**On this page**: [TL;DR](#tldr) · [At a Glance](#at-a-glance) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
+**On this page**: [TL;DR](#tldr) · [3. Experiments](#3-experimental-findings) · [5. Related Work](#5-connections-to-related-work)
 
 ```mermaid
 flowchart LR
-    R["Representation<br/>Text+CF"] --> T["Tokenization<br/>CART"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Altern. / NTP + Aux."] --> I["Inference<br/>C-Beam"]
+    R["Representation<br/>○ Text+CF"] --> T["Tokenization<br/>● CART"] --> B["Backbone<br/>Dec-Only"] --> TR["Training<br/>Tokenizer: ○ Altern.<br/>Objective: ○ NTP + Aux."] --> I["Inference<br/>○ C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class R,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -32,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates, the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses.
-
----
-
-### At a Glance
-
-| Aspect | Summary |
-| :-- | :-- |
-| Research Problem | VI. Generalization: Does it still work for new items, new domains, and shifting interests? |
-| Key Contribution | DREAM refines cold-start item Semantic IDs after the initial assignment, with an intent-aware tokenizer proposing candidates, the frozen generator selecting one, and a dynamic beam keeping weighted ID hypotheses. |
-| Modified Stage | Tokenization |
 
 ---
 

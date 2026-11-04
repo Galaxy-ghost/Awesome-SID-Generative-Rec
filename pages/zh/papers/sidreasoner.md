@@ -1,12 +1,16 @@
 # SIDReasoner
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/sidreasoner.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#iii--training) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/sidreasoner.md) | 中文
 
 | **题目** | *Reasoning over Semantic IDs Enhances Generative Recommendation* |
 | :-- | :-- |
 | **作者** | He et al. |
 | **发表** | KDD’26 |
 | **问题与阶段** | `III. SID 与模型对齐` · `训练（Training）` |
+| **改动** | ● 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2603.23183) · [代码](https://github.com/HappyPointer/SIDReasoner) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,7 +18,7 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>C-Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ● NTP → RL"] --> I["推理 Inference<br/>C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
@@ -39,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | III. SID 与模型对齐：生成模型能否理解并推理离散 SID，编号器与生成器的优化目标是否一致？ |
-| 核心贡献 | SIDReasoner 在教师合成语料上用多任务训练加强 SID 与自然语言的对齐，再通过结果驱动的强化学习改进推理，不依赖人工标注的推荐推理轨迹。 |
-| 主要改动阶段 | 训练（Training） |
 | 主要发现 | 引入教师合成的多视角描述与通用推理语料做多任务 SID-语言对齐后，SIDReasoner 在 Amazon Games、Office 与 Industrial 全库评测中于 GRPO 前后均取得显著提升（Tables 2 and 3）。 |
 | 局限 | 强化学习阶段仅根据最终语义 ID（Semantic ID，SID）的最长正确前缀与物品库合法性计算结果奖励，不对中间推理文本施加直接过程监督（Sec. 3.3.2）。 |
 

@@ -1,22 +1,27 @@
 # PinGER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/pinger.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#v--backbone) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/pinger.md) | 中文
 
 | **题目** | *Token-Efficient Generative Retrieval with Semantic IDs* |
 | :-- | :-- |
 | **作者** | Li et al. |
 | **发表** | arXiv’26 |
-| **问题与阶段** | `V. 效率` · `骨干（Backbone）` |
+| **问题与阶段** | `V. 效率` · `生成骨干（Backbone）` |
+| **改动** | ○ 构码 · ● 生成骨干 · ○ 训练目标 · ○ 推理 |
+| **构码输入** | `Text` + `Img` + `CF` |
+| **领域** | `图文与文章` |
 | **链接** | [论文](https://arxiv.org/abs/2610.33435) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text+Img+CF"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>– / NTP → DPO"] --> I["推理 Inference<br/>Div. C-Beam"]
+    R["物品表示 Representation<br/>Text+Img+CF"] --> T["构码 Tokenization<br/>○ RQ-VAE"] --> B["生成骨干 Backbone<br/>● Dec-Only"] --> TR["训练 Training<br/>编号器更新: –<br/>训练目标: ○ NTP → DPO"] --> I["推理 Inference<br/>○ Div. C-Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,TR,I other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class B main
 ```
@@ -31,16 +36,6 @@ flowchart LR
 
 > [!NOTE]
 > PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | V. 效率：训练与在线服务能否满足实际的延迟、显存与吞吐预算？ |
-| 核心贡献 | PinGER 用非对称注意力掩码交错排列 SID 与稠密 token，使线上服务每个物品仅占一个 token，并结合目标条件、强化学习与多样性惩罚引导召回。 |
-| 主要改动阶段 | 骨干（Backbone） |
 
 ---
 

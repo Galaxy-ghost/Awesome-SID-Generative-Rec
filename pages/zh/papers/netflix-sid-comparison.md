@@ -1,22 +1,28 @@
 # Netflix-SID-Comparison
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/netflix-sid-comparison.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/netflix-sid-comparison.md) | 中文
 
 | **题目** | *Personalized LLM Recommendation with Semantic IDs: Autoregressive Beam Search vs. Multi-Token Prediction* |
 | :-- | :-- |
 | **作者** | Oh et al. |
 | **发表** | NeurIPS’26 PALM Workshop |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 训练目标 |
+| **构码输入** | `unknown` |
+| **领域** | `长视频` |
+| **特殊设置** | `冷启动（物品）` |
 | **链接** | [论文](https://arxiv.org/abs/2610.15864) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>–"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only / Non-AR"] --> TR["训练 Training<br/>Fixed / Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["推理 Inference<br/>C-Beam / Scoring"]
+    R["物品表示 Representation<br/>–"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only / Non-AR"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ Multi-task NTP / (Text NTP + MTP + Rank); Lang. RL after SFT"] --> I["推理 Inference<br/>C-Beam / Scoring"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
 ```
 
 - `RQ-VAE`：残差量化变分自编码器（Residual-Quantized VAE）。
@@ -29,16 +35,6 @@ flowchart LR
 
 > [!NOTE]
 > Netflix-SID-Comparison 在流媒体工业场景中对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测在推荐质量与推理成本上的权衡。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | Netflix-SID-Comparison 在流媒体工业场景中对比 LLM 生成 SID 时的单头自回归束搜索与多 token 预测在推荐质量与推理成本上的权衡。 |
-| 主要改动阶段 | 无单一阶段 |
 
 ---
 

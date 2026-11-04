@@ -1,12 +1,16 @@
 # MiniOneRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/minionerec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/minionerec.md) | 中文
 
 | **题目** | *An Open-Source Framework for Scaling Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Kong et al. |
 | **发表** | arXiv’25 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 训练目标 |
+| **构码输入** | `Text` |
+| **领域** | `电商` |
+| **特殊设置** | `跨域迁移` |
 | **链接** | [论文](https://arxiv.org/abs/2510.24431) · [代码](https://github.com/AkaliKong/MiniOneRec) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +18,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>RQ-VAE"] --> B["骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>Fixed / NTP → RL"] --> I["推理 Inference<br/>Beam"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>RQ-VAE"] --> B["生成骨干 Backbone<br/>Dec-Only"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → RL"] --> I["推理 Inference<br/>Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
 ```
 
 - `Text`：物品文本元数据（标题、描述、类目或提示词）。
@@ -37,9 +43,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | MiniOneRec 是覆盖 RQ-VAE SID 构建、Qwen 骨干监督微调与受约束解码强化学习的开源框架，用于在公开基准上检验生成式扩展规律。 |
-| 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 将 Qwen2.5 骨干从 0.5B 扩展至 7B 参数时训练损失与评估损失单调下降，结合全流程 SID 对齐、约束束采样与 GRPO 后在 Amazon Industrial 与 Office 上全面超越传统、生成式与 LLM 基线（Abstract，Sec. 5.2，Table 1，Fig. 1）。 |
 | 局限 | 扩展定律实验仅度量模型增大时的训练损失与评估损失，未直接报告排序指标随规模的变化曲线（Sec. 5.2，Fig. 1）。 |
 

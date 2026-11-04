@@ -62,3 +62,28 @@ related:
   relation: alternative
   note: LIGER motivates the cold-start limitation; STATIC restricts decoding to cold items.
   where: 'STATIC v3, Section 2.1 (Yang et al., 2024) and Section 6: https://arxiv.org/html/2602.22647v3#S2.SS1.p3; https://arxiv.org/html/2602.22647v3#S6.SS2.p1.'
+changes:
+  representation: none
+  tokenization: none
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: primary
+modality:
+- unknown
+modality_where:
+  quote: 'Central to this approach is the concept of the Semantic ID: a discrete, token-based identifier that captures the
+    semantic properties of an item.'
+  where: arXiv:2602.22647v3 https://arxiv.org/html/2602.22647v3#S3.SS1.p1；原文说明量化与码本大小，未说明构码特征来源。
+note: §2.1 与 §6.2 明确评估训练未见的新物品，记 cold-start item；§6.2 的 filter out ... do not contain 与 no cold-start train sequences 文字矛盾仍保留，未验证实际切分。工业视频业务未区分长短，记
+  Video。
+domain:
+- E-commerce
+- Video
+settings:
+- value: cold-start
+  scope: item
+  quote: We evaluate the models on the “cold-start test sequence” set which contains sequences that have cold-start items
+    as targets.
+  where: arXiv:2602.22647v3 https://arxiv.org/html/2602.22647v3#S6.SS2.p1.1；§6.2 独立评估最新 2%/5% 物品；§2.1 明确定义为训练未见物品。§6.2 过滤方向有文字矛盾，按实验整体设计记
+    item，未复现训练切分。

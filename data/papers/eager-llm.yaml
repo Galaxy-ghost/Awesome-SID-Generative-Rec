@@ -58,3 +58,25 @@ related:
   relation: competitor
   note: LETTER regularizes collaborative coding; EAGER-LLM separates the two information sources before LLM fusion.
   where: 'EAGER-LLM v1, Section 4.2.2 and Table 3: https://arxiv.org/html/2502.14735v1#S4.SS2.SSS2.p4; https://arxiv.org/html/2502.14735v1#S4.T3.'
+changes:
+  representation: none
+  tokenization: primary
+  backbone:
+    value: other
+    quote: This is achieved by incorporating additional summarization token and trainable Decompression Guidance Projectors.
+    where: arXiv:2502.14735v1 https://arxiv.org/html/2502.14735v1#S3.SS3.SSS1.p1
+  tokenizer: none
+  objective:
+    value: other
+    quote: Drawing inspiration from ( Zheng et al., 2024 ; Wang et al., 2024b ) , we have devised a series of multi-scale
+      alignment reconstruction tasks.
+    where: arXiv:2502.14735v1 https://arxiv.org/html/2502.14735v1#S3.SS3.p1
+  inference: none
+modality:
+  semantic:
+  - Text
+  behavior:
+  - CF
+domain:
+- E-commerce
+settings: []

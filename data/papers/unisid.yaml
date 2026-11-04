@@ -54,3 +54,28 @@ related:
     direct SIDs from raw features.
   where: 'UniSID v3, Sections 3/4.2 and Table 4; baseline numbers are reused: https://arxiv.org/html/2602.10445v3#S3.p1; https://arxiv.org/html/2602.10445v3#S4.SS2.p5;
     https://arxiv.org/html/2602.10445v3#S4.T4.'
+changes:
+  representation:
+    value: other
+    quote: Positioned after the SID tokens, we further introduce an embedding token.
+    where: arXiv:2602.10445v3 https://arxiv.org/html/2602.10445v3#S3.SS1.p6
+  tokenization: primary
+  backbone: none
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+modality_where:
+  quote: The advertisement-enhanced input schema integrates heterogeneous advertising signals into a unified token sequence,
+    including ad instruction prompts, visual content, textual descriptions, structured ad attributes (e.g., industry and category),
+    as well as a set of learnable SID tokens and embedding tokens.
+  where: arXiv:2602.10445v3 https://arxiv.org/html/2602.10445v3#S3.p1.1；§3.1/Fig.2 展示 industry/category 的文字类别路径与文本一同转为 MLLM
+    输入 token，属性按文本化规则并入 Text。
+note: Table 1 为 Text+Img+Attr；§3.1/Fig.2 的属性以文字类别路径进入统一 MLLM token 序列，按文本化属性规则记 Text+Img，不改 Table 1。构码训练自身的 contrastive/reconstruction
+  目标不另标 Objective。
+domain:
+- Ads
+- E-commerce
+settings: []

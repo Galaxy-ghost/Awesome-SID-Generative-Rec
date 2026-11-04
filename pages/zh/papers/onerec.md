@@ -1,12 +1,15 @@
 # OneRec
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/onerec.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#范式系统与基准) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/onerec.md) | 中文
 
 | **题目** | *Unifying retrieve and rank with generative recommender and iterative preference alignment* |
 | :-- | :-- |
 | **作者** | Deng et al. |
 | **发表** | arXiv’25 |
 | **问题与阶段** | `范式、系统与基准` · `无单一阶段` |
+| **改动** | ○ 构码 · ○ 生成骨干 · ○ 训练目标 |
+| **构码输入** | `MM` + `CF` |
+| **领域** | `短视频与直播` |
 | **链接** | [论文](https://arxiv.org/abs/2502.18965) |
 | **阅读级别** | 阅读笔记（第 2 级） |
 
@@ -14,9 +17,11 @@
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>MM+CF"] --> T["编号 Tokenization<br/>R-KM"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Fixed / NTP → DPO"] --> I["推理 Inference<br/>Sess. Beam"]
+    R["物品表示 Representation<br/>MM+CF"] --> T["构码 Tokenization<br/>○ R-KM"] --> B["生成骨干 Backbone<br/>○ Enc-Dec"] --> TR["训练 Training<br/>编号器更新: Fixed<br/>训练目标: ○ NTP → DPO"] --> I["推理 Inference<br/>Sess. Beam"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class T,B,TR other
 ```
 
 - `MM+CF`：与协同过滤信号对齐的多模态物品表征。
@@ -37,9 +42,6 @@ flowchart LR
 
 | 维度 | 摘要 |
 | :-- | :-- |
-| 研究问题 | 范式、系统与基准：基线范式（TIGER）、端到端多阶段工业框架、开源代码库、评测基准与诊断工具。 |
-| 核心贡献 | OneRec 用带稀疏 MoE 的单一编码器-解码器生成器替代召回-排序级联，整段生成视频会话，并通过奖励模型与迭代 DPO 对齐用户偏好。 |
-| 主要改动阶段 | 无单一阶段 |
 | 主要发现 | 在离线奖励模型指标上，OneRec 优于点积召回基线及 TIGER 等逐点生成器（Table 1）；在快手在线 A/B 测试中，OneRec-1B+IPA 的总观看时长提升 +1.68%，平均单次观看时长提升 +6.56%（Table 2）。 |
 | 局限 | 在线测试中，OneRec 提升了观看时长，但在点赞等互动指标上较弱（Sec. 6）。 |
 

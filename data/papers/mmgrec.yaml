@@ -62,3 +62,33 @@ related:
     evaluated.
   where: 'MMGRec v4, Sections 1, 3 and 5.2: https://arxiv.org/html/2404.16555v4#S1.p4; https://arxiv.org/html/2404.16555v4#S3.p1;
     https://arxiv.org/html/2404.16555v4#S5.SS2.p2.'
+changes:
+  representation:
+    value: other
+    quote: In particular, a user-item bipartite graph is constructed, where nodes represent users and items, and edges denote
+      interactions.
+    where: arXiv:2404.16555v4 https://arxiv.org/html/2404.16555v4#S4.SS2.SSS1.p1；§4.2.1 在量化前用 GCN 融合多模态与交互表示。
+  tokenization: primary
+  backbone:
+    value: other
+    quote: Moreover, a relation-aware self-attention mechanism is devised for the Transformer to handle non-sequential interaction
+      sequences, which explores the element pairwise relation to replace absolute positional encoding.
+    where: arXiv:2404.16555v4 https://arxiv.org/html/2404.16555v4#abstract1
+  tokenizer: none
+  objective: none
+  inference: none
+modality:
+- Text
+- Img
+- Audio
+- CF
+modality_where:
+  quote: Visual, acoustic, and textual features are extracted from frames, audio tracks, and descriptions using pre-trained
+    models (he2016deep; hershey2017cnn; arora2017simple), respectively.
+  where: arXiv:2404.16555v4 https://arxiv.org/html/2404.16555v4#S5.I1.i1.p1；MovieLens/TikTok 有 Audio；Kwai 无 Audio。§4.2.1 交互进入
+    Graph RQ-VAE；视觉特征从帧提取，按 Img。
+note: Table 1 为 Text+Img+CF；§5.1 MovieLens/TikTok 构码特征还含 Audio，已补。
+domain:
+- Movie
+- Short video / Live
+settings: []

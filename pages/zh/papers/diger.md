@@ -1,24 +1,27 @@
 # DIGER
 
-[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态索引](../index/modality.md) · [English](../../papers/diger.md) | 中文
+[← 问题 × 阶段矩阵](../../../README.zh.md#ii--tokenization) · [按阶段索引](../index/stages.md) · [按模态找论文](../index/modality.md) · [按领域找论文](../index/domain.md) · [English](../../papers/diger.md) | 中文
 
 | **题目** | *Differentiable Semantic ID for Generative Recommendation* |
 | :-- | :-- |
 | **作者** | Fu et al. |
 | **发表** | SIGIR’26 |
-| **问题与阶段** | `II. 唯一性与合法性` · `编号（Tokenization）` — 补充：`III. SID 与模型对齐` × `训练（Training）` |
+| **问题与阶段** | `II. 唯一性与合法性` · `构码（Tokenization）` |
+| **改动** | ● 构码 · ○ 编号器更新 |
+| **构码输入** | `Text` |
+| **领域** | `电商` · `本地生活与 POI` |
 | **链接** | [论文](https://arxiv.org/abs/2601.19711) · [代码](https://github.com/junchen-fu/DIGER) |
 | **阅读级别** | 概览（第 1 级） |
 
-**本页目录**：[TL;DR](#tldr) · [速览](#速览) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
+**本页目录**：[TL;DR](#tldr) · [3. 实验发现](#3-实验发现) · [5. 相关工作](#5-相关工作)
 
 ```mermaid
 flowchart LR
-    R["表征 Representation<br/>Text"] --> T["编号 Tokenization<br/>Learn. RQ"] --> B["骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>Joint / NTP"] --> I["推理 Inference<br/>Beam†"]
+    R["物品表示 Representation<br/>Text"] --> T["构码 Tokenization<br/>● Learn. RQ"] --> B["生成骨干 Backbone<br/>Enc-Dec"] --> TR["训练 Training<br/>编号器更新: ○ Joint<br/>训练目标: NTP"] --> I["推理 Inference<br/>Beam†"]
     classDef base fill:#f8fafc,stroke:#cbd5e1
     class R,T,B,TR,I base
-    classDef also fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
-    class TR also
+    classDef other fill:#f8fafc,stroke:#6b8fc7,stroke-width:1.5px,stroke-dasharray:5 3
+    class TR other
     classDef main fill:#eaf2fb,stroke:#6b8fc7,stroke-width:2px
     class T main
 ```
@@ -34,16 +37,6 @@ flowchart LR
 
 > [!NOTE]
 > DIGER 使 SID 可微以让推荐梯度直接更新编号器，并加入衰减 Gumbel 噪声防止码本坍缩，替代仅按重构目标训练的编号器。
-
----
-
-### 速览
-
-| 维度 | 摘要 |
-| :-- | :-- |
-| 研究问题 | II. 唯一性与合法性：每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？ |
-| 核心贡献 | DIGER 使 SID 可微以让推荐梯度直接更新编号器，并加入衰减 Gumbel 噪声防止码本坍缩，替代仅按重构目标训练的编号器。 |
-| 主要改动阶段 | 编号（Tokenization） |
 
 ---
 

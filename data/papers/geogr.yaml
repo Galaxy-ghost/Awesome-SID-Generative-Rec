@@ -91,3 +91,21 @@ related:
   relation: predecessor
   note: GeoGR adopts OneRec's RQ-Kmeans tokenization and adds geographic co-visitation signals and EM-style refinement.
   where: 'GeoGR v2, Section 4.1 adopts the RQ-Kmeans strategy of Deng et al. (2025): https://arxiv.org/html/2602.10411v2#S4.SS1.p1.'
+changes:
+  representation: primary
+  tokenization: none
+  backbone: none
+  tokenizer:
+    value: other
+    quote: refining SIDs with an EM-style iterative optimization algorithm
+    where: '2602.10411v2 #S1.I1.i2.p1.1；设计在 #S4.SS1.SSS3（LLM 做下一 POI 预测，与 SID 轮流更新）'
+  objective: none
+  inference: none
+modality:
+- Text
+- Geo
+- CF
+domain:
+- POI / Local
+- Search
+settings: []
