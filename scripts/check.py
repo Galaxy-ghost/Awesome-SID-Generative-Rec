@@ -58,7 +58,8 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
     ev_keys = list(ev_item_schema["properties"].keys())
     ev_one_of = [r["required"][0] for r in ev_item_schema["anyOf"]]
     ev_fields = allowed_keys - {
-        "changes", "modality", "modality_open", "modality_where", "note",
+        "changes", "modality", "modality_open", "modality_where", "modality_other", "note",
+        "domain_other", "featured",
         "domain", "settings", "evidence", "tldr", "tldr_zh", "setup", "related", "setup_where",
     }
 
@@ -249,6 +250,38 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
                 if dv not in vocab_sets["domain"]:
                     errors.append(f"[domain] {p.name}: domain value {dv!r} not in data/vocab.yaml")
 
+        # 3b. 'Other' in modality or domain must say what it is; featured is a boolean
+        def _detail_ok(d, keys=("en", "zh", "quote", "where")):
+            return isinstance(d, dict) and all(isinstance(d.get(k), str) and d[k].strip() for k in keys)
+        mod_branches = mod if isinstance(mod, dict) else ({None: mod} if isinstance(mod, list) else {})
+        other_branches = {br for br, vals in mod_branches.items() if isinstance(vals, list) and "Other" in vals}
+        mo_items = rec.get("modality_other")
+        if other_branches and not mo_items:
+            errors.append(f"[modality] {p.name}: modality includes 'Other', so modality_other must state what it is")
+        if mo_items is not None:
+            if not isinstance(mo_items, list) or not mo_items:
+                errors.append(f"[modality] {p.name}: modality_other must be a non-empty list")
+            else:
+                listed = set()
+                for mi, item in enumerate(mo_items):
+                    if not _detail_ok(item):
+                        errors.append(f"[modality] {p.name}: modality_other[{mi}] needs non-empty en, zh, quote, where")
+                        continue
+                    br = item.get("branch")
+                    if br not in other_branches:
+                        errors.append(f"[modality] {p.name}: modality_other[{mi}].branch={br!r} is not a modality branch that uses 'Other'")
+                    listed.add(br)
+                missing = other_branches - listed
+                if missing:
+                    errors.append(f"[modality] {p.name}: modality_other has no entry for branch(es) {sorted(map(str, missing))}")
+        has_dom_other = isinstance(dom, list) and "Other" in dom
+        if has_dom_other != ("domain_other" in rec):
+            errors.append(f"[domain] {p.name}: domain_other is required exactly when domain includes 'Other'")
+        elif has_dom_other and not _detail_ok(rec["domain_other"]):
+            errors.append(f"[domain] {p.name}: domain_other needs non-empty en, zh, quote, where")
+        if "featured" in rec and not isinstance(rec["featured"], bool):
+            errors.append(f"[featured] {p.name}: featured must be true or false")
+
         # 4. Validate settings
         stgs = rec.get("settings")
         if not isinstance(stgs, list):
@@ -354,6 +387,13 @@ def check_uniqueness(records: dict, errors: list):
         if ax in seen_arxiv:
             errors.append(f"[uniqueness] duplicate links.arxiv {ax!r} in {pid} and {seen_arxiv[ax]}")
         seen_arxiv[ax] = pid
+    # Featured papers must fit in their taxonomy-figure cell.
+    from collections import Counter
+    from taxonomy_figure import CONFIG as FIG
+    per_cell = Counter((r["problem"], r["stage"]) for r in records.values() if r.get("featured"))
+    for (prob, stage), n in sorted(per_cell.items()):
+        if n > FIG["max_per_cell"]:
+            errors.append(f"[featured] {n} papers marked featured in {prob} × {stage}; the taxonomy figure shows at most {FIG['max_per_cell']}")
 
 
 def check_table1_roundtrip(records: dict, table1_paths: list, errors: list):

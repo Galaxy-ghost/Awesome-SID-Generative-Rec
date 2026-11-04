@@ -1,6 +1,7 @@
 """Taxonomy figure: research problem (rows) x primary pipeline stage (columns), with representative papers.
 
-Each cell lists up to CONFIG["max_per_cell"] papers: published papers first, then arXiv preprints, each group earliest first.
+Each cell lists up to CONFIG["max_per_cell"] papers: records marked `featured: true` first, then published papers,
+then arXiv preprints, each group earliest first.
 Five dots after each name mark the stages the paper changes, in pipeline order.
 All layout and colour settings live in CONFIG; text width uses Arial-compatible glyph metrics.
 """
@@ -20,6 +21,10 @@ CONFIG = {
     "row_gap": 10,
     "band_h": 21,  # problem name line above each row
     "name_max_w": 126,  # longer names wrap after a hyphen or space; the year stays with the last piece
+    "min_name_w": 84,  # the layout narrows name_max_w down to this value to keep the figure within max_width
+    "max_width": 1000,
+    "ellipsis": "\u2026",
+    "max_name_lines": 2,  # a name needing more lines is cut on its last line
     "wrap_indent": 8,
     "min_col_w": 132,
     "dot_r": 3.3,
@@ -55,6 +60,7 @@ TEXT = {
         "legend_hollow": "unchanged",
         "legend_order": "Five dots in stage order: Representation · Tokenization · Backbone · Training · Inference.",
         "legend_rule": "Each cell lists up to {k} papers (published before arXiv, earliest first); see All Papers below.",
+        "legend_rule_featured": "Each cell lists up to {k} papers (featured first, then published before arXiv, earliest first); see All Papers below.",
         "title": "Taxonomy of {n} papers on Semantic ID generative recommendation",
         "alt": ("Taxonomy of {n} Semantic ID generative recommendation papers across six research problems (plus "
                 "paradigms, systems and benchmarks) and five primary pipeline stages: each cell lists up to {k} papers "
@@ -67,6 +73,7 @@ TEXT = {
         "legend_hollow": "未改动",
         "legend_order": "五个圆点依次对应：物品表示 · 构码 · 生成骨干 · 训练 · 推理。",
         "legend_rule": "每格最多列 {k} 篇（已发表优先于 arXiv，按年份从早到晚），完整列表见下文。",
+        "legend_rule_featured": "每格最多列 {k} 篇（先列代表作，再按已发表优先于 arXiv、年份从早到晚），完整列表见下文。",
         "title": "{n} 篇语义 ID（SID）生成式推荐论文分类总图",
         "alt": ("{n} 篇语义 ID（SID）生成式推荐论文的分类总图，涵盖六个研究问题（及范式、系统与基准）与五个主要改动阶段："
                 "每格最多列出 {k} 篇论文（已发表优先于 arXiv，按年份从早到晚），篇名后的五个圆点按五阶段顺序标出该文改动的阶段。"),
@@ -117,9 +124,11 @@ def is_published(rec: dict) -> bool:
 
 
 def pick(recs: list, k: int) -> list:
-    pub = sorted((r for r in recs if is_published(r)), key=date_key)
-    rest = sorted((r for r in recs if not is_published(r)), key=date_key)
-    return (pub + rest)[:k]
+    featured = sorted((r for r in recs if r.get("featured")), key=date_key)
+    others = [r for r in recs if not r.get("featured")]
+    pub = sorted((r for r in others if is_published(r)), key=date_key)
+    rest = sorted((r for r in others if not is_published(r)), key=date_key)
+    return (featured + pub + rest)[:k]
 
 
 def _changed(val) -> bool:
@@ -135,21 +144,39 @@ def year_text(rec: dict) -> str:
     return f"'{int(rec['year']) % 100:02d}"
 
 
-def entry_lines(rec: dict) -> list:
-    """Split 'Name ’YY' into lines no wider than name_max_w, breaking after hyphens or spaces."""
-    C = CONFIG
-    full = f"{rec['name']} {year_text(rec)}"
-    if text_w(full, C["font_name"]) <= C["name_max_w"]:
+def truncate(name: str, year: str, max_w: float) -> str:
+    """One line 'Nam… ’YY' no wider than max_w."""
+    fs, ell = CONFIG["font_name"], CONFIG["ellipsis"]
+    while name and text_w(f"{name}{ell} {year}", fs) > max_w:
+        name = name[:-1]
+    return f"{name.rstrip(' -')}{ell} {year}"
+
+
+def entry_lines(rec: dict, max_w: float = None) -> list:
+    """Split 'Name 'YY' into at most max_name_lines lines no wider than max_w, breaking after hyphens or spaces.
+    Overflow is cut with an ellipsis; the year always stays on the last line."""
+    fs = CONFIG["font_name"]
+    max_w = max_w or CONFIG["name_max_w"]
+    year = year_text(rec)
+    full = f"{rec['name']} {year}"
+    if text_w(full, fs) <= max_w:
         return [full]
     pieces = re.split(r"(?<=[- ])", rec["name"])
-    pieces[-1] = f"{pieces[-1]} {year_text(rec)}"
-    lines = [""]
+    pieces[-1] = f"{pieces[-1]} {year}"
+    raw = [""]
     for piece in pieces:
-        if lines[-1] and text_w(lines[-1] + piece, C["font_name"]) > C["name_max_w"]:
-            lines.append(piece)
+        if raw[-1] and text_w(raw[-1] + piece, fs) > max_w:
+            raw.append(piece)
         else:
-            lines[-1] += piece
-    return [ln.rstrip() for ln in lines]
+            raw[-1] += piece
+    keep = CONFIG["max_name_lines"]
+    if len(raw) > keep:
+        rest = "".join(raw[keep - 1:])
+        raw = raw[:keep - 1] + [truncate(rest[: -len(year) - 1], year, max_w)]
+    lines = [ln.rstrip() for ln in raw]
+    if any(text_w(ln, fs) > max_w for ln in lines):
+        return [truncate(rec["name"], year, max_w)]
+    return lines
 
 
 def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh: bool = False) -> tuple:
@@ -163,15 +190,23 @@ def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh:
     shown = {key: pick(v, k) for key, v in cells.items()}
     psb_shown = pick(psb_all, k)
 
-    def entry_w(r):
-        return max(text_w(ln, fs) + (C["wrap_indent"] if j else 0) for j, ln in enumerate(entry_lines(r))) + 10 + dots_w
+    def entry_w(r, nmw):
+        return max(text_w(ln, fs) + (C["wrap_indent"] if j else 0) for j, ln in enumerate(entry_lines(r, nmw))) + 10 + dots_w
 
-    col_w = []
-    for i, s in enumerate(STAGES):
-        need = [entry_w(r) for p in probs for r in shown[(p, s)]]
-        need += [entry_w(psb_shown[i])] if i < len(psb_shown) else []
-        need += [text_w(stage_names[s], fh, True) + 8]
-        col_w.append(max(C["min_col_w"], max(need) + 2 * C["pad_x"]))
+    def column_widths(nmw):
+        out = []
+        for i, s in enumerate(STAGES):
+            need = [entry_w(r, nmw) for p in probs for r in shown[(p, s)]]
+            need += [entry_w(psb_shown[i], nmw)] if i < len(psb_shown) else []
+            need += [text_w(stage_names[s], fh, True) + 8]
+            out.append(max(C["min_col_w"], max(need) + 2 * C["pad_x"]))
+        return out
+
+    nmw = C["name_max_w"]
+    col_w = column_widths(nmw)
+    while nmw > C["min_name_w"] and 2 * C["margin"] + sum(col_w) + (len(STAGES) - 1) * C["col_gap"] > C["max_width"]:
+        nmw -= 4
+        col_w = column_widths(nmw)
     col_x, x0 = [], C["margin"]
     for w in col_w:
         col_x.append(x0)
@@ -198,7 +233,7 @@ def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh:
 
     def entry(x, x_right, top_base, r):
         out = []
-        lines = entry_lines(r)
+        lines = entry_lines(r, nmw)
         for j, ln in enumerate(lines):
             bx, by = x + (C["wrap_indent"] if j else 0), top_base + j * lh
             if j == len(lines) - 1:
@@ -227,7 +262,7 @@ def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh:
         y += C["row_gap"]
         body.append(band(problem_names[p], y))
         y += C["band_h"]
-        n_lines = max([sum(len(entry_lines(r)) for r in shown[(p, s)]) for s in STAGES] + [1])
+        n_lines = max([sum(len(entry_lines(r, nmw)) for r in shown[(p, s)]) for s in STAGES] + [1])
         h = C["pad_y"] * 2 + 15 + n_lines * lh
         for i, s in enumerate(STAGES):
             fill, stroke, _ = C["stages"][s]
@@ -248,7 +283,7 @@ def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh:
         y += C["row_gap"]
         body.append(band(problem_names["psb"], y))
         y += C["band_h"]
-        n_lines = max(len(entry_lines(r)) for r in psb_shown)
+        n_lines = max(len(entry_lines(r, nmw)) for r in psb_shown)
         h = C["pad_y"] * 2 + 15 + n_lines * lh
         body += cell_box(col_x[0], y, col_x[-1] + col_w[-1] - col_x[0], h, C["psb_fill"], C["psb_stroke"], len(psb_all))
         for i, r in enumerate(psb_shown):
@@ -267,7 +302,9 @@ def build(vocab: dict, papers: list, stage_names: dict, problem_names: dict, zh:
     lx += text_w(T["legend_hollow"], fsm) + 14
     body.append(f'  <text x="{lx:.1f}" y="{y:.1f}" font-size="{fsm}" fill="{C["muted"]}">{esc(T["legend_order"])}</text>')
     y += fsm + 8
-    body.append(f'  <text x="{C["margin"] + 2}" y="{y:.1f}" font-size="{fsm}" fill="{C["muted"]}">{esc(T["legend_rule"].format(k=k))}</text>')
+    any_featured = any(r.get("featured") for r in [*psb_shown, *(r for v in shown.values() for r in v)])
+    rule = T["legend_rule_featured"] if any_featured else T["legend_rule"]
+    body.append(f'  <text x="{C["margin"] + 2}" y="{y:.1f}" font-size="{fsm}" fill="{C["muted"]}">{esc(rule.format(k=k))}</text>')
     height = round(y + C["margin"])
 
     n = len(papers)
