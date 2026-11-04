@@ -926,78 +926,116 @@ modality_groups:
 domain:
 - value: E-commerce
   name_zh: 电商
+  category: Commerce & Local
+  category_zh: 电商与本地服务
   description: E-commerce product recommendation (including all Amazon review subsets, Taobao, JD, etc.).
   description_zh: 电商商品推荐（含 Amazon 各评测子集、淘宝、京东等）。
 - value: POI / Local
   name_zh: 本地生活与 POI
+  category: Commerce & Local
+  category_zh: 电商与本地服务
   description: Point-of-interest, check-in, and local-life service recommendation (including Yelp, Gowalla, Foursquare, etc.).
   description_zh: 兴趣点（POI）、签到与本地生活服务推荐（含 Yelp、Gowalla、Foursquare 等）。
 - value: Short video / Live
   name_zh: 短视频与直播
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Short-video feed and live-streaming recommendation (including Kuaishou, KuaiRand, Douyin, etc.).
   description_zh: 短视频信息流与直播推荐（含快手、KuaiRand、抖音等）。
 - value: Ads
   name_zh: 广告
+  category: Platform Services & Other
+  category_zh: 平台服务与工业其他
   description: Online advertising and sponsored recommendation.
   description_zh: 在线广告与商业化推荐。
 - value: Movie
   name_zh: 电影
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Movie recommendation (including MovieLens, Douban Movie, Netflix, etc.).
   description_zh: 电影推荐（含 MovieLens、豆瓣电影、Netflix 等）。
 - value: Music
   name_zh: 音乐
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Music track and artist recommendation (including Last.fm, Spotify, etc.).
   description_zh: 音乐曲目与艺人推荐（含 Last.fm、Spotify 等）。
 - value: Search
   name_zh: 搜索
+  category: Platform Services & Other
+  category_zh: 平台服务与工业其他
   description: Product search, content search, and joint search–recommendation.
   description_zh: 商品搜索、内容搜索及搜推联合场景。
 - value: News
   name_zh: 新闻
+  category: News, Reading & Visual
+  category_zh: 资讯、阅读与图文
   description: News article recommendation (including MIND, etc.).
   description_zh: 新闻资讯推荐（含 MIND 等）。
 - value: Book
   name_zh: 图书与有声书
+  category: News, Reading & Visual
+  category_zh: 资讯、阅读与图文
   description: Book and audiobook recommendation (including Douban Book, Goodreads, etc.).
   description_zh: 图书与有声书推荐（含豆瓣读书、Goodreads 等）。
 - value: Games
   name_zh: 游戏
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Video game platform recommendation (including Steam).
   description_zh: 游戏平台推荐（含 Steam 等）。
 - value: Podcast
   name_zh: 播客
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Podcast show and episode recommendation.
   description_zh: 播客节目与单集推荐。
 - value: Long video
   name_zh: 长视频
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: Long-form video platform recommendation.
   description_zh: 长视频平台推荐。
 - value: Video
   name_zh: 视频
+  category: Video & Entertainment
+  category_zh: 视频与数字内容
   description: General video platform recommendation.
   description_zh: 通用视频平台推荐。
 - value: Image / Article
   name_zh: 图文与文章
+  category: News, Reading & Visual
+  category_zh: 资讯、阅读与图文
   description: Image discovery and article content recommendation.
   description_zh: 图片发现与文章内容推荐。
 - value: Apps
   name_zh: 应用商店
+  category: Platform Services & Other
+  category_zh: 平台服务与工业其他
   description: Mobile application recommendation.
   description_zh: 移动应用商店推荐。
 - value: Food / Recipe
   name_zh: 美食与食谱
+  category: Commerce & Local
+  category_zh: 电商与本地服务
   description: Food and recipe recommendation.
   description_zh: 美食与食谱推荐。
 - value: Travel / Hotel
   name_zh: 旅行与酒店
+  category: Commerce & Local
+  category_zh: 电商与本地服务
   description: Travel and hotel accommodation recommendation.
   description_zh: 旅行与酒店住宿推荐。
 - value: Recruitment
   name_zh: 招聘
+  category: Platform Services & Other
+  category_zh: 平台服务与工业其他
   description: Job and recruitment recommendation.
   description_zh: 职位与招聘推荐。
 - value: unknown (industrial)
   name_zh: 工业场景未明
+  category: Platform Services & Other
+  category_zh: 平台服务与工业其他
   description: Industrial logs where the specific business vertical is not disclosed in the paper.
   description_zh: 论文未披露具体业务垂直领域的工业日志数据。
 settings:

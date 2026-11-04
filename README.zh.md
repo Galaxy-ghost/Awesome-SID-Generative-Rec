@@ -1,13 +1,15 @@
-<!--lint disable awesome-github table-pipe-alignment-->
+<!--lint disable awesome-github table-pipe-alignment double-link-->
 <div align="center">
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 围绕研究问题与五阶段流程组织的语义 ID（Semantic ID）生成式推荐论文索引与精读笔记。
 
-[![论文](https://img.shields.io/badge/%E8%AE%BA%E6%96%87-181-d6e8fa)](#全部论文) [![更新](https://img.shields.io/badge/%E6%9B%B4%E6%96%B0-2026--11--01-d9ead3)](#最近更新) [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC0--1.0-e5dcef)](LICENSE)
+[![论文](https://img.shields.io/badge/%E8%AE%BA%E6%96%87-181-d6e8fa)](#全部论文) [![更新](https://img.shields.io/badge/%E6%9B%B4%E6%96%B0-2026--11--04-d9ead3)](#最近更新) [![许可](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-CC0--1.0-e5dcef)](LICENSE)
 
 [English](README.md) | 中文
+
+[问题 × 阶段矩阵](#问题--阶段矩阵) · [每篇改了什么](#每篇改了什么) · [按模态找论文](#按模态找论文) · [按领域找论文](#按领域找论文) · [全部论文](#全部论文) · [参与贡献](#参与贡献)
 
 </div>
 
@@ -20,22 +22,53 @@ flowchart LR
 
 ## 收录范围
 
-本仓库收录 181 篇语义 ID（Semantic ID，SID）生成式推荐论文。其中 169 篇按研究问题与主要改动的流程阶段放入矩阵，其余 12 篇归入范式、系统与基准；将离散 SID 作为特征输入判别式或混合架构的工作一并收录。面向 POI 与本地生活场景的论文标有 `POI`，汇总见 [POI 索引](pages/zh/index/poi.md)。
+本仓库收录 181 篇语义 ID（Semantic ID，简称 SID，即把每个物品编码为一串离散码字、由序列模型逐位生成下一物品）生成式推荐论文：其中 169 篇方法论文按研究问题与主改阶段归入下方矩阵，12 篇为综述、系统与基准（本地生活场景论文另见 [POI 索引](pages/zh/index/poi.md)）。下图按 arXiv 首次挂出月份统计每季度新增论文数。
+
+![2022 Q4 至 2026 Q4 每季度新增 SID 生成式推荐论文数（共 181 篇），由 2022 Q4 的 1 篇、2023 年的 6 篇、2024 年的 15 篇增长至 2025 年的 46 篇与 2026 年的 113 篇（单季峰值 31 篇）。](assets/figures/papers-by-quarter.zh.svg)
+
+<details>
+<summary>数据</summary>
+
+| 季度 | 新增论文数 |
+| :--- | :--- |
+| 2022 Q4 | 1 |
+| 2023 Q1 | 0 |
+| 2023 Q2 | 2 |
+| 2023 Q3 | 1 |
+| 2023 Q4 | 3 |
+| 2024 Q1 | 2 |
+| 2024 Q2 | 6 |
+| 2024 Q3 | 1 |
+| 2024 Q4 | 6 |
+| 2025 Q1 | 5 |
+| 2025 Q2 | 9 |
+| 2025 Q3 | 16 |
+| 2025 Q4 | 16 |
+| 2026 Q1 | 31 |
+| 2026 Q2 | 28 |
+| 2026 Q3 | 23 |
+| 2026 Q4 | 31 |
+
+</details>
 
 ## 阅读导航
 
-| 阅读目标          | 推荐入口                                 |
-| :------------ | :----------------------------------- |
-| 初次了解本方向       | [入门指南](guides/start-here.zh.md)      |
-| 按研究问题定位论文     | [问题 × 阶段矩阵](#问题--阶段矩阵)               |
-| 逐篇查看各阶段改动     | [每篇改了什么](#每篇改了什么)                    |
-| 按流程阶段横向对比     | [按阶段索引](pages/zh/index/stages.md)    |
-| 按构码输入模态查找     | [按模态找论文](pages/zh/index/modality.md) |
-| 按应用领域查找       | [按领域找论文](pages/zh/index/domain.md)   |
-| 查找开源实现        | [有代码的论文](pages/zh/index/code.md)     |
-| 供 LLM 与检索工具读取 | [llms.txt](llms.txt)（英文）             |
+按你的查找目的，从下表选择对应入口：
+
+| 我想……                          | 去哪里看                                 |
+| :---------------------------- | :----------------------------------- |
+| 刚接触 Semantic ID，了解基本流程并从代表作读起 | [入门指南](guides/start-here.zh.md)      |
+| 找解决某类问题的方法（如码字冲突、表征对齐、推理效率）   | [问题 × 阶段矩阵](#问题--阶段矩阵)               |
+| 看一篇论文具体改了五阶段流程中的哪些地方          | [每篇改了什么](#每篇改了什么)                    |
+| 在同一个流程阶段内横向对比不同方法             | [按阶段索引](pages/zh/index/stages.md)    |
+| 找用多模态内容或协同过滤（CF）信号构码的论文       | [按模态找论文](pages/zh/index/modality.md) |
+| 找某个业务领域的论文（如电商、本地生活 POI、短视频）  | [按领域找论文](pages/zh/index/domain.md)   |
+| 找公开了开源代码的论文                   | [有代码的论文](pages/zh/index/code.md)     |
+| 让大模型或检索工具直接读取这个仓库             | [llms.txt](llms.txt)（英文）             |
 
 ## 代表性必读论文
+
+初读建议先看下表三篇代表作，分别对应标准五阶段流程、工业界本地生活扩展与长 ID 并行生成：
 
 | 论文         | 核心机制                                                                               | 发表         |
 | :--------- | :--------------------------------------------------------------------------------- | :--------- |
@@ -44,6 +77,8 @@ flowchart LR
 | [RPG][]    | RPG 用多 token 预测损失并行预测长且无序的 OPQ SID，并在合法 ID 图上解码，替代短 ID 上的自回归束搜索。                   | KDD’25     |
 
 ## 问题 × 阶段矩阵
+
+下表行是六类研究问题，列是论文主要改动的五个流程阶段；点击格内数字可跳到对应论文列表。
 
 | 研究问题               |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |    合计   |
 | :----------------- | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
@@ -55,7 +90,7 @@ flowchart LR
 | **VI.** 泛化         |                                                                                         |   [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)  |  **18** |
 | **合计**             |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
 
-点击数字跳转至对应格子的论文列表；浅蓝越深表示主归类篇数越多。
+表中与论文页常用的标记和缩写含义如下（完整定义见 [术语表](guides/glossary.zh.md)）：
 
 | 标记        | 含义                                    |
 | :-------- | :------------------------------------ |
@@ -68,11 +103,27 @@ flowchart LR
 | 空白格       | 该主分类下暂无论文。                            |
 | `warm`    | 实验设置卡中的热启动过滤协议标签。                     |
 
-论文页与矩阵中的全部符号及缩写释义见 [术语表](guides/glossary.zh.md)。
-
 ## 每篇改了什么
 
-● 表示综述 Table 1 的主改动列，○ 表示本文新增了具体机制的其他列，空格表示沿用既有或标准做法。训练阶段（Training）拆为“编号器更新”（Tokenizer）和“训练目标”（Objective）两列。
+下图中，行是论文主要改动的阶段列（●），列是同一篇论文同时改动的其他阶段列（○）。
+
+![169 篇论文（不含“范式、系统与基准”）的 6×6 阶段共同改动热力图：主改构码的 70 篇中，同时改训练目标的 36 篇、改生成骨干的 20 篇、改推理的 16 篇；主改生成骨干的 33 篇中，同时改训练目标的 27 篇。](assets/figures/stage-cochanges.zh.svg)
+
+<details>
+<summary>数据</summary>
+
+| 主改列 (●) \ 协同改 (○) | 物品表示 | 构码 | 生成骨干 | 编号器更新 | 训练目标 | 推理 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 物品表示 (n=12) | – | 4 | 3 | 1 | 7 | 0 |
+| 构码 (n=70) | 13 | – | 20 | 8 | 36 | 16 |
+| 生成骨干 (n=33) | 2 | 7 | – | 0 | 27 | 13 |
+| 编号器更新 (n=1) | 0 | 0 | 0 | – | 1 | 0 |
+| 训练目标 (n=39) | 1 | 6 | 6 | 0 | – | 6 |
+| 推理 (n=14) | 0 | 0 | 2 | 0 | 5 | – |
+
+</details>
+
+下表按研究问题折叠：● 标综述 Table 1 主改动列，○ 标同时改动的其他列（训练拆为“编号器更新”即码本如何随生成器更新、“训练目标”即生成器损失函数），空白格表示沿用常规做法。
 
 <details>
 <summary>I. 信息量 · 59 篇</summary>
@@ -311,9 +362,26 @@ flowchart LR
 
 </details>
 
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
+
 ## 按模态找论文
 
-按输入 SID 编号器的信号分组；内容组按各构码分支分别判定，协同与上下文组按全部分支合起来判定，同一篇论文可进入多个分组。
+下图展示各时期在构码阶段仅用文本（`Text`）、融合多模态内容（`Multimodal`）或引入用户交互协同过滤信号（`With CF`）的论文占比。
+
+![2023–2024（n = 16）、2025（n = 37）与 2026（n = 128）各时期 SID 词表输入模态占比：文本由 68.8% 变化至 62.5%，多模态由 0.0% 升至 24.3% 与 21.1%，含协同信号由 12.5% 升至 43.2% 与 25.0%。](assets/figures/modality-by-year.zh.svg)
+
+<details>
+<summary>数据</summary>
+
+| 时期 | 论文总数 | 文本 (Text) | 多模态 (Multimodal) | 含协同信号 (With CF) |
+| :--- | :--- | :--- | :--- | :--- |
+| 2023–2024 （n = 16，含 2023 年 3 篇） | 16 | 11 (68.8%) | 0 (0.0%) | 2 (12.5%) |
+| 2025 （n = 37） | 37 | 24 (64.9%) | 9 (24.3%) | 16 (43.2%) |
+| 2026 （n = 128） | 128 | 80 (62.5%) | 27 (21.1%) | 32 (25.0%) |
+
+</details>
+
+下表按构码输入信号的四个维度分组列出论文入口（内容组按分支判定，协同与上下文组按全部分支合并判定，一篇可入多组）：
 
 | 方面 | 分组 |
 | :--- | :--- |
@@ -324,16 +392,26 @@ flowchart LR
 
 ## 按领域找论文
 
-按实验数据集所属的平台业务领域分组；涉及多个领域的论文分别列入对应分组。
+下表将评测数据集归入四类业务场景，组内按论文数从多到少排列（跨领域论文同时列入各对应领域）：
 
-[电商（142）](pages/zh/index/domain.md#电商) · [本地生活与 POI（44）](pages/zh/index/domain.md#本地生活与-poi) · [短视频与直播（21）](pages/zh/index/domain.md#短视频与直播) · [广告（17）](pages/zh/index/domain.md#广告) · [电影（12）](pages/zh/index/domain.md#电影) · [音乐（10）](pages/zh/index/domain.md#音乐) · [搜索（10）](pages/zh/index/domain.md#搜索) · [新闻（6）](pages/zh/index/domain.md#新闻) · [图书与有声书（5）](pages/zh/index/domain.md#图书与有声书) · [游戏（5）](pages/zh/index/domain.md#游戏) · [长视频（3）](pages/zh/index/domain.md#长视频) · [图文与文章（3）](pages/zh/index/domain.md#图文与文章) · [播客（1）](pages/zh/index/domain.md#播客) · [视频（1）](pages/zh/index/domain.md#视频) · [应用商店（1）](pages/zh/index/domain.md#应用商店) · [美食与食谱（1）](pages/zh/index/domain.md#美食与食谱) · [旅行与酒店（1）](pages/zh/index/domain.md#旅行与酒店) · [招聘（1）](pages/zh/index/domain.md#招聘) · [工业场景未明（6）](pages/zh/index/domain.md#工业场景未明)
+| 类别 | 领域 |
+| :--- | :--- |
+| **电商与本地服务** | [电商（142）](pages/zh/index/domain.md#电商) · [本地生活与 POI（44）](pages/zh/index/domain.md#本地生活与-poi) · [美食与食谱（1）](pages/zh/index/domain.md#美食与食谱) · [旅行与酒店（1）](pages/zh/index/domain.md#旅行与酒店) |
+| **视频与数字内容** | [短视频与直播（21）](pages/zh/index/domain.md#短视频与直播) · [电影（12）](pages/zh/index/domain.md#电影) · [音乐（10）](pages/zh/index/domain.md#音乐) · [游戏（5）](pages/zh/index/domain.md#游戏) · [长视频（3）](pages/zh/index/domain.md#长视频) · [播客（1）](pages/zh/index/domain.md#播客) · [视频（1）](pages/zh/index/domain.md#视频) |
+| **资讯、阅读与图文** | [新闻（6）](pages/zh/index/domain.md#新闻) · [图书与有声书（5）](pages/zh/index/domain.md#图书与有声书) · [图文与文章（3）](pages/zh/index/domain.md#图文与文章) |
+| **平台服务与工业其他** | [广告（17）](pages/zh/index/domain.md#广告) · [搜索（10）](pages/zh/index/domain.md#搜索) · [应用商店（1）](pages/zh/index/domain.md#应用商店) · [招聘（1）](pages/zh/index/domain.md#招聘) · [工业场景未明（6）](pages/zh/index/domain.md#工业场景未明) |
 
 ## 最近更新
 
+按日期倒序记录仓库内容增补与综述 Table 1 同步情况：
+
+- 2026-11-04: 标出每篇论文改动的全部列，新增按构码输入和按领域的索引，并加入四张数据图。
 - 2026-11-01: 新增精读笔记、实验设置卡、相关工作关系图、按阶段与代码索引页及受控词表术语表。涉及论文：[TIGER][]、[RPG][]、[OneLoc][]、[LETTER][]、[SIDScope][]。
 - 2026-10-30: 同步综述 Table 1 的全部 181 篇论文记录，覆盖六个研究问题与五个流程阶段。
 
 ## 全部论文
+
+按研究问题分带与主要改动阶段排列的完整论文列表（每篇含一句话核心机制、论文与代码链接）：
 
 - [范式、系统与基准][]
 - [I. 信息量][]
@@ -383,6 +461,8 @@ flowchart LR
 - [SIDScope][] - arXiv’26<br>
   SIDScope 面向公开 SID 映射提供接口诊断工具，检查码组织结构、物品解析精度以及词表刷新后与生成器的兼容性。<br>
   [论文](https://arxiv.org/abs/2608.18779) · [代码](https://github.com/jdding/sidscope)
+
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
 
 ## I. 信息量
 
@@ -580,6 +660,8 @@ flowchart LR
   CITE 在固定并行 SID 生成器上加入源嵌入与目标嵌入分离的物品级转移打分项，刻画最近交互物品到各候选物品的有向转移关系。<br>
   [论文](https://doi.org/10.3390/electronics15204749)
 
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
+
 ## II. 唯一性与合法性
 
 > 每个物品是否拥有无冲突的唯一 SID，生成的 SID 是否对应真实物品，码本是否均衡利用？
@@ -622,6 +704,8 @@ flowchart LR
 - [SnapLGR][] - arXiv’26<br>
   SnapLGR 用个性化 PageRank 对比学习从多模态嵌入构建 SID，经持续预训练奠定表示后再微调 LLM，并用 TensorRT-LLM 部署束搜索。<br>
   [论文](https://arxiv.org/abs/2607.28895)
+
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
 
 ## III. SID 与模型对齐
 
@@ -732,6 +816,8 @@ flowchart LR
   PROMISE 加入轻量过程奖励模型对中间 SID 步骤打分并据此剪枝束搜索分支，纠正早期 token 的语义漂移并随推理计算量扩展性能。<br>
   [论文](https://arxiv.org/abs/2601.04674)
 
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
+
 ## IV. 实用目标
 
 > 训练目标与解码搜索是否面向用户真实偏好与平台业务价值，而非单纯拟合下一 token 似然？
@@ -832,6 +918,8 @@ flowchart LR
   TCBSA 将判别式推荐器的分数间隔转化为共享 SID 前缀上的势函数，经置信度门控后在束剪枝前加到路径分数上，无需重新训练。<br>
   [论文](https://arxiv.org/abs/2610.32098)
 
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
+
 ## V. 效率
 
 > 训练与在线服务能否满足实际的延迟、显存与吞吐预算？
@@ -911,6 +999,8 @@ flowchart LR
   STATIC 将合法 SID 前缀树展平为稀疏 CSR 矩阵，把前缀树遍历转化为可在 TPU 和 GPU 上向量化执行的受约束解码运算。<br>
   [论文](https://arxiv.org/abs/2602.22647) · [代码](https://github.com/youtube/static-constraint-decoding)
 
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
+
 ## VI. 泛化
 
 > 面对冷启动新物品、跨领域迁移与动态兴趣漂移时能否保持泛化？
@@ -980,6 +1070,8 @@ flowchart LR
 - [SpecGR][] - AAAI’26<br>
   SpecGR 用归纳式草稿模型提议已有物品与新物品，由生成式推荐器负责验证，使模型能够推荐训练中未见过的冷启动物品。<br>
   [论文](https://arxiv.org/abs/2410.02939) · [代码](https://github.com/Jamesding000/SpecGR)
+
+[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)
 
 ## 参与贡献
 

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 310" width="760" height="310" role="img" aria-label="各时期不同 SID 词表输入模态的论文占比（N = 181）" font-family='-apple-system, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", Helvetica, Arial, sans-serif'>
+  <rect x="0" y="0" width="760" height="310" rx="8" fill="#fcfcfb"/>
+  <text x="32" y="38" font-size="15" font-weight="600" fill="#0b0b0b">各时期不同 SID 词表输入模态的论文占比（N = 181）</text>
+  <text x="32" y="58" font-size="12" fill="#52514e">占当期论文总数的百分比（单篇可归入多组；2023 年仅 3 篇，并入 2023–2024）</text>
+  <line x1="64" y1="246.0" x2="536" y2="246.0" stroke="#e4e3df" stroke-width="1"/>
+  <text x="54" y="250.0" font-size="11" fill="#52514e" text-anchor="end">0%</text>
+  <line x1="64" y1="206.0" x2="536" y2="206.0" stroke="#e4e3df" stroke-width="1"/>
+  <text x="54" y="210.0" font-size="11" fill="#52514e" text-anchor="end">20%</text>
+  <line x1="64" y1="166.0" x2="536" y2="166.0" stroke="#e4e3df" stroke-width="1"/>
+  <text x="54" y="170.0" font-size="11" fill="#52514e" text-anchor="end">40%</text>
+  <line x1="64" y1="126.0" x2="536" y2="126.0" stroke="#e4e3df" stroke-width="1"/>
+  <text x="54" y="130.0" font-size="11" fill="#52514e" text-anchor="end">60%</text>
+  <line x1="64" y1="86.0" x2="536" y2="86.0" stroke="#e4e3df" stroke-width="1"/>
+  <text x="54" y="90.0" font-size="11" fill="#52514e" text-anchor="end">80%</text>
+  <line x1="100.0" y1="246" x2="100.0" y2="251" stroke="#e4e3df" stroke-width="1"/>
+  <text x="100.0" y="266" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">2023–2024</text>
+  <text x="100.0" y="282" font-size="11" fill="#52514e" text-anchor="middle">（n = 16，含 2023 年 3 篇）</text>
+  <line x1="300.0" y1="246" x2="300.0" y2="251" stroke="#e4e3df" stroke-width="1"/>
+  <text x="300.0" y="266" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">2025</text>
+  <text x="300.0" y="282" font-size="11" fill="#52514e" text-anchor="middle">（n = 37）</text>
+  <line x1="500.0" y1="246" x2="500.0" y2="251" stroke="#e4e3df" stroke-width="1"/>
+  <text x="500.0" y="266" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">2026</text>
+  <text x="500.0" y="282" font-size="11" fill="#52514e" text-anchor="middle">（n = 128）</text>
+  <polyline fill="none" stroke="#5B9BD5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="100.0,108.5 300.0,116.3 500.0,121.0"/>
+  <circle cx="100.0" cy="108.5" r="4" fill="#5B9BD5" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="100.0" y="99.5" font-size="10.5" fill="#52514e" text-anchor="middle">68.8%</text>
+  <circle cx="300.0" cy="116.3" r="4" fill="#5B9BD5" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="300.0" y="107.3" font-size="10.5" fill="#52514e" text-anchor="middle">64.9%</text>
+  <circle cx="500.0" cy="121.0" r="4" fill="#5B9BD5" stroke="#fcfcfb" stroke-width="2"/>
+  <polyline fill="none" stroke="#EE8866" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="100.0,246.0 300.0,197.4 500.0,203.8"/>
+  <circle cx="100.0" cy="246.0" r="4" fill="#EE8866" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="100.0" y="238.0" font-size="10.5" fill="#52514e" text-anchor="middle">0.0%</text>
+  <circle cx="300.0" cy="197.4" r="4" fill="#EE8866" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="300.0" y="188.4" font-size="10.5" fill="#52514e" text-anchor="middle">24.3%</text>
+  <circle cx="500.0" cy="203.8" r="4" fill="#EE8866" stroke="#fcfcfb" stroke-width="2"/>
+  <polyline fill="none" stroke="#44BB99" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="100.0,221.0 300.0,159.5 500.0,196.0"/>
+  <circle cx="100.0" cy="221.0" r="4" fill="#44BB99" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="100.0" y="212.0" font-size="10.5" fill="#52514e" text-anchor="middle">12.5%</text>
+  <circle cx="300.0" cy="159.5" r="4" fill="#44BB99" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="300.0" y="150.5" font-size="10.5" fill="#52514e" text-anchor="middle">43.2%</text>
+  <circle cx="500.0" cy="196.0" r="4" fill="#44BB99" stroke="#fcfcfb" stroke-width="2"/>
+  <line x1="506.0" y1="121.0" x2="550.0" y2="121.0" stroke="#e4e3df" stroke-width="1"/>
+  <circle cx="558.0" cy="121.0" r="3.5" fill="#5B9BD5"/>
+  <text x="567.0" y="125.0" font-size="11.5" font-weight="600" fill="#0b0b0b">文本 · 62.5% (80)</text>
+  <line x1="506.0" y1="196.0" x2="550.0" y2="188.9" stroke="#e4e3df" stroke-width="1"/>
+  <circle cx="558.0" cy="188.9" r="3.5" fill="#44BB99"/>
+  <text x="567.0" y="192.9" font-size="11.5" font-weight="600" fill="#0b0b0b">含协同信号 · 25.0% (32)</text>
+  <line x1="506.0" y1="203.8" x2="550.0" y2="210.9" stroke="#e4e3df" stroke-width="1"/>
+  <circle cx="558.0" cy="210.9" r="3.5" fill="#EE8866"/>
+  <text x="567.0" y="214.9" font-size="11.5" font-weight="600" fill="#0b0b0b">多模态 · 21.1% (27)</text>
+</svg>

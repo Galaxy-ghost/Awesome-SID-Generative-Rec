@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 384" width="760" height="384" role="img" aria-label="Primary vs. Co-Modified Columns (N = 169; Paradigms, Systems and Benchmarks excluded)" font-family='-apple-system, "Segoe UI", Helvetica, Arial, sans-serif'>
+  <rect x="0" y="0" width="760" height="384" rx="8" fill="#fcfcfb"/>
+  <text x="32" y="38" font-size="15" font-weight="600" fill="#0b0b0b">Primary vs. Co-Modified Columns (N = 169; Paradigms, Systems and Benchmarks excluded)</text>
+  <text x="32" y="58" font-size="12" fill="#52514e">Row = primary column (●, n = papers); column = another column changed in the same paper (○)</text>
+  <text x="192" y="94" font-size="11" fill="#52514e" text-anchor="end">Primary (●) ↓ · Co-modified (○) →</text>
+  <text x="248.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Representation</text>
+  <text x="336.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Tokenization</text>
+  <text x="424.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Backbone</text>
+  <text x="512.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Tokenizer</text>
+  <text x="600.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Objective</text>
+  <text x="688.0" y="94" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="middle">Inference</text>
+  <text x="192" y="131.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Representation (n=12)</text>
+  <rect x="204" y="108" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <rect x="292" y="108" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="336.0" y="131.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">4</text>
+  <rect x="380" y="108" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="424.0" y="131.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">3</text>
+  <rect x="468" y="108" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="512.0" y="131.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">1</text>
+  <rect x="556" y="108" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="600.0" y="131.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">7</text>
+  <rect x="644" y="108" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="688.0" y="131.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <text x="192" y="169.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Tokenization (n=70)</text>
+  <rect x="204" y="146" width="88" height="38" fill="#bad8f7" stroke="#e4e3df" stroke-width="1"/>
+  <text x="248.0" y="169.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">13</text>
+  <rect x="292" y="146" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <rect x="380" y="146" width="88" height="38" fill="#96c5f3" stroke="#e4e3df" stroke-width="1"/>
+  <text x="424.0" y="169.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">20</text>
+  <rect x="468" y="146" width="88" height="38" fill="#bad8f7" stroke="#e4e3df" stroke-width="1"/>
+  <text x="512.0" y="169.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">8</text>
+  <rect x="556" y="146" width="88" height="38" fill="#6da7ec" stroke="#e4e3df" stroke-width="1"/>
+  <text x="600.0" y="169.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">36</text>
+  <rect x="644" y="146" width="88" height="38" fill="#96c5f3" stroke="#e4e3df" stroke-width="1"/>
+  <text x="688.0" y="169.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">16</text>
+  <text x="192" y="207.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Backbone (n=33)</text>
+  <rect x="204" y="184" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="248.0" y="207.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">2</text>
+  <rect x="292" y="184" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="336.0" y="207.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">7</text>
+  <rect x="380" y="184" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <rect x="468" y="184" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="512.0" y="207.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="556" y="184" width="88" height="38" fill="#6da7ec" stroke="#e4e3df" stroke-width="1"/>
+  <text x="600.0" y="207.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">27</text>
+  <rect x="644" y="184" width="88" height="38" fill="#bad8f7" stroke="#e4e3df" stroke-width="1"/>
+  <text x="688.0" y="207.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">13</text>
+  <text x="192" y="245.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Tokenizer (n=1)</text>
+  <rect x="204" y="222" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="248.0" y="245.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="292" y="222" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="336.0" y="245.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="380" y="222" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="424.0" y="245.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="468" y="222" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <rect x="556" y="222" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="600.0" y="245.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">1</text>
+  <rect x="644" y="222" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="688.0" y="245.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <text x="192" y="283.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Objective (n=39)</text>
+  <rect x="204" y="260" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="248.0" y="283.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">1</text>
+  <rect x="292" y="260" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="336.0" y="283.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">6</text>
+  <rect x="380" y="260" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="424.0" y="283.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">6</text>
+  <rect x="468" y="260" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="512.0" y="283.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="556" y="260" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <rect x="644" y="260" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="688.0" y="283.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">6</text>
+  <text x="192" y="321.0" font-size="11.5" font-weight="600" fill="#0b0b0b" text-anchor="end">Inference (n=14)</text>
+  <rect x="204" y="298" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="248.0" y="321.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="292" y="298" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="336.0" y="321.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="380" y="298" width="88" height="38" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="424.0" y="321.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">2</text>
+  <rect x="468" y="298" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="512.0" y="321.0" font-size="12" font-weight="400" fill="#0b0b0b" text-anchor="middle">0</text>
+  <rect x="556" y="298" width="88" height="38" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="600.0" y="321.0" font-size="12" font-weight="600" fill="#0b0b0b" text-anchor="middle">5</text>
+  <rect x="644" y="298" width="88" height="38" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="204" y="363" font-size="11" fill="#52514e">Paper count:</text>
+  <rect x="280" y="352" width="14" height="14" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+  <text x="299" y="363" font-size="11" fill="#52514e">0</text>
+  <rect x="322" y="352" width="14" height="14" fill="#eef5fc" stroke="#e4e3df" stroke-width="1"/>
+  <text x="341" y="363" font-size="11" fill="#52514e">1–3</text>
+  <rect x="378" y="352" width="14" height="14" fill="#d6e8fa" stroke="#e4e3df" stroke-width="1"/>
+  <text x="397" y="363" font-size="11" fill="#52514e">4–7</text>
+  <rect x="434" y="352" width="14" height="14" fill="#bad8f7" stroke="#e4e3df" stroke-width="1"/>
+  <text x="453" y="363" font-size="11" fill="#52514e">8–15</text>
+  <rect x="497" y="352" width="14" height="14" fill="#96c5f3" stroke="#e4e3df" stroke-width="1"/>
+  <text x="516" y="363" font-size="11" fill="#52514e">16–25</text>
+  <rect x="567" y="352" width="14" height="14" fill="#6da7ec" stroke="#e4e3df" stroke-width="1"/>
+  <text x="586" y="363" font-size="11" fill="#52514e">26+</text>
+</svg>

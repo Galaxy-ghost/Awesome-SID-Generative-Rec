@@ -1,13 +1,15 @@
-<!--lint disable awesome-github table-pipe-alignment-->
+<!--lint disable awesome-github table-pipe-alignment double-link-->
 <div align="center">
 
 # Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 Papers and annotated deep dives on Semantic ID generative recommendation, indexed by research problem and pipeline stage.
 
-[![papers](https://img.shields.io/badge/papers-181-d6e8fa)](#all-papers) [![updated](https://img.shields.io/badge/updated-2026--11--01-d9ead3)](#recent-updates) [![license](https://img.shields.io/badge/license-CC0--1.0-e5dcef)](LICENSE)
+[![papers](https://img.shields.io/badge/papers-181-d6e8fa)](#all-papers) [![updated](https://img.shields.io/badge/updated-2026--11--04-d9ead3)](#recent-updates) [![license](https://img.shields.io/badge/license-CC0--1.0-e5dcef)](LICENSE)
 
 English | [中文](README.zh.md)
+
+[Problem × Stage Matrix](#problem--stage-matrix) · [What Each Paper Changes](#what-each-paper-changes) · [Papers by Modality](#papers-by-modality) · [Papers by Domain](#papers-by-domain) · [All Papers](#all-papers) · [Contributing](#contributing)
 
 </div>
 
@@ -20,22 +22,53 @@ flowchart LR
 
 ## Scope
 
-This repository indexes 181 papers on generative recommendation with Semantic IDs (SIDs). The matrix organizes 169 of them by research problem and primary modified stage, while 12 cover paradigms, systems and benchmarks. Approaches that feed discrete SIDs into discriminative or hybrid architectures are included alongside autoregressive and parallel generators. POI and local-life papers carry a `POI` tag and are collected in the [POI index](pages/index/poi.md).
+This repository indexes 181 papers on Semantic ID (SID) generative recommendation—where each item is represented as a short tuple of discrete codes so a sequence model can generate the next item token by token (169 method papers in the matrix below, plus 12 on paradigms, systems and benchmarks; [POI / local-life index](pages/index/poi.md)). The chart below tracks quarterly paper volume by first arXiv posting date.
+
+![Quarterly new SID generative recommendation papers from 2022 Q4 to 2026 Q4 (N = 181), rising from 1 paper in 2022 Q4, 6 in 2023, and 15 in 2024 to 46 in 2025 and 113 in 2026 (peaking at 31 per quarter).](assets/figures/papers-by-quarter.svg)
+
+<details>
+<summary>Data</summary>
+
+| Quarter | New Papers |
+| :--- | :--- |
+| 2022 Q4 | 1 |
+| 2023 Q1 | 0 |
+| 2023 Q2 | 2 |
+| 2023 Q3 | 1 |
+| 2023 Q4 | 3 |
+| 2024 Q1 | 2 |
+| 2024 Q2 | 6 |
+| 2024 Q3 | 1 |
+| 2024 Q4 | 6 |
+| 2025 Q1 | 5 |
+| 2025 Q2 | 9 |
+| 2025 Q3 | 16 |
+| 2025 Q4 | 16 |
+| 2026 Q1 | 31 |
+| 2026 Q2 | 28 |
+| 2026 Q3 | 23 |
+| 2026 Q4 | 31 |
+
+</details>
 
 ## Where to Start
 
-| Goal                               | Entry point                                         |
-| :--------------------------------- | :-------------------------------------------------- |
-| New to the topic                   | [Start Here](guides/start-here.md)                  |
-| Locate papers by research problem  | [Problem × Stage Matrix](#problem--stage-matrix)    |
-| Inspect per-paper stage changes    | [What Each Paper Changes](#what-each-paper-changes) |
-| Compare methods within one stage   | [Papers by Stage](pages/index/stages.md)            |
-| Browse by tokenizer input modality | [Papers by Modality](pages/index/modality.md)       |
-| Browse by application domain       | [Papers by Domain](pages/index/domain.md)           |
-| Find open-source implementations   | [Papers with Code](pages/index/code.md)             |
-| Feed LLMs and search tools         | [llms.txt](llms.txt)                                |
+Pick an entry point below based on what you want to look up:
+
+| I want to...                                                                           | Where to go                                         |
+| :------------------------------------------------------------------------------------- | :-------------------------------------------------- |
+| Understand how Semantic IDs work and which papers to read first                        | [Start Here](guides/start-here.md)                  |
+| Find methods for a specific research problem (e.g., collisions, alignment, efficiency) | [Problem × Stage Matrix](#problem--stage-matrix)    |
+| See which pipeline stages a paper modifies                                             | [What Each Paper Changes](#what-each-paper-changes) |
+| Compare methods side by side within one pipeline stage                                 | [Papers by Stage](pages/index/stages.md)            |
+| Find papers that tokenize multimodal content or collaborative filtering (CF) signals   | [Papers by Modality](pages/index/modality.md)       |
+| Find papers in a specific domain (e.g., e-commerce, POI, short video)                  | [Papers by Domain](pages/index/domain.md)           |
+| Find papers with open-source code                                                      | [Papers with Code](pages/index/code.md)             |
+| Feed this repository to an LLM or search tool                                          | [llms.txt](llms.txt)                                |
 
 ## Starter Papers
+
+Read these three papers first for the standard five-stage pipeline, industrial local-life extension, and parallel long-ID generation:
 
 | Paper      | Core mechanism                                                                                                                                                                                                  | Venue      |
 | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
@@ -44,6 +77,8 @@ This repository indexes 181 papers on generative recommendation with Semantic ID
 | [RPG][]    | RPG predicts long, unordered OPQ Semantic IDs in parallel with a multi-token prediction loss and decodes over a graph of valid IDs, replacing autoregressive beam search over short IDs.                        | KDD’25     |
 
 ## Problem × Stage Matrix
+
+Rows are the six research problems and columns are the five pipeline stages each paper primarily modifies; click any count badge to jump to that paper list.
 
 | Problem                         |                                      Representation                                     |                                       Tokenization                                      |                                      Backbone                                     |                                      Training                                      |                                     Inference                                      |  Total  |
 | :------------------------------ | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-----: |
@@ -55,7 +90,7 @@ This repository indexes 181 papers on generative recommendation with Semantic ID
 | **VI.** Generalization          |                                                                                         |   [![9](https://img.shields.io/badge/9-bad8f7?style=for-the-badge)](#vi--tokenization)  |  [![3](https://img.shields.io/badge/3-eef5fc?style=for-the-badge)](#vi--backbone) |  [![4](https://img.shields.io/badge/4-d6e8fa?style=for-the-badge)](#vi--training)  | [![2](https://img.shields.io/badge/2-eef5fc?style=for-the-badge)](#vi--inference)  |  **18** |
 | **Total**                       |                                          **12**                                         |                                          **70**                                         |                                       **33**                                      |                                       **40**                                       |                                       **14**                                       | **169** |
 
-Click a badge to jump to its papers; darker light-blue indicates more primary placements.
+Common symbols and abbreviations used across tables and paper cards (full definitions in the [glossary](guides/glossary.md)):
 
 | Mark       | Meaning                                                                      |
 | :--------- | :--------------------------------------------------------------------------- |
@@ -68,11 +103,27 @@ Click a badge to jump to its papers; darker light-blue indicates more primary pl
 | Empty cell | No paper yet.                                                                |
 | `warm`     | Protocol label in setup cards.                                               |
 
-The [glossary](guides/glossary.md) defines every symbol and column value used across the paper pages.
-
 ## What Each Paper Changes
 
-● marks the primary modified cell from Table 1, ○ marks another column where the paper introduces a concrete mechanism, and blank cells keep inherited or standard choices. The Training stage is split into Tokenizer (how the tokenizer is updated during generator training) and Objective (generator training loss).
+In the heatmap below, each row is the column a paper mainly modifies (●) and each column is another stage it modifies at the same time (○).
+
+![6x6 co-modification heatmap over 169 papers (excluding Paradigms, Systems and Benchmarks): of the 70 papers whose primary change is Tokenization, 36 also change Objective, 20 Backbone, and 16 Inference; of the 33 primary Backbone papers, 27 also change Objective.](assets/figures/stage-cochanges.svg)
+
+<details>
+<summary>Data</summary>
+
+| Primary (●) \ Co-modified (○) | Representation | Tokenization | Backbone | Tokenizer | Objective | Inference |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Representation (n=12) | – | 4 | 3 | 1 | 7 | 0 |
+| Tokenization (n=70) | 13 | – | 20 | 8 | 36 | 16 |
+| Backbone (n=33) | 2 | 7 | – | 0 | 27 | 13 |
+| Tokenizer (n=1) | 0 | 0 | 0 | – | 1 | 0 |
+| Objective (n=39) | 1 | 6 | 6 | 0 | – | 6 |
+| Inference (n=14) | 0 | 0 | 2 | 0 | 5 | – |
+
+</details>
+
+In the tables below, ● marks the primary Table 1 column, ○ marks co-modified columns (`Tokenizer` = how codebook parameters are updated during generator training; `Objective` = generator training loss), and blank cells use standard choices.
 
 <details>
 <summary>I. Informativeness · 59 papers</summary>
@@ -311,9 +362,26 @@ The [glossary](guides/glossary.md) defines every symbol and column value used ac
 
 </details>
 
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
+
 ## Papers by Modality
 
-Grouped by the signals fed into the SID tokenizer; content groups are evaluated per branch, collaborative and context groups across all branches combined, and a paper may appear in multiple groups.
+The chart below shows the yearly share of papers whose SID tokenizer uses item text only (`Text`), multimodal content (`Multimodal`), or collaborative filtering signals from user–item interactions (`With CF`).
+
+![Share of papers by SID tokenizer input modality across 2023–2024 (n = 16), 2025 (n = 37), and 2026 (n = 128): Text stays at 68.8%–62.5%, Multimodal rises from 0.0% to 24.3% and 21.1%, and With CF goes from 12.5% to 43.2% and 25.0%.](assets/figures/modality-by-year.svg)
+
+<details>
+<summary>Data</summary>
+
+| Period | Total Papers | Text | Multimodal | With CF |
+| :--- | :--- | :--- | :--- | :--- |
+| 2023–2024 (n = 16, incl. 3 in 2023) | 16 | 11 (68.8%) | 0 (0.0%) | 2 (12.5%) |
+| 2025 (n = 37) | 37 | 24 (64.9%) | 9 (24.3%) | 16 (43.2%) |
+| 2026 (n = 128) | 128 | 80 (62.5%) | 27 (21.1%) | 32 (25.0%) |
+
+</details>
+
+Each row below groups papers by one aspect of tokenizer input signals (content per branch, collaborative and context across branches; multi-label):
 
 | Aspect | Groups |
 | :--- | :--- |
@@ -324,16 +392,26 @@ Grouped by the signals fed into the SID tokenizer; content groups are evaluated 
 
 ## Papers by Domain
 
-Grouped by the platform business domain of the evaluation datasets; multi-domain papers appear in each applicable group.
+Each row groups evaluation domains into one business category, ordered by paper count within each category (multi-domain papers appear in each matching domain):
 
-[E-commerce (142)](pages/index/domain.md#e-commerce) · [POI / Local (44)](pages/index/domain.md#poi--local) · [Short video / Live (21)](pages/index/domain.md#short-video--live) · [Ads (17)](pages/index/domain.md#ads) · [Movie (12)](pages/index/domain.md#movie) · [Music (10)](pages/index/domain.md#music) · [Search (10)](pages/index/domain.md#search) · [News (6)](pages/index/domain.md#news) · [Book (5)](pages/index/domain.md#book) · [Games (5)](pages/index/domain.md#games) · [Long video (3)](pages/index/domain.md#long-video) · [Image / Article (3)](pages/index/domain.md#image--article) · [Podcast (1)](pages/index/domain.md#podcast) · [Video (1)](pages/index/domain.md#video) · [Apps (1)](pages/index/domain.md#apps) · [Food / Recipe (1)](pages/index/domain.md#food--recipe) · [Travel / Hotel (1)](pages/index/domain.md#travel--hotel) · [Recruitment (1)](pages/index/domain.md#recruitment) · [unknown (industrial) (6)](pages/index/domain.md#unknown-industrial)
+| Category | Domains |
+| :--- | :--- |
+| **Commerce & Local** | [E-commerce (142)](pages/index/domain.md#e-commerce) · [POI / Local (44)](pages/index/domain.md#poi--local) · [Food / Recipe (1)](pages/index/domain.md#food--recipe) · [Travel / Hotel (1)](pages/index/domain.md#travel--hotel) |
+| **Video & Entertainment** | [Short video / Live (21)](pages/index/domain.md#short-video--live) · [Movie (12)](pages/index/domain.md#movie) · [Music (10)](pages/index/domain.md#music) · [Games (5)](pages/index/domain.md#games) · [Long video (3)](pages/index/domain.md#long-video) · [Podcast (1)](pages/index/domain.md#podcast) · [Video (1)](pages/index/domain.md#video) |
+| **News, Reading & Visual** | [News (6)](pages/index/domain.md#news) · [Book (5)](pages/index/domain.md#book) · [Image / Article (3)](pages/index/domain.md#image--article) |
+| **Platform Services & Other** | [Ads (17)](pages/index/domain.md#ads) · [Search (10)](pages/index/domain.md#search) · [Apps (1)](pages/index/domain.md#apps) · [Recruitment (1)](pages/index/domain.md#recruitment) · [unknown (industrial) (6)](pages/index/domain.md#unknown-industrial) |
 
 ## Recent Updates
 
+Recent additions and Table 1 synchronization logs in reverse chronological order:
+
+- 2026-11-04: Marked every column each paper changes, added SID-input and domain indexes, and added four data figures.
 - 2026-11-01: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary. Papers: [TIGER][], [RPG][], [OneLoc][], [LETTER][], [SIDScope][].
 - 2026-10-30: Synchronized all 181 paper records with Table 1 of the survey across the six research problems and five pipeline stages.
 
 ## All Papers
+
+Full paper list organized by research problem and primary modified stage (each entry includes a one-sentence summary and paper/code links):
 
 - [Paradigms, Systems and Benchmarks][]
 - [I. Informativeness][]
@@ -383,6 +461,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
 - [SIDScope][] - arXiv’26<br>
   SIDScope audits released Semantic ID mappings across tokenizer families for code organization, item resolution, and generator compatibility after catalog refreshes.<br>
   [Paper](https://arxiv.org/abs/2608.18779) · [Code](https://github.com/jdding/sidscope)
+
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
 
 ## I. Informativeness
 
@@ -580,6 +660,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
   CITE adds an item-level transition score with separate source and destination embeddings to a fixed parallel Semantic ID generator, modeling the directed relation between the latest item and each candidate.<br>
   [Paper](https://doi.org/10.3390/electronics15204749)
 
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
+
 ## II. Uniqueness and Validity
 
 > Does every item get its own SID, every generated SID name a real item, and the codebook get used evenly?
@@ -622,6 +704,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
 - [SnapLGR][] - arXiv’26<br>
   SnapLGR builds Semantic IDs from multimodal embeddings with Personalized PageRank contrastive learning, grounds them by continued pretraining before fine-tuning an LLM, and serves beam search with TensorRT-LLM.<br>
   [Paper](https://arxiv.org/abs/2607.28895)
+
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
 
 ## III. SID–Model Alignment
 
@@ -732,6 +816,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
   PROMISE adds a lightweight process reward model that scores intermediate Semantic ID steps and prunes beam branches with it, to correct early-token semantic drift and scale with inference compute.<br>
   [Paper](https://arxiv.org/abs/2601.04674)
 
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
+
 ## IV. Utility
 
 > Are training and search aimed at what users and the platform value, rather than at token likelihood?
@@ -832,6 +918,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
   TCBSA converts a discriminative recommender's score margins into potentials on shared Semantic ID prefixes and adds them, gated by confidence, to path scores before beam pruning, without retraining.<br>
   [Paper](https://arxiv.org/abs/2610.32098)
 
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
+
 ## V. Efficiency
 
 > Can it be trained and served within latency and cost budgets?
@@ -911,6 +999,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
   STATIC flattens the prefix tree of valid Semantic IDs into a sparse CSR matrix, turning trie traversal into vectorized operations for constrained decoding on TPUs and GPUs.<br>
   [Paper](https://arxiv.org/abs/2602.22647) · [Code](https://github.com/youtube/static-constraint-decoding)
 
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
+
 ## VI. Generalization
 
 > Does it still work for new items, new domains, and shifting interests?
@@ -980,6 +1070,8 @@ Grouped by the platform business domain of the evaluation datasets; multi-domain
 - [SpecGR][] - AAAI’26<br>
   SpecGR uses an inductive drafter to propose existing and new items and the generative recommender as verifier, so the model can recommend items unseen in training.<br>
   [Paper](https://arxiv.org/abs/2410.02939) · [Code](https://github.com/Jamesding000/SpecGR)
+
+[↑ Back to top](#awesome-semantic-id-generative-recommendation)
 
 ## Contributing
 

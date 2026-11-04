@@ -17,6 +17,7 @@ import json
 import os
 import re
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 import yaml
 from build import (
@@ -73,6 +74,11 @@ def check_schema_and_vocab(root: Path, schema: dict, vocab: dict, errors: list) 
                 nzh = e.get("name_zh", "")
                 if not isinstance(nzh, str) or not nzh.strip() or not CJK_RE.search(nzh):
                     errors.append(f"[vocab] data/vocab.yaml ({sec}={e.get('value')!r}): requires Chinese name_zh")
+            if sec == "domain":
+                cat = e.get("category", "")
+                cat_zh = e.get("category_zh", "")
+                if not isinstance(cat, str) or not cat.strip() or not isinstance(cat_zh, str) or not CJK_RE.search(cat_zh):
+                    errors.append(f"[vocab] data/vocab.yaml (domain={e.get('value')!r}): requires category and Chinese category_zh")
             if sec == "modality" and not isinstance(e.get("is_content"), bool):
                 errors.append(f"[vocab] data/vocab.yaml (modality={e.get('value')!r}): requires boolean is_content")
 
@@ -520,10 +526,14 @@ def check_generated_bilingual_views(root: Path, records: dict, errors: list):
                 errors.append(f"[sync-gen] README.zh.md has {c_zh} '{h_prefix.strip()}' headings, README.md has {c_en}")
         sum_en = re.findall(r"<summary>(.*?)</summary>", r_en)
         sum_zh = re.findall(r"<summary>(.*?)</summary>", r_zh)
-        if len(sum_en) != 7 or len(sum_zh) != 7:
-            errors.append(f"[sync-gen] README <details> summary count must be 7 (en={len(sum_en)}, zh={len(sum_zh)})")
+        if len(sum_en) != 10 or len(sum_zh) != 10:
+            errors.append(f"[sync-gen] README <details> summary count must be 10 (3 Data + 7 problem bands; en={len(sum_en)}, zh={len(sum_zh)})")
         else:
             for s_e, s_z in zip(sum_en, sum_zh):
+                if s_e == "Data":
+                    if s_z != "数据":
+                        errors.append(f"[sync-gen] README.zh.md figure data summary must be '数据', got {s_z!r}")
+                    continue
                 if not CJK_RE.search(s_z) or "篇" not in s_z:
                     errors.append(f"[sync-gen] README.zh.md <summary> must be in Chinese: {s_z!r}")
                 n_e = re.findall(r"\d+", s_e)
@@ -535,6 +545,25 @@ def check_generated_bilingual_views(root: Path, records: dict, errors: list):
         for sym in ("●", "○"):
             if r_en.count(sym) != r_zh.count(sym):
                 errors.append(f"[sync-gen] README {sym!r} count mismatch: en={r_en.count(sym)} vs zh={r_zh.count(sym)}")
+
+    expected_svgs = (
+        "papers-by-quarter.svg", "papers-by-quarter.zh.svg",
+        "stage-cochanges.svg", "stage-cochanges.zh.svg",
+        "modality-by-year.svg", "modality-by-year.zh.svg",
+        "domain-distribution.svg", "domain-distribution.zh.svg",
+    )
+    for svg_name in expected_svgs:
+        sp = root / "assets/figures" / svg_name
+        if not sp.exists():
+            errors.append(f"[figures] missing generated SVG figure assets/figures/{svg_name}")
+            continue
+        svg_txt = sp.read_text(encoding="utf-8")
+        try:
+            ET.fromstring(svg_txt)
+        except ET.ParseError as exc:
+            errors.append(f"[figures] malformed XML in assets/figures/{svg_name}: {exc}")
+        if svg_name.endswith(".zh.svg") and not CJK_RE.search(svg_txt):
+            errors.append(f"[figures] Chinese SVG assets/figures/{svg_name} contains no Chinese text")
 
     en_idx_files = sorted(p.name for p in (root / "pages/index").glob("*.md"))
     zh_idx_files = sorted(p.name for p in (root / "pages/zh/index").glob("*.md"))

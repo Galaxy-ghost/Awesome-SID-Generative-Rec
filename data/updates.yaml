@@ -1,5 +1,9 @@
 # Substantive updates, newest first. Rendered into README.md ("Recent Updates") and README.zh.md ("最近更新") by scripts/build.py.
 # Each entry: date (YYYY-MM-DD string), change (one English sentence), change_zh (one Chinese sentence), papers (list of record ids; may be empty).
+- date: '2026-11-04'
+  change: Marked every column each paper changes, added SID-input and domain indexes, and added four data figures.
+  change_zh: 标出每篇论文改动的全部列，新增按构码输入和按领域的索引，并加入四张数据图。
+  papers: []
 - date: '2026-11-01'
   change: Added deep-dive notes, experimental setup cards, related-work graphs, stage and code indexes, and a controlled-vocabulary glossary.
   change_zh: 新增精读笔记、实验设置卡、相关工作关系图、按阶段与代码索引页及受控词表术语表。

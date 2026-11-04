@@ -4,6 +4,9 @@ guides/glossary.md, llms.txt, and llms-full.txt, plus the Chinese views README.z
 and guides/glossary.zh.md, or synchronize Table 1 columns from Table 1 in the survey paper (main.tex and supplementary.tex) (--sync-table1).
 """
 import argparse
+from collections import Counter
+import html
+import math
 import os
 import re
 import sys
@@ -228,42 +231,54 @@ ZH_LABELS = {
     "readme": {
         "badges": ("论文", "更新", "许可"),
         "intro": "围绕研究问题与五阶段流程组织的语义 ID（Semantic ID）生成式推荐论文索引与精读笔记。",
+        "toc": (
+            "[问题 × 阶段矩阵](#问题--阶段矩阵) · [每篇改了什么](#每篇改了什么) · "
+            "[按模态找论文](#按模态找论文) · [按领域找论文](#按领域找论文) · "
+            "[全部论文](#全部论文) · [参与贡献](#参与贡献)"
+        ),
         "scope_title": "收录范围",
-        "scope": "本仓库收录 {n} 篇语义 ID（Semantic ID，SID）生成式推荐论文。其中 {m} 篇按研究问题与主要改动的流程阶段放入矩阵，"
-                 "其余 {k} 篇归入范式、系统与基准；将离散 SID 作为特征输入判别式或混合架构的工作一并收录。面向 POI 与本地生活场景的论文标有 `POI`，"
-                 "汇总见 [POI 索引](pages/zh/index/poi.md)。",
+        "scope": "本仓库收录 {n} 篇语义 ID（Semantic ID，简称 SID，即把每个物品编码为一串离散码字、由序列模型逐位生成下一物品）生成式推荐论文："
+                 "其中 {m} 篇方法论文按研究问题与主改阶段归入下方矩阵，{k} 篇为综述、系统与基准（本地生活场景论文另见 [POI 索引](pages/zh/index/poi.md)）。"
+                 "下图按 arXiv 首次挂出月份统计每季度新增论文数。",
         "start_title": "阅读导航",
-        "start_head": ("阅读目标", "推荐入口"),
+        "start_note": "按你的查找目的，从下表选择对应入口：",
+        "start_head": ("我想……", "去哪里看"),
         "start": [
-            ("初次了解本方向", "[入门指南](guides/start-here.zh.md)"),
-            ("按研究问题定位论文", "[问题 × 阶段矩阵](#问题--阶段矩阵)"),
-            ("逐篇查看各阶段改动", "[每篇改了什么](#每篇改了什么)"),
-            ("按流程阶段横向对比", "[按阶段索引](pages/zh/index/stages.md)"),
-            ("按构码输入模态查找", "[按模态找论文](pages/zh/index/modality.md)"),
-            ("按应用领域查找", "[按领域找论文](pages/zh/index/domain.md)"),
-            ("查找开源实现", "[有代码的论文](pages/zh/index/code.md)"),
-            ("供 LLM 与检索工具读取", "[llms.txt](llms.txt)（英文）"),
+            ("刚接触 Semantic ID，了解基本流程并从代表作读起", "[入门指南](guides/start-here.zh.md)"),
+            ("找解决某类问题的方法（如码字冲突、表征对齐、推理效率）", "[问题 × 阶段矩阵](#问题--阶段矩阵)"),
+            ("看一篇论文具体改了五阶段流程中的哪些地方", "[每篇改了什么](#每篇改了什么)"),
+            ("在同一个流程阶段内横向对比不同方法", "[按阶段索引](pages/zh/index/stages.md)"),
+            ("找用多模态内容或协同过滤（CF）信号构码的论文", "[按模态找论文](pages/zh/index/modality.md)"),
+            ("找某个业务领域的论文（如电商、本地生活 POI、短视频）", "[按领域找论文](pages/zh/index/domain.md)"),
+            ("找公开了开源代码的论文", "[有代码的论文](pages/zh/index/code.md)"),
+            ("让大模型或检索工具直接读取这个仓库", "[llms.txt](llms.txt)（英文）"),
         ],
         "starter_title": "代表性必读论文",
+        "starter_note": "初读建议先看下表三篇代表作，分别对应标准五阶段流程、工业界本地生活扩展与长 ID 并行生成：",
         "starter_head": ("论文", "核心机制", "发表"),
         "matrix_title": "问题 × 阶段矩阵",
+        "matrix_note": "下表行是六类研究问题，列是论文主要改动的五个流程阶段；点击格内数字可跳到对应论文列表。",
+        "legend_note": "表中与论文页常用的标记和缩写含义如下（完整定义见 [术语表](guides/glossary.zh.md)）：",
         "problem": "研究问题",
         "total": "合计",
-        "click": "点击数字跳转至对应格子的论文列表；浅蓝越深表示主归类篇数越多。",
         "changes_title": "每篇改了什么",
-        "changes_legend": "● 表示综述 Table 1 的主改动列，○ 表示本文新增了具体机制的其他列，空格表示沿用既有或标准做法。"
-                          "训练阶段（Training）拆为“编号器更新”（Tokenizer）和“训练目标”（Objective）两列。",
+        "changes_fig_note": "下图中，行是论文主要改动的阶段列（●），列是同一篇论文同时改动的其他阶段列（○）。",
+        "changes_legend": "下表按研究问题折叠：● 标综述 Table 1 主改动列，○ 标同时改动的其他列（训练拆为“编号器更新”即码本如何随生成器更新、“训练目标”即生成器损失函数），空白格表示沿用常规做法。",
         "changes_method": "方法",
         "modality_title": "按模态找论文",
-        "modality_note": "按输入 SID 编号器的信号分组；内容组按各构码分支分别判定，协同与上下文组按全部分支合起来判定，同一篇论文可进入多个分组。",
+        "modality_fig_note": "下图展示各时期在构码阶段仅用文本（`Text`）、融合多模态内容（`Multimodal`）或引入用户交互协同过滤信号（`With CF`）的论文占比。",
+        "modality_note": "下表按构码输入信号的四个维度分组列出论文入口（内容组按分支判定，协同与上下文组按全部分支合并判定，一篇可入多组）：",
         "modality_head": ("方面", "分组"),
         "domain_title": "按领域找论文",
-        "domain_note": "按实验数据集所属的平台业务领域分组；涉及多个领域的论文分别列入对应分组。",
+        "domain_note": "下表将评测数据集归入四类业务场景，组内按论文数从多到少排列（跨领域论文同时列入各对应领域）：",
+        "domain_head": ("类别", "领域"),
         "legend_head": ("标记", "含义"),
-        "glossary": "论文页与矩阵中的全部符号及缩写释义见 [术语表](guides/glossary.zh.md)。",
         "updates_title": "最近更新",
+        "updates_note": "按日期倒序记录仓库内容增补与综述 Table 1 同步情况：",
         "papers": "涉及论文：",
         "all_title": "全部论文",
+        "all_note": "按研究问题分带与主要改动阶段排列的完整论文列表（每篇含一句话核心机制、论文与代码链接）：",
+        "back_to_top": "[↑ 回到顶部](#awesome-semantic-id-generative-recommendation)",
         "contrib_title": "参与贡献",
         "contrib": "新增或修改 `data/papers/<id>.yaml` 后运行 `make build && make check`。双语维护规范见 [`CONTRIBUTING.zh.md`](CONTRIBUTING.zh.md)。",
     },
@@ -284,7 +299,8 @@ ZH_LABELS = {
         "modality_intro": "本页按输入 SID 编号器的信息类型分组列出论文（分组规则定义于 `data/vocab.yaml`）。"
                           "内容方面按各构码分支分别判定，协同与上下文方面按全部分支合起来判定；同一篇论文可进入多个分组，各节列出完整的构码分支值与应用领域。",
         "domain_title": "按领域找论文",
-        "domain_intro": "本页按实验数据集所属的平台业务领域分组列出论文。涉及多个领域的论文分别列入各对应小节，各节同时列出完整的应用领域与构码输入分支。",
+        "domain_intro": "本页按实验数据集所属的业务领域分组列出论文；涉及多个领域的论文同时列入各对应小节。下图按论文数从多到少展示各领域的收录规模：",
+        "domain_nav_note": "点击下表中的领域名称可直接跳到对应小节：",
         "sid_inputs_col": "构码输入",
         "domain_col": "领域",
         "empty_group": "当前暂无论文归入本组。",
@@ -522,17 +538,509 @@ def build_modality_nav(papers: list, vocab: dict, mod_path: str, zh: bool = Fals
     return rows
 
 
-def build_domain_nav(papers: list, vocab: dict, dom_path: str, zh: bool = False) -> str:
+def build_domain_nav(papers: list, vocab: dict, dom_path: str, zh: bool = False) -> list:
+    R = ZH_LABELS["readme"]
     dom_buckets = ordered_domains(papers, vocab)
-    entries = [
-        format_group_entry(e["name_zh"] if zh else e["value"], len(members), dom_path, zh=zh)
-        for e, members in dom_buckets
+    categories = []
+    seen_categories = {}
+    for g in vocab["domain"]:
+        cat = g["category_zh"] if zh else g["category"]
+        if cat not in seen_categories:
+            seen_categories[cat] = []
+            categories.append(cat)
+    categories.sort(key=lambda c: ("Other" in c or "其他" in c))
+    for e, members in dom_buckets:
+        cat = e["category_zh"] if zh else e["category"]
+        label = e["name_zh"] if zh else e["value"]
+        seen_categories[cat].append(format_group_entry(label, len(members), dom_path, zh=zh))
+    head = R["domain_head"] if zh else ("Category", "Domains")
+    rows = [f"| {head[0]} | {head[1]} |", "| :--- | :--- |"]
+    for cat in categories:
+        rows.append(f"| **{cat}** | {' · '.join(seen_categories[cat])} |")
+    return rows
+
+
+SVG_BG = "#fcfcfb"
+SVG_TEXT = "#0b0b0b"
+SVG_MUTED = "#52514e"
+SVG_GRID = "#e4e3df"
+SVG_BLUE = "#5B9BD5"
+SVG_ORANGE = "#EE8866"
+SVG_TEAL = "#44BB99"
+SVG_HEAT_STEPS = ("#eef5fc", "#d6e8fa", "#bad8f7", "#96c5f3", "#6da7ec")
+SVG_FONT_EN = '-apple-system, "Segoe UI", Helvetica, Arial, sans-serif'
+SVG_FONT_ZH = '-apple-system, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", Helvetica, Arial, sans-serif'
+ARXIV_YM_RE = re.compile(r"(?:abs/|pdf/)?(\d{2})(\d{2})\.\d+")
+
+
+def svg_esc(text: str) -> str:
+    return html.escape(str(text), quote=True)
+
+
+def svg_wrap(width: int, height: int, title: str, body: list, zh: bool = False) -> str:
+    font = SVG_FONT_ZH if zh else SVG_FONT_EN
+    lines = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}" '
+        f'role="img" aria-label="{svg_esc(title)}" font-family=\'{font}\'>',
+        f'  <rect x="0" y="0" width="{width}" height="{height}" rx="8" fill="{SVG_BG}"/>',
+        *body,
+        "</svg>",
+        "",
     ]
-    return " · ".join(entries)
+    return "\n".join(lines)
 
 
-def build_changes_section(vocab: dict, cell: dict, psb_list: list, zh: bool = False) -> list:
-    """Render 'What Each Paper Changes' with one legend above seven collapsed <details> tables."""
+def paper_quarter(rec: dict) -> tuple[int, int]:
+    arxiv = (rec.get("links") or {}).get("arxiv") or ""
+    m = ARXIV_YM_RE.search(arxiv)
+    if m:
+        yy, mm = int(m.group(1)), int(m.group(2))
+        if 1 <= mm <= 12:
+            return 2000 + yy, (mm - 1) // 3 + 1
+    return int(rec["year"]), 4
+
+
+def heat_cell_fill(val: int) -> str:
+    if val <= 0:
+        return SVG_BG
+    if val <= 3:
+        return SVG_HEAT_STEPS[0]
+    if val <= 7:
+        return SVG_HEAT_STEPS[1]
+    if val <= 15:
+        return SVG_HEAT_STEPS[2]
+    if val <= 25:
+        return SVG_HEAT_STEPS[3]
+    return SVG_HEAT_STEPS[4]
+
+
+def render_figure_block(fig_meta: dict, rel_svg_path: str, zh: bool = False) -> list:
+    summary = "数据" if zh else "Data"
+    return [
+        f"![{fig_meta['alt']}]({rel_svg_path})",
+        "",
+        "<details>",
+        f"<summary>{summary}</summary>",
+        "",
+        *fig_meta["table"],
+        "",
+        "</details>",
+    ]
+
+
+def build_figures(vocab: dict, papers: list) -> tuple[dict, dict]:
+    """Return (svg_files_dict, figure_meta_dict) for both English and Chinese."""
+    svg_files = {}
+    meta = {"en": {}, "zh": {}}
+    n_total = len(papers)
+
+    # 1. Quarterly new papers (by first arXiv posting month; fallback to year Q4)
+    q_counts = Counter(paper_quarter(r) for r in papers)
+    min_y, min_q = min(q_counts)
+    max_y, max_q = max(q_counts)
+    quarters = []
+    cy, cq = min_y, min_q
+    while (cy, cq) <= (max_y, max_q):
+        quarters.append((cy, cq, q_counts.get((cy, cq), 0)))
+        cq += 1
+        if cq > 4:
+            cy += 1
+            cq = 1
+
+    for zh in (False, True):
+        lang = "zh" if zh else "en"
+        fname = "papers-by-quarter.zh.svg" if zh else "papers-by-quarter.svg"
+        W, H = 760, 304
+        x0, x1 = 56, 724
+        y0, y1 = 86, 240
+        y_max = 35
+        title = (
+            f"每季度新增论文数（{min_y} Q{min_q} – {max_y} Q{max_q}，N = {n_total}）"
+            if zh else
+            f"New Papers per Quarter ({min_y} Q{min_q} – {max_y} Q{max_q}, N = {n_total})"
+        )
+        subtitle = (
+            "按 arXiv 首次提交月份统计；1 篇无 arXiv 链接的论文计入 2026 Q4"
+            if zh else
+            "Grouped by first arXiv posting month; 1 non-arXiv paper placed in 2026 Q4"
+        )
+        body = [
+            f'  <text x="32" y="38" font-size="15" font-weight="600" fill="{SVG_TEXT}">{svg_esc(title)}</text>',
+            f'  <text x="32" y="58" font-size="12" fill="{SVG_MUTED}">{svg_esc(subtitle)}</text>',
+        ]
+        for tick in range(0, y_max + 1, 5):
+            ty = y1 - (tick / y_max) * (y1 - y0)
+            body.append(f'  <line x1="{x0}" y1="{ty:.1f}" x2="{x1}" y2="{ty:.1f}" stroke="{SVG_GRID}" stroke-width="1"/>')
+            body.append(
+                f'  <text x="{x0 - 10}" y="{ty + 4:.1f}" font-size="11" fill="{SVG_MUTED}" text-anchor="end">{tick}</text>'
+            )
+        pts = []
+        num_q = len(quarters)
+        for i, (qy, qq, cnt) in enumerate(quarters):
+            px = x0 + i * (x1 - x0) / max(1, num_q - 1)
+            py = y1 - (cnt / y_max) * (y1 - y0)
+            pts.append((px, py, qy, qq, cnt))
+            body.append(f'  <line x1="{px:.1f}" y1="{y1}" x2="{px:.1f}" y2="{y1 + 5}" stroke="{SVG_GRID}" stroke-width="1"/>')
+            body.append(
+                f'  <text x="{px:.1f}" y="{y1 + 19}" font-size="11" fill="{SVG_MUTED}" text-anchor="middle">Q{qq}</text>'
+            )
+            if i == 0 or qq == 1:
+                body.append(
+                    f'  <text x="{px:.1f}" y="{y1 + 36}" font-size="11" font-weight="600" fill="{SVG_TEXT}" text-anchor="middle">{qy}</text>'
+                )
+        poly_pts = " ".join(f"{px:.1f},{py:.1f}" for px, py, *_ in pts)
+        body.append(
+            f'  <polyline fill="none" stroke="{SVG_BLUE}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="{poly_pts}"/>'
+        )
+        for px, py, _, _, cnt in pts:
+            body.append(
+                f'  <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{SVG_BLUE}" stroke="{SVG_BG}" stroke-width="2"/>'
+            )
+            body.append(
+                f'  <text x="{px:.1f}" y="{py - 9:.1f}" font-size="10.5" fill="{SVG_MUTED}" text-anchor="middle">{cnt}</text>'
+            )
+        svg_files[fname] = svg_wrap(W, H, title, body, zh=zh)
+        t_head = "| 季度 | 新增论文数 |" if zh else "| Quarter | New Papers |"
+        t_rows = [t_head, "| :--- | :--- |", *[f"| {qy} Q{qq} | {cnt} |" for qy, qq, cnt in quarters]]
+        y2023 = sum(cnt for qy, _, cnt in quarters if qy == 2023)
+        y2024 = sum(cnt for qy, _, cnt in quarters if qy == 2024)
+        y2025 = sum(cnt for qy, _, cnt in quarters if qy == 2025)
+        y2026 = sum(cnt for qy, _, cnt in quarters if qy == 2026)
+        peak = max(cnt for *_, cnt in quarters)
+        alt = (
+            f"2022 Q4 至 2026 Q4 每季度新增 SID 生成式推荐论文数（共 {n_total} 篇），由 2022 Q4 的 1 篇、2023 年的 {y2023} 篇、"
+            f"2024 年的 {y2024} 篇增长至 2025 年的 {y2025} 篇与 2026 年的 {y2026} 篇（单季峰值 {peak} 篇）。"
+            if zh else
+            f"Quarterly new SID generative recommendation papers from 2022 Q4 to 2026 Q4 (N = {n_total}), rising from 1 paper in 2022 Q4, "
+            f"{y2023} in 2023, and {y2024} in 2024 to {y2025} in 2025 and {y2026} in 2026 (peaking at {peak} per quarter)."
+        )
+        meta[lang]["quarter"] = {"alt": alt, "table": t_rows}
+
+    # 2. 6x6 Stage Co-modification Heatmap (non-psb papers)
+    non_psb = [r for r in papers if r["problem"] != "psb"]
+    n_non_psb = len(non_psb)
+    prim_counts = {c: 0 for c in TECH_COLS}
+    co_matrix = {(r_col, c_col): 0 for r_col in TECH_COLS for c_col in TECH_COLS}
+    for r in non_psb:
+        ch = r["changes"]
+        prim_cols = [c for c in TECH_COLS if change_kind(ch.get(c)) == "primary"]
+        for pc in prim_cols:
+            prim_counts[pc] += 1
+            for oc in TECH_COLS:
+                if oc != pc and change_kind(ch.get(oc)) == "other":
+                    co_matrix[(pc, oc)] += 1
+
+    for zh in (False, True):
+        lang = "zh" if zh else "en"
+        fname = "stage-cochanges.zh.svg" if zh else "stage-cochanges.svg"
+        W, H = 760, 384
+        x0, y0 = 204, 108
+        cell_w, cell_h = 88, 38
+        col_labels = [COL_HEADERS_ZH[c] if zh else COL_HEADERS_EN[c] for c in TECH_COLS]
+        title = (
+            f"主改列与协同改动列共现热力图（N = {n_non_psb}，不含“范式、系统与基准”）"
+            if zh else
+            f"Primary vs. Co-Modified Columns (N = {n_non_psb}; Paradigms, Systems and Benchmarks excluded)"
+        )
+        subtitle = (
+            "行 = 表 1 主改列（●，括号内为主改论文数）；列 = 同一篇论文同步改动的其他列（○）"
+            if zh else
+            "Row = primary column (●, n = papers); column = another column changed in the same paper (○)"
+        )
+        corner_note = "主改列 (●) ↓ · 协同改 (○) →" if zh else "Primary (●) ↓ · Co-modified (○) →"
+        body = [
+            f'  <text x="32" y="38" font-size="15" font-weight="600" fill="{SVG_TEXT}">{svg_esc(title)}</text>',
+            f'  <text x="32" y="58" font-size="12" fill="{SVG_MUTED}">{svg_esc(subtitle)}</text>',
+            f'  <text x="{x0 - 12}" y="{y0 - 14}" font-size="11" fill="{SVG_MUTED}" text-anchor="end">{svg_esc(corner_note)}</text>',
+        ]
+        for j, c_label in enumerate(col_labels):
+            cx = x0 + (j + 0.5) * cell_w
+            body.append(
+                f'  <text x="{cx:.1f}" y="{y0 - 14}" font-size="11.5" font-weight="600" fill="{SVG_TEXT}" text-anchor="middle">{svg_esc(c_label)}</text>'
+            )
+        for i, r_col in enumerate(TECH_COLS):
+            ry = y0 + i * cell_h
+            r_label = f"{col_labels[i]} (n={prim_counts[r_col]})"
+            body.append(
+                f'  <text x="{x0 - 12}" y="{ry + cell_h / 2 + 4:.1f}" font-size="11.5" font-weight="600" fill="{SVG_TEXT}" text-anchor="end">{svg_esc(r_label)}</text>'
+            )
+            for j, c_col in enumerate(TECH_COLS):
+                cx = x0 + j * cell_w
+                val = co_matrix[(r_col, c_col)]
+                fill = SVG_BG if i == j else heat_cell_fill(val)
+                body.append(
+                    f'  <rect x="{cx}" y="{ry}" width="{cell_w}" height="{cell_h}" fill="{fill}" stroke="{SVG_GRID}" stroke-width="1"/>'
+                )
+                if i != j:
+                    fw = "600" if val > 0 else "400"
+                    body.append(
+                        f'  <text x="{cx + cell_w / 2:.1f}" y="{ry + cell_h / 2 + 4:.1f}" font-size="12" font-weight="{fw}" fill="{SVG_TEXT}" text-anchor="middle">{val}</text>'
+                    )
+        # Scale legend at bottom
+        scale_y = y0 + 6 * cell_h + 16
+        scale_label = "篇数色阶：" if zh else "Paper count:"
+        body.append(
+            f'  <text x="{x0}" y="{scale_y + 11}" font-size="11" fill="{SVG_MUTED}">{svg_esc(scale_label)}</text>'
+        )
+        bins = [("0", SVG_BG), ("1–3", SVG_HEAT_STEPS[0]), ("4–7", SVG_HEAT_STEPS[1]),
+                ("8–15", SVG_HEAT_STEPS[2]), ("16–25", SVG_HEAT_STEPS[3]), ("26+", SVG_HEAT_STEPS[4])]
+        sx = x0 + (62 if zh else 76)
+        for b_text, b_fill in bins:
+            body.append(
+                f'  <rect x="{sx}" y="{scale_y}" width="14" height="14" fill="{b_fill}" stroke="{SVG_GRID}" stroke-width="1"/>'
+            )
+            body.append(
+                f'  <text x="{sx + 19}" y="{scale_y + 11}" font-size="11" fill="{SVG_MUTED}">{svg_esc(b_text)}</text>'
+            )
+            sx += 19 + len(b_text) * 7 + 16
+        svg_files[fname] = svg_wrap(W, H, title, body, zh=zh)
+        first_col = "主改列 (●) \\ 协同改 (○)" if zh else "Primary (●) \\ Co-modified (○)"
+        t_rows = [
+            f"| {first_col} | {' | '.join(col_labels)} |",
+            "|" + " :--- |" * (len(TECH_COLS) + 1),
+        ]
+        for i, r_col in enumerate(TECH_COLS):
+            r_label = f"{col_labels[i]} (n={prim_counts[r_col]})"
+            cells = ["–" if i == j else str(co_matrix[(r_col, c_col)]) for j, c_col in enumerate(TECH_COLS)]
+            t_rows.append(f"| {r_label} | {' | '.join(cells)} |")
+        tok_obj = co_matrix[("tokenization", "objective")]
+        tok_bb = co_matrix[("tokenization", "backbone")]
+        tok_inf = co_matrix[("tokenization", "inference")]
+        bb_obj = co_matrix[("backbone", "objective")]
+        alt = (
+            f"{n_non_psb} 篇论文（不含“范式、系统与基准”）的 6×6 阶段共同改动热力图：主改构码的 {prim_counts['tokenization']} 篇中，"
+            f"同时改训练目标的 {tok_obj} 篇、改生成骨干的 {tok_bb} 篇、改推理的 {tok_inf} 篇；主改生成骨干的 {prim_counts['backbone']} 篇中，"
+            f"同时改训练目标的 {bb_obj} 篇。"
+            if zh else
+            f"6x6 co-modification heatmap over {n_non_psb} papers (excluding Paradigms, Systems and Benchmarks): of the {prim_counts['tokenization']} papers "
+            f"whose primary change is Tokenization, {tok_obj} also change Objective, {tok_bb} Backbone, and {tok_inf} Inference; of the "
+            f"{prim_counts['backbone']} primary Backbone papers, {bb_obj} also change Objective."
+        )
+        meta[lang]["cochanges"] = {"alt": alt, "table": t_rows}
+
+    # 3. Modality share by year (years with < 5 papers merged into adjacent year)
+    grouped_mod = group_papers_by_modality(papers, vocab)
+    mod_ids = {g_key: {r["id"] for r in members} for g_key, members in grouped_mod.items()}
+    raw_years = sorted(Counter(int(r["year"]) for r in papers).items())
+    year_buckets = []
+    for y, cnt in raw_years:
+        if not year_buckets:
+            year_buckets.append([y])
+        elif sum(1 for r in papers if int(r["year"]) in year_buckets[-1]) < 5 or cnt < 5:
+            year_buckets[-1].append(y)
+        else:
+            year_buckets.append([y])
+
+    series_defs = [
+        ("Text", "Text", "文本", SVG_BLUE),
+        ("Multimodal", "Multimodal", "多模态", SVG_ORANGE),
+        ("With CF", "With CF", "含协同信号", SVG_TEAL),
+    ]
+    bucket_stats = []
+    for ys in year_buckets:
+        y_set = set(ys)
+        b_papers = [r for r in papers if int(r["year"]) in y_set]
+        b_total = len(b_papers)
+        label = f"{ys[0]}–{ys[-1]}" if len(ys) > 1 else str(ys[0])
+        sub_en = f"(n = {b_total}, incl. {sum(1 for r in b_papers if int(r['year']) == ys[0])} in {ys[0]})" if len(ys) > 1 else f"(n = {b_total})"
+        sub_zh = f"（n = {b_total}，含 {ys[0]} 年 {sum(1 for r in b_papers if int(r['year']) == ys[0])} 篇）" if len(ys) > 1 else f"（n = {b_total}）"
+        s_vals = {}
+        for s_key, *_ in series_defs:
+            c = sum(1 for r in b_papers if r["id"] in mod_ids[s_key])
+            s_vals[s_key] = (c, (c / b_total * 100.0) if b_total else 0.0)
+        bucket_stats.append({"label": label, "sub_en": sub_en, "sub_zh": sub_zh, "total": b_total, "vals": s_vals})
+
+    for zh in (False, True):
+        lang = "zh" if zh else "en"
+        fname = "modality-by-year.zh.svg" if zh else "modality-by-year.svg"
+        W, H = 760, 310
+        x0, x1 = 64, 536
+        y0, y1 = 86, 246
+        y_max = 80.0
+        title = (
+            f"各时期不同 SID 词表输入模态的论文占比（N = {n_total}）"
+            if zh else
+            f"Share of Papers by SID Tokenizer Input Modality over Time (N = {n_total})"
+        )
+        subtitle = (
+            "占当期论文总数的百分比（单篇可归入多组；2023 年仅 3 篇，并入 2023–2024）"
+            if zh else
+            "Percentage of papers per period (multi-label; 2023 has 3 papers and is merged into 2023–2024)"
+        )
+        body = [
+            f'  <text x="32" y="38" font-size="15" font-weight="600" fill="{SVG_TEXT}">{svg_esc(title)}</text>',
+            f'  <text x="32" y="58" font-size="12" fill="{SVG_MUTED}">{svg_esc(subtitle)}</text>',
+        ]
+        for tick in (0, 20, 40, 60, 80):
+            ty = y1 - (tick / y_max) * (y1 - y0)
+            body.append(f'  <line x1="{x0}" y1="{ty:.1f}" x2="{x1}" y2="{ty:.1f}" stroke="{SVG_GRID}" stroke-width="1"/>')
+            body.append(
+                f'  <text x="{x0 - 10}" y="{ty + 4:.1f}" font-size="11" fill="{SVG_MUTED}" text-anchor="end">{tick}%</text>'
+            )
+        nb = len(bucket_stats)
+        x_pad = 36
+        xs = [x0 + x_pad + i * (x1 - x0 - 2 * x_pad) / max(1, nb - 1) for i in range(nb)]
+        for bx, b in zip(xs, bucket_stats):
+            body.append(f'  <line x1="{bx:.1f}" y1="{y1}" x2="{bx:.1f}" y2="{y1 + 5}" stroke="{SVG_GRID}" stroke-width="1"/>')
+            body.append(
+                f'  <text x="{bx:.1f}" y="{y1 + 20}" font-size="11.5" font-weight="600" fill="{SVG_TEXT}" text-anchor="middle">{svg_esc(b["label"])}</text>'
+            )
+            sub_txt = b["sub_zh"] if zh else b["sub_en"]
+            body.append(
+                f'  <text x="{bx:.1f}" y="{y1 + 36}" font-size="11" fill="{SVG_MUTED}" text-anchor="middle">{svg_esc(sub_txt)}</text>'
+            )
+
+        end_labels = []
+        for s_key, name_en, name_zh, color in series_defs:
+            s_name = name_zh if zh else name_en
+            s_pts = []
+            for i, (bx, b) in enumerate(zip(xs, bucket_stats)):
+                cnt, pct = b["vals"][s_key]
+                py = y1 - (pct / y_max) * (y1 - y0)
+                s_pts.append((bx, py, cnt, pct, i))
+            poly = " ".join(f"{px:.1f},{py:.1f}" for px, py, *_ in s_pts)
+            body.append(
+                f'  <polyline fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="{poly}"/>'
+            )
+            for px, py, cnt, pct, i in s_pts:
+                body.append(
+                    f'  <circle cx="{px:.1f}" cy="{py:.1f}" r="4" fill="{color}" stroke="{SVG_BG}" stroke-width="2"/>'
+                )
+                if i < nb - 1:
+                    dy = -9 if pct > 5 else -8
+                    body.append(
+                        f'  <text x="{px:.1f}" y="{py + dy:.1f}" font-size="10.5" fill="{SVG_MUTED}" text-anchor="middle">{pct:.1f}%</text>'
+                    )
+            last_x, last_y, last_cnt, last_pct, _ = s_pts[-1]
+            end_labels.append({
+                "x": last_x,
+                "y": last_y,
+                "label_y": last_y,
+                "color": color,
+                "text": f"{s_name} · {last_pct:.1f}% ({last_cnt})",
+            })
+
+        # Ensure direct end-of-line labels have at least 22px vertical separation
+        end_labels.sort(key=lambda d: d["y"])
+        min_gap = 22.0
+        for idx in range(1, len(end_labels)):
+            if end_labels[idx]["label_y"] - end_labels[idx - 1]["label_y"] < min_gap:
+                mid = 0.5 * (end_labels[idx]["y"] + end_labels[idx - 1]["y"])
+                end_labels[idx - 1]["label_y"] = mid - 0.5 * min_gap
+                end_labels[idx]["label_y"] = mid + 0.5 * min_gap
+        for el in end_labels:
+            lx = el["x"]
+            ly = el["label_y"]
+            body.append(
+                f'  <line x1="{lx + 6:.1f}" y1="{el["y"]:.1f}" x2="{x1 + 14:.1f}" y2="{ly:.1f}" stroke="{SVG_GRID}" stroke-width="1"/>'
+            )
+            body.append(
+                f'  <circle cx="{x1 + 22:.1f}" cy="{ly:.1f}" r="3.5" fill="{el["color"]}"/>'
+            )
+            body.append(
+                f'  <text x="{x1 + 31:.1f}" y="{ly + 4:.1f}" font-size="11.5" font-weight="600" fill="{SVG_TEXT}">{svg_esc(el["text"])}</text>'
+            )
+
+        svg_files[fname] = svg_wrap(W, H, title, body, zh=zh)
+        t_head = (
+            "| 时期 | 论文总数 | 文本 (Text) | 多模态 (Multimodal) | 含协同信号 (With CF) |"
+            if zh else
+            "| Period | Total Papers | Text | Multimodal | With CF |"
+        )
+        t_rows = [t_head, "| :--- | :--- | :--- | :--- | :--- |"]
+        for b in bucket_stats:
+            tc, tp = b["vals"]["Text"]
+            mc, mp = b["vals"]["Multimodal"]
+            cc, cp = b["vals"]["With CF"]
+            p_lbl = f"{b['label']} {b['sub_zh'] if zh else b['sub_en']}"
+            t_rows.append(f"| {p_lbl} | {b['total']} | {tc} ({tp:.1f}%) | {mc} ({mp:.1f}%) | {cc} ({cp:.1f}%) |")
+        b0, b1, b2 = bucket_stats[0], bucket_stats[1], bucket_stats[2]
+        alt = (
+            f"{b0['label']}（n = {b0['total']}）、{b1['label']}（n = {b1['total']}）与 {b2['label']}（n = {b2['total']}）各时期 SID 词表输入模态占比："
+            f"文本由 {b0['vals']['Text'][1]:.1f}% 变化至 {b2['vals']['Text'][1]:.1f}%，多模态由 {b0['vals']['Multimodal'][1]:.1f}% 升至 "
+            f"{b1['vals']['Multimodal'][1]:.1f}% 与 {b2['vals']['Multimodal'][1]:.1f}%，含协同信号由 {b0['vals']['With CF'][1]:.1f}% "
+            f"升至 {b1['vals']['With CF'][1]:.1f}% 与 {b2['vals']['With CF'][1]:.1f}%。"
+            if zh else
+            f"Share of papers by SID tokenizer input modality across {b0['label']} (n = {b0['total']}), {b1['label']} (n = {b1['total']}), "
+            f"and {b2['label']} (n = {b2['total']}): Text stays at {b0['vals']['Text'][1]:.1f}%–{b2['vals']['Text'][1]:.1f}%, Multimodal rises "
+            f"from {b0['vals']['Multimodal'][1]:.1f}% to {b1['vals']['Multimodal'][1]:.1f}% and {b2['vals']['Multimodal'][1]:.1f}%, and With CF "
+            f"goes from {b0['vals']['With CF'][1]:.1f}% to {b1['vals']['With CF'][1]:.1f}% and {b2['vals']['With CF'][1]:.1f}%."
+        )
+        meta[lang]["modality"] = {"alt": alt, "table": t_rows}
+
+    # 4. Domain distribution Cleveland dot plot
+    dom_buckets = ordered_domains(papers, vocab)
+    for zh in (False, True):
+        lang = "zh" if zh else "en"
+        fname = "domain-distribution.zh.svg" if zh else "domain-distribution.svg"
+        num_d = len(dom_buckets)
+        row_h = 22
+        y_start = 94
+        y_end = y_start + (num_d - 1) * row_h
+        W, H = 760, y_end + 56
+        x0, x1 = 196, 716
+        x_max = 160.0
+        title = (
+            f"各评测领域的论文分布（N = {n_total}）"
+            if zh else
+            f"Papers per Evaluation Domain (N = {n_total})"
+        )
+        subtitle = (
+            "按评测数据集所属业务领域统计的克利夫兰点图（跨领域论文计入各对应领域）"
+            if zh else
+            "Cleveland dot plot of dataset domains (multi-domain papers counted in each applicable domain)"
+        )
+        body = [
+            f'  <text x="32" y="38" font-size="15" font-weight="600" fill="{SVG_TEXT}">{svg_esc(title)}</text>',
+            f'  <text x="32" y="58" font-size="12" fill="{SVG_MUTED}">{svg_esc(subtitle)}</text>',
+        ]
+        for tick in range(0, 161, 40):
+            tx = x0 + (tick / x_max) * (x1 - x0)
+            body.append(
+                f'  <line x1="{tx:.1f}" y1="{y_start - 12}" x2="{tx:.1f}" y2="{y_end + 10}" stroke="{SVG_GRID}" stroke-width="1"/>'
+            )
+            body.append(
+                f'  <text x="{tx:.1f}" y="{y_end + 26}" font-size="11" fill="{SVG_MUTED}" text-anchor="middle">{tick}</text>'
+            )
+        for i, (entry, members) in enumerate(dom_buckets):
+            ry = y_start + i * row_h
+            cnt = len(members)
+            d_label = entry["name_zh"] if zh else entry["value"]
+            cx = x0 + (cnt / x_max) * (x1 - x0)
+            body.append(f'  <line x1="{x0}" y1="{ry}" x2="{x1}" y2="{ry}" stroke="{SVG_GRID}" stroke-width="1"/>')
+            body.append(
+                f'  <text x="{x0 - 12}" y="{ry + 4}" font-size="11.5" fill="{SVG_TEXT}" text-anchor="end">{svg_esc(d_label)}</text>'
+            )
+            body.append(
+                f'  <circle cx="{cx:.1f}" cy="{ry}" r="4" fill="{SVG_BLUE}" stroke="{SVG_BG}" stroke-width="2"/>'
+            )
+            body.append(
+                f'  <text x="{cx + 9:.1f}" y="{ry + 4}" font-size="11" fill="{SVG_TEXT}">{cnt}</text>'
+            )
+        svg_files[fname] = svg_wrap(W, H, title, body, zh=zh)
+        t_head = "| 领域 | 类别 | 论文数 |" if zh else "| Domain | Category | Papers |"
+        t_rows = [t_head, "| :--- | :--- | :--- |"]
+        for entry, members in dom_buckets:
+            d_lbl = entry["name_zh"] if zh else entry["value"]
+            c_lbl = entry["category_zh"] if zh else entry["category"]
+            t_rows.append(f"| {d_lbl} | {c_lbl} | {len(members)} |")
+        top4 = [(e["name_zh"] if zh else e["value"], len(m)) for e, m in dom_buckets[:4]]
+        alt = (
+            f"{num_d} 个评测业务领域的论文数量克利夫兰点图（共 {n_total} 篇）："
+            f"{top4[0][0]}以 {top4[0][1]} 篇居首，其次为{top4[1][0]}（{top4[1][1]} 篇）、"
+            f"{top4[2][0]}（{top4[2][1]} 篇）与{top4[3][0]}（{top4[3][1]} 篇）。"
+            if zh else
+            f"Cleveland dot plot of paper counts across {num_d} evaluation domains (N = {n_total}): "
+            f"{top4[0][0]} leads with {top4[0][1]} papers, followed by {top4[1][0]} ({top4[1][1]}), "
+            f"{top4[2][0]} ({top4[2][1]}), and {top4[3][0]} ({top4[3][1]})."
+        )
+        meta[lang]["domain"] = {"alt": alt, "table": t_rows}
+
+    return svg_files, meta
+
+
+def build_changes_section(vocab: dict, cell: dict, psb_list: list, cochanges_fig: dict, zh: bool = False) -> list:
+    """Render 'What Each Paper Changes' with 1-sentence legend, co-change heatmap figure, and 7 collapsed <details> tables."""
     R = ZH_LABELS["readme"]
     probs = {e["value"]: e for e in vocab["problem"]}
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
@@ -541,14 +1049,19 @@ def build_changes_section(vocab: dict, cell: dict, psb_list: list, zh: bool = Fa
     col_heads = [COL_HEADERS_ZH[c] if zh else COL_HEADERS_EN[c] for c in TECH_COLS]
     head_row = [R["changes_method"] if zh else "Method", *col_heads]
 
-    legend = R["changes_legend"] if zh else (
-        "● marks the primary modified cell from Table 1, ○ marks another column where the paper introduces "
-        "a concrete mechanism, and blank cells keep inherited or standard choices. "
-        "The Training stage is split into Tokenizer (how the tokenizer is updated during generator training) "
-        "and Objective (generator training loss)."
+    fig_note = R["changes_fig_note"] if zh else (
+        "In the heatmap below, each row is the column a paper mainly modifies (●) and each column is another stage it modifies at the same time (○)."
     )
+    legend = R["changes_legend"] if zh else (
+        "In the tables below, ● marks the primary Table 1 column, ○ marks co-modified columns "
+        "(`Tokenizer` = how codebook parameters are updated during generator training; `Objective` = generator training loss), "
+        "and blank cells use standard choices."
+    )
+    svg_rel = "assets/figures/stage-cochanges.zh.svg" if zh else "assets/figures/stage-cochanges.svg"
     out = [
         f"## {R['changes_title'] if zh else 'What Each Paper Changes'}", "",
+        fig_note, "",
+        *render_figure_block(cochanges_fig, svg_rel, zh=zh), "",
         legend, "",
     ]
 
@@ -820,7 +1333,7 @@ def stage_overview(papers: list, zh: bool = False) -> list:
 
 
 def readme_head(papers: list, updates: list, zh: bool = False) -> list:
-    """Centered title, one-line description, light badges, language switch, and the five-stage overview."""
+    """Centered title, one-line description, light badges, language switch, TOC line, and the five-stage overview."""
     R = ZH_LABELS["readme"]
     labels = R["badges"] if zh else ("papers", "updated", "license")
     latest = max((u["date"] for u in updates), default="")
@@ -829,16 +1342,24 @@ def readme_head(papers: list, updates: list, zh: bool = False) -> list:
               (labels[2], LICENSE_ID, "license", "LICENSE")]
     intro = R["intro"] if zh else ("Papers and annotated deep dives on Semantic ID generative recommendation, "
                                    "indexed by research problem and pipeline stage.")
+    toc = R["toc"] if zh else (
+        "[Problem × Stage Matrix](#problem--stage-matrix) · [What Each Paper Changes](#what-each-paper-changes) · "
+        "[Papers by Modality](#papers-by-modality) · [Papers by Domain](#papers-by-domain) · "
+        "[All Papers](#all-papers) · [Contributing](#contributing)"
+    )
     return ['<div align="center">', "",
             "# Awesome Semantic ID Generative Recommendation [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)", "",
             intro, "",
             " ".join(f"[![{l}]({shield(l, v, BADGE_COLORS[k])})]({href})" for l, v, k, href in badges), "",
             "[English](README.md) | 中文" if zh else "English | [中文](README.zh.md)", "",
+            toc, "",
             "</div>", "", *stage_overview(papers, zh)]
 
 
-def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, zh: bool = False) -> str:
+def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: list, fig_meta: dict, zh: bool = False) -> str:
     R = ZH_LABELS["readme"]
+    lang = "zh" if zh else "en"
+    figs = fig_meta[lang]
     problems = [p for p in vocab["problem"] if p["value"] != "psb"]
     psb = next(p for p in vocab["problem"] if p["value"] == "psb")
     ordered = by_year(papers)
@@ -858,68 +1379,98 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
     tl = lambda r: ((r.get("tldr_zh") if zh else r.get("tldr")) or "").strip()
     two = lambda head, rows: align([f"| {' | '.join(head)} |", "|" + " :-- |" * len(head), *[f"| {' | '.join(r)} |" for r in rows]])
     n, m, k = len(papers), sum(totals), len(psb_list)
+    q_svg = "assets/figures/papers-by-quarter.zh.svg" if zh else "assets/figures/papers-by-quarter.svg"
+    mod_svg = "assets/figures/modality-by-year.zh.svg" if zh else "assets/figures/modality-by-year.svg"
     if zh:
         top = [
-            f"## {R['scope_title']}", "", R["scope"].format(n=n, m=m, k=k), "",
-            f"## {R['start_title']}", "", *two(R["start_head"], R["start"]), "",
+            f"## {R['scope_title']}", "",
+            R["scope"].format(n=n, m=m, k=k), "",
+            *render_figure_block(figs["quarter"], q_svg, zh=True), "",
+            f"## {R['start_title']}", "",
+            R["start_note"], "",
+            *two(R["start_head"], R["start"]), "",
             f"## {R['starter_title']}", "",
+            R["starter_note"], "",
         ]
     else:
         top = [
             "## Scope", "",
-            f"This repository indexes {n} papers on generative recommendation with Semantic IDs (SIDs). "
-            f"The matrix organizes {m} of them by research problem and primary modified stage, while {k} cover {psb['name'].lower()}. "
-            "Approaches that feed discrete SIDs into discriminative or hybrid architectures are included alongside autoregressive and parallel generators. "
-            "POI and local-life papers carry a `POI` tag and are collected in the [POI index](pages/index/poi.md).", "",
+            f"This repository indexes {n} papers on Semantic ID (SID) generative recommendation—where each item is represented as a short tuple "
+            f"of discrete codes so a sequence model can generate the next item token by token ({m} method papers in the matrix below, plus {k} "
+            f"on {psb['name'].lower()}; [POI / local-life index](pages/index/poi.md)). The chart below tracks quarterly paper volume by first arXiv posting date.", "",
+            *render_figure_block(figs["quarter"], q_svg, zh=False), "",
             "## Where to Start", "",
-            *two(("Goal", "Entry point"), [
-                ("New to the topic", "[Start Here](guides/start-here.md)"),
-                ("Locate papers by research problem", "[Problem × Stage Matrix](#problem--stage-matrix)"),
-                ("Inspect per-paper stage changes", "[What Each Paper Changes](#what-each-paper-changes)"),
-                ("Compare methods within one stage", "[Papers by Stage](pages/index/stages.md)"),
-                ("Browse by tokenizer input modality", "[Papers by Modality](pages/index/modality.md)"),
-                ("Browse by application domain", "[Papers by Domain](pages/index/domain.md)"),
-                ("Find open-source implementations", "[Papers with Code](pages/index/code.md)"),
-                ("Feed LLMs and search tools", "[llms.txt](llms.txt)"),
+            "Pick an entry point below based on what you want to look up:", "",
+            *two(("I want to...", "Where to go"), [
+                ("Understand how Semantic IDs work and which papers to read first", "[Start Here](guides/start-here.md)"),
+                ("Find methods for a specific research problem (e.g., collisions, alignment, efficiency)", "[Problem × Stage Matrix](#problem--stage-matrix)"),
+                ("See which pipeline stages a paper modifies", "[What Each Paper Changes](#what-each-paper-changes)"),
+                ("Compare methods side by side within one pipeline stage", "[Papers by Stage](pages/index/stages.md)"),
+                ("Find papers that tokenize multimodal content or collaborative filtering (CF) signals", "[Papers by Modality](pages/index/modality.md)"),
+                ("Find papers in a specific domain (e.g., e-commerce, POI, short video)", "[Papers by Domain](pages/index/domain.md)"),
+                ("Find papers with open-source code", "[Papers with Code](pages/index/code.md)"),
+                ("Feed this repository to an LLM or search tool", "[llms.txt](llms.txt)"),
             ]), "",
             "## Starter Papers", "",
+            "Read these three papers first for the standard five-stage pipeline, industrial local-life extension, and parallel long-ID generation:", "",
         ]
     uchange = lambda u: (u.get("change_zh") or u["change"]).strip() if zh else u["change"].strip()
     mod_path = "pages/zh/index/modality.md" if zh else "pages/index/modality.md"
     dom_path = "pages/zh/index/domain.md" if zh else "pages/index/domain.md"
+    matrix_note = R["matrix_note"] if zh else (
+        "Rows are the six research problems and columns are the five pipeline stages each paper primarily modifies; "
+        "click any count badge to jump to that paper list."
+    )
+    legend_note = R["legend_note"] if zh else (
+        "Common symbols and abbreviations used across tables and paper cards (full definitions in the [glossary](guides/glossary.md)):"
+    )
+    mod_fig_note = R["modality_fig_note"] if zh else (
+        "The chart below shows the yearly share of papers whose SID tokenizer uses item text only (`Text`), "
+        "multimodal content (`Multimodal`), or collaborative filtering signals from user–item interactions (`With CF`)."
+    )
     mod_note = R["modality_note"] if zh else (
-        "Grouped by the signals fed into the SID tokenizer; content groups are evaluated per branch, "
-        "collaborative and context groups across all branches combined, and a paper may appear in multiple groups."
+        "Each row below groups papers by one aspect of tokenizer input signals (content per branch, collaborative and context across branches; multi-label):"
     )
     dom_note = R["domain_note"] if zh else (
-        "Grouped by the platform business domain of the evaluation datasets; multi-domain papers appear in each applicable group."
+        "Each row groups evaluation domains into one business category, ordered by paper count within each category (multi-domain papers appear in each matching domain):"
     )
+    updates_note = R["updates_note"] if zh else "Recent additions and Table 1 synchronization logs in reverse chronological order:"
+    all_note = R["all_note"] if zh else (
+        "Full paper list organized by research problem and primary modified stage (each entry includes a one-sentence summary and paper/code links):"
+    )
+    back_top = R["back_to_top"] if zh else "[↑ Back to top](#awesome-semantic-id-generative-recommendation)"
     lines = [
-        "<!--lint disable awesome-github table-pipe-alignment-->",
+        "<!--lint disable awesome-github table-pipe-alignment double-link-->",
         *readme_head(papers, updates, zh), "",
         *top,
         *two(R["starter_head"] if zh else ("Paper", "Core mechanism", "Venue"),
              [(ref(r), tl(r).replace("|", "\\|"), r["venue"]) for r in starters]), "",
         f"## {R['matrix_title'] if zh else 'Problem × Stage Matrix'}", "",
+        matrix_note, "",
         *align(table), "",
-        R["click"] if zh else "Click a badge to jump to its papers; darker light-blue indicates more primary placements.", "",
+        legend_note, "",
         *align([f"| {' | '.join(R['legend_head'] if zh else ('Mark', 'Meaning'))} |", "| :-- | :-- |",
                 *[f"| {mk} | {t} |" for mk, t in (ZH_LABELS["legend"] if zh else LEGEND)]]), "",
-        R["glossary"] if zh else "The [glossary](guides/glossary.md) defines every symbol and column value used across the paper pages.", "",
-        *build_changes_section(vocab, cell, psb_list, zh=zh),
+        *build_changes_section(vocab, cell, psb_list, figs["cochanges"], zh=zh),
+        back_top, "",
         f"## {R['modality_title'] if zh else 'Papers by Modality'}", "",
+        mod_fig_note, "",
+        *render_figure_block(figs["modality"], mod_svg, zh=zh), "",
         mod_note, "",
         *build_modality_nav(papers, vocab, mod_path, zh=zh), "",
         f"## {R['domain_title'] if zh else 'Papers by Domain'}", "",
         dom_note, "",
-        build_domain_nav(papers, vocab, dom_path, zh=zh), "",
+        *build_domain_nav(papers, vocab, dom_path, zh=zh), "",
         f"## {R['updates_title'] if zh else 'Recent Updates'}", "",
+        updates_note, "",
         *[f"- {u['date']}: {uchange(u)}" + ((f"{R['papers']}{'、'.join(ref(by_id[x]) for x in u['papers'])}。" if zh else
                                              f" Papers: {', '.join(ref(by_id[x]) for x in u['papers'])}.") if u["papers"] else "")
           for u in sorted(updates, key=lambda u: u["date"], reverse=True)], "",
         f"## {R['all_title'] if zh else 'All Papers'}", "",
+        all_note, "",
         *[f"- [{band(p, zh)}][]" for p in [psb, *problems]], "",
         f"## {band(psb, zh)}", "", f"> {pdesc(psb)}", "", *(format_item(r, zh) for r in psb_list), "",
+        back_top, "",
     ]
     for p in problems:
         lines += [f"## {band(p, zh)}", "", f"> {pdesc(p)}", ""]
@@ -927,6 +1478,7 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
             prim = cell[(p["value"], s)]
             if prim:
                 lines += [f"### {p['value']} × {s}", "", *(format_item(r, zh) for r in prim), ""]
+        lines += [back_top, ""]
     page_dir = "pages/zh/papers" if zh else "pages/papers"
     lines += [
         f"## {R['contrib_title'] if zh else 'Contributing'}", "",
@@ -937,9 +1489,11 @@ def build_readme(vocab: dict, papers: list, by_id: dict, levels: dict, updates: 
     return "\n".join(lines)
 
 
-def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
+def build_indexes(vocab: dict, papers: list, fig_meta: dict, zh: bool = False) -> dict:
     X = ZH_LABELS["index"]
     R = ZH_LABELS["readme"]
+    lang = "zh" if zh else "en"
+    figs = fig_meta[lang]
     up = "../../../" if zh else "../../"
     probs = {e["value"]: e for e in vocab["problem"]}
     dom_zh = domain_zh_map(vocab)
@@ -1021,14 +1575,17 @@ def build_indexes(vocab: dict, papers: list, zh: bool = False) -> dict:
     dom_buckets = ordered_domains(papers, vocab)
     dom_back_anchor = slugify_heading(R["domain_title"] if zh else "Papers by Domain")
     dom_cols = [head[0], head[1], cell_h, dom_col, sid_col]
+    dom_svg = f"{up}assets/figures/domain-distribution.zh.svg" if zh else f"{up}assets/figures/domain-distribution.svg"
     dom_page = [
         f"# {X['domain_title'] if zh else 'Papers by Domain'}", "",
         f"[← README]({readme}#{dom_back_anchor}) · {switch('domain.md')}", "",
         X["domain_intro"] if zh else (
-            "Papers grouped by the platform business domain of their evaluation datasets. "
-            "Multi-domain papers appear in each applicable section alongside their full domain list and SID tokenizer inputs."
+            "Papers grouped by the business domain of their evaluation datasets (multi-domain papers appear in each matching section). "
+            "The dot plot below ranks all 19 domains by paper count:"
         ), "",
-        build_domain_nav(papers, vocab, "", zh=zh), "",
+        *render_figure_block(figs["domain"], dom_svg, zh=zh), "",
+        X["domain_nav_note"] if zh else "Click any domain below to jump to its paper table:", "",
+        *build_domain_nav(papers, vocab, "", zh=zh), "",
     ]
     for entry, members in dom_buckets:
         sec_title = entry["name_zh"] if zh else entry["value"]
@@ -1240,11 +1797,18 @@ def main():
     notes, notes_zh = read_notes("notes", SECTIONS), read_notes("notes/zh", SECTIONS_ZH)
     levels = {r["id"]: reading_level(notes.get(r["id"])) for r in papers}
     updates = yaml.safe_load((root / "data/updates.yaml").read_text(encoding="utf-8")) or []
+    svg_files, fig_meta = build_figures(vocab, papers)
+    fig_dir = root / "assets/figures"
+    fig_dir.mkdir(parents=True, exist_ok=True)
+    for existing in fig_dir.glob("*.svg"):
+        existing.unlink()
+    for name, text in svg_files.items():
+        (fig_dir / name).write_text(text, encoding="utf-8")
     outputs = {
         "pages/papers": {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes.get(r["id"]), root) for r in papers},
         "pages/zh/papers": {f"{r['id']}.md": build_paper_page(r, vocab, by_id, notes_zh.get(r["id"]), root, zh=True) for r in papers},
-        "pages/index": build_indexes(vocab, papers),
-        "pages/zh/index": build_indexes(vocab, papers, zh=True),
+        "pages/index": build_indexes(vocab, papers, fig_meta),
+        "pages/zh/index": build_indexes(vocab, papers, fig_meta, zh=True),
         "comparisons": build_comparisons(papers, by_id),
     }
     for sub, files in outputs.items():
@@ -1256,16 +1820,16 @@ def main():
             (out / name).write_text(text, encoding="utf-8")
     (root / "guides").mkdir(exist_ok=True)
     singles = {
-        "README.md": build_readme(vocab, papers, by_id, levels, updates),
-        "README.zh.md": build_readme(vocab, papers, by_id, levels, updates, zh=True),
+        "README.md": build_readme(vocab, papers, by_id, levels, updates, fig_meta),
+        "README.zh.md": build_readme(vocab, papers, by_id, levels, updates, fig_meta, zh=True),
         "guides/glossary.md": build_glossary(vocab),
         "guides/glossary.zh.md": build_glossary(vocab, zh=True),
     }
     singles["llms.txt"], singles["llms-full.txt"] = build_llms(vocab, papers, notes)
     for name, text in singles.items():
         (root / name).write_text(text, encoding="utf-8")
-    print(f"Built README.md, README.zh.md, {len(papers)} paper pages in English and Chinese, 5 index pages in English and Chinese, "
-          "3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
+    print(f"Built README.md, README.zh.md, {len(svg_files)} SVG figures, {len(papers)} paper pages in English and Chinese, "
+          "5 index pages in English and Chinese, 3 comparison tables, guides/glossary.md, guides/glossary.zh.md, llms.txt, and llms-full.txt.")
 
 
 if __name__ == "__main__":

@@ -2,9 +2,45 @@
 
 [← README](../../README.md#papers-by-domain) · English | [中文](../zh/index/domain.md)
 
-Papers grouped by the platform business domain of their evaluation datasets. Multi-domain papers appear in each applicable section alongside their full domain list and SID tokenizer inputs.
+Papers grouped by the business domain of their evaluation datasets (multi-domain papers appear in each matching section). The dot plot below ranks all 19 domains by paper count:
 
-[E-commerce (142)](#e-commerce) · [POI / Local (44)](#poi--local) · [Short video / Live (21)](#short-video--live) · [Ads (17)](#ads) · [Movie (12)](#movie) · [Music (10)](#music) · [Search (10)](#search) · [News (6)](#news) · [Book (5)](#book) · [Games (5)](#games) · [Long video (3)](#long-video) · [Image / Article (3)](#image--article) · [Podcast (1)](#podcast) · [Video (1)](#video) · [Apps (1)](#apps) · [Food / Recipe (1)](#food--recipe) · [Travel / Hotel (1)](#travel--hotel) · [Recruitment (1)](#recruitment) · [unknown (industrial) (6)](#unknown-industrial)
+![Cleveland dot plot of paper counts across 19 evaluation domains (N = 181): E-commerce leads with 142 papers, followed by POI / Local (44), Short video / Live (21), and Ads (17).](../../assets/figures/domain-distribution.svg)
+
+<details>
+<summary>Data</summary>
+
+| Domain | Category | Papers |
+| :--- | :--- | :--- |
+| E-commerce | Commerce & Local | 142 |
+| POI / Local | Commerce & Local | 44 |
+| Short video / Live | Video & Entertainment | 21 |
+| Ads | Platform Services & Other | 17 |
+| Movie | Video & Entertainment | 12 |
+| Music | Video & Entertainment | 10 |
+| Search | Platform Services & Other | 10 |
+| News | News, Reading & Visual | 6 |
+| Book | News, Reading & Visual | 5 |
+| Games | Video & Entertainment | 5 |
+| Long video | Video & Entertainment | 3 |
+| Image / Article | News, Reading & Visual | 3 |
+| Podcast | Video & Entertainment | 1 |
+| Video | Video & Entertainment | 1 |
+| Apps | Platform Services & Other | 1 |
+| Food / Recipe | Commerce & Local | 1 |
+| Travel / Hotel | Commerce & Local | 1 |
+| Recruitment | Platform Services & Other | 1 |
+| unknown (industrial) | Platform Services & Other | 6 |
+
+</details>
+
+Click any domain below to jump to its paper table:
+
+| Category | Domains |
+| :--- | :--- |
+| **Commerce & Local** | [E-commerce (142)](#e-commerce) · [POI / Local (44)](#poi--local) · [Food / Recipe (1)](#food--recipe) · [Travel / Hotel (1)](#travel--hotel) |
+| **Video & Entertainment** | [Short video / Live (21)](#short-video--live) · [Movie (12)](#movie) · [Music (10)](#music) · [Games (5)](#games) · [Long video (3)](#long-video) · [Podcast (1)](#podcast) · [Video (1)](#video) |
+| **News, Reading & Visual** | [News (6)](#news) · [Book (5)](#book) · [Image / Article (3)](#image--article) |
+| **Platform Services & Other** | [Ads (17)](#ads) · [Search (10)](#search) · [Apps (1)](#apps) · [Recruitment (1)](#recruitment) · [unknown (industrial) (6)](#unknown-industrial) |
 
 ## E-commerce
 
