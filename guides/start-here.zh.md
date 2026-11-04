@@ -14,4 +14,4 @@
 
 ## 3. 沿一个研究问题深入
 
-从 [问题 × 阶段矩阵](../README.zh.md#问题--阶段矩阵) 中选定一行，按阶段阅读对应论文。以 [V. 效率](../README.zh.md#v-效率) 中的 [RPG](../pages/zh/papers/rpg.md) 为例，它并行预测长 SID 各位置的码分布，并在合法物品图上搜索，省去逐位自回归束搜索。其余各行分别覆盖 [III. SID 与模型对齐](../README.zh.md#iii-sid-与模型对齐)、[IV. 实用目标](../README.zh.md#iv-实用目标) 与 [VI. 泛化](../README.zh.md#vi-泛化)。[SIDScope](../pages/zh/papers/sidscope.md) 用于在复用公开 SID 映射前检查其质量，[术语表](glossary.zh.md) 则定义了论文页中的全部符号与字段取值。
+从 [分类总图](../README.zh.md#分类总图) 中选定一行，按阶段阅读对应论文。以 [V. 效率](../README.zh.md#v-效率) 中的 [RPG](../pages/zh/papers/rpg.md) 为例，它并行预测长 SID 各位置的码分布，并在合法物品图上搜索，省去逐位自回归束搜索。其余各行分别覆盖 [III. SID 与模型对齐](../README.zh.md#iii-sid-与模型对齐)、[IV. 实用目标](../README.zh.md#iv-实用目标) 与 [VI. 泛化](../README.zh.md#vi-泛化)。[SIDScope](../pages/zh/papers/sidscope.md) 用于在复用公开 SID 映射前检查其质量，[术语表](glossary.zh.md) 则定义了论文页中的全部符号与字段取值。

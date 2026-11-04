@@ -1,37 +1,8 @@
 # Papers by Domain
 
-[← README](../../README.md#papers-by-domain) · English | [中文](../zh/index/domain.md)
+[← README](../../README.md#where-to-start) · English | [中文](../zh/index/domain.md)
 
-Papers grouped by the business domain of their evaluation datasets (multi-domain papers appear in each matching section). The dot plot below ranks all 19 domains by paper count:
-
-![Cleveland dot plot of paper counts across 19 evaluation domains (N = 181): E-commerce leads with 142 papers, followed by POI / Local (44), Short video / Live (21), and Ads (17).](../../assets/figures/domain-distribution.svg)
-
-<details>
-<summary>Data</summary>
-
-| Domain | Category | Papers |
-| :--- | :--- | :--- |
-| E-commerce | Commerce & Local | 142 |
-| POI / Local | Commerce & Local | 44 |
-| Short video / Live | Video & Entertainment | 21 |
-| Ads | Platform Services & Other | 17 |
-| Movie | Video & Entertainment | 12 |
-| Music | Video & Entertainment | 10 |
-| Search | Platform Services & Other | 10 |
-| News | News, Reading & Visual | 6 |
-| Book | News, Reading & Visual | 5 |
-| Games | Video & Entertainment | 5 |
-| Long video | Video & Entertainment | 3 |
-| Image / Article | News, Reading & Visual | 3 |
-| Podcast | Video & Entertainment | 1 |
-| Video | Video & Entertainment | 1 |
-| Apps | Platform Services & Other | 1 |
-| Food / Recipe | Commerce & Local | 1 |
-| Travel / Hotel | Commerce & Local | 1 |
-| Recruitment | Platform Services & Other | 1 |
-| unknown (industrial) | Platform Services & Other | 6 |
-
-</details>
+Papers grouped by the business domain of their evaluation datasets (multi-domain papers appear in each matching section).
 
 Click any domain below to jump to its paper table:
 

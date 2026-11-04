@@ -1,6 +1,6 @@
 # 按模态找论文
 
-[← README](../../../README.zh.md#按模态找论文) · [English](../../index/modality.md) | 中文
+[← README](../../../README.zh.md#阅读导航) · [English](../../index/modality.md) | 中文
 
 本页按输入 SID 编号器的信息类型分组列出论文（分组规则定义于 `data/vocab.yaml`）。内容方面按各构码分支分别判定，协同与上下文方面按全部分支合起来判定；同一篇论文可进入多个分组，各节列出完整的构码分支值与应用领域。
 

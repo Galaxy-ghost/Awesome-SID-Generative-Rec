@@ -1,6 +1,6 @@
 # Papers by Modality
 
-[← README](../../README.md#papers-by-modality) · English | [中文](../zh/index/modality.md)
+[← README](../../README.md#where-to-start) · English | [中文](../zh/index/modality.md)
 
 Papers grouped by the signals fed into the SID tokenizer (rules defined in `data/vocab.yaml`). Content groups are evaluated per branch, collaborative and context groups across all branches combined; a paper appears in every matching group with its full branch values and application domains.
 
